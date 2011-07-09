@@ -1,0 +1,41 @@
+<?php
+    $this->title = "BBA Users List";
+	$this->headTitle($this->title);
+    /* @var $user Power_Model_User */
+?>
+
+<table>
+    <tr>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Role</th>
+        <th>&nbsp;</th>
+    </tr>
+    <?php foreach($this->users as $user): ?>
+    <tr>
+        <td><?= $this->escape($user->getUsername()); ?></td>
+        <td><?= $this->escape($user->getRealName()); ?></td>
+        <td><?= $this->escape($user->getRole()) ?></td>
+        <td class="action">
+            <a href="<?php echo $this->url(array(
+                'controller'    => 'users',
+                'action'        => 'edit',
+				'userId'       => $user->getId()
+            ));?>" class="button">Edit</a>
+
+			<a href="<?php echo $this->url(array(
+                'controller'    => 'users',
+                'action'        => 'delete',
+				'userId'       => $user->getId()
+            ));?>" class="button">Delete</a>
+        </td>
+    </tr>
+    <?php endforeach; ?>
+</table>
+
+<p>
+    <a href="<?php echo $this->url(array(
+        'controller'    => 'users',
+        'action'        => 'add'
+        ));?>" class="button">Add New User</a>
+</p>
