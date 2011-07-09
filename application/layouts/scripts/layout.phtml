@@ -1,0 +1,57 @@
+<?= $this->docType(); ?>
+<html lang="en">
+    <head>
+        <?= $this->headTitle(); ?>
+        <?= $this->headMeta(); ?>
+        <link rel="stylesheet" href="/css/reset.css" />
+        <link rel="stylesheet" href="/css/text.css" />
+        <link rel="stylesheet" href="/css/960.css" />
+        <link rel="stylesheet" href="/css/site.css" />
+    </head>
+    <body>
+        <!-- Start Main Div -->
+        <div id="main_div" class="container_12">
+            <!-- Start Header -->
+            <div id="header" class="grid_12">
+                <h1>BBA Power Data Base System</h1>
+            </div>
+            <!-- End Header -->
+            <div class="clear">&nbsp</div>
+
+            <!-- Start Main Area -->
+            <div id="content" class="grid_12">
+                <div id="left" class="grid_2 alpha">
+                    <div id="nav" class="module">
+                        <h2>Menu</h2>
+                        <?= $this->navigation()->sfMenu(); ?>
+                    </div>
+                </div>
+                <div id="content_wrap" class="grid_10 omega">
+                    <div id="inner_content_wrap">
+                        <p><?php
+                            if ($this->messages) {
+                                foreach ($this->messages as $message) {
+                                    echo $this->escape($message);
+                                }
+                            }
+                         ?></p>
+                        <h1><?= $this->escape($this->title); ?></h1>
+                        <?= $this->layout()->content; ?>
+                    </div>
+                </div>
+            </div>
+            <!-- End Main Area -->
+            <div class="clear">&nbsp</div>
+
+            <!-- Start Footer -->
+            <div id="footer" class="grid_12">
+                <div>
+                    <p>&copy; 2011 BBA</p>
+                </div>
+            </div>
+            <!-- End Footer -->
+            <div class="clear">&nbsp</div>
+        </div>
+        <!-- End Main Div -->
+    </body>
+</html>

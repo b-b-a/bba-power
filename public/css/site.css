@@ -1,0 +1,257 @@
+body
+{
+    padding-top: 10px;
+    background-color: #eed;
+    font-family: "Times New Roman", serif;
+}
+
+#main_div
+{
+    border: 1px solid #eee;
+    border-radius: 10px 10px 10px 10px;
+    padding-top: 10px;
+    box-shadow: 3px 3px 4px #bbb;
+    background-color: #eee;
+}
+
+#header
+{
+    margin-bottom: 0px;
+}
+
+#header,
+#footer
+{
+    text-align: center;
+}
+
+#header h1,
+#footer p
+{
+    border: 1px solid #000;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 3px 3px 4px #bbb;
+	background-color: #98b2d6;
+    background: -moz-linear-gradient(top,  #eee,  #98b2d6);
+}
+
+#footer p
+{
+    padding: 0px;
+    margin: 0px;
+    margin-bottom: 10px;
+}
+
+#inner_content_wrap
+{
+    border: 1px solid #000;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    box-shadow: 3px 3px 4px #bbb;
+}
+
+/**
+ * Modules
+ */
+.module
+{
+    border: 1px solid #000;
+    border-radius: 10px;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    box-shadow: 3px 3px 4px #bbb;
+}
+
+.module h2
+{
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
+    border-color: #000;
+	background-color: #98b2d6;
+    background: -moz-linear-gradient(top,  #eee,  #98b2d6);
+    border-radius: 10px 10px 0px 0px;
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/**
+ * Navigation
+ */
+
+#nav ul
+{
+    list-style: none;
+    margin: 0px 0px 10px 0px;
+}
+
+#nav ul ul
+{
+    margin: 0px;
+}
+
+#nav li
+{
+    margin: 0px;
+}
+
+#nav li li
+{
+    margin-top: 3px;
+}
+
+#nav li li:first-child
+{
+    margin-top: 0px;
+}
+
+#nav .lastLink
+{
+    margin-top: 10px;
+}
+
+#nav span
+{
+    margin: 0px 10px;
+    font-weight: bold;
+}
+
+#nav a
+{
+    display: block;
+    margin: 0px 10px;
+    border: 1px solid #000;
+    background-color: #98b2d6;
+    color: #000;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 5px;
+    background: -moz-linear-gradient(top,  #fff, #98b2d6);
+}
+
+#nav a:hover
+{
+    background-color: #efa32b;
+    background: -moz-linear-gradient(top,  #fff,  #efa32b);
+
+}
+
+#nav a.active
+{
+    background-color: #efa32b;
+    background: -moz-linear-gradient(top,  #fff,  #efa32b);
+}
+
+/**
+ * Forms
+ */
+
+.zend_form div
+{
+    margin: 5px 0px;
+}
+
+#auth .zend_form label
+{
+    float: left;
+    width: 80px;
+}
+
+.zend_form p
+{
+    margin: 0px;
+}
+
+.zend_form .errors
+{
+    color: #f00;
+}
+
+input
+{
+    color: #000;
+    border: 1px solid #000;
+}
+
+input[type=submit]
+{
+    border-radius: 10px;
+	background-color: #98b2d6;
+    background: -moz-linear-gradient(top,  #fff, #98b2d6);
+}
+
+input[type=submit]:hover
+{
+    cursor: pointer;
+	background-color: #efa32b;
+    background: -moz-linear-gradient(top,  #fff, #efa32b);
+}
+
+/**
+ * Meter Form
+ */
+#MeterSearch
+{
+    margin-bottom: 20px;
+}
+
+#MeterSearch .row
+{
+    margin-right: 20px;
+}
+
+/**
+ * Buttons
+ */
+a.button
+{
+    border: 1px solid #000;
+    background-color: #98b2d6;
+    color: #000;
+    text-decoration: none;
+    text-align: center;
+    border-radius: 5px;
+    background: -moz-linear-gradient(top,  #fff, #98b2d6);
+    padding: 3px 10px;
+ }
+
+a.button:hover
+{
+    background-color: #efa32b;
+    background: -moz-linear-gradient(top,  #fff,  #efa32b);
+}
+
+/**
+ * Table Styles
+ */
+
+table
+{
+    width: 100%;
+    border: 1px solid #000;
+    border-collapse: collapse;
+}
+
+th
+{
+    text-align: left;
+    font-weight: bold;
+}
+
+tr:hover
+{
+    background-color: #98b2d6;
+}
+
+td,
+th
+{
+    border: 1px solid #000;
+    padding: 2px;
+}
+
+.action
+{
+    padding: 4px;
+}

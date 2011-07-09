@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <nav>
+        <home>
+            <label>Home</label>
+            <action>index</action>
+            <controller>index</controller>
+        </home>
+        <clients>
+            <label>Clients</label>
+            <uri></uri>
+            <pages>
+                <listClients>
+                    <label>List Clients</label>
+                    <action>index</action>
+                    <controller>client</controller>
+                    <resource>User</resource>
+                </listClients>
+                <addClient>
+                    <label>Add Client</label>
+                    <action>add</action>
+                    <controller>client</controller>
+                    <resource>User</resource>
+                </addClient>
+            </pages>
+            <resource>User</resource>
+        </clients>
+        <sites>
+            <label>Sites</label>
+            <uri></uri>
+            <pages>
+                <listSites>
+                    <label>List Sites</label>
+                    <action>index</action>
+                    <controller>site</controller>
+                    <resource>User</resource>
+                </listSites>
+                <addSite>
+                    <label>Add Site</label>
+                    <action>add</action>
+                    <controller>site</controller>
+                    <resource>User</resource>
+                </addSite>
+            </pages>
+            <resource>User</resource>
+        </sites>
+        <meters>
+            <label>Meters</label>
+            <uri></uri>
+            <pages>
+                <listMeters>
+                    <label>List Meters</label>
+                    <action>index</action>
+                    <controller>meter</controller>
+                    <resource>User</resource>
+                </listMeters>
+                <addMeter>
+                    <label>Add Meter</label>
+                    <action>add</action>
+                    <controller>meter</controller>
+                    <resource>User</resource>
+                </addMeter>
+            </pages>
+            <resource>User</resource>
+        </meters>
+        <users>
+            <label>Users</label>
+            <uri></uri>
+            <pages>
+                <listUsers>
+                    <label>List Users</label>
+                    <action>list</action>
+                    <controller>users</controller>
+                    <resource>Admin</resource>
+                </listUsers>
+                <addUser>
+                    <label>Add User</label>
+                    <action>add</action>
+                    <controller>users</controller>
+                    <resource>Admin</resource>
+                </addUser>
+            </pages>
+            <resource>Admin</resource>
+        </users>
+        <logout>
+            <label>Logout</label>
+            <class>lastLink</class>
+            <action>logout</action>
+            <controller>auth</controller>
+            <resource>Read</resource>
+        </logout>
+    </nav>
+</config>

@@ -1,0 +1,55 @@
+<?php
+	$this->title = "BBA Meters";
+	$this->headTitle($this->title);
+
+    echo $this->meterSearchForm;
+    /* @var $meter Power_Model_Meter */
+?>
+
+<table>
+	<tr>
+	<th>ID</th>
+	<th>Client</th>
+	<th>Site Address1</th>
+	<th>Number</th>
+	<th>Install Date</th>
+	<th>&nbsp;</th>
+
+	</tr>
+    <?php foreach($this->meter as $meter) : ?>
+	<tr>
+        <td><?php echo $this->escape($meter->getMeterId()); ?></td>
+        <td><?php echo $this->escape($meter->getClient()); ?></td>
+        <td><?php echo $this->escape($meter->getSiteAddress()); ?></td>
+        <td><?php echo $this->escape($meter->getMeterNo());?></td>
+        <td><?php echo $this->escape($meter->getMeterDateInstall()->toString('dd/MM/yyyy'));?></td>
+		<td class="action">
+			<a href="<?php echo $this->url(array(
+                'controller'    => 'reading',
+                'action'        => 'index',
+				'meterId'       => $meter->getMeterId()//,
+                //'meterNo'       => $meter->getMeterNo()
+            ), 'default');?>" class="button">Readings</a>
+
+			<a href="<?php echo $this->url(array(
+                'controller'    => 'meter',
+                'action'        => 'editMeter',
+				'meterId'       => $meter->getMeterId()
+            ));?>" class="button">Edit</a>
+
+			<a href="<?php echo $this->url(array(
+                'controller'    => 'meter',
+                'action'        => 'deleteMeter',
+                'meterId'       => $meter->getMeterId()
+            ));?>" class="button">Delete</a>
+		</td>
+	</tr>
+    <?php endforeach; ?>
+</table>
+
+<p>
+    <a href="<?php echo $this->url(array(
+        'controller'    => 'meter',
+        'action'        => 'add'
+        ));?>" class="button">Add New Meter</a>
+</p>
