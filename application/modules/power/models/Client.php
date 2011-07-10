@@ -111,46 +111,5 @@ class Power_Model_Client extends ZendSF_Model_Abstract
         return $this;
     }
 
-    public function getCreateBy() {
-        return $this->_createBy;
-    }
 
-    public function setCreateBy($id)
-    {
-        $this->_createBy = (int) $id;
-        return $this;
-    }
-
-    public function getCreateDate()
-    {
-        return $this->_createDate;
-    }
-
-    public function setCreateDate($date)
-    {
-        $this->_createDate = new Zend_Date($date);
-        return $this;
-    }
-
-    public function getModBy()
-    {
-        return $this->_modBy;
-    }
-
-    public function setModBy($id)
-    {
-        $this->_modBy = (int) $id;
-        return $this;
-    }
-
-    public function getModDate()
-    {
-        return $this->_modDate;
-    }
-
-    public function setModDate($date)
-    {
-        $this->_modDate = new Zend_Date($date);
-        return $this;
-    }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Meter.php
+ * Abstract.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -20,7 +20,7 @@
  * along with BBA.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category   BBA
- * @package    Power
+ * @package    BBA
  * @subpackage Model
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
@@ -28,154 +28,156 @@
  */
 
 /**
- * DAO to represent a single Meter.
+ * DAO to represent a single Abstract.
  *
  * @category   BBA
- * @package    Power
+ * @package    BBA
  * @subpackage Model
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Meter extends BBA_Model_Abstract
+class BBA_Model_Abstract extends ZendSF_Model_Abstract
 {
     /**
-     * @var int meter site id
-     */
-    protected $_siteId;
-
-    /**
-     * @var int string number
-     */
-    protected $_no;
-
-    /**
-     * @var Zend_Date
-     */
-    protected $_dateInstall;
-
-    /**
-     * @var Zend_Date
-     */
-    protected $_dateRemoved;
-
-    /**
-     * @var string
-     */
-    protected $_pipeSize;
-
-    /**
-     * @var string
-     */
-    protected $_prefix = 'me_';
-
-    /**
-     * Gets the meter site id
      *
-     * @return int $_meterSiteId
+     * @var int
      */
-    public function getSiteId()
+    protected $_id;
+
+    /**
+     * @var int
+     */
+    protected $_createBy;
+
+    /**
+     * @var Zend_Date
+     */
+    protected $_createDate;
+
+    /**
+     * @var int
+     */
+    protected $_modBy;
+
+    /**
+     * @var Zend_Date
+     */
+    protected $_modDate;
+
+    /**
+     * @var string
+     */
+    protected $_dateFormat = 'yyyy-MM-dd';
+
+    /**
+     * Gets the model id
+     *
+     * @return type
+     */
+    public function getId()
     {
-        return $this->_siteId;
+        return $this->_id;
     }
 
     /**
-     * Sets the meter site id
+     * Sets the model id
+     *
+     * @param type $id
+     * @return _Model_Abstract
+     */
+    public function setId($id)
+    {
+        $this->_id = (int) $id;
+        return $this;
+    }
+
+    /**
+     * Gets the user id of the user who created this record.
+     *
+     * @return int
+     */
+    public function getCreateBy()
+    {
+        return $this->_createBy;
+    }
+
+    /**
+     * Sets the user id of the user who created this record.
      *
      * @param int $id
-     * @return Power_Model_Meter
+     * @return Power_Model_Abstract
      */
-    public function setSiteId($id)
+    public function setCreateBy($id)
     {
-        $this->_siteId = (int) $id;
+        $this->_createBy = (int) $id;
         return $this;
     }
 
     /**
-     * Gets th meter number
-     *
-     * @return string $_meterNo
-     */
-    public function getNo()
-    {
-        return $this->_no;
-    }
-
-    /**
-     * Sets the meter number
-     *
-     * @param string $meterNo
-     * @return Power_Model_Meter
-     */
-    public function setNo($meterNo)
-    {
-        $this->_no = (string) $meterNo;
-        return $this;
-    }
-
-    /**
-     * Gets the install date of the meter
+     * Gets the create date of this record.
      *
      * @return Zend_Date
      */
-    public function getDateInstall()
+    public function getCreateDate()
     {
-        return $this->_dateInstall;
+        return $this->_createDate;
     }
 
     /**
-     * Sets the install date of the meter using Zend_Date class
+     * Sets the create date for this record.
      *
      * @param string $date
-     * @return Power_Model_Meter
+     * @return Power_Model_Abstract
      */
-    public function setDateInstall($date)
+    public function setCreateDate($date)
     {
-        $this->_dateInstall =  new Zend_Date($date);
+        $this->_createDate = new Zend_Date($date);
         return $this;
     }
 
     /**
-     * Gets the meter removed date.
+     * Gets the user id of who modified this record.
+     *
+     * @return int
+     */
+    public function getModBy()
+    {
+        return $this->_modBy;
+    }
+
+    /**
+     * Sets the user id of who modified this record.
+     *
+     * @param int $id
+     * @return Power_Model_Abstract
+     */
+    public function setModBy($id)
+    {
+        $this->_modBy = (int) $id;
+        return $this;
+    }
+
+    /**
+     * Gets the modified date
      *
      * @return Zend_Date
      */
-    public function getDateRemoved()
+    public function getModDate()
     {
-        return $this->_dateRemoved;
+        return $this->_modDate;
     }
 
     /**
-     * Sets the meter removed date.
+     * Sets the modified date
      *
      * @param string $date
-     * @return Power_Model_Meter
+     * @return Power_Model_Abstract
      */
-    public function setDateRemoved($date)
+    public function setModDate($date)
     {
-        $this->_dateRemoved = new Zend_Date($date);
+        $this->_modDate = new Zend_Date($date);
         return $this;
     }
 
-    /**
-     * Gets the meter pipe size.
-     *
-     * @return string
-     */
-    public function getPipeSize()
-    {
-        return $this->_pipeSize;
-    }
-
-    /**
-     * Sets the meter pipe size.
-     *
-     * @param string $text
-     * @return Power_Model_Meter
-     */
-    public function setPipeSize($text)
-    {
-        $this->_pipeSize = (string) $text;
-        return $this;
-    }
 }

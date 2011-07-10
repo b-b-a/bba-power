@@ -1,5 +1,4 @@
 <?php
-
 /**
  * ReadingController.php
  *
@@ -21,7 +20,7 @@
  * along with BBA.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category   BBA
- * @package    Ppower
+ * @package    Power
  * @subpackage Controller
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
@@ -46,6 +45,11 @@ class Power_ReadingController extends BBA_Controller_Action_Abstract
     protected $_model;
 
     /**
+     * @var Power_Model_Mapper_Meter
+     */
+    protected $_meter;
+
+    /**
      * Initialization code.
      */
     public function init()
@@ -53,6 +57,8 @@ class Power_ReadingController extends BBA_Controller_Action_Abstract
         parent::init();
 
         $this->_model = new Power_Model_Mapper_Reading();
+
+        $this->_meter = new Power_Model_Mapper_Meter();
     }
 
     /**
@@ -60,10 +66,13 @@ class Power_ReadingController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        if ($this->_request->getParam('meterId')) {
+        $meterId = $this->_request->getParam('meterId');
+
+        if ($meterId) {
             $this->view->assign(array(
-                'reading'   => $this->_model
-                    ->getReadingsByMeter($this->_request->getParam('meterId'))
+                'readings'   => $this->_model
+                    ->getReadingsByMeter($meterId),
+                'meter'     => $this->_meter->getMeterDetails($meterId)
             ));
         }
 

@@ -37,13 +37,8 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Site extends ZendSF_Model_Abstract
+class Power_Model_Site extends BBA_Model_Abstract
 {
-    /**
-     * @var int
-     */
-    protected $_id;
-
     /**
      * @var int
      */
@@ -65,53 +60,9 @@ class Power_Model_Site extends ZendSF_Model_Abstract
     protected $_clientContactId;
 
     /**
-     * @var int
-     */
-    protected $_createBy;
-
-    /**
-     * @var Zend_Date
-     */
-    protected $_createDate;
-
-    /**
-     * @var int
-     */
-    protected $_modBy;
-
-    /**
-     * @var Zend_Date
-     */
-    protected $_modDate;
-
-    /**
      * @var string
      */
-    protected $_dateFormat = 'yyyy-MM-dd';
-
     protected $_prefix = 'si_';
-
-    /**
-     * Gets the site id.
-     *
-     * @return int siteId
-     */
-    public function getId()
-    {
-        return $this->_id;
-    }
-
-    /**
-     * Sets the site id
-     *
-     * @param type $id
-     * @return Power_Model_Site
-     */
-    public function setId($id)
-    {
-        $this->_id = (int) $id;
-        return $this;
-    }
 
     /**
      * Gets the client Id
@@ -174,7 +125,7 @@ class Power_Model_Site extends ZendSF_Model_Abstract
      */
     public function setClientAddressIdBill($id)
     {
-        $this->_clientAddressIdBill = (int) id;
+        $this->_clientAddressIdBill = (int) $id;
         return $this;
     }
 
@@ -197,94 +148,6 @@ class Power_Model_Site extends ZendSF_Model_Abstract
     public function setClientContactId($id)
     {
         $this->_clientContactId = (int) $id;
-        return $this;
-    }
-
-    /**
-     * Gets the user id of the user who created this record.
-     *
-     * @return int siteCreateBy
-     */
-    public function getCreateBy()
-    {
-        return $this->_createBy;
-    }
-
-    /**
-     * Sets the user id of the user who created this record.
-     *
-     * @param int $id
-     * @return Power_Model_Site
-     */
-    public function setCreateBy($id)
-    {
-        $this->_createBy = (int) $id;
-        return $this;
-    }
-
-    /**
-     * Gets the create date of this record.
-     *
-     * @return Zend_Date
-     */
-    public function getCreateDate()
-    {
-        return $this->_createDate;
-    }
-
-    /**
-     * Sets the create date for this record.
-     *
-     * @param string $date
-     * @return Power_Model_Site
-     */
-    public function setCreateDate($date)
-    {
-        $this->_createDate = new Zend_Date($date);
-        return $this;
-    }
-
-    /**
-     * Gets the user id of who modified this record.
-     *
-     * @return int siteModBy
-     */
-    public function getModBy()
-    {
-        return $this->_modBy;
-    }
-
-    /**
-     * Sets the user id of who modified this record.
-     *
-     * @param int $id
-     * @return Power_Model_Site
-     */
-    public function setModBy($id)
-    {
-        $this->_modBy = (int) $id;
-        return $this;
-    }
-
-    /**
-     * Gets the modified date
-     *
-     * @return Zend_Date
-     */
-    public function getModDate()
-    {
-        return $this->_modDate;
-    }
-
-    /**
-     * Sets the modified date
-     *
-     * @param string $date
-     * @return Power_Model_Site
-     */
-    public function setModDate($date)
-    {
-        $this->_modDate = new Zend_Date($date);
         return $this;
     }
 }
