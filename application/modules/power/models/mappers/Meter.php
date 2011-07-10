@@ -40,7 +40,7 @@
 class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
 {
     /**
-     * @var Power_Model_DbTable_Meters
+     * @var Power_Model_DbTable_Meter
      */
     protected $_dbTable;
 
@@ -55,14 +55,14 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
         $searchClient = $this->getForm('meterSearch')->getValue('search_client');
 
         /* @var $select Zend_Db_Table_Select */
-        $select = $this->getDbTable()->getMeterList();
+        $select = $this->_dbTable->getMeterDetails();
 
         if (!$searchMeter == '') {
-            $select->where('meterNo like ? COLLATE utf8_general_ci', '%'. $searchMeter . '%');
+            $select->where('me_no like ? COLLATE utf8_general_ci', '%'. $searchMeter . '%');
         }
-        
+
         if (!$searchClient == '') {
-            $select->where('clientName like ? COLLATE utf8_general_ci', '%' . $searchClient . '%');
+            $select->where('cl_name like ? COLLATE utf8_general_ci', '%' . $searchClient . '%');
         }
 
         return $this->listMeters($select);
@@ -71,7 +71,7 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
     public function listMeters($select = null)
     {
         if ($select === null) {
-            $select = $this->_dbTable->getMeterList();
+            $select = $this->_dbTable->getMeterDetails();
         }
 
         $resultSet = $this->fetchAll($select, true);
@@ -83,13 +83,29 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
             /* @var $newRow Power_Model_Meter */
             $newRow = new $this->_modelClass($row);
 
-            $newRow->setSiteAddress($row['clientAddressAddress1']);
-            $newRow->setClient($row['clientName']);
+            $newRow->setSiteAddress($row['clad_address1']);
+            $newRow->setClient($row['cl_name']);
 
             $rows[] = $newRow;
         }
 
         return $rows;
+    }
+
+    public function getMeterDetails($id)
+    {
+        /* @var $select Zend_Db_Table_Select */
+        $select = $this->_dbTable->getMeterDetails();
+        $select->where('me_id = ?', $id);
+
+        $row = $this->fetchRow($select, true);
+
+        /* @var $model Power_Model_Meter */
+        $model = new $this->_modelClass($row);
+        
+        $model->setSite($row['cl_name']);
+
+        return $model;
     }
 
     /**

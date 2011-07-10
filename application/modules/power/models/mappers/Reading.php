@@ -54,7 +54,7 @@ class Power_Model_Mapper_Reading extends ZendSF_Model_Mapper_Acl_Abstract
     {
         $select = $this->getDbTable()
                 ->select()
-                ->where('meterId = ?', $id);
+                ->where('re_meter_id = ?', $id);
         return $this->fetchAll($select);
     }
 

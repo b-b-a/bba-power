@@ -1,4 +1,44 @@
 <?php
-    $this->title = "BBA Meter Reading for";
+    $this->title = 'BBA Meter Reading for ' . $this->escape($this->meter->getSite());
 	$this->headTitle($this->title);
+    /* @var $reading Power_Model_Reading */
 ?>
+<h2>Meter No: <?php echo $this->escape($this->meter->getNo()); ?></h2>
+<table>
+	<tr>
+        <th>Bill Date</th>
+        <th>Reading Date</th>
+        <th>Day</th>
+        <th>Night</th>
+        <th>Other</th>
+        <th>&nbsp;</th>
+	</tr>
+<?php foreach($this->readings as $reading) : ?>
+	<tr>
+        <td><?php echo $this->escape($reading->getDateBill()->toString('dd/MM/yyyy'));?></td>
+        <td><?php echo $this->escape($reading->getDateReading()->toString('dd/MM/yyyy'));?></td>
+        <td><?php echo $this->escape($reading->getValueDay());?></td>
+        <td><?php echo $this->escape($reading->getValueNight());?></td>
+        <td><?php echo $this->escape($reading->getValueOther());?></td>
+		<td class="action">
+			<a href="<?php echo $this->url(array(
+                'controller'=>'reading',
+                'action'=>'edit',
+                'id'=>$reading->getId()
+            ));?>" class="button">Edit</a>
+			<a href="<?php echo $this->url(array(
+                'controller'=>'reading',
+                'action'=>'delete',
+                'id'=>$reading->getId()
+            ));?>" class="button">Delete</a>
+		</td>
+	</tr>
+<?php endforeach; ?>
+</table>
+
+<p>
+    <a href="<?php echo $this->url(array(
+        'controller'    => 'reading',
+        'action'        => 'add'
+    ));?>" class="button">Add New Reading</a>
+</p>

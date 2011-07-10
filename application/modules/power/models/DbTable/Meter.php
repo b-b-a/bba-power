@@ -54,9 +54,9 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
      */
     protected $_referenceMap = array(
         'meterSite' => array(
-            'columns'       => 'siteId',
+            'columns'       => 'me_site_id',
             'refTableClass' => 'Power_Model_DbTable_Site',
-            'refColumns'    => 'siteId'
+            'refColumns'    => 'si_id'
         )
     );
 
@@ -66,7 +66,7 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
      *
      * @return Zend_Db_Table_Select
      */
-    public function getMeterList()
+    public function getMeterDetails()
     {
        return $this->select(false)
             ->setIntegrityCheck(false)
