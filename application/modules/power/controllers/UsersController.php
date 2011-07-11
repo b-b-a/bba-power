@@ -81,8 +81,6 @@ class Power_UsersController extends ZendSF_Controller_Action_Abstract
         $this->view->assign(array(
             'users' => $this->_model->fetchAll()
         ));
-
-        $this->_log->info($this->view->users[0]->toArray());
     }
 
     public function addAction()
@@ -130,6 +128,7 @@ class Power_UsersController extends ZendSF_Controller_Action_Abstract
                 $this->_helper->FlashMessenger(array(
                     'pass' => 'User saved to database'
                 ));
+
                 return $this->_helper->redirector('list', 'users');
             } else {
                 $this->_helper->FlashMessenger(array(
@@ -152,7 +151,7 @@ class Power_UsersController extends ZendSF_Controller_Action_Abstract
                 ));
             } else {
                 $this->_helper->FlashMessenger(array(
-                    'fail' => 'could not delete user from database'
+                    'fail' => 'Could not delete user from database'
                 ));
             }
         }

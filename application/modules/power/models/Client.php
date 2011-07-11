@@ -37,35 +37,14 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Client extends ZendSF_Model_Abstract
+class Power_Model_Client extends BBA_Model_Abstract
 {
-    protected $_id;
     protected $_name;
     protected $_desc;
     protected $_docLoa;
-    protected $_loaDateExpiry;
-    protected $_createBy;
-    protected $_createDate;
-    protected $_modBy;
-    protected $_modDate;
-
-    /**
-     * @var string
-     */
-    protected $_dateFormat = 'yyyy-MM-dd';
+    protected $_dateExpiryLoa;
 
     protected $_prefix = 'cl_';
-
-    public function getId()
-    {
-        return $this->_id;
-    }
-
-    public function setId($id)
-    {
-        $this->_id = (int) $id;
-        return $this;
-    }
 
     public function getName()
     {
@@ -100,16 +79,14 @@ class Power_Model_Client extends ZendSF_Model_Abstract
         return $this;
     }
 
-    public function getLoaDateExpiry()
+    public function getDateExpiryLoa()
     {
-        return $this->_loaDateExpiry;
+        return $this->_dateExpiryLoa;
     }
 
-    public function setLoaDateExpiry($date)
+    public function setDateExpiryLoa($date)
     {
-        $this->_loaDateExpiry =  new Zend_Date($date);
+        $this->_dateExpiryLoa =  new Zend_Date($date);
         return $this;
     }
-
-
 }
