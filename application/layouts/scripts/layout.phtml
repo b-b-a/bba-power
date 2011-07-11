@@ -28,13 +28,9 @@
                 </div>
                 <div id="content_wrap" class="grid_10 omega">
                     <div id="inner_content_wrap">
-                        <p><?php
-                            if ($this->messages) {
-                                foreach ($this->messages as $message) {
-                                    echo $this->escape($message);
-                                }
-                            }
-                         ?></p>
+                        <div id="messages"><?php
+                           echo $this->FlashMessenger();
+                         ?></div>
                         <h1><?= $this->escape($this->title); ?></h1>
                         <?= $this->layout()->content; ?>
                     </div>

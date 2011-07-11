@@ -113,6 +113,8 @@ class Power_UsersController extends ZendSF_Controller_Action_Abstract
 
         $action = $this->_request->getParam('returnAction');
 
+        $this->getForm('userSave')->addHiddenElement('returnAction', $action);
+
         if ($action == 'edit') {
             $this->getForm('userSave')
                     ->getElement('us_password')
@@ -133,6 +135,7 @@ class Power_UsersController extends ZendSF_Controller_Action_Abstract
                 $this->_helper->FlashMessenger(array(
                     'fail' => 'User could not be saved to database'
                 ));
+
                 return $this->render($action);
             }
         }
