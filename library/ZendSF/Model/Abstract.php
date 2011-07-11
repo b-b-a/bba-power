@@ -184,7 +184,7 @@ abstract class ZendSF_Model_Abstract
      *
      * @return array
      */
-    public function toArray()
+    public function toArray($dateFormat = null)
     {
         $array = array();
 
@@ -197,9 +197,13 @@ abstract class ZendSF_Model_Abstract
                 }
 
                 if ($value instanceof Zend_Date) {
-                    $value = ($this->_dateFormat === null) ?
-                        $value->getTimestamp() :
-                        $value->toString($this->_dateFormat);
+                    if ($this->_dateFormat === null) {
+                        $value = $value->getTimestamp();
+                    } elseif ($dateFormat) {
+                        $value = $value->toString($dateFormat);
+                    } else {
+                        $value = $value->toString($this->_dateFormat);
+                    }
                 }
 
                 $key = $this->_normalise(substr($method,3));

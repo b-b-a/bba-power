@@ -49,6 +49,39 @@ class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
      */
     protected $_modelClass;
 
+    public function getClientAndAddress()
+    {
+        $select = $this->getDbTable()
+            ->select(false)
+            ->setIntegrityCheck(false)
+            ->from('site')
+            ->join(
+                'client_address',
+                'clad_id = si_client_address_id',
+                array('clad_address1')
+            )
+            ->join(
+                'client',
+                'cl_id = si_client_id ',
+                array('cl_name')
+            )
+            ;
+
+        $resultSet = $this->fetchAll($select, true);
+
+        foreach ($resultSet as $row) {
+            /* @var $newRow Power_Model_Meter */
+            $newRow = new $this->_modelClass($row);
+
+            $newRow->setSiteAddress($row['clad_address1']);
+            $newRow->setClient($row['cl_name']);
+
+            $rows[] = $newRow;
+        }
+
+        return $rows;
+    }
+
     /**
      * Injector for the acl, the acl can be injected directly
      * via this method.

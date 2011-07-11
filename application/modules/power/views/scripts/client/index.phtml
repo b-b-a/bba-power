@@ -1,0 +1,44 @@
+<?php
+	$this->title = "BBA Clients";
+	$this->headTitle($this->title);
+
+    echo $this->clientSearchForm;
+    /* @var $client Power_Model_Client */
+?>
+
+<table>
+	<tr>
+	<th>Client</th>
+	<th>Description</th>
+	<th>Letter of Authority Expiry</th>
+	<th>&nbsp;</th>
+
+	</tr>
+    <?php foreach($this->clients as $client) : ?>
+	<tr>
+        <td><?php echo $this->escape($client->getName()); ?></td>
+        <td><?php echo $this->escape($client->getDesc()); ?></td>
+        <td><?php echo $this->escape($client->getDateExpiryLoa()->toString('dd/MM/yyyy'));?></td>
+		<td class="action">
+			<a href="<?php echo $this->url(array(
+                'controller'    => 'client',
+                'action'        => 'edit',
+				'clientId'       => $client->getId()
+            ));?>" class="button">Edit</a>
+
+			<a href="<?php echo $this->url(array(
+                'controller'    => 'client',
+                'action'        => 'delete',
+                'clientId'       => $client->getId()
+            ));?>" class="button">Delete</a>
+		</td>
+	</tr>
+    <?php endforeach; ?>
+</table>
+
+<p>
+    <a href="<?php echo $this->url(array(
+        'controller'    => 'client',
+        'action'        => 'add'
+        ));?>" class="button">Add New Client</a>
+</p>

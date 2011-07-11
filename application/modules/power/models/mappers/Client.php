@@ -49,6 +49,55 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
      */
     protected $_modelClass;
 
+    public function clientSearch()
+    {
+        $searchClient = $this->getForm('clientSearch')->getValue('search_client');
+
+        /* @var $select Zend_Db_Table_Select */
+        $select = $this->_dbTable->select();
+
+        if (!$searchClient == '') {
+            $select->where('cl_name like ? COLLATE utf8_general_ci', '%' . $searchClient . '%');
+        }
+
+        return $this->fetchAll($select);
+    }
+
+    public function save()
+    {
+        $form = $this->getForm('clientSave')->getValues();
+
+        // remove client id if not set.
+        if (!$form['cl_id']) unset($form['cl_id']);
+
+        /* @var $model Power_Model_Client */
+        $model = new $this->_modelClass($form);
+
+        // set modified and create dates.
+        if ($form['returnAction'] == 'add') {
+            $model->setCreateDate(time());
+            $model->setCreateBy($form['userId']);
+        }
+
+        $model->setModBy($form['userId']);
+        $model->setModDate(time());
+
+        return parent::save($model);
+    }
+
+    public function delete($id)
+    {
+        if (!$this->checkAcl('delete')) {
+            throw new ZendSF_Acl_Exception('Deleting clients is not allowed.');
+        }
+
+        $where = $this->getDbTable()
+                ->getAdapter()
+                ->quoteInto('cl_id = ?', $id);
+
+        return parent::delete($where);
+    }
+
     /**
      * Injector for the acl, the acl can be injected directly
      * via this method.
@@ -63,6 +112,8 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
     public function setAcl(Zend_Acl $acl)
     {
         parent::setAcl($acl);
+
+        $this->_acl->allow('admin', $this);
 
         // implement rules here.
 

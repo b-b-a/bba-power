@@ -22,7 +22,6 @@ class Power_Model_Acl_Power extends ZendSF_Acl_Abstract
      */
     public function init()
     {
-
         $this->addRole(new Zend_Acl_Role('agent'), 'Guest');
         $this->addRole(new Zend_Acl_Role('read'));
         $this->addRole(new Zend_Acl_Role('meterReading'), 'read');

@@ -50,6 +50,21 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
     public function init()
     {
         parent::init();
+
+        $this->_model = new Power_Model_Mapper_Client();
+
+        $this->setForm('clientSave', array(
+            'controller' => 'client' ,
+            'action' => 'save',
+            'module' => 'power'
+        ));
+
+        // search form
+        $this->setForm('clientSearch', array(
+            'controller' => 'client' ,
+            'action' => 'search',
+            'module' => 'power'
+        ));
     }
 
     /**
@@ -57,26 +72,102 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        // action body
+        // gets all meters and assigns them to the view script.
+        $this->view->assign(array(
+            'clients' => $this->_model->fetchAll()
+        ));
     }
 
     public function searchAction()
     {
+        $this->_helper->viewRenderer->setNoRender(true);
 
+        if (!$this->_request->isPost()) {
+            return $this->_forward('index');
+        }
+
+        if (!$this->getForm('clientSearch')->isValid($this->_request->getPost())) {
+            return $this->render('list'); // re-render the search form
+        }
+
+        $this->view->assign(array(
+            'clients' => $this->_model->clientSearch()
+        ));
+
+        return $this->render('index');
     }
 
     public function addAction()
     {
-
+        $this->getForm('clientSave')
+                ->addHiddenElement('returnAction', 'add');
     }
 
     public function editAction()
     {
+        if ($this->_request->getParam('clientId')) {
+            $client = $this->_model->find($this->_request->getParam('clientId'));
+            $this->getForm('clientSave')
+                    ->populate($client->toArray('dd/MM/yyyy'))
+                    ->addHiddenElement('returnAction', 'edit');
+        } else {
+           return $this->_helper->redirector('index', 'client');
+        }
+    }
 
+    public function saveAction()
+    {
+        if (!$this->_request->isPost()) {
+            return $this->_helper->redirector('index', 'client');
+        }
+
+        $this->_log->info($this->_request->getParams());
+
+        if ($this->_request->getParam('cancel')) {
+            return $this->_helper->redirector('index', 'client');
+        }
+
+        $action = $this->_request->getParam('returnAction');
+
+        $this->getForm('clientSave')->addHiddenElement('returnAction', $action);
+
+        if (!$this->getForm('clientSave')->isValid($this->_request->getPost())) {
+            return $this->render($action); // re-render the edit form
+        } else {
+            $saved = $this->_model->save();
+
+            if ($saved) {
+                $this->_helper->FlashMessenger(array(
+                    'pass' => 'Client saved to database'
+                ));
+
+                return $this->_helper->redirector('index', 'client');
+            } else {
+                $this->_helper->FlashMessenger(array(
+                    'fail' => 'Client could not be saved to database'
+                ));
+
+                return $this->render($action);
+            }
+        }
     }
 
     public function deleteAction()
     {
+        if ($this->_request->getParam('clientId')) {
+            $client = $this->_model->delete($this->_request->getParam('clientId'));
 
+            if ($client) {
+                $this->_helper->FlashMessenger(array(
+                    'pass' => 'Client deleted from database'
+                ));
+            } else {
+                $this->_helper->FlashMessenger(array(
+                    'fail' => 'Could not delete client from database'
+                ));
+            }
+        }
+
+        return $this->_helper->redirector('index', 'client');
     }
 }

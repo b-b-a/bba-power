@@ -174,4 +174,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $this->_view->navigation(new Zend_Navigation($menu));
     }
 
+    protected function _initMooTools()
+    {
+        $this->_logger->info(__METHOD__);
+
+        ZendX_MooTools::enableView($this->_view);
+
+        $this->_view->mooTools()
+                ->enable()
+                ->setVersion('1.3.2')
+                ->setMorePath('/js/MooTools/more/mootools-more-1.3.2.1.js')
+                ->setPluginsPath('/js/MooTools/plugins')
+                ;
+    }
+
 }

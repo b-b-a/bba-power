@@ -1,6 +1,6 @@
 <?php
 /**
- * AddNew.php
+ * Add.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Form Class AddNew.
+ * Form Class Add.
  *
  * @category   BBA
  * @package    Power
@@ -41,6 +41,53 @@ class Power_Form_Meter_Add extends ZendSF_Form_Abstract
 {
     public function init()
     {
+        $this->setName('meter');
+
+        $model = new Power_Model_Mapper_Site();
+        $sites = $model->getClientAndAddress();
+
+        $multiOptions = array(
+            0 => 'Select Site'
+        );
+
+        /* @var $site Power_Model_Site */
+        foreach ($sites as $site) {
+
+            $multiOptions[$site->getClient()][] = $site->getSiteAddress();
+        }
+
+        $log = Zend_Registry::get('log');
+        $log->info($multiOptions);
+
+        $this->addElement('select', 'me_site_id', array(
+            'validators'    => array(
+                array('GreaterThan', true, array('min' => 0))
+            ),
+            'errorMessages'  => array('Please select a site for this meter.'),
+            'label'         => 'Meter Site:',
+            'MultiOptions'  => $multiOptions,
+            'required'      => true
+        ));
+
+        $this->addElement('text', 'me_type', array(
+            'label'     => 'Meter Type:',
+            'required'  => true
+        ));
+
+        $this->addElement('text', 'me_no', array(
+            'label'     => 'Meter No:',
+            'required'  => true
+        ));
+
+        $this->addElement('text', 'me_date_install', array(
+            'label'     => 'Date Installed:',
+            'required'  => true
+        ));
+
+        $this->addElement('text', 'me_date_removed', array(
+            'label'     => 'Date Removed:',
+            'required'  => true
+        ));
 
         $this->addSubmit('Add', 'submit');
         $this->addSubmit('Cancel', 'cancel');

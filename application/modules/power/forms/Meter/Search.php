@@ -37,48 +37,11 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Meter_Search extends ZendSF_Form_Abstract
+class Power_Form_Meter_Search extends Power_Form_SearchBase
 {
-    protected $_elementDecorators = array(
-        'ViewHelper',
-        'Errors',
-        array(
-            'HtmlTag',
-            array(
-                'tag'   => 'span',
-                'class' => 'search'
-            )
-        ),
-        array(
-            'Label',
-            array(
-                'tag'   => 'span',
-                'class' => 'search'
-            )
-        ),
-        array(
-            array('row' => 'HtmlTag'),
-            array(
-                'tag'   => 'span',
-                'class' => 'row'
-            )
-        )
-    );
-
-    protected $_submitDecorators = array(
-        'ViewHelper',
-        array(
-            'HtmlTag',
-            array(
-                'tag'   => 'span',
-                'class' => 'search'
-            )
-        )
-    );
-
     public function init()
     {
-        $this->setName('MeterSearch');
+        parent::init();
 
         $this->addElement('text', 'search_meter', array(
             'label'     => 'Meter:',
