@@ -64,6 +64,8 @@ abstract class ZendSF_Controller_Action_Abstract extends Zend_Controller_Action
         // add $this->_acl here.
 
         $this->view->admin = $this->_request->getParam('isAdmin');
+
+        // make request avaliable to views
         $this->view->request = $this->_request->getParams();
 
         $this->view->navigation()

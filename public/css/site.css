@@ -255,3 +255,28 @@ th
 {
     padding: 4px;
 }
+
+/*
+Flash Messenger
+*/
+
+#messages p
+{
+    border-radius: 10px;
+    padding: 10px;
+    padding-left: 35px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.pass
+{
+    color: green;
+    background: url('/images/OKShield.png') center left no-repeat
+}
+
+.fail
+{
+    color: red;
+    background: url('/images/ErrorShield.png') center left no-repeat;
+}
