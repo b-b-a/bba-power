@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract.php
+ * SiteController.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -20,34 +20,44 @@
  * along with BBA.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category   BBA
- * @package    BBA
- * @subpackage Controller_Action
+ * @package    Power
+ * @subpackage Controller
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Common controller methods.
+ * Controller Class SiteController.
  *
  * @category   BBA
- * @package    BBA
- * @subpackage Controller_Action
+ * @package    Power
+ * @subpackage Controller
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_Abstract
+class Power_SiteController extends BBA_Controller_Action_Abstract
 {
     /**
-     * Checks if user is logged, if not then forwards to login.
-     *
-     * @return Zend_Controller_Action::_forward
+     * Initialization code.
      */
-    public function preDispatch()
+    public function init()
     {
-        if ($this->_helper->acl('Guest')) {
-            return $this->_forward('login', 'auth');
-        }
+        parent::init();
+
+        $this->_model = new Power_Model_Mapper_Site();
     }
+
+    /**
+     * Default action
+     */
+    public function indexAction()
+    {
+        // gets all meters and assigns them to the view script.
+        $this->view->assign(array(
+            'sites' => $this->_model->fetchAll()
+        ));
+    }
+
 }
