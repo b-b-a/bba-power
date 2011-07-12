@@ -87,7 +87,7 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
         }
 
         if (!$this->getForm('clientSearch')->isValid($this->_request->getPost())) {
-            return $this->render('list'); // re-render the search form
+            return $this->render('index'); // re-render the search form
         }
 
         $this->view->assign(array(
@@ -120,8 +120,6 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
         if (!$this->_request->isPost()) {
             return $this->_helper->redirector('index', 'client');
         }
-
-        $this->_log->info($this->_request->getParams());
 
         if ($this->_request->getParam('cancel')) {
             return $this->_helper->redirector('index', 'client');
