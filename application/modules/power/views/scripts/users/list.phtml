@@ -13,8 +13,8 @@
     </tr>
     <?php foreach($this->users as $user): ?>
     <tr>
-        <td><?= $this->escape($user->getUsername()); ?></td>
-        <td><?= $this->escape($user->getRealName()); ?></td>
+        <td><?= $this->escape($user->getName()); ?></td>
+        <td><?= $this->escape($user->getFullName()); ?></td>
         <td><?= $this->escape($user->getRole()) ?></td>
         <td class="action">
             <a href="<?php echo $this->url(array(

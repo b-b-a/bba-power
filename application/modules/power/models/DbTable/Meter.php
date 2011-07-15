@@ -47,17 +47,13 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
     /**
      * @var string primary key
      */
-    protected $_primary = 'me_id';
+    protected $_primary = 'meter_idMeter';
 
     /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
-        'meterSite' => array(
-            'columns'       => 'me_site_id',
-            'refTableClass' => 'Power_Model_DbTable_Site',
-            'refColumns'    => 'si_id'
-        )
+        
     );
 
     /**

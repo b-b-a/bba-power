@@ -47,16 +47,12 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
     /**
      * @var string primary key
      */
-    protected $_primary = 'si_id';
+    protected $_primary = 'site_idSite';
 
     /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
-        'siteClient' => array(
-            'columns'           => 'clientId',
-            'refTableClass'     => 'Power_Model_DbTable_Client',
-            'refColumns'        => 'clientId'
-		)
+        
     );
 }

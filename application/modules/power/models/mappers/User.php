@@ -59,7 +59,7 @@ class Power_Model_Mapper_User extends ZendSF_Model_Mapper_Acl_Abstract
     {
         $select = $this->getDbTable()
                 ->select()
-                ->where('us_username = ?', $username);
+                ->where('user_name = ?', $username);
 
         $row = $this->fetchRow($select, true);
 

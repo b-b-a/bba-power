@@ -47,7 +47,7 @@ class Power_Model_DbTable_Tender extends Zend_Db_Table_Abstract
     /**
      * @var string primary key
      */
-    protected $_primary = 'te_id';
+    protected $_primary = 'tender_idTender';
 
     /**
      * @var array Reference map for parent tables

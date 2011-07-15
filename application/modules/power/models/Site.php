@@ -42,112 +42,30 @@ class Power_Model_Site extends BBA_Model_Abstract
     /**
      * @var int
      */
-    protected $_clientId;
+    protected $_idSite;
 
     /**
      * @var int
      */
-    protected $_clientAddressId;
+    protected $_idClient;
 
     /**
      * @var int
      */
-    protected $_clientAddressIdBill;
+    protected $_idAddress;
 
     /**
      * @var int
      */
-    protected $_clientContactId;
+    protected $_idAddressBill;
+
+    /**
+     * @var int
+     */
+    protected $_idClientContact;
 
     /**
      * @var string
      */
-    protected $_prefix = 'si_';
-
-    /**
-     * Gets the client Id
-     *
-     * @return int clientId
-     */
-    public function getClientId()
-    {
-        return $this->_clientId;
-    }
-
-    /**
-     * Sets the client id
-     *
-     * @param int $id
-     * @return Power_Model_Site
-     */
-    public function setClientId($id)
-    {
-        $this->_clientId = (int) $id;
-        return $this;
-    }
-
-    /**
-     * Gets the client address for this site.
-     *
-     * @return int clientAddressId
-     */
-    public function getClientAddressId()
-    {
-        return $this->_clientAddressId;
-    }
-
-    /**
-     * Sets client address for this site.
-     *
-     * @param int $id
-     * @return Power_Model_Site
-     */
-    public function setClientAddressId($id)
-    {
-        $this->_clientAddressId = (int) $id;
-        return $this;
-    }
-
-    /**
-     * Gets the client address id for billing
-     *
-     * @return int siteClientAddressIdBill
-     */
-    public function getClientAddressIdBill()
-    {
-        return $this->_clientAddressIdBill;
-    }
-
-    /**
-     * Sets the client address id for billing
-     * @param int $id
-     * @return Power_Model_Site
-     */
-    public function setClientAddressIdBill($id)
-    {
-        $this->_clientAddressIdBill = (int) $id;
-        return $this;
-    }
-
-    /**
-     * Gets the client contact id.
-     *
-     * @return int clientContactId
-     */
-    public function getClientContactId()
-    {
-        return $this->_clientContactId;
-    }
-
-    /**
-     * Sets the client contact id.
-     *
-     * @param int $id
-     * @return Power_Model_Site
-     */
-    public function setClientContactId($id)
-    {
-        $this->_clientContactId = (int) $id;
-        return $this;
-    }
+    protected $_prefix = 'site_';
 }

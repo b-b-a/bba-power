@@ -48,22 +48,22 @@ class BBA_Model_Abstract extends ZendSF_Model_Abstract
     /**
      * @var int
      */
-    protected $_createBy;
+    protected $_userCreate;
 
     /**
      * @var Zend_Date
      */
-    protected $_createDate;
+    protected $_dateCreate;
 
     /**
      * @var int
      */
-    protected $_modBy;
+    protected $_userModify;
 
     /**
      * @var Zend_Date
      */
-    protected $_modDate;
+    protected $_dateModify;
 
     /**
      * @var string
@@ -97,9 +97,9 @@ class BBA_Model_Abstract extends ZendSF_Model_Abstract
      *
      * @return int
      */
-    public function getCreateBy()
+    public function getUserCreate()
     {
-        return $this->_createBy;
+        return $this->_userCreate;
     }
 
     /**
@@ -108,9 +108,9 @@ class BBA_Model_Abstract extends ZendSF_Model_Abstract
      * @param int $id
      * @return Power_Model_Abstract
      */
-    public function setCreateBy($id)
+    public function setUserCreate($id)
     {
-        $this->_createBy = (int) $id;
+        $this->_userCreate = (int) $id;
         return $this;
     }
 
@@ -119,9 +119,9 @@ class BBA_Model_Abstract extends ZendSF_Model_Abstract
      *
      * @return Zend_Date
      */
-    public function getCreateDate()
+    public function getDateCreate()
     {
-        return $this->_createDate;
+        return $this->_dateCreate;
     }
 
     /**
@@ -130,9 +130,9 @@ class BBA_Model_Abstract extends ZendSF_Model_Abstract
      * @param string $date
      * @return Power_Model_Abstract
      */
-    public function setCreateDate($date)
+    public function setDateCreate($date)
     {
-        $this->_createDate = new Zend_Date($date);
+        $this->_dateCreate = new Zend_Date($date);
         return $this;
     }
 
@@ -141,9 +141,9 @@ class BBA_Model_Abstract extends ZendSF_Model_Abstract
      *
      * @return int
      */
-    public function getModBy()
+    public function getUserModify()
     {
-        return $this->_modBy;
+        return $this->_userModify;
     }
 
     /**
@@ -152,9 +152,9 @@ class BBA_Model_Abstract extends ZendSF_Model_Abstract
      * @param int $id
      * @return Power_Model_Abstract
      */
-    public function setModBy($id)
+    public function setUserModify($id)
     {
-        $this->_modBy = (int) $id;
+        $this->_userModify = (int) $id;
         return $this;
     }
 
@@ -163,9 +163,9 @@ class BBA_Model_Abstract extends ZendSF_Model_Abstract
      *
      * @return Zend_Date
      */
-    public function getModDate()
+    public function getDateModify()
     {
-        return $this->_modDate;
+        return $this->_dateModify;
     }
 
     /**
@@ -174,9 +174,9 @@ class BBA_Model_Abstract extends ZendSF_Model_Abstract
      * @param string $date
      * @return Power_Model_Abstract
      */
-    public function setModDate($date)
+    public function setDateModify($date)
     {
-        $this->_modDate = new Zend_Date($date);
+        $this->_dateModify = new Zend_Date($date);
         return $this;
     }
 

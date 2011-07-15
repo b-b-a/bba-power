@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Reading.php
+ * Usage.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,27 +29,27 @@
  */
 
 /**
- * Database adapter class for the Reading table.
+ * Database adapter class for the Usage table.
  *
  * @category   BBA
- * @package    power
+ * @package    Power
  * @subpackage Model_DbTable
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Reading extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Usage extends Zend_Db_Table_Abstract
 {
     /**
      * @var string database table
      */
-    protected $_name = 'reading';
+    protected $_name = 'usage';
 
     /**
      * @var string primary key
      */
-    protected $_primary = 're_id'
-    ;
+    protected $_primary = 'usage_idUsage';
+    
     /**
      * @var array Reference map for parent tables
      */

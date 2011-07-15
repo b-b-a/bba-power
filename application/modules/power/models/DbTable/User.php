@@ -42,12 +42,12 @@ class Power_Model_DbTable_User extends Zend_Db_Table_Abstract
      /**
      * @var string database table
      */
-    protected $_name = 'users';
+    protected $_name = 'user';
 
     /**
      * @var string primary key
      */
-    protected $_primary = 'us_id';
+    protected $_primary = 'user_idUser';
 
     /**
      * @var array Reference map for parent tables

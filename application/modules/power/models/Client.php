@@ -39,54 +39,33 @@
  */
 class Power_Model_Client extends BBA_Model_Abstract
 {
+    /**
+     * @var int
+     */
+    protected $_idClient;
+
+    /**
+     * @var string
+     */
     protected $_name;
+
+    /**
+     * @var string
+     */
     protected $_desc;
+
+    /**
+     * @var string
+     */
     protected $_docLoa;
+
+    /**
+     * @var Zend_Date
+     */
     protected $_dateExpiryLoa;
 
-    protected $_prefix = 'cl_';
-
-    public function getName()
-    {
-        return $this->_name;
-    }
-
-    public function setName($text)
-    {
-        $this->_name = (string) $text;
-        return $this;
-    }
-
-    public function getDesc()
-    {
-        return $this->_desc;
-    }
-
-    public function setDesc($text)
-    {
-        $this->_desc = (string) $text;
-        return $this;
-    }
-
-    public function getDocLoa()
-    {
-        return $this->_docLoa;
-    }
-
-    public function setDocLoa($text)
-    {
-        $this->_docLoa = (string) $text;
-        return $this;
-    }
-
-    public function getDateExpiryLoa()
-    {
-        return $this->_dateExpiryLoa;
-    }
-
-    public function setDateExpiryLoa($date)
-    {
-        $this->_dateExpiryLoa =  new Zend_Date($date);
-        return $this;
-    }
+    /**
+     * @var string
+     */
+    protected $_prefix = 'client_';
 }

@@ -43,10 +43,12 @@ class Power_Model_DbTable_Client extends Zend_Db_Table_Abstract
      * @var string database table
      */
     protected $_name = 'client';
+
     /**
      * @var string primary key
      */
-    protected $_primary = 'cl_id';
+    protected $_primary = 'client_idClient';
+    
     /**
      * @var array Reference map for parent tables
      */

@@ -37,161 +37,45 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_ClientContact extends ZendSF_Model_Abstract
+class Power_Model_ClientContact extends BBA_Model_Abstract
 {
-    protected $_id;
-    protected $_clientId;
+    /**
+     * @var int
+     */
+    protected $_idClientContract;
+
+    /**
+     * @var int
+     */
+    protected $_idClient;
+
+    /**
+     * @var int
+     */
+    protected $_idAddress;
+
+    /**
+     * @var string
+     */
     protected $_type;
+
+    /**
+     * @var string
+     */
     protected $_name;
-    protected $_clientAddressId;
+
+    /**
+     * @var string
+     */
     protected $_phone;
+
+    /**
+     * @var string
+     */
     protected $_email;
 
     /**
-     * @var int
+     * @var string
      */
-    protected $_createBy;
-
-    /**
-     * @var Zend_Date
-     */
-    protected $_createDate;
-
-    /**
-     * @var int
-     */
-    protected $_modBy;
-
-    /**
-     * @var Zend_Date
-     */
-    protected $_modDate;
-
-    /**
-     * @var string date format
-     */
-    protected $_dateFormat = 'yyyy-MM-dd';
-
-    protected $_prefix = 'clco_';
-
-    public function getId()
-    {
-        return $this->_id;
-    }
-
-    public function setId($id)
-    {
-        $this->_id = (int) $id;
-        return $this;
-    }
-
-    public function getClientId()
-    {
-        return $this->_clientId;
-    }
-
-    public function setClientId($id)
-    {
-        $this->_clientId = (int) $id;
-        return $this;
-    }
-
-    public function getType()
-    {
-        return $this->_type;
-    }
-
-    public function setType($text)
-    {
-        $this->_type = (string) $text;
-        return $this;
-    }
-
-    public function getName()
-    {
-        return $this->_name;
-    }
-
-    public function setName($text)
-    {
-        $this->_name = (string) $text;
-        return $this;
-    }
-
-    public function getClientAddressId()
-    {
-        return $this->_clientAddressId;
-    }
-
-    public function setClientAddressId($id)
-    {
-        $this->_clientAddressId = (int) $id;
-        return $this;
-    }
-
-    public function getPhone()
-    {
-        return $this->_phone;
-    }
-
-    public function setPhone($phoneNo)
-    {
-        $this->_phone = (string) $phoneNo;
-        return $this;
-    }
-
-    public function getEmail()
-    {
-        return $this->_email;
-    }
-
-    public function setEmail($email)
-    {
-        $this->_email = (string) $email;
-        return $this;
-    }
-
-    public function getCreateBy()
-    {
-        return $this->_createBy;
-    }
-
-    public function setCreateBy($id)
-    {
-        $this->_createBy = (int) $id;
-        return $this;
-    }
-
-    public function getCreateDate()
-    {
-        return $this->_createDate;
-    }
-
-    public function setCreateDate($date)
-    {
-        $this->_createDate = new Zend_Date($date);
-        return $this;
-    }
-
-    public function getModBy()
-    {
-        return $this->_modBy;
-    }
-
-    public function setModBy($id)
-    {
-        $this->_modBy = (int) $id;
-        return $this;
-    }
-
-    public function getModDate()
-    {
-        return $this->_modDate;
-    }
-
-    public function setModDate($date)
-    {
-        $this->_modDate = new Zend_Date($date);
-        return $this;
-    }
+    protected $_prefix = 'clientCo_';
 }
