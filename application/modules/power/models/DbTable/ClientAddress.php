@@ -37,16 +37,18 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class _Model_DbTable_ClientAddress extends Zend_Db_Table_Abstract {
-
+class _Model_DbTable_ClientAddress extends Zend_Db_Table_Abstract
+{
     /**
      * @var string database table
      */
     protected $_name = 'client_Address';
+
     /**
      * @var string primary key
      */
-    protected $_primary = 'clad_id';
+    protected $_primary = 'clientAd_idAddress';
+
     /**
      * @var array Reference map for parent tables
      */

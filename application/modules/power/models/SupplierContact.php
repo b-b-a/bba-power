@@ -37,134 +37,55 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_SupplierContact extends ZendSF_Model_Abstract
+class Power_Model_SupplierContact extends BBA_Model_Abstract
 {
+    /**
+     * @var int
+     */
+    protected $_idSupplierContract;
 
-    protected $_id;
-    protected $_supplierId;
+    /**
+     * @var int
+     */
+    protected $_idSupplier;
+
+    /**
+     * @var string
+     */
     protected $_name;
+
+    /**
+     * @var string
+     */
     protected $_phone;
+
+    /**
+     * @var string
+     */
     protected $_email;
+
+    /**
+     * @var string
+     */
     protected $_address1;
+
+    /**
+     * @var string
+     */
     protected $_address2;
+
+    /**
+     * @var string
+     */
     protected $_address3;
+
+    /**
+     * @var string
+     */
     protected $_postcode;
 
     /**
-     * @var int
-     */
-    protected $_createBy;
-
-    /**
-     * @var Zend_Date
-     */
-    protected $_createDate;
-
-    /**
-     * @var int
-     */
-    protected $_modBy;
-
-    /**
-     * @var Zend_Date
-     */
-    protected $_modDate;
-
-    /**
      * @var string
      */
-    protected $_dateFormat = 'yyyy-MM-dd';
-
-    /**
-     * @var string
-     */
-    protected $_prefix = 'suco_';
-
-    public function getSupplierId()
-    {
-        return $this->_supplierId;
-    }
-
-    public function setSupplierId($id)
-    {
-        $this->_supplierId = (int) $id;
-        return $this;
-    }
-
-    public function getName()
-    {
-        return $this->_name;
-    }
-
-    public function setName($name)
-    {
-        $this->_name = (string) $name;
-        return $this;
-    }
-
-    public function getPhone()
-    {
-        return $this->_phone;
-    }
-
-    public function setPhone($phone)
-    {
-        $this->_phone = (string) $phone;
-        return $this;
-    }
-
-    public function getEmail()
-    {
-        return $this->_email;
-    }
-
-    public function setEmail($email)
-    {
-        $this->_email = (string) $email;
-        return $this;
-    }
-
-    public function getAddress1()
-    {
-        return $this->_address1;
-    }
-
-    public function setAddress1($address1)
-    {
-        $this->_address1 = (string) $address1;
-        return $this;
-    }
-
-    public function getAddress2()
-    {
-        return $this->_address2;
-    }
-
-    public function setAddress2($address2)
-    {
-        $this->_address2 = (string) $address2;
-        return $this;
-    }
-
-    public function getAddress3()
-    {
-        return $this->_address3;
-    }
-
-    public function setAddress3($address3)
-    {
-        $this->_address3 = (string) $address3;
-        return $this;
-    }
-
-    public function getPostcode()
-    {
-        return $this->_postcode;
-    }
-
-    public function setPostcode($postcode)
-    {
-        $this->_postcode = (string) $postcode;
-        return $this;
-    }
+    protected $_prefix = 'supplierCo_';
 }

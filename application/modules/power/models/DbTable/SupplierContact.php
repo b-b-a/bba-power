@@ -47,7 +47,7 @@ class Power_Model_DbTable_SupplierContact extends Zend_Db_Table_Abstract
     /**
      * @var string primary key
      */
-    protected $_primary = 'suco_id';
+    protected $_primary = 'supplierCo_idSupplierContract';
 
     /**
      * @var array Reference map for parent tables

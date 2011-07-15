@@ -47,7 +47,7 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
     /**
      * @var string primary key
      */
-    protected $_primary = 'co_id';
+    protected $_primary = 'contract_idContract';
 
     /**
      * @var array Reference map for parent tables

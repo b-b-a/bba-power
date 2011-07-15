@@ -42,12 +42,12 @@ class Power_Model_User extends ZendSF_Model_Abstract
     /**
      * @var int userId
      */
-    protected $_id;
+    protected $_idUser;
 
     /**
      * @var string username
      */
-    protected $_username;
+    protected $_name;
 
     /**
      * @var string password
@@ -57,7 +57,7 @@ class Power_Model_User extends ZendSF_Model_Abstract
     /**
      * @var string realName
      */
-    protected $_realName;
+    protected $_fullName;
 
     /**
      * @var string role
@@ -67,21 +67,21 @@ class Power_Model_User extends ZendSF_Model_Abstract
     /**
      * @var string clientName
      */
-    protected $_clientName;
+    protected $_accessClient;
 
     /**
      * @var string
      */
-    protected $_prefix = 'us_';
+    protected $_prefix = 'user_';
 
     /**
      * Gets the userId
      *
      * @return int userId
      */
-    public function getId()
+    public function getIdUser()
     {
-        return $this->_id;
+        return $this->_idUser;
     }
 
     /**
@@ -90,9 +90,9 @@ class Power_Model_User extends ZendSF_Model_Abstract
      * @param int $id
      * @return Power_Model_User
      */
-    public function setId($id)
+    public function setIdUser($id)
     {
-        $this->_id = (int) $id;
+        $this->_idUser = (int) $id;
         return $this;
     }
 
@@ -101,9 +101,9 @@ class Power_Model_User extends ZendSF_Model_Abstract
      *
      * @return string username
      */
-    public function getUsername()
+    public function getName()
     {
-        return $this->_username;
+        return $this->_name;
     }
 
     /**
@@ -112,9 +112,9 @@ class Power_Model_User extends ZendSF_Model_Abstract
      * @param string $user
      * @return Power_Model_User
      */
-    public function setUsername($user)
+    public function setName($user)
     {
-        $this->_username = (string) $user;
+        $this->_name = (string) $user;
         return $this;
     }
 
@@ -145,9 +145,9 @@ class Power_Model_User extends ZendSF_Model_Abstract
      *
      * @return string realName
      */
-    public function getRealName()
+    public function getFullName()
     {
-        return $this->_realName;
+        return $this->_fullName;
     }
 
     /**
@@ -156,9 +156,9 @@ class Power_Model_User extends ZendSF_Model_Abstract
      * @param string $name
      * @return Power_Model_User
      */
-    public function setRealName($name)
+    public function setFullName($name)
     {
-        $this->_realName = (string) $name;
+        $this->_fullName = (string) $name;
         return $this;
     }
 
@@ -185,13 +185,13 @@ class Power_Model_User extends ZendSF_Model_Abstract
     }
 
     /**
-     * Gets the users clien name
+     * Gets the users client name
      *
      * @return string clientName
      */
-    public function getClientName()
+    public function getAccessClient()
     {
-        return $this->_clientName;
+        return $this->_accessClient;
     }
 
     /**
@@ -200,9 +200,9 @@ class Power_Model_User extends ZendSF_Model_Abstract
      * @param string $name
      * @return Power_Model_User
      */
-    public function setClientName($name)
+    public function setAccessClient($name)
     {
-        $this->_clientName = (string) $name;
+        $this->_accessClient = (string) $name;
         return $this;
     }
 }

@@ -94,12 +94,7 @@ abstract class ZendSF_Model_Abstract
     public function __set($name, $value)
     {
        $method = 'set' . ucfirst($name);
-
-        if (('mapper' == $name) || !in_array($method, $this->_classMethods)) {
-            throw new ZendSF_Model_Exception('Invalid ' . $name . ' property');
-        }
-
-        $this->$method($value);
+       $this->$method($value);
     }
 
     /**
@@ -111,10 +106,6 @@ abstract class ZendSF_Model_Abstract
     public function __get($name)
     {
         $method = 'get' . ucfirst($name);
-
-        if (('mapper' == $name) || !in_array($method, $this->_classMethods)) {
-            throw new ZendSF_Model_Exception('Invalid ' . $name . ' property');
-        }
 
         return $this->$method();
     }
@@ -169,19 +160,18 @@ abstract class ZendSF_Model_Abstract
     public function setOptions(array $options)
     {
         foreach ($options as $key => $value) {
-            $key = $this->_getCamelCase($key);
+            $key = str_replace($this->_prefix, '', $key);
             $method = 'set' . ucfirst($key);
-            if (in_array($method, $this->_classMethods)) {
-                $this->$method($value);
-            }
+            $this->$method($value);
         }
 
         return $this;
     }
 
     /**
-     * Turns class values into an array.
+     * turns the model into an array of values.
      *
+     * @param string $dateFormat
      * @return array
      */
     public function toArray($dateFormat = null)
@@ -206,52 +196,12 @@ abstract class ZendSF_Model_Abstract
                     }
                 }
 
-                $key = $this->_normalise(substr($method,3));
+                $key = $this->_prefix . lcfirst(substr($method,3));
+
                 $array[$key] = $value;
             }
         }
 
         return $array;
-    }
-
-    /**
-     * camel cases the string using the inflector filter
-     *
-     * Changes underscore_word to underscoreWord
-     *
-     * @param string $name The name to camelCase
-     * @return string The camelCased string
-     */
-    protected function _getCamelCase($name)
-    {
-        $inflector = new Zend_Filter_Inflector(':string');
-        $inflector->setRules(array(
-            ':string'    => array(
-                new Zend_Filter_PregReplace(array(
-                    'match'     => '/' . $this->_prefix . '/',
-                    'replace'   => ''
-                )),
-                'Word_UnderscoreToCamelCase'
-            )
-        ));
-        return $inflector->filter(array('string' => $name));
-    }
-
-    /**
-     * normalise the name using the inflector filter
-     *
-     * Changes camelCaseWord to camel_case_word
-     *
-     * @param string $name The name to normalise
-     * @return string The normalised string
-     */
-    protected function _normalise($name)
-    {
-        $inflector = new Zend_Filter_Inflector(':prefix:string');
-        $inflector->setRules(array(
-            ':string'    => array('Word_CamelCaseToUnderscore', 'StringToLower'),
-            'prefix'    => $this->_prefix
-        ));
-        return $inflector->filter(array('string' => $name));
     }
 }

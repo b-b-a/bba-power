@@ -40,142 +40,41 @@
 class Power_Model_Meter extends BBA_Model_Abstract
 {
     /**
-     * @var int meter site id
+     * @var int
      */
-    protected $_siteId;
+    protected $_idMeter;
 
     /**
-     * @var int string number
+     * @var int
      */
-    protected $_no;
-
-    /**
-     * @var Zend_Date
-     */
-    protected $_dateInstall;
-
-    /**
-     * @var Zend_Date
-     */
-    protected $_dateRemoved;
+    protected $_idSite;
 
     /**
      * @var string
      */
-    protected $_pipeSize;
+    protected $_type;
 
     /**
      * @var string
      */
-    protected $_prefix = 'me_';
+    protected $_numberSerial;
 
     /**
-     * Gets the meter site id
-     *
-     * @return int $_meterSiteId
+     * @var string
      */
-    public function getSiteId()
-    {
-        return $this->_siteId;
-    }
+    protected $_numberGas;
 
     /**
-     * Sets the meter site id
-     *
-     * @param int $id
-     * @return Power_Model_Meter
+     * @var string
      */
-    public function setSiteId($id)
-    {
-        $this->_siteId = (int) $id;
-        return $this;
-    }
+    protected $_mpan8;
 
     /**
-     * Gets th meter number
-     *
-     * @return string $_meterNo
+     * @var string
      */
-    public function getNo()
-    {
-        return $this->_no;
-    }
-
+    protected $_mpan13;
     /**
-     * Sets the meter number
-     *
-     * @param string $meterNo
-     * @return Power_Model_Meter
+     * @var string
      */
-    public function setNo($meterNo)
-    {
-        $this->_no = (string) $meterNo;
-        return $this;
-    }
-
-    /**
-     * Gets the install date of the meter
-     *
-     * @return Zend_Date
-     */
-    public function getDateInstall()
-    {
-        return $this->_dateInstall;
-    }
-
-    /**
-     * Sets the install date of the meter using Zend_Date class
-     *
-     * @param string $date
-     * @return Power_Model_Meter
-     */
-    public function setDateInstall($date)
-    {
-        $this->_dateInstall =  new Zend_Date($date);
-        return $this;
-    }
-
-    /**
-     * Gets the meter removed date.
-     *
-     * @return Zend_Date
-     */
-    public function getDateRemoved()
-    {
-        return $this->_dateRemoved;
-    }
-
-    /**
-     * Sets the meter removed date.
-     *
-     * @param string $date
-     * @return Power_Model_Meter
-     */
-    public function setDateRemoved($date)
-    {
-        $this->_dateRemoved = new Zend_Date($date);
-        return $this;
-    }
-
-    /**
-     * Gets the meter pipe size.
-     *
-     * @return string
-     */
-    public function getPipeSize()
-    {
-        return $this->_pipeSize;
-    }
-
-    /**
-     * Sets the meter pipe size.
-     *
-     * @param string $text
-     * @return Power_Model_Meter
-     */
-    public function setPipeSize($text)
-    {
-        $this->_pipeSize = (string) $text;
-        return $this;
-    }
+    protected $_prefix = 'meter_';
 }
