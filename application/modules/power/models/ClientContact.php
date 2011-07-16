@@ -40,39 +40,9 @@
 class Power_Model_ClientContact extends BBA_Model_Abstract
 {
     /**
-     * @var int
-     */
-    protected $_idClientContract;
-
-    /**
-     * @var int
-     */
-    protected $_idClient;
-
-    /**
-     * @var int
-     */
-    protected $_idAddress;
-
-    /**
      * @var string
      */
-    protected $_type;
-
-    /**
-     * @var string
-     */
-    protected $_name;
-
-    /**
-     * @var string
-     */
-    protected $_phone;
-
-    /**
-     * @var string
-     */
-    protected $_email;
+    protected $_primary = 'idClientContract';
 
     /**
      * @var string

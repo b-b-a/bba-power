@@ -40,39 +40,9 @@
 class Power_Model_Supplier extends BBA_Model_Abstract
 {
     /**
-     * @var int
-     */
-    protected $_idSupplier;
-
-    /**
      * @var string
      */
-    protected $_name;
-
-    /**
-     * @var string
-     */
-    protected $_address1;
-
-    /**
-     * @var string
-     */
-    protected $_address2;
-
-    /**
-     * @var string
-     */
-    protected $_address3;
-
-    /**
-     * @var string
-     */
-    protected $_postcode;
-
-    /**
-     * @var int
-     */
-    protected $_periodCommission;
+    protected $_primary = 'idSupplier';
 
     /**
      * @var string

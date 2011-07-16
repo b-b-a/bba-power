@@ -40,62 +40,13 @@
 class Power_Model_ContractSite extends ZendSF_Model_Abstract
 {
     /**
-     * @var int
+     * @var string
      */
-    protected $_idContract;
+    protected $_primary = '';
 
-    /**
-     *
-     * @var int
-     */
-    protected $_idSite;
 
     /**
      * @var string
      */
     protected $_prefix = 'contractSite_';
-
-    /**
-     * Gets the contract id.
-     *
-     * @return int
-     */
-    public function getIdContract()
-    {
-        return $this->_idContract;
-    }
-
-    /**
-     * Sets the contract id.
-     *
-     * @param int $id
-     * @return Power_Model_ContractSite
-     */
-    public function setIdContract($id)
-    {
-        $this->_idContract = (int) $id;
-        return $this;
-    }
-
-    /**
-     * Gets the site id.
-     *
-     * @return type
-     */
-    public function getIdSite()
-    {
-        return $this->_idSite;
-    }
-
-    /**
-     * Sets the site id.
-     *
-     * @param int $id
-     * @return Power_Model_ContractSite
-     */
-    public function setIdSite($id)
-    {
-        $this->_idSite = (int) $id;
-        return $this;
-    }
 }

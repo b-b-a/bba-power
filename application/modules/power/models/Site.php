@@ -39,30 +39,10 @@
  */
 class Power_Model_Site extends BBA_Model_Abstract
 {
-    /**
-     * @var int
+   /**
+     * @var string
      */
-    protected $_idSite;
-
-    /**
-     * @var int
-     */
-    protected $_idClient;
-
-    /**
-     * @var int
-     */
-    protected $_idAddress;
-
-    /**
-     * @var int
-     */
-    protected $_idAddressBill;
-
-    /**
-     * @var int
-     */
-    protected $_idClientContact;
+    protected $_primary = 'idSite';
 
     /**
      * @var string

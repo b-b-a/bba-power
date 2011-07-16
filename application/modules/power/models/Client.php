@@ -40,29 +40,9 @@
 class Power_Model_Client extends BBA_Model_Abstract
 {
     /**
-     * @var int
-     */
-    protected $_idClient;
-
-    /**
      * @var string
      */
-    protected $_name;
-
-    /**
-     * @var string
-     */
-    protected $_desc;
-
-    /**
-     * @var string
-     */
-    protected $_docLoa;
-
-    /**
-     * @var Zend_Date
-     */
-    protected $_dateExpiryLoa;
+    protected $_primary = 'idClient';
 
     /**
      * @var string

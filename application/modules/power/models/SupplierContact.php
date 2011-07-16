@@ -40,49 +40,9 @@
 class Power_Model_SupplierContact extends BBA_Model_Abstract
 {
     /**
-     * @var int
-     */
-    protected $_idSupplierContract;
-
-    /**
-     * @var int
-     */
-    protected $_idSupplier;
-
-    /**
      * @var string
      */
-    protected $_name;
-
-    /**
-     * @var string
-     */
-    protected $_phone;
-
-    /**
-     * @var string
-     */
-    protected $_email;
-
-    /**
-     * @var string
-     */
-    protected $_address1;
-
-    /**
-     * @var string
-     */
-    protected $_address2;
-
-    /**
-     * @var string
-     */
-    protected $_address3;
-
-    /**
-     * @var string
-     */
-    protected $_postcode;
+    protected $_primary = 'idSupplierContract';
 
     /**
      * @var string

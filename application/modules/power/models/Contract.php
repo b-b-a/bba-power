@@ -40,74 +40,9 @@
 class Power_Model_Contract extends BBA_Model_Abstract
 {
     /**
-     * @var int
-     */
-    protected $_idContract;
-
-    /**
-     * @var int
-     */
-    protected $_idTenderSelected;
-
-    /**
-     * @var int
-     */
-    protected $_idSupplierContractSelected;
-
-    /**
      * @var string
      */
-    protected $_type;
-
-    /**
-     * @var string
-     */
-    protected $_status;
-
-    /**
-     * @var string
-     */
-    protected $_desc;
-
-    /**
-     * @var Zend_Date
-     */
-    protected $_dateStart;
-
-    /**
-     * @var Zend_Date
-     */
-    protected $_dateEnd;
-
-    /**
-     * @var string
-     */
-    protected $_txtTenderRequest;
-
-    /**
-     * @var string
-     */
-    protected $_docAnalysis;
-
-    /**
-     * @var string
-     */
-    protected $_docTermination;
-
-    /**
-     * @var int
-     */
-    protected $_periodBill;
-
-    /**
-     * @var int
-     */
-    protected $_periodCommission;
-
-    /**
-     * @var int
-     */
-    protected $_idUserAgent;
+    protected $_primary = 'idContract';
 
     /**
      * @var string
