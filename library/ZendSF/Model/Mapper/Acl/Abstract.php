@@ -76,9 +76,9 @@ abstract class ZendSF_Model_Mapper_Acl_Abstract extends ZendSF_Model_Mapper_Abst
             }
 
             $identity = new Zend_Acl_Role($identity['role']);
-        } elseif (is_object($identity) && is_string($identity->getRole())) {
+        } elseif (is_object($identity) && is_string($identity->role)) {
             // add role here!
-            $identity = new Zend_Acl_Role($identity->getRole());
+            $identity = new Zend_Acl_Role($identity->role);
         } elseif (is_scalar($identity) && !is_bool($identity)) {
             $identity = new Zend_Acl_Role($identity);
         } elseif (null === $identity) {

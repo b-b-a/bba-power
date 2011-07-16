@@ -40,39 +40,10 @@
 class Power_Model_Meter extends BBA_Model_Abstract
 {
     /**
-     * @var int
-     */
-    protected $_idMeter;
-
-    /**
-     * @var int
-     */
-    protected $_idSite;
-
-    /**
      * @var string
      */
-    protected $_type;
+    protected $_primary = 'idMeter';
 
-    /**
-     * @var string
-     */
-    protected $_numberSerial;
-
-    /**
-     * @var string
-     */
-    protected $_numberGas;
-
-    /**
-     * @var string
-     */
-    protected $_mpan8;
-
-    /**
-     * @var string
-     */
-    protected $_mpan13;
     /**
      * @var string
      */

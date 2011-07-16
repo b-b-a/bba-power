@@ -10,28 +10,24 @@
 	<tr>
 	<th>Client</th>
 	<th>Site Address1</th>
-	<th>Number</th>
-	<th>Install Date</th>
 	<th>&nbsp;</th>
 
 	</tr>
     <?php foreach($this->meter as $meter) : ?>
 	<tr>
-        <td><?php echo $this->escape($meter->getClient()); ?></td>
-        <td><?php echo $this->escape($meter->getSiteAddress()); ?></td>
-        <td><?php echo $this->escape($meter->getNo());?></td>
-        <td><?php echo $this->escape($meter->getDateInstall()->toString('dd/MM/yyyy'));?></td>
+        <td><?php echo $this->escape($meter->client); ?></td>
+        <td><?php echo $this->escape($meter->site); ?></td>
 		<td class="action">
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'reading',
                 'action'        => 'index',
-				'meterId'       => $meter->getId()
+				'meterId'       => $meter->id
             ), 'default');?>" class="button">Readings</a>
 
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'meter',
                 'action'        => 'edit',
-				'meterId'       => $meter->getId()
+				'meterId'       => $meter->id
             ));?>" class="button">Edit</a>
 
 			<a href="<?php echo $this->url(array(

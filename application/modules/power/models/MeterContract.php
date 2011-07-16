@@ -40,19 +40,9 @@
 class Power_Model_MeterContract extends BBA_Model_Abstract
 {
     /**
-     * @var int
+     * @var string
      */
-    protected $_idMeter;
-
-    /**
-     * @var int
-     */
-    protected $_idContract;
-
-    /**
-     * @var int
-     */
-    protected $_kvaNorminated;
+    protected $_primary = 'idMeterContract';
 
     /**
      *

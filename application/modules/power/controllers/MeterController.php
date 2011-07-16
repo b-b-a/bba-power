@@ -75,6 +75,8 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
         $this->view->assign(array(
             'meter' => $this->_model->listMeters()
         ));
+
+        $this->_log->info($this->_model->listMeters());
     }
 
     public function searchAction()

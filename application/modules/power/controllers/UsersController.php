@@ -61,6 +61,9 @@ class Power_UsersController extends ZendSF_Controller_Action_Abstract
         ));
     }
 
+    /**
+     * Check to see if we are Admin user.
+     */
     public function preDispatch()
     {
         if (!$this->_helper->acl('Admin')) {
@@ -96,7 +99,7 @@ class Power_UsersController extends ZendSF_Controller_Action_Abstract
             $this->getForm('userSave')
                     ->populate($user->toArray())
                     ->addHiddenElement('returnAction', 'edit')
-                    ->getElement('us_password')
+                    ->getElement('user_password')
                     ->setRequired(false);
         } else {
            return $this->_helper->redirector('list', 'users');
@@ -115,7 +118,7 @@ class Power_UsersController extends ZendSF_Controller_Action_Abstract
 
         if ($action == 'edit') {
             $this->getForm('userSave')
-                    ->getElement('us_password')
+                    ->getElement('user_password')
                     ->setRequired(false);
         }
 

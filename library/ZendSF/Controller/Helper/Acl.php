@@ -104,8 +104,8 @@ class ZendSF_Controller_Helper_Acl extends Zend_Controller_Action_Helper_Abstrac
             }
 
             $identity = new Zend_Acl_Role($identity['role']);
-        } elseif (is_object($identity) && is_string($identity->getRole())) {
-            $identity = new Zend_Acl_Role($identity->getRole());
+        } elseif (is_object($identity) && is_string($identity->role)) {
+            $identity = new Zend_Acl_Role($identity->role);
         } elseif (is_scalar($identity) && !is_bool($identity)) {
             $identity = new Zend_Acl_Role($identity);
         } elseif (null === $identity) {

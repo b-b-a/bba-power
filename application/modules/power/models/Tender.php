@@ -40,64 +40,13 @@
 class Power_Model_Tender extends BBA_Model_Abstract
 {
     /**
-     * @var int
+     * @var string
      */
-    protected $_idTender;
-
-    /**
-     * @var int
-     */
-    protected $_idContract;
-
-    /**
-     * @var int
-     */
-    protected $_idSupplier;
-
-    /**
-     * @var int
-     */
-    protected $_idSupplierContact;
-
-    /**
-     *
-     * @var int
-     */
-    protected $_periodContract;
-
-    /**
-     * @var Zend_Date
-     */
-    protected $_dateExpiresQuote;
+    protected $_primary = 'idTender';
 
     /**
      * @var string
      */
-    protected $_txtResponse;
-
-    /**
-     * @var float
-     */
-    protected $_chargeStanding;
-
-    /**
-     * @var float
-     */
-    protected $_priceUnitDay;
-
-    /**
-     * @var float
-     */
-    protected $_priceUnitNight;
-
-    /**
-     * @var float
-     */
-    protected $_priceUnitOther;
-
-    /**
-     * @var float
-     */
-    protected $_chargeCapacity;
+    protected $_prefix = 'tender_';
 
 }
