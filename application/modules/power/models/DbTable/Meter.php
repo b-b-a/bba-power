@@ -71,12 +71,13 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
             ->join(
                 'client_address',
                 'clientAd_idAddress = site_idAddress',
-                array('clientAd_address1')
+                array('site' => 'CONCAT(clientAd_address1,"/n",clientAd_address2,"/n",clientAd_address3,"/n",clientAd_postcode)')
             )
             ->join(
                 'client',
                 'client_idClient = site_idClient ',
-                array('client_name')
-            );
+                array('client' => 'client_name')
+            )
+            ->order('client_name ASC');
     }
 }
