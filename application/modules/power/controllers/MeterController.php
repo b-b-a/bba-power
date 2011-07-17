@@ -67,7 +67,6 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
 
         $page = $this->_request->getParam('page');
         $this->_page = ($page) ? $page : 0;
-
     }
 
     /**
@@ -82,14 +81,15 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
     {
         // gets all meters and assigns them to the view script.
         $this->view->assign(array(
-            'meter' => $this->_model->listMeters(null, $this->_page)
+            'meter' => $this->_model->listMeters(null, $this->_page),
+            'search'    => array()
         ));
     }
 
     public function searchAction()
     {
         $this->_helper->viewRenderer->setNoRender(true);
-
+        /*
         if (!$this->_request->isPost()) {
             return $this->_forward('list');
         }
@@ -97,9 +97,16 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
         if (!$this->getForm('meterSearch')->isValid($this->_request->getPost())) {
             return $this->render('list'); // re-render the search form
         }
+        */
+
+        $search = array(
+            'meter'     => $this->_request->getParam('meter'),
+            'client'    => $this->_request->getParam('client')
+        );
 
         $this->view->assign(array(
-            'meter' => $this->_model->meterSearch($this->_page)
+            'meter'     => $this->_model->meterSearch($search, $this->_page),
+            'search'    => $search
         ));
 
         return $this->render('list');

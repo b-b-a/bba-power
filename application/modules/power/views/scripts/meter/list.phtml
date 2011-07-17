@@ -22,19 +22,19 @@
                 'controller'    => 'reading',
                 'action'        => 'index',
 				'meterId'       => $meter->id
-            ), 'default');?>" class="button">Readings</a>
+            ), 'default', true);?>" class="button">Readings</a>
 
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'meter',
                 'action'        => 'edit',
 				'meterId'       => $meter->id
-            ));?>" class="button">Edit</a>
+            ),'default', true);?>" class="button">Edit</a>
 
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'meter',
                 'action'        => 'delete',
                 'meterId'       => $meter->id
-            ));?>" class="button">Delete</a>
+            ), 'default', true);?>" class="button">Delete</a>
 		</td>
 	</tr>
     <?php endforeach; ?>
@@ -45,7 +45,8 @@ if ($this->meter instanceof Zend_Paginator) {
     echo $this->paginationControl(
             $this->meter,
             'Sliding',
-            'paginate.phtml'
+            'paginate.phtml',
+            array('params' => $this->search)
     );
 }
 ?>
@@ -54,5 +55,5 @@ if ($this->meter instanceof Zend_Paginator) {
     <a href="<?php echo $this->url(array(
         'controller'    => 'meter',
         'action'        => 'add'
-        ));?>" class="button">Add New Meter</a>
+        ), 'default', true);?>" class="button">Add New Meter</a>
 </p>

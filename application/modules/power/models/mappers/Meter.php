@@ -54,20 +54,20 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
      *
      * @return array
      */
-    public function meterSearch($paged = null)
+    public function meterSearch($search, $paged = null)
     {
-        $searchMeter = $this->getForm('meterSearch')->getValue('search_meter');
-        $searchClient = $this->getForm('meterSearch')->getValue('search_client');
+        //$searchMeter = $this->getForm('meterSearch')->getValue('meter');
+        //$searchClient = $this->getForm('meterSearch')->getValue('client');
 
         /* @var $select Zend_Db_Table_Select */
         $select = $this->_dbTable->getMeterDetails();
 
-        if (!$searchMeter == '') {
-            $select->where('meter_numberSerial like ? COLLATE utf8_general_ci', '%'. $searchMeter . '%');
+        if (!$search['meter'] == '') {
+            $select->where('meter_numberSerial like ? COLLATE utf8_general_ci', '%'. $search['meter'] . '%');
         }
 
-        if (!$searchClient == '') {
-            $select->where('client_name like ? COLLATE utf8_general_ci', '%' . $searchClient . '%');
+        if (!$search['client'] == '') {
+            $select->where('client_name like ? COLLATE utf8_general_ci', '%' . $search['client'] . '%');
         }
 
         return $this->listMeters($select, $paged);
