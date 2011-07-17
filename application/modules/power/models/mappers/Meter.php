@@ -49,7 +49,12 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
      */
     protected $_modelClass;
 
-    public function meterSearch()
+    /**
+     * Searches for a meter by either meter number, client or both.
+     *
+     * @return array
+     */
+    public function meterSearch($paged = null)
     {
         $searchMeter = $this->getForm('meterSearch')->getValue('search_meter');
         $searchClient = $this->getForm('meterSearch')->getValue('search_client');
@@ -65,28 +70,38 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
             $select->where('client_name like ? COLLATE utf8_general_ci', '%' . $searchClient . '%');
         }
 
-        return $this->listMeters($select);
+        return $this->listMeters($select, $paged);
     }
 
-    public function listMeters($select = null)
+    /**
+     * Get a list of all meters and creates a paged result.
+     *
+     * @param Zend_Db_Table_Select $select
+     * @return Power_Model_Meter
+     */
+    public function listMeters($select = null, $paged = null)
     {
         if ($select === null) {
             $select = $this->_dbTable->getMeterDetails();
         }
 
-        $resultSet = $this->fetchAll($select, true);
+        if (null !== $paged) {
+           return $this->_paginate($select, $paged);
+        } else {
+            $resultSet = $this->fetchAll($select, true);
 
-        $rows = array();
+            $rows = array();
 
-        foreach ($resultSet as $row) {
+            foreach ($resultSet as $row) {
 
-            /* @var $newRow Power_Model_Meter */
-            $newRow = new $this->_modelClass($row);
+                /* @var $newRow Power_Model_Meter */
+                $newRow = new $this->_modelClass($row);
 
-            $rows[] = $newRow;
+                $rows[] = $newRow;
+            }
+
+            return $rows;
         }
-
-        return $rows;
     }
 
     public function getMeterDetails($id)

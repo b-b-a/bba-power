@@ -221,6 +221,55 @@ abstract class ZendSF_Model_Mapper_Abstract
     }
 
     /**
+     * Paginates the Db result.
+     *
+     * @param Zend_Db_Table_Select $select
+     * @param int $paged
+     * @return Zend_Paginator
+     */
+    protected function _paginate($select, $paged)
+    {
+        $adapter = new ZendSF_Paginator_Adapter_DbTableSelect($select);
+
+        $primary = current($this->getDbTable()->info('primary'));
+        $fromParts = $select->getPart('from');
+        $mainTable = strtolower(end($this->_namespace));
+
+        unset($fromParts[$mainTable]);
+
+        $count = clone $select;
+        $count->reset(Zend_Db_Select::COLUMNS);
+        $count->reset(Zend_Db_Select::FROM);
+
+        $count->from(
+            $mainTable,
+            new Zend_Db_Expr(
+                'COUNT(' . $primary . ') AS `zend_paginator_row_count`'
+            )
+        );
+
+        if (count($fromParts) > 1) {
+            foreach($fromParts as $part) {
+                $count->join(
+                    $part['tableName'],
+                    $part['joinCondition'],
+                    null
+                );
+            }
+        }
+
+        $adapter->setRowCount($count);
+        $adapter->modelClass = $this->_modelClass;
+
+        $paginator = new Zend_Paginator($adapter);
+
+        $paginator->setItemCountPerPage(25)
+                ->setCurrentPageNumber((int) $paged);
+
+        return $paginator;
+    }
+
+    /**
      * Gets a Form
      *
      * @param string $name
