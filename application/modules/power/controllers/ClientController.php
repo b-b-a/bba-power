@@ -45,11 +45,6 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
     protected $_model;
 
     /**
-     * @var int
-     */
-    protected $_page;
-
-    /**
      * Initialization code.
      */
     public function init()
