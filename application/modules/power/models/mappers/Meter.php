@@ -56,9 +56,6 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
      */
     public function meterSearch($search, $paged = null)
     {
-        //$searchMeter = $this->getForm('meterSearch')->getValue('meter');
-        //$searchClient = $this->getForm('meterSearch')->getValue('client');
-
         /* @var $select Zend_Db_Table_Select */
         $select = $this->_dbTable->getMeterDetails();
 

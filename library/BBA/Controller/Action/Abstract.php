@@ -39,6 +39,14 @@
  */
 abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_Abstract
 {
+    public function init()
+    {
+        parent::init();
+
+        $page = $this->_request->getParam('page');
+        $this->_page = ($page) ? $page : 0;
+    }
+    
     /**
      * Checks if user is logged, if not then forwards to login.
      *
