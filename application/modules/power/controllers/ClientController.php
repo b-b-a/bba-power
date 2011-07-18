@@ -80,7 +80,7 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        // gets all meters and assigns them to the view script.
+        // gets all clients and assigns them to the view script.
         $this->view->assign(array(
             'clients'   => $this->_model->listClients($this->_page),
             'search'    => array()
