@@ -39,6 +39,13 @@
  */
 abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_Abstract
 {
+    /**
+     * Sets the page number for pagination.
+     *
+     * @var int
+     */
+    protected $_page;
+
     public function init()
     {
         parent::init();
@@ -46,7 +53,7 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
         $page = $this->_request->getParam('page');
         $this->_page = ($page) ? $page : 0;
     }
-    
+
     /**
      * Checks if user is logged, if not then forwards to login.
      *
