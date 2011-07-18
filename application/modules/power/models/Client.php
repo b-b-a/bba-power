@@ -48,4 +48,15 @@ class Power_Model_Client extends BBA_Model_Abstract
      * @var string
      */
     protected $_prefix = 'client_';
+
+    /**
+     * Sets the date for Letter of Authority using Zend_Date
+     *
+     * @param int $date
+     * @return Power_Model_Client
+     */
+    public function setDateExpiryLoa($date) {
+        $this->_data->dateExpiryLoa = new Zend_Date($date);
+        return $this;
+    }
 }
