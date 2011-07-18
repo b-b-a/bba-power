@@ -9,44 +9,51 @@
 <table>
 	<tr>
 	<th>Client</th>
-	<th>Site Address1</th>
-	<th>Number</th>
-	<th>Install Date</th>
+	<th>Site Address</th>
 	<th>&nbsp;</th>
 
 	</tr>
     <?php foreach($this->meters as $meter) : ?>
 	<tr>
-        <td><?php echo $this->escape($meter->getClient()); ?></td>
-        <td><?php echo $this->escape($meter->getSiteAddress()); ?></td>
-        <td><?php echo $this->escape($meter->getNo());?></td>
-        <td><?php //echo $this->escape($meter->getDateInstall()->toString('dd/MM/yyyy'));?></td>
+        <td><?php echo $this->escape($meter->client); ?></td>
+        <td><?php echo $this->formatSiteAddress($meter->site); ?></td>
 		<td class="action">
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'reading',
                 'action'        => 'index',
-				'meterId'       => $meter->getId()
-            ), 'default');?>" class="button">Readings</a>
+				'meterId'       => $meter->id
+            ), 'default', true);?>" class="button">Readings</a>
 
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'meter',
                 'action'        => 'edit',
-				'meterId'       => $meter->getId()
-            ));?>" class="button">Edit</a>
+				'meterId'       => $meter->id
+            ),'default', true);?>" class="button">Edit</a>
 
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'meter',
                 'action'        => 'delete',
-                'meterId'       => $meter->getId()
-            ));?>" class="button">Delete</a>
+                'meterId'       => $meter->id
+            ), 'default', true);?>" class="button">Delete</a>
 		</td>
 	</tr>
     <?php endforeach; ?>
 </table>
 
+<?php
+if ($this->meters instanceof Zend_Paginator) {
+    echo $this->paginationControl(
+            $this->meters,
+            'Sliding',
+            'paginate.phtml',
+            array('params' => $this->search)
+    );
+}
+?>
+
 <p>
     <a href="<?php echo $this->url(array(
         'controller'    => 'meter',
         'action'        => 'add'
-        ));?>" class="button">Add New Meter</a>
+        ), 'default', true);?>" class="button">Add New Meter</a>
 </p>

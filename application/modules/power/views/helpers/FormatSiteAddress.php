@@ -1,6 +1,6 @@
 <?php
 /**
- * Reading.php
+ * FormatSiteAddress.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -21,36 +21,43 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_DbTable
+ * @subpackage View_Helper
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Database adapter class for the Reading table.
+ * Description of FormatSiteAddress
  *
  * @category   BBA
- * @package    power
- * @subpackage Model_DbTable
+ * @package    Power
+ * @subpackage View_Helper
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Reading extends Zend_Db_Table_Abstract
+class Power_View_Helper_FormatSiteAddress extends Zend_View_Helper_Abstract
 {
     /**
-     * @var string database table
+     * Takes the site address and formats it so that each line is on a new line
+     *
+     * @param string $address
+     * @return string
      */
-    protected $_name = 'reading';
+    public function formatSiteAddress($address)
+    {
+        $address = explode('/n', $address);
+        $returnString = '';
 
-    /**
-     * @var string primary key
-     */
-    protected $_primary = 're_id'
-    ;
-    /**
-     * @var array Reference map for parent tables
-     */
-    protected $_referenceMap = array();
+        foreach ($address as $value) {
+            if ($value != '') {
+                $returnString .= str_replace(',', '<br />', $value) . '<br />';
+            }
+        }
+
+        return $returnString;
+    }
 }
+
+?>

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * ClientContact.php
+ * Usage.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -21,31 +22,36 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model
+ * @subpackage Model_DbTable
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * DAO to represent a single ClientContact.
+ * Database adapter class for the Usage table.
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model
+ * @subpackage Model_DbTable
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_ClientContact extends BBA_Model_Abstract
+class Power_Model_DbTable_Usage extends Zend_Db_Table_Abstract
 {
     /**
-     * @var string
+     * @var string database table
      */
-    protected $_primary = 'idClientContract';
+    protected $_name = 'usage';
 
     /**
-     * @var string
+     * @var string primary key
      */
-    protected $_prefix = 'clientCo_';
+    protected $_primary = 'usage_idUsage';
+    
+    /**
+     * @var array Reference map for parent tables
+     */
+    protected $_referenceMap = array();
 }

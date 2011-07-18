@@ -47,7 +47,10 @@ class Power_Model_DbTable_ContractSite extends Zend_Db_Table_Abstract
     /**
      * @var string primary key
      */
-    protected $_primary = array('co_id', 'si_id');
+    protected $_primary = array(
+        'contractSite_idContract',
+        'contractSite_idSite'
+    );
 
     /**
      * @var array Reference map for parent tables

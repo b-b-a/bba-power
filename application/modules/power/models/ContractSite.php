@@ -39,28 +39,14 @@
  */
 class Power_Model_ContractSite extends ZendSF_Model_Abstract
 {
-    protected $_contractId;
-    protected $_siteId;
+    /**
+     * @var string
+     */
+    protected $_primary = '';
 
-    public function getContractId()
-    {
-        return $this->_contractId;
-    }
 
-    public function setContractId($id)
-    {
-        $this->_contractId = (int) $id;
-        return $this;
-    }
-
-    public function getSiteId()
-    {
-        return $this->_siteId;
-    }
-
-    public function setSiteId($id)
-    {
-        $this->_siteId = (int) $id;
-        return $this;
-    }
+    /**
+     * @var string
+     */
+    protected $_prefix = 'contractSite_';
 }

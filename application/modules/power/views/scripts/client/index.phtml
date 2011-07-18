@@ -16,29 +16,40 @@
 	</tr>
     <?php foreach($this->clients as $client) : ?>
 	<tr>
-        <td><?php echo $this->escape($client->getName()); ?></td>
-        <td><?php echo $this->escape($client->getDesc()); ?></td>
-        <td><?php echo $this->escape($client->getDateExpiryLoa()->toString('dd/MM/yyyy'));?></td>
+        <td><?php echo $this->escape($client->name); ?></td>
+        <td><?php echo $this->escape($client->desc); ?></td>
+        <td><?php echo $this->escape($client->dateExpiryLoa->toString('dd/MM/yyyy'));?></td>
 		<td class="action">
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'client',
                 'action'        => 'edit',
-				'clientId'       => $client->getId()
+				'clientId'       => $client->id
             ));?>" class="button">Edit</a>
 
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'client',
                 'action'        => 'delete',
-                'clientId'       => $client->getId()
+                'clientId'       => $client->id
             ));?>" class="button">Delete</a>
 		</td>
 	</tr>
     <?php endforeach; ?>
 </table>
 
+<?php
+if ($this->clients instanceof Zend_Paginator) {
+    echo $this->paginationControl(
+            $this->clients,
+            'Sliding',
+            'paginate.phtml',
+            array('params' => $this->search)
+    );
+}
+?>
+
 <p>
     <a href="<?php echo $this->url(array(
         'controller'    => 'client',
         'action'        => 'add'
-        ));?>" class="button">Add New Client</a>
+        ), 'default', true);?>" class="button">Add New Client</a>
 </p>

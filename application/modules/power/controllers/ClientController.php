@@ -62,7 +62,7 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
         // search form
         $this->setForm('clientSearch', array(
             'controller' => 'client' ,
-            'action' => 'search',
+            'action' => 'index',
             'module' => 'power'
         ));
     }
@@ -72,29 +72,15 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        // gets all meters and assigns them to the view script.
+        $search = array(
+            'client'    => $this->_request->getParam('client')
+        );
+
+        // gets all clients and assigns them to the view script.
         $this->view->assign(array(
-            'clients' => $this->_model->fetchAll()
+            'clients'   => $this->_model->clientSearch($search, $this->_page),
+            'search'    => $search
         ));
-    }
-
-    public function searchAction()
-    {
-        $this->_helper->viewRenderer->setNoRender(true);
-
-        if (!$this->_request->isPost()) {
-            return $this->_forward('index');
-        }
-
-        if (!$this->getForm('clientSearch')->isValid($this->_request->getPost())) {
-            return $this->render('index'); // re-render the search form
-        }
-
-        $this->view->assign(array(
-            'clients' => $this->_model->clientSearch()
-        ));
-
-        return $this->render('index');
     }
 
     public function addAction()

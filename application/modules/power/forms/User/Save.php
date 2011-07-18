@@ -53,8 +53,8 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
             'required' => true
         ));
 
-        $this->addElement('text', '	user_fullName', array(
-            'label' => 'Real Name:',
+        $this->addElement('text', 'user_fullName', array(
+            'label' => 'Full Name:',
             'required'      => true
         ));
 

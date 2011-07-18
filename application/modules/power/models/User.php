@@ -37,67 +37,15 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_User extends ZendSF_Model_Abstract
+class Power_Model_User extends BBA_Model_Abstract
 {
-    protected $_idUser;
-    protected $_name;
-    protected $_password;
-   protected $_fullName;
-    protected $_role;
-    protected $_accessClient;
-   protected $_prefix = 'user_';
-   public function getId()
-    {
-        return $this->_idUser;
-    }
-   public function setId($id)
-    {
-        $this->_idUser = (int) $id;
-        return $this;
-    }
-    public function getUsername()
-    {
-        return $this->_name;
-    }
-    public function setUsername($user)
-    {
-        $this->_name = (string) $user;
-        return $this;
-    }
-    public function getPassword()
-    {
-        return $this->_password;
-    }
-    public function setPassword($password)
-    {
-        $this->_password = (string) $password;
-        return $this;
-    }
-    public function getRealName()
-    {
-        return $this->_fullName;
-    }
-   public function setRealName($name)
-    {
-        $this->_fullName = (string) $name;
-        return $this;
-    }
-   public function getRole()
-    {
-        return $this->_role;
-    }
-   public function setRole($role)
-    {
-        $this->_role = (string) $role;
-        return $this;
-    }
-    public function getClientName()
-    {
-        return $this->_accessClient;
-    }
-   public function setClientName($name)
-    {
-        $this->_accessClient = (string) $name;
-        return $this;
-    }
+    /**
+     * @var string
+     */
+    protected $_primary = 'idUser';
+
+    /**
+     * @var string
+     */
+    protected $_prefix = 'user_';
 }

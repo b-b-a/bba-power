@@ -15,7 +15,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     ${author}
  */
-class _${name} extends ZendSF_Controller_Action_Abstract
+class _${name} extends BBA_Controller_Action_Abstract
 {
     /**
      * Initialization code.

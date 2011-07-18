@@ -43,19 +43,19 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
     {
         $this->setName('client');
 
-        $this->addElement('text', 'cl_name', array(
+        $this->addElement('text', 'client_name', array(
             'label'     => 'Client Name:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('text', 'cl_desc', array(
+        $this->addElement('text', 'client_desc', array(
             'label'     => 'Client Description:',
             'filters'   => array('StripTags', 'StringTrim'),
             'required'  => true
         ));
 
-        $this->addElement('text', 'cl_date_expiry_loa', array(
+        $this->addElement('text', 'client_dateExpiryLoa', array(
             'label'     => 'Letter of Authority Expiry Date:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim'),
@@ -69,7 +69,7 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
         $auth = Zend_Auth::getInstance();
 
         $this->addHiddenElement('userId', $auth->getIdentity()->getId());
-        $this->addHiddenElement('cl_id', '');
+        $this->addHiddenElement('client_idClient', '');
 
         $this->addSubmit('Save');
         $this->addSubmit('Cancel', 'cancel');

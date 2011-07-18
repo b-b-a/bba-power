@@ -101,7 +101,11 @@ abstract class ZendSF_Controller_Action_Abstract extends Zend_Controller_Action
 
         $this->view->$formViewName = $this->_model->getForm($formName);
 
-        $this->view->$formViewName->setAction($urlHelper->url($action, $route));
+        $this->view->$formViewName->setAction($urlHelper->url(
+                $action,
+                $route,
+                true
+            ));
 
         $this->view->$formViewName->setMethod($method);
 
