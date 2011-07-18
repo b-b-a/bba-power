@@ -5,3 +5,43 @@
     echo $this->clientSearchForm;
     /* @var $site Power_Model_Site */
 ?>
+<table width="100%" border="1">
+	<tr>
+	<th>ID</th>
+	<th>ClientID</th>
+	<th>Address1</th>
+	<th>Address2</th>
+	<th>Address3</th>
+	<th>PostCode</th>
+	<th>&nbsp;</th>
+	</tr>
+<?php foreach($this->sites as $site) : ?>
+	<tr>
+		<td><?php echo $this->escape($site->getIdSite());?></td>
+		<td><?php //$client=$site->findParentRow(
+			//'Application_Model_DbTable_Client',
+			//'client_idClient');
+		//echo $client['client_name'];?></td>
+		<td><?php echo $this->escape($site->getIdAddressBill());?></td>
+		<td><?php //echo $this->escape($site->si_address2);?></td>
+		<td><?php //echo $this->escape($site->si_address3);?></td>
+		<td><?php //echo $this->escape($site->si_postcode);?></td>
+		<td>
+			<a href="<?php echo $this->url(array('controller'=>'site','action'=>'editSite', 'si_id'=>$site->getIdSite()));?>">Edit</a>
+			<a href="<?php echo $this->url(array('controller'=>'site','action'=>'deleteSite', 'si_id'=>$site->getIdSite()));?>">Delete</a>
+		</td>
+	</tr>
+	<?php
+//		$contracts=$meter->findManyToManyRowset(
+//					'Application_Model_DbTable_Contract',  //to
+  //                  'Application_Model_DbTable_MeterContract',  //via=intersectionTable
+	//				'mecoMeter',	//get to intersectionTable
+	//				'mecoContract');	//leave intersectionTable
+	//	foreach($contracts as $contract) {
+	//		echo "<tr><td></td><td>Contract: ".$contract['co_id']."</td></tr>";
+	//	}
+	?>
+<?php endforeach; ?>
+</table>
+
+<p><a href="<?php echo $this->url(array('controller'=>'site','action'=>'addSite'));?>">Add new Site</a></p>
