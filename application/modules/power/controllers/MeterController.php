@@ -81,7 +81,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
     {
         // gets all meters and assigns them to the view script.
         $this->view->assign(array(
-            'meter' => $this->_model->listMeters(null, $this->_page),
+            'meters' => $this->_model->listMeters($this->_page),
             'search'    => array()
         ));
     }
@@ -105,7 +105,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
         );
 
         $this->view->assign(array(
-            'meter'     => $this->_model->meterSearch($search, $this->_page),
+            'meters'     => $this->_model->meterSearch($search, $this->_page),
             'search'    => $search
         ));
 

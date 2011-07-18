@@ -70,7 +70,7 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
             $select->where('client_name like ? COLLATE utf8_general_ci', '%' . $search['client'] . '%');
         }
 
-        return $this->listMeters($select, $paged);
+        return $this->listMeters($paged, $select);
     }
 
     /**
@@ -79,7 +79,7 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
      * @param Zend_Db_Table_Select $select
      * @return Power_Model_Meter
      */
-    public function listMeters($select = null, $paged = null)
+    public function listMeters($paged = null, $select = null)
     {
         if ($select === null) {
             $select = $this->_dbTable->getMeterDetails();
@@ -88,19 +88,7 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
         if (null !== $paged) {
            return $this->_paginate($select, $paged);
         } else {
-            $resultSet = $this->fetchAll($select, true);
-
-            $rows = array();
-
-            foreach ($resultSet as $row) {
-
-                /* @var $newRow Power_Model_Meter */
-                $newRow = new $this->_modelClass($row);
-
-                $rows[] = $newRow;
-            }
-
-            return $rows;
+            return $this->fetchAll($select);
         }
     }
 

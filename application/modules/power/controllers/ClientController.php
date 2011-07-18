@@ -45,6 +45,11 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
     protected $_model;
 
     /**
+     * @var int
+     */
+    protected $_page;
+
+    /**
      * Initialization code.
      */
     public function init()
@@ -65,6 +70,9 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
             'action' => 'search',
             'module' => 'power'
         ));
+
+        $page = $this->_request->getParam('page');
+        $this->_page = ($page) ? $page : 0;
     }
 
     /**
@@ -74,14 +82,15 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
     {
         // gets all meters and assigns them to the view script.
         $this->view->assign(array(
-            'clients' => $this->_model->fetchAll()
+            'clients'   => $this->_model->listClients($this->_page),
+            'search'    => array()
         ));
     }
 
     public function searchAction()
     {
         $this->_helper->viewRenderer->setNoRender(true);
-
+        /*
         if (!$this->_request->isPost()) {
             return $this->_forward('index');
         }
@@ -89,9 +98,14 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
         if (!$this->getForm('clientSearch')->isValid($this->_request->getPost())) {
             return $this->render('index'); // re-render the search form
         }
+        */
+        $search = array(
+            'client'    => $this->_request->getParam('client')
+        );
 
         $this->view->assign(array(
-            'clients' => $this->_model->clientSearch()
+            'clients'   => $this->_model->clientSearch($search, $this->_page),
+            'search'    => $search
         ));
 
         return $this->render('index');

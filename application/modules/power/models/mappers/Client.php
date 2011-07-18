@@ -1,6 +1,6 @@
 <?php
 /**
- * Clients.php
+ * Client.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Mapper Class for Clients.
+ * Mapper Class for Client.
  *
  * @category   BBA
  * @package    Power
@@ -40,27 +40,40 @@
 class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
 {
     /**
-     * @var Power_Model_DbTable_Clients
+     * @var Power_Model_DbTable_Client
      */
     protected $_dbTableClass;
 
     /**
-     * @var Power_Model_Clients
+     * @var Power_Model_Client
      */
     protected $_modelClass;
 
-    public function clientSearch()
+    public function listClients($paged = null, $select = null)
     {
-        $searchClient = $this->getForm('clientSearch')->getValue('search_client');
+        if ($select === null) {
+            $select = $this->_dbTable->getClientList();
+        }
+
+        if (null !== $paged) {
+           return $this->_paginate($select, $paged);
+        } else {
+            return $this->fetchAll($select);
+        }
+    }
+
+    public function clientSearch($search, $paged = null)
+    {
+        //$searchClient = $this->getForm('clientSearch')->getValue('search_client');
 
         /* @var $select Zend_Db_Table_Select */
         $select = $this->_dbTable->select();
 
-        if (!$searchClient == '') {
-            $select->where('cl_name like ? COLLATE utf8_general_ci', '%' . $searchClient . '%');
+        if (!$search['client'] == '') {
+            $select->where('client_name like ? COLLATE utf8_general_ci', '%' . $search['client'] . '%');
         }
 
-        return $this->fetchAll($select);
+        return $this->listClients($paged, $select);
     }
 
     public function save()
