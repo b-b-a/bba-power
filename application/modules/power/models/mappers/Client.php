@@ -57,7 +57,7 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
         $select = $this->_dbTable->select();
 
         if (!$searchClient == '') {
-            $select->where('cl_name like ? COLLATE utf8_general_ci', '%' . $searchClient . '%');
+            $select->where('client_name like ? COLLATE utf8_general_ci', '%' . $searchClient . '%');
         }
 
         return $this->fetchAll($select);
@@ -68,7 +68,7 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
         $form = $this->getForm('clientSave')->getValues();
 
         // remove client id if not set.
-        if (!$form['cl_id']) unset($form['cl_id']);
+        if (!$form['client_idClient']) unset($form['client_idClient']);
 
         /* @var $model Power_Model_Client */
         $model = new $this->_modelClass($form);
@@ -93,7 +93,7 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
 
         $where = $this->getDbTable()
                 ->getAdapter()
-                ->quoteInto('cl_id = ?', $id);
+                ->quoteInto('client_idClient = ?', $id);
 
         return parent::delete($where);
     }

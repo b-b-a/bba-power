@@ -39,170 +39,65 @@
  */
 class Power_Model_User extends ZendSF_Model_Abstract
 {
-    /**
-     * @var int userId
-     */
-    protected $_id;
-
-    /**
-     * @var string username
-     */
-    protected $_username;
-
-    /**
-     * @var string password
-     */
+    protected $_idUser;
+    protected $_name;
     protected $_password;
-
-    /**
-     * @var string realName
-     */
-    protected $_realName;
-
-    /**
-     * @var string role
-     */
+   protected $_fullName;
     protected $_role;
-
-    /**
-     * @var string clientName
-     */
-    protected $_clientName;
-
-    /**
-     * @var string
-     */
-    protected $_prefix = 'us_';
-
-    /**
-     * Gets the userId
-     *
-     * @return int userId
-     */
-    public function getId()
+    protected $_accessClient;
+   protected $_prefix = 'user_';
+   public function getId()
     {
-        return $this->_id;
+        return $this->_idUser;
     }
-
-    /**
-     * Sets the userId
-     *
-     * @param int $id
-     * @return Power_Model_User
-     */
-    public function setId($id)
+   public function setId($id)
     {
-        $this->_id = (int) $id;
+        $this->_idUser = (int) $id;
         return $this;
     }
-
-    /**
-     * Gets the username
-     *
-     * @return string username
-     */
     public function getUsername()
     {
-        return $this->_username;
+        return $this->_name;
     }
-
-    /**
-     * Sets the username
-     *
-     * @param string $user
-     * @return Power_Model_User
-     */
     public function setUsername($user)
     {
-        $this->_username = (string) $user;
+        $this->_name = (string) $user;
         return $this;
     }
-
-    /**
-     * Gets the password
-     *
-     * @return string password
-     */
     public function getPassword()
     {
         return $this->_password;
     }
-
-    /**
-     * Sets the password
-     *
-     * @param type $password
-     * @return Power_Model_User
-     */
     public function setPassword($password)
     {
         $this->_password = (string) $password;
         return $this;
     }
-
-    /**
-     * Gets the users real name
-     *
-     * @return string realName
-     */
     public function getRealName()
     {
-        return $this->_realName;
+        return $this->_fullName;
     }
-
-    /**
-     * Set the users real name
-     *
-     * @param string $name
-     * @return Power_Model_User
-     */
-    public function setRealName($name)
+   public function setRealName($name)
     {
-        $this->_realName = (string) $name;
+        $this->_fullName = (string) $name;
         return $this;
     }
-
-    /**
-     * Gets the users role
-     *
-     * @return string role
-     */
-    public function getRole()
+   public function getRole()
     {
         return $this->_role;
     }
-
-    /**
-     * Sets the users role
-     *
-     * @param string $role
-     * @return Power_Model_User
-     */
-    public function setRole($role)
+   public function setRole($role)
     {
         $this->_role = (string) $role;
         return $this;
     }
-
-    /**
-     * Gets the users clien name
-     *
-     * @return string clientName
-     */
     public function getClientName()
     {
-        return $this->_clientName;
+        return $this->_accessClient;
     }
-
-    /**
-     * Sets the users client name
-     *
-     * @param string $name
-     * @return Power_Model_User
-     */
-    public function setClientName($name)
+   public function setClientName($name)
     {
-        $this->_clientName = (string) $name;
+        $this->_accessClient = (string) $name;
         return $this;
     }
 }

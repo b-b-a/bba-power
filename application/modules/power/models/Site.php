@@ -42,36 +42,36 @@ class Power_Model_Site extends BBA_Model_Abstract
     /**
      * @var int
      */
-    protected $_clientId;
+    protected $_idClient;
 
     /**
      * @var int
      */
-    protected $_clientAddressId;
+    protected $_idAddress;
 
     /**
      * @var int
      */
-    protected $_clientAddressIdBill;
+    protected $_idAddressBill;
 
     /**
      * @var int
      */
-    protected $_clientContactId;
+    protected $_idClientContact;
 
     /**
      * @var string
      */
-    protected $_prefix = 'si_';
+    protected $_prefix = 'site_';
 
     /**
      * Gets the client Id
      *
      * @return int clientId
      */
-    public function getClientId()
+    public function getIdClient()
     {
-        return $this->_clientId;
+        return $this->_idClient;
     }
 
     /**
@@ -80,9 +80,9 @@ class Power_Model_Site extends BBA_Model_Abstract
      * @param int $id
      * @return Power_Model_Site
      */
-    public function setClientId($id)
+    public function setIdClient($id)
     {
-        $this->_clientId = (int) $id;
+        $this->_idClient = (int) $id;
         return $this;
     }
 
@@ -91,9 +91,9 @@ class Power_Model_Site extends BBA_Model_Abstract
      *
      * @return int clientAddressId
      */
-    public function getClientAddressId()
+    public function getIdAddress()
     {
-        return $this->_clientAddressId;
+        return $this->_IdAddress;
     }
 
     /**
@@ -102,9 +102,9 @@ class Power_Model_Site extends BBA_Model_Abstract
      * @param int $id
      * @return Power_Model_Site
      */
-    public function setClientAddressId($id)
+    public function setIdAddress($id)
     {
-        $this->_clientAddressId = (int) $id;
+        $this->_idAddress = (int) $id;
         return $this;
     }
 
@@ -113,9 +113,9 @@ class Power_Model_Site extends BBA_Model_Abstract
      *
      * @return int siteClientAddressIdBill
      */
-    public function getClientAddressIdBill()
+    public function getIdAddressBill()
     {
-        return $this->_clientAddressIdBill;
+        return $this->_idAddressBill;
     }
 
     /**
@@ -123,9 +123,9 @@ class Power_Model_Site extends BBA_Model_Abstract
      * @param int $id
      * @return Power_Model_Site
      */
-    public function setClientAddressIdBill($id)
+    public function setIdAddressBill($id)
     {
-        $this->_clientAddressIdBill = (int) $id;
+        $this->_idAddressBill = (int) $id;
         return $this;
     }
 
@@ -134,9 +134,9 @@ class Power_Model_Site extends BBA_Model_Abstract
      *
      * @return int clientContactId
      */
-    public function getClientContactId()
+    public function getIdClientContact()
     {
-        return $this->_clientContactId;
+        return $this->_idClientContact;
     }
 
     /**
@@ -145,9 +145,9 @@ class Power_Model_Site extends BBA_Model_Abstract
      * @param int $id
      * @return Power_Model_Site
      */
-    public function setClientContactId($id)
+    public function setIdClientContact($id)
     {
-        $this->_clientContactId = (int) $id;
+        $this->_idClientContact = (int) $id;
         return $this;
     }
 }

@@ -47,16 +47,16 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
     /**
      * @var string primary key
      */
-    protected $_primary = 'me_id';
+    protected $_primary = 'meter_idMeter';
 
     /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
         'meterSite' => array(
-            'columns'       => 'me_site_id',
+            'columns'       => 'meter_idSite',
             'refTableClass' => 'Power_Model_DbTable_Site',
-            'refColumns'    => 'si_id'
+            'refColumns'    => 'site_idSite'
         )
     );
 
@@ -70,17 +70,17 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
     {
        return $this->select(false)
             ->setIntegrityCheck(false)
-            ->from('meter', array('me_id', 'me_no', 'me_date_install'))
-            ->join('site', 'si_id = me_site_id', null)
+            ->from('meter', array('meter_idMeter', 'meter_numberGas', 'meter_mpan8', 'meter_mpan13'))
+            ->join('site', 'site_idSite = meter_idSite', null)
             ->join(
                 'client_address',
-                'clad_id = si_client_address_id',
-                array('clad_address1')
+                'clientAd_idClient = site_idAddress',
+                array('clientAd_addressName', 'clientAd_address1')
             )
             ->join(
                 'client',
-                'cl_id = clad_client_id ',
-                array('cl_name')
+                'client_idClient = clientAd_idClient',
+                array('client_name')
             );
     }
 }

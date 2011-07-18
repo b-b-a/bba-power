@@ -59,7 +59,7 @@ class Power_Model_Mapper_User extends ZendSF_Model_Mapper_Acl_Abstract
     {
         $select = $this->getDbTable()
                 ->select()
-                ->where('us_username = ?', $username);
+                ->where('user_name = ?', $username);
 
         $row = $this->fetchRow($select, true);
 
@@ -73,17 +73,17 @@ class Power_Model_Mapper_User extends ZendSF_Model_Mapper_Acl_Abstract
         $form = $this->getForm('userSave')->getValues();
 
         // remove userId if not set.
-        if (!$form['us_id']) unset($form['us_id']);
+        if (!$form['user_idUser']) unset($form['user_idUser']);
 
         // add password treatment if set.
-        if ($form['us_password']) {
+        if ($form['user_password']) {
             $auth = Zend_Registry::get('config')
                     ->user
                     ->auth;
 
             $treatment = $auth->credentialTreatment;
-            $form['us_password'] = ZendSF_Utility_Password::$treatment(
-                $form['us_password']
+            $form['user_password'] = ZendSF_Utility_Password::$treatment(
+                $form['user_password']
                 . $auth->salt
             );
         }
@@ -101,7 +101,7 @@ class Power_Model_Mapper_User extends ZendSF_Model_Mapper_Acl_Abstract
 
         $where = $this->getDbTable()
                 ->getAdapter()
-                ->quoteInto('us_id = ?', $id);
+                ->quoteInto('user_idUser = ?', $id);
 
         return parent::delete($where);
     }
