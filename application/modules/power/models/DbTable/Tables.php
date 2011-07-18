@@ -1,6 +1,6 @@
 <?php
 /**
- * Reading.php
+ * Tables.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -21,60 +21,36 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_Mapper
+ * @subpackage Model_DbTable
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Mapper Class for Reading.
+ * Database adapter class for the Tables table.
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_Mapper
+ * @subpackage Model_DbTable
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Mapper_Reading extends ZendSF_Model_Mapper_Acl_Abstract
+class Power_Model_DbTable_Tables extends Zend_Db_Table_Abstract
 {
+    /**
+     * @var string database table
+     */
+    protected $_name = 'tables';
 
     /**
-     * @var Power_Model_DbTable_Reading
+     * @var string primary key
      */
-    protected $_dbTableClass;
+    protected $_primary = 'tables_idTables';
 
     /**
-     * @var Power_Model_Reading
+     * @var array Reference map for parent tables
      */
-    protected $_modelClass;
-
-    public function getReadingsByMeter($id)
-    {
-        $select = $this->getDbTable()
-                ->select()
-                ->where('re_meter_id = ?', $id);
-        return $this->fetchAll($select);
-    }
-
-    /**
-     * Injector for the acl, the acl can be injected directly
-     * via this method.
-     *
-     * We add all the access rules for this resource here, so we first call
-     * parent method to add $this as the resource then we
-     * define it rules here.
-     *
-     * @param Zend_Acl_Resource_Interface $acl
-     * @return ZendSF_Model_Mapper_Abstract
-     */
-    public function setAcl(Zend_Acl $acl) {
-        parent::setAcl($acl);
-
-        // implement rules here.
-
-        return $this;
-    }
-
+    protected $_referenceMap = array();
 }

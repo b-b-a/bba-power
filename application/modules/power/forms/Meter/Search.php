@@ -43,13 +43,13 @@ class Power_Form_Meter_Search extends Power_Form_SearchBase
     {
         parent::init();
 
-        $this->addElement('text', 'search_meter', array(
+        $this->addElement('text', 'meter', array(
             'label'     => 'Meter:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('text', 'search_client', array(
+        $this->addElement('text', 'client', array(
             'label'     => 'Client:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim')

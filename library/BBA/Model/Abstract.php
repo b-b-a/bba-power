@@ -37,35 +37,18 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class BBA_Model_Abstract extends ZendSF_Model_Abstract
+abstract class BBA_Model_Abstract extends ZendSF_Model_Abstract
 {
     /**
+     * Primary key for this model.
      *
      * @var int
      */
-    protected $_id;
+    protected $_primary;
 
     /**
-     * @var int
-     */
-    protected $_createBy;
-
-    /**
-     * @var Zend_Date
-     */
-    protected $_createDate;
-
-    /**
-     * @var int
-     */
-    protected $_modBy;
-
-    /**
-     * @var Zend_Date
-     */
-    protected $_modDate;
-
-    /**
+     * Default date format when converting to an array.
+     *
      * @var string
      */
     protected $_dateFormat = 'yyyy-MM-dd';
@@ -77,51 +60,7 @@ class BBA_Model_Abstract extends ZendSF_Model_Abstract
      */
     public function getId()
     {
-        return $this->_id;
-    }
-
-    /**
-     * Sets the model id
-     *
-     * @param type $id
-     * @return _Model_Abstract
-     */
-    public function setId($id)
-    {
-        $this->_id = (int) $id;
-        return $this;
-    }
-
-    /**
-     * Gets the user id of the user who created this record.
-     *
-     * @return int
-     */
-    public function getCreateBy()
-    {
-        return $this->_createBy;
-    }
-
-    /**
-     * Sets the user id of the user who created this record.
-     *
-     * @param int $id
-     * @return Power_Model_Abstract
-     */
-    public function setCreateBy($id)
-    {
-        $this->_createBy = (int) $id;
-        return $this;
-    }
-
-    /**
-     * Gets the create date of this record.
-     *
-     * @return Zend_Date
-     */
-    public function getCreateDate()
-    {
-        return $this->_createDate;
+        return $this->_data->{$this->_primary};
     }
 
     /**
@@ -130,42 +69,10 @@ class BBA_Model_Abstract extends ZendSF_Model_Abstract
      * @param string $date
      * @return Power_Model_Abstract
      */
-    public function setCreateDate($date)
+    public function setDateCreate($date)
     {
-        $this->_createDate = new Zend_Date($date);
+        $this->_data->dateCreate = new Zend_Date($date);
         return $this;
-    }
-
-    /**
-     * Gets the user id of who modified this record.
-     *
-     * @return int
-     */
-    public function getModBy()
-    {
-        return $this->_modBy;
-    }
-
-    /**
-     * Sets the user id of who modified this record.
-     *
-     * @param int $id
-     * @return Power_Model_Abstract
-     */
-    public function setModBy($id)
-    {
-        $this->_modBy = (int) $id;
-        return $this;
-    }
-
-    /**
-     * Gets the modified date
-     *
-     * @return Zend_Date
-     */
-    public function getModDate()
-    {
-        return $this->_modDate;
     }
 
     /**
@@ -174,10 +81,41 @@ class BBA_Model_Abstract extends ZendSF_Model_Abstract
      * @param string $date
      * @return Power_Model_Abstract
      */
-    public function setModDate($date)
+    public function setDateModify($date)
     {
-        $this->_modDate = new Zend_Date($date);
+        $this->_data->dateModify = new Zend_Date($date);
         return $this;
+    }
+
+    /**
+     * turns the model into an array of values.
+     *
+     * @param string $dateFormat
+     * @return array
+     */
+    public function toArray($dateFormat = null)
+    {
+        $array = array();
+
+        foreach ($this->_data as $key => $value) {
+
+            if ($value instanceof Zend_Date) {
+                if ($this->_dateFormat === null) {
+                    $value = $value->getTimestamp();
+                } elseif ($dateFormat) {
+                    $value = $value->toString($dateFormat);
+                } else {
+                    $value = $value->toString($this->_dateFormat);
+                }
+            }
+
+            // put the table prefix back.
+            $key = $this->_prefix . lcfirst($key);
+
+            $array[$key] = $value;
+        }
+
+        return $array;
     }
 
 }

@@ -43,7 +43,7 @@ class Power_Form_Client_Search extends Power_Form_SearchBase
     {
         parent::init();
 
-        $this->addElement('text', 'search_client', array(
+        $this->addElement('text', 'client', array(
             'label'     => 'Client:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim')

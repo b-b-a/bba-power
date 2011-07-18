@@ -45,6 +45,11 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
     protected $_model;
 
     /**
+     * @var int
+     */
+    protected $_page;
+
+    /**
      * Initialization code.
      */
     public function init()
@@ -56,7 +61,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
         // search form
         $this->setForm('meterSearch', array(
             'controller' => 'meter' ,
-            'action' => 'search',
+            'action' => 'index',
             'module' => 'power'
         ));
     }
@@ -66,34 +71,16 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        $this->_forward('list');
-    }
+        $search = array(
+            'meter'     => $this->_request->getParam('meter'),
+            'client'    => $this->_request->getParam('client')
+        );
 
-    public function listAction()
-    {
         // gets all meters and assigns them to the view script.
         $this->view->assign(array(
-            'meters' => $this->_model->listMeters()
+            'meters' => $this->_model->meterSearch($search, $this->_page),
+            'search'    => $search
         ));
-    }
-
-    public function searchAction()
-    {
-        $this->_helper->viewRenderer->setNoRender(true);
-
-        if (!$this->_request->isPost()) {
-            return $this->_forward('list');
-        }
-
-        if (!$this->getForm('meterSearch')->isValid($this->_request->getPost())) {
-            return $this->render('list'); // re-render the search form
-        }
-
-        $this->view->assign(array(
-            'meters' => $this->_model->meterSearch()
-        ));
-
-        return $this->render('list');
     }
 
     public function addAction()

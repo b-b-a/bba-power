@@ -47,7 +47,7 @@ class Power_Model_DbTable_ClientContact extends Zend_Db_Table_Abstract
     /**
      * @var string primary key
      */
-    protected $_primary = 'clco_id';
+    protected $_primary = 'clientCo_idClientContact';
 
     /**
      * @var array Reference map for parent tables

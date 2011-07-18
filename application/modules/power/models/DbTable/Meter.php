@@ -53,11 +53,7 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
-        'meterSite' => array(
-            'columns'       => 'meter_idSite',
-            'refTableClass' => 'Power_Model_DbTable_Site',
-            'refColumns'    => 'site_idSite'
-        )
+
     );
 
     /**
@@ -70,17 +66,18 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
     {
        return $this->select(false)
             ->setIntegrityCheck(false)
-            ->from('meter', array('meter_idMeter', 'meter_numberGas', 'meter_mpan8', 'meter_mpan13'))
+            ->from('meter', array('meter_idMeter', 'meter_numberSerial'))
             ->join('site', 'site_idSite = meter_idSite', null)
             ->join(
                 'client_address',
-                'clientAd_idClient = site_idAddress',
-                array('clientAd_addressName', 'clientAd_address1')
+                'clientAd_idAddress = site_idAddress',
+                array('site' => 'CONCAT(clientAd_address1,"/n",clientAd_address2,"/n",clientAd_address3,"/n",clientAd_postcode)')
             )
             ->join(
                 'client',
-                'client_idClient = clientAd_idClient',
-                array('client_name')
-            );
+                'client_idClient = site_idClient ',
+                array('client' => 'client_name')
+            )
+            ->order('client_name ASC');
     }
 }
