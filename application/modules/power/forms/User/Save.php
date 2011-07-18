@@ -43,17 +43,17 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
     {
         $this->setName('userSave');
 
-        $this->addElement('text', 'us_username', array(
+        $this->addElement('text', 'user_name', array(
             'label' => 'Username:',
             'required'      => true
         ));
 
-        $this->addElement('password', 'us_password', array(
+        $this->addElement('password', 'user_password', array(
             'label' => 'Password:',
             'required' => true
         ));
 
-        $this->addElement('text', 'us_real_name', array(
+        $this->addElement('text', '	user_fullName', array(
             'label' => 'Real Name:',
             'required'      => true
         ));
@@ -67,7 +67,7 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
             'admin'         => 'Admin'
         );
 
-        $this->addElement('select', 'us_role', array(
+        $this->addElement('select', 'user_role', array(
             'label'         => 'Role:',
             'validators'    => array(
                 array('Alpha', true)
@@ -77,7 +77,7 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
             'required'      => true
         ));
 
-        $this->addHiddenElement('us_id', '');
+        $this->addHiddenElement('user_idUser', '');
 
         $this->addSubmit('Save');
     }

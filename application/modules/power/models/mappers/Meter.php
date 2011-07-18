@@ -58,11 +58,11 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
         $select = $this->_dbTable->getMeterDetails();
 
         if (!$searchMeter == '') {
-            $select->where('me_no like ? COLLATE utf8_general_ci', '%'. $searchMeter . '%');
+            $select->where('meter_numberGas like ?', '%'. $searchMeter . '%');
         }
 
         if (!$searchClient == '') {
-            $select->where('cl_name like ? COLLATE utf8_general_ci', '%' . $searchClient . '%');
+            $select->where('client_name like ?', '%' . $searchClient . '%');
         }
 
         return $this->listMeters($select);
@@ -83,8 +83,8 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
             /* @var $newRow Power_Model_Meter */
             $newRow = new $this->_modelClass($row);
 
-            $newRow->setSiteAddress($row['clad_address1']);
-            $newRow->setClient($row['cl_name']);
+            $newRow->setSiteAddress($row['clientAd_address1']);
+            $newRow->setClient($row['client_name']);
 
             $rows[] = $newRow;
         }
@@ -96,14 +96,14 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
     {
         /* @var $select Zend_Db_Table_Select */
         $select = $this->_dbTable->getMeterDetails();
-        $select->where('me_id = ?', $id);
+        $select->where('meter_idMeter = ?', $id);
 
         $row = $this->fetchRow($select, true);
 
         /* @var $model Power_Model_Meter */
         $model = new $this->_modelClass($row);
         
-        $model->setSite($row['cl_name']);
+        $model->setSite($row['client_name']);
 
         return $model;
     }

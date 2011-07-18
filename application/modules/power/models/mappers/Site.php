@@ -57,13 +57,13 @@ class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
             ->from('site')
             ->join(
                 'client_address',
-                'clad_id = si_client_address_id',
-                array('clad_address1')
+                'clientAd_idAddress = site_idAddress',
+                array('clientAd_addressName', 'clientAd_address1')
             )
             ->join(
                 'client',
-                'cl_id = si_client_id ',
-                array('cl_name')
+                'client_idClient = site_idClient ',
+                array('client_name')
             )
             ;
 
@@ -73,8 +73,8 @@ class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
             /* @var $newRow Power_Model_Meter */
             $newRow = new $this->_modelClass($row);
 
-            $newRow->setSiteAddress($row['clad_address1']);
-            $newRow->setClient($row['cl_name']);
+            $newRow->setSiteAddress($row['clientAd_addressName']);
+            $newRow->setClient($row['client_name']);
 
             $rows[] = $newRow;
         }

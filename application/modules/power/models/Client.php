@@ -44,7 +44,7 @@ class Power_Model_Client extends BBA_Model_Abstract
     protected $_docLoa;
     protected $_dateExpiryLoa;
 
-    protected $_prefix = 'cl_';
+    protected $_prefix = 'client_';
 
     public function getName()
     {

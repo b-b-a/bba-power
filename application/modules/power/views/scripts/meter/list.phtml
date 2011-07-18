@@ -15,12 +15,12 @@
 	<th>&nbsp;</th>
 
 	</tr>
-    <?php foreach($this->meter as $meter) : ?>
+    <?php foreach($this->meters as $meter) : ?>
 	<tr>
         <td><?php echo $this->escape($meter->getClient()); ?></td>
         <td><?php echo $this->escape($meter->getSiteAddress()); ?></td>
         <td><?php echo $this->escape($meter->getNo());?></td>
-        <td><?php echo $this->escape($meter->getDateInstall()->toString('dd/MM/yyyy'));?></td>
+        <td><?php //echo $this->escape($meter->getDateInstall()->toString('dd/MM/yyyy'));?></td>
 		<td class="action">
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'reading',
