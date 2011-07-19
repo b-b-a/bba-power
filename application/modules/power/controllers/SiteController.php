@@ -67,4 +67,23 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
         $this->_log->info($this->_model->siteSearch($search, $this->_page));
     }
 
+    public function addAction()
+    {
+
+    }
+
+    public function editAction()
+    {
+
+    }
+
+    public function saveAction()
+    {
+
+    }
+
+    public function deleteAction()
+    {
+
+    }
 }

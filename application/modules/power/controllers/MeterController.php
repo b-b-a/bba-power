@@ -92,4 +92,18 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
         ));
     }
 
+    public function editAction()
+    {
+
+    }
+
+    public function saveAction()
+    {
+
+    }
+
+    public function deleteAction()
+    {
+
+    }
 }

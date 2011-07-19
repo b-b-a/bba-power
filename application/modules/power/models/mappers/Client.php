@@ -76,6 +76,10 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
 
     public function save()
     {
+        if (!$this->checkAcl('save')) {
+            throw new ZendSF_Acl_Exception('Deleting users is not allowed.');
+        }
+
         $form = $this->getForm('clientSave')->getValues();
 
         // remove client id if not set.
@@ -124,7 +128,8 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
     {
         parent::setAcl($acl);
 
-        $this->_acl->allow('admin', $this);
+        $this->_acl->allow('admin', $this)
+            ->deny('admin', $this, array('delete'));
 
         // implement rules here.
 
