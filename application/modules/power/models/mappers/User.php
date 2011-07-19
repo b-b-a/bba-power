@@ -101,7 +101,7 @@ class Power_Model_Mapper_User extends ZendSF_Model_Mapper_Acl_Abstract
 
         $where = $this->getDbTable()
                 ->getAdapter()
-                ->quoteInto('us_id = ?', $id);
+                ->quoteInto('user_idUser = ?', $id);
 
         return parent::delete($where);
     }
