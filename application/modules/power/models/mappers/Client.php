@@ -64,8 +64,6 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
 
     public function clientSearch($search, $paged = null)
     {
-        //$searchClient = $this->getForm('clientSearch')->getValue('search_client');
-
         /* @var $select Zend_Db_Table_Select */
         $select = $this->_dbTable->getClientList();
 

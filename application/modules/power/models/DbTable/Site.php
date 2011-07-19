@@ -59,4 +59,22 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
             'refColumns'        => 'client_idClient'
 		)
     );
+
+    public function getSiteList()
+    {
+        return $this->select(false)
+            ->setIntegrityCheck(false)
+            ->from('site')
+            ->join(
+                'client_address',
+                'clientAd_idAddress = site_idAddress',
+                array('site' => 'CONCAT(clientAd_address1,"/n",clientAd_address2,"/n",clientAd_address3,"/n",clientAd_postcode)')
+            )
+            ->join(
+                'client',
+                'client_idClient = site_idClient ',
+                array('client' => 'client_name')
+            )
+            ->order('client_name ASC');
+    }
 }

@@ -54,10 +54,17 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
+        $search = array(
+            'client'    => $this->_request->getParam('client')
+        );
+
         // gets all meters and assigns them to the view script.
         $this->view->assign(array(
-            'sites' => $this->_model->fetchAll()
+            'sites'     => $this->_model->siteSearch($search, $this->_page),
+            'search'    => $search
         ));
+
+        $this->_log->info($this->_model->siteSearch($search, $this->_page));
     }
 
 }
