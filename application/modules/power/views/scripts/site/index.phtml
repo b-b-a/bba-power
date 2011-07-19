@@ -2,10 +2,10 @@
 	$this->title = "BBA Sites";
 	$this->headTitle($this->title);
 
-    echo $this->clientSearchForm;
+    echo $this->siteSearchForm;
     /* @var $site Power_Model_Site */
 ?>
-<table width="100%" border="1">
+<table>
 	<tr>
 	<th>ID</th>
 	<th>ClientID</th>
@@ -15,20 +15,28 @@
 	<th>PostCode</th>
 	<th>&nbsp;</th>
 	</tr>
-<?php foreach($this->sites as $site) : ?>
+<?php foreach($this->sites as $site): ?>
 	<tr>
-		<td><?php echo $this->escape($site->getIdSite());?></td>
+		<td><?php echo $this->escape($site->id);?></td>
 		<td><?php //$client=$site->findParentRow(
 			//'Application_Model_DbTable_Client',
 			//'client_idClient');
 		//echo $client['client_name'];?></td>
-		<td><?php echo $this->escape($site->getIdAddressBill());?></td>
+		<td><?php echo $this->escape($site->idAddress); ?></td>
 		<td><?php //echo $this->escape($site->si_address2);?></td>
 		<td><?php //echo $this->escape($site->si_address3);?></td>
 		<td><?php //echo $this->escape($site->si_postcode);?></td>
-		<td>
-			<a href="<?php echo $this->url(array('controller'=>'site','action'=>'editSite', 'si_id'=>$site->getIdSite()));?>">Edit</a>
-			<a href="<?php echo $this->url(array('controller'=>'site','action'=>'deleteSite', 'si_id'=>$site->getIdSite()));?>">Delete</a>
+		<td class="action">
+			<a href="<?php echo $this->url(array(
+                'controller'    => 'site',
+                'action'        => 'edit',
+                'siteId'        => $site->id
+            ));?>" class="button">Edit</a>
+			<a href="<?php echo $this->url(array(
+                'controller'    =>'site',
+                'action'        =>'delete',
+                'siteId'        => $site->id
+            ));?>" class="button">Delete</a>
 		</td>
 	</tr>
 	<?php
@@ -44,4 +52,9 @@
 <?php endforeach; ?>
 </table>
 
-<p><a href="<?php echo $this->url(array('controller'=>'site','action'=>'addSite'));?>">Add new Site</a></p>
+<p>
+    <a href="<?php echo $this->url(array(
+        'controller'    => 'site',
+        'action'        => 'add'
+    ), 'default', true);?>" class="button">Add new Site</a>
+</p>
