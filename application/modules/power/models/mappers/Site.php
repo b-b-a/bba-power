@@ -40,46 +40,38 @@
 class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
 {
     /**
-     * @var Power_Model_DbTable_Sites
+     * @var Power_Model_DbTable_Site
      */
     protected $_dbTableClass;
 
     /**
-     * @var Power_Model_Sites
+     * @var Power_Model_Site
      */
     protected $_modelClass;
 
-    public function getClientAndAddress()
+    public function siteSearch($search, $paged = null)
     {
-        $select = $this->getDbTable()
-            ->select(false)
-            ->setIntegrityCheck(false)
-            ->from('site')
-            ->join(
-                'client_address',
-                'clientAd_idAddress = site_idAddress',
-                array('clientAd_addressName', 'clientAd_address1')
-            )
-            ->join(
-                'client',
-                'client_idClient = site_idClient ',
-                array('client_name')
-            )
-            ;
+        /* @var $select Zend_Db_Table_Select */
+        $select = $this->_dbTable->getSiteList();
 
-        $resultSet = $this->fetchAll($select, true);
-
-        foreach ($resultSet as $row) {
-            /* @var $newRow Power_Model_Meter */
-            $newRow = new $this->_modelClass($row);
-
-            $newRow->setSiteAddress($row['clientAd_addressName']);
-            $newRow->setClient($row['client_name']);
-
-            $rows[] = $newRow;
+        if (!$search['client'] == '') {
+            $select->where('client_name like ? COLLATE utf8_general_ci', '%' . $search['client'] . '%');
         }
 
-        return $rows;
+        return $this->listSites($paged, $select);
+    }
+
+    public function listSites($paged = null, $select = null)
+    {
+        if ($select === null) {
+            $select = $this->_dbTable->getSiteList();
+        }
+
+        if (null !== $paged) {
+           return $this->_paginate($select, $paged);
+        } else {
+            return $this->fetchAll($select);
+        }
     }
 
     /**
