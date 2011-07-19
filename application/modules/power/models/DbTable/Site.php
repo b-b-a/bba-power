@@ -53,6 +53,10 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
-        
+        'siteClient' => array(
+            'columns'           => 'site_idClient',
+            'refTableClass'     => 'Power_Model_DbTable_Client',
+            'refColumns'        => 'client_idClient'
+		)
     );
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Usage.php
  *
@@ -49,7 +48,7 @@ class Power_Model_DbTable_Usage extends Zend_Db_Table_Abstract
      * @var string primary key
      */
     protected $_primary = 'usage_idUsage';
-    
+
     /**
      * @var array Reference map for parent tables
      */
