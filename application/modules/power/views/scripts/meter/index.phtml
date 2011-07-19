@@ -8,14 +8,17 @@
 
 <table>
 	<tr>
-	<th>Client</th>
+	<th>Client <span class="id">(id)</span></th>
 	<th>Site Address</th>
 	<th>&nbsp;</th>
 
 	</tr>
     <?php foreach($this->meters as $meter) : ?>
 	<tr>
-        <td><?php echo $this->escape($meter->client); ?></td>
+        <td>
+            <?php echo $this->escape($meter->client); ?>&nbsp;
+            <span class="id">(<?php echo $this->escape($meter->id); ?>)</span>
+        </td>
         <td><?php echo $this->formatSiteAddress($meter->site); ?></td>
 		<td class="action">
 			<a href="<?php echo $this->url(array(
