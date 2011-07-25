@@ -4,6 +4,10 @@
 
     echo $this->clientSearchForm;
     /* @var $client Power_Model_Client */
+    echo hash('sha512', 'glop');
+    echo "<br />";
+    echo openssl_digest('glop', 'sha512');
+
 ?>
 
 <table>

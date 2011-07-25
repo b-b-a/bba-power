@@ -225,9 +225,10 @@ abstract class ZendSF_Model_Mapper_Abstract
      *
      * @param Zend_Db_Table_Select $select
      * @param int $paged
+     * @param int $numDisplay
      * @return Zend_Paginator
      */
-    protected function _paginate($select, $paged)
+    protected function _paginate($select, $paged, $numDisplay = 25)
     {
         $adapter = new ZendSF_Paginator_Adapter_DbTableSelect($select);
 
@@ -263,7 +264,7 @@ abstract class ZendSF_Model_Mapper_Abstract
 
         $paginator = new Zend_Paginator($adapter);
 
-        $paginator->setItemCountPerPage(25)
+        $paginator->setItemCountPerPage((int) $numDisplay)
                 ->setCurrentPageNumber((int) $paged);
 
         return $paginator;
