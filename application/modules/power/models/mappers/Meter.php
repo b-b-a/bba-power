@@ -83,7 +83,13 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
         }
 
         if (null !== $paged) {
-           return $this->_paginate($select, $paged);
+            $numDisplay = Zend_Registry::get('config')
+                ->layout
+                ->meter
+                ->paginate
+                ->itemCountPerPage;
+
+            return $this->_paginate($select, $paged);
         } else {
             return $this->fetchAll($select);
         }
