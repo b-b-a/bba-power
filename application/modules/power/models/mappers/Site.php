@@ -80,6 +80,19 @@ class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
         }
     }
 
+    public function delete($id)
+    {
+        if (!$this->checkAcl('delete')) {
+            throw new ZendSF_Acl_Exception('Deleting sites is not allowed.');
+        }
+
+        $where = $this->getDbTable()
+                ->getAdapter()
+                ->quoteInto('site_idSite = ?', $id);
+
+        return parent::delete($where);
+    }
+
     /**
      * Injector for the acl, the acl can be injected directly
      * via this method.

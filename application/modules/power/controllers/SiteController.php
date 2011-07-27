@@ -84,6 +84,20 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
 
     public function deleteAction()
     {
+        if ($this->_request->getParam('siteId')) {
+            $client = $this->_model->delete($this->_request->getParam('siteId'));
 
+            if ($client) {
+                $this->_helper->FlashMessenger(array(
+                    'pass' => 'Site deleted from database'
+                ));
+            } else {
+                $this->_helper->FlashMessenger(array(
+                    'fail' => 'Could not delete site from database'
+                ));
+            }
+        }
+
+        return $this->_helper->redirector('index', 'site');
     }
 }
