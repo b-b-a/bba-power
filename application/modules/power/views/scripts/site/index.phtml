@@ -7,25 +7,17 @@
 ?>
 <table>
 	<tr>
-	<th>ID</th>
-	<th>ClientID</th>
-	<th>Address1</th>
-	<th>Address2</th>
-	<th>Address3</th>
-	<th>PostCode</th>
+	<th>Client <span class="id">(id)</span></th>
+    <th>Site</th>
 	<th>&nbsp;</th>
 	</tr>
-<?php foreach($this->sites as $site): ?>
+    <?php foreach($this->sites as $site): ?>
 	<tr>
-		<td><?php echo $this->escape($site->id);?></td>
-		<td><?php //$client=$site->findParentRow(
-			//'Application_Model_DbTable_Client',
-			//'client_idClient');
-		//echo $client['client_name'];?></td>
-		<td><?php echo $this->escape($site->idAddress); ?></td>
-		<td><?php //echo $this->escape($site->si_address2);?></td>
-		<td><?php //echo $this->escape($site->si_address3);?></td>
-		<td><?php //echo $this->escape($site->si_postcode);?></td>
+		<td>
+            <?php echo $this->escape($site->client);?>&nbsp;
+            <span class="id">(<?php echo $this->escape($site->id); ?>)</span>
+        </td>
+		<td><?php echo $this->formatSiteAddress($this->escape($site->site)); ?></td>
 		<td class="action">
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'site',
@@ -39,18 +31,19 @@
             ));?>" class="button">Delete</a>
 		</td>
 	</tr>
-	<?php
-//		$contracts=$meter->findManyToManyRowset(
-//					'Application_Model_DbTable_Contract',  //to
-  //                  'Application_Model_DbTable_MeterContract',  //via=intersectionTable
-	//				'mecoMeter',	//get to intersectionTable
-	//				'mecoContract');	//leave intersectionTable
-	//	foreach($contracts as $contract) {
-	//		echo "<tr><td></td><td>Contract: ".$contract['co_id']."</td></tr>";
-	//	}
-	?>
-<?php endforeach; ?>
+    <?php endforeach;?>
 </table>
+
+<?php
+if ($this->sites instanceof Zend_Paginator) {
+    echo $this->paginationControl(
+            $this->sites,
+            'Sliding',
+            'paginate.phtml',
+            array('params' => $this->search)
+    );
+}
+?>
 
 <p>
     <a href="<?php echo $this->url(array(
