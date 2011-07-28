@@ -56,7 +56,13 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
         }
 
         if (null !== $paged) {
-           return $this->_paginate($select, $paged);
+            $numDisplay = Zend_Registry::get('config')
+                ->layout
+                ->client
+                ->paginate
+                ->itemCountPerPage;
+
+            return $this->_paginate($select, $paged, $numDisplay);
         } else {
             return $this->fetchAll($select);
         }
@@ -64,8 +70,6 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
 
     public function clientSearch($search, $paged = null)
     {
-        //$searchClient = $this->getForm('clientSearch')->getValue('search_client');
-
         /* @var $select Zend_Db_Table_Select */
         $select = $this->_dbTable->getClientList();
 
@@ -78,6 +82,10 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
 
     public function save()
     {
+        if (!$this->checkAcl('save')) {
+            throw new ZendSF_Acl_Exception('Deleting users is not allowed.');
+        }
+
         $form = $this->getForm('clientSave')->getValues();
 
         // remove client id if not set.
@@ -126,7 +134,8 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
     {
         parent::setAcl($acl);
 
-        $this->_acl->allow('admin', $this);
+        $this->_acl->allow('admin', $this)
+            ->deny('admin', $this, array('delete'));
 
         // implement rules here.
 
