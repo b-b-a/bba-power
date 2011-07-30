@@ -56,7 +56,7 @@ abstract class BBA_Model_Abstract extends ZendSF_Model_Abstract
     /**
      * Gets the model id
      *
-     * @return type
+     * @return int
      */
     public function getId()
     {
