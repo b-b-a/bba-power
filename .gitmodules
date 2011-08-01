@@ -1,0 +1,3 @@
+[submodule "library/ZendSF"]
+	path = library/ZendSF
+	url = git@github.com:shaunfreeman/ZendSF.git
