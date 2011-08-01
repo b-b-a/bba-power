@@ -22,7 +22,10 @@ class Power_Model_Acl_Power extends ZendSF_Acl_Abstract
      */
     public function init()
     {
-        $this->addRole(new Zend_Acl_Role('agent'), 'Guest');
+        $this->removeRole('admin');
+        $this->removeRole('registered');
+
+        $this->addRole(new Zend_Acl_Role('agent'), 'guest');
         $this->addRole(new Zend_Acl_Role('read'));
         $this->addRole(new Zend_Acl_Role('meterReading'), 'read');
         $this->addRole(new Zend_Acl_Role('user'), 'meterReading');
@@ -31,8 +34,8 @@ class Power_Model_Acl_Power extends ZendSF_Acl_Abstract
         $this->addResource(new Zend_Acl_Resource('Agent'));
         $this->addResource(new Zend_Acl_Resource('Read'));
         $this->addResource(new Zend_Acl_Resource('MeterReading'));
-        $this->addResource(new Zend_Acl_Resource('User'));
-        $this->addResource(new Zend_Acl_Resource('Admin'));
+        //$this->addResource(new Zend_Acl_Resource('User'));
+        //$this->addResource(new Zend_Acl_Resource('Admin'));
 
         $this->allow('agent', 'Agent');
         $this->allow('read', 'Read');
