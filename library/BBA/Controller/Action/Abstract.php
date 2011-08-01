@@ -52,6 +52,10 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
 
         $page = $this->_request->getParam('page');
         $this->_page = ($page) ? $page : 0;
+
+        $this->view->navigation()
+                ->setAcl($this->_helper->getHelper('Acl')->getAcl())
+                ->setRole($this->_helper->getHelper('Acl')->getIdentity());
     }
 
     /**
