@@ -1,13 +1,13 @@
-<?= $this->docType(); ?>
+<?php echo $this->docType(); ?>
 <html lang="en">
     <head>
-        <?= $this->headTitle(); ?>
-        <?= $this->headMeta(); ?>
+        <?php echo $this->headTitle(); ?>
+        <?php echo $this->headMeta(); ?>
         <link rel="stylesheet" href="/css/reset.css" />
         <link rel="stylesheet" href="/css/text.css" />
         <link rel="stylesheet" href="/css/960.css" />
         <link rel="stylesheet" href="/css/site.css" />
-        <?= $this->mooTools(); ?>
+        <?php echo $this->mooTools(); ?>
     </head>
     <body>
         <!-- Start Main Div -->
@@ -32,8 +32,8 @@
                         <div id="messages"><?php
                            echo $this->FlashMessenger();
                          ?></div>
-                        <h1><?= $this->escape($this->title); ?></h1>
-                        <?= $this->layout()->content; ?>
+                        <h1><?php echo $this->escape($this->title); ?></h1>
+                        <?php echo $this->layout()->content; ?>
                     </div>
                 </div>
             </div>
