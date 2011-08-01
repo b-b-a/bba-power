@@ -54,15 +54,47 @@
                     <controller>meter</controller>
                     <resource>User</resource>
                 </listMeters>
-                <addMeter>
-                    <label>Add Meter</label>
-                    <action>add</action>
-                    <controller>meter</controller>
-                    <resource>User</resource>
-                </addMeter>
             </pages>
             <resource>User</resource>
         </meters>
+        <contract>
+            <label>Contracts</label>
+            <uri></uri>
+            <pages>
+                <listSites>
+                    <label>List Contracts</label>
+                    <action>index</action>
+                    <controller>contract</controller>
+                    <resource>User</resource>
+                </listSites>
+                <addSite>
+                    <label>Add Contracts</label>
+                    <action>add</action>
+                    <controller>contract</controller>
+                    <resource>User</resource>
+                </addSite>
+            </pages>
+            <resource>User</resource>
+        </contract>
+        <supplier>
+            <label>Suppliers</label>
+            <uri></uri>
+            <pages>
+                <listSites>
+                    <label>List Suppliers</label>
+                    <action>index</action>
+                    <controller>supplier</controller>
+                    <resource>User</resource>
+                </listSites>
+                <addSite>
+                    <label>Add Suppliers</label>
+                    <action>add</action>
+                    <controller>supplier</controller>
+                    <resource>User</resource>
+                </addSite>
+            </pages>
+            <resource>User</resource>
+        </supplier>
         <users>
             <label>Users</label>
             <uri></uri>

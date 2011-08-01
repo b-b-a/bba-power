@@ -71,7 +71,7 @@ class Power_Model_Mapper_User extends ZendSF_Model_Mapper_Acl_Abstract
     public function save()
     {
         if (!$this->checkAcl('save')) {
-            throw new ZendSF_Acl_Exception('Deleting users is not allowed.');
+            throw new ZendSF_Acl_Exception('Saving users is not allowed.');
         }
 
         $form = $this->getForm('userSave')->getValues();
@@ -149,6 +149,8 @@ class Power_Model_Mapper_User extends ZendSF_Model_Mapper_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
+        $this->_acl->allow('admin', $this)
+            ->deny('admin', $this, array('delete'));
 
         return $this;
     }
