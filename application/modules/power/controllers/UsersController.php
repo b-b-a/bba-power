@@ -145,6 +145,10 @@ class Power_UsersController extends ZendSF_Controller_Action_Abstract
 
     public function deleteAction()
     {
+        if (!$this->_helper->acl('Admin')) {
+           return $this->_helper->redirector('list');
+        }
+
         if ($this->_request->getParam('userId')) {
             $user = $this->_model->delete($this->_request->getParam('userId'));
 
