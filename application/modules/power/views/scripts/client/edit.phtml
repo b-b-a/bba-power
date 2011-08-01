@@ -1,6 +1,23 @@
 <?php
-	$this->title = "BBA Edit Client";
+	$this->title = "BBA Client Update";
 	$this->headTitle($this->title);
 
     echo $this->clientSaveForm;
 ?>
+
+<h2>Client Addresses</h2>
+<p>
+    <a href="<?php echo $this->url(array(
+        'controller'    => 'client',
+        'action'        => 'addAddress'
+        ), 'default', true);?>" class="button">Add New Address</a>
+</p>
+
+<h2>Client Contacts</h2>
+
+<p>
+    <a href="<?php echo $this->url(array(
+        'controller'    => 'client',
+        'action'        => 'addContact'
+        ), 'default', true);?>" class="button">Add New Contact</a>
+</p>
