@@ -49,6 +49,12 @@ class Power_Form_Client_Search extends Power_Form_SearchBase
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
+        $this->addElement('text', 'address', array(
+            'label'     => 'Address:',
+            'attribs'   => array('class' => 'search'),
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
         $this->addSubmit('Search', 'submit', 'search');
     }
 
