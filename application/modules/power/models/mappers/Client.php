@@ -134,10 +134,9 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
     {
         parent::setAcl($acl);
 
+        // implement rules here.
         $this->_acl->allow('admin', $this)
             ->deny('admin', $this, array('delete'));
-
-        // implement rules here.
 
         return $this;
     }
