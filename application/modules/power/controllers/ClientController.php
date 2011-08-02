@@ -96,6 +96,8 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
             $this->getForm('clientSave')
                     ->populate($client->toArray('dd/MM/yyyy'))
                     ->addHiddenElement('returnAction', 'edit');
+            
+            $this->view->assign('client', $client);
         } else {
            return $this->_helper->redirector('index', 'client');
         }
