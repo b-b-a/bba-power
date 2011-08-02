@@ -6,13 +6,19 @@
     /* @var $client Power_Model_Client */
 ?>
 
+<p>
+    <a href="<?php echo $this->url(array(
+        'controller'    => 'client',
+        'action'        => 'add'
+        ), 'default', true);?>" class="button">Add New Client</a>
+</p>
+
 <table>
 	<tr>
-    <th>Client <span class="id">(id)</span></th>
-	<th>Description</th>
-	<th>Letter of Authority Expiry</th>
-	<th>&nbsp;</th>
-
+        <th>Client <span class="id">(id)</span></th>
+        <th>Description</th>
+        <th>Letter of Authority Expiry</th>
+        <th>&nbsp;</th>
 	</tr>
     <?php foreach($this->clients as $client) : ?>
 	<tr>
@@ -49,10 +55,3 @@ if ($this->clients instanceof Zend_Paginator) {
     );
 }
 ?>
-
-<p>
-    <a href="<?php echo $this->url(array(
-        'controller'    => 'client',
-        'action'        => 'add'
-        ), 'default', true);?>" class="button">Add New Client</a>
-</p>

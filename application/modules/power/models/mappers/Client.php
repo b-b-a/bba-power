@@ -83,7 +83,7 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
     public function save()
     {
         if (!$this->checkAcl('save')) {
-            throw new ZendSF_Acl_Exception('Deleting users is not allowed.');
+            throw new ZendSF_Acl_Exception('saving clients is not allowed.');
         }
 
         $form = $this->getForm('clientSave')->getValues();
