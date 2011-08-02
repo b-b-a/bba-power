@@ -42,7 +42,7 @@ class Power_Model_DbTable_ClientAddress extends Zend_Db_Table_Abstract
     /**
      * @var string database table
      */
-    protected $_name = 'client_Address';
+    protected $_name = 'client_address';
 
     /**
      * @var string primary key

@@ -52,7 +52,10 @@ class Power_Model_Mapper_ClientAddress extends ZendSF_Model_Mapper_Acl_Abstract
 
     public function getAddressByClientId($id)
     {
+        $select = $this->_dbTable->select()
+                ->where('clientAd_idClient = ?', $id);
 
+        return $this->fetchAll($select);
     }
 
     /**
