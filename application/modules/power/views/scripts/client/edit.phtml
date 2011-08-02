@@ -3,7 +3,9 @@
 	$this->headTitle($this->title);
 
     echo $this->clientSaveForm;
-    $addresses = $this->clientAddresses($this->client->getId());
+
+    $addresses = $this->clientAddresses($this->client);
+    $contacts = $this->clientContacts($this->client);
 ?>
 
 <h2>Client Addresses</h2>
@@ -51,7 +53,7 @@
 <?php endforeach; ?>
 </table>
 <?php else: ?>
-<h3>No Client Addresses</h3>
+<h3>This Client has no addresses yet.</h3>
 <?php endif; ?>
 
 <h2>Client Contacts</h2>
@@ -62,3 +64,43 @@
         'action'        => 'addContact'
         ), 'default', true);?>" class="button">Add New Contact</a>
 </p>
+
+<?php if ($contacts): ?>
+<table>
+    <tr>
+        <th>Name <span class="id">(id)</span></th>
+        <th>Type</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Postcode</th>
+        <th>&nbsp;</th>
+    </tr>
+<?php foreach($contacts as $contact): ?>
+    <tr>
+        <td><?php echo $this->escape($contact->name); ?>&nbsp;
+            <span class="id">(<?php echo $this->escape($contact->idClientContact); ?>)</span></td>
+        <td><?php echo $this->escape($contact->type); ?></td>
+        <td><?php echo $this->escape($contact->phone); ?></td>
+        <td><?php echo $this->escape($contact->email); ?></td>
+        <td><?php echo $this->escape($contact->postcode); ?></td>
+        <td class="action">
+			<a href="<?php echo $this->url(array(
+                'controller'    => 'client',
+                'action'        => 'editAddress',
+				'clientId'      => $contact->idClient,
+                'addressId'     => $contact->idAddress
+            ));?>" class="button">Edit</a>
+
+			<a href="<?php echo $this->url(array(
+                'controller'    => 'client',
+                'action'        => 'deleteAddress',
+                'clientId'      => $contact->idClient,
+                'addressId'     => $contact->idAddress
+            ));?>" class="button">Delete</a>
+		</td>
+    </tr>
+<?php endforeach; ?>
+</table>
+<?php else: ?>
+<h3>This client has no contacts yet.</h3>
+<?php endif; ?>
