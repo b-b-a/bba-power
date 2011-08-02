@@ -1,6 +1,6 @@
 <?php
 /**
- * ClientAddress.php
+ * ClientAddressController.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -21,31 +21,60 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model
+ * @subpackage Controller
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * DAO to represent a single ClientAddress.
+ * Controller Class ClientAddressController.
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model
+ * @subpackage Controller
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_ClientAddress extends BBA_Model_Abstract
+class Power_ClientAddressController extends BBA_Controller_Action_Abstract
 {
     /**
-     * @var string
+     * @var Power_Model_Mapper_ClientAddress
      */
-    protected $_primary = 'idAddress';
+    protected $_model;
 
     /**
-     * @var string
+     * Initialization code.
      */
-    protected $_prefix = 'clientAd_';
+    public function init()
+    {
+        parent::init();
+
+        $this->_model = new Power_Model_Mapper_ClientAddress();
+
+        $this->setForm('clientAddressSave', array(
+            'controller' => 'client-address' ,
+            'action' => 'save',
+            'module' => 'power'
+        ));
+    }
+
+    public function editAction()
+    {
+        if ($this->_request->getParam('addressId')) {
+            $clientAd = $this->_model->find($this->_request->getParam('addressId'));
+            $this->getForm('clientAddressSave')
+                    ->populate($clientAd->toArray('dd/MM/yyyy'))
+                    ->addHiddenElement('returnAction', 'edit');
+
+            $this->view->assign(array(
+                'idAddress' => $clientAd->getId(),
+                'client'    => $clientAd->idClient
+            ));
+        } else {
+           return $this->_helper->redirector('index', 'client');
+        }
+    }
+
 }

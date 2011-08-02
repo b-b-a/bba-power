@@ -5,10 +5,12 @@
     echo $this->clientSaveForm;
 
     echo $this->partial('_client-addresses.phtml', array(
+        'idClient'  => $this->client,
         'addresses'  => $this->clientAddresses($this->client)
     ));
 
     echo $this->partial('_client-contacts.phtml', array(
+        'idClient'  => $this->client,
         'contacts'  => $this->clientContacts($this->client)
     ));
 ?>
