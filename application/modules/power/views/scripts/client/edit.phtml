@@ -4,11 +4,11 @@
 
     echo $this->clientSaveForm;
 
-    echo $this->partial('client/_client-addresses.phtml', array(
+    echo $this->partial('_client-addresses.phtml', array(
         'addresses'  => $this->clientAddresses($this->client)
     ));
 
-    echo $this->partial('client/_client-contacts.phtml', array(
+    echo $this->partial('_client-contacts.phtml', array(
         'contacts'  => $this->clientContacts($this->client)
     ));
 ?>
