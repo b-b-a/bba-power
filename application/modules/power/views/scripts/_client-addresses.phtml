@@ -1,8 +1,9 @@
 <h2>Client Addresses</h2>
 <p>
     <a href="<?php echo $this->url(array(
-        'controller'    => 'client',
-        'action'        => 'addAddress'
+        'controller'    => 'client-address',
+        'action'        => 'add',
+        'clientId'      => $this->idClient
         ), 'default', true);?>" class="button">Add New Address</a>
 </p>
 
@@ -17,7 +18,7 @@
         <th>&nbsp;</th>
     </tr>
 <?php foreach($this->addresses as $address): ?>
-    <tr>
+    <tr class="<?php if ($this->currentEdit == $address->idAddress) echo 'current-eidt'; ?>">
         <td><?php echo $this->escape($address->addressName); ?>&nbsp;
             <span class="id">(<?php echo $this->escape($address->idAddress); ?>)</span></td>
         <td><?php echo $this->escape($address->address1); ?></td>
@@ -25,19 +26,21 @@
         <td><?php echo $this->escape($address->address3); ?></td>
         <td><?php echo $this->escape($address->postcode); ?></td>
         <td class="action">
+            <?php if ($this->currentEdit != $address->idAddress): ?>
 			<a href="<?php echo $this->url(array(
-                'controller'    => 'client',
-                'action'        => 'editAddress',
-				'clientId'      => $address->idClient,
+                'controller'    => 'client-address',
+                'action'        => 'edit',
                 'addressId'     => $address->idAddress
-            ));?>" class="button">Edit</a>
+            ), 'default', true);?>" class="button">Edit</a>
 
 			<a href="<?php echo $this->url(array(
-                'controller'    => 'client',
-                'action'        => 'deleteAddress',
-                'clientId'      => $address->idClient,
+                'controller'    => 'client-address',
+                'action'        => 'delete',
                 'addressId'     => $address->idAddress
-            ));?>" class="button">Delete</a>
+            ), 'default', true);?>" class="button">Delete</a>
+            <?php else: ?>
+            &nbsp;
+            <?php endif; ?>
 		</td>
     </tr>
 <?php endforeach; ?>
