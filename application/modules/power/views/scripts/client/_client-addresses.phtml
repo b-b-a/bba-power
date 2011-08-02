@@ -1,0 +1,47 @@
+<h2>Client Addresses</h2>
+<p>
+    <a href="<?php echo $this->url(array(
+        'controller'    => 'client',
+        'action'        => 'addAddress'
+        ), 'default', true);?>" class="button">Add New Address</a>
+</p>
+
+<?php if ($this->addresses): ?>
+<table>
+    <tr>
+        <th>Address Name <span class="id">(id)</span></th>
+        <th>Address 1</th>
+        <th>Address 2</th>
+        <th>Address 3</th>
+        <th>Postcode</th>
+        <th>&nbsp;</th>
+    </tr>
+<?php foreach($this->addresses as $address): ?>
+    <tr>
+        <td><?php echo $this->escape($address->addressName); ?>&nbsp;
+            <span class="id">(<?php echo $this->escape($address->idAddress); ?>)</span></td>
+        <td><?php echo $this->escape($address->address1); ?></td>
+        <td><?php echo $this->escape($address->address2); ?></td>
+        <td><?php echo $this->escape($address->address3); ?></td>
+        <td><?php echo $this->escape($address->postcode); ?></td>
+        <td class="action">
+			<a href="<?php echo $this->url(array(
+                'controller'    => 'client',
+                'action'        => 'editAddress',
+				'clientId'      => $address->idClient,
+                'addressId'     => $address->idAddress
+            ));?>" class="button">Edit</a>
+
+			<a href="<?php echo $this->url(array(
+                'controller'    => 'client',
+                'action'        => 'deleteAddress',
+                'clientId'      => $address->idClient,
+                'addressId'     => $address->idAddress
+            ));?>" class="button">Delete</a>
+		</td>
+    </tr>
+<?php endforeach; ?>
+</table>
+<?php else: ?>
+<h3>This Client has no addresses yet.</h3>
+<?php endif; ?>
