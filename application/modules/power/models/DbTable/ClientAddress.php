@@ -20,7 +20,7 @@
  * along with BBA.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category   BBA
- * @package
+ * @package    Power
  * @subpackage Model_DbTable
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
@@ -31,13 +31,13 @@
  * Database adapter class for the ClientAddress table.
  *
  * @category   BBA
- * @package
+ * @package    Power
  * @subpackage Model_DbTable
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class _Model_DbTable_ClientAddress extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_ClientAddress extends Zend_Db_Table_Abstract
 {
     /**
      * @var string database table

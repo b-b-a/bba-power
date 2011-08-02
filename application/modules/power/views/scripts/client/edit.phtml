@@ -3,6 +3,7 @@
 	$this->headTitle($this->title);
 
     echo $this->clientSaveForm;
+    $addresses = $this->clientAddresses($this->client->getId());
 ?>
 
 <h2>Client Addresses</h2>
@@ -12,6 +13,14 @@
         'action'        => 'addAddress'
         ), 'default', true);?>" class="button">Add New Address</a>
 </p>
+
+<?php if ($addresses): ?>
+    <?php foreach($addresses as $address): ?>
+
+    <?php endforeach; ?>
+<?php else: ?>
+<h3>No Client Addresses</h3>
+<?php endif; ?>
 
 <h2>Client Contacts</h2>
 

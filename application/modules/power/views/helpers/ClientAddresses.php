@@ -1,6 +1,6 @@
 <?php
 /**
- * ClientAddress.php
+ * GetClientAddresses.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -21,57 +21,30 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_Mapper
+ * @subpackage View_Helper
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Mapper Class for ClientAddress.
+ * Description of GetClientAddresses
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_Mapper
+ * @subpackage View_Helper
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Mapper_ClientAddress extends ZendSF_Model_Mapper_Acl_Abstract
+class Power_View_Helper_ClientAddresses extends Zend_View_Helper_Abstract
 {
-
-    /**
-     * @var Power_Model_DbTable_ClientAddress
-     */
-    protected $_dbTableClass;
-
-    /**
-     * @var Power_Model_ClientAddress
-     */
-    protected $_modelClass;
-
-    public function getAddressByClientId($id)
+    public function clientAddresses($id)
     {
+        $clientAd = new Power_Model_Mapper_ClientAddress();
 
+        $addresses = $clientAd->getAddressByClientId($id);
+
+        return $addresses;
     }
-
-    /**
-     * Injector for the acl, the acl can be injected directly
-     * via this method.
-     *
-     * We add all the access rules for this resource here, so we first call
-     * parent method to add $this as the resource then we
-     * define it rules here.
-     *
-     * @param Zend_Acl_Resource_Interface $acl
-     * @return ZendSF_Model_Mapper_Abstract
-     */
-    public function setAcl(Zend_Acl $acl) {
-        parent::setAcl($acl);
-
-        // implement rules here.
-
-        return $this;
-    }
-
 }

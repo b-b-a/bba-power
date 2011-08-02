@@ -50,6 +50,11 @@ class Power_Model_Mapper_ClientContact extends ZendSF_Model_Mapper_Acl_Abstract
      */
     protected $_modelClass;
 
+    public function getContactByClientId($id)
+    {
+        
+    }
+
     /**
      * Injector for the acl, the acl can be injected directly
      * via this method.
