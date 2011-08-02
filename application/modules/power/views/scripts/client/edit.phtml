@@ -3,62 +3,12 @@
 	$this->headTitle($this->title);
 
     echo $this->clientSaveForm;
-    $addresses = $this->clientAddresses($this->client->getId());
+
+    echo $this->partial('client/_client-addresses.phtml', array(
+        'addresses'  => $this->clientAddresses($this->client)
+    ));
+
+    echo $this->partial('client/_client-contacts.phtml', array(
+        'contacts'  => $this->clientContacts($this->client)
+    ));
 ?>
-
-<h2>Client Addresses</h2>
-<p>
-    <a href="<?php echo $this->url(array(
-        'controller'    => 'client',
-        'action'        => 'addAddress'
-        ), 'default', true);?>" class="button">Add New Address</a>
-</p>
-
-<?php if ($addresses): ?>
-<table>
-    <tr>
-        <th>Address Name <span class="id">(id)</span></th>
-        <th>Address 1</th>
-        <th>Address 2</th>
-        <th>Address 3</th>
-        <th>Postcode</th>
-        <th>&nbsp;</th>
-    </tr>
-<?php foreach($addresses as $address): ?>
-    <tr>
-        <td><?php echo $this->escape($address->addressName); ?>&nbsp;
-            <span class="id">(<?php echo $this->escape($address->idAddress); ?>)</span></td>
-        <td><?php echo $this->escape($address->address1); ?></td>
-        <td><?php echo $this->escape($address->address2); ?></td>
-        <td><?php echo $this->escape($address->address3); ?></td>
-        <td><?php echo $this->escape($address->postcode); ?></td>
-        <td class="action">
-			<a href="<?php echo $this->url(array(
-                'controller'    => 'client',
-                'action'        => 'editAddress',
-				'clientId'      => $address->idClient,
-                'addressId'     => $address->idAddress
-            ));?>" class="button">Edit</a>
-
-			<a href="<?php echo $this->url(array(
-                'controller'    => 'client',
-                'action'        => 'deleteAddress',
-                'clientId'      => $address->idClient,
-                'addressId'     => $address->idAddress
-            ));?>" class="button">Delete</a>
-		</td>
-    </tr>
-<?php endforeach; ?>
-</table>
-<?php else: ?>
-<h3>No Client Addresses</h3>
-<?php endif; ?>
-
-<h2>Client Contacts</h2>
-
-<p>
-    <a href="<?php echo $this->url(array(
-        'controller'    => 'client',
-        'action'        => 'addContact'
-        ), 'default', true);?>" class="button">Add New Contact</a>
-</p>
