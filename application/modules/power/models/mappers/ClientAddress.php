@@ -97,7 +97,7 @@ class Power_Model_Mapper_ClientAddress extends ZendSF_Model_Mapper_Acl_Abstract
                 ->getAdapter()
                 ->quoteInto('clientAd_idAddress = ?', $id);
 
-        parent::delete($where);
+        return parent::delete($where);
     }
 
     /**
@@ -116,7 +116,8 @@ class Power_Model_Mapper_ClientAddress extends ZendSF_Model_Mapper_Acl_Abstract
 
         // implement rules here.
         $this->_acl->allow('admin', $this)
-            ->deny('admin', $this, array('delete'));
+            ->deny('admin', $this, array('delete'))
+            ;
 
         return $this;
     }
