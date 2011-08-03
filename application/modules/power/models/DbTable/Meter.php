@@ -66,7 +66,7 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
     {
        return $this->select(false)
             ->setIntegrityCheck(false)
-            ->from('meter', array('meter_idMeter', 'meter_numberSerial'))
+            ->from('meter', array('meter_idMeter', 'meter_numberSerial', 'meter_type', 'meter_mpan13'))
             ->join('site', 'site_idSite = meter_idSite', null)
             ->join(
                 'client_address',
