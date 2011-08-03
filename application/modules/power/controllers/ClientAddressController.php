@@ -60,6 +60,15 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
         ));
     }
 
+    public function addAction()
+    {
+        $this->getForm('clientAddressSave')
+                ->populate(array(
+                    'clientAd_idClient' => $this->_request->getParam('clientId')
+                ))
+                ->addHiddenElement('returnAction', 'add');
+    }
+
     public function editAction()
     {
         if ($this->_request->getParam('addressId')) {
@@ -116,6 +125,29 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
                 return $this->_forward($action);
             }
         }
+    }
+
+    public function deleteAction()
+    {
+        if ($this->_request->getParam('addressId')) {
+            $client = $this->_model->delete($this->_request->getParam('addressId'));
+
+            $this->_log->info($client);
+
+            if ($client) {
+                $this->_helper->FlashMessenger(array(
+                    'pass' => 'Client Address deleted from database.'
+                ));
+            } else {
+                $this->_helper->FlashMessenger(array(
+                    'fail' => 'Could not delete client address from database.'
+                ));
+            }
+        }
+
+        return $this->_helper->redirector('edit', 'client', 'power', array(
+            'clientId'  => $this->_request->getParam('clientId')
+        ));
     }
 
 }

@@ -36,6 +36,7 @@
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'client-address',
                 'action'        => 'delete',
+                'clientId'      => $address->idClient,
                 'addressId'     => $address->idAddress
             ), 'default', true);?>" class="button">Delete</a>
             <?php else: ?>
