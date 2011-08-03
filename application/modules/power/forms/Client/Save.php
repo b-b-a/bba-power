@@ -50,7 +50,7 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('file','client_docLoa', array(
+/*        $this->addElement('file','client_docLoa', array(
             'label' => 'Upload Letter of Authority:',
             'destination' => realpath(APPLICATION_PATH . '/../data/loa'),
             'validators' => array(
@@ -60,7 +60,7 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             ),
             'decorators' => $this->_fileDecorators
         ));
-
+*/
         $this->addElement('text', 'client_dateExpiryLoa', array(
             'label'     => 'Letter of Authority Expiry Date:',
             'filters'   => array('StripTags', 'StringTrim'),
