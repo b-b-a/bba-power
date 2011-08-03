@@ -62,7 +62,7 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
         ));
 */
         $this->addElement('text', 'client_dateExpiryLoa', array(
-            'label'     => 'Letter of Authority Expiry Date:',
+            'label'     => 'LoA Expiry Date:',
             'filters'   => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Date', true, array(
