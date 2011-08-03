@@ -93,6 +93,9 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
     {
         if ($this->_request->getParam('clientId')) {
             $client = $this->_model->find($this->_request->getParam('clientId'));
+
+            $this->_log->info($client);
+
             $this->getForm('clientSave')
                     ->populate($client->toArray('dd/MM/yyyy'))
                     ->addHiddenElement('returnAction', 'edit');
@@ -122,18 +125,18 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
         } else {
             $saved = $this->_model->save();
 
-            if ($saved) {
+            if ($saved > 0) {
                 $this->_helper->FlashMessenger(array(
                     'pass' => 'Client saved to database'
                 ));
 
                 return $this->_helper->redirector('index', 'client');
-            } else {
+            } elseif ($saved == 0) {
                 $this->_helper->FlashMessenger(array(
-                    'fail' => 'Client could not be saved to database'
+                    'fail' => 'Nothing new to save'
                 ));
 
-                return $this->render($action);
+                return $this->_forward($action);
             }
         }
     }

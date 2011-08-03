@@ -46,7 +46,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
         $this->addElement('text', 'clientAd_addressName', array(
             'label'     => 'Address Name:',
             'filters'   => array('StripTags', 'StringTrim'),
-            'required'  => true
+            //'required'  => true
         ));
 
         $this->addElement('text', 'clientAd_address1', array(
@@ -57,13 +57,13 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
 
         $this->addElement('text', 'clientAd_address2', array(
             'label'     => 'Address 2:',
-            'required'  => true,
+            //'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
         $this->addElement('text', 'clientAd_address3', array(
             'label'     => 'Address 3:',
-            'required'  => true,
+            //'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
@@ -72,6 +72,12 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
+
+        $auth = Zend_Auth::getInstance();
+
+        $this->addHiddenElement('userId', $auth->getIdentity()->getId());
+        $this->addHiddenElement('clientAd_idAddress', '');
+        $this->addHiddenElement('clientAd_idClient', '');
 
         $this->addSubmit('Save');
         $this->addSubmit('Cancel', 'cancel');

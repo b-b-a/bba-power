@@ -77,4 +77,45 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
         }
     }
 
+    public function saveAction()
+    {
+        if (!$this->_request->isPost()) {
+            return $this->_helper->redirector('index', 'client');
+        }
+
+        if ($this->_request->getParam('cancel')) {
+            return $this->_helper->redirector('edit', 'client', 'power', array(
+                'clientId'  => $this->_request->getParam('clientAd_idClient')
+            ));
+        }
+
+        $action = $this->_request->getParam('returnAction');
+
+        $this->getForm('clientAddressSave')->addHiddenElement('returnAction', $action);
+
+        if (!$this->getForm('clientAddressSave')->isValid($this->_request->getPost())) {
+            return $this->render($action); // re-render the edit form
+        } else {
+            $saved = $this->_model->save();
+
+            $this->_log->info($saved);
+
+            if ($saved) {
+                $this->_helper->FlashMessenger(array(
+                    'pass' => 'Client Address saved to database'
+                ));
+
+                return $this->_helper->redirector('edit', 'client', 'power', array(
+                    'clientId'  => $this->_request->getParam('clientAd_idClient')
+                ));
+            } else {
+                $this->_helper->FlashMessenger(array(
+                    'fail' => 'Nothing new to save'
+                ));
+
+                return $this->_forward($action);
+            }
+        }
+    }
+
 }
