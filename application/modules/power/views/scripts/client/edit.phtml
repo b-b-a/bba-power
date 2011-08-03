@@ -3,9 +3,9 @@
 	$this->headTitle($this->title);
 
     echo $this->clientSaveForm;
-	
-	echo '<div class="clear"> &nbsp; </div><p style="margin:0px">&nbsp;</p>';
-	
+?>
+<div class="clear">&nbsp;</div>
+<?php
     echo $this->partial('_client-addresses.phtml', array(
         'idClient'  => $this->client,
         'addresses'  => $this->clientAddresses($this->client)
