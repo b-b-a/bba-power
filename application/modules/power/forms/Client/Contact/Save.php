@@ -71,7 +71,28 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
         $this->addElement('text', 'clientCo_email', array(
             'label'     => 'email:',
             'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim', 'StringToLower'),
+            'validators'    => array(
+                array('StringLength', true, array(0, 128)),
+                array('EmailAddress', true)
+            )
+        ));
+
+        $view = $this->getView();
+        $table = new Power_Model_Mapper_ClientAddress();
+        $list = $table->getAddressByClientId($view->request['clientId']);
+
+        // reset options
+        $multiOptions = array();
+        foreach($list as $row) {
+            $multiOptions[$row->idAddress] = $row->postcode;
+        }
+
+        $this->addElement('select', 'clientCo_idAddress', array(
+            'label'     => 'Postcode:',
+            'filters'   => array('StripTags', 'StringTrim'),
+            'MultiOptions'  => $multiOptions,
+            'required'  => true
         ));
 
         $auth = Zend_Auth::getInstance();

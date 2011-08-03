@@ -96,9 +96,11 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
             return $this->_helper->redirector('index', 'client');
         }
 
+        $clientId = $this->_request->getParam('clientId');
+
         if ($this->_request->getParam('cancel')) {
             return $this->_helper->redirector('edit', 'client', 'power', array(
-                'clientId'  => $this->_request->getParam('clientAd_idClient')
+                'clientId'  => $clientId
             ));
         }
 
@@ -107,6 +109,9 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
         $this->getForm('clientAddressSave')->addHiddenElement('returnAction', $action);
 
         if (!$this->getForm('clientAddressSave')->isValid($this->_request->getPost())) {
+            $this->view->assign(array(
+                'client'    => $clientId
+            ));
             return $this->render($action); // re-render the edit form
         } else {
             $saved = $this->_model->save();
@@ -119,7 +124,7 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
                 ));
 
                 return $this->_helper->redirector('edit', 'client', 'power', array(
-                    'clientId'  => $this->_request->getParam('clientAd_idClient')
+                    'clientId'  => $clientId
                 ));
             } else {
                 $this->_helper->FlashMessenger(array(
