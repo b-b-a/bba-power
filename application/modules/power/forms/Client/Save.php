@@ -42,6 +42,7 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
     public function init()
     {
         $this->setName('client');
+        $this->setAttrib('enctype', 'multipart/form-data');
 
         $this->addElement('text', 'client_name', array(
             'label'     => 'Client Name:',
@@ -49,15 +50,19 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('text', 'client_desc', array(
-            'label'     => 'Client Description:',
-            'filters'   => array('StripTags', 'StringTrim'),
-            'required'  => true
+        $this->addElement('file','client_docLoa', array(
+            'label' => 'Upload Letter of Authority:',
+            'destination' => realpath(APPLICATION_PATH . '/../data/loa'),
+            'validators' => array(
+                array('Count', false, array(1)),
+                array('Size', false, array(1048576*5)),
+                array('Extension', false, array('pdf')),
+            ),
+            'decorators' => $this->_fileDecorators
         ));
 
         $this->addElement('text', 'client_dateExpiryLoa', array(
             'label'     => 'Letter of Authority Expiry Date:',
-            'required'  => true,
             'filters'   => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Date', true, array(
