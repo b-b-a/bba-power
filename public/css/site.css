@@ -290,6 +290,7 @@ th
 .action
 {
     padding: 4px;
+    white-space: nowrap;
 }
 
 span.id
