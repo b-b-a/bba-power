@@ -40,28 +40,11 @@
 abstract class BBA_Model_Abstract extends ZendSF_Model_Abstract
 {
     /**
-     * Primary key for this model.
-     *
-     * @var int
-     */
-    protected $_primary;
-
-    /**
      * Default date format when converting to an array.
      *
      * @var string
      */
     protected $_dateFormat = 'yyyy-MM-dd';
-
-    /**
-     * Gets the model id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->_data->{$this->_primary};
-    }
 
     /**
      * Sets the create date for this record.
