@@ -1,6 +1,6 @@
 <?php
 /**
- * Client.php
+ * Tables.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -21,33 +21,53 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage View_Helper
+ * @subpackage Model_Mapper
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Description of Client
+ * Mapper Class for Tables.
  *
  * @category   BBA
  * @package    Power
- * @subpackage View_Helper
+ * @subpackage Model_Mapper
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_View_Helper_ClientHelper extends Zend_View_Helper_Abstract
+class Power_Model_Mapper_Tables extends ZendSF_Model_Mapper_Acl_Abstract
 {
-    protected $_model;
-
-    public function clientHelper($id, $col)
+    public function getSelectListByName($name)
     {
-        if (null === $this->_model) {
-            $model = new Power_Model_Mapper_Client();
-            $this->_model = $model->find($id);
-        }
+       $select = $this->getDbTable()
+            ->select(true)
+            ->columns(array('tables_key', 'tables_value'))
+            ->where('tables_name = ?', $name)
+            ->order('tables_sort ASC');
 
-        return $this->_model->$col;
+        return $this->fetchAll($select);
     }
+
+    /**
+     * Injector for the acl, the acl can be injected directly
+     * via this method.
+     *
+     * We add all the access rules for this resource here, so we first call
+     * parent method to add $this as the resource then we
+     * define it rules here.
+     *
+     * @param Zend_Acl_Resource_Interface $acl
+     * @return ZendSF_Model_Mapper_Abstract
+     */
+    public function setAcl(Zend_Acl $acl)
+    {
+        parent::setAcl($acl);
+
+        // implement rules here.
+
+        return $this;
+    }
+
 }
