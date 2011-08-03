@@ -1,12 +1,12 @@
-<h2>Client Addresses</h2>
-<p>
+
+<p style="float:right; margin:0px;">
     <a href="<?php echo $this->url(array(
         'controller'    => 'client-address',
         'action'        => 'add',
         'clientId'      => $this->idClient
         ), 'default', true);?>" class="button">Add New Address</a>
 </p>
-
+<h2>Client Addresses</h2>
 <?php if ($this->addresses): ?>
 <table>
     <tr>
@@ -47,5 +47,5 @@
 <?php endforeach; ?>
 </table>
 <?php else: ?>
-<h3>This Client has no addresses yet.</h3>
+<h6>This Client has no addresses yet.</h6>
 <?php endif; ?>
