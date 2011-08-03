@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_ClientContactController extends ZendSF_Controller_Action_Abstract
+class Power_ClientContactController extends BBA_Controller_Action_Abstract
 {
     /**
      * Initialization code.
@@ -48,11 +48,37 @@ class Power_ClientContactController extends ZendSF_Controller_Action_Abstract
 
         $this->_model = new Power_Model_Mapper_ClientContact();
 
-        $this->setForm('clientAddressSave', array(
-            'controller' => 'client-address' ,
+        $this->setForm('clientContactSave', array(
+            'controller' => 'client-contact' ,
             'action' => 'save',
             'module' => 'power'
         ));
+    }
+
+    public function addAction()
+    {
+        $this->getForm('clientContactSave')
+                ->populate(array(
+                    'clientCo_idClient' => $this->_request->getParam('clientId')
+                ))
+                ->addHiddenElement('returnAction', 'add');
+
+        $this->view->assign(array(
+            'client'    => $this->_request->getParam('clientId')
+        ));
+    }
+
+    public function saveAction()
+    {
+        if (!$this->_request->isPost()) {
+            return $this->_helper->redirector('index', 'client');
+        }
+
+        if ($this->_request->getParam('cancel')) {
+            return $this->_helper->redirector('edit', 'client', 'power', array(
+                'clientId'  => $this->_request->getParam('clientCo_idClient')
+            ));
+        }
     }
 
 }
