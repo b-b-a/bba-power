@@ -67,6 +67,10 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
                     'clientAd_idClient' => $this->_request->getParam('clientId')
                 ))
                 ->addHiddenElement('returnAction', 'add');
+
+        $this->view->assign(array(
+            'client'    => $this->_request->getParam('clientId')
+        ));
     }
 
     public function editAction()
