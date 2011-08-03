@@ -43,6 +43,37 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
     {
         $this->setName('client-contact');
 
+        $table = new Power_Model_Mapper_Tables();
+        $list = $table->getSelectListByName('ClientCo_type');
+        foreach($list as $row) {
+            $multiOptions[$row->key] = $row->value;
+        }
+
+        $this->addElement('select', 'clientCo_type', array(
+            'label'     => 'Type:',
+            'filters'   => array('StripTags', 'StringTrim'),
+            'MultiOptions'  => $multiOptions,
+            'required'  => true
+        ));
+
+        $this->addElement('text', 'clientCo_name', array(
+            'label'     => 'Name:',
+            'required'  => true,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('text', 'clientCo_phone', array(
+            'label'     => 'Phone:',
+            'required'  => true,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('text', 'clientCo_email', array(
+            'label'     => 'email:',
+            'required'  => true,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
         $auth = Zend_Auth::getInstance();
 
         $this->addHiddenElement('userId', $auth->getIdentity()->getId());

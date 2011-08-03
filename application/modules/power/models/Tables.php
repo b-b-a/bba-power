@@ -1,6 +1,6 @@
 <?php
 /**
- * Client.php
+ * Tables.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -21,33 +21,33 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage View_Helper
+ * @subpackage Model
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Description of Client
+ * DAO to represent a single Tables.
  *
  * @category   BBA
  * @package    Power
- * @subpackage View_Helper
+ * @subpackage Model
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_View_Helper_ClientHelper extends Zend_View_Helper_Abstract
+class Power_Model_Tables extends BBA_Model_Abstract
 {
-    protected $_model;
+    /**
+     * @var string
+     */
+    protected $_primary = 'idTables';
 
-    public function clientHelper($id, $col)
-    {
-        if (null === $this->_model) {
-            $model = new Power_Model_Mapper_Client();
-            $this->_model = $model->find($id);
-        }
+    /**
+     * @var string
+     */
+    protected $_prefix = 'tables_';
 
-        return $this->_model->$col;
-    }
+
 }
