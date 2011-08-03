@@ -1,6 +1,5 @@
-<h2>Client Contacts</h2>
 
-<p>
+<p style="float:right; margin:0px;">
     <a href="<?php echo $this->url(array(
         'controller'    => 'client-contact',
         'action'        => 'add',
@@ -8,7 +7,8 @@
         ), 'default', true);?>" class="button">Add New Contact</a>
 </p>
 
-<?php if ($this->contacts): ?>
+<h2>Client Contacts</h2>
+
 <table>
     <tr>
         <th>Name <span class="id">(id)</span></th>
@@ -18,34 +18,37 @@
         <th>Postcode</th>
         <th>&nbsp;</th>
     </tr>
-<?php foreach($this->contacts as $contact): ?>
-    <tr>
-        <td><?php echo $this->escape($contact->name); ?>&nbsp;
-            <span class="id">(<?php echo $this->escape($contact->idClientContact); ?>)</span></td>
-        <td><?php echo $this->escape($contact->type); ?></td>
-        <td><?php echo $this->escape($contact->phone); ?></td>
-        <td><?php echo $this->escape($contact->email); ?></td>
-        <td><?php echo $this->escape($contact->postcode); ?></td>
-        <td class="action">
-			<a href="<?php echo $this->url(array(
-                'controller'    => 'client',
-                'action'        => 'editContact',
-				'clientId'      => $contact->idClient,
-                'addressId'     => $contact->idAddress,
-                'contactId'     => $contact->idClientContact
-            ));?>" class="button">Edit</a>
+<?php if ($this->contacts): ?>
+	<?php foreach($this->contacts as $contact): ?>
+		<tr>
+			<td><?php echo $this->escape($contact->name); ?>&nbsp;
+				<span class="id">(<?php echo $this->escape($contact->idClientContact); ?>)</span></td>
+			<td><?php echo $this->escape($contact->type); ?></td>
+			<td><?php echo $this->escape($contact->phone); ?></td>
+			<td><?php echo $this->escape($contact->email); ?></td>
+			<td><?php echo $this->escape($contact->postcode); ?></td>
+			<td class="action">
+				<a href="<?php echo $this->url(array(
+					'controller'    => 'client',
+					'action'        => 'editContact',
+					'clientId'      => $contact->idClient,
+					'addressId'     => $contact->idAddress,
+					'contactId'     => $contact->idClientContact
+				));?>" class="button">Edit</a>
 
-			<a href="<?php echo $this->url(array(
-                'controller'    => 'client',
-                'action'        => 'deleteContact',
-                'clientId'      => $contact->idClient,
-                'addressId'     => $contact->idAddress,
-                'contactId'     => $contact->idClientContact
-            ));?>" class="button">Delete</a>
-		</td>
-    </tr>
-<?php endforeach; ?>
-</table>
+				<a href="<?php echo $this->url(array(
+					'controller'    => 'client',
+					'action'        => 'deleteContact',
+					'clientId'      => $contact->idClient,
+					'addressId'     => $contact->idAddress,
+					'contactId'     => $contact->idClientContact
+				));?>" class="button">Delete</a>
+			</td>
+		</tr>
+	<?php endforeach; ?>
+
 <?php else: ?>
-<h3>This client has no contacts yet.</h3>
+		<tr><td>This client has no contacts yet.</td>
+		<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
 <?php endif; ?>
+</table>

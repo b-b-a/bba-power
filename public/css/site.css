@@ -3,9 +3,19 @@ body
     padding-top: 10px;
     background-color: #eed;
     font-family: "Times New Roman", serif;
-    /*font-size: 12pt;*/
+    font-size: 100%;
 }
 
+h1 {
+	margin-bottom: 10px;
+}
+h2 {
+	font-size:1.25em;
+	margin-bottom: 0px;
+}
+p {
+	margin-bottom: 10px;
+}
 #main_div
 {
     border: 1px solid #eee;
@@ -148,9 +158,9 @@ body
  * Forms
  */
 
-.zend_form div
+div.zend_form
 {
-    margin: 5px 0px;
+    margin: 10px 0px;
 }
 
 #auth .zend_form label,
@@ -185,7 +195,7 @@ input
 }
 
 #meter input[name=submit],
-#client input[name=submit],
+#client input[type=submit],
 #clientaddress input[name=submit],
 #clientcontact input[name=submit]
 {
@@ -285,6 +295,7 @@ span.id
 {
     font-variant: small-caps;
     font-weight: bold;
+	font-size: smaller;
 }
 
 /*
