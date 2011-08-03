@@ -94,8 +94,6 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
         if ($this->_request->getParam('clientId')) {
             $client = $this->_model->find($this->_request->getParam('clientId'));
 
-            $this->_log->info($client);
-
             $this->getForm('clientSave')
                     ->populate($client->toArray('dd/MM/yyyy'))
                     ->addHiddenElement('returnAction', 'edit');

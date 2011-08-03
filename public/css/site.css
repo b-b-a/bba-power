@@ -165,7 +165,8 @@ div.zend_form
 
 #auth .zend_form label,
 #meter .zend_form label,
-#clientaddress .zend_form label
+#clientaddress .zend_form label,
+#clientcontact .zend_form label
 {
     float: left;
     width: 100px;
@@ -195,7 +196,8 @@ input
 
 #meter input[name=submit],
 #client input[type=submit],
-#clientaddress input[name=submit]
+#clientaddress input[name=submit],
+#clientcontact input[name=submit]
 {
     margin: 0px 10px;
     float: left;
