@@ -96,14 +96,14 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
 
         // set modified and create dates.
         if ($form['returnAction'] == 'add') {
-            $model->setCreateDate(time());
-            $model->setCreateBy($form['userId']);
+            $model->dateCreate = time();
+            $model->userCreate = $form['userId'];
         }
 
         // add modified date and by if updating record.
         if ($model->getId()) {
-            $model->setModBy($form['userId']);
-            $model->setModDate(time());
+            $model->userModify = $form['userId'];
+            $model->dateModify = time();
         }
 
         return parent::save($model);

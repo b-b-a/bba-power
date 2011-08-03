@@ -5,6 +5,14 @@
     echo $this->siteSearchForm;
     /* @var $site Power_Model_Site */
 ?>
+
+<p>
+    <a href="<?php echo $this->url(array(
+        'controller'    => 'site',
+        'action'        => 'add'
+    ), 'default', true);?>" class="button">Add new Site</a>
+</p>
+
 <table>
 	<tr>
 	<th>Client <span class="id">(id)</span></th>
@@ -39,15 +47,8 @@ if ($this->sites instanceof Zend_Paginator) {
     echo $this->paginationControl(
             $this->sites,
             'Sliding',
-            'paginate.phtml',
+            '_paginate.phtml',
             array('params' => $this->search)
     );
 }
 ?>
-
-<p>
-    <a href="<?php echo $this->url(array(
-        'controller'    => 'site',
-        'action'        => 'add'
-    ), 'default', true);?>" class="button">Add new Site</a>
-</p>

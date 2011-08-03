@@ -1,12 +1,13 @@
 <?php
-	$this->title = "BBA Client Update";
+	$this->title = "BBA Client Address Update";
 	$this->headTitle($this->title);
 
-    echo $this->clientSaveForm;
+    echo $this->clientAddressSaveForm;
 
     echo $this->partial('_client-addresses.phtml', array(
-        'idClient'  => $this->client,
-        'addresses'  => $this->clientAddresses($this->client)
+        'idClient'      => $this->client,
+        'currentEdit' => $this->idAddress,
+        'addresses'     => $this->clientAddresses($this->client)
     ));
 
     echo $this->partial('_client-contacts.phtml', array(

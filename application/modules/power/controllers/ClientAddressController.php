@@ -1,6 +1,6 @@
 <?php
 /**
- * ClientController.php
+ * ClientAddressController.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Controller Class ClientController.
+ * Controller Class ClientAddressController.
  *
  * @category   BBA
  * @package    Power
@@ -37,10 +37,10 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_ClientController extends BBA_Controller_Action_Abstract
+class Power_ClientAddressController extends BBA_Controller_Action_Abstract
 {
     /**
-     * @var Power_Model_Mapper_Client
+     * @var Power_Model_Mapper_ClientAddress
      */
     protected $_model;
 
@@ -51,56 +51,27 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
     {
         parent::init();
 
-        $this->_model = new Power_Model_Mapper_Client();
+        $this->_model = new Power_Model_Mapper_ClientAddress();
 
-        $this->setForm('clientSave', array(
-            'controller' => 'client' ,
+        $this->setForm('clientAddressSave', array(
+            'controller' => 'client-address' ,
             'action' => 'save',
             'module' => 'power'
         ));
-
-        // search form
-        $this->setForm('clientSearch', array(
-            'controller' => 'client' ,
-            'action' => 'index',
-            'module' => 'power'
-        ));
-    }
-
-    /**
-     * Default action
-     */
-    public function indexAction()
-    {
-        $search = array(
-            'client'    => $this->_request->getParam('client')
-        );
-
-        // gets all clients and assigns them to the view script.
-        $this->view->assign(array(
-            'clients'   => $this->_model->clientSearch($search, $this->_page),
-            'search'    => $search
-        ));
-    }
-
-    public function addAction()
-    {
-        $this->getForm('clientSave')
-                ->addHiddenElement('returnAction', 'add');
     }
 
     public function editAction()
     {
-        if ($this->_request->getParam('clientId')) {
-            $client = $this->_model->find($this->_request->getParam('clientId'));
-
-            $this->_log->info($client);
-
-            $this->getForm('clientSave')
-                    ->populate($client->toArray('dd/MM/yyyy'))
+        if ($this->_request->getParam('addressId')) {
+            $clientAd = $this->_model->find($this->_request->getParam('addressId'));
+            $this->getForm('clientAddressSave')
+                    ->populate($clientAd->toArray('dd/MM/yyyy'))
                     ->addHiddenElement('returnAction', 'edit');
 
-            $this->view->assign('client', $client->getId());
+            $this->view->assign(array(
+                'idAddress' => $clientAd->getId(),
+                'client'    => $clientAd->idClient
+            ));
         } else {
            return $this->_helper->redirector('index', 'client');
         }
@@ -113,25 +84,31 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
         }
 
         if ($this->_request->getParam('cancel')) {
-            return $this->_helper->redirector('index', 'client');
+            return $this->_helper->redirector('edit', 'client', 'power', array(
+                'clientId'  => $this->_request->getParam('clientAd_idClient')
+            ));
         }
 
         $action = $this->_request->getParam('returnAction');
 
-        $this->getForm('clientSave')->addHiddenElement('returnAction', $action);
+        $this->getForm('clientAddressSave')->addHiddenElement('returnAction', $action);
 
-        if (!$this->getForm('clientSave')->isValid($this->_request->getPost())) {
+        if (!$this->getForm('clientAddressSave')->isValid($this->_request->getPost())) {
             return $this->render($action); // re-render the edit form
         } else {
             $saved = $this->_model->save();
 
-            if ($saved > 0) {
+            $this->_log->info($saved);
+
+            if ($saved) {
                 $this->_helper->FlashMessenger(array(
-                    'pass' => 'Client saved to database'
+                    'pass' => 'Client Address saved to database'
                 ));
 
-                return $this->_helper->redirector('index', 'client');
-            } elseif ($saved == 0) {
+                return $this->_helper->redirector('edit', 'client', 'power', array(
+                    'clientId'  => $this->_request->getParam('clientAd_idClient')
+                ));
+            } else {
                 $this->_helper->FlashMessenger(array(
                     'fail' => 'Nothing new to save'
                 ));
@@ -141,22 +118,4 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
         }
     }
 
-    public function deleteAction()
-    {
-        if ($this->_request->getParam('clientId')) {
-            $client = $this->_model->delete($this->_request->getParam('clientId'));
-
-            if ($client) {
-                $this->_helper->FlashMessenger(array(
-                    'pass' => 'Client deleted from database'
-                ));
-            } else {
-                $this->_helper->FlashMessenger(array(
-                    'fail' => 'Could not delete client from database'
-                ));
-            }
-        }
-
-        return $this->_helper->redirector('index', 'client');
-    }
 }

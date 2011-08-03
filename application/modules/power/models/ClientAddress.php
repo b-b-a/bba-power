@@ -42,7 +42,7 @@ class Power_Model_ClientAddress extends BBA_Model_Abstract
     /**
      * @var string
      */
-    protected $_primary = 'idClientAddress';
+    protected $_primary = 'idAddress';
 
     /**
      * @var string

@@ -48,15 +48,8 @@ if ($this->meters instanceof Zend_Paginator) {
     echo $this->paginationControl(
             $this->meters,
             'Sliding',
-            'paginate.phtml',
+            '_paginate.phtml',
             array('params' => $this->search)
     );
 }
 ?>
-
-<p>
-    <a href="<?php echo $this->url(array(
-        'controller'    => 'meter',
-        'action'        => 'add'
-        ), 'default', true);?>" class="button">Add New Meter</a>
-</p>

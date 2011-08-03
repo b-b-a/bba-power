@@ -1,6 +1,6 @@
 <?php
 /**
- * Save.php
+ * AddressSave.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -20,61 +20,64 @@
  * along with BBA.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category   BBA
- * @package    Power
- * @subpackage Form_Client
+ * @package
+ * @subpackage Form
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Form Class Save.
+ * Form Class AddressSave.
  *
  * @category   BBA
- * @package    Power
- * @subpackage Form_Client
+ * @package
+ * @subpackage Form
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Client_Save extends ZendSF_Form_Abstract
+class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
 {
     public function init()
     {
-        $this->setName('client');
-        $this->setAttrib('enctype', 'multipart/form-data');
+        $this->setName('client-address');
 
-        $this->addElement('text', 'client_name', array(
-            'label'     => 'Client Name:',
+        $this->addElement('text', 'clientAd_addressName', array(
+            'label'     => 'Address Name:',
+            'filters'   => array('StripTags', 'StringTrim'),
+            //'required'  => true
+        ));
+
+        $this->addElement('text', 'clientAd_address1', array(
+            'label'     => 'Address 1:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('file','client_docLoa', array(
-            'label' => 'Upload Letter of Authority:',
-            'destination' => realpath(APPLICATION_PATH . '/../data/loa'),
-            'validators' => array(
-                array('Count', false, array(1)),
-                array('Size', false, array(1048576*5)),
-                array('Extension', false, array('pdf')),
-            ),
-            'decorators' => $this->_fileDecorators
+        $this->addElement('text', 'clientAd_address2', array(
+            'label'     => 'Address 2:',
+            //'required'  => true,
+            'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('text', 'client_dateExpiryLoa', array(
-            'label'     => 'Letter of Authority Expiry Date:',
-            'filters'   => array('StripTags', 'StringTrim'),
-            'validators'    => array(
-                array('Date', true, array(
-                    'format'    => 'dd/MM/yyyy'
-                ))
-            )
+        $this->addElement('text', 'clientAd_address3', array(
+            'label'     => 'Address 3:',
+            //'required'  => true,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('text', 'clientAd_postcode', array(
+            'label'     => 'Postcode:',
+            'required'  => true,
+            'filters'   => array('StripTags', 'StringTrim')
         ));
 
         $auth = Zend_Auth::getInstance();
 
         $this->addHiddenElement('userId', $auth->getIdentity()->getId());
-        $this->addHiddenElement('client_idClient', '');
+        $this->addHiddenElement('clientAd_idAddress', '');
+        $this->addHiddenElement('clientAd_idClient', '');
 
         $this->addSubmit('Save');
         $this->addSubmit('Cancel', 'cancel');
