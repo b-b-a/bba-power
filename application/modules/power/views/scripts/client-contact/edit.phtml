@@ -1,0 +1,17 @@
+<?php
+	$this->title = "BBA Client Contact Update";
+	$this->headTitle($this->title);
+
+    echo $this->clientContactSaveForm;
+
+    echo $this->partial('_client-addresses.phtml', array(
+        'idClient'      => $this->client,
+        'addresses'     => $this->clientAddresses($this->client)
+    ));
+
+    echo $this->partial('_client-contacts.phtml', array(
+        'idClient'  => $this->client,
+        'currentEdit' => $this->idClientContact,
+        'contacts'  => $this->clientContacts($this->client)
+    ));
+?>
