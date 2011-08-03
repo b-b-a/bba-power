@@ -1,6 +1,6 @@
 <?php
 /**
- * AddressSave.php
+ * Save.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Form Class AddressSave.
+ * Form Class Save.
  *
  * @category   BBA
  * @package    Power
@@ -37,47 +37,17 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
+class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
 {
     public function init()
     {
-        $this->setName('client-address');
-
-        $this->addElement('text', 'clientAd_addressName', array(
-            'label'     => 'Address Name:',
-            'filters'   => array('StripTags', 'StringTrim'),
-            //'required'  => true
-        ));
-
-        $this->addElement('text', 'clientAd_address1', array(
-            'label'     => 'Address 1:',
-            'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
-
-        $this->addElement('text', 'clientAd_address2', array(
-            'label'     => 'Address 2:',
-            //'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
-
-        $this->addElement('text', 'clientAd_address3', array(
-            'label'     => 'Address 3:',
-            //'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
-
-        $this->addElement('text', 'clientAd_postcode', array(
-            'label'     => 'Postcode:',
-            'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
+        $this->setName('client-contact');
 
         $auth = Zend_Auth::getInstance();
 
         $this->addHiddenElement('userId', $auth->getIdentity()->getId());
-        $this->addHiddenElement('clientAd_idAddress', '');
-        $this->addHiddenElement('clientAd_idClient', '');
+        $this->addHiddenElement('clientCo_idClientContact', '');
+        $this->addHiddenElement('clientCo_idClient', '');
 
         $this->addSubmit('Save');
         $this->addSubmit('Cancel', 'cancel');
