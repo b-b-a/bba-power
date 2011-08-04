@@ -1,3 +1,5 @@
 assets/*
 scripts/*
 nbproject/*
+/*.log
+data/*

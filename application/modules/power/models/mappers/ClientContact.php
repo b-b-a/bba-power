@@ -52,10 +52,46 @@ class Power_Model_Mapper_ClientContact extends ZendSF_Model_Mapper_Acl_Abstract
 
     public function getContactByClientId($id)
     {
-        $select = $this->_dbTable->select()
-                ->where('clientCo_idClient = ?', $id);
+        $select = $this->_dbTable->select(false)
+            ->setIntegrityCheck(false)
+            ->from('client_contact')
+            ->join(
+                'client_address',
+                'clientCo_idAddress = clientAd_idAddress',
+                array('postcode' => 'clientAd_postcode')
+            )
+            ->where('clientCo_idClient = ?', $id);
 
         return $this->fetchAll($select);
+    }
+
+    public function save()
+    {
+        if (!$this->checkAcl('save')) {
+            throw new ZendSF_Acl_Exception('saving clients contacts is not allowed.');
+        }
+
+        $form = $this->getForm('clientContactSave')->getValues();
+
+        // remove client address id if not set.
+        if (!$form['clientCo_idAddress']) unset($form['clientCo_idAddress']);
+
+        /* @var $model Power_Model_Client */
+        $model = new $this->_modelClass($form);
+
+        // set modified and create dates.
+        if ($form['returnAction'] == 'add') {
+            $model->dateCreate = time();
+            $model->userCreate = $form['userId'];
+        }
+
+        // add modified date and by if updating record.
+        if ($model->getId()) {
+            $model->userModify = $form['userId'];
+            $model->dateModify = time();
+        }
+
+        return parent::save($model);
     }
 
     /**
@@ -73,6 +109,9 @@ class Power_Model_Mapper_ClientContact extends ZendSF_Model_Mapper_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
+        $this->_acl->allow('admin', $this)
+            ->deny('admin', $this, array('delete'))
+            ;
 
         return $this;
     }

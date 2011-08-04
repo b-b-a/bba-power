@@ -158,9 +158,10 @@ p {
  * Forms
  */
 
-div.zend_form
+.zend_form div
 {
     margin: 10px 0px;
+    margin-bottom: 10px;
 }
 
 #auth .zend_form label,
@@ -289,6 +290,7 @@ th
 .action
 {
     padding: 4px;
+    white-space: nowrap;
 }
 
 span.id

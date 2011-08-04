@@ -74,10 +74,43 @@ class Power_ClientContactController extends BBA_Controller_Action_Abstract
             return $this->_helper->redirector('index', 'client');
         }
 
+        $clientId = $this->_request->getParam('clientId');
+
         if ($this->_request->getParam('cancel')) {
             return $this->_helper->redirector('edit', 'client', 'power', array(
-                'clientId'  => $this->_request->getParam('clientCo_idClient')
+                'clientId'  => $clientId
             ));
+        }
+
+        $action = $this->_request->getParam('returnAction');
+
+        $this->getForm('clientContactSave')->addHiddenElement('returnAction', $action);
+
+        if (!$this->getForm('clientContactSave')->isValid($this->_request->getPost())) {
+            $this->view->assign(array(
+                'client'    => $clientId
+            ));
+            return $this->render($action); // re-render the edit form
+        } else {
+            $saved = $this->_model->save();
+
+            $this->_log->info($saved);
+
+            if ($saved) {
+                $this->_helper->FlashMessenger(array(
+                    'pass' => 'Client Contact saved to database'
+                ));
+
+                return $this->_helper->redirector('edit', 'client', 'power', array(
+                    'clientId'  => $clientId
+                ));
+            } else {
+                $this->_helper->FlashMessenger(array(
+                    'fail' => 'Nothing new to save'
+                ));
+
+                return $this->_forward($action);
+            }
         }
     }
 
