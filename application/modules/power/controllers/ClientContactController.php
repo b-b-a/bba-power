@@ -68,6 +68,23 @@ class Power_ClientContactController extends BBA_Controller_Action_Abstract
         ));
     }
 
+    public function editAction()
+    {
+        if ($this->_request->getParam('addressId')) {
+            $clientCo = $this->_model->find($this->_request->getParam('contactId'));
+            $this->getForm('clientContactSave')
+                    ->populate($clientCo->toArray('dd/MM/yyyy'))
+                    ->addHiddenElement('returnAction', 'edit');
+
+            $this->view->assign(array(
+                'idClientContact' => $clientCo->getId(),
+                'client'    => $clientCo->idClient
+            ));
+        } else {
+           return $this->_helper->redirector('index', 'client');
+        }
+    }
+
     public function saveAction()
     {
         if (!$this->_request->isPost()) {
@@ -84,7 +101,14 @@ class Power_ClientContactController extends BBA_Controller_Action_Abstract
 
         $action = $this->_request->getParam('returnAction');
 
-        $this->getForm('clientContactSave')->addHiddenElement('returnAction', $action);
+        $this->getForm('clientContactSave')
+              ->excludeEmailFromValidation('clientCo_email', array(
+                    'field' => 'clientCo_email',
+                    'value' => $this->_model
+                                    ->find($this->_request->getParam('contactId'))
+                                    ->email
+                ))
+              ->addHiddenElement('returnAction', $action);
 
         if (!$this->getForm('clientContactSave')->isValid($this->_request->getPost())) {
             $this->view->assign(array(
@@ -93,8 +117,6 @@ class Power_ClientContactController extends BBA_Controller_Action_Abstract
             return $this->render($action); // re-render the edit form
         } else {
             $saved = $this->_model->save();
-
-            $this->_log->info($saved);
 
             if ($saved) {
                 $this->_helper->FlashMessenger(array(

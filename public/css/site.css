@@ -189,7 +189,8 @@ div.zend_form
     color: #f00;
 }
 
-input
+input,
+select
 {
     color: #000;
     border: 1px solid #000;
