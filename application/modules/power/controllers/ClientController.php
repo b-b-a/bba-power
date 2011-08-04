@@ -118,6 +118,7 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
 
         $this->getForm('clientSave')->addHiddenElement('returnAction', $action);
 
+        // remove client_dateExpiryLoa if an empty string so that it can validate.
         if ($this->_request->getParam('client_dateExpiryLoa') === '') {
             $this->getForm('clientSave')->removeElement('client_dateExpiryLoa');
         }
