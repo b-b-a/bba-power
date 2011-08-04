@@ -102,11 +102,11 @@ class Power_ClientContactController extends BBA_Controller_Action_Abstract
         $action = $this->_request->getParam('returnAction');
 
         $this->getForm('clientContactSave')
-              ->excludeEmailFromValidation('clientCo_email', array(
+                ->excludeEmailFromValidation('clientCo_email', array(
                     'field' => 'clientCo_email',
                     'value' => $this->_model
-                                    ->find($this->_request->getParam('contactId'))
-                                    ->email
+                                ->find($this->_request->getParam('contactId'))
+                                ->email
                 ))
               ->addHiddenElement('returnAction', $action);
 
