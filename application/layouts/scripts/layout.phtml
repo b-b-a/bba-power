@@ -7,9 +7,16 @@
         <link rel="stylesheet" href="/css/text.css" />
         <link rel="stylesheet" href="/css/960.css" />
         <link rel="stylesheet" href="/css/site.css" />
-        <?php echo $this->mooTools(); ?>
+        <?php //echo $this->mooTools(); ?>
+        <?php
+            $this->dojo()
+                 //->setLocalPath('/js/dojo/dojo.js')
+                 ->addStyleSheetModule('dijit.themes.tundra');
+            echo $this->dojo();
+        ?>
+        <?php echo $this->headScript() ?>
     </head>
-    <body>
+    <body class="tundra">
         <!-- Start Main Div -->
         <div id="main_div" class="container_12">
             <!-- Start Header -->
