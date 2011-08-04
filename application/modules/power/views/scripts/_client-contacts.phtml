@@ -1,5 +1,5 @@
 
-<p style="float:right; margin:0px;">
+<p class="right">
     <a href="<?php echo $this->url(array(
         'controller'    => 'client-contact',
         'action'        => 'add',
@@ -29,16 +29,16 @@
 			<td><?php echo $this->escape($contact->postcode); ?></td>
 			<td class="action">
 				<a href="<?php echo $this->url(array(
-					'controller'    => 'client',
-					'action'        => 'editContact',
+					'controller'    => 'client-contact',
+					'action'        => 'edit',
 					'clientId'      => $contact->idClient,
 					'addressId'     => $contact->idAddress,
 					'contactId'     => $contact->idClientContact
 				));?>" class="button">Edit</a>
 
 				<a href="<?php echo $this->url(array(
-					'controller'    => 'client',
-					'action'        => 'deleteContact',
+					'controller'    => 'client-contact',
+					'action'        => 'delete',
 					'clientId'      => $contact->idClient,
 					'addressId'     => $contact->idAddress,
 					'contactId'     => $contact->idClientContact

@@ -189,7 +189,8 @@ p {
     color: #f00;
 }
 
-input
+input,
+select
 {
     color: #000;
     border: 1px solid #000;
@@ -339,4 +340,13 @@ Flash Messenger
 {
     background-color: #bbb;
     color: #eed;
+}
+
+/*
+Misc
+*/
+
+.right
+{
+    float: right;
 }
