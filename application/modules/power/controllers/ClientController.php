@@ -118,6 +118,10 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
 
         $this->getForm('clientSave')->addHiddenElement('returnAction', $action);
 
+        if ($this->_request->getParam('client_dateExpiryLoa') === '') {
+            $this->getForm('clientSave')->removeElement('client_dateExpiryLoa');
+        }
+
         if (!$this->getForm('clientSave')->isValid($this->_request->getPost())) {
             return $this->render($action); // re-render the edit form
         } else {
