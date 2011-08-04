@@ -1,5 +1,5 @@
 
-<p style="float:right; margin:0px;">
+<p class="right">
     <a href="<?php echo $this->url(array(
         'controller'    => 'client-address',
         'action'        => 'add',
@@ -30,6 +30,7 @@
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'client-address',
                 'action'        => 'edit',
+                'clientId'      => $address->idClient,
                 'addressId'     => $address->idAddress
             ), 'default', true);?>" class="button">Edit</a>
 

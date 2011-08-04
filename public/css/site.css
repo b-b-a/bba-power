@@ -340,3 +340,12 @@ Flash Messenger
     background-color: #bbb;
     color: #eed;
 }
+
+/*
+Misc
+*/
+
+.right
+{
+    float: right;
+}
