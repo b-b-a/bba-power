@@ -149,6 +149,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $this->_view->addHelperPath(
                 APPLICATION_PATH . '/../library/ZendSF/View/Helper', 'ZendSF_View_Helper'
         );
+
+        $this->_view->addHelperPath(
+                APPLICATION_PATH . '/../library/Zend/Dojo/View/Helper', 'Zend_Dojo_View_Helper'
+        );
     }
 
     protected function _initConfig()
@@ -163,6 +167,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $this->_logger->info(__METHOD__);
 
+        Zend_Dojo::enableView($this->_view);
+
         $this->_view->headTitle('BBA Power')->setSeparator(' - ');
     }
 
@@ -172,20 +178,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $menu = new Zend_Config_Xml(APPLICATION_PATH . '/configs/navigation.xml', 'nav');
         $this->_view->navigation(new Zend_Navigation($menu));
-    }
-
-    protected function _initMooTools()
-    {
-        $this->_logger->info(__METHOD__);
-
-        ZendX_MooTools::enableView($this->_view);
-
-        $this->_view->mooTools()
-                ->enable()
-                ->setVersion('1.3.2')
-                ->setMorePath('/js/MooTools/more/mootools-more-1.3.2.1.js')
-                ->setPluginsPath('/js/MooTools/plugins')
-                ;
     }
 
 }
