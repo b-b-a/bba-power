@@ -60,11 +60,11 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
         $select = $this->_dbTable->getMeterDetails();
 
         if (!$search['meter'] == '') {
-            $select->where('meter_numberSerial like ? COLLATE utf8_general_ci', '%'. $search['meter'] . '%');
+            $select->where('meter_numberMain like ? ', '%'. $search['meter'] . '%');
         }
 
         if (!$search['client'] == '') {
-            $select->where('client_name like ? COLLATE utf8_general_ci', '%' . $search['client'] . '%');
+            $select->where('client_name like ? ', '%' . $search['client'] . '%');
         }
 
         return $this->listMeters($paged, $select);
