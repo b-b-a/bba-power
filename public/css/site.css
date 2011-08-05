@@ -158,9 +158,9 @@ p {
  * Forms
  */
 
- .zend_form {
-	 overflow: hidden;
- }
+.zend_form {
+    overflow: hidden;
+}
 
 .zend_form div {
     margin: 10px 0px;
