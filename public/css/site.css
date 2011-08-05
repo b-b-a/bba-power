@@ -154,14 +154,18 @@ p {
     background: -moz-linear-gradient(top,  #fff,  #efa32b);
 }
 
-/**
+/*
  * Forms
- */
+*/
 
 div.zend_form
 {
+    overflow: hidden;
+}
+
+.zend_form div
+{
     margin: 10px 0px;
-    margin-bottom: 40px;
 }
 
 .zend_form label
