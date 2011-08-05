@@ -29,19 +29,20 @@
                 'controller'    => 'reading',
                 'action'        => 'index',
 				'meterId'       => $meter->id
-            ), 'default', true);?>" class="button">Readings</a>
+            ), 'default', true);?>" class="button">Usage</a>
 
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'meter',
                 'action'        => 'edit',
 				'meterId'       => $meter->id
             ),'default', true);?>" class="button">Edit</a>
-
+<!--
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'meter',
                 'action'        => 'delete',
                 'meterId'       => $meter->id
             ), 'default', true);?>" class="button">Delete</a>
+-->
 		</td>
 	</tr>
     <?php endforeach; ?>
