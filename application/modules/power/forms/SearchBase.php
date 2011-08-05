@@ -40,7 +40,7 @@
 class Power_Form_SearchBase extends ZendSF_Form_Abstract
 {
     protected $_elementDecorators = array(
-        'ViewHelper',
+        'DijitElement',
         'Errors',
         array(
             'HtmlTag',
