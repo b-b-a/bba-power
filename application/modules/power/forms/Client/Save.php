@@ -44,7 +44,7 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
         $this->setName('client');
         $this->setAttrib('enctype', 'multipart/form-data');
 
-        $this->addElement('text', 'client_name', array(
+        $this->addElement('ValidationTextBox', 'client_name', array(
             'label'     => 'Client Name:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
@@ -61,7 +61,7 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             'decorators' => $this->_fileDecorators
         ));
 */
-        $this->addElement('text', 'client_dateExpiryLoa', array(
+        $this->addElement('DateTextBox', 'client_dateExpiryLoa', array(
             'label'     => 'LoA Expiry Date:',
             'filters'   => array('StripTags', 'StringTrim'),
             'validators'    => array(
