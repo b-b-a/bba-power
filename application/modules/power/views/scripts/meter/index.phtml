@@ -23,25 +23,26 @@
         <td><?php echo $this->formatSiteAddress($meter->site); ?></td>
         <td><?php echo $meter->type; ?>&nbsp;
             <span class="id">(<?php echo $this->escape($meter->id); ?>)</span></td>
-        <td><?php echo $meter->mpan13; ?></td>
+        <td><?php echo $meter->numberMain; ?></td>
 		<td class="action">
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'reading',
                 'action'        => 'index',
 				'meterId'       => $meter->id
-            ), 'default', true);?>" class="button">Readings</a>
+            ), 'default', true);?>" class="button">Usage</a>
 
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'meter',
                 'action'        => 'edit',
 				'meterId'       => $meter->id
             ),'default', true);?>" class="button">Edit</a>
-
+<!--
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'meter',
                 'action'        => 'delete',
                 'meterId'       => $meter->id
             ), 'default', true);?>" class="button">Delete</a>
+-->
 		</td>
 	</tr>
     <?php endforeach; ?>
