@@ -74,7 +74,8 @@ class Power_ClientContactController extends BBA_Controller_Action_Abstract
             $clientCo = $this->_model->find($this->_request->getParam('contactId'));
             $this->getForm('clientContactSave')
                     ->populate($clientCo->toArray('dd/MM/yyyy'))
-                    ->addHiddenElement('returnAction', 'edit');
+                    ->addHiddenElement('returnAction', 'edit')
+                    ;
 
             $this->view->assign(array(
                 'idClientContact' => $clientCo->getId(),
@@ -101,14 +102,16 @@ class Power_ClientContactController extends BBA_Controller_Action_Abstract
 
         $action = $this->_request->getParam('returnAction');
 
-        $this->getForm('clientContactSave')
-                ->excludeEmailFromValidation('clientCo_email', array(
-                    'field' => 'clientCo_email',
-                    'value' => $this->_model
-                                ->find($this->_request->getParam('contactId'))
-                                ->email
-                ))
-              ->addHiddenElement('returnAction', $action);
+        if ($action == 'edit') {
+            $this->getForm('clientContactSave')
+                    ->excludeEmailFromValidation('clientCo_email', array(
+                        'field' => 'clientCo_email',
+                        'value' => $this->_model
+                                    ->find($this->_request->getParam('contactId'))
+                                    ->email
+                    ))
+                  ->addHiddenElement('returnAction', $action);
+        }
 
         if (!$this->getForm('clientContactSave')->isValid($this->_request->getPost())) {
             $this->view->assign(array(
@@ -116,6 +119,7 @@ class Power_ClientContactController extends BBA_Controller_Action_Abstract
             ));
             return $this->render($action); // re-render the edit form
         } else {
+            $this->_log->info($this->_request->getParams());
             $saved = $this->_model->save();
 
             if ($saved) {

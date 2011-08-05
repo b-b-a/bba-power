@@ -41,6 +41,8 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
 {
     public function init()
     {
+        Zend_Dojo::enableForm($this);
+
         $this->setName('client-contact');
 
         $table = new Power_Model_Mapper_Tables();
@@ -49,26 +51,27 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
             $multiOptions[$row->key] = $row->value;
         }
 
-        $this->addElement('select', 'clientCo_type', array(
+        $this->addElement('FilteringSelect', 'clientCo_type', array(
             'label'     => 'Type:',
             'filters'   => array('StripTags', 'StringTrim'),
-            'MultiOptions'  => $multiOptions,
-            'required'  => true
+            'autocomplete' => false,
+            'multiOptions'  => $multiOptions,
+            'required'  => true,
         ));
 
-        $this->addElement('text', 'clientCo_name', array(
+        $this->addElement('ValidationTextBox', 'clientCo_name', array(
             'label'     => 'Name:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('text', 'clientCo_phone', array(
+        $this->addElement('ValidationTextBox', 'clientCo_phone', array(
             'label'     => 'Phone:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('text', 'clientCo_email', array(
+        $this->addElement('ValidationTextBox', 'clientCo_email', array(
             'label'     => 'email:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim', 'StringToLower'),
@@ -91,10 +94,11 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
             $multiOptions[$row->idAddress] = $row->postcode;
         }
 
-        $this->addElement('select', 'clientCo_idAddress', array(
+        $this->addElement('FilteringSelect', 'clientCo_idAddress', array(
             'label'     => 'Postcode:',
             'filters'   => array('StripTags', 'StringTrim'),
-            'MultiOptions'  => $multiOptions,
+            'atuocomplete' => false,
+            'multiOptions'  => $multiOptions,
             'required'  => true
         ));
 
