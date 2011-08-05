@@ -172,11 +172,11 @@ p {
     width: 200px;
 	margin-right: 5px;
 }
-
+/*
 label.search {
 	float: none;
 }
-
+*/
 .zend_form p
 {
     margin: 0px;
@@ -207,11 +207,11 @@ input[type=submit]:hover {
 	background-color: #efa32b;
     background: -moz-linear-gradient(top,  #fff, #efa32b);
 }
-
+/*
 input[class=search] {
     float: none;
 }
-
+*/
 .required:before
 {
     content: '*';
@@ -229,6 +229,10 @@ input[class=search] {
 #Search .row
 {
     margin-right: 20px;
+}
+
+#Search .search {
+	float: none;
 }
 
 /**
