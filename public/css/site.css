@@ -158,25 +158,23 @@ p {
  * Forms
  */
 
-.zend_form div
-{
+ .zend_form {
+	 overflow: hidden;
+ }
+
+.zend_form div {
     margin: 10px 0px;
-    margin-bottom: 10px;
 }
 
-#auth .zend_form label,
-#meter .zend_form label,
-#clientaddress .zend_form label,
-#clientcontact .zend_form label
-{
-    float: left;
-    width: 100px;
-}
-
-#client .zend_form label
-{
-    float: left;
+.zend_form label {
+	float: left;
+    text-align: right;
     width: 200px;
+	margin-right: 5px;
+}
+
+label.search {
+	float: none;
 }
 
 .zend_form p
@@ -196,30 +194,25 @@ select
     border: 1px solid #000;
 }
 
-#meter input[name=submit],
-#client input[type=submit],
-#clientaddress input[name=submit],
-#clientcontact input[name=submit]
-{
+input[type=submit] {
     margin: 0px 10px;
     float: left;
-}
-
-input[type=submit]
-{
-    border-radius: 10px;
+	border-radius: 10px;
 	background-color: #98b2d6;
     background: -moz-linear-gradient(top,  #fff, #98b2d6);
 }
 
-input[type=submit]:hover
-{
+input[type=submit]:hover {
     cursor: pointer;
 	background-color: #efa32b;
     background: -moz-linear-gradient(top,  #fff, #efa32b);
 }
 
-.required:after
+input[class=search] {
+    float: none;
+}
+
+.required:before
 {
     content: '*';
     color: #f00;
@@ -241,19 +234,20 @@ input[type=submit]:hover
 /**
  * Buttons
  */
-a.button
+.button
 {
     border: 1px solid #000;
     background-color: #98b2d6;
     color: #000;
     text-decoration: none;
     text-align: center;
-    border-radius: 5px;
-    padding: 3px 10px;
+    border-radius: 10px;
+    padding: 1px 9px;
+	margin: 0px 10px;
     background: -moz-linear-gradient(top,  #fff, #98b2d6);
  }
 
-a.button:hover
+.button:hover
 {
     background-color: #efa32b;
     background: -moz-linear-gradient(top,  #fff,  #efa32b);
