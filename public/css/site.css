@@ -196,17 +196,12 @@ select
     border: 1px solid #000;
 }
 
-#meter input[name=submit],
-#client input[type=submit],
-#clientaddress input[name=submit],
-#clientcontact input[name=submit]
-{
-    margin: 0px 10px;
-    float: left;
 }
 
 input[type=submit]
 {
+    margin: 0px 10px;
+    float: left;
     border-radius: 10px;
 	background-color: #98b2d6;
     background: -moz-linear-gradient(top,  #fff, #98b2d6);
