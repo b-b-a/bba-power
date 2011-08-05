@@ -196,8 +196,6 @@ select
     border: 1px solid #000;
 }
 
-}
-
 input[type=submit]
 {
     margin: 0px 10px;
@@ -212,6 +210,11 @@ input[type=submit]:hover
     cursor: pointer;
 	background-color: #efa32b;
     background: -moz-linear-gradient(top,  #fff, #efa32b);
+}
+
+input[class=search]
+{
+    float: none;
 }
 
 .required:after
