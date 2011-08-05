@@ -241,7 +241,7 @@ input[type=submit]:hover
 /**
  * Buttons
  */
-a.button
+.button
 {
     border: 1px solid #000;
     background-color: #98b2d6;
@@ -249,11 +249,12 @@ a.button
     text-decoration: none;
     text-align: center;
     border-radius: 5px;
-    padding: 3px 10px;
+    padding: 1px 9px;
+    margin: 0px 10px;
     background: -moz-linear-gradient(top,  #fff, #98b2d6);
  }
 
-a.button:hover
+.button:hover
 {
     background-color: #efa32b;
     background: -moz-linear-gradient(top,  #fff,  #efa32b);
