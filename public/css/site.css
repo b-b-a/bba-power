@@ -162,9 +162,8 @@ p {
 	 overflow: hidden;
  }
 
-.zend_form div
-{
-    /*margin: 10px 0px;*/
+.zend_form div {
+    margin: 10px 0px;
 }
 
 .zend_form label {
