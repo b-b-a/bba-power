@@ -149,10 +149,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $this->_view->addHelperPath(
                 APPLICATION_PATH . '/../library/ZendSF/View/Helper', 'ZendSF_View_Helper'
         );
-
-        //$this->_view->addHelperPath(
-         //       APPLICATION_PATH . '/../library/Zend/Dojo/View/Helper', 'Zend_Dojo_View_Helper'
-        //);
     }
 
     protected function _initConfig()
