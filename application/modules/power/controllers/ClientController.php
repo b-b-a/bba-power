@@ -95,7 +95,7 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
             $client = $this->_model->find($this->_request->getParam('clientId'));
 
             $this->getForm('clientSave')
-                    ->populate($client->toArray('dd/MM/yyyy'))
+                    ->populate($client->toArray('yyyy-MM-dd'))
                     ->addHiddenElement('returnAction', 'edit');
 
             $this->view->assign('client', $client->getId());
@@ -110,8 +110,12 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
             return $this->_helper->redirector('index', 'client');
         }
 
+        $clientId = $this->_request->getParam('clientId');
+
         if ($this->_request->getParam('cancel')) {
-            return $this->_helper->redirector('index', 'client');
+            return $this->_helper->redirector('index', 'client', 'power', array(
+                'clientId'  => $clientId
+            ));
         }
 
         $action = $this->_request->getParam('returnAction');
@@ -123,7 +127,12 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
             $this->getForm('clientSave')->removeElement('client_dateExpiryLoa');
         }
 
+        $this->_log->info($this->_request->getParams());
+
         if (!$this->getForm('clientSave')->isValid($this->_request->getPost())) {
+            $this->view->assign(array(
+                'client'    => $clientId
+            ));
             return $this->render($action); // re-render the edit form
         } else {
             $saved = $this->_model->save();
