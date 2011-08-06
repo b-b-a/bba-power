@@ -47,6 +47,13 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
         parent::init();
 
         $this->_model = new Power_Model_Mapper_Site();
+        
+        // search form
+        $this->setForm('siteSearch', array(
+            'controller' => 'site' ,
+            'action' => 'index',
+            'module' => 'power'
+        ));
     }
 
     /**

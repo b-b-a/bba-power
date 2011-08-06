@@ -1,6 +1,6 @@
 <?php
 /**
- * SearchBase.php
+ * Search.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -21,65 +21,39 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage Form
+ * @subpackage Form_Site
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Form Class SearchBase.
+ * Form Class Search.
  *
  * @category   BBA
  * @package    Power
- * @subpackage Form
+ * @subpackage Form_Site
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_SearchBase extends ZendSF_Form_Abstract
+class Power_Form_Site_Search extends Power_Form_SearchBase
 {
-    protected $_elementDecorators = array(
-        'DijitElement',
-        'Errors',
-        array(
-            'HtmlTag',
-            array(
-                'tag'   => 'span',
-                'class' => 'search'
-            )
-        ),
-        array(
-            'Label',
-            array(
-                'tag'   => 'span',
-                'class' => 'search'
-            )
-        ),
-        array(
-            array('row' => 'HtmlTag'),
-            array(
-                'tag'   => 'span',
-                'class' => 'row'
-            )
-        )
-    );
-
-    protected $_submitDecorators = array(
-        'ViewHelper',
-        array(
-            'HtmlTag',
-            array(
-                'tag'   => 'span',
-                'class' => 'search'
-            )
-        )
-    );
-
     public function init()
     {
-        $this->setName('Search');
+        $this->addElement('text', 'site', array(
+            'label'     => 'Site:',
+            'attribs'   => array('class' => 'search'),
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('text', 'client', array(
+            'label'     => 'Client:',
+            'attribs'   => array('class' => 'search'),
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
         
-        $this->addSubmit('Search', 'submit', 'search');
+        parent::init();
     }
+
 }
