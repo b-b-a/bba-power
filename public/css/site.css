@@ -4,8 +4,14 @@ body
     background-color: #eed;
     font-family: "Times New Roman", serif;
     font-size: 90%;
+			/* if font-size is changed - also change 
+							input[type=submit] {
+									font-size: 90%;
+					(line 210ish) as it	does not seem to be picked up automatically
+			*/
 }
 
+/* Overides of text.css  -  or can we just remove text.css??  */
 h1 {
 	margin-bottom: 10px;
 }
@@ -13,9 +19,17 @@ h2 {
 	font-size:1.25em;
 	margin-bottom: 0px;
 }
+h3 {
+	font-size:1.10em;
+	margin-bottom: 0px;
+}
 p {
 	margin-bottom: 10px;
 }
+table {
+	margin-bottom: 10px;
+}
+
 #main_div
 {
     border: 1px solid #eee;
@@ -177,7 +191,7 @@ p {
     width: 200px;
 	margin-right: 5px;
 }
-/*
+/*    see  #Search .search
 label.search {
 	float: none;
 }
@@ -200,6 +214,7 @@ select
 }
 
 input[type=submit] {
+	font-size: 90%;
     margin: 0px 10px;
     float: left;
 	border-radius: 10px;
@@ -212,7 +227,7 @@ input[type=submit]:hover {
 	background-color: #efa32b;
     background: -moz-linear-gradient(top,  #fff, #efa32b);
 }
-/*
+/*    see   #Search .search
 input[class=search] {
     float: none;
 }
@@ -303,6 +318,25 @@ span.id
     font-weight: bold;
 	font-size: smaller;
 }
+/* 
+	TableHead styles - the heading line and possible(New XXXX)button that heads
+						each table of details.
+*/
+
+.tableHead {
+	/* a  DIV  */
+	overflow: hidden;	/* terminate any floats */
+	margin-top: 15px;
+}
+.tableHead-heading {
+	/* an  H2  */
+	float: left;
+}
+.tableHead-button {
+	/* a  P  for the button */
+	float: right;
+	margin: 0px;
+}
 
 /*
 Pagination
@@ -345,11 +379,3 @@ Flash Messenger
     color: #eed;
 }
 
-/*
-Misc
-*/
-
-.right
-{
-    float: right;
-}

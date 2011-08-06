@@ -1,13 +1,13 @@
-
-<p class="right">
-    <a href="<?php echo $this->url(array(
-        'controller'    => 'client-contact',
-        'action'        => 'add',
-        'clientId'      => $this->idClient
-        ), 'default', true);?>" class="button">Add New Contact</a>
-</p>
-
-<h2>Client Contacts</h2>
+<div class="tableHead">
+	<h2 class="tableHead-heading">Client Contacts</h2>
+	<p class="tableHead-button">
+		<a href="<?php echo $this->url(array(
+			'controller'    => 'client-contact',
+			'action'        => 'add',
+			'clientId'      => $this->idClient
+			), 'default', true);?>" class="button">New Contact</a>
+	</p>
+</div>
 
 <table>
     <tr>
