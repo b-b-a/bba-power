@@ -1,13 +1,14 @@
+<div class="tableHead">
+	<h2 class="tableHead-heading">Client Addresses</h2>
+	<p class="tableHead-button">
+		<a href="<?php echo $this->url(array(
+			'controller'    => 'client-address',
+			'action'        => 'add',
+			'clientId'      => $this->idClient
+			), 'default', true);?>" class="button">New Address</a>
+	</p>
+</div>
 
-<p class="right">
-    <a href="<?php echo $this->url(array(
-        'controller'    => 'client-address',
-        'action'        => 'add',
-        'clientId'      => $this->idClient
-        ), 'default', true);?>" class="button">Add New Address</a>
-</p>
-<h2>Client Addresses</h2>
-<?php if ($this->addresses): ?>
 <table>
     <tr>
         <th>Address Name <span class="id">(id)</span></th>
@@ -17,36 +18,50 @@
         <th>Postcode</th>
         <th>&nbsp;</th>
     </tr>
-<?php foreach($this->addresses as $address): ?>
-    <tr class="<?php if ($this->currentEdit == $address->idAddress) echo 'current-eidt'; ?>">
-        <td><?php echo $this->escape($address->addressName); ?>&nbsp;
-            <span class="id">(<?php echo $this->escape($address->idAddress); ?>)</span></td>
-        <td><?php echo $this->escape($address->address1); ?></td>
-        <td><?php echo $this->escape($address->address2); ?></td>
-        <td><?php echo $this->escape($address->address3); ?></td>
-        <td><?php echo $this->escape($address->postcode); ?></td>
-        <td class="action">
-            <?php if ($this->currentEdit != $address->idAddress): ?>
-			<a href="<?php echo $this->url(array(
-                'controller'    => 'client-address',
-                'action'        => 'edit',
-                'clientId'      => $address->idClient,
-                'addressId'     => $address->idAddress
-            ), 'default', true);?>" class="button">Edit</a>
-
-			<a href="<?php echo $this->url(array(
-                'controller'    => 'client-address',
-                'action'        => 'delete',
-                'clientId'      => $address->idClient,
-                'addressId'     => $address->idAddress
-            ), 'default', true);?>" class="button">Delete</a>
-            <?php else: ?>
-            &nbsp;
-            <?php endif; ?>
-		</td>
-    </tr>
-<?php endforeach; ?>
-</table>
-<?php else: ?>
-<h6>This Client has no addresses yet.</h6>
+<?php 
+	if ($this->addresses):
+		foreach($this->addresses as $address): 
+?>
+			<tr class="<?php if ($this->currentEdit == $address->idAddress) echo 'current-eidt'; ?>">
+				<td><?php echo $this->escape($address->addressName); ?>&nbsp;
+					<span class="id">(<?php echo $this->escape($address->idAddress); ?>)</span></td>
+				<td><?php echo $this->escape($address->address1); ?></td>
+				<td><?php echo $this->escape($address->address2); ?></td>
+				<td><?php echo $this->escape($address->address3); ?></td>
+				<td><?php echo $this->escape($address->postcode); ?></td>
+				<td class="action">
+					<?php if ($this->currentEdit != $address->idAddress): ?>
+					<a href="<?php echo $this->url(array(
+						'controller'    => 'client-address',
+						'action'        => 'edit',
+						'clientId'      => $address->idClient,
+						'addressId'     => $address->idAddress
+					), 'default', true);?>" class="button">Edit</a>
+<!--
+					<a href="<?php echo $this->url(array(
+						'controller'    => 'client-address',
+						'action'        => 'delete',
+						'clientId'      => $address->idClient,
+						'addressId'     => $address->idAddress
+					), 'default', true);?>" class="button">Delete</a>
+	-->				
+<!--
+					<a href="<?php echo $this->url(array(
+						'controller'    => 'client-contact',
+						'action'        => 'add',
+						'clientId'      => $this->idClient,
+						'addressId'     => $address->idAddress
+						), 'default', true);?>" class="button">New Contact</a>
+-->
+					<?php else: ?>
+					&nbsp;
+					<?php endif; ?>
+				</td>
+			</tr>
+	<?php endforeach; 
+	else: ?>
+		<tr><td>This Client has no addresses yet.</td>
+			<td></td><td></td><td></td><td></td><td></td>
+		</tr>
 <?php endif; ?>
+</table>
