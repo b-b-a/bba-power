@@ -45,19 +45,16 @@ class Power_View_Helper_FormatSiteAddress extends Zend_View_Helper_Abstract
      * @param string $address
      * @return string
      */
-    public function formatSiteAddress($address)
+    public function formatSiteAddress($address = array())
     {
-        $address = explode('/n', $address);
         $returnString = '';
 
-        foreach ($address as $value) {
+        foreach ((array) $address as $value) {
             if ($value != '') {
-                $returnString .= str_replace(',', '<br />', $value) . '<br />';
+                $returnString .= $value . '<br />';
             }
         }
 
         return $returnString;
     }
 }
-
-?>

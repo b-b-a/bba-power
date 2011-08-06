@@ -18,9 +18,12 @@
     <?php foreach($this->meters as $meter) : ?>
 	<tr>
         <td>
-            <?php echo $this->escape($meter->client); ?>
+            <?php echo $this->escape($meter->client_name); ?>
         </td>
-        <td><?php echo $this->formatSiteAddress($meter->site); ?></td>
+        <td><?php echo $this->formatSiteAddress(array(
+            $this->escape($meter->clientAd_address1), $this->escape($meter->clientAd_address2),
+            $this->escape($meter->clientAd_address3), $this->escape($meter->clientAd_postcode)
+        )); ?></td>
         <td><?php echo $meter->type; ?>&nbsp;
             <span class="id">(<?php echo $this->escape($meter->id); ?>)</span></td>
         <td><?php echo $meter->numberMain; ?></td>
