@@ -1,3 +1,6 @@
 [submodule "library/ZendSF"]
 	path = library/ZendSF
 	url = git@github.com:shaunfreeman/ZendSF.git
+[submodule "library/Zend"]
+	path = library/Zend
+	url = git@github.com:shaunfreeman/Zend.git
