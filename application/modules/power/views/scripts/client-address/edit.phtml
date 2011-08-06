@@ -14,8 +14,9 @@
         'addresses'     => $this->clientAddresses($this->client)
     ));
 
-    echo $this->partial('_client-contacts.phtml', array(
-        'idClient'  => $this->client,
-        'contacts'  => $this->clientContacts($this->client)
-    ));
+// Commented out for V1 - clientContacts needs more thought about the associated address
+//    echo $this->partial('_client-contacts.phtml', array(
+//        'idClient'  => $this->client,
+//        'contacts'  => $this->clientContacts($this->client)
+//    ));
 ?>
