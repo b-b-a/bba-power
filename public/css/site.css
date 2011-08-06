@@ -162,8 +162,12 @@ p {
     overflow: hidden;
 }
 
-.zend_form div {
-    margin: 1px 0px;   
+.zend_form .form_row {
+    margin: 5px 0px;
+    /* 1px stll had a 1px gap. so I have given each
+     * each row a class name of 'form_row' and added
+     * top and bottom margin to seperate the elements better.
+     */
 	/* 1px seems to make the dojo type of field the correct size (was 10px)*/
 }
 
