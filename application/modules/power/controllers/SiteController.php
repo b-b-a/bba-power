@@ -48,6 +48,12 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
 
         $this->_model = new Power_Model_Mapper_Site();
         
+        $this->setForm('siteSave', array(
+            'controller' => 'site' ,
+            'action' => 'save',
+            'module' => 'power'
+        ));
+        
         // search form
         $this->setForm('siteSearch', array(
             'controller' => 'site' ,
