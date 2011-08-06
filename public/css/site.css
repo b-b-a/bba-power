@@ -163,7 +163,8 @@ p {
 }
 
 .zend_form div {
-    margin: 10px 0px;
+    margin: 1px 0px;   
+	/* 1px seems to make the dojo type of field the correct size (was 10px)*/
 }
 
 .zend_form label {
