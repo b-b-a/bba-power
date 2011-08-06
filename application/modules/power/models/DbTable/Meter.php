@@ -71,15 +71,15 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
             ->join(
                 'client_address',
                 'clientAd_idAddress = site_idAddress',
-                /**
-                 * TODO: change this to single fields.
-                 */
-                array('site' => 'CONCAT(clientAd_address1,"/n",clientAd_address2,"/n",clientAd_address3,"/n",clientAd_postcode)')
+                array(
+                    'clientAd_address1', 'clientAd_address2',
+                    'clientAd_address3', 'clientAd_postcode'
+                )
             )
             ->join(
                 'client',
                 'client_idClient = site_idClient ',
-                array('client' => 'client_name')
+                array('client_name')
             )
             ->order('client_name ASC');
     }

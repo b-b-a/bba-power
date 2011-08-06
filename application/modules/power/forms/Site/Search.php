@@ -41,18 +41,18 @@ class Power_Form_Site_Search extends Power_Form_SearchBase
 {
     public function init()
     {
-        $this->addElement('text', 'site', array(
+        $this->addElement('TextBox', 'site', array(
             'label'     => 'Site:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('text', 'client', array(
+        $this->addElement('TextBox', 'client', array(
             'label'     => 'Client:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim')
         ));
-        
+
         parent::init();
     }
 

@@ -10,7 +10,7 @@
     <a href="<?php echo $this->url(array(
         'controller'    => 'site',
         'action'        => 'add'
-    ), 'default', true);?>" class="button">Add new Site</a>
+    ), 'default', true);?>" class="button">New Site</a>
 </p>
 
 <table>
@@ -22,10 +22,13 @@
     <?php foreach($this->sites as $site): ?>
 	<tr>
 		<td>
-            <?php echo $this->escape($site->client);?>&nbsp;
+            <?php echo $this->escape($site->client_name);?>&nbsp;
             <span class="id">(<?php echo $this->escape($site->id); ?>)</span>
         </td>
-		<td><?php echo $this->formatSiteAddress($this->escape($site->site)); ?></td>
+		<td><?php echo $this->formatSiteAddress(array(
+            $this->escape($site->clientAd_address1), $this->escape($site->clientAd_address2),
+            $this->escape($site->clientAd_address3), $this->escape($site->clientAd_postcode)
+        )); ?></td>
 		<td class="action">
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'site',
