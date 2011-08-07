@@ -43,6 +43,54 @@ class Power_Form_Site_Save extends ZendSF_Form_Abstract
     {
         $this->setName('site');
 
+        $this->addElement('FilteringSelect', 'site_idClient', array(
+            'label'         => 'Client:',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autoComplete'  => false,
+            'hasDownArrow'  => true,
+            'storeId'       => 'clientStore',
+            'storeType'     => 'dojo.data.ItemFileReadStore',
+            'storeParams'   => array('url' => "/site/autocomplete/param/client"),
+            'dijitParams'   => array('searchAttr' => 'client_name'),
+            'required'      => true
+        ));
+
+        $this->addElement('FilteringSelect', 'site_idAddress', array(
+            'label'         => 'Address:',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autoComplete'  => false,
+            'hasDownArrow'  => true,
+            'storeId'       => 'addressStore',
+            'storeType'     => 'dojo.data.ItemFileReadStore',
+            'storeParams'   => array('url' => "/site/autocomplete/param/address"),
+            'dijitParams'   => array('searchAttr' => 'clientAd_postcode'),
+            'required'      => true
+        ));
+
+        $this->addElement('FilteringSelect', 'site_idBillAddress', array(
+            'label'         => 'Billing Address:',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autoComplete'  => false,
+            'hasDownArrow'  => true,
+            'storeId'       => 'addressStore',
+            'storeType'     => 'dojo.data.ItemFileReadStore',
+            'storeParams'   => array('url' => "/site/autocomplete/param/address"),
+            'dijitParams'   => array('searchAttr' => 'clientAd_postcode'),
+            'required'      => true
+        ));
+
+        $this->addElement('FilteringSelect', 'site_idClientContact', array(
+            'label'         => 'Client Contact:',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autoComplete'  => false,
+            'hasDownArrow'  => true,
+            'storeId'       => 'contactStore',
+            'storeType'     => 'dojo.data.ItemFileReadStore',
+            'storeParams'   => array('url' => "/site/autocomplete/param/contact"),
+            'dijitParams'   => array('searchAttr' => 'clientCo_name'),
+            'required'      => false
+        ));
+
         $auth = Zend_Auth::getInstance();
 
         $this->addHiddenElement('userId', $auth->getIdentity()->getId());
