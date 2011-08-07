@@ -47,13 +47,13 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
         parent::init();
 
         $this->_model = new Power_Model_Mapper_Site();
-        
+
         $this->setForm('siteSave', array(
             'controller' => 'site' ,
             'action' => 'save',
             'module' => 'power'
         ));
-        
+
         // search form
         $this->setForm('siteSearch', array(
             'controller' => 'site' ,
@@ -76,8 +76,6 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
             'sites'     => $this->_model->siteSearch($search, $this->_page),
             'search'    => $search
         ));
-
-        $this->_log->info($this->_model->siteSearch($search, $this->_page));
     }
 
     public function addAction()
@@ -90,9 +88,41 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
 
     }
 
+    public function autocompleteAction()
+    {
+        $this->_helper->layout->disableLayout();
+        $this->getHelper('viewRenderer')->setNoRender(true);
+
+        switch ($this->_request->getParam('param')) {
+            case 'client':
+                $model = new Power_Model_Mapper_Client();
+                $identifier = 'client_idClient';
+                break;
+
+            case 'address':
+                $model = new Power_Model_Mapper_ClientAddress();
+                $identifier = 'clientAd_idAddress';
+                break;
+
+            case 'contact':
+                $model = new Power_Model_Mapper_ClientContact();
+                $identifier = 'clientCo_idClientContact';
+                break;
+
+        }
+
+        $items = $model->fetchAll(null, true);
+        $this->_log->info(count($items));
+
+            $data = new Zend_Dojo_Data($identifier, $items);
+            echo $data->toJson();
+
+
+    }
+
     public function saveAction()
     {
-
+        $this->_log->info($this->_request->getParams());
     }
 
     public function deleteAction()
