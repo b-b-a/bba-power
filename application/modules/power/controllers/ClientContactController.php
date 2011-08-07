@@ -73,7 +73,7 @@ class Power_ClientContactController extends BBA_Controller_Action_Abstract
         if ($this->_request->getParam('addressId')) {
             $clientCo = $this->_model->find($this->_request->getParam('contactId'));
             $this->getForm('clientContactSave')
-                    ->populate($clientCo->toArray('dd/MM/yyyy'))
+                    ->populate($clientCo->toArray())
                     ->addHiddenElement('returnAction', 'edit')
                     ;
 

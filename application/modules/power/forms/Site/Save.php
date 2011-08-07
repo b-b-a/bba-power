@@ -63,7 +63,7 @@ class Power_Form_Site_Save extends ZendSF_Form_Abstract
             'storeId'       => 'addressStore',
             'storeType'     => 'dojo.data.ItemFileReadStore',
             'storeParams'   => array('url' => "/site/autocomplete/param/address"),
-            'dijitParams'   => array('searchAttr' => 'clientAd_postcode'),
+            'dijitParams'   => array('searchAttr' => 'clientAd_address1AndPostcode'),
             'required'      => true
         ));
 
@@ -75,7 +75,7 @@ class Power_Form_Site_Save extends ZendSF_Form_Abstract
             'storeId'       => 'addressStore',
             'storeType'     => 'dojo.data.ItemFileReadStore',
             'storeParams'   => array('url' => "/site/autocomplete/param/address"),
-            'dijitParams'   => array('searchAttr' => 'clientAd_postcode'),
+            'dijitParams'   => array('searchAttr' => 'clientAd_address1AndPostcode'),
             'required'      => true
         ));
 
