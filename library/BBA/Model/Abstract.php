@@ -46,6 +46,11 @@ abstract class BBA_Model_Abstract extends ZendSF_Model_Abstract
      */
     protected $_dateFormat = 'yyyy-MM-dd';
 
+    /**
+     * Gets the model prefix.
+     *
+     * @return string $_prefix
+     */
     public function getPrefix()
     {
         return $this->_prefix;

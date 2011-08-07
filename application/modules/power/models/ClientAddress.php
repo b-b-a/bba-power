@@ -49,6 +49,11 @@ class Power_Model_ClientAddress extends BBA_Model_Abstract
      */
     protected $_prefix = 'clientAd_';
 
+    /**
+     * Concats address1 and postcode.
+     *
+     * @return string
+     */
     public function getAddress1AndPostcode()
     {
         return $this->address1 . ', ' . $this->postcode;
