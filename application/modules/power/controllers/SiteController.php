@@ -80,12 +80,23 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
 
     public function addAction()
     {
-
+        $this->getForm('siteSave')
+                ->addHiddenElement('returnAction', 'add');
     }
 
     public function editAction()
     {
+        if ($this->_request->getParam('siteId')) {
+            $site = $this->_model->find($this->_request->getParam('siteId'));
 
+            $this->getForm('siteSave')
+                    ->populate($site->toArray())
+                    ->addHiddenElement('returnAction', 'edit');
+
+            $this->view->assign('site', $site->getId());
+        } else {
+           return $this->_helper->redirector('index', 'site');
+        }
     }
 
     public function autocompleteAction()
@@ -97,25 +108,36 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
             case 'client':
                 $model = new Power_Model_Mapper_Client();
                 $identifier = 'client_idClient';
+                $searchItems = array('idClient', 'name');
                 break;
 
             case 'address':
                 $model = new Power_Model_Mapper_ClientAddress();
                 $identifier = 'clientAd_idAddress';
+                $searchItems = array('idAddress', 'address1AndPostcode');
                 break;
 
             case 'contact':
                 $model = new Power_Model_Mapper_ClientContact();
                 $identifier = 'clientCo_idClientContact';
+                $searchItems = array('idClientContact', 'name');
                 break;
 
         }
 
-        $items = $model->fetchAll(null, true);
-        $this->_log->info(count($items));
+        $result = $model->fetchAll();
+        $items = array();
 
-            $data = new Zend_Dojo_Data($identifier, $items);
-            echo $data->toJson();
+        foreach ($result as $row) {
+            //$row = $row->toArray();
+            $items[] = array(
+                $identifier                     => $row->{$searchItems[0]},
+                $row->prefix . $searchItems[1]  => $row->{$searchItems[1]}
+            );
+        }
+
+        $data = new Zend_Dojo_Data($identifier, $items);
+        echo $data->toJson();
 
 
     }

@@ -78,7 +78,7 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
         if ($this->_request->getParam('addressId')) {
             $clientAd = $this->_model->find($this->_request->getParam('addressId'));
             $this->getForm('clientAddressSave')
-                    ->populate($clientAd->toArray('dd/MM/yyyy'))
+                    ->populate($clientAd->toArray())
                     ->addHiddenElement('returnAction', 'edit');
 
             $this->view->assign(array(

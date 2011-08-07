@@ -48,4 +48,9 @@ class Power_Model_ClientAddress extends BBA_Model_Abstract
      * @var string
      */
     protected $_prefix = 'clientAd_';
+
+    public function getAddress1AndPostcode()
+    {
+        return $this->address1 . ', ' . $this->postcode;
+    }
 }
