@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Site_Save extends ZendSF_Form_Abstract
+class Power_Form_Site_Add extends ZendSF_Form_Abstract
 {
     public function init()
     {
@@ -68,7 +68,7 @@ class Power_Form_Site_Save extends ZendSF_Form_Abstract
             'required'      => true
         ));
 
-        $this->addElement('FilteringSelect', 'site_idBillAddress', array(
+        $this->addElement('FilteringSelect', 'site_idAddressBill', array(
             'label'         => 'Billing Address:',
             'filters'       => array('StripTags', 'StringTrim'),
             'autoComplete'  => false,
