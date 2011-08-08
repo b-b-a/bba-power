@@ -46,7 +46,8 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
         $this->addElement('text', 'site_idClient', array(
             'label'         => 'Client:',
             'filters'       => array('StripTags', 'StringTrim'),
-            'required'      => true
+            'attribs'         => array('disabled' => true),
+            //'required'      => true
         ));
 
         $this->addElement('text', 'site_idAddress', array(
@@ -64,7 +65,7 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
         $this->addElement('FilteringSelect', 'site_idClientContact', array(
             'label'         => 'Client Contact:',
             'filters'       => array('StripTags', 'StringTrim'),
-            'attribs'         => array('disabled' => true),
+            'attribs'       => array('disabled' => true),
             'required'      => false
         ));
 
