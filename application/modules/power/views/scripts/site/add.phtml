@@ -2,7 +2,7 @@
     $this->title = "BBA Add Site";
     $this->headTitle($this->title);
 
-    echo $this->siteSaveForm;
+    echo $this->siteAddForm;
 ?>
 
 <script>
@@ -18,7 +18,7 @@
                 dijit.byId("site_idAddress").set('disabled', false);
             }
             dijit.byId('site_idAddress').set('value', '');
-            dijit.byId('site_idBillAddress').set('value', '');
+            dijit.byId('site_idAddressBill').set('value', '');
 
             bba.clientId = val;
             bba.addressStore = new dojo.data.ItemFileReadStore({
@@ -28,8 +28,8 @@
         });
 
         dojo.connect(dijit.byId("site_idAddress"), "onChange", function(val){
-            dijit.byId("site_idBillAddress").set('disabled', false);
-            dijit.byId("site_idBillAddress").store = bba.addressStore;
+            dijit.byId("site_idAddressBill").set('disabled', false);
+            dijit.byId("site_idAddressBill").store = bba.addressStore;
         });
     });
 </script>

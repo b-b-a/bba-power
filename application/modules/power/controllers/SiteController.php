@@ -48,7 +48,13 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
 
         $this->_model = new Power_Model_Mapper_Site();
 
-        $this->setForm('siteSave', array(
+        $this->setForm('siteAdd', array(
+            'controller' => 'site' ,
+            'action' => 'save',
+            'module' => 'power'
+        ));
+
+        $this->setForm('siteEdit', array(
             'controller' => 'site' ,
             'action' => 'save',
             'module' => 'power'
@@ -80,7 +86,7 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
 
     public function addAction()
     {
-        $this->getForm('siteSave')
+        $this->getForm('siteAdd')
                 ->addHiddenElement('returnAction', 'add');
     }
 
@@ -89,7 +95,7 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
         if ($this->_request->getParam('siteId')) {
             $site = $this->_model->find($this->_request->getParam('siteId'));
 
-            $this->getForm('siteSave')
+            $this->getForm('siteEdit')
                     ->populate($site->toArray())
                     ->addHiddenElement('returnAction', 'edit');
 

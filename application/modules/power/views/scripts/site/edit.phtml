@@ -2,47 +2,68 @@
     $this->title = "BBA site Update";
     $this->headTitle($this->title);
 
-    echo $this->siteSaveForm;
+    echo $this->siteEditForm;
 ?>
 <script>
     dojo.declare("bba", null, {
+        clientId: null,
+        clientStore: null,
+        addressId: null,
+        addressBillId: null,
+        addressStore: null,
         constructor: function(/* Object */args){
             dojo.safeMixin(this, args);
         }
     });
 
+    dojo.require("dojo.data.ItemFileReadStore");
+
     dojo.addOnLoad(function(){
-        bba.clientId = dojo.query("input[name=site_idClient]");
 
-        var myForm = dijit.byId("site");
-        var formData = myForm.getValues();
+        bba.clientId = dojo.byId('site_idClient').value;
+        bba.addressId = dojo.byId('site_idAddress').value;
+        bba.addressBillId = dojo.byId('site_idAddressBill').value;
 
-        console.log(formData)
+        bba.clientStore = new dojo.data.ItemFileReadStore({
+            url: '/site/autocomplete/param/client'
+        });
 
-        dijit.byId("site_idAddress").set('disabled', false);
         bba.addressStore = new dojo.data.ItemFileReadStore({
             url:'/site/autocomplete/param/address/addressId/' + bba.clientId
         });
 
-        dijit.byId("site_idAddress").store = bba.addressStore;
-
-        dojo.connect(dijit.byId("site_idClient"), "onChange", function(val){
-            if (dijit.byId("site_idAddress").get('disabled') == true) {
-                dijit.byId("site_idAddress").set('disabled', false);
+        new dijit.form.FilteringSelect({
+            store: bba.clientStore,
+            autoComplete: false,
+            id: "site_idClient",
+            value: bba.clientId,
+            searchAttr: "client_name",
+            onChange: function(client) {
+                bba.clientId = client;
+                dijit.byId('site_idAddress').set('value', '');
+                dijit.byId('site_idAddressBill').set('value', '');
+                bba.addressStore = new dojo.data.ItemFileReadStore({
+                    url:'/site/autocomplete/param/address/addressId/' + bba.clientId
+                });
+                dijit.byId("site_idAddress").store = bba.addressStore;
+                dijit.byId("site_idAddressBill").store = bba.addressStore;
             }
-            dijit.byId('site_idAddress').set('value', '');
-            dijit.byId('site_idBillAddress').set('value', '');
+        },"site_idClient");
 
-            bba.clientId = val;
-            bba.addressStore = new dojo.data.ItemFileReadStore({
-                url:'/site/autocomplete/param/address/addressId/' + bba.clientId
-            });
-            dijit.byId("site_idAddress").store = bba.addressStore;
-        });
+        new dijit.form.FilteringSelect({
+            store: bba.addressStore,
+            autoComplete: false,
+            id: "site_idAddress",
+            value: bba.addressId,
+            searchAttr: "clientAd_address1AndPostcode"
+        },"site_idAddress");
 
-        dojo.connect(dijit.byId("site_idAddress"), "onChange", function(val){
-            dijit.byId("site_idBillAddress").set('disabled', false);
-            dijit.byId("site_idBillAddress").store = bba.addressStore;
-        });
+        new dijit.form.FilteringSelect({
+            store: bba.addressStore,
+            autoComplete: false,
+            id: "site_idAddressBill",
+            value: bba.addressBillId,
+            searchAttr: "clientAd_address1AndPostcode"
+        },"site_idAddressBill");
     });
 </script>
