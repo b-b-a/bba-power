@@ -46,7 +46,7 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
         $this->addElement('text', 'site_idClient', array(
             'label'         => 'Client:',
             'filters'       => array('StripTags', 'StringTrim'),
-            'attribs'         => array('disabled' => true),
+            //'attribs'         => array('disabled' => true),
             //'required'      => true
         ));
 
