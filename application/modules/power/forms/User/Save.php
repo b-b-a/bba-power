@@ -43,17 +43,17 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
     {
         $this->setName('userSave');
 
-        $this->addElement('text', 'user_name', array(
+        $this->addElement('ValidationTextBox', 'user_name', array(
             'label' => 'Username:',
             'required'      => true
         ));
 
-        $this->addElement('password', 'user_password', array(
+        $this->addElement('PasswordTextBox', 'user_password', array(
             'label' => 'Password:',
             'required' => true
         ));
 
-        $this->addElement('text', 'user_fullName', array(
+        $this->addElement('ValidationTextBox', 'user_fullName', array(
             'label' => 'Full Name:',
             'required'      => true
         ));
@@ -67,13 +67,14 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
             'admin'         => 'Admin'
         );
 
-        $this->addElement('select', 'user_role', array(
+        $this->addElement('FilteringSelect', 'user_role', array(
             'label'         => 'Role:',
             'validators'    => array(
                 array('Alpha', true)
             ),
+            'atuocomplete' => false,
             'errorMessages'  => array('Please select a role for this user.'),
-            'MultiOptions'  => $multiOptions,
+            'multiOptions'  => $multiOptions,
             'required'      => true
         ));
 

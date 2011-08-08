@@ -17,8 +17,27 @@
             echo $this->dojo();
         ?>
         <?php echo $this->headScript() ?>
+        <script>
+            /*
+            dojo.addOnLoad(function(){
+				dojo.parser.parse(document.body);
+				setTimeout(function(){
+					var loader = dojo.byId("loader");
+					dojo.fadeOut({
+                        node: loader,
+                        duration: 500,
+                        onEnd: function(){
+                            loader.style.display = "none";
+                        }
+                    }).play();
+				}, 500);
+			});*/
+        </script>
     </head>
     <body class="tundra">
+        <div id="loader">
+            <div id="loaderInner"></div>
+        </div>
         <!-- Start Main Div -->
         <div id="main_div" class="container_12">
             <!-- Start Header -->

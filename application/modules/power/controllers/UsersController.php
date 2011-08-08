@@ -100,6 +100,7 @@ class Power_UsersController extends ZendSF_Controller_Action_Abstract
                     ->populate($user->toArray())
                     ->addHiddenElement('returnAction', 'edit')
                     ->getElement('user_password')
+                    ->setValue('')
                     ->setRequired(false);
         } else {
            return $this->_helper->redirector('list', 'users');
