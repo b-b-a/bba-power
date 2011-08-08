@@ -80,7 +80,9 @@ class Power_Model_Mapper_User extends ZendSF_Model_Mapper_Acl_Abstract
         if (!$form['user_idUser']) unset($form['user_idUser']);
 
         // add password treatment if set.
-        if ($form['user_password']) {
+        if ($form['user_password'] === ''){
+            unset($form['user_password']);
+        } else {
             $auth = Zend_Registry::get('config')
                     ->user
                     ->auth;

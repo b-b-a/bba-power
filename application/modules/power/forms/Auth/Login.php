@@ -43,13 +43,13 @@ class Power_Form_Auth_Login extends ZendSF_Form_Abstract
     {
         $this->setName('auth');
 
-        $this->addElement('text', 'user_name', array(
+        $this->addElement('TextBox', 'user_name', array(
             'label'     => 'Username:',
             'required'  => true,
             'filters'   => array('StringTrim'),
         ));
 
-        $this->addElement('password', 'user_password', array(
+        $this->addElement('PasswordTextBox', 'user_password', array(
             'label'     => 'Password:',
             'required'  => true,
         ));

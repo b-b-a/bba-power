@@ -66,7 +66,7 @@ class Power_Form_SearchBase extends ZendSF_Form_Abstract
     );
 
     protected $_submitDecorators = array(
-        'ViewHelper',
+        'DijitElement',
         array(
             'HtmlTag',
             array(
@@ -79,7 +79,7 @@ class Power_Form_SearchBase extends ZendSF_Form_Abstract
     public function init()
     {
         $this->setName('Search');
-        
+
         $this->addSubmit('Search', 'submit', 'search');
     }
 }
