@@ -49,6 +49,10 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
      */
     public function init()
     {
+        if ($this->_helper->acl('Guest')) {
+            return $this->_forward('login', 'auth');
+        }
+        
         parent::init();
 
         $this->_model = new Power_Model_Mapper_ClientAddress();
