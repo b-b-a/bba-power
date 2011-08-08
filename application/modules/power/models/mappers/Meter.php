@@ -95,6 +95,14 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
         }
     }
 
+    public function getMetersBySiteId($id)
+    {
+        $select = $this->_dbTable->select()
+                ->where('meter_idSite = ?', $id);
+
+        return $this->fetchAll($select);
+    }
+
     public function getMeterDetails($id)
     {
         /* @var $select Zend_Db_Table_Select */

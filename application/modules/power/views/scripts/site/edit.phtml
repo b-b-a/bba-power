@@ -1,9 +1,69 @@
 <?php
-    $this->title = "BBA site Update";
+    $this->title = "BBA Site Update";
     $this->headTitle($this->title);
 
     echo $this->siteEditForm;
+
+    //echo $this->partial('_meter-list.phtml', array(
+    //    'idSite'      => $this->site,
+    //   'meters'     =>  $this->meters
+    //));
 ?>
+<div class="tableHead">
+	<h2 class="tableHead-heading">Meters</h2>
+	<p class="tableHead-button">
+		<a href="<?php echo $this->url(array(
+			'controller'    => 'meter',
+			'action'        => 'add',
+			'siteId'      => $this->site
+        ), 'default', true);?>" class="button">New Meter</a>
+	</p>
+</div>
+
+<table>
+    <tr>
+        <th>Type <span class="id">(id)</span></th>
+        <th>Number Serial</th>
+        <th>Number Main</th>
+        <th>&nbsp;</th>
+	</tr>
+<?php
+	if ($this->meters):
+		foreach($this->meters as $meter):
+?>
+    <tr>
+        <td><?php echo $meter->type; ?>&nbsp;
+            <span class="id">(<?php echo $this->escape($meter->id); ?>)</span></td>
+        <td><?php echo $meter->numberSerial; ?></td>
+        <td><?php echo $meter->numberMain; ?></td>
+        <td class="action">
+            <a href="<?php echo $this->url(array(
+                'controller'    => 'reading',
+                'action'        => 'index',
+                'meterId'       => $meter->id
+            ), 'default', true);?>" class="button">Usage</a>
+
+            <a href="<?php echo $this->url(array(
+                'controller'    => 'meter',
+                'action'        => 'edit',
+                'meterId'       => $meter->id
+            ),'default', true);?>" class="button">Edit</a>
+<!--
+            <a href="<?php echo $this->url(array(
+                'controller'    => 'meter',
+                'action'        => 'delete',
+                'meterId'       => $meter->id
+            ), 'default', true);?>" class="button">Delete</a>
+-->
+        </td>
+    </tr>
+<?php endforeach;
+else: ?>
+    <tr><td>This Site has no meters yet.</td>
+        <td></td><td></td><td></td><td></td><td></td>
+    </tr>
+<?php endif; ?>
+</table>
 <script>
     dojo.declare("bba", null, {
         clientId: null,

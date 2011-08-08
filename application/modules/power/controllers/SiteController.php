@@ -94,12 +94,16 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
     {
         if ($this->_request->getParam('siteId')) {
             $site = $this->_model->find($this->_request->getParam('siteId'));
+            $meter = new Power_Model_Mapper_Meter();
 
             $this->getForm('siteEdit')
                     ->populate($site->toArray())
                     ->addHiddenElement('returnAction', 'edit');
 
-            $this->view->assign('site', $site->getId());
+            $this->view->assign(array(
+                'site' => $site->getId(),
+                'meters' => $meter->getMetersBySiteId($site->getId())
+            ));
         } else {
            return $this->_helper->redirector('index', 'site');
         }
