@@ -80,6 +80,8 @@ class Power_Form_SearchBase extends ZendSF_Form_Abstract
     {
         $this->setName('Search');
 
-        $this->addSubmit('Search', 'submit', 'search');
+        $this->addSubmit('Search', 'submit', array(
+            'class' => 'search'
+        ));
     }
 }

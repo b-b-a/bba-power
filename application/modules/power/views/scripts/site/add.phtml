@@ -4,3 +4,32 @@
 
     echo $this->siteSaveForm;
 ?>
+
+<script>
+    dojo.declare("bba", null, {
+        constructor: function(/* Object */args){
+            dojo.safeMixin(this, args);
+        }
+    });
+
+    dojo.addOnLoad(function(){
+        dojo.connect(dijit.byId("site_idClient"), "onChange", function(val){
+            if (dijit.byId("site_idAddress").get('disabled') == true) {
+                dijit.byId("site_idAddress").set('disabled', false);
+            }
+            dijit.byId('site_idAddress').set('value', '');
+            dijit.byId('site_idBillAddress').set('value', '');
+
+            bba.clientId = val;
+            bba.addressStore = new dojo.data.ItemFileReadStore({
+                url:'/site/autocomplete/param/address/addressId/' + bba.clientId
+            });
+            dijit.byId("site_idAddress").store = bba.addressStore;
+        });
+
+        dojo.connect(dijit.byId("site_idAddress"), "onChange", function(val){
+            dijit.byId("site_idBillAddress").set('disabled', false);
+            dijit.byId("site_idBillAddress").store = bba.addressStore;
+        });
+    });
+</script>

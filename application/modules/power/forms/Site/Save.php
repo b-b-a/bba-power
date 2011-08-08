@@ -61,9 +61,10 @@ class Power_Form_Site_Save extends ZendSF_Form_Abstract
             'autoComplete'  => false,
             'hasDownArrow'  => true,
             'storeId'       => 'addressStore',
-            'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/site/autocomplete/param/address"),
+            //'storeType'     => 'dojo.data.ItemFileReadStore',
+            //'storeParams'   => array('url' => "/site/autocomplete/param/address"),
             'dijitParams'   => array('searchAttr' => 'clientAd_address1AndPostcode'),
+            'attribs'         => array('disabled' => true),
             'required'      => true
         ));
 
@@ -73,9 +74,10 @@ class Power_Form_Site_Save extends ZendSF_Form_Abstract
             'autoComplete'  => false,
             'hasDownArrow'  => true,
             'storeId'       => 'addressStore',
-            'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/site/autocomplete/param/address"),
+            //'storeType'     => 'dojo.data.ItemFileReadStore',
+            //'storeParams'   => array('url' => "/site/autocomplete/param/address"),
             'dijitParams'   => array('searchAttr' => 'clientAd_address1AndPostcode'),
+            'attribs'         => array('disabled' => true),
             'required'      => true
         ));
 
@@ -85,9 +87,10 @@ class Power_Form_Site_Save extends ZendSF_Form_Abstract
             'autoComplete'  => false,
             'hasDownArrow'  => true,
             'storeId'       => 'contactStore',
-            'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/site/autocomplete/param/contact"),
+            //'storeType'     => 'dojo.data.ItemFileReadStore',
+            //'storeParams'   => array('url' => "/site/autocomplete/param/contact"),
             'dijitParams'   => array('searchAttr' => 'clientCo_name'),
+            'attribs'         => array('disabled' => true),
             'required'      => false
         ));
 
@@ -96,7 +99,7 @@ class Power_Form_Site_Save extends ZendSF_Form_Abstract
         $this->addHiddenElement('userId', $auth->getIdentity()->getId());
         $this->addHiddenElement('site_idSite', '');
 
-        $this->addSubmit('Save');
+        $this->addSubmit('Save', 'submit');
         $this->addSubmit('Cancel', 'cancel');
     }
 
