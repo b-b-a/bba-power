@@ -57,7 +57,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
         if ($this->_helper->acl('Guest')) {
             return $this->_forward('login', 'auth');
         }
-        
+
         parent::init();
 
         $this->_model = new Power_Model_Mapper_Meter();
@@ -91,7 +91,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
     {
         $this->setForm('meterAdd', array(
             'controller' => 'meter' ,
-            'action' => 'add-new',
+            'action' => 'add',
             'module' => 'power'
         ));
     }
