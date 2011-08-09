@@ -80,6 +80,38 @@ class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
         }
     }
 
+    public function save($form)
+    {
+        if (!$this->checkAcl('save')) {
+            throw new ZendSF_Acl_Exception('saving sites is not allowed.');
+        }
+
+        $form = $this->getForm($form)->getValues();
+
+        // remove client id if not set.
+        if (!$form['site_idSite']) unset($form['site_idSite']);
+
+        /* @var $model Power_Model_Client */
+        $model = new $this->_modelClass($form);
+
+        // set modified and create dates.
+        if ($form['returnAction'] == 'add') {
+            $model->dateCreate = time();
+            $model->userCreate = $form['userId'];
+        }
+
+        // add modified date and by if updating record.
+        if ($model->getId()) {
+            $model->userModify = $form['userId'];
+            $model->dateModify = time();
+        }
+
+        $log = Zend_Registry::get('log');
+        $log->info($model);
+
+        return parent::save($model);
+    }
+
     public function delete($id)
     {
         if (!$this->checkAcl('delete')) {
@@ -109,6 +141,8 @@ class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
+         $this->_acl->allow('admin', $this)
+            ->deny('admin', $this, array('delete'));
 
         return $this;
     }
