@@ -160,7 +160,47 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
 
     public function saveAction()
     {
+        if (!$this->_request->isPost()) {
+            return $this->_helper->redirector('index', 'site');
+        }
+
+        $siteId = $this->_request->getParam('siteId');
+
+        if ($this->_request->getParam('cancel')) {
+            return $this->_helper->redirector('index', 'site', 'power', array(
+                'siteId'  => $siteId
+            ));
+        }
+
+        $action = $this->_request->getParam('returnAction');
+        $form = 'site' . ucfirst($action);
+
+        $this->getForm($form)->addHiddenElement('returnAction', $action);
+
         $this->_log->info($this->_request->getParams());
+
+        if (!$this->getForm($form)->isValid($this->_request->getPost())) {
+            $this->view->assign(array(
+                'site'    => $siteId
+            ));
+            return $this->render($action); // re-render the edit form
+        } else {
+            $saved = $this->_model->save($form);
+
+            if ($saved > 0) {
+                $this->_helper->FlashMessenger(array(
+                    'pass' => 'Site saved to database'
+                ));
+
+                return $this->_helper->redirector('index', 'site');
+            } elseif ($saved == 0) {
+                $this->_helper->FlashMessenger(array(
+                    'fail' => 'Nothing new to save'
+                ));
+
+                return $this->_forward($action);
+            }
+        }
     }
 
     public function deleteAction()

@@ -43,29 +43,66 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
     {
         $this->setName('site');
 
-        $this->addElement('text', 'site_idClient', array(
+        $clientId = null;
+
+        $view = $this->getView();
+        if (isset($view->request['siteId'])) {
+            $siteId = $view->request['siteId'];
+
+            $site = new Power_Model_Mapper_Site();
+            $row = $site->find($siteId);
+            $clientId = $row->idClient;
+        }
+
+       $this->addElement('FilteringSelect', 'site_idClient', array(
             'label'         => 'Client:',
             'filters'       => array('StripTags', 'StringTrim'),
+            'autoComplete'  => false,
+            'hasDownArrow'  => true,
+            'storeId'       => 'clientStore',
+            'storeType'     => 'dojo.data.ItemFileReadStore',
+            'storeParams'   => array('url' => "/site/autocomplete/param/client"),
+            'dijitParams'   => array('searchAttr' => 'client_name'),
             //'attribs'         => array('disabled' => true),
-            //'required'      => true
-        ));
-
-        $this->addElement('text', 'site_idAddress', array(
-            'label'         => 'Address:',
-            'filters'       => array('StripTags', 'StringTrim'),
             'required'      => true
         ));
 
-        $this->addElement('text', 'site_idAddressBill', array(
+        $this->addElement('FilteringSelect', 'site_idAddress', array(
+            'label'         => 'Address:',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autoComplete'  => false,
+            'hasDownArrow'  => true,
+            'storeId'       => 'addressStore',
+            'storeType'     => 'dojo.data.ItemFileReadStore',
+            'storeParams'   => array('url' => "/site/autocomplete/param/address/addressId/" . $clientId),
+            'dijitParams'   => array('searchAttr' => 'clientAd_address1AndPostcode'),
+            //'attribs'         => array('disabled' => true),
+            'required'      => true
+        ));
+
+        $this->addElement('FilteringSelect', 'site_idAddressBill', array(
             'label'         => 'Billing Address:',
             'filters'       => array('StripTags', 'StringTrim'),
+            'autoComplete'  => false,
+            'hasDownArrow'  => true,
+            'storeId'       => 'addressStore',
+            'storeType'     => 'dojo.data.ItemFileReadStore',
+            'storeParams'   => array('url' => "/site/autocomplete/param/address/addressId/" . $clientId),
+            'dijitParams'   => array('searchAttr' => 'clientAd_address1AndPostcode'),
+            //'attribs'         => array('disabled' => true),
             'required'      => true
         ));
 
         $this->addElement('FilteringSelect', 'site_idClientContact', array(
             'label'         => 'Client Contact:',
             'filters'       => array('StripTags', 'StringTrim'),
-            'attribs'       => array('disabled' => true),
+            'autoComplete'  => false,
+            'hasDownArrow'  => true,
+            'storeId'       => 'contactStore',
+            //'storeType'     => 'dojo.data.ItemFileReadStore',
+            //'storeParams'   => array('url' => "/site/autocomplete/param/contact"),
+            'dijitParams'   => array('searchAttr' => 'clientCo_name'),
+            'attribs'         => array('disabled' => true),
             'required'      => false
         ));
 
