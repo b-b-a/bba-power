@@ -52,7 +52,7 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
         if ($this->_helper->acl('Guest')) {
             return $this->_forward('login', 'auth');
         }
-        
+
         parent::init();
 
         $this->_model = new Power_Model_Mapper_Client();
@@ -130,8 +130,6 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
         if ($this->_request->getParam('client_dateExpiryLoa') === '') {
             $this->getForm('clientSave')->removeElement('client_dateExpiryLoa');
         }
-
-        $this->_log->info($this->_request->getParams());
 
         if (!$this->getForm('clientSave')->isValid($this->_request->getPost())) {
             $this->view->assign(array(
