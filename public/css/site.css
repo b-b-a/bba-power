@@ -10,7 +10,7 @@ body
 					(line 210ish) as it	does not seem to be picked up automatically
 			*/
 }
-/*
+
 #loader {
 	padding:0;
 	margin:0;
@@ -34,7 +34,7 @@ body
 	background-image: url('/images/loader_lg.gif');
 	background-repeat: no-repeat;
 }
-*/
+
 /* Overides of text.css  -  or can we just remove text.css??  */
 h1 {
 	margin-bottom: 10px;
