@@ -1,0 +1,74 @@
+<?php
+	$this->title = "BBA Meter Usage";
+	$this->headTitle($this->title);
+
+    //echo $this->meterSearchForm;
+    /* @var $this->meter Power_Model_Meter */
+?>
+<div style="float:left;margin:5px;">
+    <p><?php echo $this->meter->client_name; ?> </p>
+    <p><?php echo $this->formatSiteAddress(array(
+        $this->escape($this->meter->clientAd_address1),
+        $this->escape($this->meter->clientAd_address2),
+        $this->escape($this->meter->clientAd_address3),
+        $this->escape($this->meter->clientAd_postcode)
+    )); ?></p>
+</div>
+
+<div style="float:left;margin:5px;margin-left:30px;">
+    <p>Meter Type: <?php echo $this->escape($this->meter->type); ?></p>
+    <p>Meter Number: <?php echo $this->escape($this->meter->numberMain); ?></p>
+</div>
+
+<div class="clear"></div>
+
+<table>
+    <tr>
+        <th>Bill Date <span class="id">(id)</span></th>
+        <th>Reading Date</th>
+        <th>Type</th>
+        <th>Day</th>
+        <th>Night</th>
+        <th>Other</th>
+        <th>&nbsp;</th>
+    </tr>
+    <?php foreach($this->usage as $usage) : ?>
+    <tr>
+        <td><?php echo $this->escape($usage->dateBill->toString('dd/MM/yyyy')); ?>&nbsp;
+            <span class="id">(<?php echo $this->escape($usage->id); ?>)</span></td></td>
+        <td><?php echo $this->escape($usage->dateReading->toString('dd/MM/yyyy')); ?></td>
+        <td><?php echo $this->escape($usage->type); ?></td>
+        <td><?php echo $this->escape($usage->usageDay); ?></td>
+        <td><?php echo $this->escape($usage->usageNight); ?></td>
+        <td><?php echo $this->escape($usage->usageOther); ?></td>
+        <td class="action">
+             <?php echo $this->button(
+                    'btn'.$usage->idUsage,
+                    'Edit',
+                    array('onClick' => "location= '" . $this->url(array(
+                        'controller'    => 'meter',
+                        'action'        => 'edit-usage',
+                        'siteId'        => $this->meter->idSite,
+                        'meterId'       => $usage->idMeter
+                    ),'default', true) . "'")
+                ); ?>
+            <!--
+            <a href="<?php echo $this->url(array(
+                'controller'    => 'meter',
+                'action'        => 'edit-usage',
+                'siteId'        => $this->meter->idSite,
+				'meterId'       => $usage->idMeter
+            ),'default', true);?>" class="button">Edit</a>
+            -->
+<!--
+			<a href="<?php echo $this->url(array(
+                'controller'    => 'meter',
+                'action'        => 'delete-usage',
+                'siteId'        => $this->meter->idSite,
+                'meterId'       => $usage->idMeter
+            ), 'default', true);?>" class="button">Delete</a>
+-->
+        </td>
+    </tr>
+    <?php endforeach; ?>
+</table>

@@ -11,18 +11,9 @@
         -->
         <link rel="stylesheet" href="/css/site.css" />
 
-        <?php if ($this->dojo()->isEnabled()):
-                $this->dojo()
-                     //->setLocalPath('/js/dojo/dojo.js')
-                     ->addStyleSheetModule('dijit.themes.tundra');
-                echo $this->dojo();
-            else: ?>
-        <style>
-            #loader { display: none; }
-        </style>
-        <?php endif; ?>
+        <?php echo $this->dojo(); ?>
+        
         <?php echo $this->headScript() ?>
-        <?php if ($this->dojo()->isEnabled()): ?>
         <script>
             dojo.addOnLoad(function(){
 				dojo.parser.parse(document.body);
@@ -38,9 +29,8 @@
 				}, 500);
 			});
         </script>
-        <?php endif; ?>
     </head>
-    <body class="tundra">
+    <body class="claro">
         <div id="loader">
             <div id="loaderInner"></div>
         </div>

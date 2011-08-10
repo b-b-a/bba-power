@@ -21,36 +21,63 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_DbTable
+ * @subpackage Model_Mapper
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Database adapter class for the Usage table.
+ * Mapper Class for Usage.
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_DbTable
+ * @subpackage Model_Mapper
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Usage extends Zend_Db_Table_Abstract
+class Power_Model_Mapper_Usage extends ZendSF_Model_Mapper_Acl_Abstract
 {
-    /**
-     * @var string database table
-     */
-    protected $_name = 'pusage';
 
     /**
-     * @var string primary key
+     * @var _Model_DbTable_Usage
      */
-    protected $_primary = 'usage_idUsage';
+    protected $_dbTableClass;
 
     /**
-     * @var array Reference map for parent tables
+     * @var _Model_Usage
      */
-    protected $_referenceMap = array();
+    protected $_modelClass;
+
+    public function getUsageByMeterId($id)
+    {
+        $select = $this->_dbTable
+                ->select()
+                ->where('usage_idMeter =  ?', $id)
+                ->order('usage_dateReading DESC');
+        return $this->fetchAll($select);
+    }
+
+    /**
+     * Injector for the acl, the acl can be injected directly
+     * via this method.
+     *
+     * We add all the access rules for this resource here, so we first call
+     * parent method to add $this as the resource then we
+     * define it rules here.
+     *
+     * @param Zend_Acl_Resource_Interface $acl
+     * @return ZendSF_Model_Mapper_Abstract
+     */
+    public function setAcl(Zend_Acl $acl) {
+        parent::setAcl($acl);
+
+        // implement rules here.
+        $this->_acl->allow('admin', $this)
+            ->deny('admin', $this, array('delete'));
+
+        return $this;
+    }
+
 }
