@@ -21,36 +21,44 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_DbTable
+ * @subpackage Model
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Database adapter class for the Usage table.
+ * DAO to represent a single Usage.
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_DbTable
+ * @subpackage Model
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Usage extends Zend_Db_Table_Abstract
+class Power_Model_Usage extends BBA_Model_Abstract
 {
     /**
-     * @var string database table
+     * @var string
      */
-    protected $_name = 'pusage';
+    protected $_primary = 'idUsage';
 
     /**
-     * @var string primary key
+     * @var string
      */
-    protected $_primary = 'usage_idUsage';
+    protected $_prefix = 'usage_';
 
-    /**
-     * @var array Reference map for parent tables
-     */
-    protected $_referenceMap = array();
+    public function setDateBill($date)
+    {
+        $this->_data->dateBill = new Zend_Date($date);
+        return $this;
+    }
+
+    public function setDateReading($date)
+    {
+        $this->_data->dateReading = new Zend_Date($date);
+        return $this;
+    }
+
 }

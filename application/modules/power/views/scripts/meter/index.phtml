@@ -29,8 +29,8 @@
         <td><?php echo $meter->numberMain; ?></td>
 		<td class="action">
 			<a href="<?php echo $this->url(array(
-                'controller'    => 'usage',
-                'action'        => 'index',
+                'controller'    => 'meter',
+                'action'        => 'usage',
 				'meterId'       => $meter->id
             ), 'default', true);?>" class="button">Usage</a>
 
