@@ -39,15 +39,55 @@
  */
 class Power_Model_Mapper_Contract extends ZendSF_Model_Mapper_Acl_Abstract
 {
-
     /**
      * @var Power_Model_DbTable_Contract
      */
-    protected $_dbTableClass;
+    protected $_dbTable;
+
     /**
      * @var Power_Model_Contract
      */
     protected $_modelClass;
+
+    /**
+     * Searches for a contracts by either contract, meter or both.
+     *
+     * @return array
+     */
+    public function contractSearch($search, $paged = null)
+    {
+        /* @var $select Zend_Db_Table_Select */
+        $select = $this->_dbTable->getContractDetails();
+
+        if (!$search['contract'] == '') {
+            $select->where('client_name like ? ', '%'. $search['contract'] . '%');
+        }
+
+        if (!$search['meter'] == '') {
+            $select->where('meter_numberMain like ? ', '%'. $search['meter'] . '%');
+        }
+
+        return $this->getContractList($paged, $select);
+    }
+
+    public function getContractList($paged = null, $select = null)
+    {
+        if ($select === null) {
+            $select = $this->_dbTable->getContractDetails();
+        }
+
+        if (null !== $paged) {
+            $numDisplay = Zend_Registry::get('config')
+                ->layout
+                ->contract
+                ->paginate
+                ->itemCountPerPage;
+
+            return $this->_paginate($select, $paged, $numDisplay);
+        } else {
+            return $this->fetchAll($select);
+        }
+    }
 
     /**
      * Injector for the acl, the acl can be injected directly
@@ -60,7 +100,8 @@ class Power_Model_Mapper_Contract extends ZendSF_Model_Mapper_Acl_Abstract
      * @param Zend_Acl_Resource_Interface $acl
      * @return ZendSF_Model_Mapper_Abstract
      */
-    public function setAcl(Zend_Acl $acl) {
+    public function setAcl(Zend_Acl $acl)
+    {
         parent::setAcl($acl);
 
         // implement rules here.

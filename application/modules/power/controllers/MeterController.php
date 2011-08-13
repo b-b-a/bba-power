@@ -40,7 +40,7 @@
 class Power_MeterController extends BBA_Controller_Action_Abstract
 {
     /**
-     * @var Power_Model_Mapper_Abstarct
+     * @var Power_Model_Mapper_Meter
      */
     protected $_model;
 

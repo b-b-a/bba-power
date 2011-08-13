@@ -89,7 +89,7 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
                 ->paginate
                 ->itemCountPerPage;
 
-            return $this->_paginate($select, $paged);
+            return $this->_paginate($select, $paged, $numDisplay);
         } else {
             return $this->fetchAll($select);
         }
