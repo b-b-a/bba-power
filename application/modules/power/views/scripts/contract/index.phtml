@@ -1,0 +1,56 @@
+<?php
+	$this->title = "BBA Contracts";
+	$this->headTitle($this->title);
+
+    echo $this->contractSearchForm;
+    /* @var $meter Power_Model_Meter */
+?>
+
+<table>
+	<tr>
+	<th>Client<span class="id">(id)</span></th>
+	<th>Status</th>
+	<th>Start Date</th>
+	<th>End Date</th>
+	<th>Description</th>
+    <th>&nbsp;</th>
+
+	</tr>
+    <?php foreach($this->contracts as $contract) : ?>
+	<tr>
+        <td><?php echo $this->escape($contract->client_name); ?>&nbsp;
+            <span class="id">(<?php echo $this->escape($contract->id); ?>)</span>
+        </td>
+        <td><?php echo $this->escape($contract->status); ?></td>
+        <td><?php echo $this->escape($contract->dateStart->toString('dd/MM/yyyy')); ?></td>
+        <td><?php echo $this->escape($contract->dateEnd->toString('dd/MM/yyyy')); ?></td>
+        <td><?php echo $this->escape($contract->desc); ?></td>
+		<td class="action">
+            <?php echo $this->submitButton(
+                'btn'.$contract->id,
+                'Edit',
+                array(
+                    'onClick' => 'location.href="' .
+                        $this->url(array(
+                            'controller'    => 'contract',
+                            'action'        => 'edit',
+                            'contractId'        => $contract->id,
+                        ),'default', true) . '"'
+                )
+            ); ?>
+		</td>
+	</tr>
+    <?php endforeach; ?>
+</table>
+
+<?php
+if ($this->contracts instanceof Zend_Paginator) {
+
+    echo $this->paginationControl(
+            $this->contracts,
+            'Sliding',
+            '_paginate.phtml',
+            array('params' => $this->search)
+    );
+}
+?>
