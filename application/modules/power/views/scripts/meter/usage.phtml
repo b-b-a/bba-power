@@ -42,24 +42,22 @@
         <td><?php echo $this->escape($usage->usageNight); ?></td>
         <td><?php echo $this->escape($usage->usageOther); ?></td>
         <td class="action">
-             <?php echo $this->button(
-                    'btn'.$usage->idUsage,
-                    'Edit',
-                    array('onClick' => "location= '" . $this->url(array(
-                        'controller'    => 'meter',
-                        'action'        => 'edit-usage',
-                        'siteId'        => $this->meter->idSite,
-                        'meterId'       => $usage->idMeter
-                    ),'default', true) . "'")
-                ); ?>
-            <!--
-            <a href="<?php echo $this->url(array(
-                'controller'    => 'meter',
-                'action'        => 'edit-usage',
-                'siteId'        => $this->meter->idSite,
-				'meterId'       => $usage->idMeter
-            ),'default', true);?>" class="button">Edit</a>
-            -->
+             <?php echo $this->submitButton(
+                'btn'.$usage->idUsage,
+                'Edit',
+                array(
+                    'onClick' => 'location.href="' .
+                        $this->url(array(
+                            'controller'    => 'meter',
+                            'action'        => 'edit-usage',
+                            'siteId'        => $this->meter->idSite,
+                            'meterId'       => $usage->idMeter
+                        ),'default', true) . '"'
+                    ),
+                array(
+
+                )
+            ); ?>
 <!--
 			<a href="<?php echo $this->url(array(
                 'controller'    => 'meter',

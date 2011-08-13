@@ -1,16 +1,32 @@
-body
-{
-    padding-top: 10px;
-    background-color: #eed;
+body {
+	background: #fff url("/images/bodyBg.gif") repeat-x top left;
+	padding: 2em 2em 2em 2em;
     font-family: "Times New Roman", serif;
     font-size: 90%;
-			/* if font-size is changed - also change
-							input[type=submit] {
-									font-size: 90%;
-					(line 210ish) as it	does not seem to be picked up automatically
-			*/
 }
 
+html, body {
+
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+}
+
+#appLayout {
+    height: 100%;
+}
+
+#topPanel {
+    text-align: center;
+}
+
+#leftPanel {
+    width: 10em;
+    overflow: auto;
+}
+
+/* pre-loader specific stuff to prevent unsightly flash of unstyled content */
 #loader {
 	padding:0;
 	margin:0;
@@ -37,67 +53,25 @@ body
 
 /* Overides of text.css  -  or can we just remove text.css??  */
 h1 {
-	margin-bottom: 10px;
+	margin: 0px;
 }
+
 h2 {
 	font-size:1.25em;
-	margin-bottom: 0px;
+	margin: 0px;
 }
+
 h3 {
 	font-size:1.10em;
-	margin-bottom: 0px;
+	margin: 0px;
 }
+
 p {
 	margin-bottom: 10px;
 }
+
 table {
 	margin-bottom: 10px;
-}
-
-#main_div
-{
-    border: 1px solid #eee;
-    border-radius: 10px 10px 10px 10px;
-    padding-top: 10px;
-    box-shadow: 3px 3px 4px #bbb;
-    background-color: #eee;
-}
-
-#header
-{
-    margin-bottom: 0px;
-}
-
-#header,
-#footer
-{
-    text-align: center;
-}
-
-#header h1,
-#footer p
-{
-    border: 1px solid #000;
-    border-radius: 10px 10px 10px 10px;
-    box-shadow: 3px 3px 4px #bbb;
-	background-color: #98b2d6;
-    background: -moz-linear-gradient(top,  #eee,  #98b2d6);
-}
-
-#footer p
-{
-    padding: 0px;
-    margin: 0px;
-    margin-bottom: 10px;
-}
-
-#inner_content_wrap
-{
-    border: 1px solid #000;
-    border-radius: 10px;
-    margin-bottom: 10px;
-    padding: 10px;
-    box-shadow: 3px 3px 4px #bbb;
 }
 
 /**
@@ -210,7 +184,7 @@ table {
 }
 
 .zend_form label {
-	float: left;
+    float: left;
     text-align: right;
     width: 200px;
 	margin-right: 5px;
@@ -223,6 +197,7 @@ label.search {
 .zend_form p
 {
     margin: 0px;
+    display: inline;
 }
 
 .zend_form .errors
@@ -259,6 +234,21 @@ input[class=search] {
 .required:before {
     content: '*';
     color: #f00;
+}
+
+#loginWrap {
+    width: 500px;
+    margin: auto;
+    text-align: center;
+}
+
+#loginWrap .zend_form p
+{
+    display: inline;
+}
+
+#loginWrap .zend_form label {
+	float: none;
 }
 
 /**
@@ -388,4 +378,3 @@ Flash Messenger
     background-color: #bbb;
     color: #eed;
 }
-

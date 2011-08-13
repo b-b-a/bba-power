@@ -27,7 +27,7 @@
             dijit.byId("site_idAddress").store = bba.addressStore;
         });
 
-        dojo.connect(dijit.byId("site_idAddress"), "onChange", function(val){
+        dojo.connect(dijit.byId("site_idAddress"), "onChange", function(){
             dijit.byId("site_idAddressBill").set('disabled', false);
             dijit.byId("site_idAddressBill").store = bba.addressStore;
         });
