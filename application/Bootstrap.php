@@ -167,9 +167,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $this->_view->dojo()
              ->setCdnVersion(1.6)
+             //->setLocalPath('/js/dojo/dojo.js')
              ->addStyleSheetModule('dijit.themes.claro')
-             ->requireModule('dijit.form.Button')
-             ->setDjConfigOption('parseOnLoad', true);
+             ->requireModule('dijit.layout.BorderContainer')
+             ->requireModule('dijit.layout.TabContainer')
+             ->requireModule('dijit.layout.ContentPane')
+             ->requireModule('dijit.layout.LinkPane')
+             ->requireModule('dijit.layout.TabContainer')
+             ->requireModule('dijit.TitlePane')
+             ->disable();
 
         $this->_view->headTitle('BBA Power')->setSeparator(' - ');
     }

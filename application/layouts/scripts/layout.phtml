@@ -5,18 +5,17 @@
         <?php echo $this->headMeta(); ?>
         <link rel="stylesheet" href="/css/reset.css" />
         <link rel="stylesheet" href="/css/text.css" />
-        <link rel="stylesheet" href="/css/fluid_grid.css" />
-        <!--
-        <link rel="stylesheet" href="/css/960.css" />
-        -->
+
+        <?php echo $this->dojo()->enable(); ?>
         <link rel="stylesheet" href="/css/site.css" />
 
-        <?php echo $this->dojo(); ?>
-        
         <?php echo $this->headScript() ?>
         <script>
             dojo.addOnLoad(function(){
-				dojo.parser.parse(document.body);
+                if (dijit.registry.length == 0) {
+                    dojo.parser.parse();
+                }
+
 				setTimeout(function(){
 					var loader = dojo.byId("loader");
 					dojo.fadeOut({
@@ -29,50 +28,52 @@
 				}, 500);
 			});
         </script>
+
     </head>
     <body class="claro">
         <div id="loader">
             <div id="loaderInner"></div>
         </div>
-        <!-- Start Main Div -->
-        <div id="main_div" class="container_12">
-            <!-- Start Header -->
-            <div id="header" class="grid_12">
-                <h1>BBA Power Data Base System</h1>
-            </div>
-            <!-- End Header -->
-            <div class="clear">&nbsp;</div>
+        <div id="appLayout"
+         data-dojo-type="dijit.layout.BorderContainer"
+         data-dojo-props="design: 'sidebar'">
 
-            <!-- Start Main Area -->
-            <div id="content" class="grid_12">
-                <div id="left" class="grid_2 alpha">
-                    <div id="nav" class="module">
-                        <h2>Menu</h2>
-                        <?= $this->navigation()->sfMenu(); ?>
-                    </div>
-                </div>
-                <div id="content_wrap" class="grid_10 omega">
-                    <div id="inner_content_wrap">
-                        <div id="messages"><?php
-                           echo $this->FlashMessenger();
-                         ?></div>
-                        <h1><?php echo $this->escape($this->title); ?></h1>
-                        <?php echo $this->layout()->content; ?>
-                    </div>
-                </div>
-            </div>
-            <!-- End Main Area -->
-            <div class="clear">&nbsp;</div>
+        <div class="centerPanel"
+             data-dojo-type="dijit.layout.ContentPane"
+             data-dojo-props="region: 'center'">
 
-            <!-- Start Footer -->
-            <div id="footer" class="grid_12">
-                <div>
-                    <p>&copy; 2011 BBA</p>
-                </div>
-            </div>
-            <!-- End Footer -->
-            <div class="clear">&nbsp;</div>
+                <div id="messages"><?php
+                   echo $this->FlashMessenger();
+                 ?></div>
+                <h1><?php echo $this->escape($this->title); ?></h1>
+                <?php echo $this->layout()->content; ?>
         </div>
-        <!-- End Main Div -->
+
+        <div id="topPanel" class="edgePanel"
+             data-dojo-type="dijit.layout.ContentPane"
+             data-dojo-props="region: 'top'">
+            <h1>BBA Power Data Base System</h1>
+        </div>
+        <?php if ($this->authInfo('role')): ?>
+        <div id="leftPanel" class="edgePanel"
+            data-dojo-type="dijit.layout.ContentPane"
+            data-dojo-props="region: 'left', splitter: true">
+            <div id="userDetails"
+                 dojoType="dijit.TitlePane"
+                 title="User Details"
+                 open="false">
+                <p>User Name: <?php echo $this->authInfo('name'); ?></p>
+                <p>Role: <?php echo $this->authInfo('role'); ?></p>
+            </div>
+            <div id="nav"
+                 dojoType="dijit.TitlePane"
+                 title="Menu">
+
+                <?php echo $this->navigation()->sfMenu(); ?>
+
+            </div>
+        </div>
+        <?php endif; ?>
+    </div>
     </body>
 </html>
