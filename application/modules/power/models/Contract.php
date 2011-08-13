@@ -48,4 +48,16 @@ class Power_Model_Contract extends BBA_Model_Abstract
      * @var string
      */
     protected $_prefix = 'contract_';
+
+    public function setDateStart($date)
+    {
+        $this->_data->dateStart = new Zend_Date($date);
+        return $this;
+    }
+
+    public function setDateEnd($date)
+    {
+        $this->_data->dateEnd = new Zend_Date($date);
+        return $this;
+    }
 }

@@ -53,4 +53,20 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array();
+
+    public function getContractDetails()
+    {
+       return $this->select(false)
+            ->setIntegrityCheck(false)
+            ->from('contract', array(
+                'contract_idContract', 'contract_idClient',
+                'contract_status', 'contract_dateStart',
+                'contract_dateEnd', 'contract_desc'))
+            ->join(
+                'client',
+                'client_idClient = contract_idClient ',
+                array('client_name')
+            )
+           ->order('client_name ASC');
+    }
 }
