@@ -1,85 +1,61 @@
 <?php
 /**
- * ContractController.php
- *
+ * Search.php
+ * 
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
- *
+ * 
  * This file is part of bba-power.
- *
+ * 
  * bba-power is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
+ * 
  * bba-power is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU General Public License
  * along with bba-power.  If not, see <http://www.gnu.org/licenses/>.
- *
+ * 
  * @category   bba-power
  * @package    Power
- * @subpackage Controller
+ * @subpackage Form
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Controller Class ContractController.
+ * Form Class Search.
  *
  * @category   bba-power
  * @package    Power
- * @subpackage Controller
+ * @subpackage Form
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_ContractController extends BBA_Controller_Action_Abstract
+class Power_Form_Contract_Search extends Power_Form_SearchBase
 {
-    /**
-     * @var Power_Model_Mapper_Contract
-     */
-    protected $_model;
 
-    /**
-     * Initialization code.
-     */
     public function init()
     {
-        if ($this->_helper->acl('Guest')) {
-            return $this->_forward('login', 'auth');
-        }
+        $this->addElement('TextBox', 'contract', array(
+            'label'     => 'Contract:',
+            'attribs'   => array('class' => 'search'),
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
 
-        parent::init();
-
-        $this->_model = new Power_Model_Mapper_Contract();
+        $this->addElement('TextBox', 'meter', array(
+            'label'     => 'Meter:',
+            'attribs'   => array('class' => 'search'),
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
         
-        // search form
-        $this->setForm('contractSearch', array(
-            'controller' => 'contract' ,
-            'action' => 'index',
-            'module' => 'power'
-        ));
-    }
-
-    /**
-     * Default action
-     */
-    public function indexAction()
-    {
-        $search = array(
-            'contract' => $this->_request->getParam('contract'),
-            'meter'    => $this->_request->getParam('meter')
-        );
-
-        // gets all contracts and assigns them to the view script.
-        $this->view->assign(array(
-            'contracts' => $this->_model->contractSearch($search, $this->_page),
-            'search'    => $search
-        ));
+        parent::init();
+        
     }
 
 }

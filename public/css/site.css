@@ -1,12 +1,10 @@
 body {
-	background: #fff url("/images/bodyBg.gif") repeat-x top left;
-	padding: 2em 2em 2em 2em;
+    background: #fff url("/images/bodyBg.gif") repeat-x top left;
     font-family: "Times New Roman", serif;
     font-size: 90%;
 }
 
 html, body {
-
     height: 100%;
     margin: 0;
     overflow: hidden;
@@ -91,7 +89,7 @@ table {
     border-width: 0px 0px 1px 0px;
     border-style: solid;
     border-color: #000;
-	background-color: #98b2d6;
+    background-color: #98b2d6;
     background: -moz-linear-gradient(top,  #eee,  #98b2d6);
     border-radius: 10px 10px 0px 0px;
     font-size: 16px;
@@ -187,7 +185,7 @@ table {
     float: left;
     text-align: right;
     width: 200px;
-	margin-right: 5px;
+    margin-right: 5px;
 }
 /*    see  #Search .search
 label.search {
@@ -213,17 +211,17 @@ select
 }
 
 input[type=submit] {
-	font-size: 90%;
+    font-size: 90%;
     margin: 0px 10px;
     float: left;
-	border-radius: 10px;
-	background-color: #98b2d6;
+    border-radius: 10px;
+    background-color: #98b2d6;
     background: -moz-linear-gradient(top,  #fff, #98b2d6);
 }
 
 input[type=submit]:hover {
     cursor: pointer;
-	background-color: #efa32b;
+    background-color: #efa32b;
     background: -moz-linear-gradient(top,  #fff, #efa32b);
 }
 /*    see   #Search .search
@@ -263,7 +261,7 @@ input[class=search] {
 }
 
 #Search .search {
-	float: none;
+    float: none;
 }
 
 /**
@@ -277,7 +275,7 @@ input[class=search] {
     text-align: center;
     border-radius: 10px;
     padding: 1px 9px;
-	margin: 0px 10px;
+    margin: 0px 10px;
     background: -moz-linear-gradient(top,  #fff, #98b2d6);
  }
 
@@ -322,7 +320,7 @@ td, th {
 span.id {
     font-variant: small-caps;
     font-weight: bold;
-	font-size: smaller;
+    font-size: smaller;
 }
 /*
 	TableHead styles - the heading line and possible(New XXXX)button that heads
@@ -330,18 +328,18 @@ span.id {
 */
 
 .tableHead {
-	/* a  DIV  */
-	overflow: hidden;	/* terminate any floats */
-	margin-top: 15px;
+    /* a  DIV  */
+    overflow: hidden;	/* terminate any floats */
+    margin-top: 15px;
 }
 .tableHead-heading {
-	/* an  H2  */
-	float: left;
+    /* an  H2  */
+    float: left;
 }
 .tableHead-button {
-	/* a  P  for the button */
-	float: right;
-	margin: 0px;
+    /* a  P  for the button */
+    float: right;
+    margin: 0px;
 }
 
 /*
