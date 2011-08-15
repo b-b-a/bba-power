@@ -58,8 +58,6 @@ class Power_Model_Mapper_MeterContract extends ZendSF_Model_Mapper_Acl_Abstract
             ->where('meterContract_idContract = ?', $id)
             ->join('meter', 'meterContract_idMeter = meter_idMeter');
 
-        $log = Zend_Registry::get('log');
-
         $resultSet = $this->fetchAll($select);
 
         $meterModel = new Power_Model_Mapper_Meter();
@@ -67,8 +65,6 @@ class Power_Model_Mapper_MeterContract extends ZendSF_Model_Mapper_Acl_Abstract
         foreach ($resultSet as $row) {
             $rows[] = $meterModel->find($row->idMeter);
         }
-
-        $log->info($rows);
 
         return $rows;
     }
@@ -84,7 +80,8 @@ class Power_Model_Mapper_MeterContract extends ZendSF_Model_Mapper_Acl_Abstract
      * @param Zend_Acl_Resource_Interface $acl
      * @return ZendSF_Model_Mapper_Abstract
      */
-    public function setAcl(Zend_Acl $acl) {
+    public function setAcl(Zend_Acl $acl)
+    {
         parent::setAcl($acl);
 
         // implement rules here.

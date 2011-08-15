@@ -44,11 +44,18 @@ class Power_Model_Mapper_Tender extends ZendSF_Model_Mapper_Acl_Abstract
      * @var Power_Model_DbTable_Tender
      */
     protected $_dbTableClass;
-    
+
     /**
      * @var Power_Model_Tender
      */
     protected $_modelClass;
+
+    public function getTendersByContractId($id)
+    {
+        $select = $this->_dbTable->select()
+                ->where('tender_idContract = ?', $id);
+        return $this->fetchAll($select);
+    }
 
     /**
      * Injector for the acl, the acl can be injected directly

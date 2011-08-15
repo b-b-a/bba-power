@@ -174,6 +174,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
              ->requireModule('dijit.layout.ContentPane')
              ->requireModule('dijit.layout.LinkPane')
              ->requireModule('dijit.layout.TabContainer')
+             ->requireModule('dojox.grid.DataGrid')
              ->requireModule('dijit.TitlePane')
              ->disable();
 

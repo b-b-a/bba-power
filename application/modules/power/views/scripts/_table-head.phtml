@@ -1,5 +1,6 @@
 <div class="tableHead">
 	<h2 class="tableHead-heading"><?php echo $this->heading; ?>:</h2>
+    <?php if ($this->location): ?>
 	<p class="tableHead-button">
         <button dojoType="dijit.form.Button" type="button">
             <?php echo $this->label; ?>
@@ -8,4 +9,5 @@
             </script>
         </button>
 	</p>
+    <?php endif; ?>
 </div>

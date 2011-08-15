@@ -17,12 +17,14 @@
 )); ?>
 
 <table>
-    <tr>
-        <th>Type <span class="id">(id)</span></th>
-        <th>Number Serial</th>
-        <th>Number Main</th>
-        <th>&nbsp;</th>
-	</tr>
+    <thead>
+        <tr>
+            <th field="type">Type <span class="id">(id)</span></th>
+            <th>Number Serial</th>
+            <th>Number Main</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
 <?php
 	if ($this->meters):
 		foreach($this->meters as $meter):
@@ -38,8 +40,48 @@
     </tr>
 <?php endforeach;
 else: ?>
-    <tr><td>This Contract has no meters yet.</td>
-        <td></td><td></td><td></td><td></td><td></td>
+    <tr>
+        <td colspan="4">This Contract has no meters yet.</td>
+    </tr>
+<?php endif; ?>
+</table>
+
+<?php echo $this->partial('_table-head.phtml', array(
+    'heading'   => 'Tenders',
+    'label'     => 'New Tender',
+    'location'  => $this->url(array(
+        'controller'    => 'contract',
+        'action'        => 'add-tender',
+        'contractId'    => $this->contract->id
+    ),'default', true)
+)); ?>
+
+<table>
+    <thead>
+        <tr>
+            <th>Contract Period <span class="id">(id)</span></th>
+            <th>Quote Expires</th>
+            <th>Standing Charge</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+<?php
+	if ($this->tenders):
+		foreach($this->tenders as $tender):
+?>
+    <tr>
+        <td><?php echo $tender->periodContract; ?>&nbsp;
+            <span class="id">(<?php echo $this->escape($tender->id); ?>)</span></td>
+        <td><?php echo $tender->dateExpiresQuote; ?></td>
+        <td><?php echo $tender->chargeStanding; ?></td>
+        <td class="action">
+
+        </td>
+    </tr>
+<?php endforeach;
+else: ?>
+    <tr>
+        <td colspan="4">This Contract has no tenders yet.</td>
     </tr>
 <?php endif; ?>
 </table>

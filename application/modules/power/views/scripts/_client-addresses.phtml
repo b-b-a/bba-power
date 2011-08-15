@@ -1,13 +1,12 @@
-<div class="tableHead">
-	<h2 class="tableHead-heading">Client Addresses</h2>
-	<p class="tableHead-button">
-		<a href="<?php echo $this->url(array(
-			'controller'    => 'client-address',
-			'action'        => 'add',
-			'clientId'      => $this->idClient
-			), 'default', true);?>" class="button">New Address</a>
-	</p>
-</div>
+<?php echo $this->partial('_table-head.phtml', array(
+    'heading'   => 'Client Addresses',
+    'label'     => 'New Address',
+    'location'  => $this->url(array(
+        'controller'    => 'client-address',
+        'action'        => 'add',
+        'clientId'      => $this->idClient
+    ), 'default', true)
+)); ?>
 
 <table>
     <tr>
@@ -18,9 +17,9 @@
         <th>Postcode</th>
         <th>&nbsp;</th>
     </tr>
-<?php 
+<?php
 	if ($this->addresses):
-		foreach($this->addresses as $address): 
+		foreach($this->addresses as $address):
 ?>
 			<tr class="<?php if ($this->currentEdit == $address->idAddress) echo 'current-eidt'; ?>">
 				<td><?php echo $this->escape($address->addressName); ?>&nbsp;
@@ -31,37 +30,26 @@
 				<td><?php echo $this->escape($address->postcode); ?></td>
 				<td class="action">
 					<?php if ($this->currentEdit != $address->idAddress): ?>
-					<a href="<?php echo $this->url(array(
-						'controller'    => 'client-address',
-						'action'        => 'edit',
-						'clientId'      => $address->idClient,
-						'addressId'     => $address->idAddress
-					), 'default', true);?>" class="button">Edit</a>
-<!--
-					<a href="<?php echo $this->url(array(
-						'controller'    => 'client-address',
-						'action'        => 'delete',
-						'clientId'      => $address->idClient,
-						'addressId'     => $address->idAddress
-					), 'default', true);?>" class="button">Delete</a>
-	-->				
-<!--
-					<a href="<?php echo $this->url(array(
-						'controller'    => 'client-contact',
-						'action'        => 'add',
-						'clientId'      => $this->idClient,
-						'addressId'     => $address->idAddress
-						), 'default', true);?>" class="button">New Contact</a>
--->
+                    <button dojoType="dijit.form.Button" type="button">
+                        Edit
+                        <script type="dojo/method" event="onClick" args="evt">
+                            location.href = "<?php echo $this->url(array(
+                                'controller'    => 'client-address',
+                                'action'        => 'edit',
+                                'clientId'      => $address->idClient,
+                                'addressId'     => $address->idAddress
+                            ), 'default', true); ?>";
+                        </script>
+                    </button>
 					<?php else: ?>
 					&nbsp;
 					<?php endif; ?>
 				</td>
 			</tr>
-	<?php endforeach; 
+	<?php endforeach;
 	else: ?>
-		<tr><td>This Client has no addresses yet.</td>
-			<td></td><td></td><td></td><td></td><td></td>
+		<tr>
+            <td colspan="6">This Client has no addresses yet.</td>
 		</tr>
 <?php endif; ?>
 </table>
