@@ -7,11 +7,13 @@
         <link rel="stylesheet" href="/css/text.css" />
 
         <?php echo $this->dojo()->enable(); ?>
+        <?php echo $this->headLink() ?>
         <link rel="stylesheet" href="/css/site.css" />
 
         <?php echo $this->headScript() ?>
         <script>
             dojo.addOnLoad(function(){
+                
                 if (dijit.registry.length == 0) {
                     dojo.parser.parse();
                 }
