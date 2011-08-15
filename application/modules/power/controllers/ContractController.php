@@ -56,11 +56,17 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
         parent::init();
 
         $this->_model = new Power_Model_Mapper_Contract();
-        
+
         // search form
         $this->setForm('contractSearch', array(
             'controller' => 'contract' ,
             'action' => 'index',
+            'module' => 'power'
+        ));
+
+        $this->setForm('contractSave', array(
+            'controller' => 'contract' ,
+            'action' => 'save',
             'module' => 'power'
         ));
     }
@@ -80,6 +86,25 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
             'contracts' => $this->_model->contractSearch($search, $this->_page),
             'search'    => $search
         ));
+    }
+
+    public function editAction()
+    {
+        if ($this->_request->getParam('contractId')) {
+            $contract = $this->_model->find($this->_request->getParam('contractId'));
+            $meterContract = new Power_Model_Mapper_MeterContract();
+
+            $this->getForm('contractSave')
+                    ->populate($contract->toArray())
+                    ->addHiddenElement('returnAction', 'edit');
+
+            $this->view->assign(array(
+                'contract' => $contract,
+                'meters'    => $meterContract->getMetersByContractId($this->_request->getParam('contractId'))
+            ));
+        } else {
+           return $this->_helper->redirector('index', 'contract');
+        }
     }
 
 }

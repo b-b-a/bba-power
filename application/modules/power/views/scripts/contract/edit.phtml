@@ -1,0 +1,45 @@
+<?php
+	$this->title = "BBA Contract Update";
+	$this->headTitle($this->title);
+
+    echo $this->contractSaveForm;
+    /* @var $meter Power_Model_Meter */
+?>
+
+<?php echo $this->partial('_table-head.phtml', array(
+    'heading'   => 'Meters',
+    'label'     => 'New Meter',
+    'location'  => $this->url(array(
+        'controller'    => 'contract',
+        'action'        => 'add-meter',
+        'contractId'    => $this->contract->id
+    ),'default', true)
+)); ?>
+
+<table>
+    <tr>
+        <th>Type <span class="id">(id)</span></th>
+        <th>Number Serial</th>
+        <th>Number Main</th>
+        <th>&nbsp;</th>
+	</tr>
+<?php
+	if ($this->meters):
+		foreach($this->meters as $meter):
+?>
+    <tr>
+        <td><?php echo $meter->type; ?>&nbsp;
+            <span class="id">(<?php echo $this->escape($meter->id); ?>)</span></td>
+        <td><?php echo $meter->numberSerial; ?></td>
+        <td><?php echo $meter->numberMain; ?></td>
+        <td class="action">
+
+        </td>
+    </tr>
+<?php endforeach;
+else: ?>
+    <tr><td>This Contract has no meters yet.</td>
+        <td></td><td></td><td></td><td></td><td></td>
+    </tr>
+<?php endif; ?>
+</table>

@@ -6,6 +6,15 @@
     /* @var $meter Power_Model_Meter */
 ?>
 
+<?php echo $this->partial('_table-head.phtml', array(
+    'heading'   => 'Contracts',
+    'label'     => 'New Contract',
+    'location'  => $this->url(array(
+        'controller'    => 'contract',
+        'action'        => 'add'
+    ),'default', true)
+)); ?>
+
 <table>
 	<tr>
 	<th>Client<span class="id">(id)</span></th>
