@@ -37,18 +37,41 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class _Model_Mapper_MeterContract extends ZendSF_Model_Mapper_Acl_Abstract
+class Power_Model_Mapper_MeterContract extends ZendSF_Model_Mapper_Acl_Abstract
 {
 
     /**
      * @var Power_Model_DbTable_MeterContract
      */
-    protected $_dbTableClass;
-    
+    protected $_dbTable;
+
     /**
      * @var Power_Model_MeterContract
      */
     protected $_modelClass;
+
+    public function getMetersByContractId($id)
+    {
+        $select = $this->_dbTable->select(false)
+            ->setIntegrityCheck(false)
+            ->from('meter_contract')
+            ->where('meterContract_idContract = ?', $id)
+            ->join('meter', 'meterContract_idMeter = meter_idMeter');
+
+        $log = Zend_Registry::get('log');
+
+        $resultSet = $this->fetchAll($select);
+
+        $meterModel = new Power_Model_Mapper_Meter();
+
+        foreach ($resultSet as $row) {
+            $rows[] = $meterModel->find($row->idMeter);
+        }
+
+        $log->info($rows);
+
+        return $rows;
+    }
 
     /**
      * Injector for the acl, the acl can be injected directly
