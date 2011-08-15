@@ -4,7 +4,52 @@
 
     echo $this->contractSearchForm;
     /* @var $meter Power_Model_Meter */
+
 ?>
+<script>
+    var contractStore = <?php echo $this->store; ?>;
+    //onRowDblClick(e)
+    dojo.addOnLoad(function(){
+        dojo.connect(grid, "onRowDblClick", function(val){
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            //Not sure if this is the most efficient way but it worked for me
+            selectedId = grid.store.getValue(selectedItem, "contract_idContract");
+
+            location.href = '/contract/edit/contractId/' + selectedId;
+        });
+    });
+
+</script>
+<style>
+.dojoxGrid table {
+    margin: 0;
+}
+
+table {
+    width: 100%;
+    border: none;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: transparent;
+}
+
+tr:first-child {
+    background-color: transparent;
+}
+
+td, th {
+    border: none;
+    padding: 0px;
+}
+</style>
 
 <?php echo $this->partial('_table-head.phtml', array(
     'heading'   => 'Contracts',
@@ -15,39 +60,18 @@
     ),'default', true)
 )); ?>
 
-<table>
-	<tr>
-	<th>Client<span class="id">(id)</span></th>
-	<th>Status</th>
-	<th>Start Date</th>
-	<th>End Date</th>
-	<th>Description</th>
-    <th>&nbsp;</th>
+<div dojotype="dojo.data.ItemFileReadStore" jsid="tableStore" data="contractStore"></div>
 
-	</tr>
-    <?php foreach($this->contracts as $contract) : ?>
-	<tr>
-            <td><?php echo $this->escape($contract->client_name); ?>&nbsp;
-                <span class="id">(<?php echo $this->escape($contract->id); ?>)</span>
-            </td>
-            <td><?php echo $this->escape($contract->status); ?></td>
-            <td><?php echo $this->escape($contract->dateStart->toString('dd/MM/yyyy')); ?></td>
-            <td><?php echo $this->escape($contract->dateEnd->toString('dd/MM/yyyy')); ?></td>
-            <td><?php echo $this->escape($contract->desc); ?></td>
-            <td class="action">
-                <button dojoType="dijit.form.Button" type="button">
-                    Edit
-                    <script type="dojo/method" event="onClick" args="evt">
-                        location.href = "<?php echo  $this->url(array(
-                                'controller'    => 'contract',
-                                'action'        => 'edit',
-                                'contractId'        => $contract->id,
-                            ),'default', true);?>";
-                    </script>
-                </button>
-            </td>
+<table dojoType="dojox.grid.DataGrid" jsId="grid" store="tableStore" query="{ contract_idContract: '*' }" style="width: 100%; height: 65%; margin:auto;" autowidth="true" rowSelector="20px">
+    <thead style="width: 100%;" >
+        <tr>
+            <th field="contract_idContract" width="50">Id</th>
+            <th field="contract_client_name" width="200">Client</th>
+            <th field="contract_dateStart">Start Date</th>
+            <th field="contract_dateEnd">End Date</th>
+            <th field="contract_desc" width="500">Description</th>
         </tr>
-    <?php endforeach; ?>
+    </thead>
 </table>
 
 <?php
@@ -61,3 +85,5 @@ if ($this->contracts instanceof Zend_Paginator) {
     );
 }
 ?>
+
+

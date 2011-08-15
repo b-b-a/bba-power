@@ -81,10 +81,21 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
             'meter'    => $this->_request->getParam('meter')
         );
 
+        foreach ($this->_model->contractSearch($search, $this->_page) as $row) {
+            //$row = $row->toArray();
+            $items[] = $row->toArray();
+        }
+
+        $data = new Zend_Dojo_Data('contract_idContract', $items);
+
+        $this->_log->info($data->toJson());
+
+
         // gets all contracts and assigns them to the view script.
         $this->view->assign(array(
             'contracts' => $this->_model->contractSearch($search, $this->_page),
-            'search'    => $search
+            'search'    => $search,
+            'store'     => $data->toJson()
         ));
     }
 

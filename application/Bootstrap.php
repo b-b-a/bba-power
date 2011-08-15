@@ -175,8 +175,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
              ->requireModule('dijit.layout.LinkPane')
              ->requireModule('dijit.layout.TabContainer')
              ->requireModule('dojox.grid.DataGrid')
+             ->requireModule('dojo.data.ItemFileReadStore')
              ->requireModule('dijit.TitlePane')
              ->disable();
+        $this->_view->headLink()
+                ->prependStylesheet('/js/dojox/grid/resources/Grid.css')
+                ->prependStylesheet('/js/dojox/grid/resources/claroGrid.css');
 
         $this->_view->headTitle('BBA Power')->setSeparator(' - ');
     }
