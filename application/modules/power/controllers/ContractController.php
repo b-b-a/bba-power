@@ -93,14 +93,18 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
         if ($this->_request->getParam('contractId')) {
             $contract = $this->_model->find($this->_request->getParam('contractId'));
             $meterContract = new Power_Model_Mapper_MeterContract();
+            $tenders = new Power_Model_Mapper_Tender();
 
             $this->getForm('contractSave')
                     ->populate($contract->toArray())
                     ->addHiddenElement('returnAction', 'edit');
 
             $this->view->assign(array(
-                'contract' => $contract,
-                'meters'    => $meterContract->getMetersByContractId($this->_request->getParam('contractId'))
+                'contract'  => $contract,
+                'meters'    => $meterContract->getMetersByContractId(
+                        $this->_request->getParam('contractId')),
+                'tenders'   => $tenders->getTendersByContractId(
+                        $this->_request->getParam('contractId'))
             ));
         } else {
            return $this->_helper->redirector('index', 'contract');

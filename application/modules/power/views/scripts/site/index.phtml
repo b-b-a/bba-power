@@ -6,12 +6,14 @@
     /* @var $site Power_Model_Site */
 ?>
 
-<p>
-    <a href="<?php echo $this->url(array(
+<?php echo $this->partial('_table-head.phtml', array(
+    'heading'   => 'Sites',
+    'label'     => 'New Site',
+    'location'  => $this->url(array(
         'controller'    => 'site',
         'action'        => 'add'
-    ), 'default', true);?>" class="button">New Site</a>
-</p>
+    ), 'default', true)
+)); ?>
 
 <table>
 	<tr>
@@ -30,17 +32,17 @@
             $this->escape($site->clientAd_address3), $this->escape($site->clientAd_postcode)
         )); ?></td>
 		<td class="action">
-			<a href="<?php echo $this->url(array(
-                'controller'    => 'site',
-                'action'        => 'edit',
-                'siteId'        => $site->id
-            ));?>" class="button">Edit</a>
-			<a href="<?php echo $this->url(array(
-                'controller'    =>'site',
-                'action'        =>'delete',
-                'siteId'        => $site->id
-            ));?>" class="button">Delete</a>
-		</td>
+			<button dojoType="dijit.form.Button" type="button">
+                Edit
+                <script type="dojo/method" event="onClick" args="evt">
+                    location.href = "<?php echo $this->url(array(
+                        'controller'    => 'site',
+                        'action'        => 'edit',
+                        'siteId'        => $site->id
+                    )); ?>";
+                </script>
+            </button>
+        </td>
 	</tr>
     <?php endforeach;?>
 </table>

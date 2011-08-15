@@ -4,16 +4,16 @@
 
     echo $this->siteEditForm;
 ?>
-<div class="tableHead">
-	<h2 class="tableHead-heading">Meters</h2>
-	<p class="tableHead-button">
-		<a href="<?php echo $this->url(array(
-			'controller'    => 'meter',
-			'action'        => 'add',
-			'siteId'      => $this->site
-        ), 'default', true);?>" class="button">New Meter</a>
-	</p>
-</div>
+
+<?php echo $this->partial('_table-head.phtml', array(
+    'heading'   => 'Meters',
+    'label'     => 'New Meter',
+    'location'  => $this->url(array(
+        'controller'    => 'meter',
+        'action'        => 'add',
+        'siteId'      => $this->site
+    ), 'default', true)
+)); ?>
 
 <table>
     <tr>
@@ -32,31 +32,34 @@
         <td><?php echo $meter->numberSerial; ?></td>
         <td><?php echo $meter->numberMain; ?></td>
         <td class="action">
-            <a href="<?php echo $this->url(array(
-                'controller'    => 'meter',
-                'action'        => 'usage',
-                'siteId'        => $meter->idSite,
-                'meterId'       => $meter->id
-            ), 'default', true);?>" class="button">Usage</a>
+            <button dojoType="dijit.form.Button" type="button">
+                Usage
+                <script type="dojo/method" event="onClick" args="evt">
+                    location.href = "<?php echo $this->url(array(
+                        'controller'    => 'meter',
+                        'action'        => 'usage',
+                        'siteId'        => $meter->idSite,
+                        'meterId'       => $meter->id
+                    ), 'default', true); ?>";
+                </script>
+            </button>
 
-            <a href="<?php echo $this->url(array(
-                'controller'    => 'meter',
-                'action'        => 'edit',
-                'meterId'       => $meter->id
-            ),'default', true);?>" class="button">Edit</a>
-<!--
-            <a href="<?php echo $this->url(array(
-                'controller'    => 'meter',
-                'action'        => 'delete',
-                'meterId'       => $meter->id
-            ), 'default', true);?>" class="button">Delete</a>
--->
+            <button dojoType="dijit.form.Button" type="button">
+                Edit
+                <script type="dojo/method" event="onClick" args="evt">
+                    location.href = "<?php echo $this->url(array(
+                        'controller'    => 'meter',
+                        'action'        => 'edit',
+                        'meterId'       => $meter->id
+                    ),'default', true); ?>";
+                </script>
+            </button>
         </td>
     </tr>
 <?php endforeach;
 else: ?>
-    <tr><td>This Site has no meters yet.</td>
-        <td></td><td></td><td></td><td></td><td></td>
+    <tr>
+        <td colspan="6">This Site has no meters yet.</td>
     </tr>
 <?php endif; ?>
 </table>

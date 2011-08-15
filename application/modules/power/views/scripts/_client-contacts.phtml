@@ -1,13 +1,12 @@
-<div class="tableHead">
-	<h2 class="tableHead-heading">Client Contacts</h2>
-	<p class="tableHead-button">
-		<a href="<?php echo $this->url(array(
-			'controller'    => 'client-contact',
-			'action'        => 'add',
-			'clientId'      => $this->idClient
-			), 'default', true);?>" class="button">New Contact</a>
-	</p>
-</div>
+<?php echo $this->partial('_table-head.phtml', array(
+    'heading'   => 'Client Contacts',
+    'label'     => 'New Contact',
+    'location'  => $this->url(array(
+        'controller'    => 'client-contact',
+        'action'        => 'add',
+        'clientId'      => $this->idClient
+    ), 'default', true)
+)); ?>
 
 <table>
     <tr>
@@ -28,27 +27,25 @@
 			<td><?php echo $this->escape($contact->email); ?></td>
 			<td><?php echo $this->escape($contact->postcode); ?></td>
 			<td class="action">
-				<a href="<?php echo $this->url(array(
-					'controller'    => 'client-contact',
-					'action'        => 'edit',
-					'clientId'      => $contact->idClient,
-					'addressId'     => $contact->idAddress,
-					'contactId'     => $contact->idClientContact
-				));?>" class="button">Edit</a>
-
-				<a href="<?php echo $this->url(array(
-					'controller'    => 'client-contact',
-					'action'        => 'delete',
-					'clientId'      => $contact->idClient,
-					'addressId'     => $contact->idAddress,
-					'contactId'     => $contact->idClientContact
-				));?>" class="button">Delete</a>
+                <button dojoType="dijit.form.Button" type="button">
+                    Edit
+                    <script type="dojo/method" event="onClick" args="evt">
+                        location.href = "<?php echo $this->url(array(
+                            'controller'    => 'client-contact',
+                            'action'        => 'edit',
+                            'clientId'      => $contact->idClient,
+                            'addressId'     => $contact->idAddress,
+                            'contactId'     => $contact->idClientContact
+                        )); ?>";
+                    </script>
+                </button>
 			</td>
 		</tr>
 	<?php endforeach; ?>
 
 <?php else: ?>
-		<tr><td>This client has no contacts yet.</td>
-		<td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+		<tr>
+            <td colspan="6">This client has no contacts yet.</td>
+        </tr>
 <?php endif; ?>
 </table>

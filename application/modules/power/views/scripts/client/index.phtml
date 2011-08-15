@@ -6,12 +6,14 @@
     /* @var $client Power_Model_Client */
 ?>
 
-<p>
-    <a href="<?php echo $this->url(array(
+<?php echo $this->partial('_table-head.phtml', array(
+    'heading'   => 'Clients',
+    'label'     => 'New Client',
+    'location'  => $this->url(array(
         'controller'    => 'client',
         'action'        => 'add'
-        ), 'default', true);?>" class="button">New Client</a>
-</p>
+    ), 'default', true)
+)); ?>
 
 <table>
 	<tr>
@@ -29,19 +31,16 @@
         <td><?php echo $this->escape($client->desc); ?></td>
         <td><?php echo $this->escape($client->dateExpiryLoa->toString('dd/MM/yyyy'));?></td>
 		<td class="action">
-			<a href="<?php echo $this->url(array(
-                'controller'    => 'client',
-                'action'        => 'edit',
-				'clientId'       => $client->id
-            ));?>" class="button">Edit</a>
-
-<!--
-			<a href="<?php echo $this->url(array(
-                'controller'    => 'client',
-                'action'        => 'delete',
-                'clientId'       => $client->id
-            ));?>" class="button">Delete</a>
--->
+            <button dojoType="dijit.form.Button" type="button">
+                Edit
+                <script type="dojo/method" event="onClick" args="evt">
+                    location.href = "<?php echo $this->url(array(
+                        'controller'    => 'client',
+                        'action'        => 'edit',
+                        'clientId'       => $client->id
+                    ));?>";
+                </script>
+            </button>
 		</td>
 	</tr>
     <?php endforeach; ?>

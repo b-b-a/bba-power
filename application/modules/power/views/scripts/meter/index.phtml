@@ -6,6 +6,11 @@
     /* @var $meter Power_Model_Meter */
 ?>
 
+<?php echo $this->partial('_table-head.phtml', array(
+    'heading'   => 'Meters',
+    'label'     => 'New Meter'
+)); ?>
+
 <table>
 	<tr>
 	<th>Client</th>
@@ -28,24 +33,27 @@
             <span class="id">(<?php echo $this->escape($meter->id); ?>)</span></td>
         <td><?php echo $meter->numberMain; ?></td>
 		<td class="action">
-			<a href="<?php echo $this->url(array(
-                'controller'    => 'meter',
-                'action'        => 'usage',
-				'meterId'       => $meter->id
-            ), 'default', true);?>" class="button">Usage</a>
+			<button dojoType="dijit.form.Button" type="button">
+                Usage
+                <script type="dojo/method" event="onClick" args="evt">
+                    location.href = "<?php echo $this->url(array(
+                        'controller'    => 'meter',
+                        'action'        => 'usage',
+                        'meterId'       => $meter->id
+                    ), 'default', true); ?>";
+                </script>
+            </button>
 
-			<a href="<?php echo $this->url(array(
-                'controller'    => 'meter',
-                'action'        => 'edit',
-				'meterId'       => $meter->id
-            ),'default', true);?>" class="button">Edit</a>
-<!--
-			<a href="<?php echo $this->url(array(
-                'controller'    => 'meter',
-                'action'        => 'delete',
-                'meterId'       => $meter->id
-            ), 'default', true);?>" class="button">Delete</a>
--->
+            <button dojoType="dijit.form.Button" type="button">
+                Edit
+                <script type="dojo/method" event="onClick" args="evt">
+                    location.href = "<?php echo $this->url(array(
+                        'controller'    => 'meter',
+                        'action'        => 'edit',
+                        'meterId'       => $meter->id
+                    ),'default', true); ?>";
+                </script>
+            </button>
 		</td>
 	</tr>
     <?php endforeach; ?>
