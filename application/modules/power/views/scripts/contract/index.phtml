@@ -8,7 +8,6 @@
 ?>
 <script>
     var contractStore = <?php echo $this->store; ?>;
-    //onRowDblClick(e)
     dojo.addOnLoad(function(){
         dojo.connect(grid, "onRowDblClick", function(val){
             selectedIndex = grid.focus.rowIndex;
@@ -18,12 +17,17 @@
 
             location.href = '/contract/edit/contractId/' + selectedId;
         });
+        //grid.start();
     });
 
 </script>
 <style>
 .dojoxGrid table {
     margin: 0;
+}
+
+.dojoxGrid-scrollbox  {
+    overflow: hidden;
 }
 
 table {
@@ -49,6 +53,10 @@ td, th {
     border: none;
     padding: 0px;
 }
+
+td {
+    cursor: pointer;
+}
 </style>
 
 <?php echo $this->partial('_table-head.phtml', array(
@@ -62,8 +70,13 @@ td, th {
 
 <div dojotype="dojo.data.ItemFileReadStore" jsid="tableStore" data="contractStore"></div>
 
-<table dojoType="dojox.grid.DataGrid" jsId="grid" store="tableStore" query="{ contract_idContract: '*' }" style="width: 100%; height: 65%; margin:auto;" autowidth="true" rowSelector="20px">
-    <thead style="width: 100%;" >
+<table dojoType="dojox.grid.DataGrid"
+       jsId="grid" store="tableStore"
+       query="{ contract_idContract: '*' }"
+       style="width: 900px; height: 65%; margin:auto;"
+       autowidth="true"
+       rowSelector="10px">
+    <thead>
         <tr>
             <th field="contract_idContract" width="50">Id</th>
             <th field="contract_client_name" width="200">Client</th>
