@@ -67,6 +67,16 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
                 'client_idClient = contract_idClient ',
                 array('client_name')
             )
+            ->join(
+                'meter_contract',
+                'meterContract_idContract = contract_idContract',
+                null
+            )
+            ->join(
+                'meter',
+                'meter_idMeter = meterContract_idMeter',
+                array('meter_numberMain')
+            )
            ->order('client_name ASC');
     }
 }

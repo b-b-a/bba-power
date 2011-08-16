@@ -69,4 +69,15 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
             return $this->_forward('login', 'auth');
         }
     }
+
+    public function getDataStore($dataObj, $id)
+    {
+        foreach ($dataObj as $row) {
+            $items[] = $row->toArray('dd/MM/yyyy');
+        }
+
+        $store = new Zend_Dojo_Data($id, $items);
+
+        return $store->toJson();
+    }
 }
