@@ -43,7 +43,38 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
     {
         $this->setName('contract');
 
+        $this->addElement('TextBox', 'contract_reference', array(
+            'label'     => 'Contract Ref:',
+            'required'  => false,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
 
+        $table = new Power_Model_Mapper_Tables();
+        $list = $table->getSelectListByName('contract_type');
+        foreach($list as $row) {
+            $multiOptions[$row->key] = $row->value;
+        }
+
+        $this->addElement('FilteringSelect', 'contract_type', array(
+            'label'     => 'Type:',
+            'filters'   => array('StripTags', 'StringTrim'),
+            'autocomplete' => false,
+            'multiOptions'  => $multiOptions,
+            'required'  => true,
+        ));
+
+        $list = $table->getSelectListByName('contract_status');
+        foreach($list as $row) {
+            $multiOptions[$row->key] = $row->value;
+        }
+
+        $this->addElement('FilteringSelect', 'contract_status', array(
+            'label'     => 'Status:',
+            'filters'   => array('StripTags', 'StringTrim'),
+            'autocomplete' => false,
+            'multiOptions'  => $multiOptions,
+            'required'  => true,
+        ));
 
         $auth = Zend_Auth::getInstance();
 

@@ -80,7 +80,7 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
             'contract' => $this->_request->getParam('contract'),
             'meter'    => $this->_request->getParam('meter')
         );
-        
+
         $contracts = $this->_model->contractSearch($search, $this->_page);
 
         foreach ($contracts as $row) {
@@ -102,22 +102,30 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
         if ($this->_request->getParam('contractId')) {
             $contract = $this->_model->find($this->_request->getParam('contractId'));
             $meterContract = new Power_Model_Mapper_MeterContract();
-            $tenders = new Power_Model_Mapper_Tender();
+            $tenderContract = new Power_Model_Mapper_Tender();
 
             $this->getForm('contractSave')
                     ->populate($contract->toArray())
                     ->addHiddenElement('returnAction', 'edit');
 
+            $meters = $meterContract->getMetersByContractId(
+                $this->_request->getParam('contractId')
+            );
+
+            $tenders = $tenderContract->getTendersByContractId(
+                $this->_request->getParam('contractId')
+            );
+
+            $meterStore = $this->getDataStore($meters, 'meter_idMeter');
+            $tenderStore = $this->getDataStore($tenders, 'tender_idTender');
+
             $this->view->assign(array(
-                'contract'  => $contract,
-                'meters'    => $meterContract->getMetersByContractId(
-                        $this->_request->getParam('contractId')),
-                'tenders'   => $tenders->getTendersByContractId(
-                        $this->_request->getParam('contractId'))
+                'contract'      => $contract,
+                'meterStore'    => $meterStore,
+                'tenderStore'       => $tenderStore
             ));
         } else {
            return $this->_helper->redirector('index', 'contract');
         }
     }
-
 }

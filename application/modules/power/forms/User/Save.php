@@ -43,7 +43,7 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
     {
         $this->setName('userSave');
 
-        $this->addElement('ValidationTextBox', 'user_name', array(
+        $this->addElement('TextBox', 'user_name', array(
             'label' => 'Username:',
             'required'      => true
         ));
@@ -53,7 +53,7 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
             'required' => true
         ));
 
-        $this->addElement('ValidationTextBox', 'user_fullName', array(
+        $this->addElement('TextBox', 'user_fullName', array(
             'label' => 'Full Name:',
             'required'      => true
         ));

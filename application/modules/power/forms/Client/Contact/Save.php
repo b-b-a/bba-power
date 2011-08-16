@@ -59,19 +59,19 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
             'required'  => true,
         ));
 
-        $this->addElement('ValidationTextBox', 'clientCo_name', array(
+        $this->addElement('TextBox', 'clientCo_name', array(
             'label'     => 'Name:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('ValidationTextBox', 'clientCo_phone', array(
+        $this->addElement('TextBox', 'clientCo_phone', array(
             'label'     => 'Phone:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('ValidationTextBox', 'clientCo_email', array(
+        $this->addElement('TextBox', 'clientCo_email', array(
             'label'     => 'email:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim', 'StringToLower'),

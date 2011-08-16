@@ -6,6 +6,7 @@
     /* @var $meter Power_Model_Meter */
 
 ?>
+
 <script>
     var contractStore = <?php echo $this->store; ?>;
     dojo.addOnLoad(function(){
@@ -17,47 +18,9 @@
 
             location.href = '/contract/edit/contractId/' + selectedId;
         });
-        //grid.start();
     });
 
 </script>
-<style>
-.dojoxGrid table {
-    margin: 0;
-}
-
-.dojoxGrid-scrollbox  {
-    overflow: hidden;
-}
-
-table {
-    width: 100%;
-    border: none;
-    border-collapse: collapse;
-}
-
-th {
-    text-align: left;
-    font-weight: bold;
-}
-
-tr:hover {
-    background-color: transparent;
-}
-
-tr:first-child {
-    background-color: transparent;
-}
-
-td, th {
-    border: none;
-    padding: 0px;
-}
-
-td {
-    cursor: pointer;
-}
-</style>
 
 <?php echo $this->partial('_table-head.phtml', array(
     'heading'   => 'Contracts',
@@ -71,18 +34,20 @@ td {
 <div dojotype="dojo.data.ItemFileReadStore" jsid="tableStore" data="contractStore"></div>
 
 <table dojoType="dojox.grid.DataGrid"
-       jsId="grid" store="tableStore"
+       jsId="grid"
+       store="tableStore"
        query="{ contract_idContract: '*' }"
-       style="width: 900px; height: 65%; margin:auto;"
-       autowidth="true"
+       style="width: 100%;"
+       autoWidth="false"
+       autoHeight="true"
        rowSelector="10px">
     <thead>
         <tr>
             <th field="contract_idContract" width="50">Id</th>
             <th field="contract_client_name" width="200">Client</th>
-            <th field="contract_dateStart">Start Date</th>
-            <th field="contract_dateEnd">End Date</th>
-            <th field="contract_desc" width="500">Description</th>
+            <th field="contract_dateStart" width="100">Start Date</th>
+            <th field="contract_dateEnd" width="100">End Date</th>
+            <th field="contract_desc" width="auto">Description</th>
         </tr>
     </thead>
 </table>
