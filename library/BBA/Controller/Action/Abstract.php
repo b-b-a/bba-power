@@ -81,6 +81,8 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
      */
     public function getDataStore($dataObj, $id)
     {
+        $items = array();
+
         foreach ($dataObj as $row) {
             $items[] = $row->toArray('dd/MM/yyyy');
         }
