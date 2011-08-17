@@ -19,7 +19,7 @@
  * You should have received a copy of the GNU General Public License
  * along with bba-power.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category   bba-power
+ * @category   BBA
  * @package    Power
  * @subpackage Controller
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
@@ -30,7 +30,7 @@
 /**
  * Controller Class ContractController.
  *
- * @category   bba-power
+ * @category   BBA
  * @package    Power
  * @subpackage Controller
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
