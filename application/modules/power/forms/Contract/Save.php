@@ -42,7 +42,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
     public function init()
     {
         $this->setName('contract');
-        
+
         $this->addElement('FilteringSelect', 'contract_idClient', array(
             'label'         => 'Client:',
             'filters'       => array('StripTags', 'StringTrim'),
@@ -61,12 +61,14 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim')
         ));
-        
+
         $this->addElement('TextBox', 'contract_numberCustomer', array(
             'label'     => 'Customer No:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim')
         ));
+
+        $multiOptions = array();
 
         $table = new Power_Model_Mapper_Tables();
         $list = $table->getSelectListByName('contract_type');
@@ -82,6 +84,8 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'required'      => true,
         ));
 
+        $multiOptions = array();
+
         $list = $table->getSelectListByName('contract_status');
         foreach($list as $row) {
             $multiOptions[$row->key] = $row->value;
@@ -94,7 +98,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'multiOptions'  => $multiOptions,
             'required'      => true,
         ));
-        
+
         $this->addElement('DateTextBox', 'contract_dateStart', array(
             'label'         => 'Start Date:',
             'formatLength'  => 'short',
@@ -106,7 +110,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             ),
             'required'      => true
         ));
-         
+
         $this->addElement('DateTextBox', 'contract_dateEnd', array(
             'label'         => 'End Date:',
             'formatLength'  => 'short',
@@ -117,14 +121,14 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
                 ))
             )
         ));
-        
+
         $this->addElement('NumberSpinner', 'contract_periodBill', array(
             'label'     => 'Billing Period:',
             'min'       => 0,
             'required'  => false,
             //'filters'   => array('StripTags', 'StringTrim')
         ));
-        
+
         $this->addElement('SimpleTextarea', 'contract_desc', array(
             'label'     => 'Description:',
             'required'  => false,
