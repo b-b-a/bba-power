@@ -49,4 +49,10 @@ class Power_Model_Tender extends BBA_Model_Abstract
      */
     protected $_prefix = 'tender_';
 
+    public function setDateExpiresQuote($date)
+    {
+        $this->_data->dateExpiresQuote = new Zend_Date($date);
+        return $this;
+    }
+
 }

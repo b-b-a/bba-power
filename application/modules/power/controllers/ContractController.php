@@ -83,17 +83,13 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
 
         $contracts = $this->_model->contractSearch($search, $this->_page);
 
-        foreach ($contracts as $row) {
-            $items[] = $row->toArray();
-        }
-
-        $dataStore = new Zend_Dojo_Data('contract_idContract', $items);
+        $dataStore = $this->getDataStore($contracts, 'contract_idContract');
 
         // gets all contracts and assigns them to the view script.
         $this->view->assign(array(
             'contracts' => $contracts,
             'search'    => $search,
-            'store'     => $dataStore->toJson()
+            'store'     => $dataStore
         ));
     }
 

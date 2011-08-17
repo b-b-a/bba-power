@@ -74,6 +74,10 @@ class Power_TenderController extends BBA_Controller_Action_Abstract
 
             $tenderStore = $this->getDataStore($tenders, 'tender_idTender');
 
+            $this->getForm('tenderSave')
+                    ->populate($tender->toArray())
+                    ->addHiddenElement('returnAction', 'edit');
+
             $this->view->assign(array(
                 'tender'        => $tender,
                 'tenderStore'   => $tenderStore
