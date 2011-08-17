@@ -42,9 +42,28 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
     public function init()
     {
         $this->setName('contract');
+        
+        $this->addElement('FilteringSelect', 'contract_idClient', array(
+            'label'         => 'Client:',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autoComplete'  => false,
+            'hasDownArrow'  => true,
+            'storeId'       => 'clientStore',
+            'storeType'     => 'dojo.data.ItemFileReadStore',
+            'storeParams'   => array('url' => "/site/autocomplete/param/client"),
+            'dijitParams'   => array('searchAttr' => 'client_name'),
+            //'attribs'       => array('readonly' => true),
+            'required'      => true
+        ));
 
         $this->addElement('TextBox', 'contract_reference', array(
             'label'     => 'Contract Ref:',
+            'required'  => false,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+        
+        $this->addElement('TextBox', 'contract_numberCustomer', array(
+            'label'     => 'Customer No:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim')
         ));
@@ -56,11 +75,11 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
         }
 
         $this->addElement('FilteringSelect', 'contract_type', array(
-            'label'     => 'Type:',
-            'filters'   => array('StripTags', 'StringTrim'),
-            'autocomplete' => false,
+            'label'         => 'Type:',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autocomplete'  => false,
             'multiOptions'  => $multiOptions,
-            'required'  => true,
+            'required'      => true,
         ));
 
         $list = $table->getSelectListByName('contract_status');
@@ -69,11 +88,47 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
         }
 
         $this->addElement('FilteringSelect', 'contract_status', array(
-            'label'     => 'Status:',
-            'filters'   => array('StripTags', 'StringTrim'),
-            'autocomplete' => false,
+            'label'         => 'Status:',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autocomplete'  => false,
             'multiOptions'  => $multiOptions,
-            'required'  => true,
+            'required'      => true,
+        ));
+        
+        $this->addElement('DateTextBox', 'contract_dateStart', array(
+            'label'         => 'Start Date:',
+            'formatLength'  => 'short',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'validators'    => array(
+                array('Date', true, array(
+                    'format' => 'yyyy-MM-dd'
+                ))
+            ),
+            'required'      => true
+        ));
+         
+        $this->addElement('DateTextBox', 'contract_dateEnd', array(
+            'label'         => 'End Date:',
+            'formatLength'  => 'short',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'validators'    => array(
+                array('Date', true, array(
+                    'format' => 'yyyy-MM-dd'
+                ))
+            )
+        ));
+        
+        $this->addElement('NumberSpinner', 'contract_periodBill', array(
+            'label'     => 'Billing Period:',
+            'min'       => 0,
+            'required'  => false,
+            //'filters'   => array('StripTags', 'StringTrim')
+        ));
+        
+        $this->addElement('SimpleTextarea', 'contract_desc', array(
+            'label'     => 'Description:',
+            'required'  => false,
+            'filters'   => array('StripTags', 'StringTrim')
         ));
 
         $auth = Zend_Auth::getInstance();

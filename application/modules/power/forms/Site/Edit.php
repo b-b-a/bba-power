@@ -63,7 +63,7 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
             'storeType'     => 'dojo.data.ItemFileReadStore',
             'storeParams'   => array('url' => "/site/autocomplete/param/client"),
             'dijitParams'   => array('searchAttr' => 'client_name'),
-            'attribs'         => array('readonly' => true),
+            'attribs'       => array('readonly' => true),
             'required'      => true
         ));
 
