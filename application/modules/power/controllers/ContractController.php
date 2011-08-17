@@ -122,7 +122,7 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
             $this->view->assign(array(
                 'contract'      => $contract,
                 'meterStore'    => $meterStore,
-                'tenderStore'       => $tenderStore
+                'tenderStore'   => $tenderStore
             ));
         } else {
            return $this->_helper->redirector('index', 'contract');

@@ -1,0 +1,52 @@
+<?php
+	$this->title = "BBA Tender Update";
+	$this->headTitle($this->title);
+
+    echo $this->tenderSaveForm;
+    /* @var $meter Power_Model_Meter */
+?>
+
+<script>
+    var tenderStore = <?php echo $this->tenderStore; ?>;
+    dojo.addOnLoad(function(){
+        dojo.connect(tenderGrid, "onRowDblClick", function(val){
+            selectedIndex = tenderGrid.focus.rowIndex;
+            selectedItem = tenderGrid.getItem(selectedIndex);
+            //Not sure if this is the most efficient way but it worked for me
+            selectedId = tenderGrid.store.getValue(selectedItem, "tender_idTender");
+
+            location.href = '/tender/edit/tenderId/' + selectedId;
+        });
+    });
+
+</script>
+
+<div dojotype="dojo.data.ItemFileReadStore" jsid="tenderTableStore" data="tenderStore"></div>
+
+<?php echo $this->partial('_table-head.phtml', array(
+    'heading'   => 'Tenders',
+    'label'     => 'New Tender',
+    'location'  => $this->url(array(
+        'controller'    => 'tender',
+        'action'        => 'add',
+        'contractId'    => $this->tender->id
+    ),'default', true)
+)); ?>
+
+<table dojoType="dojox.grid.DataGrid"
+       jsId="tenderGrid"
+       store="tenderTableStore"
+       query="{ tender_idTender: '*' }"
+       style="width: 100%;"
+       autowidth="false"
+       autoHeight="true"
+       rowSelector="10px">
+    <thead>
+        <tr>
+            <th field="tender_idTender" width="75">Id</th>
+            <th field="tender_periodContract" width="auto">Contract Period</th>
+            <th field="tender_dateExpiresQuote" width="auto">Quote Expires</th>
+            <th field="tender_chargeStanding" width="auto">Standing Charge</th>
+        </tr>
+    </thead>
+</table>
