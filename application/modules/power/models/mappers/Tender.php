@@ -39,7 +39,6 @@
  */
 class Power_Model_Mapper_Tender extends ZendSF_Model_Mapper_Acl_Abstract
 {
-
     /**
      * @var Power_Model_DbTable_Tender
      */
