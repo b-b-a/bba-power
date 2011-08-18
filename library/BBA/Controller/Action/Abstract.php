@@ -71,24 +71,4 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
             return $this->_forward('login', 'auth');
         }
     }
-
-    /**
-     * returns an array of database objects in Json format to use with Dojo.
-     *
-     * @param array $dataObj
-     * @param string $id
-     * @return string
-     */
-    public function getDataStore($dataObj, $id)
-    {
-        $items = array();
-
-        foreach ($dataObj as $row) {
-            $items[] = $row->toArray('dd/MM/yyyy');
-        }
-
-        $store = new Zend_Dojo_Data($id, $items);
-
-        return $store->toJson();
-    }
 }
