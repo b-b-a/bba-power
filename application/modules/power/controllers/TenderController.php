@@ -67,10 +67,12 @@ class Power_TenderController extends BBA_Controller_Action_Abstract
     public function editAction()
     {
         if ($this->_request->getParam('tenderId')) {
-            $tender = $this->_model->find($this->_request->getParam('tenderId'));
+            $tender = $this->_model->getTenderDetails($this->_request->getParam('tenderId'));
             $tenders = $this->_model->getTendersByContractId(
                 $tender->idContract
             );
+            
+            $this->_log->info($tender);
 
             $tenderStore = $this->getDataStore($tenders, 'tender_idTender');
 
