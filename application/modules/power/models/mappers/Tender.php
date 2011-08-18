@@ -55,6 +55,19 @@ class Power_Model_Mapper_Tender extends ZendSF_Model_Mapper_Acl_Abstract
                 ->where('tender_idContract = ?', $id);
         return $this->fetchAll($select);
     }
+    
+    public function getTenderDetails($id)
+    {
+        $select = $this->_dbTable
+                ->select(false)
+                ->setIntegrityCheck(false)
+                ->from('tender')
+                ->join('contract', 'contract_idContract = tender_idContract')
+                ->join('client', 'client_idClient = contract_idClient')
+                ->where('tender_idTender = ?', $id);
+        $row = $this->fetchAll($select);
+        return $row[0];
+    }
 
     /**
      * Injector for the acl, the acl can be injected directly
@@ -67,7 +80,8 @@ class Power_Model_Mapper_Tender extends ZendSF_Model_Mapper_Acl_Abstract
      * @param Zend_Acl_Resource_Interface $acl
      * @return ZendSF_Model_Mapper_Abstract
      */
-    public function setAcl(Zend_Acl $acl) {
+    public function setAcl(Zend_Acl $acl)
+    {
         parent::setAcl($acl);
 
         // implement rules here.
