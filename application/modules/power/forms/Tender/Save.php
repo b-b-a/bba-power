@@ -41,6 +41,19 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
 {
     public function init()
     {
+        $this->addElement('FilteringSelect', 'tender_idSupplier', array(
+            'label'         => 'Supplier:',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autoComplete'  => false,
+            'hasDownArrow'  => true,
+            'storeId'       => 'supplierStore',
+            'storeType'     => 'dojo.data.ItemFileReadStore',
+            'storeParams'   => array('url' => "/supplier/autocomplete/param/supplier"),
+            'dijitParams'   => array('searchAttr' => 'supplier_name'),
+            //'attribs'       => array('readonly' => true),
+            'required'      => true
+        ));
+
         $this->addElement('NumberSpinner', 'tender_periodContract', array(
             'label'     => 'Tender Period:',
             'min'       => 0,
