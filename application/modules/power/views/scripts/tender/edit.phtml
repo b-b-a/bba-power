@@ -1,10 +1,14 @@
 <?php
 	$this->title = "BBA Tender Update";
 	$this->headTitle($this->title);
-
-    echo $this->tenderSaveForm;
-    /* @var $meter Power_Model_Meter */
 ?>
+
+<h2>Client: <?php echo $this->tender->client_name; ?></h2>
+<h2>Type: <?php echo $this->tender->contract_type; ?></h2>
+<h2>Status: <?php echo $this->tender->contract_status; ?></h2>
+<h2>Start Date: <?php echo $this->tender->contract_dateStart; ?></h2>
+
+<?php echo $this->tenderSaveForm; ?>
 
 <script>
     var tenderStore = <?php echo $this->tenderStore; ?>;
