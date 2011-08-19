@@ -59,7 +59,7 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
        return $this->select(false)
             ->setIntegrityCheck(false)
             ->from('contract', array(
-                'contract_idContract', 'contract_idClient',
+                'contract_idContract' => 'contract_idContract', 'contract_idClient',
                 'contract_status', 'contract_dateStart',
                 'contract_dateEnd', 'contract_desc'))
             ->join(
@@ -76,7 +76,8 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
                 'meter',
                 'meter_idMeter = meterContract_idMeter',
                 array('meter_numberMain')
-            )
+           )
+           ->group('contract_idContract')
            ->order('client_name ASC');
     }
 }
