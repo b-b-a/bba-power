@@ -139,6 +139,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
 
         $this->addHiddenElement('userId', $auth->getIdentity()->getId());
         $this->addHiddenElement('contract_idContract', '');
+        $this->addHiddenElement('contract_idContractPrevious', '');
 
         $this->addSubmit('Save');
         $this->addSubmit('Cancel', 'cancel');

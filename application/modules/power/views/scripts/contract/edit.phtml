@@ -1,10 +1,20 @@
 <?php
 	$this->title = "BBA Contract Update";
 	$this->headTitle($this->title);
-
-    echo $this->contractSaveForm;
-    /* @var $meter Power_Model_Meter */
 ?>
+
+<?php if ($this->previousContract instanceof Power_Model_Contract): ?>
+<h2>Previous Contract Ref: <?php echo $this->escape(
+        $this->previousContract->reference
+); ?></h2>
+<h2>Previous End Date: <?php echo $this->escape(
+        $this->previousContract->dateEnd->toString('dd/MM/yyyy')
+); ?></h2>
+<?php else: ?>
+<h2>No Previous Contract</h2>
+<?php endif; ?>
+
+<?php echo $this->contractSaveForm; ?>
 
 <script>
     var meterStore = <?php echo $this->meterStore; ?>;
