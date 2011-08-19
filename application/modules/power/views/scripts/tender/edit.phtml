@@ -4,9 +4,10 @@
 ?>
 
 <h2>Client: <?php echo $this->tender->client_name; ?></h2>
+<h2>Contract Ref: <?php echo $this->tender->contract_reference; ?></h2>
 <h2>Type: <?php echo $this->tender->contract_type; ?></h2>
 <h2>Status: <?php echo $this->tender->contract_status; ?></h2>
-<h2>Start Date: <?php echo $this->tender->contract_dateStart; ?></h2>
+<h2>Start Date: <?php echo $this->formatDate($this->tender->contract_dateStart); ?></h2>
 
 <?php echo $this->tenderSaveForm; ?>
 

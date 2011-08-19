@@ -67,9 +67,6 @@ class Power_Model_Mapper_Contract extends ZendSF_Model_Mapper_Acl_Abstract
             $select->where('meter_numberMain like ? ', '%'. $search['meter'] . '%');
         }
 
-        $log = Zend_Registry::get('log');
-        $log->info($select->__toString());
-
         return $this->getContractList($paged, $select);
     }
 
@@ -94,7 +91,9 @@ class Power_Model_Mapper_Contract extends ZendSF_Model_Mapper_Acl_Abstract
 
     public function getContractById($id)
     {
-
+        $select = $this->_dbTable->select($id)
+                ->where('contract_idContract = ?', $id);
+        return $this->fetchRow($select);
     }
 
     /**
