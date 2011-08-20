@@ -1,6 +1,6 @@
 <?php
 /**
- * Add.php
+ * Save.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Form Class Add.
+ * Form Class Save.
  *
  * @category   BBA
  * @package    Power
@@ -37,13 +37,47 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Meter_Add extends ZendSF_Form_Abstract
+class Power_Form_Meter_Save extends ZendSF_Form_Abstract
 {
     public function init()
     {
         $this->setName('meter');
 
-        $this->addSubmit('Add', 'submit');
+        $multiOptions = array();
+
+        $table = new Power_Model_Mapper_Tables();
+        $list = $table->getSelectListByName('meter_type');
+        foreach($list as $row) {
+            $multiOptions[$row->key] = $row->value;
+        }
+
+        $this->addElement('FilteringSelect', 'meter_type', array(
+            'label'         => 'Type:',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autocomplete'  => false,
+            'multiOptions'  => $multiOptions,
+            'required'      => true,
+        ));
+
+        $this->addElement('TextBox', 'meter_numberSerial', array(
+            'label'     => 'Serial No:',
+            'required'  => false,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('TextBox', 'meter_numberTop', array(
+            'label'     => 'Top No:',
+            'required'  => false,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('TextBox', 'meter_numberMain', array(
+            'label'     => 'Main No:',
+            'required'  => true,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addSubmit('Save', 'submit');
         $this->addSubmit('Cancel', 'cancel');
     }
 

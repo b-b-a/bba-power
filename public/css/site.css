@@ -342,3 +342,12 @@ Flash Messenger
     background-color: #bbb;
     color: #eed;
 }
+
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
