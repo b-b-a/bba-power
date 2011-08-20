@@ -68,6 +68,12 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
             'action' => 'index',
             'module' => 'power'
         ));
+
+        $this->setForm('meterSave', array(
+            'controller' => 'meter' ,
+            'action' => 'save',
+            'module' => 'power'
+        ));
     }
 
     /**
@@ -93,7 +99,6 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
         $usage = $usageModel->getUsageByMeterId($this->_request->getParam('meterId'));
         $meter = $this->_model->getMeterDetails($this->_request->getParam('meterId'));
 
-        $this->_log->info($meter);
         $this->view->assign(array(
             'usage' => $usage,
             'meter' => $meter
@@ -102,16 +107,30 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
 
     public function addAction()
     {
-        $this->setForm('meterAdd', array(
-            'controller' => 'meter' ,
-            'action' => 'add',
-            'module' => 'power'
-        ));
+
     }
 
     public function editAction()
     {
+        if ($this->_request->getParam('meterId')) {
+            $usageModel = new Power_Model_Mapper_Usage();
+            $meter = $this->_model->getMeterDetails($this->_request->getParam('meterId'));
+            $usage = $usageModel->getUsageByMeterId($this->_request->getParam('meterId'));
 
+            $usageStore = $this->getDataStore($usage, 'usage_idUsage');
+
+            $this->getForm('meterSave')
+                    ->populate($meter->toArray())
+                    ->addHiddenElement('returnAction', 'edit');
+
+            $this->view->assign(array(
+            'usageStore' => $usageStore,
+            'meter' => $meter
+        ));
+
+        } else {
+           return $this->_helper->redirector('index', 'meter');
+        }
     }
 
     public function saveAction()
