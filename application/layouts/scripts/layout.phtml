@@ -6,9 +6,11 @@
         <meta http-equiv=“X-UA-Compatible” content=“IE=edge” />
         <link rel="stylesheet" href="/css/reset.css" />
         <link rel="stylesheet" href="/css/text.css" />
+        
+        <?php echo $this->headLink() ?>
 
         <?php echo $this->dojo()->enable(); ?>
-        <?php echo $this->headLink() ?>
+
         <link rel="stylesheet" href="/css/site.css" />
 
         <?php echo $this->headScript() ?>
@@ -21,7 +23,7 @@
 
                 var loader = dojo.byId("loader");
                 loader.style.display = "none";
-                
+
 			});
         </script>
 
@@ -55,17 +57,12 @@
         <div id="leftPanel" class="edgePanel"
             data-dojo-type="dijit.layout.ContentPane"
             data-dojo-props="region: 'left', splitter: true">
-            <div id="userDetails"
-                 dojoType="dijit.TitlePane"
-                 title="User Details"
-                 open="false">
+            <div>
                 <p>User Name: <?php echo $this->authInfo('name'); ?></p>
                 <p>Role: <?php echo $this->authInfo('role'); ?></p>
             </div>
 
-            <div id="nav"
-                 dojoType="dijit.TitlePane"
-                 title="Menu">
+            <div id="nav">
                 <?php echo $this->navigation()->sfMenu(); ?>
             </div>
         </div>

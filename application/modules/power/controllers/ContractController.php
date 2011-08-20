@@ -81,7 +81,7 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
             'meter'    => $this->_request->getParam('meter')
         );
 
-        $contracts = $this->_model->contractSearch($search, $this->_page);
+        $contracts = $this->_model->contractSearch($search);
 
         $dataStore = $this->getDataStore($contracts, 'contract_idContract');
 

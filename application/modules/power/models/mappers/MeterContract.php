@@ -63,7 +63,7 @@ class Power_Model_Mapper_MeterContract extends ZendSF_Model_Mapper_Acl_Abstract
         $meterModel = new Power_Model_Mapper_Meter();
 
         foreach ($resultSet as $row) {
-            $rows[] = $meterModel->find($row->idMeter);
+            $rows[] = $meterModel->getMeterDetails($row->idMeter);
         }
 
         return $rows;

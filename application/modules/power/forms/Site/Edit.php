@@ -48,9 +48,8 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
         $view = $this->getView();
         if (isset($view->request['siteId'])) {
             $siteId = $view->request['siteId'];
-
-            $site = new Power_Model_Mapper_Site();
-            $row = $site->find($siteId);
+            
+            $row = $this->_model->find($siteId);
             $clientId = $row->idClient;
         }
 
