@@ -43,6 +43,12 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
     {
         $this->setName('contract');
 
+        $view = $this->getView();
+        if (isset($view->request['contractId'])) {
+            $siteId = $view->request['contractId'];
+            $row = $this->_model->find($siteId);
+        }
+
         $this->addElement('FilteringSelect', 'contract_idClient', array(
             'label'         => 'Client:',
             'filters'       => array('StripTags', 'StringTrim'),
@@ -54,6 +60,20 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'dijitParams'   => array('searchAttr' => 'client_name'),
             //'attribs'       => array('readonly' => true),
             'required'      => true
+        ));
+
+        $this->addElement('TextBox', 'contract_idTenderSelected', array(
+            'label'     => 'Tender Selected:',
+            'required'  => true,
+            'attribs'       => array('disabled' => true),
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('TextBox', 'contract_idSupplierContactSelected', array(
+            'label'     => 'Supplier Contact Selected:',
+            'required'  => true,
+            'attribs'       => array('disabled' => true),
+            'filters'   => array('StripTags', 'StringTrim')
         ));
 
         $this->addElement('TextBox', 'contract_reference', array(
@@ -131,6 +151,30 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
 
         $this->addElement('SimpleTextarea', 'contract_desc', array(
             'label'     => 'Description:',
+            'required'  => false,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('SimpleTextarea', 'contract_txtTenderRequest', array(
+            'label'     => 'Temder Request:',
+            'required'  => false,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('TextBox', 'contract_docAnalysis', array(
+            'label'     => 'Analysis Doc:',
+            'required'  => false,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('TextBox', 'contract_docTermination', array(
+            'label'     => 'Termination Doc:',
+            'required'  => false,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('TextBox', 'contract_idUserAgent', array(
+            'label'     => 'User Agent:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim')
         ));

@@ -68,19 +68,9 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
             ->setIntegrityCheck(false)
             ->from('meter', array('meter_idMeter', 'meter_idSite', 'meter_numberSerial', 'meter_type', 'meter_numberMain'))
             ->join('site', 'site_idSite = meter_idSite', null)
-            ->join(
-                'client_address',
-                'clientAd_idAddress = site_idAddress',
-                array(
-                    'clientAd_address1', 'clientAd_address2',
-                    'clientAd_address3', 'clientAd_postcode'
-                )
-            )
-            ->join(
-                'client',
-                'client_idClient = site_idClient ',
-                array('client_name')
-            )
+            ->join('client_address', 'clientAd_idAddress = site_idAddress')
+            ->join('client', 'client_idClient = site_idClient')
+            //->join('client_contact', 'client_idClientContact = clientCo_idClientContact')
             ->order('client_name ASC');
     }
 }

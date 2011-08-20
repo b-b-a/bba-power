@@ -179,6 +179,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
              ->requireModule('dijit.TitlePane')
              ->disable();
         $this->_view->headLink()
+                //->prependStylesheet('/js/dijit/themes/claro/claro.css')
                 ->prependStylesheet('/js/dojox/grid/resources/Grid.css')
                 ->prependStylesheet('/js/dojox/grid/resources/claroGrid.css');
 
