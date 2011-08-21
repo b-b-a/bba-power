@@ -106,9 +106,6 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
             $model->dateModify = time();
         }
 
-        $log = Zend_Registry::get('log');
-        $log->info($model);
-
         return parent::save($model);
     }
 

@@ -77,6 +77,12 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
+        $auth = Zend_Auth::getInstance();
+
+        $this->addHiddenElement('userId', $auth->getIdentity()->getId());
+        $this->addHiddenElement('meter_idMeter', '');
+        $this->addHiddenElement('meter_idSite', '');
+
         $this->addSubmit('Save', 'submit');
         $this->addSubmit('Cancel', 'cancel');
     }
