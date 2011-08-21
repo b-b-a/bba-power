@@ -107,6 +107,15 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
 
     public function addAction()
     {
+        if ($this->_request->getParam('siteId')) {
+            $this->getForm('meterSave')
+                ->populate(array(
+                    'meter_idSite' => $this->_request->getParam('siteId')
+                ))
+                ->addHiddenElement('returnAction', 'add');
+        } else {
+            return $this->_helper->redirector('index', 'meter', 'power');
+        }
 
     }
 
@@ -124,9 +133,9 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
                     ->addHiddenElement('returnAction', 'edit');
 
             $this->view->assign(array(
-            'usageStore' => $usageStore,
-            'meter' => $meter
-        ));
+                'usageStore' => $usageStore,
+                'meter' => $meter
+            ));
 
         } else {
            return $this->_helper->redirector('index', 'meter');
@@ -135,11 +144,43 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
 
     public function saveAction()
     {
+        if (!$this->_request->isPost()) {
+            return $this->_helper->redirector('index', 'meter');
+        }
 
+        $meterId = $this->_request->getParam('meterId');
+
+        if ($this->_request->getParam('cancel')) {
+            return $this->_helper->redirector('index', 'meter', 'power');
+        }
+
+        $action = $this->_request->getParam('returnAction');
+
+        $this->getForm('meterSave')->addHiddenElement('returnAction', $action);
+
+
+        if (!$this->getForm('meterSave')->isValid($this->_request->getPost())) {
+            $this->view->assign(array(
+                'meter'    => $meterId
+            ));
+            return $this->render($action); // re-render the edit form
+        } else {
+            $saved = $this->_model->save();
+
+            if ($saved > 0) {
+                $this->_helper->FlashMessenger(array(
+                    'pass' => 'Meter saved to database'
+                ));
+
+                return $this->_helper->redirector('index', 'meter');
+            } elseif ($saved == 0) {
+                $this->_helper->FlashMessenger(array(
+                    'fail' => 'Nothing new to save'
+                ));
+
+                return $this->_forward($action);
+            }
+        }
     }
 
-    public function deleteAction()
-    {
-
-    }
 }

@@ -117,6 +117,35 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
         return $model;
     }
 
+    public function save()
+    {
+        if (!$this->checkAcl('save')) {
+            throw new ZendSF_Acl_Exception('saving meters is not allowed.');
+        }
+
+        $form = $this->getForm('meterSave')->getValues();
+
+        // remove client id if not set.
+        if (!$form['meter_idMeter']) unset($form['meter_idMeter']);
+
+        /* @var $model Power_Model_Client */
+        $model = new $this->_modelClass($form);
+
+        // set modified and create dates.
+        if ($form['returnAction'] == 'add') {
+            $model->dateCreate = time();
+            $model->userCreate = $form['userId'];
+        }
+
+        // add modified date and by if updating record.
+        if ($model->getId()) {
+            $model->userModify = $form['userId'];
+            $model->dateModify = time();
+        }
+
+        return parent::save($model);
+    }
+
     /**
      * Injector for the acl, the acl can be injected directly
      * via this method.
@@ -133,6 +162,8 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
+        $this->_acl->allow('admin', $this)
+            ->deny('admin', $this, array('delete'));
 
         return $this;
     }
