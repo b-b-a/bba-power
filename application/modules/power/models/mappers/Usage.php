@@ -59,6 +59,35 @@ class Power_Model_Mapper_Usage extends ZendSF_Model_Mapper_Acl_Abstract
         return $this->fetchAll($select);
     }
 
+    public function save()
+    {
+        if (!$this->checkAcl('save')) {
+            throw new ZendSF_Acl_Exception('saving meters usage is not allowed.');
+        }
+
+        $form = $this->getForm('usageSave')->getValues();
+
+        // remove client id if not set.
+        if (!$form['usage_idUsage']) unset($form['usage_idUsage']);
+
+        /* @var $model Power_Model_Client */
+        $model = new $this->_modelClass($form);
+
+        // set modified and create dates.
+        if ($form['returnAction'] == 'add') {
+            $model->dateCreate = time();
+            $model->userCreate = $form['userId'];
+        }
+
+        // add modified date and by if updating record.
+        if ($model->getId()) {
+            $model->userModify = $form['userId'];
+            $model->dateModify = time();
+        }
+
+        return parent::save($model);
+    }
+
     /**
      * Injector for the acl, the acl can be injected directly
      * via this method.

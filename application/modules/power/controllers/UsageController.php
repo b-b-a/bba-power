@@ -62,7 +62,25 @@ class Power_UsageController extends BBA_Controller_Action_Abstract
 
     public function addAction()
     {
+        $meterModel = new Power_Model_Mapper_Meter();
+        $meter = $meterModel->getMeterDetails($this->_request->getParam('meterId'));
 
+        $usage = $this->_model->getUsageByMeterId($this->_request->getParam('meterId'));
+
+        $usageStore = $this->getDataStore($usage, 'usage_idUsage');
+
+        $this->getForm('usageSave')
+                ->populate(array(
+                    'usage_idMeter' => $meter->id
+                ))
+                ->addHiddenElement('returnAction', 'add');
+
+        $this->view->assign(array(
+            'usageStore'    => $usageStore,
+            'meter'         => $meter
+        ));
+
+        $this->render('save');
     }
 
     public function editAction()
@@ -84,11 +102,53 @@ class Power_UsageController extends BBA_Controller_Action_Abstract
             'usage'         => $meterUsage,
             'meter'         => $meter
         ));
+
+        $this->render('save');
     }
 
     public function saveAction()
     {
+        if (!$this->_request->isPost()) {
+            return $this->_helper->redirector('index', 'meter');
+        }
 
+        /* @var $meterId Power_Form_Usage_Save */
+        $meterId = $this->_request->getPost('usage_idMeter');
+
+
+        if ($this->_request->getParam('cancel')) {
+            return $this->_helper->redirector('index', 'meter', 'power');
+        }
+
+        $action = $this->_request->getParam('returnAction');
+
+        $this->getForm('usageSave')->addHiddenElement('returnAction', $action);
+
+
+        if (!$this->getForm('usageSave')->isValid($this->_request->getPost())) {
+            $this->view->assign(array(
+                'meter'    => $meterId
+            ));
+            return $this->render($action); // re-render the edit form
+        } else {
+            $saved = $this->_model->save();
+
+            if ($saved > 0) {
+                $this->_helper->FlashMessenger(array(
+                    'pass' => 'Meter usage saved to database'
+                ));
+
+                return $this->_helper->redirector('edit', 'meter', 'power', array(
+                    'meterId'   => $meterId
+                ));
+            } elseif ($saved == 0) {
+                $this->_helper->FlashMessenger(array(
+                    'fail' => 'Nothing new to save'
+                ));
+
+                return $this->_forward($action);
+            }
+        }
     }
 
 }
