@@ -93,18 +93,6 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
         ));
     }
 
-    public function usageAction()
-    {
-        $usageModel = new Power_Model_Mapper_Usage();
-        $usage = $usageModel->getUsageByMeterId($this->_request->getParam('meterId'));
-        $meter = $this->_model->getMeterDetails($this->_request->getParam('meterId'));
-
-        $this->view->assign(array(
-            'usage' => $usage,
-            'meter' => $meter
-        ));
-    }
-
     public function addAction()
     {
         if ($this->_request->getParam('siteId')) {

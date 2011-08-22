@@ -81,8 +81,9 @@ class Power_UsersController extends ZendSF_Controller_Action_Abstract
 
     public function listAction()
     {
+        $users = $this->getDataStore($this->_model->fetchAll(), 'user_idUser');
         $this->view->assign(array(
-            'users' => $this->_model->fetchAll()
+            'userStore' => $users
         ));
     }
 

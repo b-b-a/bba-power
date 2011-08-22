@@ -4,38 +4,47 @@
     /* @var $user Power_Model_User */
 ?>
 
-<table>
-    <tr>
-        <th>Username</th>
-        <th>Name</th>
-        <th>Role</th>
-        <th>&nbsp;</th>
-    </tr>
-    <?php foreach($this->users as $user): ?>
-    <tr>
-        <td><?= $this->escape($user->name); ?></td>
-        <td><?= $this->escape($user->fullName); ?></td>
-        <td><?= $this->escape($user->role) ?></td>
-        <td class="action">
-            <a href="<?php echo $this->url(array(
-                'controller'    => 'users',
-                'action'        => 'edit',
-				'userId'       => $user->id
-            ));?>" class="button">Edit</a>
+<script>
+    var userStore = <?php echo $this->userStore; ?>;
 
-			<a href="<?php echo $this->url(array(
-                'controller'    => 'users',
-                'action'        => 'delete',
-				'userId'       => $user->id
-            ));?>" class="button">Delete</a>
-        </td>
-    </tr>
-    <?php endforeach; ?>
-</table>
+    dojo.addOnLoad(function(){
+        dojo.connect(userGrid, "onRowDblClick", function(val){
+            selectedIndex = userGrid.focus.rowIndex;
+            selectedItem = userGrid.getItem(selectedIndex);
+            //Not sure if this is the most efficient way but it worked for me
+            selectedId = userGrid.store.getValue(selectedItem, "user_idUser");
 
-<p>
-    <a href="<?php echo $this->url(array(
+            location.href = '/users/edit/userId/' + selectedId;
+        });
+    });
+
+</script>
+
+<?php echo $this->partial('_table-head.phtml', array(
+    'heading'   => 'Users',
+    'label'     => 'Add User',
+    'location'  => $this->url(array(
         'controller'    => 'users',
         'action'        => 'add'
-        ));?>" class="button">Add New User</a>
-</p>
+    ),'default', true)
+)); ?>
+
+<div dojotype="dojo.data.ItemFileReadStore" jsid="userTableStore" data="userStore"></div>
+
+<table dojoType="dojox.grid.DataGrid"
+       jsId="userGrid"
+       store="userTableStore"
+       query="{ user_idUser: '*' }"
+       style="width: 100%;"
+       autowidth="false"
+       autoHeight="10"
+       noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
+    <thead>
+        <tr>
+            <th field="user_idUser" width="75">Id</th>
+            <th field="user_name" width="200">Username</th>
+            <th field="user_fullName" width="200">Name</th>
+            <th field="user_role" width="auto">Role</th>
+        </tr>
+    </thead>
+</table>
