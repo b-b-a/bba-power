@@ -40,11 +40,24 @@
 class Power_UsageController extends BBA_Controller_Action_Abstract
 {
     /**
+     * @var Power_Model_mapper_Usage
+     */
+    protected $_model;
+
+    /**
      * Initialization code.
      */
     public function init()
     {
         parent::init();
+
+        $this->_model = new Power_Model_Mapper_Usage();
+
+        $this->setForm('usageSave', array(
+            'controller' => 'usage' ,
+            'action' => 'save',
+            'module' => 'power'
+        ));
     }
 
     public function addAction()
@@ -54,12 +67,28 @@ class Power_UsageController extends BBA_Controller_Action_Abstract
 
     public function editAction()
     {
+        $meterModel = new Power_Model_Mapper_Meter();
+        $meterUsage = $this->_model->find($this->_request->getParam('usageId'));
+        $usage = $this->_model->getUsageByMeterId($meterUsage->idMeter);
 
+        $meter = $meterModel->getMeterDetails($meterUsage->idMeter);
+
+        $usageStore = $this->getDataStore($usage, 'usage_idUsage');
+
+        $this->getForm('usageSave')
+                    ->populate($meterUsage->toArray())
+                    ->addHiddenElement('returnAction', 'edit');
+
+        $this->view->assign(array(
+            'usageStore'    => $usageStore,
+            'usage'         => $meterUsage,
+            'meter'         => $meter
+        ));
     }
 
     public function saveAction()
     {
-        
+
     }
 
 }
