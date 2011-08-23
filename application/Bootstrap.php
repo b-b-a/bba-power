@@ -166,7 +166,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Dojo::enableView($this->_view);
 
         $this->_view->dojo()
-             ->setCdnVersion(1.6)
+             ->setCdnVersion('1.6.1')
              //->setLocalPath('/js/dojo/dojo.js')
              ->addStyleSheetModule('dijit.themes.claro')
              ->requireModule('dijit.layout.BorderContainer')
