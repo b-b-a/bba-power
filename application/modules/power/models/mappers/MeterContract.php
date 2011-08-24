@@ -69,6 +69,19 @@ class Power_Model_Mapper_MeterContract extends ZendSF_Model_Mapper_Acl_Abstract
         return $rows;
     }
 
+    public function delete($id)
+    {
+        if (!$this->checkAcl('delete')) {
+            throw new ZendSF_Acl_Exception('Deleting meter contracts is not allowed.');
+        }
+
+        $where = $this->getDbTable()
+                ->getAdapter()
+                ->quoteInto('meterContract_idContract = ?', $id);
+
+        return parent::delete($where);
+    }
+
     /**
      * Injector for the acl, the acl can be injected directly
      * via this method.
@@ -85,6 +98,8 @@ class Power_Model_Mapper_MeterContract extends ZendSF_Model_Mapper_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
+        $this->_acl->allow('admin', $this)
+            ->deny('admin', $this, array('delete'));
 
         return $this;
     }

@@ -77,8 +77,9 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
             ->join(
                 'client',
                 'client_idClient = site_idClient ',
-                array('client_name', 'client_desc')
+                array('client_name', 'client_desc' => 'SUBSTR(client_desc, 1, 15)')
             )
+            // commented out for now as no client contacts availible.
             /*->join(
                 'client_contact',
                 'client_idClient = clientCo_idClient',

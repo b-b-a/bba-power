@@ -69,9 +69,6 @@ class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
                 ->orWhere('clientAd_postcode like ?', '%' . $search['site'] . '%');
         }
 
-        $log = Zend_Registry::get('log');
-        $log->info($select->__toString());
-
         return $this->listSites($paged, $select);
     }
 
@@ -155,7 +152,7 @@ class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
-         $this->_acl->allow('admin', $this)
+        $this->_acl->allow('admin', $this)
             ->deny('admin', $this, array('delete'));
 
         return $this;

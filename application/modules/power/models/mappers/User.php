@@ -113,29 +113,6 @@ class Power_Model_Mapper_User extends ZendSF_Model_Mapper_Acl_Abstract
     }
 
     /**
-     * Gets a users role
-     * reduntent in favor of de-normalized roles.
-     *
-     * @param Zend_Db_Table_Row
-     * @return Power_Model_Role
-     * @deprecated
-     */
-    public function getUserRole($row = null)
-    {
-        if (null === $row) {
-            return null;
-        }
-
-        /* @var $parentRow Zend_Db_Table_Row */
-        $parentRow = $row->findParentRow(
-            'Power_Model_DbTable_Roles',
-            'role'
-        );
-
-        return new Power_Model_Role($parentRow);
-    }
-
-    /**
      * Injector for the acl, the acl can be injected directly
      * via this method.
      *
