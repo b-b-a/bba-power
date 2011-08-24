@@ -22,7 +22,7 @@ rm_dojo_files ()
 	for d in "$@"
 	do
 		if [ -e "$buildName/$d" ]; then
-			# echo "Removing: $d";
+			echo "Removing: $d";
 			rm -rf "$buildName/$d"
 		fi
 	done
@@ -67,7 +67,7 @@ if [ -d $releaseDir ]; then
 	fi
 
 	# remove uncompressed .js files (leave for official release)
-	# find . -name *.uncompressed.js -exec rm '{}' ';'
+	find . -name *.uncompressed.js -exec rm '{}' ';'
 
 	# WARNING: templates have been inlined into the .js -- if you are using dynamic templates,
 	# or other build trickery, these lines might not work!
@@ -83,13 +83,13 @@ if [ -d $releaseDir ]; then
 	# find ./$buildName/dojox/ -name README -exec rm '{}' ';'
 	
 	# WARNING: if you care about _base existing (and not _always_ just dojo.js providing it) then comment this line:
-	# rm_dojo_files "dojo/_base" "dojo/_base.js"
+	rm_dojo_files "dojo/_base" "dojo/_base.js"
 
 	# NOTE: we're not doing the above to dijit/_base/ because I secretly use dijit/_base functions
 	# when only using dojo.js (place.js and sniff.js in particular), and mini would break stuff ...
 
 	# last but not least
-	# rm_dojo_files "dojo/build.txt"
+	rm_dojo_files "dojo/build.txt"
 	
 	cd ../util/buildscripts/
 
