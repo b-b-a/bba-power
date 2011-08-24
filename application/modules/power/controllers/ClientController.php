@@ -77,7 +77,8 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
     public function indexAction()
     {
         $search = array(
-            'client'    => $this->_request->getParam('client')
+            'client'    => $this->_request->getParam('client'),
+            'address'   => $this->_request->getParam('address')
         );
 
         // gets all clients and assigns them to the view script.

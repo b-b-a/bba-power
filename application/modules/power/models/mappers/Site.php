@@ -55,8 +55,22 @@ class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
         $select = $this->_dbTable->getSiteList();
 
         if (!$search['client'] == '') {
-            $select->where('client_name like ? COLLATE utf8_general_ci', '%' . $search['client'] . '%');
+            $select
+                ->where('client_name like ?', '%' . $search['client'] . '%')
+                ->orWhere('client_desc like ?', '%' . $search['client'] . '%');
         }
+
+        if (!$search['site'] == '') {
+            $select
+                ->where('clientAd_addressName like ?', '%' . $search['site'] . '%')
+                ->orWhere('clientAd_address1 like ?', '%' . $search['site'] . '%')
+                ->orWhere('clientAd_address2 like ?', '%' . $search['site'] . '%')
+                ->orWhere('clientAd_address3 like ?', '%' . $search['site'] . '%')
+                ->orWhere('clientAd_postcode like ?', '%' . $search['site'] . '%');
+        }
+
+        $log = Zend_Registry::get('log');
+        $log->info($select->__toString());
 
         return $this->listSites($paged, $select);
     }

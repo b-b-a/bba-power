@@ -15,36 +15,43 @@
     ), 'default', true)
 )); ?>
 
-<table>
-	<tr>
-	<th>Client <span class="id">(id)</span></th>
-    <th>Site</th>
-	<th>&nbsp;</th>
-	</tr>
-    <?php foreach($this->sites as $site): ?>
-	<tr>
-		<td>
-            <?php echo $this->escape($site->client_name);?>&nbsp;
-            <span class="id">(<?php echo $this->escape($site->id); ?>)</span>
-        </td>
-		<td><?php echo $this->formatSiteAddress(array(
-            $this->escape($site->clientAd_address1), $this->escape($site->clientAd_address2),
-            $this->escape($site->clientAd_address3), $this->escape($site->clientAd_postcode)
-        )); ?></td>
-		<td class="action">
-			<button dojoType="dijit.form.Button" type="button">
-                Edit
-                <script type="dojo/method" event="onClick" args="evt">
-                    location.href = "<?php echo $this->url(array(
-                        'controller'    => 'site',
-                        'action'        => 'edit',
-                        'siteId'        => $site->id
-                    )); ?>";
-                </script>
-            </button>
-        </td>
-	</tr>
-    <?php endforeach;?>
+<script>
+    var siteStore = <?php echo $this->store; ?>;
+    dojo.addOnLoad(function(){
+        dojo.connect(grid, "onRowDblClick", function(val){
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            //Not sure if this is the most efficient way but it worked for me
+            selectedId = grid.store.getValue(selectedItem, "site_idSite");
+
+            location.href = '/site/edit/siteId/' + selectedId;
+        });
+    });
+
+</script>
+
+<div dojotype="dojo.data.ItemFileReadStore" jsid="tableStore" data="siteStore"></div>
+
+<table dojoType="dojox.grid.DataGrid"
+       jsId="grid"
+       store="tableStore"
+       query="{ site_idSite: '*' }"
+       style="width: 100%;height:500px;"
+       autoWidth="false"
+       autoHeight="false"
+       rowSelector="0px"
+       rowsPerPage="25"
+       noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
+    <thead>
+        <tr>
+            <th field="site_idSite" width="50">Id</th>
+            <th field="site_client_name" width="300">Client</th>
+            <th field="site_clientAd_addressName" width="200">Address Name</th>
+            <th field="site_clientAd_address1" width="100">Address 1</th>
+            <th field="site_clientAd_postcode" width="100">Postcode</th>
+            <th field="site_clientCo_name" width="auto">Contact</th>
+        </tr>
+    </thead>
 </table>
 
 <?php

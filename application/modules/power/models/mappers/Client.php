@@ -74,7 +74,13 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
         $select = $this->_dbTable->getClientList();
 
         if (!$search['client'] == '') {
-            $select->where('client_name like ? COLLATE utf8_general_ci', '%' . $search['client'] . '%');
+            $select
+            ->where('client_name like ?', '%' . $search['client'] . '%')
+            ->orWhere('client_desc like ?', '%' . $search['client'] . '%');
+        }
+
+        if (!$search['address'] == '') {
+
         }
 
         return $this->listClients($paged, $select);

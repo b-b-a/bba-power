@@ -60,11 +60,14 @@ class Power_Model_Mapper_Contract extends ZendSF_Model_Mapper_Acl_Abstract
         $select = $this->_dbTable->getContractDetails();
 
         if (!$search['contract'] == '') {
-            $select->where('client_name like ? ', '%'. $search['contract'] . '%');
+            $select->where('client_name like ? ', '%'. $search['contract'] . '%')
+                ->orWhere('contract_reference like ? ', '%'. $search['contract'] . '%')
+                ->orWhere('contract_desc like ? ', '%'. $search['contract'] . '%');
         }
 
         if (!$search['meter'] == '') {
-            $select->where('meter_numberMain like ? ', '%'. $search['meter'] . '%');
+            $select->where('meter_numberMain like ?', '%'. $search['meter'] . '%')
+                ->orWhere('meter_type like ?', '%' . $search['meter'] . '%');
         }
 
         return $this->getContractList($paged, $select);

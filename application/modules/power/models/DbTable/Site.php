@@ -69,15 +69,21 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
                 'client_address',
                 'clientAd_idAddress = site_idAddress',
                 array(
-                    'clientAd_address1', 'clientAd_address2',
-                    'clientAd_address3', 'clientAd_postcode'
+                    'clientAd_addressName',
+                    'clientAd_address1',
+                    'clientAd_postcode'
                 )
             )
             ->join(
                 'client',
                 'client_idClient = site_idClient ',
-                array('client_name')
+                array('client_name', 'client_desc')
             )
+            /*->join(
+                'client_contact',
+                'client_idClient = clientCo_idClient',
+                array('clientCo_name')
+            )*/
             ->order('client_name ASC');
     }
 }
