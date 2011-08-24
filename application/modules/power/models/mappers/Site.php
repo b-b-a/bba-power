@@ -91,6 +91,20 @@ class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
         }
     }
 
+    public function getSiteDetails($id)
+    {
+        /* @var $select Zend_Db_Table_Select */
+        $select = $this->_dbTable->getSiteDetails();
+        $select->where('site_idSite = ?', $id);
+
+        $row = $this->fetchRow($select, true);
+
+        /* @var $model Power_Model_Meter */
+        $model = new $this->_modelClass($row);
+
+        return $model;
+    }
+
     public function save($form)
     {
         if (!$this->checkAcl('save')) {

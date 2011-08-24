@@ -3,7 +3,7 @@
 	$this->headTitle($this->title);
 ?>
 
-<div style="float:left;margin:5px;">
+<div class="ident alpha">
     <p><?php echo $this->meter->client_name; ?> </p>
     <p><?php echo $this->formatSiteAddress(array(
         $this->escape($this->meter->clientAd_address1),
@@ -13,7 +13,7 @@
     )); ?></p>
 </div>
 
-<div style="float:left;margin:5px;margin-left:30px;">
+<div class="ident">
     <?php echo $this->meterSaveForm; ?>
 </div>
 

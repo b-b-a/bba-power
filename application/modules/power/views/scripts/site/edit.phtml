@@ -1,9 +1,23 @@
 <?php
     $this->title = "BBA Site Update";
     $this->headTitle($this->title);
-
-    echo $this->siteEditForm;
 ?>
+<div class="ident alpha">
+    <p><?php echo $this->escape($this->site->client_name); ?> </p>
+    <p><?php echo $this->escape($this->site->clientAd_addressName); ?></p>
+    <p><?php echo $this->formatSiteAddress(array(
+        $this->escape($this->site->clientAd_address1),
+        $this->escape($this->site->clientAd_address2),
+        $this->escape($this->site->clientAd_address3),
+        $this->escape($this->site->clientAd_postcode)
+    )); ?></p>
+</div>
+
+<div class="ident">
+    <?php echo $this->siteEditForm; ?>
+</div>
+
+<div class="clear"></div>
 
 <?php echo $this->partial('_table-head.phtml', array(
     'heading'   => 'Meters',
@@ -11,7 +25,7 @@
     'location'  => $this->url(array(
         'controller'    => 'meter',
         'action'        => 'add',
-        'siteId'      => $this->site
+        'siteId'      => $this->site->id
     ), 'default', true)
 )); ?>
 
