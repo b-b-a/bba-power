@@ -50,6 +50,19 @@ class Power_Model_Mapper_Tables extends ZendSF_Model_Mapper_Acl_Abstract
         return $this->fetchAll($select);
     }
 
+    public function delete($id)
+    {
+        if (!$this->checkAcl('delete')) {
+            throw new ZendSF_Acl_Exception('Deleting tables is not allowed.');
+        }
+
+        $where = $this->getDbTable()
+                ->getAdapter()
+                ->quoteInto('tables_idTables = ?', $id);
+
+        return parent::delete($where);
+    }
+
     /**
      * Injector for the acl, the acl can be injected directly
      * via this method.
@@ -66,6 +79,8 @@ class Power_Model_Mapper_Tables extends ZendSF_Model_Mapper_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
+        $this->_acl->allow('admin', $this)
+            ->deny('admin', $this, array('delete'));
 
         return $this;
     }

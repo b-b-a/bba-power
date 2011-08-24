@@ -44,11 +44,24 @@ class Power_Model_Mapper_SupplierContact extends ZendSF_Model_Mapper_Acl_Abstrac
      * @varPower _Model_DbTable_SupplierContact
      */
     protected $_dbTableClass;
-    
+
     /**
      * @var Power_Model_SupplierContact
      */
     protected $_modelClass;
+
+    public function delete($id)
+    {
+        if (!$this->checkAcl('delete')) {
+            throw new ZendSF_Acl_Exception('Deleting supplier contacts is not allowed.');
+        }
+
+        $where = $this->getDbTable()
+                ->getAdapter()
+                ->quoteInto('supplierCo_idSupplierContact = ?', $id);
+
+        return parent::delete($where);
+    }
 
     /**
      * Injector for the acl, the acl can be injected directly
@@ -65,6 +78,8 @@ class Power_Model_Mapper_SupplierContact extends ZendSF_Model_Mapper_Acl_Abstrac
         parent::setAcl($acl);
 
         // implement rules here.
+        $this->_acl->allow('admin', $this)
+            ->deny('admin', $this, array('delete'));
 
         return $this;
     }

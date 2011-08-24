@@ -73,8 +73,8 @@ class Power_Model_Mapper_ClientContact extends ZendSF_Model_Mapper_Acl_Abstract
 
         $form = $this->getForm('clientContactSave')->getValues();
 
-        // remove client address id if not set.
-        if (!$form['clientCo_idAddress']) unset($form['clientCo_idAddress']);
+        // remove client contact id if not set.
+        if (!$form['clientCo_idClientContact']) unset($form['clientCo_idClientContact']);
 
         /* @var $model Power_Model_Client */
         $model = new $this->_modelClass($form);
@@ -94,6 +94,19 @@ class Power_Model_Mapper_ClientContact extends ZendSF_Model_Mapper_Acl_Abstract
         return parent::save($model);
     }
 
+    public function delete($id)
+    {
+        if (!$this->checkAcl('delete')) {
+            throw new ZendSF_Acl_Exception('Deleting client contacts is not allowed.');
+        }
+
+        $where = $this->getDbTable()
+                ->getAdapter()
+                ->quoteInto('clientCo_idClientContact = ?', $id);
+
+        return parent::delete($where);
+    }
+
     /**
      * Injector for the acl, the acl can be injected directly
      * via this method.
@@ -110,8 +123,7 @@ class Power_Model_Mapper_ClientContact extends ZendSF_Model_Mapper_Acl_Abstract
 
         // implement rules here.
         $this->_acl->allow('admin', $this)
-            ->deny('admin', $this, array('delete'))
-            ;
+            ->deny('admin', $this, array('delete'));
 
         return $this;
     }

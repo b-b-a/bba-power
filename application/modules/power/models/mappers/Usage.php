@@ -88,6 +88,19 @@ class Power_Model_Mapper_Usage extends ZendSF_Model_Mapper_Acl_Abstract
         return parent::save($model);
     }
 
+    public function delete($id)
+    {
+        if (!$this->checkAcl('delete')) {
+            throw new ZendSF_Acl_Exception('Deleting meter usage is not allowed.');
+        }
+
+        $where = $this->getDbTable()
+                ->getAdapter()
+                ->quoteInto('usage_idUsage = ?', $id);
+
+        return parent::delete($where);
+    }
+
     /**
      * Injector for the acl, the acl can be injected directly
      * via this method.

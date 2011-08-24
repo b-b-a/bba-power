@@ -44,11 +44,24 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
      * @var Power_Model_DbTable_Supplier
      */
     protected $_dbTableClass;
-    
+
     /**
      * @var Power_Model_Supplier
      */
     protected $_modelClass;
+
+    public function delete($id)
+    {
+        if (!$this->checkAcl('delete')) {
+            throw new ZendSF_Acl_Exception('Deleting suppliers is not allowed.');
+        }
+
+        $where = $this->getDbTable()
+                ->getAdapter()
+                ->quoteInto('supplier_idSupplier = ?', $id);
+
+        return parent::delete($where);
+    }
 
     /**
      * Injector for the acl, the acl can be injected directly
@@ -65,6 +78,8 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
+        $this->_acl->allow('admin', $this)
+            ->deny('admin', $this, array('delete'));
 
         return $this;
     }
