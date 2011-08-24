@@ -60,6 +60,29 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
 		)
     );
 
+    public function getSiteDetails()
+    {
+        return $this->select(false)
+            ->setIntegrityCheck(false)
+            ->from('site')
+            ->join(
+                'client_address',
+                'clientAd_idAddress = site_idAddress',
+                array(
+                    'clientAd_addressName',
+                    'clientAd_address1',
+                    'clientAd_address2',
+                    'clientAd_address3',
+                    'clientAd_postcode'
+                )
+            )
+            ->join(
+                'client',
+                'client_idClient = site_idClient ',
+                array('client_name')
+            );
+    }
+
     public function getSiteList()
     {
         return $this->select(false)

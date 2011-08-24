@@ -240,9 +240,22 @@ input[class=search] {
 }
 
 /**
+ * Ident Styles
+ */
+.ident {
+     float: left;
+     margin: 5px;
+     margin-left: 30px;
+}
+
+.alpha {
+    margin-left: 5px;
+}
+
+/**
  * Table Styles
  */
- table {
+table {
     width: 100%;
     border: 1px solid #000;
     border-collapse: collapse;
