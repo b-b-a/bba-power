@@ -56,15 +56,18 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
      */
     public function meterSearch($search, $paged = null)
     {
-        /* @var $select Zend_Db_Table_Select */
         $select = $this->_dbTable->getMeterDetails();
 
         if (!$search['meter'] == '') {
             $select->where('meter_numberMain like ?', '%'. $search['meter'] . '%');
         }
 
-        if (!$search['client'] == '') {
-            $select->where('client_name like ? ', '%' . $search['client'] . '%');
+        if (!$search['site'] == '') {
+            $select->where('clientAd_addressName like ? ', '%' . $search['site'] . '%')
+                    ->orWhere('clientAd_address1 like ?', '%' . $search['site'] . '%')
+                    ->orWhere('clientAd_address2 like ?', '%' . $search['site'] . '%')
+                    ->orWhere('clientAd_address3 like ?', '%' . $search['site'] . '%')
+                    ->orWhere('clientAd_postcode like ?', '%' . $search['site'] . '%');
         }
 
         return $this->listMeters($paged, $select);

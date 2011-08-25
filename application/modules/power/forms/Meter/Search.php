@@ -48,8 +48,8 @@ class Power_Form_Meter_Search extends Power_Form_SearchBase
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('TextBox', 'client', array(
-            'label'     => 'Client:',
+        $this->addElement('TextBox', 'site', array(
+            'label'     => 'Site:',
             'required'      => false,
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim')

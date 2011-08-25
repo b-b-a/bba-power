@@ -53,7 +53,19 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
-
+        'site'      => array(
+            'columns'       => 'meter_idSite',
+            'refTableClass' => 'Power_Model_DbTable_Site',
+            'refColumns'    => 'site_idSite'
+        )
+        'user'      => array(
+            'columns'       => array(
+                'client_userCreate',
+                'client_userModify'
+            ),
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        )
     );
 
     /**
@@ -71,6 +83,8 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
             ->join('client_address', 'clientAd_idAddress = site_idAddress')
             ->join('client', 'client_idClient = site_idClient')
             //->join('client_contact', 'client_idClientContact = clientCo_idClientContact')
+            ->join('meter_contract', 'meter_idMeter = meterContract_idMeter')
+            ->join('contract', 'meterContract_idContract = contract_idContract')
             ->order('client_name ASC');
     }
 }
