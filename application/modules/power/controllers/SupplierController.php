@@ -37,8 +37,8 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_SupplierController extends ZendSF_Controller_Action_Abstract {
-
+class Power_SupplierController extends ZendSF_Controller_Action_Abstract
+{
     /**
      * Initialization code.
      */
@@ -55,6 +55,21 @@ class Power_SupplierController extends ZendSF_Controller_Action_Abstract {
     public function indexAction()
     {
         // action body
+    }
+    
+    public function addAction()
+    {
+        
+    }
+    
+    public function editAction()
+    {
+        
+    }
+    
+    public function saveAction()
+    {
+        
     }
 
     public function autocompleteAction()
