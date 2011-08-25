@@ -57,7 +57,7 @@ class Power_Model_Mapper_Contract extends ZendSF_Model_Mapper_Acl_Abstract
     public function contractSearch($search, $paged = null)
     {
         /* @var $select Zend_Db_Table_Select */
-        $select = $this->_dbTable->getContractDetails();
+        $select = $this->_dbTable->getContractList();
 
         if (!$search['contract'] == '') {
             $select->where('client_name like ? ', '%'. $search['contract'] . '%')
@@ -76,7 +76,7 @@ class Power_Model_Mapper_Contract extends ZendSF_Model_Mapper_Acl_Abstract
     public function getContractList($paged = null, $select = null)
     {
         if ($select === null) {
-            $select = $this->_dbTable->getContractDetails();
+            $select = $this->_dbTable->getContractList();
         }
 
         if (null !== $paged) {

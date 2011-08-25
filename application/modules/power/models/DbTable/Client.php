@@ -80,8 +80,7 @@ class Power_Model_DbTable_Client extends Zend_Db_Table_Abstract
                 ->from('client', array(
                     'client_idClient',
                     'client_name',
-                    'client_desc' => 'SUBSTR(client_desc, 1, 15)',
-                    'client_dateExpiryLoa'
+                    'client_desc' => 'SUBSTR(client_desc, 1, 15)'
                 ))
                 ->join(
                     'client_address',
