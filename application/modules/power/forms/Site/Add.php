@@ -65,7 +65,7 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
             //'storeType'     => 'dojo.data.ItemFileReadStore',
             //'storeParams'   => array('url' => "/site/autocomplete/param/address"),
             'dijitParams'   => array('searchAttr' => 'clientAd_address1AndPostcode'),
-            'attribs'         => array('disabled' => true),
+            'attribs'       => array('disabled' => true),
             'required'      => true
         ));
 
