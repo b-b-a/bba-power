@@ -56,7 +56,7 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
      */
     public function meterSearch($search, $paged = null)
     {
-        $select = $this->_dbTable->getMeterDetails();
+        $select = $this->_dbTable->getMeterList();
 
         if (!$search['meter'] == '') {
             $select->where('meter_numberMain like ?', '%'. $search['meter'] . '%');
@@ -82,7 +82,7 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
     public function listMeters($paged = null, $select = null)
     {
         if ($select === null) {
-            $select = $this->_dbTable->getMeterDetails();
+            $select = $this->_dbTable->getMeterList();
         }
 
         if (null !== $paged) {

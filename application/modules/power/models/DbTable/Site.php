@@ -95,7 +95,7 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
     {
         return $this->select(false)
             ->setIntegrityCheck(false)
-            ->from('site')
+            ->from('site', array('site_idSite'))
             ->join(
                 'client_address',
                 'clientAd_idAddress = site_idAddress',

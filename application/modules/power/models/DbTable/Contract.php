@@ -83,30 +83,18 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
         )
     );
 
-    public function getContractDetails()
+    public function getContractList()
     {
-       return $this->select(false)
+        return $this->select(false)
             ->setIntegrityCheck(false)
             ->from('contract', array(
-                'contract_idContract' => 'contract_idContract', 'contract_idClient',
-                'contract_status', 'contract_dateStart',
-                'contract_dateEnd', 'contract_desc'))
-            ->join(
-                'client',
-                'client_idClient = contract_idClient ',
-                array('client_name')
-            )
-            ->join(
-                'meter_contract',
-                'meterContract_idContract = contract_idContract',
-                null
-            )
-            ->join(
-                'meter',
-                'meter_idMeter = meterContract_idMeter',
-                array('meter_numberMain')
-           )
-           ->group('contract_idContract')
-           ->order('client_name ASC');
+                'contract_idContract' => 'contract_idContract',
+                'contract_dateStart',
+                'contract_dateEnd',
+                'contract_desc'
+            ))
+            ->join('client', 'client_idClient = contract_idClient ',array('client_name'))
+            ->group('contract_idContract')
+            ->order('client_name ASC');
     }
 }
