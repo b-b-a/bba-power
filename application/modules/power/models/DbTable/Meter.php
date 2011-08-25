@@ -88,23 +88,32 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
             ->order('client_name ASC');
     }
     
+    /**
+     * Cherry pick which columns to return for speed.
+     * 
+     * @return Zend_Db_Table_Select
+     */
     public function getMeterList()
     {
         return $this->select(false)
             ->setIntegrityCheck(false)
             ->from('meter', array(
-                'meter_idMeter', 'meter_type', 'meter_numberMain'
+                'meter_idMeter',
+                'meter_type',
+                'meter_numberMain'
             ))
             ->join('site', 'site_idSite = meter_idSite', null)
             ->join('client_address', 'clientAd_idAddress = site_idAddress', array(
-                'clientAd_addressName', 'clientAd_postcode'
+                'clientAd_addressName',
+                'clientAd_postcode'
             ))
             ->join('client', 'client_idClient = site_idClient', array(
                 'client_name'
             ))
             ->join('meter_contract', 'meter_idMeter = meterContract_idMeter', null)
             ->join('contract', 'meterContract_idContract = contract_idContract', array(
-                'contract_status', 'contract_dateEnd'
+                'contract_status',
+                'contract_dateEnd'
             ))
             ->order('client_name ASC');
     }

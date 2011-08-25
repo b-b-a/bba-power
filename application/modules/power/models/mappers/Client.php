@@ -72,9 +72,6 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
     {
         $select = $this->_dbTable->getClientList();
         
-        $log = Zend_Registry::get('log');
-        $log->info($select->__toString());
-
         if (!$search['client'] == '') {
             $select
                 ->where('client_name like ?', '%' . $search['client'] . '%')

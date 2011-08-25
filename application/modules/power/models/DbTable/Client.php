@@ -76,21 +76,17 @@ class Power_Model_DbTable_Client extends Zend_Db_Table_Abstract
     public function getClientList()
     {
         return $this->select(false)
-                ->setIntegrityCheck(false)
-                ->from('client', array(
-                    'client_idClient',
-                    'client_name',
-                    'client_desc' => 'SUBSTR(client_desc, 1, 15)'
-                ))
-                ->join(
-                    'client_address',
-                    'client_idAddress = clientAd_idAddress',
-                    array(
-                        'clientAd_addressName',
-                        'clientAd_address1',
-                        'clientAd_postcode'
-                    )
-                )
-                ->order('client_name ASC');
+            ->setIntegrityCheck(false)
+            ->from('client', array(
+                'client_idClient',
+                'client_name',
+                'client_desc' => 'SUBSTR(client_desc, 1, 15)'
+            ))
+            ->join('client_address', 'client_idAddress = clientAd_idAddress', array(
+                'clientAd_addressName',
+                'clientAd_address1',
+                'clientAd_postcode'
+            ))
+            ->order('client_name ASC');
     }
 }
