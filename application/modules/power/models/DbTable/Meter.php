@@ -57,7 +57,7 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
             'columns'       => 'meter_idSite',
             'refTableClass' => 'Power_Model_DbTable_Site',
             'refColumns'    => 'site_idSite'
-        )
+        ),
         'user'      => array(
             'columns'       => array(
                 'client_userCreate',
