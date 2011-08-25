@@ -80,11 +80,15 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
             'client'    => $this->_request->getParam('client'),
             'address'   => $this->_request->getParam('address')
         );
+        
+        $clients = $this->_model->clientSearch($search);
+        $store = $this->getDataStore($clients, 'client_idClient');
 
         // gets all clients and assigns them to the view script.
         $this->view->assign(array(
-            'clients'   => $this->_model->clientSearch($search, $this->_page),
-            'search'    => $search
+            'clients'   => $clients,
+            'search'    => $search,
+            'store'     => $store
         ));
     }
 
