@@ -50,5 +50,19 @@ class Power_Model_DbTable_Supplier extends Zend_Db_Table_Abstract
     /**
      * @var array Reference map for parent tables
      */
-    protected $_referenceMap = array();
+    protected $_referenceMap = array(
+        'supplierContact'   => array(
+            'columns'       => 'supplier_idSupplierContact',
+            'refTableClass' => 'Power_Model_DbTable_SupplierContact',
+            'refColumns'    => 'supplierCo_idSupplierContact'
+        ),
+        'user'              => array(
+            'columns'       => array(
+                'supplier_userCreate',
+                'supplier_userModify'
+            ),
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        )
+    );
 }

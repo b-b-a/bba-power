@@ -52,5 +52,19 @@ class Power_Model_DbTable_Usage extends Zend_Db_Table_Abstract
     /**
      * @var array Reference map for parent tables
      */
-    protected $_referenceMap = array();
+    protected $_referenceMap = array(
+        'meter' => array(
+            'columns'       => 'usage_idMeter',
+            'refTableClass' => 'Power_Model_DbTable_Meter',
+            'refColumns'    => 'meter_idMeter'
+        ),     
+        'user'  => array(
+            'columns'       => array(
+                'usage_userCreate',
+                'usage_userModify'
+            ),
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        )
+    );
 }

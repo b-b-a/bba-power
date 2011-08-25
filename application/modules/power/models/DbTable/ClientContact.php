@@ -52,5 +52,24 @@ class Power_Model_DbTable_ClientContact extends Zend_Db_Table_Abstract
     /**
      * @var array Reference map for parent tables
      */
-    protected $_referenceMap = array();
+    protected $_referenceMap = array(
+        'client'        => array(
+            'columns'       => 'clientCo_idClient',
+            'refTableClass' => 'Power_Model_DbTable_Client',
+            'refColumns'    => 'client_idClient'
+        ),
+        'clientAddress' => array(
+            'columns'       => 'clientCo_idAddress',
+            'refTableClass' => 'Power_Model_DbTable_ClientAddress',
+            'refColumns'    => 'clientAd_idAddress'
+        ),
+        'user'          => array(
+            'columns'       => array(
+                'clientCo_userCreate',
+                'clientCo_userModify'
+            ),
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        )
+    );
 }

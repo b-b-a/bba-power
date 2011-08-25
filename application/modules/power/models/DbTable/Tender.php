@@ -52,6 +52,30 @@ class Power_Model_DbTable_Tender extends Zend_Db_Table_Abstract
     /**
      * @var array Reference map for parent tables
      */
-    protected $_referenceMap = array();
+    protected $_referenceMap = array(
+        'contract'          => array(
+            'columns'       => 'tender_idContract',
+            'refTableClass' => 'Power_Model_Mapper_Contract',
+            'refColumns'    => 'contract_idContract'
+        ),
+        'supplier'          => array(
+            'columns'       => 'tender_idSupplier',
+            'refTableClass' => 'Power_Model_DbTable_Supplier',
+            'refColumns'    => 'supplier_idSupplier'
+        ),
+        'supplierContact'   => array(
+            'columns'       => 'tender_idSupplierContact',
+            'refTableClass' => 'Power_Model_DbTable_SupplierContact',
+            'refColumns'    => 'supplierCo_idSupplierContact'
+        ),
+        'user'              => array(
+            'columns'       => array(
+                'tender_userCreate',
+                'tender_userModify'
+            ),
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        )
+    );
     
 }

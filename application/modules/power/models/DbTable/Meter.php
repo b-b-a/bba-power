@@ -60,8 +60,8 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
         ),
         'user'      => array(
             'columns'       => array(
-                'client_userCreate',
-                'client_userModify'
+                'meter_userCreate',
+                'meter_userModify'
             ),
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'

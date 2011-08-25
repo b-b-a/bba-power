@@ -52,7 +52,36 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
     /**
      * @var array Reference map for parent tables
      */
-    protected $_referenceMap = array();
+    protected $_referenceMap = array(
+        'contractPrevious'          => array(
+            'columns'       => 'contract_idContractPrevious',
+            'refTableClass' => 'Power_Model_DbTable_Contract',
+            'refColumns'    => 'contract_idContract'
+        ),
+        'client'                    => array(
+            'columns'       => 'contract_idClient',
+            'refTableClass' => 'Power_Model_DbTable_Client',
+            'refColumns'    => 'client_idClient'
+        ),
+        'tenderSelected'            => array(
+            'columns'       => 'contract_idTenderSelected',
+            'refTableClass' => 'Power_Model_DbTable_Tender',
+            'refColumns'    => 'tender_idTender'
+        ),
+        'supplierContactSelected'   => array(
+            'columns'       => 'contract_idSupplierContactSelected',
+            'refTableClass' => 'Power_Model_DbTable_SupplierContact',
+            'refColumns'    => 'supplierCo_idSupplierContact'
+        ),
+        'user'                      => array(
+            'columns'       => array(
+                'contract_userCreate',
+                'contract_userModify'
+            ),
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        )
+    );
 
     public function getContractDetails()
     {

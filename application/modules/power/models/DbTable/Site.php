@@ -57,7 +57,15 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
             'columns'           => 'site_idClient',
             'refTableClass'     => 'Power_Model_DbTable_Client',
             'refColumns'        => 'client_idClient'
-		)
+		),
+        'user'      => array(
+            'columns'       => array(
+                'site_userCreate',
+                'site_userModify'
+            ),
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        )
     );
 
     public function getSiteDetails()
