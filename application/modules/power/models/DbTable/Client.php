@@ -52,17 +52,46 @@ class Power_Model_DbTable_Client extends Zend_Db_Table_Abstract
     /**
      * @var array Reference map for parent tables
      */
-    protected $_referenceMap = array();
+    protected $_referenceMap = array(
+        'clientAd'  => array(
+            'columns'       => 'client_idAddress',
+            'refTableClass' => 'Power_Model_DbTable_ClientAddress',
+            'refColumns'    => 'clientAd_idAddress'
+		),
+        'clientCo'  => array(
+            'columns'       => 'client_idClientContact',
+            'refTableClass' => 'Power_Model_DbTable_ClientContacts',
+            'refColumns'    => 'clientCo_idClientContact'
+        ),
+        'user'      => array(
+            'columns'       => array(
+                'client_userCreate',
+                'client_userModify'
+            ),
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        )
+    );
 
     public function getClientList()
     {
-        return $this->select()
+        return $this->select(false)
+                ->setIntegrityCheck(false)
                 ->from('client', array(
                     'client_idClient',
                     'client_name',
-                    'client_desc',
+                    'client_desc' => 'SUBSTR(client_desc, 1, 15)',
                     'client_dateExpiryLoa'
                 ))
+                ->join(
+                    'client_address',
+                    'client_idAddress = clientAd_idAddress',
+                    array(
+                        'clientAd_addressName',
+                        'clientAd_address1',
+                        'clientAd_postcode'
+                    )
+                )
                 ->order('client_name ASC');
     }
 }

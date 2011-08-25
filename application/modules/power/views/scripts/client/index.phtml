@@ -15,38 +15,47 @@
     ), 'default', true)
 )); ?>
 
-<table>
-	<tr>
-        <th>Client <span class="id">(id)</span></th>
-        <th>Description</th>
-        <th>Letter of Authority Expiry</th>
-        <th class="lasttr">&nbsp;</th>
-	</tr>
-    <?php foreach($this->clients as $client) : ?>
-	<tr>
-        <td>
-            <?php echo $this->escape($client->name); ?>&nbsp;
-            <span class="id">(<?php echo $this->escape($client->id); ?>)</span>
-        </td>
-        <td><?php echo $this->escape($client->desc); ?></td>
-        <td><?php echo $this->escape($client->dateExpiryLoa->toString('dd/MM/yyyy'));?></td>
-		<td class="action">
-            <button dojoType="dijit.form.Button" type="button">
-                Edit
-                <script type="dojo/method" event="onClick" args="evt">
-                    location.href = "<?php echo $this->url(array(
-                        'controller'    => 'client',
-                        'action'        => 'edit',
-                        'clientId'       => $client->id
-                    ));?>";
-                </script>
-            </button>
-		</td>
-	</tr>
-    <?php endforeach; ?>
+<script>
+    var clientStore = <?php echo $this->store; ?>;
+    dojo.addOnLoad(function(){
+        dojo.connect(grid, "onRowDblClick", function(val){
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            //Not sure if this is the most efficient way but it worked for me
+            selectedId = grid.store.getValue(selectedItem, "client_idClient");
+
+            location.href = '/client/edit/clientId/' + selectedId;
+        });
+    });
+
+</script>
+
+<div dojotype="dojo.data.ItemFileReadStore" jsid="tableStore" data="clientStore"></div>
+
+<table dojoType="dojox.grid.DataGrid"
+       jsId="grid"
+       store="tableStore"
+       query="{ client_idClient: '*' }"
+       style="width: 100%;height:500px;"
+       autoWidth="false"
+       autoHeight="false"
+       rowSelector="0px"
+       rowsPerPage="25"
+       noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
+    <thead>
+        <tr>
+            <th field="client_idClient" width="75">Id</th>
+            <th field="client_name" width="200">Client</th>
+            <th field="client_desc" width="100">Description</th>
+            <th field="client_clientAd_addressName" width="200">Address Name</th>
+            <th field="client_clientAd_address1" width="200">Address 1</th>
+            <th field="client_clientAd_postcode" width="auto">Postcode</th>
+        </tr>
+    </thead>
 </table>
 
 <?php
+/*
 if ($this->clients instanceof Zend_Paginator) {
     echo $this->paginationControl(
             $this->clients,
@@ -54,5 +63,5 @@ if ($this->clients instanceof Zend_Paginator) {
             '_paginate.phtml',
             array('params' => $this->search)
     );
-}
+}*/
 ?>

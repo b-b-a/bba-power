@@ -42,7 +42,7 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
     /**
      * @var Power_Model_DbTable_Client
      */
-    protected $_dbTableClass;
+    protected $_dbTable;
 
     /**
      * @var Power_Model_Client
@@ -70,17 +70,24 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
 
     public function clientSearch($search, $paged = null)
     {
-        /* @var $select Zend_Db_Table_Select */
         $select = $this->_dbTable->getClientList();
+        
+        $log = Zend_Registry::get('log');
+        $log->info($select->__toString());
 
         if (!$search['client'] == '') {
             $select
-            ->where('client_name like ?', '%' . $search['client'] . '%')
-            ->orWhere('client_desc like ?', '%' . $search['client'] . '%');
+                ->where('client_name like ?', '%' . $search['client'] . '%')
+                ->orWhere('client_desc like ?', '%' . $search['client'] . '%');
         }
 
         if (!$search['address'] == '') {
-
+            $select
+                ->where('clientAd_addressName like ?', '%' . $search['address'] . '%')
+                ->orWhere('clientAd_address1 like ?', '%' . $search['address'] . '%')
+                ->orWhere('clientAd_address2 like ?', '%' . $search['address'] . '%')
+                ->orWhere('clientAd_address3 like ?', '%' . $search['address'] . '%')
+                ->orWhere('clientAd_postcode like ?', '%' . $search['address'] . '%');
         }
 
         return $this->listClients($paged, $select);
@@ -100,13 +107,13 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
         /* @var $model Power_Model_Client */
         $model = new $this->_modelClass($form);
 
-        // set modified and create dates.
+        // set create date and user.
         if ($form['returnAction'] == 'add') {
             $model->dateCreate = time();
             $model->userCreate = $form['userId'];
         }
 
-        // add modified date and by if updating record.
+        // add modified date/user if updating record.
         if ($model->getId()) {
             $model->userModify = $form['userId'];
             $model->dateModify = time();
@@ -115,6 +122,13 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
         return parent::save($model);
     }
 
+    /**
+     * Deletes a single row in the database.
+     * First we check wheather we are allowed then act according.
+     * 
+     * @param int $id
+     * @return int number of rows deleted
+     */
     public function delete($id)
     {
         if (!$this->checkAcl('delete')) {
