@@ -83,13 +83,17 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
     {
         $search = array(
             'meter'     => $this->_request->getParam('meter'),
-            'client'    => $this->_request->getParam('client')
+            'site'    => $this->_request->getParam('site')
         );
+        
+        $meters = $this->_model->meterSearch($search);
+        $meterStore = $this->getDataStore($meters, 'meter_idMeter');
 
         // gets all meters and assigns them to the view script.
         $this->view->assign(array(
-            'meters' => $this->_model->meterSearch($search, $this->_page),
-            'search'    => $search
+            'meters'    => $meters,
+            'search'    => $search,
+            'store'     => $meterStore
         ));
     }
 

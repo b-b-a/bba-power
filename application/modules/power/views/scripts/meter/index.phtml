@@ -11,55 +11,49 @@
     'label'     => 'New Meter'
 )); ?>
 
-<table>
-	<tr>
-	<th>Client</th>
-	<th>Site Address</th>
-	<th>Type <span class="id">(id)</span></th>
-	<th>Number</th>
-	<th>&nbsp;</th>
+<script>
+    var meterStore = <?php echo $this->store; ?>;
+    dojo.addOnLoad(function(){
+        dojo.connect(grid, "onRowDblClick", function(val){
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            //Not sure if this is the most efficient way but it worked for me
+            selectedId = grid.store.getValue(selectedItem, "meter_idMeter");
 
-	</tr>
-    <?php foreach($this->meters as $meter) : ?>
-	<tr>
-        <td>
-            <?php echo $this->escape($meter->client_name); ?>
-        </td>
-        <td><?php echo $this->formatSiteAddress(array(
-            $this->escape($meter->clientAd_address1), $this->escape($meter->clientAd_address2),
-            $this->escape($meter->clientAd_address3), $this->escape($meter->clientAd_postcode)
-        )); ?></td>
-        <td><?php echo $meter->type; ?>&nbsp;
-            <span class="id">(<?php echo $this->escape($meter->id); ?>)</span></td>
-        <td><?php echo $meter->numberMain; ?></td>
-		<td class="action">
-			<button dojoType="dijit.form.Button" type="button">
-                Usage
-                <script type="dojo/method" event="onClick" args="evt">
-                    location.href = "<?php echo $this->url(array(
-                        'controller'    => 'usage',
-                        'action'        => 'add',
-                        'meterId'       => $meter->id
-                    ), 'default', true); ?>";
-                </script>
-            </button>
+            location.href = '/meter/edit/meterId/' + selectedId;
+        });
+    });
 
-            <button dojoType="dijit.form.Button" type="button">
-                Edit
-                <script type="dojo/method" event="onClick" args="evt">
-                    location.href = "<?php echo $this->url(array(
-                        'controller'    => 'meter',
-                        'action'        => 'edit',
-                        'meterId'       => $meter->id
-                    ),'default', true); ?>";
-                </script>
-            </button>
-		</td>
-	</tr>
-    <?php endforeach; ?>
+</script>
+
+<div dojotype="dojo.data.ItemFileReadStore" jsid="tableStore" data="meterStore"></div>
+
+<table dojoType="dojox.grid.DataGrid"
+       jsId="grid"
+       store="tableStore"
+       query="{ meter_idMeter: '*' }"
+       style="width: 100%;height:500px;"
+       autoWidth="false"
+       autoHeight="false"
+       rowSelector="0px"
+       rowsPerPage="25"
+       noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
+    <thead>
+        <tr>
+            <th field="meter_idMeter" width="75">Id</th>
+            <th field="meter_client_name" width="200">Client</th>
+            <th field="meter_clientAd_addressName" width="200">Address Name</th>
+            <th field="meter_clientAd_postcode" width="100">Postcode</th>
+            <th field="meter_type" width="100">Meter Type</th>
+            <th field="meter_numberMain" width="150">MPAN13</th>
+            <th field="meter_contract_status" width="150">Contract Status</th>
+            <th field="meter_contract_dateEnd" width="auto">End Date</th>
+        </tr>
+    </thead>
 </table>
 
 <?php
+/*
 if ($this->meters instanceof Zend_Paginator) {
     echo $this->paginationControl(
             $this->meters,
@@ -67,5 +61,5 @@ if ($this->meters instanceof Zend_Paginator) {
             '_paginate.phtml',
             array('params' => $this->search)
     );
-}
+}*/
 ?>
