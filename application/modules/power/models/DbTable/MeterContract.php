@@ -52,5 +52,24 @@ class Power_Model_DbTable_MeterContract extends Zend_Db_Table_Abstract
     /**
      * @var array Reference map for parent tables
      */
-    protected $_referenceMap = array();
+    protected $_referenceMap = array(
+        'meter'     => array(
+            'columns'       => 'meterContract_idMeter',
+            'refTableClass' => 'Power_Model_DbTable_Meter',
+            'refColumns'    => 'meter_idMeter'
+        ),
+        'contract'  => array(
+            'columns'       => 'meterContract_idContract',
+            'refTableClass' => 'Power_Model_DbTable_Contract',
+            'refColumns'    => 'contract_idContract'
+        ),
+        'user'      => array(
+            'columns'       => array(
+                'meterContract_userCreate',
+                'meterContract_userModify'
+            ),
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        )
+    );
 }
