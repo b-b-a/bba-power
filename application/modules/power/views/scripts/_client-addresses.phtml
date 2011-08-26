@@ -4,52 +4,45 @@
     'location'  => $this->url(array(
         'controller'    => 'client-address',
         'action'        => 'add',
-        'clientId'      => $this->idClient
+        'clientId'      => $this->clientId
     ), 'default', true)
 )); ?>
 
-<table>
-    <tr>
-        <th>Address Name <span class="id">(id)</span></th>
-        <th>Address 1</th>
-        <th>Address 2</th>
-        <th>Address 3</th>
-        <th>Postcode</th>
-        <th>&nbsp;</th>
-    </tr>
-<?php
-	if ($this->addresses):
-		foreach($this->addresses as $address):
-?>
-			<tr class="<?php if ($this->currentEdit == $address->idAddress) echo 'current-eidt'; ?>">
-				<td><?php echo $this->escape($address->addressName); ?>&nbsp;
-					<span class="id">(<?php echo $this->escape($address->idAddress); ?>)</span></td>
-				<td><?php echo $this->escape($address->address1); ?></td>
-				<td><?php echo $this->escape($address->address2); ?></td>
-				<td><?php echo $this->escape($address->address3); ?></td>
-				<td><?php echo $this->escape($address->postcode); ?></td>
-				<td class="action">
-					<?php if ($this->currentEdit != $address->idAddress): ?>
-                    <button dojoType="dijit.form.Button" type="button">
-                        Edit
-                        <script type="dojo/method" event="onClick" args="evt">
-                            location.href = "<?php echo $this->url(array(
-                                'controller'    => 'client-address',
-                                'action'        => 'edit',
-                                'clientId'      => $address->idClient,
-                                'addressId'     => $address->idAddress
-                            ), 'default', true); ?>";
-                        </script>
-                    </button>
-					<?php else: ?>
-					&nbsp;
-					<?php endif; ?>
-				</td>
-			</tr>
-	<?php endforeach;
-	else: ?>
-		<tr>
-            <td colspan="6">This Client has no addresses yet.</td>
-		</tr>
-<?php endif; ?>
+<script>
+    var addressStore = <?php echo $this->addressStore; ?>;
+    dojo.addOnLoad(function(){
+        dojo.connect(addressGrid, "onRowDblClick", function(val){
+            selectedIndex = this.focus.rowIndex;
+            selectedItem = this.getItem(selectedIndex);
+            //Not sure if this is the most efficient way but it worked for me
+            addressId = this.store.getValue(selectedItem, "clientAd_idAddress");
+
+            location.href = '/client-address/edit/clientId/<?php echo $this->clientId; ?>/addressId/' + addressId;
+        });
+    });
+
+</script>
+
+<div dojotype="dojo.data.ItemFileReadStore" jsid="tableAddressStore" data="addressStore"></div>
+
+<table dojoType="dojox.grid.DataGrid"
+       jsId="addressGrid"
+       store="tableAddressStore"
+       query="{ clientAd_idAddress: '*' }"
+       style="width: 100%;height: 100%;"
+       autoWidth="false"
+       autoHeight="false"
+       rowSelector="0px"
+       rowsPerPage="25"
+       noDataMessage="<span class='dojoxGridNoData'>This Client has no addresses yet.</span>">
+    <thead>
+        <tr>
+            <th field="clientAd_idClient" width="75">Id</th>
+            <th field="clientAd_addressName" width="200">Address Name</th>
+            <th field="clientAd_address1" width="200">Address 1</th>
+            <th field="clientAd_address2" width="200">Address 2</th>
+            <th field="clientAd_address3" width="200">Address 3</th>
+            <th field="clientAd_postcode" width="auto">Postcode</th>
+        </tr>
+    </thead>
 </table>

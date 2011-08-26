@@ -52,7 +52,7 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
         if ($this->_helper->acl('Guest')) {
             return $this->_forward('login', 'auth');
         }
-        
+
         parent::init();
 
         $this->_model = new Power_Model_Mapper_ClientAddress();
@@ -85,9 +85,12 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
                     ->populate($clientAd->toArray())
                     ->addHiddenElement('returnAction', 'edit');
 
+            $addresses = $this->_model->getAddressByClientId($clientAd->idClient);
+            $addressStore = $this->getDataStore($addresses, 'clientAd_idAddress');
+
             $this->view->assign(array(
-                'idAddress' => $clientAd->getId(),
-                'client'    => $clientAd->idClient
+                'addressStore' => $addressStore,
+                'clientAd'    => $clientAd
             ));
         } else {
            return $this->_helper->redirector('index', 'client');

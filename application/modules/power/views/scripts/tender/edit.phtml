@@ -2,15 +2,19 @@
 	$this->title = "BBA Tender Update";
 	$this->headTitle($this->title);
 ?>
+<div class="ident alpha">
+    <p><b>Client:</b> <?php echo $this->tender->client_name; ?></p>
+    <p><b>Contract Ref:</b> <?php echo $this->tender->contract_reference; ?></p>
+    <p><b>Type:</b> <?php echo $this->tender->contract_type; ?></p>
+    <p><b>Status:</b> <?php echo $this->tender->contract_status; ?></p>
+    <p><b>Start Date:</b> <?php echo $this->formatDate($this->tender->contract_dateStart); ?></p>
+</div>
 
-<h2>Client: <?php echo $this->tender->client_name; ?></h2>
-<h2>Contract Ref: <?php echo $this->tender->contract_reference; ?></h2>
-<h2>Type: <?php echo $this->tender->contract_type; ?></h2>
-<h2>Status: <?php echo $this->tender->contract_status; ?></h2>
-<h2>Start Date: <?php echo $this->formatDate($this->tender->contract_dateStart); ?></h2>
+<div class="ident">
+    <?php echo $this->tenderSaveForm; ?>
+</div>
 
-<?php echo $this->tenderSaveForm; ?>
-
+<div class="clear"></div>
 <script>
     var tenderStore = <?php echo $this->tenderStore; ?>;
     dojo.addOnLoad(function(){
