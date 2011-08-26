@@ -6,15 +6,13 @@
 ?>
 <div class="clear">&nbsp;</div>
 
-<?php
-    echo $this->partial('_client-addresses.phtml', array(
-        'idClient'  => $this->client,
-        'addresses'  => $this->clientAddresses($this->client)
-    ));
+<?php echo $this->partial('_client-addresses.phtml', array(
+    'clientId'      => $this->client->id,
+    'addressStore'  => $this->addressStore
+)); ?>
 
-// Commented out for V1 - clientContacts needs more thought about the associated address
-//    echo $this->partial('_client-contacts.phtml', array(
-//        'idClient'  => $this->client,
-//        'contacts'  => $this->clientContacts($this->client)
-//    ));
-?>
+<?php /* Commented out for V1 - clientContacts needs more thought about the associated address
+echo $this->partial('_client-contacts.phtml', array(
+    'idClient'  => $this->client->id,
+   'contacts'  => $this->clientContacts($this->client->id)
+));*/ ?>
