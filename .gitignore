@@ -4,5 +4,8 @@ nbproject/*
 /*.log
 data/cache/*
 !data/cache/donotremove
+!data/cache/db
+data/cache/db/*
+!data/cache/db/donotremove
 data/logs/*
 !data/logs/donotremove
