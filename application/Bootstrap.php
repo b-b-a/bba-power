@@ -60,6 +60,26 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     public $frontController;
 
     /**
+     * Adds a cache to production environment for plugin loader.
+     */
+    protected function _initPluginLoaderCache()
+    {
+        if ('production' == $this->getEnvironment()) {
+            $classFileIncCache =
+                APPLICATION_PATH .
+                '/../data/cache/pluginLoaderCache.php';
+
+            if (file_exists($classFileIncCache)) {
+                include_once $classFileIncCache;
+            }
+
+            Zend_Loader_PluginLoader::setIncludeFileCache(
+                $classFileIncCache
+            );
+        }
+    }
+
+    /**
      * Sets the logging for the application.
      */
     protected function _initLogging()
@@ -95,6 +115,33 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $this->getPluginResource('db')
                  ->getDbAdapter()
                  ->setProfiler($profiler);
+        }
+    }
+
+    /**
+     * Caches database table information.
+     */
+    protected function _initDbCaches()
+    {
+        $this->_logger->info(__METHOD__);
+
+        if ('production' == $this->getEnvironment()) {
+            $frontendOptions = array(
+                // set cache life time for 30 days
+                'lifetime'                => 60*60*24*30,
+                'automatic_serialization' => true
+            );
+            $backendOptions = array(
+                'cache_dir' => APPLICATION_PATH . '/../data/cache'
+            );
+
+            $cache = Zend_Cache::factory(
+                'Core',
+                'File',
+                $frontendOptions,
+                $backendOptions
+            );
+            Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);
         }
     }
 
