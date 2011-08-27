@@ -2,3 +2,7 @@ assets/*
 scripts/*
 nbproject/*
 /*.log
+data/cache/*
+!data/cache/donotremove
+data/logs/*
+!data/logs/donotremove
