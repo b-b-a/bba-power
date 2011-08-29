@@ -43,7 +43,7 @@ class Power_Form_Contract_Search extends Power_Form_SearchBase
     public function init()
     {
         $this->addElement('TextBox', 'contract', array(
-            'label'     => 'Client:',
+            'label'     => 'Contract:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim')
         ));
