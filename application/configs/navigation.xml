@@ -17,7 +17,7 @@
                     <resource>User</resource>
                 </listClients>
                 <addClient>
-                    <label>Add Client</label>
+                    <label>New Client</label>
                     <action>add</action>
                     <controller>client</controller>
                     <resource>User</resource>
@@ -36,7 +36,7 @@
                     <resource>User</resource>
                 </listSites>
                 <addSite>
-                    <label>Add Site</label>
+                    <label>New Site</label>
                     <action>add</action>
                     <controller>site</controller>
                     <resource>User</resource>
@@ -68,7 +68,7 @@
                     <resource>User</resource>
                 </listSites>
                 <addSite>
-                    <label>Add Contracts</label>
+                    <label>New Contracts</label>
                     <action>add</action>
                     <controller>contract</controller>
                     <resource>User</resource>
@@ -87,7 +87,7 @@
                     <resource>User</resource>
                 </listSites>
                 <addSite>
-                    <label>Add Suppliers</label>
+                    <label>New Suppliers</label>
                     <action>add</action>
                     <controller>supplier</controller>
                     <resource>User</resource>
@@ -106,7 +106,7 @@
                     <resource>Admin</resource>
                 </listUsers>
                 <addUser>
-                    <label>Add User</label>
+                    <label>New User</label>
                     <action>add</action>
                     <controller>users</controller>
                     <resource>Admin</resource>
