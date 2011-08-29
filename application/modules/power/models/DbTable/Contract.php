@@ -93,7 +93,21 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
                 'contract_dateEnd',
                 'contract_desc'
             ))
-            ->join('client', 'client_idClient = contract_idClient ',array('client_name'))
+            ->join(
+                'client',
+                'client_idClient = contract_idClient ',
+                array('client_name')
+            )
+            ->join(
+                'meter_contract',
+                'meterContract_idContract = contract_idContract',
+                null
+            )
+            ->join(
+                'meter',
+                'meter_idMeter = meterContract_idMeter',
+                array('meter_numberMain', 'meter_type')
+           )
             ->group('contract_idContract')
             ->order('client_name ASC');
     }
