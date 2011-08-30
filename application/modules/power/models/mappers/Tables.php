@@ -39,6 +39,16 @@
  */
 class Power_Model_Mapper_Tables extends ZendSF_Model_Mapper_Acl_Abstract
 {
+    /**
+     * @var string the DbTable class name
+     */
+    protected $_dbTableClass = 'Power_Model_DbTable_Tables';
+
+    /**
+     * @var sting the model class name
+     */
+    protected $_modelClass = 'Power_Model_Tables';
+
     public function getSelectListByName($name)
     {
        $select = $this->getDbTable()
@@ -57,8 +67,8 @@ class Power_Model_Mapper_Tables extends ZendSF_Model_Mapper_Acl_Abstract
         }
 
         $where = $this->getDbTable()
-                ->getAdapter()
-                ->quoteInto('tables_idTables = ?', $id);
+            ->getAdapter()
+            ->quoteInto('tables_idTables = ?', $id);
 
         return parent::delete($where);
     }

@@ -39,20 +39,20 @@
  */
 class Power_Model_Mapper_ClientContact extends ZendSF_Model_Mapper_Acl_Abstract
 {
+    /**
+     * @var string the DbTable class name
+     */
+    protected $_dbTableClass = 'Power_Model_DbTable_ClientContact';
 
     /**
-     * @var Power_Model_DbTable_ClientContact
+     * @var sting the model class name
      */
-    protected $_dbTableClass;
-
-    /**
-     * @var Power_Model_ClientContact
-     */
-    protected $_modelClass;
+    protected $_modelClass = 'Power_Model_ClientContact';
 
     public function getContactByClientId($id)
     {
-        $select = $this->_dbTable->select(false)
+        $select = $this->getDbTable()
+            ->select(false)
             ->setIntegrityCheck(false)
             ->from('client_contact')
             ->join(
@@ -76,8 +76,7 @@ class Power_Model_Mapper_ClientContact extends ZendSF_Model_Mapper_Acl_Abstract
         // remove client contact id if not set.
         if (!$form['clientCo_idClientContact']) unset($form['clientCo_idClientContact']);
 
-        /* @var $model Power_Model_Client */
-        $model = new $this->_modelClass($form);
+        $model = new Power_Model_ClientContact($form);
 
         // set modified and create dates.
         if ($form['returnAction'] == 'add') {
@@ -101,8 +100,8 @@ class Power_Model_Mapper_ClientContact extends ZendSF_Model_Mapper_Acl_Abstract
         }
 
         $where = $this->getDbTable()
-                ->getAdapter()
-                ->quoteInto('clientCo_idClientContact = ?', $id);
+            ->getAdapter()
+            ->quoteInto('clientCo_idClientContact = ?', $id);
 
         return parent::delete($where);
     }
@@ -118,7 +117,8 @@ class Power_Model_Mapper_ClientContact extends ZendSF_Model_Mapper_Acl_Abstract
      * @param Zend_Acl_Resource_Interface $acl
      * @return ZendSF_Model_Mapper_Abstract
      */
-    public function setAcl(Zend_Acl $acl) {
+    public function setAcl(Zend_Acl $acl)
+    {
         parent::setAcl($acl);
 
         // implement rules here.

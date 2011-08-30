@@ -40,19 +40,19 @@
 class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
 {
     /**
-     * @var Power_Model_DbTable_Client
+     * @var string the DbTable class name
      */
-    protected $_dbTable;
+    protected $_dbTableClass = 'Power_Model_DbTable_Client';
 
     /**
-     * @var Power_Model_Client
+     * @var sting the model class name
      */
-    protected $_modelClass;
+    protected $_modelClass = 'Power_Model_Client';
 
     public function listClients($paged = null, $select = null)
     {
         if ($select === null) {
-            $select = $this->_dbTable->getClientList();
+            $select = $this->getDbTable()->getClientList();
         }
 
         if (null !== $paged) {
@@ -70,8 +70,8 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
 
     public function clientSearch($search, $paged = null)
     {
-        $select = $this->_dbTable->getClientList();
-        
+        $select = $this->getDbTable()->getClientList();
+
         if (!$search['client'] == '') {
             $select
                 ->where('client_name like ?', '%' . $search['client'] . '%')
@@ -101,8 +101,7 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
         // remove client id if not set.
         if (!$form['client_idClient']) unset($form['client_idClient']);
 
-        /* @var $model Power_Model_Client */
-        $model = new $this->_modelClass($form);
+        $model = new Power_Model_Client($form);
 
         // set create date and user.
         if ($form['returnAction'] == 'add') {
@@ -122,7 +121,7 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
     /**
      * Deletes a single row in the database.
      * First we check wheather we are allowed then act according.
-     * 
+     *
      * @param int $id
      * @return int number of rows deleted
      */
@@ -133,8 +132,8 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
         }
 
         $where = $this->getDbTable()
-                ->getAdapter()
-                ->quoteInto('client_idClient = ?', $id);
+            ->getAdapter()
+            ->quoteInto('client_idClient = ?', $id);
 
         return parent::delete($where);
     }

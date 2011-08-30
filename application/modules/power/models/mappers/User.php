@@ -39,15 +39,15 @@
  */
 class Power_Model_Mapper_User extends ZendSF_Model_Mapper_Acl_Abstract
 {
-    /**
-     * @var Power_Model_DbTable_User
+   /**
+     * @var string the DbTable class name
      */
-    protected $_dbTableClass;
+    protected $_dbTableClass = 'Power_Model_DbTable_User';
 
     /**
-     * @var Power_Model_User
+     * @var sting the model class name
      */
-    protected $_modelClass;
+    protected $_modelClass = 'Power_Model_User';
 
     /**
      * Gets a single user from the database using their username.
@@ -58,8 +58,8 @@ class Power_Model_Mapper_User extends ZendSF_Model_Mapper_Acl_Abstract
     public function getUserByUsername($username)
     {
         $select = $this->getDbTable()
-                ->select()
-                ->where('user_name = ?', $username);
+            ->select()
+            ->where('user_name = ?', $username);
 
         $row = $this->fetchRow($select, true);
 
@@ -94,7 +94,7 @@ class Power_Model_Mapper_User extends ZendSF_Model_Mapper_Acl_Abstract
             );
         }
 
-        $model = new $this->_modelClass($form);
+        $model = new Power_Model_User($form);
 
         return parent::save($model);
     }
@@ -106,8 +106,8 @@ class Power_Model_Mapper_User extends ZendSF_Model_Mapper_Acl_Abstract
         }
 
         $where = $this->getDbTable()
-                ->getAdapter()
-                ->quoteInto('user_idUser = ?', $id);
+            ->getAdapter()
+            ->quoteInto('user_idUser = ?', $id);
 
         return parent::delete($where);
     }

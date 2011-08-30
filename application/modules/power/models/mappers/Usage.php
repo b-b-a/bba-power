@@ -39,23 +39,23 @@
  */
 class Power_Model_Mapper_Usage extends ZendSF_Model_Mapper_Acl_Abstract
 {
+    /**
+     * @var string the DbTable class name
+     */
+    protected $_dbTableClass = 'Power_Model_DbTable_Usage';
 
     /**
-     * @var _Model_DbTable_Usage
+     * @var sting the model class name
      */
-    protected $_dbTableClass;
-
-    /**
-     * @var _Model_Usage
-     */
-    protected $_modelClass;
+    protected $_modelClass = 'Power_Model_Usage';
 
     public function getUsageByMeterId($id)
     {
-        $select = $this->_dbTable
-                ->select()
-                ->where('usage_idMeter =  ?', $id)
-                ->order('usage_dateReading DESC');
+        $select = $this->getDbTable()
+            ->select()
+            ->where('usage_idMeter =  ?', $id)
+            ->order('usage_dateReading DESC');
+
         return $this->fetchAll($select);
     }
 
@@ -70,8 +70,7 @@ class Power_Model_Mapper_Usage extends ZendSF_Model_Mapper_Acl_Abstract
         // remove client id if not set.
         if (!$form['usage_idUsage']) unset($form['usage_idUsage']);
 
-        /* @var $model Power_Model_Client */
-        $model = new $this->_modelClass($form);
+        $model = new Power_Model_Usage($form);
 
         // set modified and create dates.
         if ($form['returnAction'] == 'add') {
@@ -95,8 +94,8 @@ class Power_Model_Mapper_Usage extends ZendSF_Model_Mapper_Acl_Abstract
         }
 
         $where = $this->getDbTable()
-                ->getAdapter()
-                ->quoteInto('usage_idUsage = ?', $id);
+            ->getAdapter()
+            ->quoteInto('usage_idUsage = ?', $id);
 
         return parent::delete($where);
     }
@@ -112,7 +111,8 @@ class Power_Model_Mapper_Usage extends ZendSF_Model_Mapper_Acl_Abstract
      * @param Zend_Acl_Resource_Interface $acl
      * @return ZendSF_Model_Mapper_Abstract
      */
-    public function setAcl(Zend_Acl $acl) {
+    public function setAcl(Zend_Acl $acl)
+    {
         parent::setAcl($acl);
 
         // implement rules here.

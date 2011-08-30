@@ -40,19 +40,19 @@
 class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
 {
     /**
-     * @var Power_Model_DbTable_Site
+     * @var string the DbTable class name
      */
-    protected $_dbTableClass;
+    protected $_dbTableClass = 'Power_Model_DbTable_Site';
 
     /**
-     * @var Power_Model_Site
+     * @var sting the model class name
      */
-    protected $_modelClass;
+    protected $_modelClass = 'Power_Model_Site';
 
     public function siteSearch($search, $paged = null)
     {
         /* @var $select Zend_Db_Table_Select */
-        $select = $this->_dbTable->getSiteList();
+        $select = $this->getDbTable()->getSiteList();
 
         if (!$search['client'] == '') {
             $select
@@ -75,7 +75,7 @@ class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
     public function listSites($paged = null, $select = null)
     {
         if ($select === null) {
-            $select = $this->_dbTable->getSiteList();
+            $select = $this->getDbTable()->getSiteList();
         }
 
         if (null !== $paged) {
@@ -94,13 +94,12 @@ class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
     public function getSiteDetails($id)
     {
         /* @var $select Zend_Db_Table_Select */
-        $select = $this->_dbTable->getSiteDetails();
+        $select = $this->getDbTable()->getSiteDetails();
         $select->where('site_idSite = ?', $id);
 
         $row = $this->fetchRow($select, true);
 
-        /* @var $model Power_Model_Meter */
-        $model = new $this->_modelClass($row);
+        $model = new Power_Model_Site($row);
 
         return $model;
     }
@@ -116,8 +115,7 @@ class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
         // remove client id if not set.
         if (!$form['site_idSite']) unset($form['site_idSite']);
 
-        /* @var $model Power_Model_Client */
-        $model = new $this->_modelClass($form);
+        $model = new Power_Model_Site($form);
 
         // set modified and create dates.
         if ($form['returnAction'] == 'add') {
@@ -144,8 +142,8 @@ class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
         }
 
         $where = $this->getDbTable()
-                ->getAdapter()
-                ->quoteInto('site_idSite = ?', $id);
+            ->getAdapter()
+            ->quoteInto('site_idSite = ?', $id);
 
         return parent::delete($where);
     }
