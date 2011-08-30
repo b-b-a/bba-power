@@ -39,16 +39,15 @@
  */
 class Power_Model_Mapper_SupplierContact extends ZendSF_Model_Mapper_Acl_Abstract
 {
+    /**
+     * @var string the DbTable class name
+     */
+    protected $_dbTableClass = 'Power_Model_DbTable_SupplierContact';
 
     /**
-     * @varPower _Model_DbTable_SupplierContact
+     * @var sting the model class name
      */
-    protected $_dbTableClass;
-
-    /**
-     * @var Power_Model_SupplierContact
-     */
-    protected $_modelClass;
+    protected $_modelClass = 'Power_Model_SupplierContact';
 
     public function delete($id)
     {
@@ -57,8 +56,8 @@ class Power_Model_Mapper_SupplierContact extends ZendSF_Model_Mapper_Acl_Abstrac
         }
 
         $where = $this->getDbTable()
-                ->getAdapter()
-                ->quoteInto('supplierCo_idSupplierContact = ?', $id);
+            ->getAdapter()
+            ->quoteInto('supplierCo_idSupplierContact = ?', $id);
 
         return parent::delete($where);
     }

@@ -39,16 +39,15 @@
  */
 class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
 {
+   /**
+     * @var string the DbTable class name
+     */
+    protected $_dbTableClass = 'Power_Model_DbTable_Supplier';
 
     /**
-     * @var Power_Model_DbTable_Supplier
+     * @var sting the model class name
      */
-    protected $_dbTableClass;
-
-    /**
-     * @var Power_Model_Supplier
-     */
-    protected $_modelClass;
+    protected $_modelClass = 'Power_Model_Supplier';
 
     public function delete($id)
     {
@@ -57,8 +56,8 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
         }
 
         $where = $this->getDbTable()
-                ->getAdapter()
-                ->quoteInto('supplier_idSupplier = ?', $id);
+            ->getAdapter()
+            ->quoteInto('supplier_idSupplier = ?', $id);
 
         return parent::delete($where);
     }
@@ -74,7 +73,8 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
      * @param Zend_Acl_Resource_Interface $acl
      * @return ZendSF_Model_Mapper_Abstract
      */
-    public function setAcl(Zend_Acl $acl) {
+    public function setAcl(Zend_Acl $acl)
+    {
         parent::setAcl($acl);
 
         // implement rules here.

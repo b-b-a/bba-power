@@ -39,20 +39,20 @@
  */
 class Power_Model_Mapper_MeterContract extends ZendSF_Model_Mapper_Acl_Abstract
 {
+    /**
+     * @var string the DbTable class name
+     */
+    protected $_dbTableClass = 'Power_Model_DbTable_MeterContract';
 
     /**
-     * @var Power_Model_DbTable_MeterContract
+     * @var sting the model class name
      */
-    protected $_dbTable;
-
-    /**
-     * @var Power_Model_MeterContract
-     */
-    protected $_modelClass;
+    protected $_modelClass = 'Power_Model_MeterContract';
 
     public function getMetersByContractId($id)
     {
-        $select = $this->_dbTable->select(false)
+        $select = $this->getDbTable()
+            ->select(false)
             ->setIntegrityCheck(false)
             ->from('meter_contract')
             ->where('meterContract_idContract = ?', $id)
@@ -76,8 +76,8 @@ class Power_Model_Mapper_MeterContract extends ZendSF_Model_Mapper_Acl_Abstract
         }
 
         $where = $this->getDbTable()
-                ->getAdapter()
-                ->quoteInto('meterContract_idContract = ?', $id);
+            ->getAdapter()
+            ->quoteInto('meterContract_idContract = ?', $id);
 
         return parent::delete($where);
     }

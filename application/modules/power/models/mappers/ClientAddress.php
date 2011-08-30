@@ -39,22 +39,22 @@
  */
 class Power_Model_Mapper_ClientAddress extends ZendSF_Model_Mapper_Acl_Abstract
 {
+    /**
+     * @var string the DbTable class name
+     */
+    protected $_dbTableClass = 'Power_Model_DbTable_ClientAddress';
 
     /**
-     * @var Power_Model_DbTable_ClientAddress
+     * @var sting the model class name
      */
-    protected $_dbTableClass;
-
-    /**
-     * @var Power_Model_ClientAddress
-     */
-    protected $_modelClass;
+    protected $_modelClass = 'Power_Model_ClientAddress';
 
     public function getAddressByClientId($id)
     {
-        $select = $this->_dbTable->select()
-                ->where('clientAd_idClient = ?', $id)
-                ->order('clientAd_postcode ASC');
+        $select = $this->getDbTable()
+            ->select()
+            ->where('clientAd_idClient = ?', $id)
+            ->order('clientAd_postcode ASC');
 
         return $this->fetchAll($select);
     }
@@ -70,8 +70,7 @@ class Power_Model_Mapper_ClientAddress extends ZendSF_Model_Mapper_Acl_Abstract
         // remove client address id if not set.
         if (!$form['clientAd_idAddress']) unset($form['clientAd_idAddress']);
 
-        /* @var $model Power_Model_Client */
-        $model = new $this->_modelClass($form);
+        $model = new Power_Model_ClientAddress($form);
 
         // set modified and create dates.
         if ($form['returnAction'] == 'add') {
@@ -95,8 +94,8 @@ class Power_Model_Mapper_ClientAddress extends ZendSF_Model_Mapper_Acl_Abstract
         }
 
         $where = $this->getDbTable()
-                ->getAdapter()
-                ->quoteInto('clientAd_idAddress = ?', $id);
+            ->getAdapter()
+            ->quoteInto('clientAd_idAddress = ?', $id);
 
         return parent::delete($where);
     }
@@ -112,7 +111,8 @@ class Power_Model_Mapper_ClientAddress extends ZendSF_Model_Mapper_Acl_Abstract
      * @param Zend_Acl_Resource_Interface $acl
      * @return ZendSF_Model_Mapper_Abstract
      */
-    public function setAcl(Zend_Acl $acl) {
+    public function setAcl(Zend_Acl $acl)
+    {
         parent::setAcl($acl);
 
         // implement rules here.

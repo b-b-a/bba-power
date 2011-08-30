@@ -40,14 +40,14 @@
 class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
 {
     /**
-     * @var Power_Model_DbTable_Meter
+     * @var string the DbTable class name
      */
-    protected $_dbTable;
+    protected $_dbTableClass = 'Power_Model_DbTable_Meter';
 
     /**
-     * @var Power_Model_Meter
+     * @var sting the model class name
      */
-    protected $_modelClass;
+    protected $_modelClass = 'Power_Model_Meter';
 
     /**
      * Searches for a meter by either meter number, client or both.
@@ -56,18 +56,19 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
      */
     public function meterSearch($search, $paged = null)
     {
-        $select = $this->_dbTable->getMeterList();
+        $select = $this->getDbTable()->getMeterList();
 
         if (!$search['meter'] == '') {
             $select->where('meter_numberMain like ?', '%'. $search['meter'] . '%');
         }
 
         if (!$search['site'] == '') {
-            $select->where('clientAd_addressName like ? ', '%' . $search['site'] . '%')
-                    ->orWhere('clientAd_address1 like ?', '%' . $search['site'] . '%')
-                    ->orWhere('clientAd_address2 like ?', '%' . $search['site'] . '%')
-                    ->orWhere('clientAd_address3 like ?', '%' . $search['site'] . '%')
-                    ->orWhere('clientAd_postcode like ?', '%' . $search['site'] . '%');
+            $select
+                ->where('clientAd_addressName like ? ', '%' . $search['site'] . '%')
+                ->orWhere('clientAd_address1 like ?', '%' . $search['site'] . '%')
+                ->orWhere('clientAd_address2 like ?', '%' . $search['site'] . '%')
+                ->orWhere('clientAd_address3 like ?', '%' . $search['site'] . '%')
+                ->orWhere('clientAd_postcode like ?', '%' . $search['site'] . '%');
         }
 
         return $this->listMeters($paged, $select);
@@ -82,7 +83,7 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
     public function listMeters($paged = null, $select = null)
     {
         if ($select === null) {
-            $select = $this->_dbTable->getMeterList();
+            $select = $this->getDbTable()->getMeterList();
         }
 
         if (null !== $paged) {
@@ -100,8 +101,9 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
 
     public function getMetersBySiteId($id)
     {
-        $select = $this->_dbTable->select()
-                ->where('meter_idSite = ?', $id);
+        $select = $this->getDbTable()
+            ->select()
+            ->where('meter_idSite = ?', $id);
 
         return $this->fetchAll($select);
     }
@@ -109,13 +111,12 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
     public function getMeterDetails($id)
     {
         /* @var $select Zend_Db_Table_Select */
-        $select = $this->_dbTable->getMeterDetails();
+        $select = $this->getDbTable()->getMeterDetails();
         $select->where('meter_idMeter = ?', $id);
 
         $row = $this->fetchRow($select, true);
 
-        /* @var $model Power_Model_Meter */
-        $model = new $this->_modelClass($row);
+        $model = new Power_Model_Meter($row);
 
         return $model;
     }
@@ -131,8 +132,7 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
         // remove client id if not set.
         if (!$form['meter_idMeter']) unset($form['meter_idMeter']);
 
-        /* @var $model Power_Model_Client */
-        $model = new $this->_modelClass($form);
+        $model = new Power_Model_Meter($form);
 
         // set modified and create dates.
         if ($form['returnAction'] == 'add') {
@@ -156,8 +156,8 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
         }
 
         $where = $this->getDbTable()
-                ->getAdapter()
-                ->quoteInto('meter_idMeter = ?', $id);
+            ->getAdapter()
+            ->quoteInto('meter_idMeter = ?', $id);
 
         return parent::delete($where);
     }

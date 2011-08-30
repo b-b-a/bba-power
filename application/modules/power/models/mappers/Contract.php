@@ -40,14 +40,14 @@
 class Power_Model_Mapper_Contract extends ZendSF_Model_Mapper_Acl_Abstract
 {
     /**
-     * @var Power_Model_DbTable_Contract
+     * @var string the DbTable class name
      */
-    protected $_dbTable;
+    protected $_dbTableClass = 'Power_Model_DbTable_Contract';
 
     /**
-     * @var Power_Model_Contract
+     * @var sting the model class name
      */
-    protected $_modelClass;
+    protected $_modelClass = 'Power_Model_Contract';
 
     /**
      * Searches for a contracts by either contract, meter or both.
@@ -57,7 +57,7 @@ class Power_Model_Mapper_Contract extends ZendSF_Model_Mapper_Acl_Abstract
     public function contractSearch($search, $paged = null)
     {
         /* @var $select Zend_Db_Table_Select */
-        $select = $this->_dbTable->getContractList();
+        $select = $this->getDbTable()->getContractList();
 
         if (!$search['contract'] == '') {
             $select->where('client_name like ? ', '%'. $search['contract'] . '%')
@@ -76,7 +76,7 @@ class Power_Model_Mapper_Contract extends ZendSF_Model_Mapper_Acl_Abstract
     public function getContractList($paged = null, $select = null)
     {
         if ($select === null) {
-            $select = $this->_dbTable->getContractList();
+            $select = $this->getDbTable()->getContractList();
         }
 
         if (null !== $paged) {
@@ -94,8 +94,10 @@ class Power_Model_Mapper_Contract extends ZendSF_Model_Mapper_Acl_Abstract
 
     public function getContractById($id)
     {
-        $select = $this->_dbTable->select($id)
-                ->where('contract_idContract = ?', $id);
+        $select = $this->getDbTable()
+            ->select($id)
+            ->where('contract_idContract = ?', $id);
+
         return $this->fetchRow($select);
     }
 
@@ -106,8 +108,8 @@ class Power_Model_Mapper_Contract extends ZendSF_Model_Mapper_Acl_Abstract
         }
 
         $where = $this->getDbTable()
-                ->getAdapter()
-                ->quoteInto('contract_idContract = ?', $id);
+            ->getAdapter()
+            ->quoteInto('contract_idContract = ?', $id);
 
         return parent::delete($where);
     }

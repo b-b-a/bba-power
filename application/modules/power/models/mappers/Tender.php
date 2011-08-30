@@ -40,41 +40,44 @@
 class Power_Model_Mapper_Tender extends ZendSF_Model_Mapper_Acl_Abstract
 {
     /**
-     * @var Power_Model_DbTable_Tender
+     * @var string the DbTable class name
      */
-    protected $_dbTableClass;
+    protected $_dbTableClass = 'Power_Model_DbTable_Tender';
 
     /**
-     * @var Power_Model_Tender
+     * @var sting the model class name
      */
-    protected $_modelClass;
+    protected $_modelClass = 'Power_Model_Tender';
 
     public function getTendersByContractId($id)
     {
-        $select = $this->_dbTable
-                ->select(false)
-                ->setIntegrityCheck(false)
-                ->from('tender')
-                ->join('contract', 'contract_idContract = tender_idContract')
-                ->join('client', 'client_idClient = contract_idClient')
-                ->join('supplier', 'tender_idSupplier = supplier_idSupplier')
-                //->join('supplier_contact', 'tender_idSupplierContact = contact_idSupplier')
-                ->where('tender_idContract = ?', $id);
+        $select = $this->getDbTable()
+            ->select(false)
+            ->setIntegrityCheck(false)
+            ->from('tender')
+            ->join('contract', 'contract_idContract = tender_idContract')
+            ->join('client', 'client_idClient = contract_idClient')
+            ->join('supplier', 'tender_idSupplier = supplier_idSupplier')
+            //->join('supplier_contact', 'tender_idSupplierContact = contact_idSupplier')
+            ->where('tender_idContract = ?', $id);
+
         return $this->fetchAll($select);
     }
 
     public function getTenderDetails($id)
     {
-        $select = $this->_dbTable
-                ->select(false)
-                ->setIntegrityCheck(false)
-                ->from('tender')
-                ->join('contract', 'contract_idContract = tender_idContract')
-                ->join('client', 'client_idClient = contract_idClient')
-                ->join('supplier', 'tender_idSupplier = supplier_idSupplier')
-                //->join('supplier_contact', 'tender_idSupplierContact = contact_idSupplier')
-                ->where('tender_idTender = ?', $id);
+        $select = $this->getDbTable()
+            ->select(false)
+            ->setIntegrityCheck(false)
+            ->from('tender')
+            ->join('contract', 'contract_idContract = tender_idContract')
+            ->join('client', 'client_idClient = contract_idClient')
+            ->join('supplier', 'tender_idSupplier = supplier_idSupplier')
+            //->join('supplier_contact', 'tender_idSupplierContact = contact_idSupplier')
+            ->where('tender_idTender = ?', $id);
+
         $row = $this->fetchAll($select);
+
         return $row[0];
     }
 
@@ -85,8 +88,8 @@ class Power_Model_Mapper_Tender extends ZendSF_Model_Mapper_Acl_Abstract
         }
 
         $where = $this->getDbTable()
-                ->getAdapter()
-                ->quoteInto('tender_idTender = ?', $id);
+            ->getAdapter()
+            ->quoteInto('tender_idTender = ?', $id);
 
         return parent::delete($where);
     }
