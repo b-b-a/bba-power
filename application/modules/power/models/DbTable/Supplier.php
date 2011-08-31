@@ -65,4 +65,18 @@ class Power_Model_DbTable_Supplier extends Zend_Db_Table_Abstract
             'refColumns'    => 'user_idUser'
         )
     );
+    
+    public function getSupplierList()
+    {
+        return $this->select(false)
+            ->setIntegrityCheck(false)
+            ->from('supplier', array(
+                'supplier_idSupplier',
+                'supplier_name',
+                'supplier_address1',
+                'supplier_postcode'
+            ))
+            //->join('supplier_contact', 'supplier_idSupplierContact = supplierCo_idSupplierContact', null)
+            ->order('supplier_name ASC');
+    }
 }

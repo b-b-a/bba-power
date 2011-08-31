@@ -21,7 +21,7 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage Form
+ * @subpackage Form_Client
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
@@ -32,7 +32,7 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage Form
+ * @subpackage Form_Client
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
