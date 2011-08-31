@@ -44,9 +44,26 @@ class Power_SupplierController extends ZendSF_Controller_Action_Abstract
      */
     public function init()
     {
+        if ($this->_helper->acl('Guest')) {
+            return $this->_forward('login', 'auth');
+        }
+        
         parent::init();
 
         $this->_model = new Power_Model_Mapper_Supplier();
+        
+        $this->setForm('supplierSave', array(
+            'controller' => 'supplier' ,
+            'action' => 'save',
+            'module' => 'power'
+        ));
+        
+        // search form
+        $this->setForm('supplierSearch', array(
+            'controller' => 'supplier' ,
+            'action' => 'index',
+            'module' => 'power'
+        ));
     }
 
     /**
@@ -54,7 +71,20 @@ class Power_SupplierController extends ZendSF_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        // action body
+        $search = array(
+            'supplier'    => $this->_request->getParam('supplier'),
+            'contact'   => $this->_request->getParam('contact')
+        );
+
+        $suppliers = $this->_model->supplierSearch($search);
+        $store = $this->getDataStore($suppliers, 'supplier_idSupplier');
+
+        // gets all clients and assigns them to the view script.
+        $this->view->assign(array(
+            'suppliers'   => $suppliers,
+            'search'    => $search,
+            'store'     => $store
+        ));
     }
     
     public function addAction()

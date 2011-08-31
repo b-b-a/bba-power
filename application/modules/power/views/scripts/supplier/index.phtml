@@ -1,0 +1,64 @@
+<?php
+	$this->title = "BBA Suppliers";
+	$this->headTitle($this->title);
+
+    echo $this->supplierSearchForm;
+?>
+
+<?php echo $this->partial('_table-head.phtml', array(
+    'heading'   => 'Suppliers',
+    'label'     => 'New Supplier',
+    'location'  => $this->url(array(
+        'controller'    => 'supplier',
+        'action'        => 'add'
+    ), 'default', true)
+)); ?>
+
+<script>
+    var supplierStore = <?php echo $this->store; ?>;
+    dojo.addOnLoad(function(){
+        dojo.connect(grid, "onRowDblClick", function(val){
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            //Not sure if this is the most efficient way but it worked for me
+            selectedId = grid.store.getValue(selectedItem, "supplier_idSupplier");
+
+            location.href = '/supplier/edit/supplierId/' + selectedId;
+        });
+    });
+
+</script>
+
+<div dojotype="dojo.data.ItemFileReadStore" jsid="tableStore" data="supplierStore"></div>
+
+<table dojoType="dojox.grid.DataGrid"
+       jsId="grid"
+       store="tableStore"
+       query="{ supplier_idSupplier: '*' }"
+       style="width: 100%;height:500px;"
+       autoWidth="false"
+       autoHeight="false"
+       rowSelector="0px"
+       rowsPerPage="25"
+       noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
+    <thead>
+        <tr>
+            <th field="supplier_idSupplier" width="75">Id</th>
+            <th field="supplier_name" width="300">Supplier</th>
+            <th field="supplier_address1" width="350">Address1</th>
+            <th field="supplier_postcode" width="auto">Postcode</th>
+        </tr>
+    </thead>
+</table>
+
+<?php
+/*
+if ($this->suppliers instanceof Zend_Paginator) {
+    echo $this->paginationControl(
+            $this->suppliers,
+            'Sliding',
+            '_paginate.phtml',
+            array('params' => $this->search)
+    );
+}*/
+?>

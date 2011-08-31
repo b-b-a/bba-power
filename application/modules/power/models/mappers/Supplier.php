@@ -48,6 +48,79 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
      * @var sting the model class name
      */
     protected $_modelClass = 'Power_Model_Supplier';
+    
+    public function supplierSearch($search, $paged = null)
+    {
+        $select = $this->getDbTable()->getSupplierList();
+        
+        if (!$search['supplier'] == '') {
+            $select
+                ->where('supplier_name like ?', '%' . $search['supplier'] . '%')
+                ->orWhere('supplier_address1 like ?', '%' . $search['supplier'] . '%')
+                ->orWhere('supplier_address2 like ?', '%' . $search['supplier'] . '%')
+                ->orWhere('supplier_address3 like ?', '%' . $search['supplier'] . '%')
+                ->orWhere('supplier_postcode like ?', '%' . $search['supplier'] . '%');
+        }
+
+        if (!$search['contact'] == '') {
+            $select
+                ->where('supplierCo_name like ?', '%' . $search['contact'] . '%')
+                ->orWhere('supplierCo_email like ?', '%' . $search['contact'] . '%')
+                ->orWhere('supplierCo_address1 like ?', '%' . $search['contact'] . '%')
+                ->orWhere('supplierCo_address2 like ?', '%' . $search['contact'] . '%')
+                ->orWhere('supplierCo_address3 like ?', '%' . $search['contact'] . '%')
+                ->orWhere('supplierCo_postcode like ?', '%' . $search['contact'] . '%');
+        }
+
+        return $this->listSuppliers($paged, $select);
+    }
+    
+    public function listSuppliers($paged = null, $select = null)
+    {
+        if ($select === null) {
+            $select = $this->getDbTable()->getSupplierList();
+        }
+
+        if (null !== $paged) {
+            $numDisplay = Zend_Registry::get('config')
+                ->layout
+                ->supplier
+                ->paginate
+                ->itemCountPerPage;
+
+            return $this->_paginate($select, $paged, $numDisplay);
+        } else {
+            return $this->fetchAll($select);
+        }
+    }
+    
+    public function save()
+    {
+        if (!$this->checkAcl('save')) {
+            throw new ZendSF_Acl_Exception('saving suppliers is not allowed.');
+        }
+
+        $form = $this->getForm('supplierSave')->getValues();
+
+        // remove client id if not set.
+        if (!$form['supplier_idSupplier']) unset($form['supplier_idSupplier']);
+
+        $model = new Power_Model_Client($form);
+
+        // set create date and user.
+        if ($form['returnAction'] == 'add') {
+            $model->dateCreate = time();
+            $model->userCreate = $form['userId'];
+        }
+
+        // add modified date/user if updating record.
+        if ($model->getId()) {
+            $model->userModify = $form['userId'];
+            $model->dateModify = time();
+        }
+
+        return parent::save($model);
+    }
 
     public function delete($id)
     {
