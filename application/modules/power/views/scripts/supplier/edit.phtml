@@ -1,0 +1,53 @@
+<?php
+	$this->title = "BBA Supplier Update";
+	$this->headTitle($this->title);
+
+    echo $this->supplierSaveForm;
+?>
+<div class="clear">&nbsp;</div>
+
+<script>
+    
+    var contractStore = <?php echo $this->contractStore; ?>;
+    dojo.addOnLoad(function(){
+        dojo.connect(contractGrid, "onRowDblClick", function(val){
+            selectedIndex = contractGrid.focus.rowIndex;
+            selectedItem = contractGrid.getItem(selectedIndex);
+            //Not sure if this is the most efficient way but it worked for me
+            selectedId = contractGrid.store.getValue(selectedItem, "supplier_contract_idContract");
+
+            location.href = '/contract/edit/contractId/' + selectedId;
+        });
+    });
+
+</script>
+
+<?php echo $this->partial('_table-head.phtml', array(
+    'heading'   => 'Contracts',
+    'label'     => 'New Contract',
+    'location'  => $this->url(array(
+        'controller'    => 'contract',
+        'action'        => 'new'
+    ),'default', true)
+)); ?>
+
+<div dojotype="dojo.data.ItemFileReadStore" jsid="contractTableStore" data="contractStore"></div>
+
+<table dojoType="dojox.grid.DataGrid"
+       jsId="contractGrid"
+       store="contractTableStore"
+       query="{ supplier_contract_idContract: '*' }"
+       style="width: 100%;"
+       autowidth="false"
+       autoHeight="true"
+       rowSelector="0px">
+    <thead>
+        <tr>
+            <th field="supplier_contract_idContract" width="75">Id</th>
+            <th field="supplier_contract_type" width="150">Type</th>
+            <th field="supplier_contract_status" width="100">Status</th>
+            <th field="supplier_contract_dateEnd" width="auto">End Date</th>
+            <th field="supplier_contract_reference" width="auto">Reference</th>
+        </tr>
+    </thead>
+</table>
