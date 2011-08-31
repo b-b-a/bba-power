@@ -94,6 +94,20 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
         }
     }
     
+    public function getContractsBySupplierId($id)
+    {
+        $select = $this->getDbTable()
+            ->select(false)
+            ->setIntegrityCheck(false)
+            ->from('supplier', null)
+            ->join('tender', 'supplier_idSupplier = tender_idSupplier', null)
+            ->join('contract', 'tender_idContract = contract_idContract', '*')
+            ->where('supplier_idSupplier = ?', $id);
+        
+        return $this->fetchAll($select);
+        
+    }
+    
     public function save()
     {
         if (!$this->checkAcl('save')) {

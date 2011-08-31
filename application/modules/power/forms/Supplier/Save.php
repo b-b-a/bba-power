@@ -43,31 +43,31 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
     {
         $this->setName('supplier');
         
-        $this->addElement('TextBox', 'Supplier_name', array(
+        $this->addElement('TextBox', 'supplier_name', array(
             'label'     => 'Supplier Name:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
         
-        $this->addElement('TextBox', 'Supplier_addres1', array(
+        $this->addElement('TextBox', 'supplier_address1', array(
             'label'     => 'Address 1:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
         
-        $this->addElement('TextBox', 'Supplier_address2', array(
+        $this->addElement('TextBox', 'supplier_address2', array(
             'label'     => 'Address 2:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim')
         ));
         
-        $this->addElement('TextBox', 'Supplier_address3', array(
+        $this->addElement('TextBox', 'supplier_address3', array(
             'label'     => 'Address 3:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim')
         ));
         
-        $this->addElement('TextBox', 'Supplier_postcode', array(
+        $this->addElement('TextBox', 'supplier_postcode', array(
             'label'     => 'Postcode:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
