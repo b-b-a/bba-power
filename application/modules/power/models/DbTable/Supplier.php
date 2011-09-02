@@ -47,6 +47,7 @@ class Power_Model_DbTable_Supplier extends Zend_Db_Table_Abstract
      * @var string primary key
      */
     protected $_primary = 'supplier_idSupplier';
+    
     /**
      * @var array Reference map for parent tables
      */
