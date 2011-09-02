@@ -51,7 +51,9 @@ class Power_Model_Tender extends BBA_Model_Abstract
 
     public function setDateExpiresQuote($date)
     {
-        $this->_data->dateExpiresQuote = new Zend_Date($date);
+        if (Zend_Date::isDate($date, $this->_dateFormat)) {
+            $this->_data->dateExpiresQuote = new Zend_Date($date);
+        }
         return $this;
     }
 

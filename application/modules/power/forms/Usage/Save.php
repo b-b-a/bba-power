@@ -44,7 +44,7 @@ class Power_Form_Usage_Save extends ZendSF_Form_Abstract
         $this->addElement('DateTextBox', 'usage_dateBill', array(
             'label'     => 'Bill Date:',
             'formatLength'   => 'short',
-            'required'  => false,
+            'required'  => true,
             'filters'   => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Date', true, array(
@@ -56,7 +56,7 @@ class Power_Form_Usage_Save extends ZendSF_Form_Abstract
         $this->addElement('DateTextBox', 'usage_dateReading', array(
             'label'     => 'Reading Date:',
             'formatLength'   => 'short',
-            'required'  => false,
+            'required'  => true,
             'filters'   => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Date', true, array(
