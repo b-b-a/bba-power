@@ -83,7 +83,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
     {
         $search = array(
             'meter'     => $this->_request->getParam('meter'),
-            'site'    => $this->_request->getParam('site')
+            'site'      => $this->_request->getParam('site')
         );
         
         $meters = $this->_model->meterSearch($search);

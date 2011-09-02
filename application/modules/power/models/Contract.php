@@ -51,13 +51,17 @@ class Power_Model_Contract extends BBA_Model_Abstract
 
     public function setDateStart($date)
     {
-        $this->_data->dateStart = new Zend_Date($date);
+        if (Zend_Date::isDate($date, $this->_dateFormat)) {
+            $this->_data->dateStart = new Zend_Date($date);
+        }
         return $this;
     }
 
     public function setDateEnd($date)
     {
-        $this->_data->dateEnd = new Zend_Date($date);
+        if (Zend_Date::isDate($date, $this->_dateFormat)) {
+            $this->_data->dateEnd = new Zend_Date($date);
+        }
         return $this;
     }
 }

@@ -55,8 +55,11 @@ class Power_Model_Client extends BBA_Model_Abstract
      * @param int $date
      * @return Power_Model_Client
      */
-    public function setDateExpiryLoa($date) {
-        $this->_data->dateExpiryLoa = new Zend_Date($date);
+    public function setDateExpiryLoa($date)
+    {
+        if (Zend_Date::isDate($date, $this->_dateFormat)) {
+            $this->_data->dateExpiryLoa = new Zend_Date($date);
+        }
         return $this;
     }
 }

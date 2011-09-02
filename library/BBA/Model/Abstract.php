@@ -62,9 +62,13 @@ abstract class BBA_Model_Abstract extends ZendSF_Model_Abstract
      * @param string $date
      * @return Power_Model_Abstract
      */
-    public function setDateCreate($date)
+    public function setDateCreate($date = null)
     {
-        $this->_data->dateCreate = new Zend_Date($date);
+        if (Zend_Date::isDate($date, $this->_dateFormat)) {
+            $this->_data->dateCreate = new Zend_Date($date);
+        } else {
+            $this->_data->dateCreate = Zend_Date::now();
+        }
         return $this;
     }
 
@@ -74,9 +78,13 @@ abstract class BBA_Model_Abstract extends ZendSF_Model_Abstract
      * @param string $date
      * @return Power_Model_Abstract
      */
-    public function setDateModify($date)
+    public function setDateModify($date = null)
     {
-        $this->_data->dateModify = new Zend_Date($date);
+        if (Zend_Date::isDate($date, $this->_dateFormat)) {
+            $this->_data->dateModify = new Zend_Date($date);
+        } else {
+            $this->_data->dateModify = Zend_Date::now();
+        }
         return $this;
     }
 

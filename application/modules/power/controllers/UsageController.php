@@ -85,23 +85,11 @@ class Power_UsageController extends BBA_Controller_Action_Abstract
 
     public function editAction()
     {
-        $meterModel = new Power_Model_Mapper_Meter();
-        $meterUsage = $this->_model->find($this->_request->getParam('usageId'));
-        $usage = $this->_model->getUsageByMeterId($meterUsage->idMeter);
-
-        $meter = $meterModel->getMeterDetails($meterUsage->idMeter);
-
-        $usageStore = $this->getDataStore($usage, 'usage_idUsage');
-
+        $meterUsage = $this->_getUsageDetails();
+        
         $this->getForm('usageSave')
-                    ->populate($meterUsage->toArray())
-                    ->addHiddenElement('returnAction', 'edit');
-
-        $this->view->assign(array(
-            'usageStore'    => $usageStore,
-            'usage'         => $meterUsage,
-            'meter'         => $meter
-        ));
+            ->populate($meterUsage->toArray())
+            ->addHiddenElement('returnAction', 'edit');
 
         $this->render('save');
     }
@@ -126,10 +114,8 @@ class Power_UsageController extends BBA_Controller_Action_Abstract
 
 
         if (!$this->getForm('usageSave')->isValid($this->_request->getPost())) {
-            $this->view->assign(array(
-                'meter'    => $meterId
-            ));
-            return $this->render($action); // re-render the edit form
+            $this->_getUsageDetails();
+            return $this->render('save'); // re-render the edit form
         } else {
             $saved = $this->_model->save();
 
@@ -149,6 +135,25 @@ class Power_UsageController extends BBA_Controller_Action_Abstract
                 return $this->_forward($action);
             }
         }
+    }
+    
+    protected function _getUsageDetails()
+    {
+        $meterModel = new Power_Model_Mapper_Meter();
+        $meterUsage = $this->_model->find($this->_request->getParam('usageId'));
+        $usage = $this->_model->getUsageByMeterId($meterUsage->idMeter);
+
+        $meter = $meterModel->getMeterDetails($meterUsage->idMeter);
+
+        $usageStore = $this->getDataStore($usage, 'usage_idUsage');
+
+        $this->view->assign(array(
+            'usageStore'    => $usageStore,
+            'usage'         => $meterUsage,
+            'meter'         => $meter
+        ));
+        
+        return $meterUsage;
     }
 
 }

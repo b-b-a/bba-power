@@ -209,6 +209,10 @@ input[class=search] {
     color: #f00;
 }
 
+.errors {
+    text-align: right;
+}
+
 #loginWrap {
     width: 500px;
     margin: auto;

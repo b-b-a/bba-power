@@ -119,18 +119,15 @@ class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
 
         // set modified and create dates.
         if ($form['returnAction'] == 'add') {
-            $model->dateCreate = time();
+            $model->setDateCreate();
             $model->userCreate = $form['userId'];
         }
 
         // add modified date and by if updating record.
         if ($model->getId()) {
             $model->userModify = $form['userId'];
-            $model->dateModify = time();
+            $model->setDateModify();
         }
-
-        $log = Zend_Registry::get('log');
-        $log->info($model);
 
         return parent::save($model);
     }
