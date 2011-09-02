@@ -55,7 +55,7 @@ class Power_Model_DbTable_Tender extends Zend_Db_Table_Abstract
     protected $_referenceMap = array(
         'contract'          => array(
             'columns'       => 'tender_idContract',
-            'refTableClass' => 'Power_Model_Mapper_Contract',
+            'refTableClass' => 'Power_Model_DbTable_Contract',
             'refColumns'    => 'contract_idContract'
         ),
         'supplier'          => array(

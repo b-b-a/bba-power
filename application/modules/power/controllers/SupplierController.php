@@ -101,9 +101,8 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
             $contracts = $this->_model->getContractsBySupplierId($supplier->getId());
             $supplierContacts = $this->_model->getContactsBySupplierId($supplier->getId());
             
-            $contractStore = $this->getDataStore($contracts, 'supplier_contract_idContract');
-            
-            $this->_log->info($contractStore);
+            $contractStore = $this->getDataStore($contracts, 'contract_idContract');
+            $contactStore = $this->getDataStore($supplierContacts, 'contactCo_idSupplierContact');
 
             $this->getForm('supplierSave')
                 ->populate($supplier->toArray())
@@ -111,7 +110,8 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
 
             $this->view->assign(array(
                 'supplier'        => $supplier,
-                'contractStore'   => $contractStore
+                'contractStore'   => $contractStore,
+                'contactStore'    => $contactStore
             ));
         } else {
            return $this->_helper->redirector('index', 'supplier');
