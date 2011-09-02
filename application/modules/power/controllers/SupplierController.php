@@ -99,6 +99,7 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
 
             $supplier = $this->_model->find($this->_request->getParam('supplierId'));
             $contracts = $this->_model->getContractsBySupplierId($supplier->getId());
+            $supplierContacts = $this->_model->getContactsBySupplierId($supplier->getId());
             
             $contractStore = $this->getDataStore($contracts, 'supplier_contract_idContract');
             
@@ -135,7 +136,7 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
 
         $this->getForm('supplierSave')->addHiddenElement('returnAction', $action);
 
-        if (!$this->getForm('suppliertSave')->isValid($this->_request->getPost())) {
+        if (!$this->getForm('supplierSave')->isValid($this->_request->getPost())) {
             $this->view->assign(array(
                 'supplier'    => $supplierId
             ));

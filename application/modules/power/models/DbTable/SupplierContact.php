@@ -47,7 +47,7 @@ class Power_Model_DbTable_SupplierContact extends Zend_Db_Table_Abstract
     /**
      * @var string primary key
      */
-    protected $_primary = 'supplierCo_idSupplierContract';
+    protected $_primary = 'supplierCo_idSupplierContact';
 
     /**
      * @var array Reference map for parent tables
@@ -55,7 +55,7 @@ class Power_Model_DbTable_SupplierContact extends Zend_Db_Table_Abstract
     protected $_referenceMap = array(
         'supplier'  => array(
             'columns'       => 'supplierCo_idSupplier',
-            'refTableClass' => 'Power_Model_Mapper_Supplier',
+            'refTableClass' => 'Power_Model_DbTable_Supplier',
             'refColumns'    => 'supplier_idSupplier'
         ),
         'user'      => array(

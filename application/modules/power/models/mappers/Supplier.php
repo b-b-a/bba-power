@@ -94,6 +94,24 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
         }
     }
     
+    public function getContactsBySupplierId($id)
+    {
+        $supplier = $this->find($id, true);
+        
+        $contacts = $supplier->findDependentRowset(
+            'Power_Model_DbTable_SupplierContact',
+            'supplier'
+        );
+        
+        $entries = array();
+
+        foreach ($contacts as $row) {
+			$entries[] = new Power_Model_SupplierContact($row);
+        }
+
+        return $entries;
+    }
+    
     public function getContractsBySupplierId($id)
     {
         $select = $this->getDbTable()
@@ -119,7 +137,7 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
         // remove client id if not set.
         if (!$form['supplier_idSupplier']) unset($form['supplier_idSupplier']);
 
-        $model = new Power_Model_Client($form);
+        $model = new Power_Model_Supplier($form);
 
         // set create date and user.
         if ($form['returnAction'] == 'add') {
