@@ -98,14 +98,14 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
     {
         $supplier = $this->find($id, true);
         
-        $contacts = $supplier->findDependentRowset(
+        $contactsRowset = $supplier->findDependentRowset(
             'Power_Model_DbTable_SupplierContact',
             'supplier'
         );
         
         $entries = array();
 
-        foreach ($contacts as $row) {
+        foreach ($contactsRowset as $row) {
 			$entries[] = new Power_Model_SupplierContact($row);
         }
 
@@ -114,16 +114,22 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
     
     public function getContractsBySupplierId($id)
     {
-        $select = $this->getDbTable()
-            ->select(false)
-            ->setIntegrityCheck(false)
-            ->from('supplier', null)
-            ->join('tender', 'supplier_idSupplier = tender_idSupplier', null)
-            ->join('contract', 'tender_idContract = contract_idContract', '*')
-            ->where('supplier_idSupplier = ?', $id);
+        $supplier = $this->find($id, true);
         
-        return $this->fetchAll($select);
+        $contractsRowset = $supplier->findManyToManyRowset(
+            'Power_Model_DBTable_Contract',
+            'Power_Model_DBTable_Tender',
+            'supplier',
+            'contract' 
+        );
         
+        $entries = array();
+
+        foreach ($contractsRowset as $row) {
+			$entries[] = new Power_Model_Contract($row);
+        }
+        
+        return $entries; 
     }
     
     public function save()
