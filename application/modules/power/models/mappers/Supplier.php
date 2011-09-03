@@ -48,11 +48,11 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
      * @var sting the model class name
      */
     protected $_modelClass = 'Power_Model_Supplier';
-    
+
     public function supplierSearch($search, $paged = null)
     {
         $select = $this->getDbTable()->getSupplierList();
-        
+
         if (!$search['supplier'] == '') {
             $select
                 ->where('supplier_name like ?', '%' . $search['supplier'] . '%')
@@ -74,7 +74,7 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
 
         return $this->listSuppliers($paged, $select);
     }
-    
+
     public function listSuppliers($paged = null, $select = null)
     {
         if ($select === null) {
@@ -93,16 +93,16 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
             return $this->fetchAll($select);
         }
     }
-    
+
     public function getContactsBySupplierId($id)
     {
         $supplier = $this->find($id, true);
-        
+
         $contactsRowset = $supplier->findDependentRowset(
             'Power_Model_DbTable_SupplierContact',
             'supplier'
         );
-        
+
         $entries = array();
 
         foreach ($contactsRowset as $row) {
@@ -111,27 +111,27 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
 
         return $entries;
     }
-    
+
     public function getContractsBySupplierId($id)
     {
         $supplier = $this->find($id, true);
-        
+
         $contractsRowset = $supplier->findManyToManyRowset(
-            'Power_Model_DBTable_Contract',
-            'Power_Model_DBTable_Tender',
+            'Power_Model_DbTable_Contract',
+            'Power_Model_DbTable_Tender',
             'supplier',
-            'contract' 
+            'contract'
         );
-        
+
         $entries = array();
 
         foreach ($contractsRowset as $row) {
 			$entries[] = new Power_Model_Contract($row);
         }
-        
-        return $entries; 
+
+        return $entries;
     }
-    
+
     public function save()
     {
         if (!$this->checkAcl('save')) {
