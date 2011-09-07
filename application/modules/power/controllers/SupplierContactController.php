@@ -77,7 +77,7 @@ class Power_SupplierContactController extends BBA_Controller_Action_Abstract
         if ($this->_request->getParam('contactId')) {
             $supplierCo = $this->_model->find($this->_request->getParam('contactId'));
             $this->getForm('supplierContactSave')
-                ->populate($supplierCo->toArray())
+                ->populate($supplierCo->toArray('dd/MM/yyyy'))
                 ->addHiddenElement('returnAction', 'edit');
 
             $contacts = $this->_model->getContactsBySupplierId($clientCo->idSupplier);

@@ -81,7 +81,7 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
             'site'      => $this->_request->getParam('site'),
             'client'    => $this->_request->getParam('client')
         );
-        
+
         $this->getForm('siteSearch')
             ->populate($search);
 
@@ -110,7 +110,7 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
             $meter = new Power_Model_Mapper_Meter();
 
             $this->getForm('siteEdit')
-                    ->populate($site->toArray())
+                    ->populate($site->toArray('dd/MM/yyyy'))
                     ->addHiddenElement('returnAction', 'edit');
 
             $this->view->assign(array(

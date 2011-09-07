@@ -80,7 +80,7 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
             'contract' => $this->_request->getParam('contract'),
             'meter'    => $this->_request->getParam('meter')
         );
-        
+
         $this->getForm('contractSearch')
             ->populate($search);
 
@@ -104,7 +104,7 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
             $tenderContract = new Power_Model_Mapper_Tender();
 
             $this->getForm('contractSave')
-                    ->populate($contract->toArray())
+                    ->populate($contract->toArray('dd/MM/yyyy'))
                     ->addHiddenElement('returnAction', 'edit');
 
             $meters = $meterContract->getMetersByContractId(

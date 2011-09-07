@@ -86,9 +86,9 @@ class Power_UsageController extends BBA_Controller_Action_Abstract
     public function editAction()
     {
         $meterUsage = $this->_getUsageDetails();
-        
+
         $this->getForm('usageSave')
-            ->populate($meterUsage->toArray())
+            ->populate($meterUsage->toArray('dd/MM/yyyy'))
             ->addHiddenElement('returnAction', 'edit');
 
         $this->render('save');
@@ -136,7 +136,7 @@ class Power_UsageController extends BBA_Controller_Action_Abstract
             }
         }
     }
-    
+
     protected function _getUsageDetails()
     {
         $meterModel = new Power_Model_Mapper_Meter();
@@ -152,7 +152,7 @@ class Power_UsageController extends BBA_Controller_Action_Abstract
             'usage'         => $meterUsage,
             'meter'         => $meter
         ));
-        
+
         return $meterUsage;
     }
 

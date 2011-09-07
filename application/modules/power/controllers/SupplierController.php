@@ -47,17 +47,17 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
         if ($this->_helper->acl('Guest')) {
             return $this->_forward('login', 'auth');
         }
-        
+
         parent::init();
 
         $this->_model = new Power_Model_Mapper_Supplier();
-        
+
         $this->setForm('supplierSave', array(
             'controller' => 'supplier' ,
             'action' => 'save',
             'module' => 'power'
         ));
-        
+
         // search form
         $this->setForm('supplierSearch', array(
             'controller' => 'supplier' ,
@@ -75,7 +75,7 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
             'supplier'    => $this->_request->getParam('supplier'),
             'contact'   => $this->_request->getParam('contact')
         );
-        
+
         $this->getForm('supplierSearch')
             ->populate($search);
 
@@ -89,13 +89,13 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
             'store'     => $store
         ));
     }
-    
+
     public function addAction()
     {
         $this->getForm('supplierSave')
             ->addHiddenElement('returnAction', 'add');
     }
-    
+
     public function editAction()
     {
         if ($this->_request->getParam('supplierId')) {
@@ -103,12 +103,12 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
             $supplier = $this->_model->find($this->_request->getParam('supplierId'));
             $contracts = $this->_model->getContractsBySupplierId($supplier->getId());
             $supplierContacts = $this->_model->getContactsBySupplierId($supplier->getId());
-            
+
             $contractStore = $this->getDataStore($contracts, 'contract_idContract');
             $contactStore = $this->getDataStore($supplierContacts, 'contactCo_idSupplierContact');
 
             $this->getForm('supplierSave')
-                ->populate($supplier->toArray())
+                ->populate($supplier->toArray('dd/MM/yyyy'))
                 ->addHiddenElement('returnAction', 'edit');
 
             $this->view->assign(array(
@@ -120,7 +120,7 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
            return $this->_helper->redirector('index', 'supplier');
         }
     }
-    
+
     public function saveAction()
     {
         if (!$this->_request->isPost()) {

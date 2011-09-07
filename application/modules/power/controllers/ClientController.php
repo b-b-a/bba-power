@@ -80,7 +80,7 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
             'client'    => $this->_request->getParam('client'),
             'address'   => $this->_request->getParam('address')
         );
-        
+
         $this->getForm('clientSearch')
             ->populate($search);
 
@@ -113,7 +113,7 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
             $addressStore = $this->getDataStore($addresses, 'clientAd_idAddress');
 
             $this->getForm('clientSave')
-                ->populate($client->toArray('dd-MM-yyyy'))
+                ->populate($client->toArray('dd/MM/yyyy'))
                 ->addHiddenElement('returnAction', 'edit');
 
             $this->view->assign(array(
@@ -126,7 +126,7 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
     }
 
     public function saveAction()
-    {   
+    {
         if (!$this->_request->isPost()) {
             return $this->_helper->redirector('index', 'client');
         }
