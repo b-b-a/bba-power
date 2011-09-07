@@ -81,6 +81,9 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
             'site'      => $this->_request->getParam('site'),
             'client'    => $this->_request->getParam('client')
         );
+        
+        $this->getForm('siteSearch')
+            ->populate($search);
 
         $sites = $this->_model->siteSearch($search);
 

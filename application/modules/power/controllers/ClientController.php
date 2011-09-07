@@ -80,6 +80,9 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
             'client'    => $this->_request->getParam('client'),
             'address'   => $this->_request->getParam('address')
         );
+        
+        $this->getForm('clientSearch')
+            ->populate($search);
 
         $clients = $this->_model->clientSearch($search);
         $store = $this->getDataStore($clients, 'client_idClient');
@@ -95,7 +98,7 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
     public function addAction()
     {
         $this->getForm('clientSave')
-                ->addHiddenElement('returnAction', 'add');
+            ->addHiddenElement('returnAction', 'add');
     }
 
     public function editAction()
@@ -110,8 +113,8 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
             $addressStore = $this->getDataStore($addresses, 'clientAd_idAddress');
 
             $this->getForm('clientSave')
-                    ->populate($client->toArray())
-                    ->addHiddenElement('returnAction', 'edit');
+                ->populate($client->toArray())
+                ->addHiddenElement('returnAction', 'edit');
 
             $this->view->assign(array(
                 'client'        => $client,

@@ -28,7 +28,7 @@
  */
 
 /**
- * Controller Class SupplierAddressController.
+ * Controller Class SupplierContactController.
  *
  * @category   BBA
  * @package    Power
@@ -62,10 +62,10 @@ class Power_SupplierContactController extends BBA_Controller_Action_Abstract
     public function addAction()
     {
         $this->getForm('supplierContactSave')
-                ->populate(array(
-                    'supplierCo_idSupplierContact' => $this->_request->getParam('supplierId')
-                ))
-                ->addHiddenElement('returnAction', 'add');
+            ->populate(array(
+                'supplierCo_idSupplierContact' => $this->_request->getParam('supplierId')
+            ))
+            ->addHiddenElement('returnAction', 'add');
 
         $this->view->assign(array(
             'supplierId'    => $this->_request->getParam('supplierId')

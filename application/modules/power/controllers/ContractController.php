@@ -80,6 +80,9 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
             'contract' => $this->_request->getParam('contract'),
             'meter'    => $this->_request->getParam('meter')
         );
+        
+        $this->getForm('contractSearch')
+            ->populate($search);
 
         $contracts = $this->_model->contractSearch($search);
 

@@ -14,16 +14,16 @@
                     <label>List Clients</label>
                     <action>index</action>
                     <controller>client</controller>
-                    <resource>User</resource>
+                    <resource>Read</resource>
                 </listClients>
                 <addClient>
                     <label>New Client</label>
                     <action>add</action>
                     <controller>client</controller>
-                    <resource>User</resource>
+                    <resource>Admin</resource>
                 </addClient>
             </pages>
-            <resource>User</resource>
+            <resource>Read</resource>
         </clients>
         <sites>
             <label>Sites</label>
@@ -33,16 +33,16 @@
                     <label>List Sites</label>
                     <action>index</action>
                     <controller>site</controller>
-                    <resource>User</resource>
+                    <resource>Read</resource>
                 </listSites>
                 <addSite>
                     <label>New Site</label>
                     <action>add</action>
                     <controller>site</controller>
-                    <resource>User</resource>
+                    <resource>Admin</resource>
                 </addSite>
             </pages>
-            <resource>User</resource>
+            <resource>Read</resource>
         </sites>
         <meters>
             <label>Meters</label>
@@ -52,10 +52,10 @@
                     <label>List Meters</label>
                     <action>index</action>
                     <controller>meter</controller>
-                    <resource>User</resource>
+                    <resource>Read</resource>
                 </listMeters>
             </pages>
-            <resource>User</resource>
+            <resource>Read</resource>
         </meters>
         <contract>
             <label>Contracts</label>
@@ -65,16 +65,16 @@
                     <label>List Contracts</label>
                     <action>index</action>
                     <controller>contract</controller>
-                    <resource>User</resource>
+                    <resource>Read</resource>
                 </listSites>
                 <addSite>
                     <label>New Contracts</label>
                     <action>add</action>
                     <controller>contract</controller>
-                    <resource>User</resource>
+                    <resource>Admin</resource>
                 </addSite>
             </pages>
-            <resource>User</resource>
+            <resource>Read</resource>
         </contract>
         <supplier>
             <label>Suppliers</label>
@@ -84,16 +84,16 @@
                     <label>List Suppliers</label>
                     <action>index</action>
                     <controller>supplier</controller>
-                    <resource>User</resource>
+                    <resource>Read</resource>
                 </listSites>
                 <addSite>
                     <label>New Suppliers</label>
                     <action>add</action>
                     <controller>supplier</controller>
-                    <resource>User</resource>
+                    <resource>Admin</resource>
                 </addSite>
             </pages>
-            <resource>User</resource>
+            <resource>Read</resource>
         </supplier>
         <users>
             <label>Users</label>

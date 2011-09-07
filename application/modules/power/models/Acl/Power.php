@@ -34,8 +34,6 @@ class Power_Model_Acl_Power extends ZendSF_Acl_Abstract
         $this->addResource(new Zend_Acl_Resource('Agent'));
         $this->addResource(new Zend_Acl_Resource('Read'));
         $this->addResource(new Zend_Acl_Resource('MeterReading'));
-        //$this->addResource(new Zend_Acl_Resource('User'));
-        //$this->addResource(new Zend_Acl_Resource('Admin'));
 
         $this->allow('agent', 'Agent');
         $this->allow('read', 'Read');
@@ -44,5 +42,3 @@ class Power_Model_Acl_Power extends ZendSF_Acl_Abstract
         $this->allow('admin', 'Admin');
     }
 }
-
-?>
