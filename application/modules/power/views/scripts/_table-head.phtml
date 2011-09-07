@@ -1,13 +1,15 @@
 <div class="tableHead">
 	<h2 class="tableHead-heading"><?php echo $this->heading; ?>:</h2>
     <?php if ($this->location): ?>
-	<p class="tableHead-button">
-        <button dojoType="dijit.form.Button" type="button">
-            <?php echo $this->label; ?>
-            <script type="dojo/method" event="onClick" args="evt">
-                location.href = "<?php echo $this->location; ?>";
-            </script>
-        </button>
-	</p>
+        <?php if ($this->authInfo('role') == 'admin'): ?>
+        <p class="tableHead-button">
+            <button dojoType="dijit.form.Button" type="button">
+                <?php echo $this->label; ?>
+                <script type="dojo/method" event="onClick" args="evt">
+                    location.href = "<?php echo $this->location; ?>";
+                </script>
+            </button>
+        </p>
+        <?php endif; ?>
     <?php endif; ?>
 </div>

@@ -63,23 +63,27 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
         ));
 */
 
-        $this->addElement('DateTextBox', 'client_dateExpiryLoa', array(
+        $this->addElement('TextBox', 'client_dateExpiryLoa', array(
             'label'     => 'LoA Expiry Date:',
             'formatLength'   => 'short',
             'filters'   => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Date', true, array(
-                    'format' => 'yyyy-MM-dd'
+                    'format' => 'dd-MM-yyyy'
                 ))
             )
         ));
 
-        $auth = Zend_Auth::getInstance();
+        $auth = Zend_Auth::getInstance()
+            ->getIdentity();
 
-        $this->addHiddenElement('userId', $auth->getIdentity()->getId());
+        $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('client_idClient', '');
-
-        $this->addSubmit('Save');
+        
+        if ($auth->role == 'admin') {
+            $this->addSubmit('Save');
+        }
+        
         $this->addSubmit('Cancel', 'cancel');
     }
 

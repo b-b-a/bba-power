@@ -41,26 +41,26 @@ class Power_Form_Usage_Save extends ZendSF_Form_Abstract
 {
     public function init()
     {
-        $this->addElement('DateTextBox', 'usage_dateBill', array(
+        $this->addElement('TextBox', 'usage_dateBill', array(
             'label'     => 'Bill Date:',
             'formatLength'   => 'short',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Date', true, array(
-                    'format' => 'yyyy-MM-dd'
+                    'format' => 'dd-MM-yyyy'
                 ))
             )
         ));
 
-        $this->addElement('DateTextBox', 'usage_dateReading', array(
+        $this->addElement('TextBox', 'usage_dateReading', array(
             'label'     => 'Reading Date:',
             'formatLength'   => 'short',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Date', true, array(
-                    'format' => 'yyyy-MM-dd'
+                    'format' => 'dd-MM-yyyy'
                 ))
             )
         ));
@@ -109,13 +109,17 @@ class Power_Form_Usage_Save extends ZendSF_Form_Abstract
             'filters'       => array('StripTags', 'StringTrim')
         ));
 
-        $auth = Zend_Auth::getInstance();
+        $auth = Zend_Auth::getInstance()
+            ->getIdentity();
 
-        $this->addHiddenElement('userId', $auth->getIdentity()->getId());
+        $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('usage_idUsage', '');
         $this->addHiddenElement('usage_idMeter', '');
 
-        $this->addSubmit('Save', 'submit');
+        if ($auth->role == 'admin') {
+            $this->addSubmit('Save');
+        }
+        
         $this->addSubmit('Cancel', 'cancel');
     }
 

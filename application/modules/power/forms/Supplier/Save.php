@@ -75,12 +75,16 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
         
         // supplier contact to do.
 
-        $auth = Zend_Auth::getInstance();
+        $auth = Zend_Auth::getInstance()
+            ->getIdentity();
 
-        $this->addHiddenElement('userId', $auth->getIdentity()->getId());
+        $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('supplier_idSupplier', '');
 
-        $this->addSubmit('Save');
+        if ($auth->role == 'admin') {
+            $this->addSubmit('Save');
+        }
+        
         $this->addSubmit('Cancel', 'cancel');
     }
 

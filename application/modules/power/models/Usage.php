@@ -51,17 +51,13 @@ class Power_Model_Usage extends BBA_Model_Abstract
 
     public function setDateBill($date)
     {
-        if (Zend_Date::isDate($date, $this->_dateFormat)) {
-            $this->_data->dateBill = new Zend_Date($date);
-        }
+        $this->_data->dateBill = new Zend_Date($date);
         return $this;
     }
 
     public function setDateReading($date)
     {
-        if (Zend_Date::isDate($date, $this->_dateFormat)) {
-            $this->_data->dateReading = new Zend_Date($date);
-        }
+        $this->_data->dateReading = new Zend_Date($date);
         return $this;
     }
 

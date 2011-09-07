@@ -119,25 +119,25 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'required'      => true,
         ));
 
-        $this->addElement('DateTextBox', 'contract_dateStart', array(
+        $this->addElement('TextBox', 'contract_dateStart', array(
             'label'         => 'Start Date:',
             'formatLength'  => 'short',
             'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Date', true, array(
-                    'format' => 'yyyy-MM-dd'
+                    'format' => 'dd-MM-yyyy'
                 ))
             ),
             'required'      => true
         ));
 
-        $this->addElement('DateTextBox', 'contract_dateEnd', array(
+        $this->addElement('TextBox', 'contract_dateEnd', array(
             'label'         => 'End Date:',
             'formatLength'  => 'short',
             'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Date', true, array(
-                    'format' => 'yyyy-MM-dd'
+                    'format' => 'dd-MM-yyyy'
                 ))
             )
         ));
@@ -179,13 +179,17 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $auth = Zend_Auth::getInstance();
+        $auth = Zend_Auth::getInstance()
+            ->getIdentity();
 
-        $this->addHiddenElement('userId', $auth->getIdentity()->getId());
+        $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('contract_idContract', '');
         $this->addHiddenElement('contract_idContractPrevious', '');
 
-        $this->addSubmit('Save');
+        if ($auth->role == 'admin') {
+            $this->addSubmit('Save');
+        }
+        
         $this->addSubmit('Cancel', 'cancel');
     }
 

@@ -102,13 +102,17 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
             'required'  => true
         ));
 
-        $auth = Zend_Auth::getInstance();
+        $auth = Zend_Auth::getInstance()
+            ->getIdentity();
 
-        $this->addHiddenElement('userId', $auth->getIdentity()->getId());
+        $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('clientCo_idClientContact', '');
         $this->addHiddenElement('clientCo_idClient', '');
 
-        $this->addSubmit('Save');
+        if ($auth->role == 'admin') {
+            $this->addSubmit('Save');
+        }
+        
         $this->addSubmit('Cancel', 'cancel');
     }
 
