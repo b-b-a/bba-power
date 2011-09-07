@@ -1,9 +1,11 @@
 <?php
     $this->title = "BBA Add Site";
     $this->headTitle($this->title);
-
-    echo $this->siteAddForm;
 ?>
+
+<div class="form_wrap">
+    <?php echo $this->siteAddForm; ?>
+</div>
 
 <script>
     dojo.declare("bba", null, {

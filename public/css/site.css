@@ -143,11 +143,17 @@ table {
  * Forms
  */
 
+.form_wrap {
+    width: 500px;
+    text-align: center;
+}
+
 .zend_form {
-    overflow: hidden;
+
 }
 
 .zend_form .form_row {
+    text-align: left;
     margin: 5px 0px;
     /* 1px stll had a 1px gap. so I have given each
      * each row a class name of 'form_row' and added
@@ -171,6 +177,7 @@ label.search {
 {
     margin: 0px;
     display: inline;
+    clear: both;
 }
 
 .zend_form .errors

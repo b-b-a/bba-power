@@ -1,9 +1,12 @@
 <?php
 	$this->title = "BBA Client Update";
 	$this->headTitle($this->title);
-
-    echo $this->clientSaveForm;
 ?>
+
+<div class="form_wrap">
+    <?php echo $this->clientSaveForm; ?>
+</div>
+
 <div class="clear">&nbsp;</div>
 
 <?php echo $this->partial('_client-addresses.phtml', array(
