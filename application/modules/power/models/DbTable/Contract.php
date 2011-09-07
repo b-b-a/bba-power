@@ -89,6 +89,7 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
             ->setIntegrityCheck(false)
             ->from('contract', array(
                 'contract_idContract' => 'contract_idContract',
+                'contract_reference',
                 'contract_dateStart',
                 'contract_dateEnd',
                 'contract_desc'
