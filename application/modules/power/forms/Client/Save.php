@@ -69,7 +69,7 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             'filters'   => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Date', true, array(
-                    'format' => 'dd-MM-yyyy'
+                    'format' => 'dd/MM/yyyy'
                 ))
             )
         ));
@@ -79,11 +79,11 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
 
         $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('client_idClient', '');
-        
+
         if ($auth->role == 'admin') {
             $this->addSubmit('Save');
         }
-        
+
         $this->addSubmit('Cancel', 'cancel');
     }
 

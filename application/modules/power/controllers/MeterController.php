@@ -85,10 +85,10 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
             'meter'     => $this->_request->getParam('meter'),
             'site'      => $this->_request->getParam('site')
         );
-        
+
         $this->getForm('meterSearch')
             ->populate($search);
-        
+
         $meters = $this->_model->meterSearch($search);
         $meterStore = $this->getDataStore($meters, 'meter_idMeter');
 
@@ -124,7 +124,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
             $usageStore = $this->getDataStore($usage, 'usage_idUsage');
 
             $this->getForm('meterSave')
-                    ->populate($meter->toArray())
+                    ->populate($meter->toArray('dd/MM/yyyy'))
                     ->addHiddenElement('returnAction', 'edit');
 
             $this->view->assign(array(
