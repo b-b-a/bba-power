@@ -1,13 +1,16 @@
 <?php
 	$this->title = "BBA Supplier Update";
 	$this->headTitle($this->title);
-
-    echo $this->supplierSaveForm;
 ?>
+
+<div class="form_wrap">
+    <?php echo $this->supplierSaveForm; ?>
+</div>
+
 <div class="clear">&nbsp;</div>
 
 <script>
-    
+
     var contractStore = <?php echo $this->contractStore; ?>;
     var contactStore = <?php echo $this->contactStore; ?>;
     dojo.addOnLoad(function(){
@@ -20,7 +23,7 @@
             location.href = '/contract/edit/contractId/' + selectedId;
         });
     });
-    
+
     dojo.addOnLoad(function(){
         dojo.connect(contactGrid, "onRowDblClick", function(val){
             selectedIndex = contactGrid.focus.rowIndex;
