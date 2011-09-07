@@ -80,7 +80,11 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
 
         $this->addHiddenElement('user_idUser', '');
 
-        $this->addSubmit('Save');
+        if ($auth->role == 'admin') {
+            $this->addSubmit('Save');
+        }
+        
+        $this->addSubmit('Cancel', 'cancel');
     }
 
 }

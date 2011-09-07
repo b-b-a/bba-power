@@ -75,13 +75,13 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
             //'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('DateTextBox', 'tender_dateExpiresQuote', array(
+        $this->addElement('TextBox', 'tender_dateExpiresQuote', array(
             'label'         => 'Expiry Date:',
             'formatLength'  => 'short',
             'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Date', true, array(
-                    'format' => 'yyyy-MM-dd'
+                    'format' => 'dd-MM-yyyy'
                 ))
             ),
             'required'      => true
@@ -164,12 +164,16 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
             //'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $auth = Zend_Auth::getInstance();
+        $auth = Zend_Auth::getInstance()
+            ->getIdentity();
 
-        $this->addHiddenElement('userId', $auth->getIdentity()->getId());
+        $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('tender_idTender', '');
 
-        $this->addSubmit('Save');
+        if ($auth->role == 'admin') {
+            $this->addSubmit('Save');
+        }
+        
         $this->addSubmit('Cancel', 'cancel');
     }
 
