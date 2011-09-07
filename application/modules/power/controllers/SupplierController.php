@@ -75,6 +75,9 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
             'supplier'    => $this->_request->getParam('supplier'),
             'contact'   => $this->_request->getParam('contact')
         );
+        
+        $this->getForm('supplierSearch')
+            ->populate($search);
 
         $suppliers = $this->_model->supplierSearch($search);
         $store = $this->getDataStore($suppliers, 'supplier_idSupplier');

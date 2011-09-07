@@ -87,7 +87,7 @@ class Power_AuthController extends ZendSF_Controller_Action_Abstract
 
     public function logoutAction()
     {
-        if (!$this->_helper->acl('User')) {
+        if (!$this->_helper->acl('Read')) {
             return $this->_forward('index');
         }
 

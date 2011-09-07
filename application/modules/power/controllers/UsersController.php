@@ -98,11 +98,11 @@ class Power_UsersController extends ZendSF_Controller_Action_Abstract
         if ($this->_request->getParam('userId')) {
             $user = $this->_model->find($this->_request->getParam('userId'));
             $this->getForm('userSave')
-                    ->populate($user->toArray())
-                    ->addHiddenElement('returnAction', 'edit')
-                    ->getElement('user_password')
-                    ->setValue('')
-                    ->setRequired(false);
+                ->populate($user->toArray())
+                ->addHiddenElement('returnAction', 'edit')
+                ->getElement('user_password')
+                ->setValue('')
+                ->setRequired(false);
         } else {
            return $this->_helper->redirector('list', 'users');
         }

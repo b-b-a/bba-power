@@ -86,6 +86,9 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
             'site'      => $this->_request->getParam('site')
         );
         
+        $this->getForm('meterSearch')
+            ->populate($search);
+        
         $meters = $this->_model->meterSearch($search);
         $meterStore = $this->getDataStore($meters, 'meter_idMeter');
 

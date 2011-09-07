@@ -36,20 +36,19 @@
        jsId="grid"
        store="tableStore"
        query="{ client_idClient: '*' }"
-       style="width: 100%;height:500px;"
+       style="width: 100%;"
        autoWidth="false"
-       autoHeight="false"
+       autoHeight="true"
        rowSelector="0px"
-       rowsPerPage="25"
+       rowsPerPage="1"
        noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
     <thead>
         <tr>
             <th field="client_idClient" width="75">Id</th>
-            <th field="client_name" width="200">Client</th>
-            <th field="client_desc" width="100">Description</th>
-            <th field="client_clientAd_addressName" width="200">Address Name</th>
-            <th field="client_clientAd_address1" width="200">Address 1</th>
-            <th field="client_clientAd_postcode" width="auto">Postcode</th>
+            <th field="client_name" width="auto">Client</th>
+            <th field="client_desc" width="auto">Description</th>
+            <th field="client_clientAd_address1" width="300">Address 1</th>
+            <th field="client_clientAd_postcode" width="100">Postcode</th>
         </tr>
     </thead>
 </table>
