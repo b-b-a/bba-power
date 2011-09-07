@@ -80,6 +80,11 @@ table {
     padding: 1px;
 }
 
+.claro .dijitButtonText,
+.claro .dojoxGridHeader .dojoxGridCell {
+	font-family: sans-serif;
+}
+
 #nav ul
 {
     list-style: none;
@@ -136,6 +141,7 @@ table {
     color: #000;
     text-decoration: none;
     text-align: center;
+    font-family: sans-serif;
 }
 
 #nav a:hover
@@ -237,6 +243,10 @@ input[class=search] {
 #loginWrap {
     width: 500px;
     margin: auto;
+    text-align: center;
+}
+
+#loginWrap .zend_form .form_row {
     text-align: center;
 }
 
