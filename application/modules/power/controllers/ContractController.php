@@ -130,4 +130,17 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
            return $this->_helper->redirector('index', 'contract');
         }
     }
+
+    public function saveAction()
+    {
+        if (!$this->_request->isPost()) {
+            return $this->_helper->redirector('index', 'contract');
+        }
+
+        $contractId = $this->_request->getParam('contractId');
+
+        if ($this->_request->getParam('cancel')) {
+            return $this->_helper->redirector('index', 'contract', 'power');
+        }
+    }
 }
