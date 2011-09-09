@@ -89,4 +89,18 @@ class Power_TenderController extends BBA_Controller_Action_Abstract
         }
     }
 
+    public function saveAction()
+    {
+        if (!$this->_request->isPost()) {
+            return $this->_helper->redirector('index', 'contract');
+        }
+
+        $tenderId = $this->_request->getParam('tenderId');
+
+        if ($this->_request->getParam('cancel')) {
+            // needs to return to contract edit.
+            return $this->_helper->redirector('index', 'contract', 'power');
+        }
+    }
+
 }
