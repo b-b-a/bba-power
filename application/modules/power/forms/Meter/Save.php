@@ -84,10 +84,15 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
         $this->addHiddenElement('meter_idMeter', '');
         $this->addHiddenElement('meter_idSite', '');
 
+        $view = $this->getView();
+
+        if (isset($view->request['meter'])) $this->addHiddenElement('meter', $view->request['meter']);
+        if (isset($view->request['site'])) $this->addHiddenElement('site', $view->request['site']);
+
         if ($auth->role == 'admin') {
             $this->addSubmit('Save');
         }
-        
+
         $this->addSubmit('Cancel', 'cancel');
     }
 

@@ -67,7 +67,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
             'controller' => 'meter' ,
             'action' => 'index',
             'module' => 'power'
-        ));
+        ), true);
 
         $this->setForm('meterSave', array(
             'controller' => 'meter' ,
@@ -124,8 +124,8 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
             $usageStore = $this->getDataStore($usage, 'usage_idUsage');
 
             $this->getForm('meterSave')
-                    ->populate($meter->toArray('dd/MM/yyyy'))
-                    ->addHiddenElement('returnAction', 'edit');
+                ->populate($meter->toArray('dd/MM/yyyy'))
+                ->addHiddenElement('returnAction', 'edit');
 
             $this->view->assign(array(
                 'usageStore' => $usageStore,
@@ -146,7 +146,16 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
         $meterId = $this->_request->getParam('meterId');
 
         if ($this->_request->getParam('cancel')) {
-            return $this->_helper->redirector('index', 'meter', 'power');
+            $search = array();
+            if ($this->_request->getParam('meter')) {
+                $search['meter'] = $this->_request->getParam('meter');
+            }
+
+            if ($this->_request->getParam('meter')) {
+                $search['site'] = $this->_request->getParam('site');
+            }
+
+            return $this->_helper->redirector('index', 'meter', 'power', $search);
         }
 
         $action = $this->_request->getParam('returnAction');
