@@ -83,5 +83,15 @@ class Power_Form_SearchBase extends ZendSF_Form_Abstract
         $this->addSubmit('Search', 'submit', array(
             'class' => 'search'
         ));
+
+        $this->addElement('ResetButton', 'reset', array(
+            'ignore'        => true,
+            'required'      => false,
+            'decorators'    => $this->_submitDecorators,
+            'label'         => 'Reset',
+            'attribs'       => array(
+                'class' => 'search '
+            )
+        ));
     }
 }
