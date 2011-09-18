@@ -77,7 +77,7 @@ class Power_Model_DbTable_Supplier extends Zend_Db_Table_Abstract
                 'supplier_address1',
                 'supplier_postcode'
             ))
-            //->join('supplier_contact', 'supplier_idSupplierContact = supplierCo_idSupplierContact', null)
+            ->joinLeft('supplier_contact', 'supplier_idSupplierContact = supplierCo_idSupplierContact', null)
             ->order('supplier_name ASC');
     }
 }
