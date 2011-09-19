@@ -14,7 +14,7 @@
     var contractStore = <?php echo $this->contractStore; ?>;
     var contactStore = <?php echo $this->contactStore; ?>;
     dojo.addOnLoad(function(){
-        dojo.connect(contractGrid, "onRowDblClick", function(val){
+        dojo.connect(contractGrid, "onRowClick", function(val){
             selectedIndex = contractGrid.focus.rowIndex;
             selectedItem = contractGrid.getItem(selectedIndex);
             //Not sure if this is the most efficient way but it worked for me
@@ -25,7 +25,7 @@
     });
 
     dojo.addOnLoad(function(){
-        dojo.connect(contactGrid, "onRowDblClick", function(val){
+        dojo.connect(contactGrid, "onRowClick", function(val){
             selectedIndex = contactGrid.focus.rowIndex;
             selectedItem = contactGrid.getItem(selectedIndex);
             //Not sure if this is the most efficient way but it worked for me

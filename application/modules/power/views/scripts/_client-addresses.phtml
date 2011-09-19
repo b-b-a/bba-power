@@ -11,7 +11,7 @@
 <script>
     var addressStore = <?php echo $this->addressStore; ?>;
     dojo.addOnLoad(function(){
-        dojo.connect(addressGrid, "onRowDblClick", function(val){
+        dojo.connect(addressGrid, "onRowClick", function(val){
             selectedIndex = this.focus.rowIndex;
             selectedItem = this.getItem(selectedIndex);
             //Not sure if this is the most efficient way but it worked for me

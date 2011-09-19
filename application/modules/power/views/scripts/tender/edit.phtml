@@ -18,7 +18,7 @@
 <script>
     var tenderStore = <?php echo $this->tenderStore; ?>;
     dojo.addOnLoad(function(){
-        dojo.connect(tenderGrid, "onRowDblClick", function(val){
+        dojo.connect(tenderGrid, "onRowClick", function(val){
             selectedIndex = tenderGrid.focus.rowIndex;
             selectedItem = tenderGrid.getItem(selectedIndex);
             //Not sure if this is the most efficient way but it worked for me

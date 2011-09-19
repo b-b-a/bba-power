@@ -8,7 +8,7 @@
     var userStore = <?php echo $this->userStore; ?>;
 
     dojo.addOnLoad(function(){
-        dojo.connect(userGrid, "onRowDblClick", function(val){
+        dojo.connect(userGrid, "onRowClick", function(val){
             selectedIndex = userGrid.focus.rowIndex;
             selectedItem = userGrid.getItem(selectedIndex);
             //Not sure if this is the most efficient way but it worked for me

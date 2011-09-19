@@ -13,7 +13,7 @@
 <script>
     var meterStore = <?php echo $this->store; ?>;
     dojo.addOnLoad(function(){
-        dojo.connect(grid, "onRowDblClick", function(val){
+        dojo.connect(grid, "onRowClick", function(val){
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             //Not sure if this is the most efficient way but it worked for me

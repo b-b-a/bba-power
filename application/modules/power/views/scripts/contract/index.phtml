@@ -10,7 +10,7 @@
 <script>
     var contractStore = <?php echo $this->store; ?>;
     dojo.addOnLoad(function(){
-        dojo.connect(grid, "onRowDblClick", function(val){
+        dojo.connect(grid, "onRowClick", function(val){
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             //Not sure if this is the most efficient way but it worked for me
@@ -39,7 +39,7 @@
        query="{ contract_idContract: '*' }"
        style="width: 100%;height:500px;"
        autoWidth="false"
-       
+
        rowSelector="0px"
        rowsPerPage="25"
        noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">

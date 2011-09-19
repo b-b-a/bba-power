@@ -23,7 +23,7 @@
     var usageStore = <?php echo $this->usageStore; ?>;
 
     dojo.addOnLoad(function(){
-        dojo.connect(usageGrid, "onRowDblClick", function(val){
+        dojo.connect(usageGrid, "onRowClick", function(val){
             selectedIndex = usageGrid.focus.rowIndex;
             selectedItem = usageGrid.getItem(selectedIndex);
             //Not sure if this is the most efficient way but it worked for me
