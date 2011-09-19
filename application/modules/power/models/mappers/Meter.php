@@ -59,7 +59,13 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
         $select = $this->getDbTable()->getMeterList();
 
         if (!$search['meter'] == '') {
-            $select->where('meter_numberMain like ?', '%'. $search['meter'] . '%');
+            $filter = new Zend_Filter_PregReplace(array(
+                    'match' => '/-/',
+                    'replace' => ''
+                )
+            );
+            
+            $select->where('meter_numberMain like ?', '%'. $filter->filter($search['meter']) . '%');
         }
 
         if (!$search['site'] == '') {
