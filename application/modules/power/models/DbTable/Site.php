@@ -99,12 +99,10 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
                 'client_name',
                 'client_desc' => 'SUBSTR(client_desc, 1, 15)'
             ))
-            // commented out for now as no client contacts availible.
-            /*->join(
-                'client_contact',
-                'client_idClient = clientCo_idClient',
-                array('clientCo_name')
-            )*/
+            ->joinLeft(
+                'client_contact', 'clientCo_idClientContact = site_idClientContact', array(
+				'clientCo_name'
+            ))
             ->order('client_name ASC');
     }
 }
