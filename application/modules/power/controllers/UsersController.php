@@ -114,6 +114,10 @@ class Power_UsersController extends ZendSF_Controller_Action_Abstract
             return $this->_helper->redirector('list', 'users');
         }
 
+         if ($this->_request->getParam('cancel')) {
+            return $this->_helper->redirector('list', 'users', 'power');
+        }
+
         $action = $this->_request->getParam('returnAction');
 
         $this->getForm('userSave')->addHiddenElement('returnAction', $action);
