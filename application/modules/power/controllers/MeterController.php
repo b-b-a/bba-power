@@ -151,7 +151,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
                 $search['meter'] = $this->_request->getParam('meter');
             }
 
-            if ($this->_request->getParam('meter')) {
+            if ($this->_request->getParam('site')) {
                 $search['site'] = $this->_request->getParam('site');
             }
 
