@@ -58,7 +58,7 @@ class Power_Model_Mapper_Tender extends ZendSF_Model_Mapper_Acl_Abstract
             ->join('contract', 'contract_idContract = tender_idContract')
             ->join('client', 'client_idClient = contract_idClient')
             ->join('supplier', 'tender_idSupplier = supplier_idSupplier')
-            //->join('supplier_contact', 'tender_idSupplierContact = contact_idSupplier')
+            ->joinLeft('supplier_contact', 'tender_idSupplierContact = SupplierCo_idSuppliercontact')
             ->where('tender_idContract = ?', $id);
 
         return $this->fetchAll($select);
@@ -73,7 +73,7 @@ class Power_Model_Mapper_Tender extends ZendSF_Model_Mapper_Acl_Abstract
             ->join('contract', 'contract_idContract = tender_idContract')
             ->join('client', 'client_idClient = contract_idClient')
             ->join('supplier', 'tender_idSupplier = supplier_idSupplier')
-            //->join('supplier_contact', 'tender_idSupplierContact = contact_idSupplier')
+            ->joinLeft('supplier_contact', 'tender_idSupplierContact = SupplierCo_idSuppliercontact')
             ->where('tender_idTender = ?', $id);
 
         $row = $this->fetchAll($select);

@@ -50,6 +50,8 @@ class Power_Model_Mapper_MeterContract extends ZendSF_Model_Mapper_Acl_Abstract
     protected $_modelClass = 'Power_Model_MeterContract';
 
     public function getMetersByContractId($id)
+	// Can this be moved to Meter.php?  So it is more consistent with getTenderByContractId etc.
+	// We only have MeterContract because it is a 2 way reference.
     {
         $select = $this->getDbTable()
             ->select(false)
