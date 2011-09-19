@@ -100,7 +100,7 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
     public function addAction()
     {
         $this->getForm('siteAdd')
-                ->addHiddenElement('returnAction', 'add');
+            ->addHiddenElement('returnAction', 'add');
     }
 
     public function editAction()
@@ -110,12 +110,25 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
             $meter = new Power_Model_Mapper_Meter();
 
             $this->getForm('siteEdit')
-                    ->populate($site->toArray('dd/MM/yyyy'))
-                    ->addHiddenElement('returnAction', 'edit');
+                ->populate($site->toArray('dd/MM/yyyy'))
+                ->addHiddenElement('returnAction', 'edit');
+
+            $meters = $meter->getMetersBySiteId($site->getId());
+
+            $meterStore = $this->getDataStore($meters, 'meter_idMeter');
+
+            $store = json_decode($meterStore, true);
+
+            $this->_log->info($store);
+
+            //{name: "Delete", field: "inc_number", formatter: getDelete}
+
+            $this->_log->info($meterStore);
 
             $this->view->assign(array(
                 'site' => $site,
-                'meters' => $meter->getMetersBySiteId($site->getId())
+                'meters' => $meters,
+                'meterStore'    => $meterStore
             ));
         } else {
            return $this->_helper->redirector('index', 'site');
