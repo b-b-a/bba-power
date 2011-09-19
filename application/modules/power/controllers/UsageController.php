@@ -103,9 +103,10 @@ class Power_UsageController extends BBA_Controller_Action_Abstract
         /* @var $meterId Power_Form_Usage_Save */
         $meterId = $this->_request->getPost('usage_idMeter');
 
-
         if ($this->_request->getParam('cancel')) {
-            return $this->_helper->redirector('index', 'meter', 'power');
+            return $this->_helper->redirector('edit', 'meter', 'power', array(
+                'meterId' => $meterId
+            ));
         }
 
         $action = $this->_request->getParam('returnAction');
