@@ -16,7 +16,7 @@
 )); ?>
 
 <script>
-    var clientStore = <?php echo $this->store; ?>;
+    //var clientStore = <?php echo $this->store; ?>;
     dojo.addOnLoad(function(){
         dojo.connect(grid, "onRowClick", function(val){
             selectedIndex = grid.focus.rowIndex;
@@ -30,25 +30,29 @@
 
 </script>
 
-<div dojotype="dojo.data.ItemFileReadStore" jsid="tableStore" data="clientStore"></div>
+<div dojotype="dojox.data.QueryReadStore"
+     jsid="tableStore"
+     url="/client/client-store<?php echo $this->search; ?>"
+     requestMethod="post"></div>
 
 <table dojoType="dojox.grid.DataGrid"
        jsId="grid"
        store="tableStore"
-       query="{ client_idClient: '*' }"
+       query="{}"
        style="width: 100%; height: 500px;"
        autoWidth="false"
        autoHeight="false"
        rowSelector="0px"
-       rowsPerPage="1"
+       rowsPerPage="25"
+       clientSort="true"
        noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
     <thead>
         <tr>
             <th field="client_idClient" width="75">Id</th>
             <th field="client_name" width="auto">Client</th>
             <th field="client_desc" width="auto">Description</th>
-            <th field="client_clientAd_address1" width="300">Address 1</th>
-            <th field="client_clientAd_postcode" width="100">Postcode</th>
+            <th field="client_address1" width="300">Address 1</th>
+            <th field="client_postcode" width="100">Postcode</th>
         </tr>
     </thead>
 </table>

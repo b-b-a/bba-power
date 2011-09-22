@@ -68,7 +68,7 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
         }
     }
 
-    public function clientSearch($search, $paged = null)
+    public function clientSearch($search, $sort = null, $order = null, $count = null, $offset = null, $paged = null)
     {
         $select = $this->getDbTable()->getClientList();
 
@@ -85,6 +85,14 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
                 ->orWhere('clientAd_address2 like ?', '%' . $search['address'] . '%')
                 ->orWhere('clientAd_address3 like ?', '%' . $search['address'] . '%')
                 ->orWhere('clientAd_postcode like ?', '%' . $search['address'] . '%');
+        }
+
+        if ($count && $offset) {
+            $select->limit($count, $offset);
+        }
+
+        if ($sort && $order) {
+            $select->order($sort . ' ' . $order);
         }
 
         return $this->listClients($paged, $select);

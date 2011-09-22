@@ -9,3 +9,8 @@ data/cache/db/*
 !data/cache/db/donotremove
 data/logs/*
 !data/logs/donotremove
+public/js/dijit/*
+public/js/dojo/*
+public/js/dojox/*
+public/js/util/*
+public/js/bba/*
