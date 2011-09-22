@@ -213,15 +213,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Dojo::enableView($this->_view);
 
         $this->_view->dojo()
-             //->setCdnVersion('1.6.1')
-             ->setLocalPath('/js/release/dojo/dojo.js')
-             //->addStyleSheetModule('dijit.themes.claro')
-             //->addLayer('/js/bba/bba.layer.js')
-             ->disable();
+            //->setCdnVersion('1.6.1')
+            ->setLocalPath('/js/release/dojo/dojo.js')
+            //->addStyleSheetModule('dijit.themes.claro')
+            //->addLayer('/js/bba/bba.layer.js')
+            ->disable();
         $this->_view->headLink()
-                ->prependStylesheet('/js/release/dojo/dijit/themes/claro/claro.css')
-                ->prependStylesheet('/js/release/dojo/dojox/grid/resources/Grid.css')
-                ->prependStylesheet('/js/release/dojo/dojox/grid/resources/claroGrid.css');
+            ->prependStylesheet('/js/release/dojo/dijit/themes/claro/claro.css')
+            ->prependStylesheet('/js/release/dojo/dojox/grid/resources/Grid.css')
+            ->prependStylesheet('/js/release/dojo/dojox/grid/resources/claroGrid.css');
 
         $this->_view->headTitle('BBA Power')->setSeparator(' - ');
     }

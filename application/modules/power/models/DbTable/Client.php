@@ -84,9 +84,8 @@ class Power_Model_DbTable_Client extends Zend_Db_Table_Abstract
             ))
             ->join('client_address', 'client_idAddress = clientAd_idAddress', array(
                 'clientAd_addressName',
-                'clientAd_address1',
-                'clientAd_postcode'
-            ))
-            ->order('client_name ASC');
+                'client_address1' => 'clientAd_address1',
+                'client_postcode' => 'clientAd_postcode'
+            ));
     }
 }
