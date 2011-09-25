@@ -98,6 +98,11 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
         return $this->listClients($paged, $select);
     }
 
+    public function numRecords($search)
+    {
+        
+    }
+
     public function save()
     {
         if (!$this->checkAcl('save')) {

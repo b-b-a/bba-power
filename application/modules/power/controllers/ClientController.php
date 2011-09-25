@@ -161,6 +161,7 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
         }
 
         $clients = $this->_model->clientSearch($search, $sort, $order, $count, $start);
+
         $store = $this->getDataStore($clients, 'client_idClient');
 
         $numRows = count($this->_model->clientSearch($search));
