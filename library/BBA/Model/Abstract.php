@@ -47,16 +47,6 @@ abstract class BBA_Model_Abstract extends ZendSF_Model_Abstract
     protected $_dateFormat = 'yyyy-MM-dd';
 
     /**
-     * Gets the model prefix.
-     *
-     * @return string $_prefix
-     */
-    public function getPrefix()
-    {
-        return $this->_prefix;
-    }
-
-    /**
      * Sets the create date for this record.
      *
      * @param string $date
@@ -87,36 +77,4 @@ abstract class BBA_Model_Abstract extends ZendSF_Model_Abstract
         }
         return $this;
     }
-
-    /**
-     * turns the model into an array of values.
-     *
-     * @param string $dateFormat
-     * @return array
-     */
-    public function toArray($dateFormat = null)
-    {
-        $array = array();
-
-        foreach ($this->_data as $key => $value) {
-
-            if ($value instanceof Zend_Date) {
-                if ($this->_dateFormat === null) {
-                    $value = $value->getTimestamp();
-                } elseif ($dateFormat) {
-                    $value = $value->toString($dateFormat);
-                } else {
-                    $value = $value->toString($this->_dateFormat);
-                }
-            }
-
-            // put the table prefix back.
-            $key = $this->_prefix . lcfirst($key);
-
-            $array[$key] = $value;
-        }
-
-        return $array;
-    }
-
 }

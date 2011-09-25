@@ -104,7 +104,7 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
             $contracts = $this->_model->getContractsBySupplierId($supplier->getId());
             $supplierContacts = $this->_model->getContactsBySupplierId($supplier->getId());
 
-            $contractStore = $this->getDataStore($contracts, 'contract_idContract');
+            $contractStore = $this->getDataStore($contracts, 'idContract');
             $contactStore = $this->getDataStore($supplierContacts, 'contactCo_idSupplierContact');
 
             $this->getForm('supplierSave')
