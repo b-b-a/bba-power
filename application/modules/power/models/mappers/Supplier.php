@@ -49,13 +49,14 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
      */
     protected $_modelClass = 'Power_Model_Supplier';
 
-    public function supplierSearch($search, $paged = null)
+    protected function _getSearch($search, $select)
     {
-        $select = $this->getDbTable()->getSupplierList();
+        if ($search === null) {
+            return $select;
+        }
 
         if (!$search['supplier'] == '') {
-            $select
-                ->where('supplier_name like ?', '%' . $search['supplier'] . '%')
+            $select->where('supplier_name like ?', '%' . $search['supplier'] . '%')
                 ->orWhere('supplier_address1 like ?', '%' . $search['supplier'] . '%')
                 ->orWhere('supplier_address2 like ?', '%' . $search['supplier'] . '%')
                 ->orWhere('supplier_address3 like ?', '%' . $search['supplier'] . '%')
@@ -63,8 +64,7 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
         }
 
         if (!$search['contact'] == '') {
-            $select
-                ->where('supplierCo_name like ?', '%' . $search['contact'] . '%')
+            $select->where('supplierCo_name like ?', '%' . $search['contact'] . '%')
                 ->orWhere('supplierCo_email like ?', '%' . $search['contact'] . '%')
                 ->orWhere('supplierCo_address1 like ?', '%' . $search['contact'] . '%')
                 ->orWhere('supplierCo_address2 like ?', '%' . $search['contact'] . '%')
@@ -72,26 +72,45 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
                 ->orWhere('supplierCo_postcode like ?', '%' . $search['contact'] . '%');
         }
 
-        return $this->listSuppliers($paged, $select);
+        return $select;
     }
 
-    public function listSuppliers($paged = null, $select = null)
+    public function numRows($search)
     {
-        if ($select === null) {
-            $select = $this->getDbTable()->getSupplierList();
+        /* @var $select Zend_Db_Table_Select */
+        $select = $this->getDbTable()->getSupplierList();
+
+        $select = $this->_getSearch($search, $select);
+
+        $result = $this->fetchAll($select, true);
+
+        return $result->count();
+    }
+
+    public function listSuppliers($search = null, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->getDbTable()->getSupplierList();
+
+        $select = $this->_getSearch($search, $select);
+
+        if ($count && $offset) {
+            $select->limit($count, $offset);
         }
 
-        if (null !== $paged) {
-            $numDisplay = Zend_Registry::get('config')
-                ->layout
-                ->supplier
-                ->paginate
-                ->itemCountPerPage;
+        if($sort == '') {
+            $sort = 'supplier_name';
+        }
 
-            return $this->_paginate($select, $paged, $numDisplay);
+        if(strchr($sort,'-')) {
+            $sort = substr($sort, 1, strlen($sort));
+            $order = 'DESC';
         } else {
-            return $this->fetchAll($select);
+            $order = 'ASC';
         }
+
+        $select->order($sort . ' ' . $order);
+
+        return $this->fetchAll($select);
     }
 
     public function getContactsBySupplierId($id)

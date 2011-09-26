@@ -49,28 +49,37 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
      */
     protected $_modelClass = 'Power_Model_Client';
 
-    public function listClients($paged = null, $select = null)
-    {
-        if ($select === null) {
-            $select = $this->getDbTable()->getClientList();
-        }
-
-        if (null !== $paged) {
-            $numDisplay = Zend_Registry::get('config')
-                ->layout
-                ->client
-                ->paginate
-                ->itemCountPerPage;
-
-            return $this->_paginate($select, $paged, $numDisplay);
-        } else {
-            return $this->fetchAll($select);
-        }
-    }
-
-    public function clientSearch($search, $sort = null, $order = null, $count = null, $offset = null, $paged = null)
+    public function listClients($search = null, $sort = '', $count = null, $offset = null)
     {
         $select = $this->getDbTable()->getClientList();
+
+        $select = $this->_getSearch($search, $select);
+
+        if ($count && $offset) {
+            $select->limit($count, $offset);
+        }
+
+        if($sort == '') {
+            $sort = 'client_name';
+        }
+
+        if(strchr($sort,'-')) {
+            $sort = substr($sort, 1, strlen($sort));
+            $order = 'DESC';
+        } else {
+            $order = 'ASC';
+        }
+
+        $select->order($sort . ' ' . $order);
+
+        return $this->fetchAll($select);
+    }
+
+    protected function _getSearch($search, $select)
+    {
+        if ($search === null) {
+            return $select;
+        }
 
         if (!$search['client'] == '') {
             $select
@@ -87,20 +96,19 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
                 ->orWhere('clientAd_postcode like ?', '%' . $search['address'] . '%');
         }
 
-        if ($count && $offset) {
-            $select->limit($count, $offset);
-        }
-
-        if ($sort && $order) {
-            $select->order($sort . ' ' . $order);
-        }
-
-        return $this->listClients($paged, $select);
+        return $select;
     }
 
-    public function numRecords($search)
+    public function numRows($search)
     {
-        
+        /* @var $select Zend_Db_Table_Select */
+        $select = $this->getDbTable()->getClientList();
+
+        $select = $this->_getSearch($search, $select);
+
+        $result = $this->fetchAll($select, true);
+
+        return $result->count();
     }
 
     public function save()

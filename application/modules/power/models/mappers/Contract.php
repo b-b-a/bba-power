@@ -54,10 +54,11 @@ class Power_Model_Mapper_Contract extends ZendSF_Model_Mapper_Acl_Abstract
      *
      * @return array
      */
-    public function contractSearch($search, $paged = null)
+    protected function _getSearch($search, $select)
     {
-        /* @var $select Zend_Db_Table_Select */
-        $select = $this->getDbTable()->getContractList();
+        if ($search === null) {
+            return $select;
+        }
 
         if (!$search['contract'] == '') {
             $select->where('client_name like ? ', '%'. $search['contract'] . '%')
@@ -70,26 +71,45 @@ class Power_Model_Mapper_Contract extends ZendSF_Model_Mapper_Acl_Abstract
                 ->orWhere('meter_type like ?', '%' . $search['meter'] . '%');
         }
 
-        return $this->getContractList($paged, $select);
+        return $select;
     }
 
-    public function getContractList($paged = null, $select = null)
+    public function numRows($search)
     {
-        if ($select === null) {
-            $select = $this->getDbTable()->getContractList();
+        /* @var $select Zend_Db_Table_Select */
+        $select = $this->getDbTable()->getContractList();
+
+        $select = $this->_getSearch($search, $select);
+
+        $result = $this->fetchAll($select, true);
+
+        return $result->count();
+    }
+
+    public function getContractList($search = null, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->getDbTable()->getContractList();
+
+        $select = $this->_getSearch($search, $select);
+
+        if ($count && $offset) {
+            $select->limit($count, $offset);
         }
 
-        if (null !== $paged) {
-            $numDisplay = Zend_Registry::get('config')
-                ->layout
-                ->contract
-                ->paginate
-                ->itemCountPerPage;
+        if($sort == '') {
+            $sort = 'client_name';
+        }
 
-            return $this->_paginate($select, $paged, $numDisplay);
+        if(strchr($sort,'-')) {
+            $sort = substr($sort, 1, strlen($sort));
+            $order = 'DESC';
         } else {
-            return $this->fetchAll($select);
+            $order = 'ASC';
         }
+
+        $select->order($sort . ' ' . $order);
+
+        return $this->fetchAll($select);
     }
 
     public function getContractById($id)

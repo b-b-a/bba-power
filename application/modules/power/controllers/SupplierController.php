@@ -64,6 +64,10 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
             'action' => 'index',
             'module' => 'power'
         ));
+
+        $this->_setSearch(array(
+            'supplier', 'contact'
+        ));
     }
 
     /**
@@ -71,23 +75,17 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        $search = array(
-            'supplier'    => $this->_request->getParam('supplier'),
-            'contact'   => $this->_request->getParam('contact')
-        );
-
         $this->getForm('supplierSearch')
-            ->populate($search);
+            ->populate($this->_getSearch());
 
-        $suppliers = $this->_model->supplierSearch($search);
-        $store = $this->getDataStore($suppliers, 'supplier_idSupplier');
-
-        // gets all clients and assigns them to the view script.
         $this->view->assign(array(
-            'suppliers'   => $suppliers,
-            'search'    => $search,
-            'store'     => $store
+            'search'    => $this->_getSearchString()
         ));
+    }
+
+    public function supplierStoreAction()
+    {
+        return $this->_getAjaxDataStore('listSuppliers' ,'supplier_idSupplier');
     }
 
     public function addAction()

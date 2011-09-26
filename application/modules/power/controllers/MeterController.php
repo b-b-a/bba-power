@@ -74,6 +74,10 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
             'action' => 'save',
             'module' => 'power'
         ));
+
+        $this->_setSearch(array(
+            'meter', 'site'
+        ));
     }
 
     /**
@@ -81,23 +85,17 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        $search = array(
-            'meter'     => $this->_request->getParam('meter'),
-            'site'      => $this->_request->getParam('site')
-        );
-
         $this->getForm('meterSearch')
-            ->populate($search);
+            ->populate($this->_getSearch());
 
-        $meters = $this->_model->meterSearch($search);
-        $meterStore = $this->getDataStore($meters, 'meter_idMeter');
-
-        // gets all meters and assigns them to the view script.
         $this->view->assign(array(
-            'meters'    => $meters,
-            'search'    => $search,
-            'store'     => $meterStore
+            'search'    => $this->_getSearchString()
         ));
+    }
+
+    public function meterStoreAction()
+    {
+        return $this->_getAjaxDataStore('listMeters' ,'meter_idMeter');
     }
 
     public function addAction()

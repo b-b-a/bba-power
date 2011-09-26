@@ -47,7 +47,7 @@ class Power_Model_DbTable_Supplier extends Zend_Db_Table_Abstract
      * @var string primary key
      */
     protected $_primary = 'supplier_idSupplier';
-    
+
     /**
      * @var array Reference map for parent tables
      */
@@ -66,7 +66,7 @@ class Power_Model_DbTable_Supplier extends Zend_Db_Table_Abstract
             'refColumns'    => 'user_idUser'
         )
     );
-    
+
     public function getSupplierList()
     {
         return $this->select(false)
@@ -77,7 +77,6 @@ class Power_Model_DbTable_Supplier extends Zend_Db_Table_Abstract
                 'supplier_address1',
                 'supplier_postcode'
             ))
-            ->joinLeft('supplier_contact', 'supplier_idSupplierContact = supplierCo_idSupplierContact', null)
-            ->order('supplier_name ASC');
+            ->joinLeft('supplier_contact', 'supplier_idSupplierContact = supplierCo_idSupplierContact', null);
     }
 }

@@ -11,7 +11,6 @@
 )); ?>
 
 <script>
-    var meterStore = <?php echo $this->store; ?>;
     dojo.addOnLoad(function(){
         dojo.connect(grid, "onRowClick", function(val){
             selectedIndex = grid.focus.rowIndex;
@@ -21,11 +20,11 @@
 
             var url = '/meter/edit/meterId/' + selectedId;
 
-            <?php foreach($this->search as $key => $value): ?>
-                    <?php if($value): ?>
-                        url = url + '/<?php echo $key; ?>' + '/<?php echo $value; ?>';
-                    <?php endif; ?>
-            <?php endforeach; ?>
+            <?php //foreach($this->search as $key => $value): ?>
+                    <?php //if($value): ?>
+                        //url = url + '/<?php //echo $key; ?>' + '/<?php //echo $value; ?>';
+                    <?php //endif; ?>
+            <?php //endforeach; ?>
 
             location.href = url;
         });
@@ -33,12 +32,15 @@
 
 </script>
 
-<div dojotype="dojo.data.ItemFileReadStore" jsid="tableStore" data="meterStore"></div>
+<div dojotype="dojox.data.QueryReadStore"
+     jsid="tableStore"
+     url="/meter/meter-store<?php echo $this->search; ?>"
+     requestMethod="post"></div>
 
 <table dojoType="dojox.grid.DataGrid"
        jsId="grid"
        store="tableStore"
-       query="{ meter_idMeter: '*' }"
+       query="{}"
        style="width: 100%;height:500px;"
        autoWidth="false"
        autoHeight="false"

@@ -8,7 +8,6 @@
 ?>
 
 <script>
-    var contractStore = <?php echo $this->store; ?>;
     dojo.addOnLoad(function(){
         dojo.connect(grid, "onRowClick", function(val){
             selectedIndex = grid.focus.rowIndex;
@@ -31,17 +30,21 @@
     ),'default', true)
 )); ?>
 
-<div dojotype="dojo.data.ItemFileReadStore" jsid="tableStore" data="contractStore"></div>
+<div dojotype="dojox.data.QueryReadStore"
+     jsid="tableStore"
+     url="/contract/contract-store<?php echo $this->search; ?>"
+     requestMethod="post"></div>
 
 <table dojoType="dojox.grid.DataGrid"
        jsId="grid"
        store="tableStore"
-       query="{ contract_idContract: '*' }"
+       query="{}"
        style="width: 100%;height:500px;"
        autoWidth="false"
-
+       autoHeight="false"
        rowSelector="0px"
        rowsPerPage="25"
+       clientSort="true"
        noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
     <thead>
         <tr>

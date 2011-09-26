@@ -84,13 +84,12 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
             ->join('client', 'client_idClient = site_idClient')
             ->joinLeft('client_contact', 'client_idClientContact = clientCo_idClientContact')
             ->join('meter_contract', 'meter_idMeter = meterContract_idMeter')
-            ->join('contract', 'meterContract_idContract = contract_idContract')
-            ->order('client_name ASC');
+            ->join('contract', 'meterContract_idContract = contract_idContract');
     }
-    
+
     /**
      * Cherry pick which columns to return for speed.
-     * 
+     *
      * @return Zend_Db_Table_Select
      */
     public function getMeterList()
@@ -114,7 +113,6 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
             ->join('contract', 'meterContract_idContract = contract_idContract', array(
                 'contract_status',
                 'contract_dateEnd'
-            ))
-            ->order('client_name ASC');
+            ));
     }
 }
