@@ -48,6 +48,10 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
 
     protected $_dateFormat = 'dd/MM/yyyy';
 
+    protected $_search = array();
+
+    protected $_searchString;
+
     public function init()
     {
         parent::init();
@@ -70,5 +74,67 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
         if ($this->_helper->acl('Guest')) {
             return $this->_forward('login', 'auth');
         }
+    }
+
+    protected function _setSearch(array $search)
+    {
+        foreach ($search as $value) {
+            $this->_search[$value] = $this->_request->getParam($value);
+        }
+
+        return $this;
+    }
+
+    protected function _getSearch()
+    {
+        if (null === $this->_search) {
+            throw new ZendSF_Exception('Search needs to be set.');
+        }
+
+        return $this->_search;
+    }
+
+    protected function _setSearchString()
+    {
+        foreach ($this->_getSearch() as $key => $value) {
+            if ($value) {
+                $this->_searchString .= '/' . $key . '/' . $value;
+            }
+        }
+
+        return $this;
+    }
+
+    protected function _getSearchString()
+    {
+        if (null === $this->_searchString) {
+            $this->_setSearchString();
+        }
+
+        return $this->_searchString;
+    }
+
+    protected function _getAjaxDataStore($mapperMethod, $dataStoreId)
+    {
+        $this->_helper->layout->disableLayout();
+        $this->getHelper('viewRenderer')->setNoRender(true);
+
+        $sort = $this->getRequest()->getParam('sort');
+        $count = $this->getRequest()->getParam('count');
+        $start = $this->getRequest()->getParam('start');
+
+        $mapperAction = $this->_request->getControllerName() . 'Search';
+
+        $data = $this->_model->{$mapperMethod}(
+            $this->_getSearch(), $sort, $count, $start
+        );
+
+        $store = $this->getDataStore($data, $dataStoreId);
+
+        $store = json_decode($store, true);
+
+        $store['numRows'] = $this->_model->numRows($this->_getSearch());
+
+        echo json_encode($store);
     }
 }

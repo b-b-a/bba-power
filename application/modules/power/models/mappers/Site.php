@@ -49,46 +49,64 @@ class Power_Model_Mapper_Site extends ZendSF_Model_Mapper_Acl_Abstract
      */
     protected $_modelClass = 'Power_Model_Site';
 
-    public function siteSearch($search, $paged = null)
+    protected function _getSearch($search, $select)
     {
-        /* @var $select Zend_Db_Table_Select */
-        $select = $this->getDbTable()->getSiteList();
+        if ($search === null) {
+            return $select;
+        }
 
         if (!$search['client'] == '') {
-            $select
-                ->where('client_name like ?', '%' . $search['client'] . '%')
+            $select->where('client_name like ?', '%' . $search['client'] . '%')
                 ->orWhere('client_desc like ?', '%' . $search['client'] . '%');
         }
 
         if (!$search['site'] == '') {
-            $select
-                ->where('clientAd_addressName like ?', '%' . $search['site'] . '%')
+            $select->where('clientAd_addressName like ?', '%' . $search['site'] . '%')
                 ->orWhere('clientAd_address1 like ?', '%' . $search['site'] . '%')
                 ->orWhere('clientAd_address2 like ?', '%' . $search['site'] . '%')
                 ->orWhere('clientAd_address3 like ?', '%' . $search['site'] . '%')
                 ->orWhere('clientAd_postcode like ?', '%' . $search['site'] . '%');
         }
 
-        return $this->listSites($paged, $select);
+        return $select;
     }
 
-    public function listSites($paged = null, $select = null)
+    public function numRows($search)
     {
-        if ($select === null) {
-            $select = $this->getDbTable()->getSiteList();
+        /* @var $select Zend_Db_Table_Select */
+        $select = $this->getDbTable()->getSiteList();
+
+        $select = $this->_getSearch($search, $select);
+
+        $result = $this->fetchAll($select, true);
+
+        return $result->count();
+    }
+
+    public function listSites($search = null, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->getDbTable()->getSiteList();
+
+        $select = $this->_getSearch($search, $select);
+
+        if ($count && $offset) {
+            $select->limit($count, $offset);
         }
 
-        if (null !== $paged) {
-            $numDisplay = Zend_Registry::get('config')
-                ->layout
-                ->meter
-                ->paginate
-                ->itemCountPerPage;
+        if($sort == '') {
+            $sort = 'client_name';
+        }
 
-            return $this->_paginate($select, $paged);
+        if(strchr($sort,'-')) {
+            $sort = substr($sort, 1, strlen($sort));
+            $order = 'DESC';
         } else {
-            return $this->fetchAll($select);
+            $order = 'ASC';
         }
+
+        $select->order($sort . ' ' . $order);
+
+        return $this->fetchAll($select);
     }
 
     public function getSiteDetails($id)

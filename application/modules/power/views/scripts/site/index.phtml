@@ -16,7 +16,6 @@
 )); ?>
 
 <script>
-    var siteStore = <?php echo $this->store; ?>;
     dojo.addOnLoad(function(){
         dojo.connect(grid, "onRowClick", function(val){
             selectedIndex = grid.focus.rowIndex;
@@ -30,17 +29,21 @@
 
 </script>
 
-<div dojotype="dojo.data.ItemFileReadStore" jsid="tableStore" data="siteStore"></div>
+<div dojotype="dojox.data.QueryReadStore"
+     jsid="tableStore"
+     url="/site/site-store<?php echo $this->search; ?>"
+     requestMethod="post"></div>
 
 <table dojoType="dojox.grid.DataGrid"
        jsId="grid"
        store="tableStore"
-       query="{ site_idSite: '*' }"
+       query="{}"
        style="width: 100%;height:500px;"
        autoWidth="false"
        autoHeight="false"
        rowSelector="0px"
        rowsPerPage="25"
+       clientSort="true"
        noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
     <thead>
         <tr>

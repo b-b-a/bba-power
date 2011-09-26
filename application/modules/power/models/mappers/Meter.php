@@ -54,9 +54,11 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
      *
      * @return array
      */
-    public function meterSearch($search, $paged = null)
+    protected function _getSearch($search, $select)
     {
-        $select = $this->getDbTable()->getMeterList();
+        if ($search === null) {
+            return $select;
+        }
 
         if (!$search['meter'] == '') {
             $filter = new Zend_Filter_PregReplace(array(
@@ -64,7 +66,7 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
                     'replace' => ''
                 )
             );
-            
+
             $select->where('meter_numberMain like ?', '%'. $filter->filter($search['meter']) . '%');
         }
 
@@ -77,7 +79,19 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
                 ->orWhere('clientAd_postcode like ?', '%' . $search['site'] . '%');
         }
 
-        return $this->listMeters($paged, $select);
+        return $select;
+    }
+
+    public function numRows($search)
+    {
+        /* @var $select Zend_Db_Table_Select */
+        $select = $this->getDbTable()->getMeterList();
+
+        $select = $this->_getSearch($search, $select);
+
+        $result = $this->fetchAll($select, true);
+
+        return $result->count();
     }
 
     /**
@@ -86,23 +100,30 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
      * @param Zend_Db_Table_Select $select
      * @return Power_Model_Meter
      */
-    public function listMeters($paged = null, $select = null)
+    public function listMeters($search = null, $sort = '', $count = null, $offset = null)
     {
-        if ($select === null) {
-            $select = $this->getDbTable()->getMeterList();
+        $select = $this->getDbTable()->getMeterList();
+
+        $select = $this->_getSearch($search, $select);
+
+        if ($count && $offset) {
+            $select->limit($count, $offset);
         }
 
-        if (null !== $paged) {
-            $numDisplay = Zend_Registry::get('config')
-                ->layout
-                ->meter
-                ->paginate
-                ->itemCountPerPage;
+        if($sort == '') {
+            $sort = 'client_name';
+        }
 
-            return $this->_paginate($select, $paged, $numDisplay);
+        if(strchr($sort,'-')) {
+            $sort = substr($sort, 1, strlen($sort));
+            $order = 'DESC';
         } else {
-            return $this->fetchAll($select);
+            $order = 'ASC';
         }
+
+        $select->order($sort . ' ' . $order);
+
+        return $this->fetchAll($select);
     }
 
     public function getMetersBySiteId($id)

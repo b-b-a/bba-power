@@ -69,6 +69,10 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
             'action' => 'index',
             'module' => 'power'
         ));
+
+        $this->_setSearch(array(
+            'client', 'address'
+        ));
     }
 
     /**
@@ -76,32 +80,12 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        $search = array(
-            'client'    => $this->_request->getParam('client'),
-            'address'   => $this->_request->getParam('address')
-        );
-
         $this->getForm('clientSearch')
-            ->populate($search);
+            ->populate($this->_getSearch());
 
-        //$clients = $this->_model->clientSearch($search);
-        //$store = $this->getDataStore($clients, 'client_idClient');
-
-        $searchString = null;
-
-        if ($search['client']) {
-            $searchString .= '/client/' . $search['client'];
-        }
-
-        if ($search['address']) {
-            $searchString .= '/address/' . $search['address'];
-        }
-
-        // gets all clients and assigns them to the view script.
+        // assign search to the view script.
         $this->view->assign(array(
-            //'clients'   => $clients,
-            'search'    => $searchString,
-            //'store'     => $store
+            'search' => $this->_getSearchString()
         ));
     }
 
@@ -137,40 +121,7 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
 
     public function clientStoreAction()
     {
-        $search = array(
-            'client'    => $this->_request->getParam('client'),
-            'address'   => $this->_request->getParam('address')
-        );
-
-        $this->_helper->layout->disableLayout();
-        $this->getHelper('viewRenderer')->setNoRender(true);
-
-        $sort = $this->getRequest()->getParam('sort');
-        $count = $this->getRequest()->getParam('count');
-        $start = $this->getRequest()->getParam('start');
-
-        if($sort == "") {
-            $sort = "client_name";
-        }
-
-        if(strchr($sort,'-')) {
-            $sort = substr($sort,1,strlen($sort));
-            $order = "DESC";
-        } else {
-            $order="ASC";
-        }
-
-        $clients = $this->_model->clientSearch($search, $sort, $order, $count, $start);
-
-        $store = $this->getDataStore($clients, 'client_idClient');
-
-        $numRows = count($this->_model->clientSearch($search));
-
-        $store = json_decode($store, true);
-
-        $store['numRows'] = $numRows;
-
-        echo json_encode($store);
+        return $this->_getAjaxDataStore('listClients' ,'client_idClient');
     }
 
     public function saveAction()

@@ -102,7 +102,6 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
             ->joinLeft(
                 'client_contact', 'clientCo_idClientContact = site_idClientContact', array(
 				'clientCo_name'
-            ))
-            ->order('client_name ASC');
+            ));
     }
 }

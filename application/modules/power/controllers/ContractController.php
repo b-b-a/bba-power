@@ -69,6 +69,10 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
             'action' => 'save',
             'module' => 'power'
         ));
+
+        $this->_setSearch(array(
+            'contract', 'meter'
+        ));
     }
 
     /**
@@ -76,24 +80,17 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        $search = array(
-            'contract' => $this->_request->getParam('contract'),
-            'meter'    => $this->_request->getParam('meter')
-        );
-
         $this->getForm('contractSearch')
-            ->populate($search);
+            ->populate($this->_getSearch());
 
-        $contracts = $this->_model->contractSearch($search);
-
-        $dataStore = $this->getDataStore($contracts, 'contract_idContract');
-
-        // gets all contracts and assigns them to the view script.
         $this->view->assign(array(
-            'contracts' => $contracts,
-            'search'    => $search,
-            'store'     => $dataStore
+            'search'    => $this->_getSearchString()
         ));
+    }
+
+    public function contractStoreAction()
+    {
+        return $this->_getAjaxDataStore('getContractList', 'contract_idContract');
     }
 
     public function editAction()
