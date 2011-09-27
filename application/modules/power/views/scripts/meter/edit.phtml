@@ -19,10 +19,10 @@
 
 <div class="ident">
     <h3>Contract Info:</h3>
-    <p>Reference: </p>
-    <p>Description: </p>
-    <p>Status: </p>
-    <p>Supplier: </p>
+    <p><b>Reference:</b> <?php echo $this->escape($this->meter->contract_reference); ?></p>
+    <p><b>Description:</b> <?php echo $this->escape($this->meter->contract_desc); ?></p>
+    <p><b>Status:</b> <?php echo $this->escape($this->meter->contract_status); ?></p>
+    <p><b>Supplier:</b> <?php echo $this->escape($this->meter->supplier_name); ?></p>
 </div>
 
 <div class="clear"></div>
