@@ -131,10 +131,8 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
 
         $store = $this->getDataStore($data, $dataStoreId);
 
-        $store = json_decode($store, true);
+        $store->setMetadata('numRows', $this->_model->numRows($this->_getSearch()));
 
-        $store['numRows'] = $this->_model->numRows($this->_getSearch());
-
-        echo json_encode($store);
+        echo $store->toJson();
     }
 }

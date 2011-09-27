@@ -106,9 +106,7 @@ class Power_Model_Mapper_Meter extends ZendSF_Model_Mapper_Acl_Abstract
 
         $select = $this->_getSearch($search, $select);
 
-        if ($count && $offset) {
-            $select->limit($count, $offset);
-        }
+        $select->limit($count, $offset);
 
         if($sort == '') {
             $sort = 'client_name';

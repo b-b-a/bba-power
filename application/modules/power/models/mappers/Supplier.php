@@ -93,9 +93,7 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
 
         $select = $this->_getSearch($search, $select);
 
-        if ($count && $offset) {
-            $select->limit($count, $offset);
-        }
+        $select->limit($count, $offset);
 
         if($sort == '') {
             $sort = 'supplier_name';
