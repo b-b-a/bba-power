@@ -70,9 +70,6 @@ class Power_Model_Mapper_Client extends ZendSF_Model_Mapper_Acl_Abstract
 
         $select->order($sort . ' ' . $order);
 
-        $log = Zend_Registry::get('log');
-        $log->info($select->__toString());
-
         return $this->fetchAll($select);
     }
 
