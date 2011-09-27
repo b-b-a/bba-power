@@ -96,11 +96,21 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
 
     protected function _setSearchString()
     {
+        $searchString = '{';
+
         foreach ($this->_getSearch() as $key => $value) {
             if ($value) {
-                $this->_searchString .= '/' . $key . '/' . $value;
+                $searchString .= $key . ":'" . $value . "',";
             }
         }
+
+        if (substr($searchString, -1, 1) == ',') {
+            $searchString = substr($searchString, 0, -1) . '}';
+        } else {
+            $searchString .= '}';
+        }
+
+        $this->_searchString = $searchString;
 
         return $this;
     }
