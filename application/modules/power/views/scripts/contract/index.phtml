@@ -32,13 +32,13 @@
 
 <div dojotype="dojox.data.QueryReadStore"
      jsid="tableStore"
-     url="/contract/contract-store<?php echo $this->search; ?>"
+     url="/contract/contract-store"
      requestMethod="post"></div>
 
 <table dojoType="dojox.grid.DataGrid"
        jsId="grid"
        store="tableStore"
-       query="{}"
+       query="<?php echo $this->search; ?>"
        style="width: 100%;height:500px;"
        autoWidth="false"
        autoHeight="false"

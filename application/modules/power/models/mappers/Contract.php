@@ -90,6 +90,9 @@ class Power_Model_Mapper_Contract extends ZendSF_Model_Mapper_Acl_Abstract
     {
         $select = $this->getDbTable()->getContractList();
 
+        $log = Zend_Registry::get('log');
+        $log->info($search);
+
         $select = $this->_getSearch($search, $select);
 
         $select->limit($count, $offset);
