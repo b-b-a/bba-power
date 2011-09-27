@@ -123,8 +123,6 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
         $count = $this->getRequest()->getParam('count');
         $start = $this->getRequest()->getParam('start');
 
-        $mapperAction = $this->_request->getControllerName() . 'Search';
-
         $data = $this->_model->{$mapperMethod}(
             $this->_getSearch(), $sort, $count, $start
         );
