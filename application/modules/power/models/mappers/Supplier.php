@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
+class Power_Model_Mapper_Supplier extends BBA_Model_Mapper_Abstract
 {
    /**
      * @var string the DbTable class name
@@ -49,67 +49,7 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
      */
     protected $_modelClass = 'Power_Model_Supplier';
 
-    protected function _getSearch($search, $select)
-    {
-        if ($search === null) {
-            return $select;
-        }
-
-        if (!$search['supplier'] == '') {
-            $select->where('supplier_name like ?', '%' . $search['supplier'] . '%')
-                ->orWhere('supplier_address1 like ?', '%' . $search['supplier'] . '%')
-                ->orWhere('supplier_address2 like ?', '%' . $search['supplier'] . '%')
-                ->orWhere('supplier_address3 like ?', '%' . $search['supplier'] . '%')
-                ->orWhere('supplier_postcode like ?', '%' . $search['supplier'] . '%');
-        }
-
-        if (!$search['contact'] == '') {
-            $select->where('supplierCo_name like ?', '%' . $search['contact'] . '%')
-                ->orWhere('supplierCo_email like ?', '%' . $search['contact'] . '%')
-                ->orWhere('supplierCo_address1 like ?', '%' . $search['contact'] . '%')
-                ->orWhere('supplierCo_address2 like ?', '%' . $search['contact'] . '%')
-                ->orWhere('supplierCo_address3 like ?', '%' . $search['contact'] . '%')
-                ->orWhere('supplierCo_postcode like ?', '%' . $search['contact'] . '%');
-        }
-
-        return $select;
-    }
-
-    public function numRows($search)
-    {
-        /* @var $select Zend_Db_Table_Select */
-        $select = $this->getDbTable()->getSupplierList();
-
-        $select = $this->_getSearch($search, $select);
-
-        $result = $this->fetchAll($select, true);
-
-        return $result->count();
-    }
-
-    public function listSuppliers($search = null, $sort = '', $count = null, $offset = null)
-    {
-        $select = $this->getDbTable()->getSupplierList();
-
-        $select = $this->_getSearch($search, $select);
-
-        $select->limit($count, $offset);
-
-        if($sort == '') {
-            $sort = 'supplier_name';
-        }
-
-        if(strchr($sort,'-')) {
-            $sort = substr($sort, 1, strlen($sort));
-            $order = 'DESC';
-        } else {
-            $order = 'ASC';
-        }
-
-        $select->order($sort . ' ' . $order);
-
-        return $this->fetchAll($select);
-    }
+    protected $_defaultDbSort = 'supplier_name';
 
     public function getContactsBySupplierId($id)
     {
@@ -155,26 +95,7 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
             throw new ZendSF_Acl_Exception('saving suppliers is not allowed.');
         }
 
-        $form = $this->getForm('supplierSave')->getValues();
-
-        // remove client id if not set.
-        if (!$form['supplier_idSupplier']) unset($form['supplier_idSupplier']);
-
-        $model = new Power_Model_Supplier($form);
-
-        // set create date and user.
-        if ($form['returnAction'] == 'add') {
-            $model->setDateCreate();
-            $model->userCreate = $form['userId'];
-        }
-
-        // add modified date/user if updating record.
-        if ($model->getId()) {
-            $model->userModify = $form['userId'];
-            $model->setDateModify();
-        }
-
-        return parent::save($model);
+        return parent::save('supplierSave');
     }
 
     public function delete($id)
@@ -189,27 +110,4 @@ class Power_Model_Mapper_Supplier extends ZendSF_Model_Mapper_Acl_Abstract
 
         return parent::delete($where);
     }
-
-    /**
-     * Injector for the acl, the acl can be injected directly
-     * via this method.
-     *
-     * We add all the access rules for this resource here, so we first call
-     * parent method to add $this as the resource then we
-     * define it rules here.
-     *
-     * @param Zend_Acl_Resource_Interface $acl
-     * @return ZendSF_Model_Mapper_Abstract
-     */
-    public function setAcl(Zend_Acl $acl)
-    {
-        parent::setAcl($acl);
-
-        // implement rules here.
-        $this->_acl->allow('admin', $this)
-            ->deny('admin', $this, array('delete'));
-
-        return $this;
-    }
-
 }

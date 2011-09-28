@@ -83,7 +83,7 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
         )
     );
 
-    public function getContractList()
+    public function getList()
     {
         return $this->select(false)
             ->setIntegrityCheck(false)
@@ -110,5 +110,30 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
                 array('meter_numberMain', 'meter_type')
            )
            ->group('contract_idContract');
+    }
+
+    public function getSearch($search, $select)
+    {
+        if ($search === null) {
+            return $select;
+        }
+
+        if (!$search['contract'] == '') {
+            if (substr($search['contract'], 0, 1) == '=') {
+                $id = (int) substr($search['contract'], 1);
+                $select->where('contract_idContract = ?', $id);
+            } else {
+                $select->orWhere('client_name like ? ', '%'. $search['contract'] . '%')
+                    ->orWhere('contract_reference like ? ', '%'. $search['contract'] . '%')
+                    ->orWhere('contract_desc like ? ', '%'. $search['contract'] . '%');
+            }
+        }
+
+        if (!$search['meter'] == '') {
+            $select->orWhere('meter_numberMain like ?', '%'. $search['meter'] . '%')
+                ->orWhere('meter_type like ?', '%' . $search['meter'] . '%');
+        }
+
+        return $select;
     }
 }

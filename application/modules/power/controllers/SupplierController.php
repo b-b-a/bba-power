@@ -85,7 +85,7 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
 
     public function supplierStoreAction()
     {
-        return $this->_getAjaxDataStore('listSuppliers' ,'supplier_idSupplier');
+        return $this->_getAjaxDataStore('getList' ,'supplier_idSupplier');
     }
 
     public function addAction()
