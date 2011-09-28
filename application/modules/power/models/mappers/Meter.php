@@ -69,6 +69,7 @@ class Power_Model_Mapper_Meter extends BBA_Model_Mapper_Abstract
         $row = $this->fetchRow($select, true);
 
         $model = new Power_Model_Meter($row);
+        $model->setCols($this->getDbTable()->info('cols'));
 
         return $model;
     }
