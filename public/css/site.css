@@ -379,3 +379,15 @@ Flash Messenger
   width: 0;
   height: 0;
 }
+
+/**
+Meter Styles
+*/
+
+.meterContract h3 {
+    text-align: center;
+}
+
+.meterContract p {
+    margin: 2px;
+}

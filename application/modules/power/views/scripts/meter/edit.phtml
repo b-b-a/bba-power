@@ -17,12 +17,16 @@
     <?php echo $this->meterSaveForm; ?>
 </div>
 
-<div class="ident">
+<div class="ident meterContract">
     <h3>Contract Info:</h3>
+    <p><b>Contract Id:</b> <?php echo $this->escape($this->meter->contract_idContract); ?></p>
     <p><b>Reference:</b> <?php echo $this->escape($this->meter->contract_reference); ?></p>
     <p><b>Description:</b> <?php echo $this->escape($this->meter->contract_desc); ?></p>
     <p><b>Status:</b> <?php echo $this->escape($this->meter->contract_status); ?></p>
+    <p><b>Start Date:</b> <?php echo $this->escape($this->meter->contract_dateStart); ?></p>
+    <p><b>End Date:</b> <?php echo $this->escape($this->meter->contract_dateEnd); ?></p>
     <p><b>Supplier:</b> <?php echo $this->escape($this->meter->supplier_name); ?></p>
+    <p><b>Supplier Commission:</b> <?php echo $this->escape($this->meter->supplier_commission); ?></p>
 </div>
 
 <div class="clear"></div>
