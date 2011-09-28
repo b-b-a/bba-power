@@ -95,7 +95,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
 
     public function meterStoreAction()
     {
-        return $this->_getAjaxDataStore('listMeters' ,'meter_idMeter');
+        return $this->_getAjaxDataStore('getList' ,'meter_idMeter');
     }
 
     public function addAction()

@@ -85,7 +85,7 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
             ));
     }
 
-    public function getSiteList()
+    public function getList()
     {
         return $this->select(false)
             ->setIntegrityCheck(false)
@@ -103,5 +103,32 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
                 'client_contact', 'clientCo_idClientContact = site_idClientContact', array(
 				'clientCo_name'
             ));
+    }
+
+    public function getSearch($search, $select)
+    {
+        if ($search === null) {
+            return $select;
+        }
+
+        if (!$search['site'] == '') {
+            if (substr($search['site'], 0, 1) == '=') {
+                $id = (int) substr($search['site'], 1);
+                $select->where('site_idSite = ?', $id);
+            } else {
+                $select->orWhere('clientAd_addressName like ?', '%' . $search['site'] . '%')
+                    ->orWhere('clientAd_address1 like ?', '%' . $search['site'] . '%')
+                    ->orWhere('clientAd_address2 like ?', '%' . $search['site'] . '%')
+                    ->orWhere('clientAd_address3 like ?', '%' . $search['site'] . '%')
+                    ->orWhere('clientAd_postcode like ?', '%' . $search['site'] . '%');
+            }
+        }
+
+        if (!$search['client'] == '') {
+            $select->orWhere('client_name like ?', '%' . $search['client'] . '%')
+                ->orWhere('client_desc like ?', '%' . $search['client'] . '%');
+        }
+
+        return $select;
     }
 }

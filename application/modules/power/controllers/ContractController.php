@@ -90,7 +90,7 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
 
     public function contractStoreAction()
     {
-        return $this->_getAjaxDataStore('getContractList', 'contract_idContract');
+        return $this->_getAjaxDataStore('getList', 'contract_idContract');
     }
 
     public function editAction()

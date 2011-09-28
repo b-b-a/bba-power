@@ -67,7 +67,7 @@ class Power_Model_DbTable_Supplier extends Zend_Db_Table_Abstract
         )
     );
 
-    public function getSupplierList()
+    public function getList()
     {
         return $this->select(false)
             ->setIntegrityCheck(false)
@@ -77,6 +77,41 @@ class Power_Model_DbTable_Supplier extends Zend_Db_Table_Abstract
                 'supplier_address1',
                 'supplier_postcode'
             ))
-            ->joinLeft('supplier_contact', 'supplier_idSupplierContact = supplierCo_idSupplierContact', null);
+            ->joinLeft(
+                'supplier_contact',
+                'supplier_idSupplierContact = supplierCo_idSupplierContact',
+                null
+            );
+    }
+
+    public function getSearch($search, $select)
+    {
+        if ($search === null) {
+            return $select;
+        }
+
+        if (!$search['supplier'] == '') {
+            if (substr($search['supplier'], 0, 1) == '=') {
+                $id = (int) substr($search['supplier'], 1);
+                $select->where('supplier_idSupplier = ?', $id);
+            } else {
+                $select->orWhere('supplier_name like ?', '%' . $search['supplier'] . '%')
+                    ->orWhere('supplier_address1 like ?', '%' . $search['supplier'] . '%')
+                    ->orWhere('supplier_address2 like ?', '%' . $search['supplier'] . '%')
+                    ->orWhere('supplier_address3 like ?', '%' . $search['supplier'] . '%')
+                    ->orWhere('supplier_postcode like ?', '%' . $search['supplier'] . '%');
+            }
+        }
+
+        if (!$search['contact'] == '') {
+            $select->orWhere('supplierCo_name like ?', '%' . $search['contact'] . '%')
+                ->orWhere('supplierCo_email like ?', '%' . $search['contact'] . '%')
+                ->orWhere('supplierCo_address1 like ?', '%' . $search['contact'] . '%')
+                ->orWhere('supplierCo_address2 like ?', '%' . $search['contact'] . '%')
+                ->orWhere('supplierCo_address3 like ?', '%' . $search['contact'] . '%')
+                ->orWhere('supplierCo_postcode like ?', '%' . $search['contact'] . '%');
+        }
+
+        return $select;
     }
 }

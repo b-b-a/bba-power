@@ -94,7 +94,7 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
      *
      * @return Zend_Db_Table_Select
      */
-    public function getMeterList()
+    public function getList()
     {
         return $this->select(false)
             ->setIntegrityCheck(false)
@@ -116,5 +116,38 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
                 'contract_status',
                 'contract_dateEnd'
             ));
+    }
+
+    public function getSearch($search, $select)
+    {
+        if ($search === null) {
+            return $select;
+        }
+
+        if (!$search['meter'] == '') {
+            $filter = new Zend_Filter_PregReplace(array(
+                    'match' => '/-/',
+                    'replace' => ''
+                )
+            );
+
+            if (substr($search['meter'], 0, 1) == '=') {
+                $id = (int) substr($search['meter'], 1);
+                $select->where('meter_idMeter = ?', $id);
+            } else {
+                $select->orWhere('meter_numberMain like ?', '%'. $filter->filter($search['meter']) . '%');
+            }
+        }
+
+        if (!$search['site'] == '') {
+            $select
+                ->orWhere('clientAd_addressName like ? ', '%' . $search['site'] . '%')
+                ->orWhere('clientAd_address1 like ?', '%' . $search['site'] . '%')
+                ->orWhere('clientAd_address2 like ?', '%' . $search['site'] . '%')
+                ->orWhere('clientAd_address3 like ?', '%' . $search['site'] . '%')
+                ->orWhere('clientAd_postcode like ?', '%' . $search['site'] . '%');
+        }
+
+        return $select;
     }
 }

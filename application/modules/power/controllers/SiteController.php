@@ -130,7 +130,7 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
 
     public function siteStoreAction()
     {
-        return $this->_getAjaxDataStore('listSites' ,'site_idSite');
+        return $this->_getAjaxDataStore('getList' ,'site_idSite');
     }
 
     public function autocompleteAction()
