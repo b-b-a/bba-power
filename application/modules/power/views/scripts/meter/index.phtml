@@ -41,23 +41,24 @@
        jsId="grid"
        store="tableStore"
        query="<?php echo $this->search; ?>"
-       style="margin:auto;"
-       autoWidth="true"
-       autoHeight="20"
+       style="width: 100%;height:500px;"
+       autoWidth="false"
+       autoHeight="false"
        rowSelector="0px"
        rowsPerPage="25"
        clientSort="true"
        noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
     <thead>
         <tr>
-            <th field="meter_idMeter" width="75">Id</th>
+            <th field="meter_idMeter" width="50">Id</th>
             <th field="client_name" width="200">Client</th>
             <th field="clientAd_addressName" width="200">Address Name</th>
             <th field="clientAd_postcode" width="100">Postcode</th>
             <th field="meter_type" width="100">Meter Type</th>
-            <th field="meter_numberMain" width="150">MPAN13</th>
-            <th field="contract_status" width="150">Contract Status</th>
+            <th field="meter_numberMain" width="120">Meter #</th>
+            <th field="contract_status" width="80">Contract</br>Status</th>
             <th field="contract_dateEnd" width="100">End Date</th>
+			<th field=" " width="auto"> </th>
         </tr>
     </thead>
 </table>
