@@ -60,6 +60,7 @@ class Power_Model_Mapper_Site extends BBA_Model_Mapper_Abstract
         $row = $this->fetchRow($select, true);
 
         $model = new Power_Model_Site($row);
+        $model->setCols($this->getDbTable()->info('cols'));
 
         return $model;
     }
