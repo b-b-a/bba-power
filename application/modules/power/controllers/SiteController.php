@@ -112,11 +112,7 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
 
             $store = json_decode($meterStore, true);
 
-            $this->_log->info($store);
-
             //{name: "Delete", field: "inc_number", formatter: getDelete}
-
-            //$this->_log->info($meterStore);
 
             $this->view->assign(array(
                 'site' => $site,
