@@ -79,7 +79,7 @@ else: ?>
 </table>
 -->
 <script>
-    dojo.declare("bba", null, {
+    dojo.declare("bba.store", null, {
         constructor: function(/* Object */args){
             dojo.safeMixin(this, args);
         }
@@ -95,14 +95,14 @@ else: ?>
 
             bba.clientId = val;
             bba.addressStore = new dojo.data.ItemFileReadStore({
-                url:'/site/autocomplete/param/address/addressId/' + bba.clientId
+                url:'/site/autocomplete/param/address/addressId/' + bba.store.clientId
             });
-            dijit.byId("site_idAddress").store = bba.addressStore;
+            dijit.byId("site_idAddress").store = bba.store.addressStore;
         });
 
         dojo.connect(dijit.byId("site_idAddress"), "onChange", function(val){
             dijit.byId("site_idAddressBill").set('disabled', false);
-            dijit.byId("site_idAddressBill").store = bba.addressStore;
+            dijit.byId("site_idAddressBill").store = bba.store.addressStore;
         });
     });
 </script>
@@ -145,11 +145,9 @@ else: ?>
         <tr>
             <th field="meter_idMeter" width="75">Id</th>
             <th field="meter_type" width="100">Type</th>
-            <th field="meter_numberSerial" width="auto">Number Serial</th>
-            <th field="meter_numberMain" width="auto">Number Main</th>
-            <!--
-            <th field="delete" width="100" formatter="getDelete">&nbsp;</th>
-            -->
+            <th field="meter_numberSerial" width="200">Number Serial</th>
+            <th field="meter_numberMain" width="200">Number Main</th>
+            <th field="" width="auto"></th>
         </tr>
     </thead>
 </table>

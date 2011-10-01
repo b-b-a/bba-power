@@ -95,8 +95,8 @@ class Power_UsersController extends ZendSF_Controller_Action_Abstract
 
     public function editAction()
     {
-        if ($this->_request->getParam('userId')) {
-            $user = $this->_model->find($this->_request->getParam('userId'));
+        if ($this->_request->getParam('idUser')) {
+            $user = $this->_model->find($this->_request->getParam('idUser'));
             $this->getForm('userSave')
                 ->populate($user->toArray('dd/MM/yyyy'))
                 ->addHiddenElement('returnAction', 'edit')

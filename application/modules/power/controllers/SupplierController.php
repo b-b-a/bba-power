@@ -96,9 +96,9 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
 
     public function editAction()
     {
-        if ($this->_request->getParam('supplierId')) {
+        if ($this->_request->getParam('idSupplier')) {
 
-            $supplier = $this->_model->find($this->_request->getParam('supplierId'));
+            $supplier = $this->_model->find($this->_request->getParam('idSupplier'));
             $contracts = $this->_model->getContractsBySupplierId($supplier->getId());
             $supplierContacts = $this->_model->getContactsBySupplierId($supplier->getId());
 

@@ -14,7 +14,7 @@
             //Not sure if this is the most efficient way but it worked for me
             selectedId = userGrid.store.getValue(selectedItem, "user_idUser");
 
-            location.href = '/users/edit/userId/' + selectedId;
+            location.href = '/users/edit/idUser/' + selectedId;
         });
     });
 
@@ -44,7 +44,8 @@
             <th field="user_idUser" width="75">Id</th>
             <th field="user_name" width="200">Username</th>
             <th field="user_fullName" width="200">Name</th>
-            <th field="user_role" width="auto">Role</th>
+            <th field="user_role" width="100">Role</th>
+            <th field="" width="auto"></th>
         </tr>
     </thead>
 </table>

@@ -311,10 +311,32 @@ th {
     cursor: pointer;
 }
 
-.claro .dojoxGridCell {
+.claro .dojoxGridContent .dojoxGridCell {
     border-right:1px solid #bcbcbc;
     padding-left: 5px;
+
 }
+
+.claro .dojoxGridHeader .dojoxGridCell  {
+	padding-left: 5px;
+    background: url("/js/release/dojo/dojox/grid/resources/images/header_shadow.png") #e5edf4 repeat-x bottom;
+}
+
+.claro .dojoxGridHeader .dojoxGridCell:hover {
+	background-color:#9dcfff;
+}
+
+.claro .dojoxGridCellOver .dojoxGridSortNode {
+	background-color: transparent;
+    border: 1px solid transparent;
+}
+
+.claro .dojoxGridSortNode {
+    white-space:normal;
+    line-height: 14px;
+    background: none;
+}
+
 /*
 	TableHead styles - the heading line and possible(New XXXX)button that heads
 						each table of details.

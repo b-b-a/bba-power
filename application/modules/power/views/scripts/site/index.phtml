@@ -15,20 +15,6 @@
     ), 'default', true)
 )); ?>
 
-<script>
-    dojo.addOnLoad(function(){
-        dojo.connect(grid, "onRowClick", function(val){
-            selectedIndex = grid.focus.rowIndex;
-            selectedItem = grid.getItem(selectedIndex);
-            //Not sure if this is the most efficient way but it worked for me
-            selectedId = grid.store.getValue(selectedItem, "site_idSite");
-
-            location.href = '/site/edit/siteId/' + selectedId;
-        });
-    });
-
-</script>
-
 <div dojotype="dojox.data.QueryReadStore"
      jsid="tableStore"
      url="/site/site-store"
@@ -54,6 +40,7 @@
             <th field="clientAd_address1" width="200">Address 1</th>
             <th field="clientAd_postcode" width="100">Postcode</th>
             <th field="clientCo_name" width="100">Contact</th>
+            <th field="" width="auto"></th>
         </tr>
     </thead>
 </table>
