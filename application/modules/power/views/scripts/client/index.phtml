@@ -15,43 +15,19 @@
     ), 'default', true)
 )); ?>
 
-<script>
-    dojo.addOnLoad(function(){
-        dojo.connect(grid, "onRowClick", function(val){
-            selectedIndex = grid.focus.rowIndex;
-            selectedItem = grid.getItem(selectedIndex);
-            //Not sure if this is the most efficient way but it worked for me
-            selectedId = grid.store.getValue(selectedItem, "client_idClient");
-
-            var formNode = dojo.create("form", {
-                action:"/client/edit",
-                method:"post"
-            }, dojo.body());
-
-            dojo.create("input", {
-                type:"hidden",
-                name:"clientId",
-                value:selectedId
-            },formNode);
-
-            formNode.submit();
-        });
-    });
-
-</script>
-
-<div dojotype="dojox.data.QueryReadStore"
-     jsid="tableStore"
+<div dojoType="dojox.data.QueryReadStore"
+     jsid="clientStore"
      url="/client/client-store"
      requestMethod="post"></div>
 
 <table dojoType="dojox.grid.DataGrid"
-       jsId="grid"
-       store="tableStore"
+       jsId="clientGrid"
+       store="clientStore"
        query="<?php echo $this->search; ?>"
        style="margin:auto;"
        autoWidth="true"
        autoHeight="20"
+       selectionMode="single"
        rowSelector="0px"
        rowsPerPage="25"
        clientSort="true"
@@ -63,7 +39,7 @@
             <th field="client_desc" width="200">Description</th>
             <th field="clientAd_address1" width="300">Address 1</th>
             <th field="clientAd_postcode" width="100">Postcode</th>
-			<th field=" " width="auto"> </th>
+            <th field="" width="auto"></th>
         </tr>
     </thead>
 </table>

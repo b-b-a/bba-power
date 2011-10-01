@@ -8,7 +8,7 @@
 </div>
 
 <script>
-    dojo.declare("bba", null, {
+    dojo.declare("bba.store", null, {
         constructor: function(/* Object */args){
             dojo.safeMixin(this, args);
         }
@@ -24,14 +24,14 @@
 
             bba.clientId = val;
             bba.addressStore = new dojo.data.ItemFileReadStore({
-                url:'/site/autocomplete/param/address/addressId/' + bba.clientId
+                url:'/site/autocomplete/param/address/addressId/' + bba.store.clientId
             });
-            dijit.byId("site_idAddress").store = bba.addressStore;
+            dijit.byId("site_idAddress").store = bba.store.addressStore;
         });
 
         dojo.connect(dijit.byId("site_idAddress"), "onChange", function(){
             dijit.byId("site_idAddressBill").set('disabled', false);
-            dijit.byId("site_idAddressBill").store = bba.addressStore;
+            dijit.byId("site_idAddressBill").store = bba.store.addressStore;
         });
     });
 </script>

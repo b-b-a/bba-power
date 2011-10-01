@@ -114,10 +114,10 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
 
     public function editAction()
     {
-        if ($this->_request->getParam('meterId')) {
+        if ($this->_request->getParam('idMeter')) {
             $usageModel = new Power_Model_Mapper_Usage();
-            $meter = $this->_model->getMeterDetails($this->_request->getParam('meterId'));
-            $usage = $usageModel->getUsageByMeterId($this->_request->getParam('meterId'));
+            $meter = $this->_model->getMeterDetails($this->_request->getParam('idMeter'));
+            $usage = $usageModel->getUsageByMeterId($this->_request->getParam('idMeter'));
 
             $usageStore = $this->getDataStore($usage, 'usage_idUsage');
 

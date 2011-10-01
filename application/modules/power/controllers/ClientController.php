@@ -97,9 +97,9 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
 
     public function editAction()
     {
-        if ($this->_request->getParam('clientId')) {
+        if ($this->_request->getParam('idClient')) {
 
-            $client = $this->_model->find($this->_request->getParam('clientId'));
+            $client = $this->_model->find($this->_request->getParam('idClient'));
 
             // get client addresses and store them for the table.
             $clientAd = new Power_Model_Mapper_ClientAddress();

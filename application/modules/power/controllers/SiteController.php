@@ -98,8 +98,8 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
 
     public function editAction()
     {
-        if ($this->_request->getParam('siteId')) {
-            $site = $this->_model->getSiteDetails($this->_request->getParam('siteId'));
+        if ($this->_request->getParam('idSite')) {
+            $site = $this->_model->getSiteDetails($this->_request->getParam('idSite'));
             $meter = new Power_Model_Mapper_Meter();
 
             $this->getForm('siteEdit')

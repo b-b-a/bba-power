@@ -23,15 +23,17 @@
 
 </script>
 
-<div dojotype="dojo.data.ItemFileReadStore" jsid="tableAddressStore" data="addressStore"></div>
+<div dojotype="dojo.data.ItemFileReadStore"
+     jsid="tableAddressStore"
+     data="addressStore"></div>
 
 <table dojoType="dojox.grid.DataGrid"
        jsId="addressGrid"
        store="tableAddressStore"
        query="{ clientAd_idAddress: '*' }"
        style="margin:auto;"
-       autoWidth="true"
-       autoHeight="auto"
+       autoWidth="false"
+       autoHeight="20"
        rowSelector="0px"
        rowsPerPage="25"
        noDataMessage="<span class='dojoxGridNoData'>This Client has no addresses yet.</span>">
@@ -43,6 +45,7 @@
             <th field="clientAd_address2" width="200">Address 2</th>
             <th field="clientAd_address3" width="100">Address 3</th>
             <th field="clientAd_postcode" width="100">Postcode</th>
+            <th field="" width="auto"></th>
         </tr>
     </thead>
 </table>

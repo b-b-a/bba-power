@@ -13,4 +13,5 @@ public/js/dijit/*
 public/js/dojo/*
 public/js/dojox/*
 public/js/util/*
-public/js/bba/*
+public/js/bba/bba.layer.js
+public/js/bba/bba.profile.js
