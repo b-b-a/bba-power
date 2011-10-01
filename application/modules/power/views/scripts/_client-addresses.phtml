@@ -4,38 +4,26 @@
     'location'  => $this->url(array(
         'controller'    => 'client-address',
         'action'        => 'add',
-        'clientId'      => $this->clientId
+        'clientId'      => $this->idClient
     ), 'default', true)
 )); ?>
 
-<script>
-    var addressStore = <?php echo $this->addressStore; ?>;
-    dojo.addOnLoad(function(){
-        dojo.connect(addressGrid, "onRowClick", function(val){
-            selectedIndex = this.focus.rowIndex;
-            selectedItem = this.getItem(selectedIndex);
-            //Not sure if this is the most efficient way but it worked for me
-            addressId = this.store.getValue(selectedItem, "clientAd_idAddress");
-
-            location.href = '/client-address/edit/clientId/<?php echo $this->clientId; ?>/addressId/' + addressId;
-        });
-    });
-
-</script>
-
-<div dojotype="dojo.data.ItemFileReadStore"
-     jsid="tableAddressStore"
-     data="addressStore"></div>
+<div dojoType="dojox.data.QueryReadStore"
+     jsid="clientAddressStore"
+     url="/client-address/client-address-store"
+     requestMethod="post"></div>
 
 <table dojoType="dojox.grid.DataGrid"
        jsId="addressGrid"
-       store="tableAddressStore"
-       query="{ clientAd_idAddress: '*' }"
+       store="clientAddressStore"
+       query="{ id: <?php echo $this->idClient; ?> }"
        style="margin:auto;"
-       autoWidth="false"
+       autoWidth="true"
        autoHeight="20"
+       selectionMode="single"
        rowSelector="0px"
        rowsPerPage="25"
+       clientSort="true"
        noDataMessage="<span class='dojoxGridNoData'>This Client has no addresses yet.</span>">
     <thead>
         <tr>
