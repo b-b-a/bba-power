@@ -50,12 +50,17 @@ class BBA_Model_Mapper_Abstract extends ZendSF_Model_Mapper_Acl_Abstract
         return $this->getDbTable()->getSearch($search, $select);
     }
 
-    public function numRows($search)
+    public function numRows($search, $child = false)
     {
-        /* @var $select Zend_Db_Table_Select */
-        $select = $this->getDbTable()->getList();
+         if (!$child) {
+            $select = $this->getDbTable()->getList();
 
-        $select = $this->_getSearch($search, $select);
+            $select = $this->_getSearch($search, $select);
+        } else {
+            $select = $this->getDbTable()
+                ->select()
+                ->where($search['col'] . ' = ?', $search['id']);
+        }
 
         $result = $this->fetchAll($select, true);
 

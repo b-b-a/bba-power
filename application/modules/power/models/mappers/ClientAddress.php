@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Mapper_ClientAddress extends ZendSF_Model_Mapper_Acl_Abstract
+class Power_Model_Mapper_ClientAddress extends BBA_Model_Mapper_Abstract
 {
     /**
      * @var string the DbTable class name
@@ -49,14 +49,27 @@ class Power_Model_Mapper_ClientAddress extends ZendSF_Model_Mapper_Acl_Abstract
      */
     protected $_modelClass = 'Power_Model_ClientAddress';
 
-    public function getAddressByClientId($id)
+    protected $_defaultDbSort = 'clientAd_postcode';
+
+    public function getAddressByClientId($id, $sort = '', $count = null, $offset = null)
     {
         $select = $this->getDbTable()
             ->select()
-            ->where('clientAd_idClient = ?', $id)
-            ->order('clientAd_postcode ASC');
+            ->where('clientAd_idClient = ?', $id);
+
+        $select = $this->getLimit($select, $count, $offset);
+
+        $select = $this->getSort($select, $sort);
 
         return $this->fetchAll($select);
+    }
+
+    public function numRows($id)
+    {
+        return parent::numRows(array(
+            'col' => 'clientAd_idClient',
+            'id'  => $id
+        ), true);
     }
 
     public function save()

@@ -10,9 +10,8 @@
 </div>
 
 <?php echo $this->partial('_client-addresses.phtml', array(
-    'clientId'      => $this->clientAd->idClient,
-    'currentEdit'   => $this->clientAd->idAddress,
-    'addressStore'  => $this->addressStore
+    'idClient'      => $this->clientAd->idClient,
+    'currentEdit'   => $this->clientAd->idAddress
 )); ?>
 <?php /* Commented out for V1 - clientContacts needs more thought about the associated address
 echo $this->partial('_client-contacts.phtml', array(

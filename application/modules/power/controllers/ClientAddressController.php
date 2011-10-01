@@ -64,6 +64,11 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
         ));
     }
 
+    public function clientAddressStoreAction()
+    {
+        return $this->_getAjaxDataStore('getAddressByClientId' ,'clientAd_idAddress', true);
+    }
+
     public function addAction()
     {
         $this->getForm('clientAddressSave')
@@ -79,17 +84,14 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
 
     public function editAction()
     {
-        if ($this->_request->getParam('addressId')) {
-            $clientAd = $this->_model->find($this->_request->getParam('addressId'));
-            $this->getForm('clientAddressSave')
-                    ->populate($clientAd->toArray('dd/MM/yyyy'))
-                    ->addHiddenElement('returnAction', 'edit');
+        if ($this->_request->getParam('idAddress')) {
+            $clientAd = $this->_model->find($this->_request->getParam('idAddress'));
 
-            $addresses = $this->_model->getAddressByClientId($clientAd->idClient);
-            $addressStore = $this->getDataStore($addresses, 'clientAd_idAddress');
+            $this->getForm('clientAddressSave')
+                ->populate($clientAd->toArray('dd/MM/yyyy'))
+                ->addHiddenElement('returnAction', 'edit');
 
             $this->view->assign(array(
-                'addressStore' => $addressStore,
                 'clientAd'    => $clientAd
             ));
         } else {
