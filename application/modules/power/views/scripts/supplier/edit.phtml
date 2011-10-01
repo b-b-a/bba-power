@@ -37,39 +37,9 @@
 
 </script>
 
-<?php echo $this->partial('_table-head.phtml', array(
-    'heading'   => 'Contracts',
-    'label'     => 'New Contract',
-    'location'  => $this->url(array(
-        'controller'    => 'contract',
-        'action'        => 'add',
-        'supplierId'    => $this->supplier->idSupplier
-    ),'default', true)
-)); ?>
+<div dojotype="dojo.data.ItemFileReadStore" jsid="contactTableStore" data="contactStore"></div>
 
 <div dojotype="dojo.data.ItemFileReadStore" jsid="contractTableStore" data="contractStore"></div>
-
-<table dojoType="dojox.grid.DataGrid"
-       jsId="contractGrid"
-       store="contractTableStore"
-       query="{ contract_idContract: '*' }"
-       style="width: 100%;"
-       autowidth="false"
-       autoHeight="true"
-       rowSelector="0px"
-       rowsPerPage="25"
-       noDataMessage="<span class='dojoxGridNoData'>This Supplier has no contracts yet.</span>">
-    <thead>
-        <tr>
-            <th field="contract_idContract" width="75">Id</th>
-            <th field="contract_type" width="150">Type</th>
-            <th field="contract_status" width="100">Status</th>
-            <th field="contract_dateEnd" width="100">End Date</th>
-            <th field="contract_reference" width="100">Reference</th>
-            <th field="" width="auto"></th>
-        </tr>
-    </thead>
-</table>
 
 <?php echo $this->partial('_table-head.phtml', array(
     'heading'   => 'Contacts',
@@ -79,8 +49,6 @@
         'action'        => 'add'
     ),'default', true)
 )); ?>
-
-<div dojotype="dojo.data.ItemFileReadStore" jsid="contactTableStore" data="contactStore"></div>
 
 <table dojoType="dojox.grid.DataGrid"
        jsId="contactGrid"
@@ -104,3 +72,36 @@
         </tr>
     </thead>
 </table>
+
+<?php echo $this->partial('_table-head.phtml', array(
+    'heading'   => 'Contracts',
+    'label'     => 'New Contract',
+    'location'  => $this->url(array(
+        'controller'    => 'contract',
+        'action'        => 'add',
+        'supplierId'    => $this->supplier->idSupplier
+    ),'default', true)
+)); ?>
+
+<table dojoType="dojox.grid.DataGrid"
+       jsId="contractGrid"
+       store="contractTableStore"
+       query="{ contract_idContract: '*' }"
+       style="width: 100%;"
+       autowidth="false"
+       autoHeight="20"
+       rowSelector="0px"
+       rowsPerPage="25"
+       noDataMessage="<span class='dojoxGridNoData'>This Supplier has no contracts yet.</span>">
+    <thead>
+        <tr>
+            <th field="contract_idContract" width="75">Id</th>
+            <th field="contract_type" width="150">Type</th>
+            <th field="contract_status" width="100">Status</th>
+            <th field="contract_dateEnd" width="100">End Date</th>
+            <th field="contract_reference" width="200">Reference</th>
+            <th field="" width="auto"></th>
+        </tr>
+    </thead>
+</table>
+
