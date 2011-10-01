@@ -46,9 +46,13 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
         $clientId = null;
 
         $view = $this->getView();
-        if (isset($view->request['siteId'])) {
-            $siteId = $view->request['siteId'];
-            
+
+        $log = Zend_Registry::get('log');
+
+
+        if (isset($view->request['idSite'])) {
+            $siteId = $view->request['idSite'];
+
             $row = $this->_model->find($siteId);
             $clientId = $row->idClient;
         }
@@ -114,7 +118,7 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
         if ($auth->role == 'admin') {
             $this->addSubmit('Save');
         }
-        
+
         $this->addSubmit('Cancel', 'cancel');
     }
 
