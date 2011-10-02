@@ -89,7 +89,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
             ->populate($this->_getSearch());
 
         $this->view->assign(array(
-            'search'    => $this->_getSearchString()
+            'search' => $this->_getSearchString()
         ));
     }
 
@@ -115,18 +115,13 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
     public function editAction()
     {
         if ($this->_request->getParam('idMeter')) {
-            $usageModel = new Power_Model_Mapper_Usage();
             $meter = $this->_model->getMeterDetails($this->_request->getParam('idMeter'));
-            $usage = $usageModel->getUsageByMeterId($this->_request->getParam('idMeter'));
-
-            $usageStore = $this->getDataStore($usage, 'usage_idUsage');
 
             $this->getForm('meterSave')
                 ->populate($meter->toArray('dd/MM/yyyy'))
                 ->addHiddenElement('returnAction', 'edit');
 
             $this->view->assign(array(
-                'usageStore' => $usageStore,
                 'meter' => $meter
             ));
 

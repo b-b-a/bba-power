@@ -49,8 +49,6 @@ class Power_Model_Mapper_Client extends BBA_Model_Mapper_Abstract
      */
     protected $_modelClass = 'Power_Model_Client';
 
-    protected $_defaultDbSort = 'client_name';
-
     public function save()
     {
         if (!$this->checkAcl('save')) {

@@ -87,10 +87,6 @@ class BBA_Model_Mapper_Abstract extends ZendSF_Model_Mapper_Acl_Abstract
 
     public function getSort($select, $sort)
     {
-        if($sort == '') {
-            $sort = $this->_defaultDbSort;
-        }
-
         if(strchr($sort,'-')) {
             $sort = substr($sort, 1, strlen($sort));
             $order = 'DESC';

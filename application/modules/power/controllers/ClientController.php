@@ -101,18 +101,12 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
 
             $client = $this->_model->find($this->_request->getParam('idClient'));
 
-            // get client addresses and store them for the table.
-            //$clientAd = new Power_Model_Mapper_ClientAddress();
-            //$addresses = $this->_model->getAddressesByClientId($client->id);
-            //$addressStore = $this->getDataStore($addresses, 'clientAd_idAddress');
-
             $this->getForm('clientSave')
                 ->populate($client->toArray('dd/MM/yyyy'))
                 ->addHiddenElement('returnAction', 'edit');
 
             $this->view->assign(array(
-                'client'        => $client,
-                //'addressStore'  => $addressStore
+                'client'        => $client
             ));
         } else {
            return $this->_helper->redirector('index', 'client');

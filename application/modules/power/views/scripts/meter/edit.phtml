@@ -31,41 +31,33 @@
 
 <div class="clear"></div>
 
-<script>
-    var usageStore = <?php echo $this->usageStore; ?>;
-
-    dojo.addOnLoad(function(){
-        dojo.connect(usageGrid, "onRowClick", function(val){
-            selectedIndex = usageGrid.focus.rowIndex;
-            selectedItem = usageGrid.getItem(selectedIndex);
-            //Not sure if this is the most efficient way but it worked for me
-            selectedId = usageGrid.store.getValue(selectedItem, "usage_idUsage");
-
-            location.href = '/usage/edit/usageId/' + selectedId;
-        });
-    });
-
-</script>
-
 <?php echo $this->partial('_table-head.phtml', array(
     'heading'   => 'Usage',
     'label'     => 'Add Usage',
     'location'  => $this->url(array(
         'controller'    => 'usage',
         'action'        => 'add',
-        'meterId'    => $this->meter->id
+        'idMeter'       => $this->meter->id
     ),'default', true)
 )); ?>
 
-<div dojotype="dojo.data.ItemFileReadStore" jsid="usageTableStore" data="usageStore"></div>
+<div dojoType="dojox.data.QueryReadStore"
+     jsid="usageStore"
+     url="/usage/usage-store"
+     requestMethod="post"></div>
 
 <table dojoType="dojox.grid.DataGrid"
        jsId="usageGrid"
-       store="usageTableStore"
-       query="{ usage_idUsage: '*' }"
+       store="usageStore"
+       query="{ usage_idMeter: <?php echo $this->meter->id; ?> }"
+       sortInfo="-3"
        style="width: 100%;"
-       autowidth="false"
+       autoWidth="false"
        autoHeight="10"
+       selectionMode="single"
+       rowSelector="0px"
+       rowsPerPage="25"
+       clientSort="true"
        noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
     <thead>
         <tr>

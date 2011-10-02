@@ -133,22 +133,15 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
         $count = $this->getRequest()->getParam('count');
         $start = $this->getRequest()->getParam('start');
 
-        if ($child) {
-            $id = $this->getRequest()->getParam('id');
-            $data = $this->_model->{$mapperMethod}(
-                $id, $sort, $count, $start
-            );
-        } else {
-            $data = $this->_model->{$mapperMethod}(
-                $this->_getSearch(), $sort, $count, $start
-            );
-        }
+        $data = $this->_model->{$mapperMethod}(
+            $this->_getSearch(), $sort, $count, $start
+        );
 
         $store = $this->getDataStore($data, $dataStoreId);
 
         $store->setMetadata(
             'numRows',
-            ($child) ? $this->_model->numRows($id) : $this->_model->numRows($this->_getSearch())
+            $this->_model->numRows($this->_getSearch())
         );
 
         echo $store->toJson();
