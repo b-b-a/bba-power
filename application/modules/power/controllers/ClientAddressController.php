@@ -62,6 +62,10 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
             'action' => 'save',
             'module' => 'power'
         ));
+
+        $this->_setSearch(array(
+            'clientAd_idClient'
+        ));
     }
 
     public function clientAddressStoreAction()

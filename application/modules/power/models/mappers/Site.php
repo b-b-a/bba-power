@@ -49,8 +49,6 @@ class Power_Model_Mapper_Site extends BBA_Model_Mapper_Abstract
      */
     protected $_modelClass = 'Power_Model_Site';
 
-    protected $_defaultDbSort = 'client_name';
-
     public function getSiteDetails($id)
     {
         /* @var $select Zend_Db_Table_Select */

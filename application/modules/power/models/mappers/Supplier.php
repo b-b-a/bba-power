@@ -49,8 +49,6 @@ class Power_Model_Mapper_Supplier extends BBA_Model_Mapper_Abstract
      */
     protected $_modelClass = 'Power_Model_Supplier';
 
-    protected $_defaultDbSort = 'supplier_name';
-
     public function getContactsBySupplierId($id)
     {
         $supplier = $this->find($id, true);

@@ -49,13 +49,14 @@ class Power_Model_Mapper_ClientAddress extends BBA_Model_Mapper_Abstract
      */
     protected $_modelClass = 'Power_Model_ClientAddress';
 
-    protected $_defaultDbSort = 'clientAd_postcode';
-
-    public function getAddressByClientId($id, $sort = '', $count = null, $offset = null)
+    public function getAddressByClientId($search, $sort = '', $count = null, $offset = null)
     {
+        $col = key($search);
+        $id = current($search);
+
         $select = $this->getDbTable()
             ->select()
-            ->where('clientAd_idClient = ?', $id);
+            ->where($col . ' = ?', $id);
 
         $select = $this->getLimit($select, $count, $offset);
 
@@ -64,10 +65,13 @@ class Power_Model_Mapper_ClientAddress extends BBA_Model_Mapper_Abstract
         return $this->fetchAll($select);
     }
 
-    public function numRows($id)
+    public function numRows($search)
     {
+        $col = key($search);
+        $id = current($search);
+
         return parent::numRows(array(
-            'col' => 'clientAd_idClient',
+            'col' => $col,
             'id'  => $id
         ), true);
     }
@@ -78,26 +82,7 @@ class Power_Model_Mapper_ClientAddress extends BBA_Model_Mapper_Abstract
             throw new ZendSF_Acl_Exception('saving clients addresses is not allowed.');
         }
 
-        $form = $this->getForm('clientAddressSave')->getValues();
-
-        // remove client address id if not set.
-        if (!$form['clientAd_idAddress']) unset($form['clientAd_idAddress']);
-
-        $model = new Power_Model_ClientAddress($form);
-
-        // set modified and create dates.
-        if ($form['returnAction'] == 'add') {
-            $model->setDateCreate();
-            $model->userCreate = $form['userId'];
-        }
-
-        // add modified date and by if updating record.
-        if ($model->getId()) {
-            $model->userModify = $form['userId'];
-            $model->setDateModify();
-        }
-
-        return parent::save($model);
+        return parent::save('clientAddressSave');
     }
 
     public function delete($id)
@@ -112,27 +97,4 @@ class Power_Model_Mapper_ClientAddress extends BBA_Model_Mapper_Abstract
 
         return parent::delete($where);
     }
-
-    /**
-     * Injector for the acl, the acl can be injected directly
-     * via this method.
-     *
-     * We add all the access rules for this resource here, so we first call
-     * parent method to add $this as the resource then we
-     * define it rules here.
-     *
-     * @param Zend_Acl_Resource_Interface $acl
-     * @return ZendSF_Model_Mapper_Abstract
-     */
-    public function setAcl(Zend_Acl $acl)
-    {
-        parent::setAcl($acl);
-
-        // implement rules here.
-        $this->_acl->allow('admin', $this)
-            ->deny('admin', $this, array('delete'));
-
-        return $this;
-    }
-
 }

@@ -49,8 +49,6 @@ class Power_Model_Mapper_Contract extends BBA_Model_Mapper_Abstract
      */
     protected $_modelClass = 'Power_Model_Contract';
 
-    protected $_defaultDbSort = 'client_name';
-
     public function getContractById($id)
     {
         $select = $this->getDbTable()

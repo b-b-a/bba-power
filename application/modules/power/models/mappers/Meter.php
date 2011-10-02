@@ -49,8 +49,6 @@ class Power_Model_Mapper_Meter extends BBA_Model_Mapper_Abstract
      */
     protected $_modelClass = 'Power_Model_Meter';
 
-    protected $_defaultDbSort = 'client_name';
-
     public function getMetersBySiteId($id)
     {
         $select = $this->getDbTable()

@@ -58,16 +58,21 @@ class Power_UsageController extends BBA_Controller_Action_Abstract
             'action' => 'save',
             'module' => 'power'
         ));
+
+        $this->_setSearch(array(
+            'usage_idMeter'
+        ));
+    }
+
+    public function usageStoreAction()
+    {
+        return $this->_getAjaxDataStore('getUsageByMeterId' ,'usage_idUsage', true);
     }
 
     public function addAction()
     {
         $meterModel = new Power_Model_Mapper_Meter();
-        $meter = $meterModel->getMeterDetails($this->_request->getParam('meterId'));
-
-        $usage = $this->_model->getUsageByMeterId($this->_request->getParam('meterId'));
-
-        $usageStore = $this->getDataStore($usage, 'usage_idUsage');
+        $meter = $meterModel->getMeterDetails($this->_request->getParam('idMeter'));
 
         $this->getForm('usageSave')
                 ->populate(array(
@@ -76,7 +81,6 @@ class Power_UsageController extends BBA_Controller_Action_Abstract
                 ->addHiddenElement('returnAction', 'add');
 
         $this->view->assign(array(
-            'usageStore'    => $usageStore,
             'meter'         => $meter
         ));
 
@@ -141,15 +145,11 @@ class Power_UsageController extends BBA_Controller_Action_Abstract
     protected function _getUsageDetails()
     {
         $meterModel = new Power_Model_Mapper_Meter();
-        $meterUsage = $this->_model->find($this->_request->getParam('usageId'));
-        $usage = $this->_model->getUsageByMeterId($meterUsage->idMeter);
+        $meterUsage = $this->_model->find($this->_request->getParam('idUsage'));
 
         $meter = $meterModel->getMeterDetails($meterUsage->idMeter);
 
-        $usageStore = $this->getDataStore($usage, 'usage_idUsage');
-
         $this->view->assign(array(
-            'usageStore'    => $usageStore,
             'usage'         => $meterUsage,
             'meter'         => $meter
         ));
