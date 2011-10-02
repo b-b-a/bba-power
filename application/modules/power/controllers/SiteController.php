@@ -146,14 +146,16 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
                 $model = new Power_Model_Mapper_ClientAddress();
                 $identifier = 'clientAd_idAddress';
                 $searchItems = array('idAddress', 'address1AndPostcode');
-                $result = $model->getAddressByClientId($this->_request->getParam('addressId'));
+                $result = $model->getAddressByClientId(array(
+                    'clientAd_idClient' => $this->_request->getParam('addressId')
+                ), 'clientAd_postcode');
                 break;
 
             case 'contact':
                 $model = new Power_Model_Mapper_ClientContact();
                 $identifier = 'clientCo_idClientContact';
                 $searchItems = array('idClientContact', 'name');
-                 $result = $model->fetchAllById();
+                $result = $model->fetchAllById();
                 break;
 
         }
