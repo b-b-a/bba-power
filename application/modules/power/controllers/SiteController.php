@@ -100,24 +100,13 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
     {
         if ($this->_request->getParam('idSite')) {
             $site = $this->_model->getSiteDetails($this->_request->getParam('idSite'));
-            //$meter = new Power_Model_Mapper_Meter();
 
             $this->getForm('siteEdit')
                 ->populate($site->toArray('dd/MM/yyyy'))
                 ->addHiddenElement('returnAction', 'edit');
 
-            //$meters = $meter->getMetersBySiteId($site->getId());
-
-            //$meterStore = $this->getDataStore($meters, 'meter_idMeter');
-
-            //$store = json_decode($meterStore, true);
-
-            //{name: "Delete", field: "inc_number", formatter: getDelete}
-
             $this->view->assign(array(
-                'site' => $site,
-                //'meters' => $meters,
-                //'meterStore'    => $meterStore
+                'site' => $site
             ));
         } else {
            return $this->_helper->redirector('index', 'site');

@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Mapper_Tender extends ZendSF_Model_Mapper_Acl_Abstract
+class Power_Model_Mapper_Tender extends BBA_Model_Mapper_Abstract
 {
     /**
      * @var string the DbTable class name
@@ -49,8 +49,15 @@ class Power_Model_Mapper_Tender extends ZendSF_Model_Mapper_Acl_Abstract
      */
     protected $_modelClass = 'Power_Model_Tender';
 
-    public function getTendersByContractId($id)
+    public function getTendersByContractId($search, $sort = '', $count = null, $offset = null)
     {
+        foreach ($search as $key => $value) {
+            if ($value) {
+                $col = $key;
+                $id = $value;
+            }
+        }
+
         $select = $this->getDbTable()
             ->select(false)
             ->setIntegrityCheck(false)
@@ -59,9 +66,37 @@ class Power_Model_Mapper_Tender extends ZendSF_Model_Mapper_Acl_Abstract
             ->join('client', 'client_idClient = contract_idClient')
             ->join('supplier', 'tender_idSupplier = supplier_idSupplier')
             ->joinLeft('supplier_contact', 'tender_idSupplierContact = SupplierCo_idSuppliercontact')
-            ->where('tender_idContract = ?', $id);
+            ->where($col . ' = ?', $id);
+
+        $select = $this->getLimit($select, $count, $offset);
+
+        $select = $this->getSort($select, $sort);
 
         return $this->fetchAll($select);
+    }
+
+    public function numRows($search, $child = false)
+    {
+        foreach ($search as $key => $value) {
+            if ($value) {
+                $col = $key;
+                $id = $value;
+            }
+        }
+
+        $select = $this->getDbTable()
+            ->select(false)
+            ->setIntegrityCheck(false)
+            ->from('tender')
+            ->join('contract', 'contract_idContract = tender_idContract')
+            ->join('client', 'client_idClient = contract_idClient')
+            ->join('supplier', 'tender_idSupplier = supplier_idSupplier')
+            ->joinLeft('supplier_contact', 'tender_idSupplierContact = SupplierCo_idSuppliercontact')
+            ->where($col . ' = ?', $id);
+
+         $result = $this->fetchAll($select, true);
+
+        return $result->count();
     }
 
     public function getTenderDetails($id)
@@ -93,27 +128,4 @@ class Power_Model_Mapper_Tender extends ZendSF_Model_Mapper_Acl_Abstract
 
         return parent::delete($where);
     }
-
-    /**
-     * Injector for the acl, the acl can be injected directly
-     * via this method.
-     *
-     * We add all the access rules for this resource here, so we first call
-     * parent method to add $this as the resource then we
-     * define it rules here.
-     *
-     * @param Zend_Acl_Resource_Interface $acl
-     * @return ZendSF_Model_Mapper_Abstract
-     */
-    public function setAcl(Zend_Acl $acl)
-    {
-        parent::setAcl($acl);
-
-        // implement rules here.
-        $this->_acl->allow('admin', $this)
-            ->deny('admin', $this, array('delete'));
-
-        return $this;
-    }
-
 }

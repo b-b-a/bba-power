@@ -95,33 +95,18 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
 
     public function editAction()
     {
-        if ($this->_request->getParam('contractId')) {
-            $contract = $this->_model->getContractById($this->_request->getParam('contractId'));
-            $meterContract = new Power_Model_Mapper_MeterContract();
-            $tenderContract = new Power_Model_Mapper_Tender();
+        if ($this->_request->getParam('idContract')) {
+            $contract = $this->_model->getContractById($this->_request->getParam('idContract'));
 
             $this->getForm('contractSave')
                 ->populate($contract->toArray('dd/MM/yyyy'))
                 ->addHiddenElement('returnAction', 'edit');
 
-            $meters = $meterContract->getMetersByContractId(
-                $this->_request->getParam('contractId')
-            );
-
-            $tenders = $tenderContract->getTendersByContractId(
-                $this->_request->getParam('contractId')
-            );
-
-            $meterStore = $this->getDataStore($meters, 'meter_idMeter');
-            $tenderStore = $this->getDataStore($tenders, 'tender_idTender');
-
             $this->view->assign(array(
                 'contract'      => $contract,
                 'previousContract' => $this->_model->getContractById(
                     $contract->idContractPrevious
-                ),
-                'meterStore'    => $meterStore,
-                'tenderStore'   => $tenderStore
+                )
             ));
         } else {
            return $this->_helper->redirector('index', 'contract');

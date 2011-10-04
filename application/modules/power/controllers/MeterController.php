@@ -76,7 +76,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
         ));
 
         $this->_setSearch(array(
-            'meter', 'site', 'meter_idSite'
+            'meter', 'site'
         ));
     }
 
@@ -100,7 +100,18 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
 
     public function siteMeterStoreAction()
     {
+        unset($this->_search);
+        $this->_setSearch(array('meter_idSite'));
+
         return $this->_getAjaxDataStore('getMetersBySiteId' ,'meter_idMeter', true);
+    }
+
+    public function meterContractStoreAction()
+    {
+        unset($this->_search);
+        $this->_setSearch(array('meterContract_idContract'));
+
+        return $this->_getAjaxDataStore('getMetersByContractId' ,'meter_idMeter', true);
     }
 
     public function addAction()

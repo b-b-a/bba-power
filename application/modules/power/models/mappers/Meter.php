@@ -51,9 +51,39 @@ class Power_Model_Mapper_Meter extends BBA_Model_Mapper_Abstract
 
     public function getMetersBySiteId($search, $sort = '', $count = null, $offset = null)
     {
+        $col = key($search);
+        $id = current($search);
+
         $select = $this->getDbTable()
             ->select()
-            ->where('meter_idSite = ?', $search['meter_idSite']);
+            ->where($col . ' = ?', $id);
+
+        $select = $this->getLimit($select, $count, $offset);
+
+        $select = $this->getSort($select, $sort);
+
+        return $this->fetchAll($select);
+    }
+
+    public function getMetersByContractId($search, $sort = '', $count = null, $offset = null)
+    {
+        $col = key($search);
+        $id = current($search);
+
+        $select = $this->getDbTable()
+            ->select(false)
+            ->setIntegrityCheck(false)
+            ->from('meter')
+            ->join('site', 'site_idSite = meter_idSite', null)
+            ->join('client_address', 'clientAd_idAddress = site_idAddress', array(
+                'clientAd_addressName','clientAd_postcode'
+            ))
+            ->join('client', 'client_idClient = site_idClient', null)
+            ->joinLeft('client_contact', 'client_idClientContact = clientCo_idClientContact', array(
+                'clientCo_name'
+            ))
+            ->join('meter_contract', 'meter_idMeter = meterContract_idMeter', null)
+            ->where($col . ' = ?', $id);
 
         $select = $this->getLimit($select, $count, $offset);
 
@@ -65,9 +95,29 @@ class Power_Model_Mapper_Meter extends BBA_Model_Mapper_Abstract
     public function numRows($search, $child = false)
     {
         if ($child) {
+            $col = key($search);
+            $id = current($search);
+
+            if ($col == 'meterContract_idContract') {
+                $select = $this->getDbTable()
+                    ->select(false)
+                    ->setIntegrityCheck(false)
+                    ->from('meter')
+                    ->join('site', 'site_idSite = meter_idSite', null)
+                    ->join('client_address', 'clientAd_idAddress = site_idAddress')
+                    ->join('client', 'client_idClient = site_idClient')
+                    ->joinLeft('client_contact', 'client_idClientContact = clientCo_idClientContact')
+                    ->join('meter_contract', 'meter_idMeter = meterContract_idMeter')
+                    ->where($col . ' = ?', $id);
+
+                $result = $this->fetchAll($select, true);
+
+                return $result->count();
+            }
+
             return parent::numRows(array(
-                'col' => 'meter_idSite',
-                'id'  => $search['meter_idSite']
+                'col' => $col,
+                'id'  => $id
             ), true);
         } else {
             return parent::numRows($search);
