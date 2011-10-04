@@ -88,6 +88,24 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
         return $this->_getAjaxDataStore('getList' ,'supplier_idSupplier');
     }
 
+    public function supplierContactStoreAction()
+    {
+        unset($this->_search);
+        $this->_setSearch(array(
+            'supplierCo_idSupplier'
+        ));
+        return $this->_getAjaxDataStore('getContactsBySupplierId' ,'supplierCo_idSupplierContact', true);
+    }
+
+    public function supplierContractStoreAction()
+    {
+        unset($this->_search);
+        $this->_setSearch(array(
+            'tender_idSupplier'
+        ));
+        return $this->_getAjaxDataStore('getContractsBySupplierId' ,'contract_idContract', true);
+    }
+
     public function addAction()
     {
         $this->getForm('supplierSave')
@@ -99,11 +117,11 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
         if ($this->_request->getParam('idSupplier')) {
 
             $supplier = $this->_model->find($this->_request->getParam('idSupplier'));
-            $contracts = $this->_model->getContractsBySupplierId($supplier->getId());
-            $supplierContacts = $this->_model->getContactsBySupplierId($supplier->getId());
+           // $contracts = $this->_model->getContractsBySupplierId($supplier->getId());
+            //$supplierContacts = $this->_model->getContactsBySupplierId($supplier->getId());
 
-            $contractStore = $this->getDataStore($contracts, 'contract_idContract');
-            $contactStore = $this->getDataStore($supplierContacts, 'contactCo_idSupplierContact');
+            //$contractStore = $this->getDataStore($contracts, 'contract_idContract');
+            //$contactStore = $this->getDataStore($supplierContacts, 'contactCo_idSupplierContact');
 
             $this->getForm('supplierSave')
                 ->populate($supplier->toArray('dd/MM/yyyy'))
@@ -111,8 +129,8 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
 
             $this->view->assign(array(
                 'supplier'        => $supplier,
-                'contractStore'   => $contractStore,
-                'contactStore'    => $contactStore
+                //'contractStore'   => $contractStore,
+                //'contactStore'    => $contactStore
             ));
         } else {
            return $this->_helper->redirector('index', 'supplier');

@@ -49,13 +49,41 @@ class Power_Model_Mapper_Supplier extends BBA_Model_Mapper_Abstract
      */
     protected $_modelClass = 'Power_Model_Supplier';
 
-    public function getContactsBySupplierId($id)
+    public function numRows($search, $child = false)
     {
+        if ($child) {
+            if (isset($search['tender_idSupplier'])) {
+                $entries = $this->getContractsBySupplierId($search);
+            } else {
+                $entries = $this->getContactsBySupplierId($search);
+            }
+
+            return count($entries);
+
+        } else {
+            return parent::numRows($search, $child);
+        }
+    }
+
+    public function getContactsBySupplierId($search, $sort = '', $count = null, $offset = null)
+    {
+        $col = key($search);
+        $id = current($search);
+
+         $select = $this->getDbTable()
+            ->select();
+            //->where($col . ' = ?', $id);
+
+        if ($count && $offset) $select = $this->getLimit($select, $count, $offset);
+
+        if ($sort) $select = $this->getSort($select, $sort);
+
         $supplier = $this->find($id, true);
 
         $contactsRowset = $supplier->findDependentRowset(
             'Power_Model_DbTable_SupplierContact',
-            'supplier'
+            'supplier',
+            $select
         );
 
         $entries = array();
@@ -67,15 +95,27 @@ class Power_Model_Mapper_Supplier extends BBA_Model_Mapper_Abstract
         return $entries;
     }
 
-    public function getContractsBySupplierId($id)
+    public function getContractsBySupplierId($search, $sort = '', $count = null, $offset = null)
     {
+        $col = key($search);
+        $id = current($search);
+
+         $select = $this->getDbTable()
+            ->select();
+            //->where($col . ' = ?', $id);
+
+        if ($count && $offset) $select = $this->getLimit($select, $count, $offset);
+
+        if ($sort) $select = $this->getSort($select, $sort);
+
         $supplier = $this->find($id, true);
 
         $contractsRowset = $supplier->findManyToManyRowset(
             'Power_Model_DbTable_Contract',
             'Power_Model_DbTable_Tender',
             'supplier',
-            'contract'
+            'contract',
+            $select
         );
 
         $entries = array();
