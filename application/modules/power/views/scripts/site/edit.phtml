@@ -28,58 +28,9 @@
         'siteId'      => $this->site->id
     ), 'default', true)
 )); ?>
-<!--
-<table>
-    <tr>
-        <th>Type <span class="id">(id)</span></th>
-        <th>Number Serial</th>
-        <th>Number Main</th>
-        <th>&nbsp;</th>
-	</tr>
-<?php
-	if ($this->meters):
-		foreach($this->meters as $meter):
-?>
-    <tr>
-        <td><?php echo $meter->type; ?>&nbsp;
-            <span class="id">(<?php echo $this->escape($meter->id); ?>)</span></td>
-        <td><?php echo $meter->numberSerial; ?></td>
-        <td><?php echo $meter->numberMain; ?></td>
-        <td class="action">
-            <button dojoType="dijit.form.Button" type="button">
-                Usage
-                <script type="dojo/method" event="onClick" args="evt">
-                    location.href = "<?php echo $this->url(array(
-                        'controller'    => 'usage',
-                        'action'        => 'add',
-                        'siteId'        => $meter->idSite,
-                        'meterId'       => $meter->id
-                    ), 'default', true); ?>";
-                </script>
-            </button>
 
-            <button dojoType="dijit.form.Button" type="button">
-                Edit
-                <script type="dojo/method" event="onClick" args="evt">
-                    location.href = "<?php echo $this->url(array(
-                        'controller'    => 'meter',
-                        'action'        => 'edit',
-                        'meterId'       => $meter->id
-                    ),'default', true); ?>";
-                </script>
-            </button>
-        </td>
-    </tr>
-<?php endforeach;
-else: ?>
-    <tr>
-        <td colspan="6">This Site has no meters yet.</td>
-    </tr>
-<?php endif; ?>
-</table>
--->
 <script>
-    dojo.declare("bba.store", null, {
+    dojo.declare("bbastore", null, {
         constructor: function(/* Object */args){
             dojo.safeMixin(this, args);
         }
@@ -93,16 +44,16 @@ else: ?>
             dijit.byId('site_idAddress').set('value', '');
             dijit.byId('site_idAddressBill').set('value', '');
 
-            bba.clientId = val;
-            bba.addressStore = new dojo.data.ItemFileReadStore({
-                url:'/site/autocomplete/param/address/addressId/' + bba.store.clientId
+            bbastore.clientId = val;
+            bbastore.addressStore = new dojo.data.ItemFileReadStore({
+                url:'/site/autocomplete/param/address/addressId/' + bbastore.clientId
             });
-            dijit.byId("site_idAddress").store = bba.store.addressStore;
+            dijit.byId("site_idAddress").store = bbastore.addressStore;
         });
 
         dojo.connect(dijit.byId("site_idAddress"), "onChange", function(val){
             dijit.byId("site_idAddressBill").set('disabled', false);
-            dijit.byId("site_idAddressBill").store = bba.store.addressStore;
+            dijit.byId("site_idAddressBill").store = bbastore.addressStore;
         });
     });
 </script>
@@ -113,33 +64,25 @@ else: ?>
         return '<a href="#" class="button">Usage</button>';
     };
 
-    var meterStore = <?php echo $this->meterStore; ?>;
-    dojo.addOnLoad(function(){
-        dojo.connect(grid, "onRowClick", function(val){
-            selectedIndex = grid.focus.rowIndex;
-            selectedItem = grid.getItem(selectedIndex);
-            //Not sure if this is the most efficient way but it worked for me
-            selectedId = grid.store.getValue(selectedItem, "meter_idMeter");
-
-            var url = '/meter/edit/meterId/' + selectedId;
-
-            location.href = url;
-        });
-    });
-
 </script>
 
-<div dojotype="dojo.data.ItemFileReadStore" jsid="tableStore" data="meterStore"></div>
+<div dojoType="dojox.data.QueryReadStore"
+     jsid="meterStore"
+     url="/meter/site-meter-store"
+     requestMethod="post"></div>
 
 <table dojoType="dojox.grid.DataGrid"
-       jsId="grid"
-       store="tableStore"
-       query="{ meter_idMeter: '*' }"
-       style="width: 100%;height:500px;"
+       jsId="meterGrid"
+       store="meterStore"
+       query="{ meter_idSite: <?php echo $this->site->idSite; ?> }"
+       sortInfo="1"
+       style="margin:auto;"
        autoWidth="false"
-       autoHeight="false"
+       autoHeight="20"
+       selectionMode="single"
        rowSelector="0px"
        rowsPerPage="25"
+       clientSort="true"
        noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
     <thead>
         <tr>
