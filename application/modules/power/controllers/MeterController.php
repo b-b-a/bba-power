@@ -137,6 +137,8 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
                 ->populate($meter->toArray('dd/MM/yyyy'))
                 ->addHiddenElement('returnAction', 'edit');
 
+            $this->_log->info($meter);
+
             $this->view->assign(array(
                 'meter' => $meter
             ));
