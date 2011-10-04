@@ -141,7 +141,7 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
 
         $store->setMetadata(
             'numRows',
-            $this->_model->numRows($this->_getSearch())
+            $this->_model->numRows($this->_getSearch(), $child)
         );
 
         echo $store->toJson();

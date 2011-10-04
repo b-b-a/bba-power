@@ -49,13 +49,29 @@ class Power_Model_Mapper_Meter extends BBA_Model_Mapper_Abstract
      */
     protected $_modelClass = 'Power_Model_Meter';
 
-    public function getMetersBySiteId($id)
+    public function getMetersBySiteId($search, $sort = '', $count = null, $offset = null)
     {
         $select = $this->getDbTable()
             ->select()
-            ->where('meter_idSite = ?', $id);
+            ->where('meter_idSite = ?', $search['meter_idSite']);
+
+        $select = $this->getLimit($select, $count, $offset);
+
+        $select = $this->getSort($select, $sort);
 
         return $this->fetchAll($select);
+    }
+
+    public function numRows($search, $child = false)
+    {
+        if ($child) {
+            return parent::numRows(array(
+                'col' => 'meter_idSite',
+                'id'  => $search['meter_idSite']
+            ), true);
+        } else {
+            return parent::numRows($search);
+        }
     }
 
     public function getMeterDetails($id)
