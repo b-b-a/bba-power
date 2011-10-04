@@ -9,38 +9,6 @@
 
 <div class="clear">&nbsp;</div>
 
-<script>
-
-    var contractStore = <?php echo $this->contractStore; ?>;
-    var contactStore = <?php echo $this->contactStore; ?>;
-    dojo.addOnLoad(function(){
-        dojo.connect(contractGrid, "onRowClick", function(val){
-            selectedIndex = contractGrid.focus.rowIndex;
-            selectedItem = contractGrid.getItem(selectedIndex);
-            //Not sure if this is the most efficient way but it worked for me
-            selectedId = contractGrid.store.getValue(selectedItem, "contract_idContract");
-
-            location.href = '/contract/edit/contractId/' + selectedId;
-        });
-    });
-
-    dojo.addOnLoad(function(){
-        dojo.connect(contactGrid, "onRowClick", function(val){
-            selectedIndex = contactGrid.focus.rowIndex;
-            selectedItem = contactGrid.getItem(selectedIndex);
-            //Not sure if this is the most efficient way but it worked for me
-            selectedId = contactGrid.store.getValue(selectedItem, "supplierCo_idSupplierContact");
-
-            location.href = '/supplier-contact/edit/contactId/' + selectedId;
-        });
-    });
-
-</script>
-
-<div dojotype="dojo.data.ItemFileReadStore" jsid="contactTableStore" data="contactStore"></div>
-
-<div dojotype="dojo.data.ItemFileReadStore" jsid="contractTableStore" data="contractStore"></div>
-
 <?php echo $this->partial('_table-head.phtml', array(
     'heading'   => 'Contacts',
     'label'     => 'New Contact',
@@ -50,16 +18,23 @@
     ),'default', true)
 )); ?>
 
+<div dojotype="dojox.data.QueryReadStore"
+     jsid="contactStore"
+     url="/supplier/supplier-contact-store"
+     requestMethod="post"></div>
+
 <table dojoType="dojox.grid.DataGrid"
        jsId="contactGrid"
-       store="contactTableStore"
-       query="{ supplierCo_idSupplierContact: '*' }"
-       style="width: 100%;"
-       autowidth="false"
-       autoHeight="true"
+       store="contactStore"
+       query="{ supplierCo_idSupplier: <?php echo $this->supplier->idSupplier; ?> }"
+       sortInfo="2"
+       style="margin:auto;"
+       autoWidth="false"
+       autoHeight="20"
        rowSelector="0px"
        rowsPerPage="25"
-       noDataMessage="<span class='dojoxGridNoData'>This supplier has no contacts yet.</span>">
+       clientSort="true"
+       noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
     <thead>
         <tr>
             <th field="supplierCo_idSupplierContact" width="75">Id</th>
@@ -83,16 +58,23 @@
     ),'default', true)
 )); ?>
 
+<div dojotype="dojox.data.QueryReadStore"
+     jsid="contractStore"
+     url="/supplier/supplier-contract-store"
+     requestMethod="post"></div>
+
 <table dojoType="dojox.grid.DataGrid"
        jsId="contractGrid"
-       store="contractTableStore"
-       query="{ contract_idContract: '*' }"
-       style="width: 100%;"
-       autowidth="false"
+       store="contractStore"
+       query="{ tender_idSupplier: <?php echo $this->supplier->idSupplier; ?> }"
+       sortInfo="2"
+       style="margin:auto;"
+       autoWidth="false"
        autoHeight="20"
        rowSelector="0px"
        rowsPerPage="25"
-       noDataMessage="<span class='dojoxGridNoData'>This Supplier has no contracts yet.</span>">
+       clientSort="true"
+       noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
     <thead>
         <tr>
             <th field="contract_idContract" width="75">Id</th>
