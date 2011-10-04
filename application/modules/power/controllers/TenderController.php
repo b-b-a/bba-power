@@ -62,27 +62,28 @@ class Power_TenderController extends BBA_Controller_Action_Abstract
             'action' => 'save',
             'module' => 'power'
         ));
+
+        $this->_setSearch(array(
+            'tender_idTender', 'tender_idContract'
+        ));
+    }
+
+    public function tenderStoreAction()
+    {
+        return $this->_getAjaxDataStore('getTendersByContractId', 'tender_idTender', true);
     }
 
     public function editAction()
     {
-        if ($this->_request->getParam('tenderId')) {
-            $tender = $this->_model->getTenderDetails($this->_request->getParam('tenderId'));
-            $tenders = $this->_model->getTendersByContractId(
-                $tender->idContract
-            );
-
-            $this->_log->info($tender);
-
-            $tenderStore = $this->getDataStore($tenders, 'tender_idTender');
+        if ($this->_request->getParam('idTender')) {
+            $tender = $this->_model->getTenderDetails($this->_request->getParam('idTender'));
 
             $this->getForm('tenderSave')
                     ->populate($tender->toArray('dd/MM/yyyy'))
                     ->addHiddenElement('returnAction', 'edit');
 
             $this->view->assign(array(
-                'tender'        => $tender,
-                'tenderStore'   => $tenderStore
+                'tender' => $tender
             ));
         } else {
            return $this->_helper->redirector('index', 'contract');

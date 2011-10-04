@@ -7,20 +7,6 @@
 
 ?>
 
-<script>
-    dojo.addOnLoad(function(){
-        dojo.connect(grid, "onRowClick", function(val){
-            selectedIndex = grid.focus.rowIndex;
-            selectedItem = grid.getItem(selectedIndex);
-            //Not sure if this is the most efficient way but it worked for me
-            selectedId = grid.store.getValue(selectedItem, "contract_idContract");
-
-            location.href = '/contract/edit/contractId/' + selectedId;
-        });
-    });
-
-</script>
-
 <?php echo $this->partial('_table-head.phtml', array(
     'heading'   => 'Contracts',
     'label'     => 'New Contract',
@@ -40,7 +26,7 @@
        store="tableStore"
        query="<?php echo $this->search; ?>"
        sortInfo="2"
-       style="width: 100%;height:500px;"
+       style="margin:auto;height:500px;"
        autoWidth="false"
        autoHeight="false"
        rowSelector="0px"
