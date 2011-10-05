@@ -149,7 +149,6 @@ table {
     background-color: #afd9ff;
 	color:#000;
  	-webkit-transition-duration:.2s;
-
 }
 
 #nav a.active
@@ -405,6 +404,9 @@ Flash Messenger
 /**
 Meter Styles
 */
+.meterContract {
+    width: 33%;
+}
 
 .meterContract h3 {
     text-align: center;
