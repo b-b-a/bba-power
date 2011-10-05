@@ -92,7 +92,7 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
                 'contract_reference',
                 'contract_dateStart',
                 'contract_dateEnd',
-                'contract_desc'
+                'contract_desc' => 'SUBSTR(contract_desc, 1, 15)'
             ))
             ->join(
                 'client',
