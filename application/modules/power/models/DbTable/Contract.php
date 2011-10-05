@@ -102,7 +102,7 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
             ->joinLeft(
                 'meter_contract',
                 'meterContract_idContract = contract_idContract',
-                null
+                array('meter_count' => 'COUNT( contract_idContract )')
             )
             ->joinLeft(
                 'meter',
