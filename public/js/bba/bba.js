@@ -1,33 +1,50 @@
-dojo.provide("bba");
 
-dojo.declare("bba", null, {
-    grids : null,
+dojo.require("dojox.grid.DataGrid");
 
+dojo.extend(dojox.grid.DataGrid, {
     abrev : {
         ad : "address",
         co : "contact"
     },
 
-    constructor : function() {
-        this.grids = dijit.registry.byClass("dojox.grid.DataGrid");
+    _onFetchComplete : function(items, req) {
+        if(!this.scroller){return;}
+		if(items && items.length > 0){
+			//console.log(items);
+			dojo.forEach(items, function(item, idx){
+				this._addItem(item, req.start+idx, true);
+			}, this);
+			if(this._autoHeight){
+				this._skipRowRenormalize = true;
+			}
+			this.updateRows(req.start, items.length);
+			if(this._autoHeight){
+				this._skipRowRenormalize = false;
+			}
+			if(req.isRender){
+				this.setScrollTop(0);
+				this.postrender();
+			}else if(this._lastScrollTop){
+				this.setScrollTop(this._lastScrollTop);
+			}
+		}
+		delete this._lastScrollTop;
+		if(!this._isLoaded){
+			this._isLoading = false;
+			this._isLoaded = true;
+		}
+		this._pending_requests[req.start] = false;
 
-        this.grids.forEach(function(grid) {
-            dojo.connect(grid, "onRowClick", this, function(val) {
-                this.gridRowClick(grid);
-            });
-        }, this);
-        
-        if (!location.href.match('edit') && !location.href.match('add')) {
-            setTimeout(function(){
-                this.gridLineCheck();
-            }.bind(this), 250);
-        }
+        dojo.connect(this, "onRowClick", function(val) {
+            this.gridRowClick();
+        });
+
+        if (this.rowCount == 1) this.gridLineCheck();
     },
-    
+
     gridLineCheck : function() {
-        grid = this.grids.toArray()[0];
-        if(grid.rowCount == 1) {
-            this.gridRowClick(grid, 0);
+        if(!location.href.match('edit') && !location.href.match('add')) {
+            this.gridRowClick(0);
         }
     },
 
@@ -46,24 +63,24 @@ dojo.declare("bba", null, {
         formNode.submit();
     },
 
-    gridRowClick : function(grid, selectedIndex) {
-            if (selectedIndex == null) {
-                selectedIndex = grid.focus.rowIndex;
-            }
-            
-            selectedItem = grid.getItem(selectedIndex);
+    gridRowClick : function(selectedIndex) {
+        if (selectedIndex == null) {
+            selectedIndex = this.focus.rowIndex;
+        }
 
-            ident = grid.store._identifier;
+        selectedItem = this.getItem(selectedIndex);
 
-            if (!ident) {
-                ident = grid.store.getFeatures()["dojo.data.api.Identity"];
-            }
+        ident = this.store._identifier;
 
-            i = ident.split("_");
+        if (!ident) {
+            ident = this.store.getFeatures()["dojo.data.api.Identity"];
+        }
 
-            selectedId = grid.store.getValue(selectedItem, ident);
+        i = ident.split("_");
 
-            this.gridLink(selectedId, i[1], "/" + this.hyphenate(i[0]) + "/edit");
+        selectedId = this.store.getValue(selectedItem, ident);
+
+        this.gridLink(selectedId, i[1], "/" + this.hyphenate(i[0]) + "/edit");
     },
 
     hyphenate: function(str) {
@@ -75,10 +92,5 @@ dojo.declare("bba", null, {
 
         return dojo.replace(str, this.abrev);
     }
-});
+ });
 
-dojo.require("bba");
-
-dojo.addOnLoad(function(){
-    var bbaObject = new bba();
-});
