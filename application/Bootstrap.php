@@ -194,7 +194,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $this->_view = $this->getResource('view');
 
         $this->_view->addHelperPath(
-                APPLICATION_PATH . '/../library/ZendSF/View/Helper', 'ZendSF_View_Helper'
+                APPLICATION_PATH . '/../library/ZendSF/View/Helper',
+                'ZendSF_View_Helper'
         );
     }
 
