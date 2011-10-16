@@ -79,7 +79,7 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
             ->populate($this->_getSearch());
 
         $this->view->assign(array(
-            'search'    => $this->_getSearchString()
+            'search'    => $this->_getSearchString('supplierSearch')
         ));
     }
 

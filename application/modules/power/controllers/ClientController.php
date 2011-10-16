@@ -85,7 +85,7 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
 
         // assign search to the view script.
         $this->view->assign(array(
-            'search' => $this->_getSearchString()
+            'search' => $this->_getSearchString('clientSearch')
         ));
     }
 
