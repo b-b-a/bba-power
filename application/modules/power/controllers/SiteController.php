@@ -86,7 +86,7 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
 
         // gets all meters and assigns them to the view script.
         $this->view->assign(array(
-            'search'    => $this->_getSearchString()
+            'search'    => $this->_getSearchString('siteSearch')
         ));
     }
 

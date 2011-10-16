@@ -94,11 +94,11 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
         return $this->_search;
     }
 
-    protected function _setSearchString()
+    protected function _setSearchString($form)
     {
         $searchString = '{';
 
-        foreach ($this->_getSearch() as $key => $value) {
+        foreach ($this->getForm($form)->getValues() as $key => $value) {
             if ($value) {
                 $searchString .= $key . ":'" . $value . "',";
             }
@@ -115,10 +115,10 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
         return $this;
     }
 
-    protected function _getSearchString()
+    protected function _getSearchString($form = null)
     {
         if (null === $this->_searchString) {
-            $this->_setSearchString();
+            $this->_setSearchString($form);
         }
 
         return $this->_searchString;
