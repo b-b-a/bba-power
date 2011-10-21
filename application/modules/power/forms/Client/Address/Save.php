@@ -49,7 +49,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
             //'required'  => true
         ));
 
-        $this->addElement('TextBox', 'clientAd_address1', array(
+        $this->addElement('ValidationTextBox', 'clientAd_address1', array(
             'label'     => 'Address 1:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
@@ -67,7 +67,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('TextBox', 'clientAd_postcode', array(
+        $this->addElement('ValidationTextBox', 'clientAd_postcode', array(
             'label'     => 'Postcode:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
@@ -83,7 +83,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
         if ($auth->role == 'admin') {
             $this->addSubmit('Save');
         }
-        
+
         $this->addSubmit('Cancel', 'cancel');
     }
 

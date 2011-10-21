@@ -104,7 +104,7 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
         if ($auth->role == 'admin') {
             $this->addSubmit('Save');
         }
-        
+
         $this->addSubmit('Cancel', 'cancel');
     }
 

@@ -98,6 +98,10 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
             $this->view->assign(array(
                 'clientAd'    => $clientAd
             ));
+
+            if ($this->_request->isXmlHttpRequest()) {
+                $this->render('ajax-form');
+            }
         } else {
            return $this->_helper->redirector('index', 'client');
         }
@@ -125,13 +129,21 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
             $this->view->assign(array(
                 'client'    => $clientId
             ));
+            
             return $this->render($action); // re-render the edit form
         } else {
             $saved = $this->_model->save();
 
             $this->_log->info($saved);
 
-            if ($saved) {
+            if ($this->_request->isXmlHttpRequest()) {
+                $this->view->layout()->disableLayout();
+                $returnArray = array(
+                    'saved' => $saved,
+
+                );
+                echo json_encode($returnArray);
+            } elseif ($saved) {
                 $this->_helper->FlashMessenger(array(
                     'pass' => 'Client Address saved to database'
                 ));

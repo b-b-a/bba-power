@@ -1,13 +1,3 @@
-<?php echo $this->partial('_table-head.phtml', array(
-    'heading'   => 'Client Addresses',
-    'label'     => 'New Address',
-    'location'  => $this->url(array(
-        'controller'    => 'client-address',
-        'action'        => 'add',
-        'clientId'      => $this->idClient
-    ), 'default', true)
-)); ?>
-
 <div dojoType="dojox.data.QueryReadStore"
      jsid="clientAddressStore"
      url="/client-address/client-address-store"
@@ -25,6 +15,8 @@
        rowSelector="0px"
        rowsPerPage="25"
        clientSort="true"
+       dialog="true"
+       dialogName="Edit Client Address"
        noDataMessage="<span class='dojoxGridNoData'>This Client has no addresses yet.</span>">
     <thead>
         <tr>
