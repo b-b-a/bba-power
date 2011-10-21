@@ -212,13 +212,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $this->_logger->info(__METHOD__);
 
         Zend_Dojo::enableView($this->_view);
+        Zend_Dojo_View_Helper_Dojo::setUseDeclarative();
 
         $this->_view->dojo()
-            //->setCdnVersion('1.6.1')
-            ->setLocalPath('/js/release/dojo/dojo.js')
-            //->addStyleSheetModule('dijit.themes.claro')
-            //->addLayer('/js/bba/bba.layer.js')
-            ->disable();
+            ->setLocalPath('/js/release/dojo/dojo.js');
         $this->_view->headLink()
             ->prependStylesheet('/js/release/dojo/dijit/themes/claro/claro.css')
             ->prependStylesheet('/js/release/dojo/dojox/grid/resources/Grid.css')

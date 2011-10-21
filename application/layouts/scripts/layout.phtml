@@ -3,32 +3,21 @@
     <head>
         <?php echo $this->headTitle(); ?>
         <?php echo $this->headMeta(); ?>
-        <meta http-equiv=“X-UA-Compatible” content=“IE=edge” />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <link rel="stylesheet" href="/css/reset.css" />
         <link rel="stylesheet" href="/css/text.css" />
 
         <?php echo $this->headLink() ?>
 
-        <?php echo $this->dojo()->enable(); ?>
+        <?php echo $this->dojo(); ?>
 
+        <script type="text/javascript" src="/js/bba/Core.js"></script>
+        <script type="text/javascript" src="/js/bba/ContentPane.js"></script>
         <script type="text/javascript" src="/js/bba/DataGrid.js"></script>
 
         <link rel="stylesheet" href="/css/site.css" />
 
-
         <?php echo $this->headScript() ?>
-        <script>
-            dojo.addOnLoad(function(){
-
-                if (dijit.registry.length == 0) {
-                    dojo.parser.parse();
-                }
-
-                var loader = dojo.byId("loader");
-                loader.style.display = "none";
-			});
-        </script>
-
     </head>
     <body class="claro">
         <div id="loader">
@@ -38,16 +27,26 @@
          data-dojo-type="dijit.layout.BorderContainer"
          data-dojo-props="design: 'sidebar'">
 
-        <div class="centerPanel"
-             data-dojo-type="dijit.layout.ContentPane"
-             data-dojo-props="region: 'center'">
+        <?php if ($this->authInfo('role')): ?>
+        <div id="ContentTabs"
+             class="centerPanel"
+             data-dojo-type="dijit.layout.TabContainer"
+             data-dojo-props="region: 'center', tabStrip: 'true'"
+             >
+        <?php endif; ?>
+            <div
+                 data-dojo-type="dijit.layout.ContentPane"
+                 data-dojo-props="region: 'center', title: '<?php echo $this->escape($this->title); ?>'"
+                 >
+                    <div id="messages"><?php
+                       echo $this->FlashMessenger();
+                     ?></div>
 
-                <div id="messages"><?php
-                   echo $this->FlashMessenger();
-                 ?></div>
-                <h1><?php echo $this->escape($this->title); ?></h1>
-                <?php echo $this->Layout()->content; ?>
-        </div>
+                    <?php echo $this->Layout()->content; ?>
+            </div>
+         <?php if ($this->authInfo('role')): ?>
+         </div>
+         <?php endif; ?>
 
         <?php if ($this->authInfo('role')): ?>
         <div id="topPanel" class="edgePanel"

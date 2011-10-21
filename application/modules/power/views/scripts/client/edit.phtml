@@ -1,20 +1,56 @@
-<?php
-	$this->title = "BBA Client Update";
-	$this->headTitle($this->title);
-?>
+<div data-dojo-type="dijit.layout.BorderContainer"
+     data-dojo-props="design: 'headline'"
+     class="tabContainer">
 
-<div class="form_wrap">
-    <?php echo $this->clientSaveForm; ?>
-</div>
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'top'"
+         >
+        <div class="tabHeading">
+            <?php
+                $this->title = "BBA Client Update";
+                $this->headTitle($this->title);
+            ?>
 
-<div class="clear">&nbsp;</div>
+            <div class="form_wrap"
+                 dojoType="dijit.form.Form"
+                 id="edit-client-<?php echo $this->client->id; ?>"
+                 >
+                <div class="zend_form">
+                <?php /*echo $this->clientSaveForm;*/ ?>
+                    <!--
+                <p>Client Name: <?php echo $this->client->name; ?></p>
+                <p>LoA Expiry Date: <?php echo $this->client->dateExpiryLoa->toString('dd/MM/yyyy'); ?></p>-->
+                <button dojoType="dijit.form.Button"
+                        type="submit"
+                        name="edit-client-button-<?php echo $this->client->id; ?>"
+                        value="submit"
+                        >Edit Details</button>
+                </div>
+            </div>
 
-<?php echo $this->partial('_client-addresses.phtml', array(
-    'idClient' => $this->client->id
-)); ?>
+            <?php echo $this->partial('_table-head.phtml', array(
+                'heading'   => 'Client Addresses',
+                'label'     => 'New Address',
+                'id'        => $this->client->id,
+                'location'  => $this->url(array(
+                    'controller'    => 'client-address',
+                    'action'        => 'add',
+                    'clientId'      => $this->client->id
+                ), 'default', true)
+            )); ?>
+        </div>
+    </div>
+
+    <div data-dojo-type="dijit.layout.ContentPane"
+             data-dojo-props="region: 'center'">
+        <?php echo $this->partial('_client-addresses.phtml', array(
+            'idClient' => $this->client->id
+        )); ?>
+    </div>
 
 <?php /* Commented out for V1 - clientContacts needs more thought about the associated address
 echo $this->partial('_client-contacts.phtml', array(
     'idClient'  => $this->client->id,
    'contacts'  => $this->clientContacts($this->client->id)
 ));*/ ?>
+</div>
