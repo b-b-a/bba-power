@@ -58,11 +58,12 @@ dojo.declare(
 
             dojo.connect(dijit.byId(id), 'onClick', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
+                var tab;
 
                 if (parentKey) {
-                    var tab = i[0].substring(0,i[0].length - 2) + selectedId.substring(1);
+                    tab = i[0].substring(0,i[0].length - 2) + selectedId.substring(1);
                 } else {
-                    var tab = i[0] + '-list';
+                    tab = i[0] + '-list';
                 }
 
                 this.tab = dijit.byId(tab);
@@ -73,7 +74,6 @@ dojo.declare(
         formSubmit : function(form, url, selectedId, inputName, name, type)
         {
             form.cancel = null;
-            form.returnAction = type;
             form[inputName] = selectedId;
             form.type = type;
 
@@ -84,7 +84,6 @@ dojo.declare(
                 preventCache: true,
                 load: dojo.hitch(this, function(data) {
                     if (data.saved > 0) {
-                        console.log(this.tab);
                         this.tab.refresh();
                     } else {
                         this.dialog[name] = new dijit.Dialog({

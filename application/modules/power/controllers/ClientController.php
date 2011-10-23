@@ -91,28 +91,32 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
 
     public function addAction()
     {
-        $this->getForm('clientSave')
-            ->addHiddenElement('returnAction', 'add');
-        if ($this->_request->isXmlHttpRequest() && $this->_request->getParam('type') == 'add') {
+        if ($this->_request->isXmlHttpRequest()
+                && $this->_request->getParam('type') == 'add'
+                && $this->_request->isPost()) {
+            $this->getForm('clientSave');
             $this->render('ajax-form');
+        } else {
+            return $this->_helper->redirector('index', 'client');
         }
     }
 
     public function editAction()
     {
-        if ($this->_request->getParam('idClient')) {
+        if ($this->_request->getParam('idClient')
+                && $this->_request->isPost()
+                && $this->_request->isXmlHttpRequest()) {
 
             $client = $this->_model->find($this->_request->getParam('idClient'));
 
             $this->getForm('clientSave')
-                ->populate($client->toArray('dd/MM/yyyy'))
-                ->addHiddenElement('returnAction', 'edit');
+                ->populate($client->toArray('dd/MM/yyyy'));
 
             $this->view->assign(array(
-                'client'        => $client
+                'client' => $client
             ));
 
-            if ($this->_request->isXmlHttpRequest() && $this->_request->getParam('type') == 'edit') {
+            if ($this->_request->getParam('type') == 'edit') {
                 $this->render('ajax-form');
             }
         } else {
@@ -127,21 +131,11 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
 
     public function saveAction()
     {
-        if (!$this->_request->isPost()) {
+        if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'client');
         }
 
-        $clientId = $this->_request->getParam('clientId');
-
-        if ($this->_request->getParam('cancel')) {
-            return $this->_helper->redirector('index', 'client', 'power', array(
-                'clientId'  => $clientId
-            ));
-        }
-
-        $action = $this->_request->getParam('returnAction');
-
-        $this->getForm('clientSave')->addHiddenElement('returnAction', $action);
+        $this->_helper->viewRenderer->setNoRender(true);
 
         // remove client_dateExpiryLoa if an empty string so that it can validate.
         if ($this->_request->getParam('client_dateExpiryLoa') === '') {
@@ -149,62 +143,21 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
         }
 
         if (!$this->getForm('clientSave')->isValid($this->_request->getPost())) {
-            $this->view->assign(array(
-                'client'    => $clientId
+
+            $html = $this->view->render('client/ajax-form.phtml');
+
+            echo json_encode(array(
+                'saved' => 0,
+                'html'  => $html
             ));
-
-            if ($this->_request->isXmlHttpRequest() && $this->_request->getParam('type') == 'edit') {
-                $this->view->layout()->disableLayout();
-                $html = $this->view->render('client/ajax-form.phtml');
-
-                echo json_encode(array(
-                    'saved' => 0,
-                    'html'  => $html
-                ));
-            } else {
-                return $this->render($action); // re-render the edit form
-            }
         } else {
             $saved = $this->_model->save();
 
-            if ($this->_request->isXmlHttpRequest()) {
-                $this->view->layout()->disableLayout();
-                $returnArray = array(
-                    'saved' => $saved
-                );
-                echo json_encode($returnArray);
-            } elseif ($saved > 0) {
-                $this->_helper->FlashMessenger(array(
-                    'pass' => 'Client saved to database'
-                ));
+            $this->view->layout()->disableLayout();
 
-                return $this->_helper->redirector('index', 'client');
-            } elseif ($saved == 0) {
-                $this->_helper->FlashMessenger(array(
-                    'fail' => 'Nothing new to save'
-                ));
-
-                return $this->_forward($action);
-            }
+            echo json_encode(array(
+                'saved' => $saved
+            ));
         }
-    }
-
-    public function deleteAction()
-    {
-        if ($this->_request->getParam('clientId')) {
-            $client = $this->_model->delete($this->_request->getParam('clientId'));
-
-            if ($client) {
-                $this->_helper->FlashMessenger(array(
-                    'pass' => 'Client deleted from database'
-                ));
-            } else {
-                $this->_helper->FlashMessenger(array(
-                    'fail' => 'Could not delete client from database'
-                ));
-            }
-        }
-
-        return $this->_helper->redirector('index', 'client');
     }
 }
