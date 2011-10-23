@@ -183,7 +183,7 @@ table {
  */
 
 .form_wrap {
-    width: 500px;
+    width: 480px;
     text-align: center;
 }
 
@@ -201,7 +201,7 @@ table {
 	/* 1px seems to make the dojo type of field the correct size (was 10px)*/
 }
 
-.zend_form label {
+.zend_form label, .zend_form .label {
     float: left;
     text-align: right;
     width: 200px;

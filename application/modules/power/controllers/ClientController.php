@@ -93,6 +93,9 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
     {
         $this->getForm('clientSave')
             ->addHiddenElement('returnAction', 'add');
+        if ($this->_request->isXmlHttpRequest() && $this->_request->getParam('type') == 'add') {
+            $this->render('ajax-form');
+        }
     }
 
     public function editAction()
@@ -108,6 +111,10 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
             $this->view->assign(array(
                 'client'        => $client
             ));
+
+            if ($this->_request->isXmlHttpRequest() && $this->_request->getParam('type') == 'edit') {
+                $this->render('ajax-form');
+            }
         } else {
            return $this->_helper->redirector('index', 'client');
         }
@@ -145,11 +152,28 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
             $this->view->assign(array(
                 'client'    => $clientId
             ));
-            return $this->render($action); // re-render the edit form
+
+            if ($this->_request->isXmlHttpRequest() && $this->_request->getParam('type') == 'edit') {
+                $this->view->layout()->disableLayout();
+                $html = $this->view->render('client/ajax-form.phtml');
+
+                echo json_encode(array(
+                    'saved' => 0,
+                    'html'  => $html
+                ));
+            } else {
+                return $this->render($action); // re-render the edit form
+            }
         } else {
             $saved = $this->_model->save();
 
-            if ($saved > 0) {
+            if ($this->_request->isXmlHttpRequest()) {
+                $this->view->layout()->disableLayout();
+                $returnArray = array(
+                    'saved' => $saved
+                );
+                echo json_encode($returnArray);
+            } elseif ($saved > 0) {
                 $this->_helper->FlashMessenger(array(
                     'pass' => 'Client saved to database'
                 ));

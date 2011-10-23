@@ -77,13 +77,17 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
     {
         $this->getForm('clientAddressSave')
                 ->populate(array(
-                    'clientAd_idClient' => $this->_request->getParam('clientId')
+                    'clientAd_idClient' => $this->_request->getParam('clientAd_idClient')
                 ))
                 ->addHiddenElement('returnAction', 'add');
 
         $this->view->assign(array(
-            'client'    => $this->_request->getParam('clientId')
+            'client'    => $this->_request->getParam('clientAd_idClient')
         ));
+
+        if ($this->_request->isXmlHttpRequest()) {
+            $this->render('ajax-form');
+        }
     }
 
     public function editAction()
@@ -129,7 +133,7 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
             $this->view->assign(array(
                 'client'    => $clientId
             ));
-            
+
             return $this->render($action); // re-render the edit form
         } else {
             $saved = $this->_model->save();
@@ -139,8 +143,7 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
             if ($this->_request->isXmlHttpRequest()) {
                 $this->view->layout()->disableLayout();
                 $returnArray = array(
-                    'saved' => $saved,
-
+                    'saved' => $saved
                 );
                 echo json_encode($returnArray);
             } elseif ($saved) {
