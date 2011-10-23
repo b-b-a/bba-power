@@ -14,14 +14,17 @@
                 /* @var $client Power_Model_Client */
             ?>
 
-            <?php echo $this->partial('_table-head.phtml', array(
-                'heading'   => 'Clients',
-                'label'     => 'New Client',
-                'location'  => $this->url(array(
-                    'controller'    => 'client',
-                    'action'        => 'add'
-                ), 'default', true)
-            )); ?>
+            <div class="tableHead">
+                <h2 class="tableHead-heading">Clients:</h2>
+                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <p class="tableHead-button">
+                    <button dojoType="dijit.form.Button"
+                            id="new-client-button"
+                            type="button">New Client</button>
+                </p>
+                <?php endif; ?>
+            </div>
+
         </div>
     </div>
 

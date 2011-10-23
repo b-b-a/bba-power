@@ -31,19 +31,159 @@ dojo.declare(
     'bba.Core',
     null,
     {
-        editFormSetup : function(id) {
-            var form = dojo.query('[id^=edit]')[0];
-            var id = form.id;
-            dojo.connect(dijit.byId(id), 'onSubmit', dojo.hitch(this, 'formSubmit'));
+        abrev : {
+            ad : "address",
+            co : "contact"
+        },
+        dialog : [],
+        tab : null,
+
+        editFormSetup : function(selectedId, inputName, name)
+        {
+            var id = 'edit-' + name + '-' + selectedId;
+
+            dojo.connect(dijit.byId(id), 'onSubmit', dojo.hitch(this, function(e){
+                dojo.stopEvent(e);
+                console.log(name + selectedId);
+                this.tab = dijit.byId(name + selectedId);
+                this.showDialog(selectedId, inputName, name, 'edit');
+            }));
         },
 
-        formSubmit : function(e) {
-            dojo.stopEvent(e);
-            console.log(e.getValues())
+        newFormSetup : function(ident, query, parentKey)
+        {
+            var i = ident.split("_");
+            var selectedId = (query[parentKey]) ? '-' + query[parentKey] : '';
+            var id = 'new-' + i[0] + '-button' + selectedId;
+
+            dojo.connect(dijit.byId(id), 'onClick', dojo.hitch(this, function(e){
+                dojo.stopEvent(e);
+
+                if (parentKey) {
+                    var tab = i[0].substring(0,i[0].length - 2) + selectedId.substring(1);
+                } else {
+                    var tab = i[0] + '-list';
+                }
+
+                this.tab = dijit.byId(tab);
+                this.showDialog(selectedId.substring(1), i[1], i[0], 'add', parentKey);
+            }));
         },
 
-        newClientAddress : function(id) {
-            console.log(id)
+        formSubmit : function(form, url, selectedId, inputName, name, type)
+        {
+            form.cancel = null;
+            form.returnAction = type;
+            form[inputName] = selectedId;
+            form.type = type;
+
+            dojo.xhrPost({
+                url: url,
+                content: form,
+                handleAs: 'json',
+                preventCache: true,
+                load: dojo.hitch(this, function(data) {
+                    if (data.saved > 0) {
+                        console.log(this.tab);
+                        this.tab.refresh();
+                    } else {
+                        this.dialog[name] = new dijit.Dialog({
+                            title: this.capitalize(type + ' ' + name),
+                            style: "width:500px;",
+                            content: data.html,
+                            execute: dojo.hitch(this, function() {
+                                var url = '/' + this.hyphenate(name) + '/save';
+                                this.dialog[name].destroyRecursive();
+                                this.dialog[name] = null;
+                                this.formSubmit(arguments[0], url, selectedId, inputName, name, type);
+                            }),
+                            _onSubmit: dojo.hitch(this.dialog[name], function() {
+                                if (!this.validate()) return false;
+                                this.onExecute();
+                                this.execute(this.get('value'));
+                            }),
+                            onShow: dojo.hitch(this, function() {
+                                dojo.connect(
+                                    dijit.byId(name + 'FormCancelButton'),
+                                    "onClick",
+                                    dojo.hitch(this.dialog[name], 'hide')
+                                );
+                            }),
+                            onHide: dojo.hitch(this, function() {
+                                this.dialog[name].destroyRecursive();
+                                this.dialog[name] = null;
+                            })
+                        });
+
+                        this.dialog[name].show();
+                    }
+                }),
+                error: function(data) {
+
+                }
+            });
+        },
+
+        showDialog : function(selectedId, inputName, name, type, parentKey)
+        {
+            if (!this.dialog[name]) {
+
+                var contentVars = {type: type};
+                if (parentKey) {
+                    contentVars[parentKey] = selectedId;
+                } else {
+                    contentVars[inputName] = selectedId;
+                }
+
+                this.dialog[name] = new dijit.Dialog({
+                    title: this.capitalize(type + ' ' + this.hyphenate(name).replace('-', ' ')),
+                    style: "width:500px;",
+                    href: '/' + this.hyphenate(name) + '/' + type,
+                    ioArgs: {content: contentVars},
+                    execute: dojo.hitch(this, function() {
+                        var url = '/' + this.hyphenate(name) + '/save';
+                        this.dialog[name].destroyRecursive();
+                        this.dialog[name] = null;
+                        this.formSubmit(arguments[0], url, selectedId, inputName, name, type);
+                    }),
+                    _onSubmit: dojo.hitch(this.dialog[name], function() {
+                        if (!this.validate()) return false;
+                        this.onExecute();
+                        this.execute(this.get('value'));
+                    }),
+                    onHide: dojo.hitch(this, function() {
+                        this.dialog[name].destroyRecursive();
+                        this.dialog[name] = null;
+                    })
+                });
+
+                dojo.connect(this.dialog[name], 'onLoad', dojo.hitch(this, function(){
+                    dojo.connect(
+                        dijit.byId(name + 'FormCancelButton'),
+                        "onClick",
+                        dojo.hitch(this.dialog[name], 'hide')
+                    );
+                }));
+            }
+
+            this.dialog[name].show();
+        },
+
+        capitalize: function(string){
+            return string.replace(/\b[a-z]/g, function(match){
+                return match.toUpperCase();
+            });
+        },
+
+        hyphenate : function(str)
+        {
+            str = str.replace(/[A-Z]/g, function(match) {
+                return ('-{' + match.charAt(0).toLowerCase());
+            });
+
+            if (str.match('{')) str = str + '}';
+
+            return dojo.replace(str, this.abrev);
         }
     }
 );

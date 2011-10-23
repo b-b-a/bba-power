@@ -82,7 +82,7 @@ class Power_Model_DbTable_Client extends Zend_Db_Table_Abstract
                 'client_name',
                 'client_desc' => 'SUBSTR(client_desc, 1, 15)'
             ))
-            ->join('client_address', 'client_idAddress = clientAd_idAddress', array(
+            ->joinLeft('client_address', 'client_idAddress = clientAd_idAddress', array(
                 'clientAd_addressName',
                 'clientAd_address1',
                 'clientAd_postcode'

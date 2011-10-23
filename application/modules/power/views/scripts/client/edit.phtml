@@ -11,33 +11,39 @@
                 $this->headTitle($this->title);
             ?>
 
-            <div class="form_wrap"
+            <div class="form_wrap zend_form"
                  dojoType="dijit.form.Form"
                  id="edit-client-<?php echo $this->client->id; ?>"
                  >
-                <div class="zend_form">
                 <?php /*echo $this->clientSaveForm;*/ ?>
-                    <!--
-                <p>Client Name: <?php echo $this->client->name; ?></p>
-                <p>LoA Expiry Date: <?php echo $this->client->dateExpiryLoa->toString('dd/MM/yyyy'); ?></p>-->
+                <h2>Client Details</h2>
+                <div class="form_row">
+                    <p class="label"><b>Client Name: </b></p>
+                    <p><?php echo $this->client->name; ?></p>
+                </div>
+                <div class="form_row">
+                    <p class="label"><b>LoA Expiry Date: </b></p>
+                    <p><?php echo $this->client->dateExpiryLoa->toString('dd/MM/yyyy'); ?></p>
+                </div>
+
                 <button dojoType="dijit.form.Button"
                         type="submit"
                         name="edit-client-button-<?php echo $this->client->id; ?>"
                         value="submit"
                         >Edit Details</button>
-                </div>
+
             </div>
 
-            <?php echo $this->partial('_table-head.phtml', array(
-                'heading'   => 'Client Addresses',
-                'label'     => 'New Address',
-                'id'        => $this->client->id,
-                'location'  => $this->url(array(
-                    'controller'    => 'client-address',
-                    'action'        => 'add',
-                    'clientId'      => $this->client->id
-                ), 'default', true)
-            )); ?>
+            <div class="tableHead">
+                <h2 class="tableHead-heading">Client Addresses:</h2>
+                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <p class="tableHead-button">
+                    <button dojoType="dijit.form.Button"
+                            id="new-clientAd-button-<?php echo $this->client->id; ?>"
+                            type="button">New Address</button>
+                </p>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 

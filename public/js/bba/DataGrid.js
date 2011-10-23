@@ -41,6 +41,7 @@ dojo.extend(
         dialog : false,
         dialogName : '',
         dlg : [],
+        queryParent : '',
 
         _onFetchComplete : function(items, req)
         {
@@ -86,6 +87,19 @@ dojo.extend(
                 });
                 this.gridSearch();
             }
+
+            bbaCore.newFormSetup(this.getIdent(), this.query, this.queryParent);
+        },
+
+        getIdent : function()
+        {
+            var ident = this.store._identifier;
+
+            if (!ident) {
+                ident = this.store.getFeatures()["dojo.data.api.Identity"];
+            }
+
+            return ident;
         },
 
         gridLink : function(selectedId, inputName, url)
@@ -112,11 +126,7 @@ dojo.extend(
 
             selectedItem = this.getItem(selectedIndex);
 
-            ident = this.store._identifier;
-
-            if (!ident) {
-                ident = this.store.getFeatures()["dojo.data.api.Identity"];
-            }
+            var ident = this.getIdent();
 
             i = ident.split("_");
 
@@ -134,21 +144,21 @@ dojo.extend(
 
         openTab : function(selectedId, inputName, name)
         {
-            var contentVars = {};
+            var contentVars = {type: 'details'};
             contentVars[inputName] = selectedId
 
             var tabId = name + selectedId;
             if (!dijit.byId(tabId)) {
                 var tc = dijit.byId("ContentTabs");
-
+                
                 var pane = new dijit.layout.ContentPane({
                     id: tabId,
                     title: this.tabTitle,
                     href: '/' + this.hyphenate(name) + '/edit',
-                    ioArgs: { content: contentVars },
+                    ioArgs: {content: contentVars},
                     closable: true,
                     onLoad : function () {
-                        bbaCore.editFormSetup(name);
+                        bbaCore.editFormSetup(selectedId, inputName, name);
                     },
                     onContentError: function(err) {
                         console.log(err)
@@ -164,10 +174,14 @@ dojo.extend(
         {
             if (!this.dlg[name]) {
 
+                var contentVars = {};
+                contentVars[inputName] = selectedId
+
                 this.dlg[name] = new dijit.Dialog({
                     title: this.dialogName,
                     style: "width:500px;",
-                    href: '/' + this.hyphenate(name) + '/edit/' + inputName + '/' + selectedId,
+                    ioArgs: {content: contentVars},
+                    href: '/' + this.hyphenate(name) + '/edit',
                     execute: dojo.hitch(this, function() {
                         var url = '/' + this.hyphenate(name) + '/save';
                         this.processForm(arguments[0], url);
@@ -177,17 +191,19 @@ dojo.extend(
                         this.onExecute();
                         this.execute(this.get('value'));
                     }),
-                    onLoad: dojo.hitch(this, function() {
-                        var cancel = dijit.byId(name + 'FormCancelButton');
-                        dojo.connect(cancel, "onClick", dojo.hitch(this, function() {
-                            dijit.byId(this.dlg[name]).hide();
-                        }));
-                    }),
                     onHide: dojo.hitch(this, function() {
                         this.dlg[name].destroyRecursive();
                         this.dlg[name] = null;
                     })
                 });
+
+                dojo.connect(this.dlg[name], 'onLoad', dojo.hitch(this, function(){
+                    dojo.connect(
+                        dijit.byId(name + 'FormCancelButton'),
+                        "onClick",
+                        dojo.hitch(this.dlg[name], 'hide')
+                    );
+                }));
             }
 
             this.dlg[name].show();

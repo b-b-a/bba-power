@@ -41,11 +41,11 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
 {
     public function init()
     {
-        $this->setName('client');
+        //$this->setName('client');
 
         $this->setAttrib('enctype', 'multipart/form-data');
 
-        $this->addElement('TextBox', 'client_name', array(
+        $this->addElement('ValidationTextBox', 'client_name', array(
             'label'     => 'Client Name:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
