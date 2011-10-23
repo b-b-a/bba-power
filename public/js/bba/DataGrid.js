@@ -150,7 +150,7 @@ dojo.extend(
             var tabId = name + selectedId;
             if (!dijit.byId(tabId)) {
                 var tc = dijit.byId("ContentTabs");
-                
+
                 var pane = new dijit.layout.ContentPane({
                     id: tabId,
                     title: this.tabTitle,
@@ -174,7 +174,8 @@ dojo.extend(
         {
             if (!this.dlg[name]) {
 
-                var contentVars = {};
+                var type = 'edit';
+                var contentVars = {type: type};
                 contentVars[inputName] = selectedId
 
                 this.dlg[name] = new dijit.Dialog({
@@ -184,7 +185,9 @@ dojo.extend(
                     href: '/' + this.hyphenate(name) + '/edit',
                     execute: dojo.hitch(this, function() {
                         var url = '/' + this.hyphenate(name) + '/save';
-                        this.processForm(arguments[0], url);
+                        this.dlg[name].destroyRecursive();
+                        this.dlg[name] = null;
+                        this.processForm(arguments[0], url, selectedId, inputName, name, type);
                     }),
                     _onSubmit: dojo.hitch(this.dlg[name], function() {
                         if (!this.validate()) return false;
@@ -209,9 +212,11 @@ dojo.extend(
             this.dlg[name].show();
         },
 
-        processForm : function(form, url)
+        processForm : function(form, url, selectedId, inputName, name, type)
         {
             form.cancel = null;
+            form[inputName] = selectedId;
+            form.type = type;
 
             dojo.xhrPost({
               url: url,
@@ -219,10 +224,38 @@ dojo.extend(
               handleAs: 'json',
               preventCache: true,
               load: dojo.hitch(this, function(data) {
-                  if (data.saved) {
+                  if (data.saved > 0) {
                       this._refresh();
                   } else {
-                      // error message here
+                      this.dlg[name] = new dijit.Dialog({
+                        title: this.capitalize(type + ' ' + name),
+                        style: "width:500px;",
+                        content: data.html,
+                        execute: dojo.hitch(this, function() {
+                            var url = '/' + this.hyphenate(name) + '/save';
+                            this.dlg[name].destroyRecursive();
+                            this.dlg[name] = null;
+                            this.formSubmit(arguments[0], url, selectedId, inputName, name, type);
+                        }),
+                        _onSubmit: dojo.hitch(this.dlg[name], function() {
+                            if (!this.validate()) return false;
+                            this.onExecute();
+                            this.execute(this.get('value'));
+                        }),
+                        onShow: dojo.hitch(this, function() {
+                            dojo.connect(
+                                dijit.byId(name + 'FormCancelButton'),
+                                "onClick",
+                                dojo.hitch(this.dlg[name], 'hide')
+                            );
+                        }),
+                        onHide: dojo.hitch(this, function() {
+                            this.dlg[name].destroyRecursive();
+                            this.dlg[name] = null;
+                        })
+                    });
+
+                    this.dlg[name].show();
                   }
               }),
               error: function(data) {
