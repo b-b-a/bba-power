@@ -82,8 +82,8 @@ dojo.extend(
             dojo.connect(this, "onRowClick", function() {
                 this.gridRowClick();
             });
-            
-            this.gridSearch();
+
+            if (this.checkRows) this.gridSearch();
 
             bbaCore.newFormSetup(this.getIdent(), this.query, this.queryParent);
         },
