@@ -79,14 +79,11 @@ dojo.extend(
 
             this._pending_requests[req.start] = false;
 
-            if (this.checkRows && this.rowCount == 1){
-                this.gridRowClick(0);
-            } else {
-                dojo.connect(this, "onRowClick", function() {
-                    this.gridRowClick();
-                });
-                this.gridSearch();
-            }
+            dojo.connect(this, "onRowClick", function() {
+                this.gridRowClick();
+            });
+            
+            this.gridSearch();
 
             bbaCore.newFormSetup(this.getIdent(), this.query, this.queryParent);
         },
@@ -146,10 +143,10 @@ dojo.extend(
         {
             var contentVars = {type: 'details'};
             contentVars[inputName] = selectedId
-
             var tabId = name + selectedId;
+            var tc = dijit.byId("ContentTabs");
+
             if (!dijit.byId(tabId)) {
-                var tc = dijit.byId("ContentTabs");
 
                 var pane = new dijit.layout.ContentPane({
                     id: tabId,
@@ -166,8 +163,9 @@ dojo.extend(
                 });
 
                 tc.addChild(pane);
-                tc.selectChild(pane);
             }
+
+            tc.selectChild(tabId);
         },
 
         showDialog : function(selectedId, inputName, name)
