@@ -1,11 +1,11 @@
 <div dojoType="dojox.data.QueryReadStore"
-     jsid="clientAddressStore"
+     jsid="clientAddressStore<?php echo $this->idClient; ?>"
      url="/client-address/client-address-store"
      requestMethod="post"></div>
 
 <table dojoType="dojox.grid.DataGrid"
-       jsId="addressGrid"
-       store="clientAddressStore"
+       jsId="addressGrid<?php echo $this->idClient; ?>"
+       store="clientAddressStore<?php echo $this->idClient; ?>"
        query="{ clientAd_idClient: <?php echo $this->idClient; ?> }"
        queryParent="clientAd_idClient"
        sortInfo="2"
