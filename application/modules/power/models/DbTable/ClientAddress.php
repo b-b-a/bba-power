@@ -67,4 +67,18 @@ class Power_Model_DbTable_ClientAddress extends Zend_Db_Table_Abstract
             'refColumns'    => 'user_idUser'
         )
     );
+
+    public function getList()
+    {
+        return $this->select();
+    }
+
+    public function getSearch($search, $select)
+    {
+        if ($search === null) {
+            return $select;
+        }
+
+        return $select;
+    }
 }

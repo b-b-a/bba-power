@@ -46,7 +46,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
         $this->addElement('TextBox', 'clientAd_addressName', array(
             'label'     => 'Address Name:',
             'filters'   => array('StripTags', 'StringTrim'),
-            //'required'  => true
+
         ));
 
         $this->addElement('ValidationTextBox', 'clientAd_address1', array(
@@ -57,20 +57,23 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
 
         $this->addElement('TextBox', 'clientAd_address2', array(
             'label'     => 'Address 2:',
-            //'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
         $this->addElement('TextBox', 'clientAd_address3', array(
             'label'     => 'Address 3:',
-            //'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
         $this->addElement('ValidationTextBox', 'clientAd_postcode', array(
             'label'     => 'Postcode:',
             'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim', 'StringToUpper'),
+            'validators' => array(
+                array('PostCode', true, array(
+                    'locale' => 'en_GB'
+                ))
+            )
         ));
 
         $auth = Zend_Auth::getInstance()

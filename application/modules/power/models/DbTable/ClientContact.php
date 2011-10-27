@@ -72,4 +72,21 @@ class Power_Model_DbTable_ClientContact extends Zend_Db_Table_Abstract
             'refColumns'    => 'user_idUser'
         )
     );
+
+    public function getList()
+    {
+        return $this->select(false)
+            ->setIntegrityCheck(false)
+            ->from('client_contact')
+            ->join('client_address', 'clientCo_idAddress = clientAd_idAddress');
+    }
+
+    public function getSearch($search, $select)
+    {
+        if ($search === null) {
+            return $select;
+        }
+
+        return $select;
+    }
 }

@@ -153,8 +153,6 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
         } else {
             $saved = $this->_model->save();
 
-            $this->view->layout()->disableLayout();
-
             echo json_encode(array(
                 'saved' => $saved
             ));

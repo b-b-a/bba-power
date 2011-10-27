@@ -37,7 +37,12 @@ html, body {
 .claro .dijitTabContainerRight-dijitContentPane,
 .claro .tabContainer .dijitBorderContainer-child {
     border: 0px;
-    padding: 0px;;
+    padding: 0px;
+}
+
+.claro .tabContainer .dijitTabPaneWrapper,
+.claro .tabContainer .dijitTabContainerTop-tabs {
+    border: 0px;
 }
 
 .tabHeading {

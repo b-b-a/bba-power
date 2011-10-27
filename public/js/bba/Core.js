@@ -138,7 +138,7 @@ dojo.declare(
                     title: this.capitalize(type + ' ' + this.hyphenate(name).replace('-', ' ')),
                     style: "width:500px;",
                     href: '/' + this.hyphenate(name) + '/' + type,
-                    ioArgs: {content: contentVars},
+                    ioArgs: { content: contentVars },
                     execute: dojo.hitch(this, function() {
                         var url = '/' + this.hyphenate(name) + '/save';
                         this.dialog[name].destroyRecursive();
