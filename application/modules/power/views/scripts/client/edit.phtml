@@ -51,14 +51,14 @@
 
         <div data-dojo-type="dijit.layout.ContentPane"
              data-dojo-props="region: 'center', title: 'Client Addresses'">
-            <?php echo $this->partial('_client-addresses.phtml', array(
+            <?php echo $this->partial('client-address/_table.phtml', array(
                 'idClient' => $this->client->id
             )); ?>
         </div>
 
         <div data-dojo-type="dijit.layout.ContentPane"
              data-dojo-props="region: 'center', title: 'Client Contacts'">
-            <?php echo $this->partial('_client-contacts.phtml', array(
+            <?php echo $this->partial('client-contact/_table.phtml', array(
                 'idClient' => $this->client->id
             )); ?>
         </div>

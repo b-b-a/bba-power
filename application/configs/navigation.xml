@@ -1,117 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
     <nav>
-        <home>
-            <label>Home</label>
-            <action>index</action>
-            <controller>index</controller>
-        </home>
         <clients>
             <label>Clients</label>
-            <uri></uri>
-            <pages>
-                <listClients>
-                    <label>List Clients</label>
-                    <action>index</action>
-                    <controller>client</controller>
-                    <resource>Read</resource>
-                </listClients>
-                <addClient>
-                    <label>New Client</label>
-                    <action>add</action>
-                    <controller>client</controller>
-                    <resource>Admin</resource>
-                </addClient>
-            </pages>
+            <action>index</action>
+            <controller>client</controller>
             <resource>Read</resource>
         </clients>
         <sites>
             <label>Sites</label>
-            <uri></uri>
-            <pages>
-                <listSites>
-                    <label>List Sites</label>
-                    <action>index</action>
-                    <controller>site</controller>
-                    <resource>Read</resource>
-                </listSites>
-                <addSite>
-                    <label>New Site</label>
-                    <action>add</action>
-                    <controller>site</controller>
-                    <resource>Admin</resource>
-                </addSite>
-            </pages>
+            <action>index</action>
+            <controller>site</controller>
             <resource>Read</resource>
         </sites>
         <meters>
             <label>Meters</label>
-            <uri></uri>
-            <pages>
-                <listMeters>
-                    <label>List Meters</label>
-                    <action>index</action>
-                    <controller>meter</controller>
-                    <resource>Read</resource>
-                </listMeters>
-            </pages>
+            <action>index</action>
+            <controller>meter</controller>
             <resource>Read</resource>
         </meters>
         <contract>
             <label>Contracts</label>
-            <uri></uri>
-            <pages>
-                <listSites>
-                    <label>List Contracts</label>
-                    <action>index</action>
-                    <controller>contract</controller>
-                    <resource>Read</resource>
-                </listSites>
-                <addSite>
-                    <label>New Contracts</label>
-                    <action>add</action>
-                    <controller>contract</controller>
-                    <resource>Admin</resource>
-                </addSite>
-            </pages>
+            <action>index</action>
+            <controller>contract</controller>
             <resource>Read</resource>
         </contract>
         <supplier>
             <label>Suppliers</label>
-            <uri></uri>
-            <pages>
-                <listSites>
-                    <label>List Suppliers</label>
-                    <action>index</action>
-                    <controller>supplier</controller>
-                    <resource>Read</resource>
-                </listSites>
-                <addSite>
-                    <label>New Suppliers</label>
-                    <action>add</action>
-                    <controller>supplier</controller>
-                    <resource>Admin</resource>
-                </addSite>
-            </pages>
+            <action>index</action>
+            <controller>supplier</controller>
             <resource>Read</resource>
         </supplier>
         <users>
             <label>Users</label>
-            <uri></uri>
-            <pages>
-                <listUsers>
-                    <label>List Users</label>
-                    <action>list</action>
-                    <controller>users</controller>
-                    <resource>Admin</resource>
-                </listUsers>
-                <addUser>
-                    <label>New User</label>
-                    <action>add</action>
-                    <controller>users</controller>
-                    <resource>Admin</resource>
-                </addUser>
-            </pages>
+            <action>list</action>
+            <controller>users</controller>
             <resource>Admin</resource>
         </users>
         <logout>

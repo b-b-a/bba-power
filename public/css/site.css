@@ -31,6 +31,7 @@ html, body {
     height:100%;
     padding: 0px;
 }
+
 .claro .dijitTabContainerTop-dijitContentPane,
 .claro .dijitTabContainerBottom-dijitContentPane,
 .claro .dijitTabContainerLeft-dijitContentPane,
@@ -124,6 +125,7 @@ table {
 #nav li
 {
     margin: 0px;
+    margin-top: 3px;
 }
 
 #nav li li
