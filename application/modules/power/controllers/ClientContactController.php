@@ -57,34 +57,45 @@ class Power_ClientContactController extends BBA_Controller_Action_Abstract
             'action' => 'save',
             'module' => 'power'
         ));
+
+         $this->_setSearch(array(
+            'clientCo_idClient'
+        ));
+    }
+
+    public function clientContactStoreAction()
+    {
+        $this->_log->info($this->_request->getPost());
+        return $this->_getAjaxDataStore('getContactByClientId' ,'clientCo_idClientContact', true);
     }
 
     public function addAction()
     {
-        $this->getForm('clientContactSave')
+        if ($this->_request->getParam('clientCo_idClient')
+                && $this->_request->isXmlHttpRequest()
+                && $this->_request->isPost()) {
+            $this->getForm('clientContactSave')
                 ->populate(array(
-                    'clientCo_idClient' => $this->_request->getParam('clientId')
-                ))
-                ->addHiddenElement('returnAction', 'add');
+                    'clientCo_idClient' => $this->_request->getParam('clientCo_idClient')
+                )
+            );
 
-        $this->view->assign(array(
-            'client'    => $this->_request->getParam('clientId')
-        ));
+            $this->render('ajax-form');
+        }
     }
 
     public function editAction()
     {
-        if ($this->_request->getParam('addressId')) {
-            $clientCo = $this->_model->find($this->_request->getParam('contactId'));
-            $this->getForm('clientContactSave')
-                    ->populate($clientCo->toArray('dd/MM/yyyy'))
-                    ->addHiddenElement('returnAction', 'edit')
-                    ;
+        if ($this->_request->getParam('idClientContact')
+                && $this->_request->isXmlHttpRequest()
+                && $this->_request->isPost()) {
+            $clientCo = $this->_model->find($this->_request->getParam('idClientContact'));
 
-            $this->view->assign(array(
-                'idClientContact' => $clientCo->getId(),
-                'client'    => $clientCo->idClient
-            ));
+            $this->getForm('clientContactSave')
+                ->populate($clientCo->toArray('dd/MM/yyyy'));
+
+            $this->render('ajax-form');
+
         } else {
            return $this->_helper->redirector('index', 'client');
         }
@@ -92,55 +103,37 @@ class Power_ClientContactController extends BBA_Controller_Action_Abstract
 
     public function saveAction()
     {
-        if (!$this->_request->isPost()) {
+         if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'client');
         }
 
+        $this->_helper->viewRenderer->setNoRender(true);
+
         $clientId = $this->_request->getParam('clientId');
 
-        if ($this->_request->getParam('cancel')) {
-            return $this->_helper->redirector('edit', 'client', 'power', array(
-                'clientId'  => $clientId
-            ));
-        }
-
-        $action = $this->_request->getParam('returnAction');
-
-        if ($action == 'edit') {
+        if ($this->_request->getParam('type') == 'edit') {
             $this->getForm('clientContactSave')
                     ->excludeEmailFromValidation('clientCo_email', array(
                         'field' => 'clientCo_email',
                         'value' => $this->_model
-                                    ->find($this->_request->getParam('contactId'))
-                                    ->email
-                    ))
-                  ->addHiddenElement('returnAction', $action);
+                            ->find($this->_request->getParam('clientCo_contactId'))
+                            ->email
+                    ));
         }
 
         if (!$this->getForm('clientContactSave')->isValid($this->_request->getPost())) {
-            $this->view->assign(array(
-                'client'    => $clientId
+             $html = $this->view->render('client-contact/ajax-form.phtml');
+
+            echo json_encode(array(
+                'saved' => 0,
+                'html'  => $html
             ));
-            return $this->render($action); // re-render the edit form
         } else {
-            $this->_log->info($this->_request->getParams());
-            $saved = $this->_model->save();
+             $saved = $this->_model->save();
 
-            if ($saved) {
-                $this->_helper->FlashMessenger(array(
-                    'pass' => 'Client Contact saved to database'
-                ));
-
-                return $this->_helper->redirector('edit', 'client', 'power', array(
-                    'clientId'  => $clientId
-                ));
-            } else {
-                $this->_helper->FlashMessenger(array(
-                    'fail' => 'Nothing new to save'
-                ));
-
-                return $this->_forward($action);
-            }
+            echo json_encode(array(
+                'saved' => $saved
+            ));
         }
     }
 

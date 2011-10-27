@@ -49,7 +49,7 @@ class Power_Model_Mapper_ClientAddress extends BBA_Model_Mapper_Abstract
      */
     protected $_modelClass = 'Power_Model_ClientAddress';
 
-    public function getAddressByClientId($search, $sort = '', $count = null, $offset = null)
+    public function getAddressByClientId($search, $sort = 'clientAd_addressName', $count = null, $offset = null)
     {
         $col = key($search);
         $id = current($search);

@@ -1,51 +1,33 @@
-<?php echo $this->partial('_table-head.phtml', array(
-    'heading'   => 'Client Contacts',
-    'label'     => 'New Contact',
-    'location'  => $this->url(array(
-        'controller'    => 'client-contact',
-        'action'        => 'add',
-        'clientId'      => $this->idClient
-    ), 'default', true)
-)); ?>
 
-<table>
-    <tr>
-        <th>Name <span class="id">(id)</span></th>
-        <th>Type</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <th>Postcode</th>
-        <th>&nbsp;</th>
-    </tr>
-<?php if ($this->contacts): ?>
-	<?php foreach($this->contacts as $contact): ?>
-		<tr>
-			<td><?php echo $this->escape($contact->name); ?>&nbsp;
-				<span class="id">(<?php echo $this->escape($contact->idClientContact); ?>)</span></td>
-			<td><?php echo $this->escape($contact->type); ?></td>
-			<td><?php echo $this->escape($contact->phone); ?></td>
-			<td><?php echo $this->escape($contact->email); ?></td>
-			<td><?php echo $this->escape($contact->postcode); ?></td>
-			<td class="action">
-                <button dojoType="dijit.form.Button" type="button">
-                    Edit
-                    <script type="dojo/method" event="onClick" args="evt">
-                        location.href = "<?php echo $this->url(array(
-                            'controller'    => 'client-contact',
-                            'action'        => 'edit',
-                            'clientId'      => $contact->idClient,
-                            'addressId'     => $contact->idAddress,
-                            'contactId'     => $contact->idClientContact
-                        )); ?>";
-                    </script>
-                </button>
-			</td>
-		</tr>
-	<?php endforeach; ?>
+<div dojoType="dojox.data.QueryReadStore"
+     jsid="clientContactStore<?php echo $this->idClient; ?>"
+     url="/client-contact/client-contact-store"
+     requestMethod="post"></div>
 
-<?php else: ?>
-		<tr>
-            <td colspan="6">This client has no contacts yet.</td>
+<table dojoType="dojox.grid.DataGrid"
+       jsId="contactGrid<?php echo $this->idClient; ?>"
+       store="clientContactStore<?php echo $this->idClient; ?>"
+       query="{ clientCo_idClient: <?php echo $this->idClient; ?> }"
+       queryParent="clientCo_idClient"
+       sortInfo="2"
+       style="margin:auto;"
+       autoWidth="false"
+       autoHeight="auto"
+       selectionMode="single"
+       rowSelector="0px"
+       rowsPerPage="25"
+       clientSort="true"
+       dialog="true"
+       dialogName="Edit Client Contact"
+       noDataMessage="<span class='dojoxGridNoData'>This Client has no contacts yet.</span>">
+    <thead>
+        <tr>
+            <th field="clientCo_idClientContact" width="75">Id</th>
+            <th field="clientCo_type" width="250">Type</th>
+            <th field="clientCo_phone" width="300">Phone</th>
+            <th field="clientCo_email" width="200">Email</th>
+            <th field="clientAd_postcode" width="100">Postcode</th>
+            <th field="" width="auto"></th>
         </tr>
-<?php endif; ?>
+    </thead>
 </table>

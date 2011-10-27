@@ -84,10 +84,6 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
                 )
             );
 
-            $this->view->assign(array(
-                'client' => $this->_request->getParam('clientAd_idClient')
-            ));
-
             $this->render('ajax-form');
         }
     }
@@ -101,10 +97,6 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
 
             $this->getForm('clientAddressSave')
                 ->populate($clientAd->toArray('dd/MM/yyyy'));
-
-            $this->view->assign(array(
-                'clientAd' => $clientAd
-            ));
 
             $this->render('ajax-form');
 

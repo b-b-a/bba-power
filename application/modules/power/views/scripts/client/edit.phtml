@@ -6,11 +6,6 @@
          data-dojo-props="region: 'top'"
          >
         <div class="tabHeading">
-            <?php
-                $this->title = "BBA Client Update";
-                $this->headTitle($this->title);
-            ?>
-
             <div class="form_wrap zend_form"
                  dojoType="dijit.form.Form"
                  id="edit-client-<?php echo $this->client->id; ?>"
@@ -35,28 +30,37 @@
             </div>
 
             <div class="tableHead">
-                <h2 class="tableHead-heading">Client Addresses:</h2>
-                <?php if ($this->authInfo('role') == 'admin'): ?>
-                <p class="tableHead-button">
-                    <button dojoType="dijit.form.Button"
-                            id="new-clientAd-button-<?php echo $this->client->id; ?>"
-                            type="button">New Address</button>
-                </p>
-                <?php endif; ?>
-            </div>
+                    <?php if ($this->authInfo('role') == 'admin'): ?>
+                    <p class="tableHead-button">
+                        <button dojoType="dijit.form.Button"
+                                id="new-clientAd-button-<?php echo $this->client->id; ?>"
+                                type="button">New Address</button>
+                        <button dojoType="dijit.form.Button"
+                                id="new-clientCo-button-<?php echo $this->client->id; ?>"
+                                type="button">New Contact</button>
+                    </p>
+                    <?php endif; ?>
+                </div>
         </div>
     </div>
 
-    <div data-dojo-type="dijit.layout.ContentPane"
-             data-dojo-props="region: 'center'">
-        <?php echo $this->partial('_client-addresses.phtml', array(
-            'idClient' => $this->client->id
-        )); ?>
-    </div>
+    <div id="ClientTabs<?php echo $this->client->id; ?>"
+         data-dojo-type="dijit.layout.TabContainer"
+         data-dojo-props="region: 'center', tabStrip: 'true'"
+         class="innerTabs">
 
-<?php /* Commented out for V1 - clientContacts needs more thought about the associated address
-echo $this->partial('_client-contacts.phtml', array(
-    'idClient'  => $this->client->id,
-   'contacts'  => $this->clientContacts($this->client->id)
-));*/ ?>
+        <div data-dojo-type="dijit.layout.ContentPane"
+             data-dojo-props="region: 'center', title: 'Client Addresses'">
+            <?php echo $this->partial('_client-addresses.phtml', array(
+                'idClient' => $this->client->id
+            )); ?>
+        </div>
+
+        <div data-dojo-type="dijit.layout.ContentPane"
+             data-dojo-props="region: 'center', title: 'Client Contacts'">
+            <?php echo $this->partial('_client-contacts.phtml', array(
+                'idClient' => $this->client->id
+            )); ?>
+        </div>
+    </div>
 </div>

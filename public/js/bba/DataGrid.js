@@ -176,10 +176,14 @@ dojo.extend(
                 var contentVars = {type: type};
                 contentVars[inputName] = selectedId
 
+                if (this.queryParent) {
+                    contentVars[this.queryParent] = this.query[this.queryParent];
+                }
+
                 this.dlg[name] = new dijit.Dialog({
                     title: this.dialogName,
                     style: "width:500px;",
-                    ioArgs: {content: contentVars},
+                    ioArgs: { content: contentVars },
                     href: '/' + this.hyphenate(name) + '/edit',
                     execute: dojo.hitch(this, function() {
                         var url = '/' + this.hyphenate(name) + '/save';

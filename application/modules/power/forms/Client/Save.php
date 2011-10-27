@@ -74,6 +74,8 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             )
         ));
 
+        
+
         $auth = Zend_Auth::getInstance()
             ->getIdentity();
 
