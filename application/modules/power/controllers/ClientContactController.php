@@ -65,7 +65,6 @@ class Power_ClientContactController extends BBA_Controller_Action_Abstract
 
     public function clientContactStoreAction()
     {
-        $this->_log->info($this->_request->getPost());
         return $this->_getAjaxDataStore('getContactByClientId' ,'clientCo_idClientContact', true);
     }
 
@@ -109,16 +108,14 @@ class Power_ClientContactController extends BBA_Controller_Action_Abstract
 
         $this->_helper->viewRenderer->setNoRender(true);
 
-        $clientId = $this->_request->getParam('clientId');
-
         if ($this->_request->getParam('type') == 'edit') {
             $this->getForm('clientContactSave')
-                    ->excludeEmailFromValidation('clientCo_email', array(
-                        'field' => 'clientCo_email',
-                        'value' => $this->_model
-                            ->find($this->_request->getParam('clientCo_contactId'))
-                            ->email
-                    ));
+                ->excludeEmailFromValidation('clientCo_email', array(
+                    'field' => 'clientCo_email',
+                    'value' => $this->_model
+                        ->find($this->_request->getParam('clientCo_idClientContact'))
+                        ->email
+                ));
         }
 
         if (!$this->getForm('clientContactSave')->isValid($this->_request->getPost())) {
@@ -129,11 +126,18 @@ class Power_ClientContactController extends BBA_Controller_Action_Abstract
                 'html'  => $html
             ));
         } else {
-             $saved = $this->_model->save();
+            $saved = $this->_model->save();
 
-            echo json_encode(array(
+            $returnJson = array(
                 'saved' => $saved
-            ));
+            );
+
+            if ($saved == 0) {
+                $html = $this->view->render('client-contact/ajax-form.phtml');
+                $returnJson['html'] = $html;
+            }
+
+            echo json_encode($returnJson);
         }
     }
 

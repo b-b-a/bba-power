@@ -230,14 +230,14 @@ dojo.extend(
                       this._refresh();
                   } else {
                       this.dlg[name] = new dijit.Dialog({
-                        title: this.capitalize(type + ' ' + name),
+                        title: this.dialogName,
                         style: "width:500px;",
                         content: data.html,
                         execute: dojo.hitch(this, function() {
                             var url = '/' + this.hyphenate(name) + '/save';
                             this.dlg[name].destroyRecursive();
                             this.dlg[name] = null;
-                            this.formSubmit(arguments[0], url, selectedId, inputName, name, type);
+                            this.processForm(arguments[0], url, selectedId, inputName, name, type);
                         }),
                         _onSubmit: dojo.hitch(this.dlg[name], function() {
                             if (!this.validate()) return false;
