@@ -58,9 +58,6 @@ class Power_Model_Mapper_ClientContact extends BBA_Model_Mapper_Abstract
             ->getList()
             ->where($col . ' = ?', $id);
 
-        $log = Zend_Registry::get('log');
-        $log->info($search);
-
         $select = $this->getLimit($select, $count, $offset);
 
         $select = $this->getSort($select, $sort);

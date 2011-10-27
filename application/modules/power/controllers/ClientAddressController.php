@@ -123,9 +123,16 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
         } else {
             $saved = $this->_model->save();
 
-            echo json_encode(array(
+            $returnJson = array(
                 'saved' => $saved
-            ));
+            );
+
+            if ($saved == 0) {
+                $html = $this->view->render('client-address/ajax-form.phtml');
+                $returnJson['html'] = $html;
+            }
+
+            echo json_encode($returnJson);
         }
     }
 }

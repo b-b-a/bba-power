@@ -76,18 +76,11 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
             )
         ));
 
-        $auth = Zend_Auth::getInstance()
-            ->getIdentity();
+        $auth = Zend_Auth::getInstance()->getIdentity();
 
         $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('clientAd_idAddress', '');
         $this->addHiddenElement('clientAd_idClient', '');
 
-        if ($auth->role == 'admin') {
-            $this->addSubmit('Save');
-        }
-
-        $this->addSubmit('Cancel', 'cancel');
     }
-
 }

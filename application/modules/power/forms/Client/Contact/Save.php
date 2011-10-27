@@ -92,7 +92,7 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
         // reset options
         $multiOptions = array();
         foreach($list as $row) {
-            $multiOptions[$row->idAddress] = $row->address1 . ', ' . $row->postcode;
+            $multiOptions[$row->idAddress] = $row->getAddress1AndPostcode();
         }
 
         $this->addElement('FilteringSelect', 'clientCo_idAddress', array(
@@ -103,18 +103,11 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
             'required'  => true
         ));
 
-        $auth = Zend_Auth::getInstance()
-            ->getIdentity();
+        $auth = Zend_Auth::getInstance()->getIdentity();
 
         $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('clientCo_idClientContact', '');
         $this->addHiddenElement('clientCo_idClient', '');
 
-        if ($auth->role == 'admin') {
-            $this->addSubmit('Save');
-        }
-
-        $this->addSubmit('Cancel', 'cancel');
     }
-
 }
