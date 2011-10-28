@@ -34,7 +34,7 @@
         <users>
             <label>Users</label>
             <action>list</action>
-            <controller>users</controller>
+            <controller>user</controller>
             <resource>Admin</resource>
         </users>
         <logout>

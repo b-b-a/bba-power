@@ -126,7 +126,7 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
 
     public function clientStoreAction()
     {
-        return $this->_getAjaxDataStore('getList' ,'client_idClient');
+        return $this->_getAjaxDataStore('getList', 'client_idClient');
     }
 
     public function saveAction()

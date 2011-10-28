@@ -1,6 +1,6 @@
 <?php
 /**
- * UsersController.php
+ * UserController.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Controller Class UsersController.
+ * Controller Class UserController.
  *
  * @category   BBA
  * @package    Power
@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_UsersController extends ZendSF_Controller_Action_Abstract
+class Power_UserController extends BBA_Controller_Action_Abstract
 {
     /**
      * @var Power_Model_Mapper_User
@@ -59,6 +59,17 @@ class Power_UsersController extends ZendSF_Controller_Action_Abstract
             'action' => 'save',
             'module' => 'power'
         ));
+
+        // search form
+        $this->setForm('userSearch', array(
+            'controller' => 'user' ,
+            'action' => 'list',
+            'module' => 'power'
+        ));
+
+        $this->_setSearch(array(
+            'user', 'role'
+        ));
     }
 
     /**
@@ -76,99 +87,90 @@ class Power_UsersController extends ZendSF_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        // put a dashboard here?
+        // left blank for logging in users.
+    }
+
+    public function userStoreAction()
+    {
+        return $this->_getAjaxDataStore('getList' ,'user_idUser');
     }
 
     public function listAction()
     {
-        $users = $this->getDataStore($this->_model->fetchAll(), 'user_idUser');
+        $this->getForm('userSearch')
+            ->populate($this->_getSearch());
+
+        // assign search to the view script.
         $this->view->assign(array(
-            'userStore' => $users
+            'search' => $this->_getSearchString('userSearch')
         ));
     }
 
     public function addAction()
     {
-        $this->getForm('userSave')
-                ->addHiddenElement('returnAction', 'add');
+        if ($this->_request->isXmlHttpRequest()
+                && $this->_request->getParam('type') == 'add'
+                && $this->_request->isPost()) {
+            $this->getForm('userSave');
+            $this->render('ajax-form');
+        } else {
+            return $this->_helper->redirector('index', 'client');
+        }
     }
 
     public function editAction()
     {
-        if ($this->_request->getParam('idUser')) {
+        if ($this->_request->getParam('idUser')
+                && $this->_request->isPost()
+                && $this->_request->isXmlHttpRequest()) {
+
             $user = $this->_model->find($this->_request->getParam('idUser'));
             $this->getForm('userSave')
                 ->populate($user->toArray('dd/MM/yyyy'))
-                ->addHiddenElement('returnAction', 'edit')
                 ->getElement('user_password')
                 ->setValue('')
                 ->setRequired(false);
+
+            $this->render('ajax-form');
         } else {
-           return $this->_helper->redirector('list', 'users');
+           return $this->_helper->redirector('index', 'client');
         }
     }
 
     public function saveAction()
     {
-        if (!$this->_request->isPost()) {
+        if (!$this->_request->isPost()&& !$this->_request->isXmlHttpRequest()) {
             return $this->_helper->redirector('list', 'users');
         }
 
-         if ($this->_request->getParam('cancel')) {
-            return $this->_helper->redirector('list', 'users', 'power');
-        }
+        $this->_helper->viewRenderer->setNoRender(true);
 
-        $action = $this->_request->getParam('returnAction');
-
-        $this->getForm('userSave')->addHiddenElement('returnAction', $action);
-
-        if ($action == 'edit') {
+        if ($this->_request->getParam('type') === 'edit') {
             $this->getForm('userSave')
-                    ->getElement('user_password')
-                    ->setRequired(false);
+                ->getElement('user_password')
+                ->setRequired(false);
         }
 
         if (!$this->getForm('userSave')->isValid($this->_request->getPost())) {
-            return $this->render($action); // re-render the edit form
+            $html = $this->view->render('users/ajax-form.phtml');
+
+            echo json_encode(array(
+                'saved' => 0,
+                'html'  => $html
+            ));
         } else {
             $saved = $this->_model->save();
 
-            if ($saved) {
-                $this->_helper->FlashMessenger(array(
-                    'pass' => 'User saved to database'
-                ));
+            $returnJson = array(
+                'saved' => $saved
+            );
 
-                return $this->_helper->redirector('list', 'users');
-            } else {
-                $this->_helper->FlashMessenger(array(
-                    'fail' => 'User could not be saved to database'
-                ));
-
-                return $this->render($action);
+            if ($saved == 0) {
+                $html = $this->view->render('users/ajax-form.phtml');
+                $returnJson['html'] = $html;
             }
+
+            echo json_encode($returnJson);
         }
-    }
-
-    public function deleteAction()
-    {
-        if (!$this->_helper->acl('Admin')) {
-           return $this->_helper->redirector('list');
-        }
-
-        if ($this->_request->getParam('userId')) {
-            $user = $this->_model->delete($this->_request->getParam('userId'));
-
-            if ($user) {
-                $this->_helper->FlashMessenger(array(
-                    'pass' => 'User deleted from database'
-                ));
-            } else {
-                $this->_helper->FlashMessenger(array(
-                    'fail' => 'Could not delete user from database'
-                ));
-            }
-        }
-
-        return $this->_helper->redirector('list', 'users');
     }
 }
