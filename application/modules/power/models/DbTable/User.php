@@ -53,4 +53,38 @@ class Power_Model_DbTable_User extends Zend_Db_Table_Abstract
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array();
+
+    public function getList()
+    {
+        return $this->select(false)
+                ->from('user', array(
+                    'user_idUser', 'user_name',
+                    'user_fullName', 'user_role',
+                    'user_accessClient'
+                ));
+    }
+
+    public function getSearch($search, $select)
+    {
+        if ($search === null) {
+            return $select;
+        }
+
+        if (!$search['user'] == '') {
+            if (substr($search['user'], 0, 1) == '=') {
+                $id = (int) substr($search['user'], 1);
+                $select->where('user_idUser = ?', $id);
+            } else {
+                $select->orWhere('user_name like ?', '%' . $search['user'] . '%')
+                    ->orWhere('user_fullName like ?', '%' . $search['user'] . '%');
+            }
+        }
+
+        if (!$search['role'] == '') {
+            $select->orWhere('user_role like ?', '%' . $search['role'] . '%')
+                ->orWhere('user_accessClient like ?', '%' . $search['role'] . '%');
+        }
+
+        return $select;
+    }
 }

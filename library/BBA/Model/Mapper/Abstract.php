@@ -111,13 +111,13 @@ class BBA_Model_Mapper_Abstract extends ZendSF_Model_Mapper_Acl_Abstract
         $model->setCols($this->getDbTable()->info('cols'));
 
         // set create date and user.
-        if (!$model->getId()) {
+        if (!$model->getId() && isset($form['userId'])) {
             $model->setDateCreate();
             $model->userCreate = $form['userId'];
         }
 
         // add modified date/user if updating record.
-        if ($model->getId()) {
+        if ($model->getId() && isset($form['userId'])) {
             $model->userModify = $form['userId'];
             $model->setDateModify();
         }
