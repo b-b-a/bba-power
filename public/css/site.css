@@ -6,6 +6,7 @@ body {
 
 html, body {
     height: 100%;
+    width: 100%;
     margin: 0px;
     overflow: hidden;
     padding: 0px;
@@ -13,6 +14,7 @@ html, body {
 
 #appLayout {
     height: 100%;
+    margin: 0px;
 }
 
 #topPanel {
@@ -22,6 +24,30 @@ html, body {
 #leftPanel {
     width: 10em;
     overflow: auto;
+}
+
+.claro .tabContainer {
+    width:100%;
+    height:100%;
+    padding: 0px;
+}
+
+.claro .dijitTabContainerTop-dijitContentPane,
+.claro .dijitTabContainerBottom-dijitContentPane,
+.claro .dijitTabContainerLeft-dijitContentPane,
+.claro .dijitTabContainerRight-dijitContentPane,
+.claro .tabContainer .dijitBorderContainer-child {
+    border: 0px;
+    padding: 0px;
+}
+
+.claro .tabContainer .dijitTabPaneWrapper,
+.claro .tabContainer .dijitTabContainerTop-tabs {
+    border: 0px;
+}
+
+.tabHeading {
+    padding: 5px 5px 0px 5px;
 }
 
 /* pre-loader specific stuff to prevent unsightly flash of unstyled content */
@@ -99,6 +125,7 @@ table {
 #nav li
 {
     margin: 0px;
+    margin-top: 3px;
 }
 
 #nav li li
@@ -163,7 +190,7 @@ table {
  */
 
 .form_wrap {
-    width: 500px;
+    width: 480px;
     text-align: center;
 }
 
@@ -181,7 +208,7 @@ table {
 	/* 1px seems to make the dojo type of field the correct size (was 10px)*/
 }
 
-.zend_form label {
+.zend_form label, .zend_form .label {
     float: left;
     text-align: right;
     width: 200px;

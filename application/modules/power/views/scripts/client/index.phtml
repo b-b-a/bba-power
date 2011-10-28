@@ -1,59 +1,67 @@
-<?php
-	$this->title = "BBA Clients";
-	$this->headTitle($this->title);
+<div data-dojo-type="dijit.layout.BorderContainer"
+     data-dojo-props="design: 'headline'"
+     class="tabContainer">
 
-    echo $this->clientSearchForm;
-    /* @var $client Power_Model_Client */
-?>
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'top'"
+         >
+        <div class="tabHeading">
+            <?php
+                $this->title = "BBA Clients";
+                $this->headTitle($this->title);
 
-<?php echo $this->partial('_table-head.phtml', array(
-    'heading'   => 'Clients',
-    'label'     => 'New Client',
-    'location'  => $this->url(array(
-        'controller'    => 'client',
-        'action'        => 'add'
-    ), 'default', true)
-)); ?>
+                echo $this->clientSearchForm;
+                /* @var $client Power_Model_Client */
+            ?>
 
-<div dojoType="dojox.data.QueryReadStore"
-     jsid="clientStore"
-     url="/client/client-store"
-     requestMethod="post"></div>
+            <div class="tableHead">
+                <h2 class="tableHead-heading">Clients:</h2>
+                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <p class="tableHead-button">
+                    <button dojoType="dijit.form.Button"
+                            id="new-client-button"
+                            type="button">New Client</button>
+                </p>
+                <?php endif; ?>
+            </div>
 
-<table dojoType="dojox.grid.DataGrid"
-       jsId="clientGrid"
-       store="clientStore"
-       query="<?php echo $this->search; ?>"
-       sortInfo="2"
-       style="margin:auto;"
-       autoWidth="false"
-       autoHeight="20"
-       selectionMode="single"
-       rowSelector="0px"
-       rowsPerPage="25"
-       clientSort="true"
-       checkRows="true"
-       noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
-    <thead>
-        <tr>
-            <th field="client_idClient" width="75">Id</th>
-            <th field="client_name" width="300">Client</th>
-            <th field="client_desc" width="200">Description</th>
-            <th field="clientAd_address1" width="300">Address 1</th>
-            <th field="clientAd_postcode" width="100">Postcode</th>
-            <th field="" width="auto"></th>
-        </tr>
-    </thead>
-</table>
+        </div>
+    </div>
 
-<?php
-/*
-if ($this->clients instanceof Zend_Paginator) {
-    echo $this->paginationControl(
-            $this->clients,
-            'Sliding',
-            '_paginate.phtml',
-            array('params' => $this->search)
-    );
-}*/
-?>
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'center'">
+
+        <span dojoType="dojox.data.QueryReadStore"
+             jsid="clientStore"
+             url="/client/client-store"
+             requestMethod="post"></span>
+
+        <table dojoType="dojox.grid.DataGrid"
+               jsId="clientGrid"
+               store="clientStore"
+               query="<?php echo $this->search; ?>"
+               sortInfo="2"
+               style="margin:auto;"
+               autoWidth="false"
+               autoHeight="auto"
+               selectionMode="single"
+               rowSelector="0px"
+               rowsPerPage="25"
+               clientSort="true"
+               checkRows="true"
+               tabs="true"
+               tabTitleColumn="client_name"
+               noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
+            <thead>
+                <tr>
+                    <th field="client_idClient" width="75">Id</th>
+                    <th field="client_name" width="300">Client</th>
+                    <th field="client_desc" width="200">Description</th>
+                    <th field="clientAd_address1" width="300">Address 1</th>
+                    <th field="clientAd_postcode" width="100">Postcode</th>
+                    <th field="" width="auto"></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>

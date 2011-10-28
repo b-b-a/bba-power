@@ -75,29 +75,31 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
 
     public function addAction()
     {
-        $this->getForm('clientAddressSave')
+        if ($this->_request->getParam('clientAd_idClient')
+                && $this->_request->isXmlHttpRequest()
+                && $this->_request->isPost()) {
+            $this->getForm('clientAddressSave')
                 ->populate(array(
-                    'clientAd_idClient' => $this->_request->getParam('clientId')
-                ))
-                ->addHiddenElement('returnAction', 'add');
+                    'clientAd_idClient' => $this->_request->getParam('clientAd_idClient')
+                )
+            );
 
-        $this->view->assign(array(
-            'client'    => $this->_request->getParam('clientId')
-        ));
+            $this->render('ajax-form');
+        }
     }
 
     public function editAction()
     {
-        if ($this->_request->getParam('idAddress')) {
+        if ($this->_request->getParam('idAddress')
+                && $this->_request->isXmlHttpRequest()
+                && $this->_request->isPost()) {
             $clientAd = $this->_model->find($this->_request->getParam('idAddress'));
 
             $this->getForm('clientAddressSave')
-                ->populate($clientAd->toArray('dd/MM/yyyy'))
-                ->addHiddenElement('returnAction', 'edit');
+                ->populate($clientAd->toArray('dd/MM/yyyy'));
 
-            $this->view->assign(array(
-                'clientAd'    => $clientAd
-            ));
+            $this->render('ajax-form');
+
         } else {
            return $this->_helper->redirector('index', 'client');
         }
@@ -105,71 +107,32 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
 
     public function saveAction()
     {
-        if (!$this->_request->isPost()) {
+        if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'client');
         }
 
-        $clientId = $this->_request->getParam('clientId');
-
-        if ($this->_request->getParam('cancel')) {
-            return $this->_helper->redirector('edit', 'client', 'power', array(
-                'clientId'  => $clientId
-            ));
-        }
-
-        $action = $this->_request->getParam('returnAction');
-
-        $this->getForm('clientAddressSave')->addHiddenElement('returnAction', $action);
+        $this->_helper->viewRenderer->setNoRender(true);
 
         if (!$this->getForm('clientAddressSave')->isValid($this->_request->getPost())) {
-            $this->view->assign(array(
-                'client'    => $clientId
+            $html = $this->view->render('client-address/ajax-form.phtml');
+
+            echo json_encode(array(
+                'saved' => 0,
+                'html'  => $html
             ));
-            return $this->render($action); // re-render the edit form
         } else {
             $saved = $this->_model->save();
 
-            $this->_log->info($saved);
+            $returnJson = array(
+                'saved' => $saved
+            );
 
-            if ($saved) {
-                $this->_helper->FlashMessenger(array(
-                    'pass' => 'Client Address saved to database'
-                ));
-
-                return $this->_helper->redirector('edit', 'client', 'power', array(
-                    'clientId'  => $clientId
-                ));
-            } else {
-                $this->_helper->FlashMessenger(array(
-                    'fail' => 'Nothing new to save'
-                ));
-
-                return $this->_forward($action);
+            if ($saved == 0) {
+                $html = $this->view->render('client-address/ajax-form.phtml');
+                $returnJson['html'] = $html;
             }
+
+            echo json_encode($returnJson);
         }
     }
-
-    public function deleteAction()
-    {
-        if ($this->_request->getParam('addressId')) {
-            $client = $this->_model->delete($this->_request->getParam('addressId'));
-
-            $this->_log->info($client);
-
-            if ($client) {
-                $this->_helper->FlashMessenger(array(
-                    'pass' => 'Client Address deleted from database.'
-                ));
-            } else {
-                $this->_helper->FlashMessenger(array(
-                    'fail' => 'Could not delete client address from database.'
-                ));
-            }
-        }
-
-        return $this->_helper->redirector('edit', 'client', 'power', array(
-            'clientId'  => $this->_request->getParam('clientId')
-        ));
-    }
-
 }
