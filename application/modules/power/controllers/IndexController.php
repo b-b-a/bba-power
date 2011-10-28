@@ -47,7 +47,7 @@ class Power_IndexController extends BBA_Controller_Action_Abstract
         if ($this->_helper->acl('Guest')) {
             return $this->_forward('login', 'auth');
         }
-        
+
         parent::init();
     }
 
@@ -56,7 +56,7 @@ class Power_IndexController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        $this->_forward('index', 'meter');
+        $this->_helper->redirector('index', 'meter');
     }
 
 }

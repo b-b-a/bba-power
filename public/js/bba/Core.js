@@ -25,6 +25,17 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
+
+/**
+ * Core.
+ *
+ * @category   BBA
+ * @package    JavaScript
+ * @subpackage Core
+ * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
+ * @license    http://www.gnu.org/licenses GNU General Public License
+ * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
+ */
 dojo.provide('bba.Core');
 
 dojo.declare(

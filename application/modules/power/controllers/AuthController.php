@@ -111,13 +111,11 @@ class Power_AuthController extends ZendSF_Controller_Action_Abstract
             return $this->render('login'); // re-render the login form
         }
 
-        if (false === $this->_authService->authenticate(
-                $form->getValues()
-                )) {
-            $form->setDescription(_('Login failed, Please try again.'));
+        if (false === $this->_authService->authenticate($form->getValues())) {
+            $form->setDescription('Login failed, Please try again.');
             return $this->render('login'); // re-render the login form
         }
 
-        return $this->_helper->redirector('index', 'index');
+        return $this->_helper->redirector('index', 'meter');
     }
 }
