@@ -156,9 +156,6 @@ dojo.extend(
                     closable: true,
                     onLoad : function () {
                         bbaCore.editFormSetup(selectedId, inputName, name);
-                    },
-                    onContentError: function(err) {
-                        console.log(err)
                     }
                 });
 

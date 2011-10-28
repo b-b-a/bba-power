@@ -29,7 +29,8 @@
 dojo.extend(
     dijit.layout.ContentPane,
     {
-        _load: function(){
+        _load: function()
+        {
             // summary:
             //		Load/reload the href specified in this.href
 
@@ -71,6 +72,11 @@ dojo.extend(
 
             // Remove flag saying that a load is needed
             delete this._hrefChanged;
+        },
+
+        onContentError : function(error)
+        {
+            console.log(error);
         }
     }
 );
