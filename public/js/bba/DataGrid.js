@@ -26,6 +26,16 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
+/**
+ * DataGrid.
+ *
+ * @category   BBA
+ * @package    JavaScript
+ * @subpackage DataGrid
+ * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
+ * @license    http://www.gnu.org/licenses GNU General Public License
+ * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
+ */
 dojo.extend(
     dojox.grid.DataGrid,
     {
