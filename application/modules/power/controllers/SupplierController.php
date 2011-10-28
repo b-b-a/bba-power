@@ -108,74 +108,67 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
 
     public function addAction()
     {
-        $this->getForm('supplierSave')
-            ->addHiddenElement('returnAction', 'add');
+        if ($this->_request->isXmlHttpRequest()
+                && $this->_request->getParam('type') == 'add'
+                && $this->_request->isPost()) {
+            $this->getForm('supplierSave');
+            $this->render('ajax-form');
+        } else {
+            return $this->_helper->redirector('index', 'client');
+        }
     }
 
     public function editAction()
     {
-        if ($this->_request->getParam('idSupplier')) {
+        if ($this->_request->getParam('idSupplier')
+                && $this->_request->isPost()
+                && $this->_request->isXmlHttpRequest()) {
 
             $supplier = $this->_model->find($this->_request->getParam('idSupplier'));
-           // $contracts = $this->_model->getContractsBySupplierId($supplier->getId());
-            //$supplierContacts = $this->_model->getContactsBySupplierId($supplier->getId());
-
-            //$contractStore = $this->getDataStore($contracts, 'contract_idContract');
-            //$contactStore = $this->getDataStore($supplierContacts, 'contactCo_idSupplierContact');
 
             $this->getForm('supplierSave')
-                ->populate($supplier->toArray('dd/MM/yyyy'))
-                ->addHiddenElement('returnAction', 'edit');
+                ->populate($supplier->toArray('dd/MM/yyyy'));
 
             $this->view->assign(array(
-                'supplier'        => $supplier,
-                //'contractStore'   => $contractStore,
-                //'contactStore'    => $contactStore
+                'supplier' => $supplier
             ));
+
+            if ($this->_request->getParam('type') == 'edit') {
+                $this->render('ajax-form');
+            }
         } else {
-           return $this->_helper->redirector('index', 'supplier');
+           return $this->_helper->redirector('index', 'client');
         }
     }
 
     public function saveAction()
     {
-        if (!$this->_request->isPost()) {
+        if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'supplier');
         }
 
-        $clientId = $this->_request->getParam('supplierId');
-
-        if ($this->_request->getParam('cancel')) {
-            return $this->_helper->redirector('index', 'supplier', 'power', array(
-                'supplierId'  => $supplierId
-            ));
-        }
-
-        $action = $this->_request->getParam('returnAction');
-
-        $this->getForm('supplierSave')->addHiddenElement('returnAction', $action);
+        $this->_helper->viewRenderer->setNoRender(true);
 
         if (!$this->getForm('supplierSave')->isValid($this->_request->getPost())) {
-            $this->view->assign(array(
-                'supplier'    => $supplierId
+            $html = $this->view->render('supplier/ajax-form.phtml');
+
+            echo json_encode(array(
+                'saved' => 0,
+                'html'  => $html
             ));
-            return $this->render($action); // re-render the edit form
         } else {
             $saved = $this->_model->save();
 
-            if ($saved > 0) {
-                $this->_helper->FlashMessenger(array(
-                    'pass' => 'Supplier saved to database'
-                ));
+            $returnJson = array(
+                'saved' => $saved
+            );
 
-                return $this->_helper->redirector('index', 'supplier');
-            } elseif ($saved == 0) {
-                $this->_helper->FlashMessenger(array(
-                    'fail' => 'Nothing new to save'
-                ));
-
-                return $this->_forward($action);
+            if ($saved == 0) {
+                $html = $this->view->render('supplier/ajax-form.phtml');
+                $returnJson['html'] = $html;
             }
+
+            echo json_encode($returnJson);
         }
     }
 

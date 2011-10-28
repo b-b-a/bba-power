@@ -1,0 +1,42 @@
+<?php $form = $this->supplierSaveForm; ?>
+
+<div class="form_wrap">
+    <div class="zend_form">
+
+        <?php echo $form->supplier_name; ?>
+
+        <?php echo $form->supplier_address1; ?>
+
+        <?php echo $form->supplier_address2; ?>
+
+        <?php echo $form->supplier_address3; ?>
+
+        <?php echo $form->supplier_postcode; ?>
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="userId"
+               id="userId"
+               required="true"
+               value="<?php echo $form->userId->getValue(); ?>" />
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="supplier_idSupplier"
+               id="supplier_idSupplier"
+               required="true"
+               value="<?php echo $form->supplier_idSupplier->getValue(); ?>" />
+
+        <button dojoType="dijit.form.Button"
+                type="submit"
+                id="supplierFormSubmitButton"
+                name="submit"
+                value="Save">Save</button>
+
+        <button dojoType="dijit.form.Button"
+                type="button"
+                id="supplierFormCancelButton"
+                name="cancel"
+                value="Cancel">Cancel</button>
+    </div>
+</div>

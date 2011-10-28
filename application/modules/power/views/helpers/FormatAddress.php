@@ -1,6 +1,6 @@
 <?php
 /**
- * FormatSiteAddress.php
+ * FormatAddress.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -37,15 +37,15 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_View_Helper_FormatSiteAddress extends Zend_View_Helper_Abstract
+class Power_View_Helper_FormatAddress extends Zend_View_Helper_Abstract
 {
     /**
-     * Takes the site address and formats it so that each line is on a new line
+     * Takes the address and formats it so that each line is on a new line
      *
      * @param string $address
      * @return string
      */
-    public function formatSiteAddress($address = array())
+    public function formatAddress($address = array())
     {
         $returnString = '';
 
