@@ -46,10 +46,10 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
         $this->addElement('TextBox', 'clientAd_addressName', array(
             'label'     => 'Address Name:',
             'filters'   => array('StripTags', 'StringTrim'),
-            //'required'  => true
+
         ));
 
-        $this->addElement('TextBox', 'clientAd_address1', array(
+        $this->addElement('ValidationTextBox', 'clientAd_address1', array(
             'label'     => 'Address 1:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
@@ -57,34 +57,30 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
 
         $this->addElement('TextBox', 'clientAd_address2', array(
             'label'     => 'Address 2:',
-            //'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
         $this->addElement('TextBox', 'clientAd_address3', array(
             'label'     => 'Address 3:',
-            //'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('TextBox', 'clientAd_postcode', array(
+        $this->addElement('ValidationTextBox', 'clientAd_postcode', array(
             'label'     => 'Postcode:',
             'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim', 'StringToUpper'),
+            'validators' => array(
+                array('PostCode', true, array(
+                    'locale' => 'en_GB'
+                ))
+            )
         ));
 
-        $auth = Zend_Auth::getInstance()
-            ->getIdentity();
+        $auth = Zend_Auth::getInstance()->getIdentity();
 
         $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('clientAd_idAddress', '');
         $this->addHiddenElement('clientAd_idClient', '');
 
-        if ($auth->role == 'admin') {
-            $this->addSubmit('Save');
-        }
-        
-        $this->addSubmit('Cancel', 'cancel');
     }
-
 }

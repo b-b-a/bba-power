@@ -41,8 +41,6 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
 {
     public function init()
     {
-        Zend_Dojo::enableForm($this);
-
         $this->setName('client-contact');
 
         $table = new Power_Model_Mapper_Tables();
@@ -59,19 +57,19 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
             'required'  => true,
         ));
 
-        $this->addElement('TextBox', 'clientCo_name', array(
+        $this->addElement('ValidationTextBox', 'clientCo_name', array(
             'label'     => 'Name:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('TextBox', 'clientCo_phone', array(
+        $this->addElement('ValidationTextBox', 'clientCo_phone', array(
             'label'     => 'Phone:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('TextBox', 'clientCo_email', array(
+        $this->addElement('ValidationTextBox', 'clientCo_email', array(
             'label'     => 'email:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim', 'StringToLower'),
@@ -86,12 +84,15 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
 
         $view = $this->getView();
         $table = new Power_Model_Mapper_ClientAddress();
-        $list = $table->getAddressByClientId($view->request['clientId']);
+
+        $list = $table->getAddressByClientId(array(
+            'clientAd_idClient' => $view->request['clientCo_idClient']
+        ));
 
         // reset options
         $multiOptions = array();
         foreach($list as $row) {
-            $multiOptions[$row->idAddress] = $row->postcode;
+            $multiOptions[$row->idAddress] = $row->getAddress1AndPostcode();
         }
 
         $this->addElement('FilteringSelect', 'clientCo_idAddress', array(
@@ -102,18 +103,11 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
             'required'  => true
         ));
 
-        $auth = Zend_Auth::getInstance()
-            ->getIdentity();
+        $auth = Zend_Auth::getInstance()->getIdentity();
 
         $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('clientCo_idClientContact', '');
         $this->addHiddenElement('clientCo_idClient', '');
 
-        if ($auth->role == 'admin') {
-            $this->addSubmit('Save');
-        }
-        
-        $this->addSubmit('Cancel', 'cancel');
     }
-
 }

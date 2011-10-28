@@ -1,0 +1,50 @@
+<?php $form = $this->clientAddressSaveForm; ?>
+
+<div class="form_wrap">
+    <div class="zend_form">
+
+        <?php echo $form->clientAd_addressName; ?>
+
+        <?php echo $form->clientAd_address1; ?>
+
+        <?php echo $form->clientAd_address2; ?>
+
+        <?php echo $form->clientAd_address3; ?>
+
+        <?php echo $form->clientAd_postcode; ?>
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="userId"
+               id="userId"
+               required="true"
+               value="<?php echo $form->userId->getValue(); ?>" />
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="clientAd_idClient"
+               id="clientAd_idClient"
+               required="true"
+               value="<?php echo $form->clientAd_idClient->getValue(); ?>" />
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="clientAd_idAddress"
+               id="clientAd_idAddress"
+               required="true"
+               value="<?php echo $form->clientAd_idAddress->getValue(); ?>" />
+
+
+        <button dojoType="dijit.form.Button"
+                type="submit"
+                id="clientAdFormSubmitButton"
+                name="submit"
+                value="Save">Save</button>
+
+        <button dojoType="dijit.form.Button"
+                type="button"
+                id="clientAdFormCancelButton"
+                name="cancel"
+                value="Cancel">Cancel</button>
+    </div>
+</div>
