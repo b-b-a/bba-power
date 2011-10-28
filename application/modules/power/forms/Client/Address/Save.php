@@ -45,8 +45,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
 
         $this->addElement('TextBox', 'clientAd_addressName', array(
             'label'     => 'Address Name:',
-            'filters'   => array('StripTags', 'StringTrim'),
-
+            'filters'   => array('StripTags', 'StringTrim')
         ));
 
         $this->addElement('ValidationTextBox', 'clientAd_address1', array(
@@ -66,10 +65,10 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
         ));
 
         $this->addElement('ValidationTextBox', 'clientAd_postcode', array(
-            'label'     => 'Postcode:',
-            'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim', 'StringToUpper'),
-            'validators' => array(
+            'label'         => 'Postcode:',
+            'required'      => true,
+            'filters'       => array('StripTags', 'StringTrim', 'StringToUpper'),
+            'validators'    => array(
                 array('PostCode', true, array(
                     'locale' => 'en_GB'
                 ))

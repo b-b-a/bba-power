@@ -37,52 +37,18 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
+class Power_Form_Supplier_Contact_Save extends ZendSF_Form_Abstract
 {
     public function init()
     {
-        $this->setName('supplier');
-
-        $this->addElement('ValidationTextBox', 'supplier_name', array(
-            'label'     => 'Supplier Name:',
-            'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
-
-        $this->addElement('ValidationTextBox', 'supplier_address1', array(
-            'label'     => 'Address 1:',
-            'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
-
-        $this->addElement('ValidationTextBox', 'supplier_address2', array(
-            'label'     => 'Address 2:',
-            'required'  => false,
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
-
-        $this->addElement('ValidationTextBox', 'supplier_address3', array(
-            'label'     => 'Address 3:',
-            'required'  => false,
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
-
-        $this->addElement('ValidationTextBox', 'supplier_postcode', array(
-            'label'         => 'Postcode:',
-            'required'      => true,
-            'filters'       => array('StripTags', 'StringTrim', 'StringToUpper'),
-            'validators'    => array(
-                array('PostCode', true, array(
-                    'locale' => 'en_GB'
-                ))
-            )
-        ));
+        $this->setName('supplier-contact');
 
         // supplier contact to do.
 
         $auth = Zend_Auth::getInstance()->getIdentity();
 
         $this->addHiddenElement('userId', $auth->getId());
-        $this->addHiddenElement('supplier_idSupplier', '');
+        $this->addHiddenElement('supplierCo_idSupplierContact', '');
+        $this->addHiddenElement('supplierCo_idSupplier', '');
     }
 }

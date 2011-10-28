@@ -29,12 +29,17 @@
 dojo.extend(
     dojox.grid.DataGrid,
     {
+        autoWidth : false,
+        selectionMode : 'single',
+        clientSort : true,
+        noDataMessage : '<span class="dojoxGridNoData">No records found matching query</span>',
+
         abrev : {
             ad : "address",
             co : "contact"
         },
 
-        checkRows : false,
+        search : false,
         tabs : false,
         tabTitle: '',
         tabTitleColumn : '',
@@ -83,7 +88,7 @@ dojo.extend(
                 this.gridRowClick();
             });
 
-            if (this.checkRows) this.gridSearch();
+            if (this.search) this.gridSearch();
 
             bbaCore.newFormSetup(this.getIdent(), this.query, this.queryParent);
         },
@@ -152,7 +157,7 @@ dojo.extend(
                     id: tabId,
                     title: this.tabTitle,
                     href: '/' + this.hyphenate(name) + '/edit',
-                    ioArgs: {content: contentVars},
+                    ioArgs: { content: contentVars },
                     closable: true,
                     onLoad : function () {
                         bbaCore.editFormSetup(selectedId, inputName, name);
