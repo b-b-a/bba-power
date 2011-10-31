@@ -68,7 +68,7 @@ class Power_Model_Mapper_User extends BBA_Model_Mapper_Abstract
         return $user;
     }
 
-    public function save()
+    public function save($form)
     {
         if (!$this->checkAcl('save')) {
             throw new ZendSF_Acl_Exception('Saving users is not allowed.');
