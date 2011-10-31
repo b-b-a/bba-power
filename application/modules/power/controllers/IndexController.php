@@ -56,7 +56,7 @@ class Power_IndexController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        $this->_helper->redirector('index', 'meter');
+        return $this->_helper->redirector('index', 'meter');
     }
 
 }

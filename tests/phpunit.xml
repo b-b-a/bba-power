@@ -1,17 +1,29 @@
-<phpunit bootstrap="./bootstrap.php">
+<phpunit bootstrap="./bootstrap.php" colors="false">
     <testsuite name="Application Test Suite">
         <directory>./application</directory>
     </testsuite>
     <testsuite name="Library Test Suite">
         <directory>./library</directory>
     </testsuite>
-    
+
     <filter>
-        <!-- If Zend Framework is inside your project's library, uncomment this filter -->
-        <!-- 
-        <whitelist>
-            <directory suffix=".php">../../library/Zend</directory>
-        </whitelist>
-        -->
+         <blacklist>
+            <directory suffix=".php">/home/shaun/pear</directory>
+            <directory suffix=".php">/home/shaun/netbeans-7.0</directory>
+            <directory suffix=".php">/home/shaun/NetBeansProjects/bba-power/tests</directory>
+            <directory suffix=".php">/home/shaun/NetBeansProjects/bba-power/library/Zend</directory>
+        </blacklist>
     </filter>
+
+    <logging>
+      <log type="coverage-html" target="/home/shaun/NetBeansProjects/bba-power/tests/report" charset="UTF-8"
+           yui="true" highlight="false"
+           lowUpperBound="35" highLowerBound="70"/>
+      <log type="coverage-clover" target="/home/shaun/NetBeansProjects/bba-power/tests/tmp/coverage.xml"/>
+      <log type="json" target="/home/shaun/NetBeansProjects/bba-power/tests/tmp/logfile.json"/>
+      <log type="tap" target="/home/shaun/NetBeansProjects/bba-power/tests/tmp/logfile.tap"/>
+      <log type="junit" target="/home/shaun/NetBeansProjects/bba-power/tests/tmp/logfile.xml" logIncompleteSkipped="false"/>
+      <log type="testdox-html" target="/home/shaun/NetBeansProjects/bba-power/tests/tmp/testdox.html"/>
+      <log type="testdox-text" target="/home/shaun/NetBeansProjects/bba-power/tests/tmp/testdox.txt"/>
+    </logging>
 </phpunit>

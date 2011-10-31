@@ -75,7 +75,7 @@ class Power_AuthController extends ZendSF_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        $this->_forward('login');
+        return $this->_forward('login');
     }
 
     public function loginAction()

@@ -1,0 +1,9 @@
+TAP version 13
+ok 1 - Power_AuthControllerTest::testInit
+ok 2 - Power_AuthControllerTest::testIndexAction
+ok 3 - Power_AuthControllerTest::testLoginAction
+ok 4 - Power_AuthControllerTest::testLogoutAction
+ok 5 - Power_AuthControllerTest::testAuthenticateAction
+ok 6 - Power_IndexControllerTest::testInitAction
+ok 7 - Power_IndexControllerTest::testIndexAction
+1..7

@@ -1,0 +1,11 @@
+Power_AuthController
+ [x] Init
+ [x] Index action
+ [x] Login action
+ [x] Logout action
+ [x] Authenticate action
+
+Power_IndexController
+ [x] Init action
+ [x] Index action
+
