@@ -15,25 +15,25 @@
                 )); ?></p>
             </div>
 
-            <div class="ident form_wrap"
+            <div class="form_wrap zend_form ident"
                  dojoType="dijit.form.Form"
                  id="edit-meter-<?php echo $this->meter->id; ?>">
                 <h2>Meter Details</h2>
                 <div class="form_row">
-                    <span class="label"><b>Type: </b></span>
-                    <span><?php echo $this->meter->type; ?></span>
+                    <p class="label"><b>Type:</b></p>
+                    <p>&nbsp;<?php echo $this->meter->type; ?></p>
                 </div>
                 <div class="form_row">
-                    <span class="label"><b>Serial Number: </b></span>
-                    <span><?php echo $this->meter->numberSerial; ?></span>
+                    <p class="label"><b>Serial Number:</b></p>
+                    <p>&nbsp;<?php echo $this->meter->numberSerial; ?></p>
                 </div>
                  <div class="form_row">
-                    <span class="label"><b>MPAN8: </b></span>
-                    <span><?php echo $this->meter->numberTop; ?></span>
+                    <p class="label"><b>MPAN8:</b></p>
+                    <p>&nbsp;<?php echo $this->meter->numberTop; ?></p>
                 </div>
                  <div class="form_row">
-                    <span class="label"><b>MPAN13: </b></span>
-                    <span><?php echo $this->meter->numberMain; ?></span>
+                    <p class="label"><b>MPAN13:</b></p>
+                    <p>&nbsp;<?php echo $this->meter->numberMain; ?></p>
                 </div>
 
                 <button dojoType="dijit.form.Button"

@@ -83,30 +83,44 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
         $this->getForm('siteSearch')
             ->populate($this->_getSearch());
 
-        // gets all meters and assigns them to the view script.
         $this->view->assign(array(
-            'search'    => $this->_getSearchString('siteSearch')
+            'search' => $this->_getSearchString('siteSearch')
         ));
     }
 
     public function addAction()
     {
-        $this->getForm('siteAdd')
-            ->addHiddenElement('returnAction', 'add');
+        if ($this->_request->isXmlHttpRequest()
+                && $this->_request->getParam('type') == 'add'
+                && $this->_request->isPost()) {
+            $this->getForm('siteAdd');
+            $this->view->assign(array(
+                'formName' => 'siteAddForm'
+            ));
+            $this->render('ajax-form');
+        } else {
+            return $this->_helper->redirector('index', 'client');
+        }
     }
 
     public function editAction()
     {
-        if ($this->_request->getParam('idSite')) {
+        if ($this->_request->getParam('idSite')
+                && $this->_request->isPost()
+                && $this->_request->isXmlHttpRequest()) {
             $site = $this->_model->getSiteDetails($this->_request->getParam('idSite'));
 
             $this->getForm('siteEdit')
-                ->populate($site->toArray('dd/MM/yyyy'))
-                ->addHiddenElement('returnAction', 'edit');
+                ->populate($site->toArray('dd/MM/yyyy'));
 
             $this->view->assign(array(
-                'site' => $site
+                'formName'  => 'siteEditForm',
+                'site'      => $site
             ));
+
+            if ($this->_request->getParam('type') == 'edit') {
+                $this->render('ajax-form');
+            }
         } else {
            return $this->_helper->redirector('index', 'site');
         }
@@ -145,7 +159,6 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
                 $searchItems = array('idClientContact', 'name');
                 $result = $model->fetchAllById();
                 break;
-
         }
 
         $items = array();
@@ -159,72 +172,49 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
         }
 
         $data = new Zend_Dojo_Data($identifier, $items);
-        echo $data->toJson();
 
-
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody($data->toJson());
     }
 
     public function saveAction()
     {
-        if (!$this->_request->isPost()) {
+        if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'site');
         }
 
-        $siteId = $this->_request->getParam('siteId');
+        $this->_helper->viewRenderer->setNoRender(true);
 
-        if ($this->_request->getParam('cancel')) {
-            return $this->_helper->redirector('index', 'site', 'power', array(
-                'siteId'  => $siteId
-            ));
-        }
+        $action = $this->_request->getParam('type');
+        $form = 'site' . ucfirst($action) . 'Form';
 
-        $action = $this->_request->getParam('returnAction');
-        $form = 'site' . ucfirst($action);
-
-        $this->getForm($form)->addHiddenElement('returnAction', $action);
-
-        $this->_log->info($this->_request->getParams());
+        $this->view->assign(array(
+            'formName' => $form
+        ));
 
         if (!$this->getForm($form)->isValid($this->_request->getPost())) {
-            $this->view->assign(array(
-                'site'    => $siteId
-            ));
-            return $this->render($action); // re-render the edit form
+            $html = $this->view->render('site/ajax-form.phtml');
+
+            $returnJson = array(
+                'saved' => 0,
+                'html'  => $html
+            );
         } else {
-            $saved = $this->_model->save($form);
+            $saved = $this->_model->save();
 
-            if ($saved > 0) {
-                $this->_helper->FlashMessenger(array(
-                    'pass' => 'Site saved to database'
-                ));
+            $returnJson = array(
+                'saved' => $saved
+            );
 
-                return $this->_helper->redirector('index', 'site');
-            } elseif ($saved == 0) {
-                $this->_helper->FlashMessenger(array(
-                    'fail' => 'Nothing new to save'
-                ));
-
-                return $this->_forward($action);
-            }
-        }
-    }
-
-    public function deleteAction()
-    {
-        if ($this->_request->getParam('siteId')) {
-            $client = $this->_model->delete($this->_request->getParam('siteId'));
-
-            if ($client) {
-                $this->_helper->FlashMessenger(array(
-                    'pass' => 'Site deleted from database'
-                ));
-            } else {
-                $this->_helper->FlashMessenger(array(
-                    'fail' => 'Could not delete site from database'
-                ));
+            if ($saved == 0) {
+                $html = $this->view->render('site/ajax-form.phtml');
+                $returnJson['html'] = $html;
             }
         }
 
-        return $this->_helper->redirector('index', 'site');
+         $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($returnJson));
     }
 }

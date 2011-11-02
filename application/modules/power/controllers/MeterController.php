@@ -52,7 +52,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
         parent::init();
 
         if (!$this->_helper->acl('Guest')) {
-            
+
             $this->_model = new Power_Model_Mapper_Meter();
 
             // search form
@@ -138,7 +138,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
                 $this->render('ajax-form');
             }
         } else {
-           return $this->_helper->redirector('index', 'client');
+           return $this->_helper->redirector('index', 'site');
         }
     }
 
