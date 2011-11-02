@@ -144,6 +144,8 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
             $this->_model->numRows($this->_getSearch(), $child)
         );
 
-        echo $store->toJson();
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody($store->toJson());
     }
 }

@@ -51,43 +51,28 @@ class Power_UserController extends BBA_Controller_Action_Abstract
     {
         parent::init();
 
-        $this->_model = new Power_Model_Mapper_User();
+        if (!$this->_helper->acl('Guest')) {
 
-        // register forms
-        $this->setForm('userSave', array(
-            'controller' => 'users' ,
-            'action' => 'save',
-            'module' => 'power'
-        ));
+            $this->_model = new Power_Model_Mapper_User();
 
-        // search form
-        $this->setForm('userSearch', array(
-            'controller' => 'user' ,
-            'action' => 'list',
-            'module' => 'power'
-        ));
+            // register forms
+            $this->setForm('userSave', array(
+                'controller' => 'users' ,
+                'action' => 'save',
+                'module' => 'power'
+            ));
 
-        $this->_setSearch(array(
-            'user', 'role'
-        ));
-    }
+            // search form
+            $this->setForm('userSearch', array(
+                'controller' => 'user' ,
+                'action' => 'list',
+                'module' => 'power'
+            ));
 
-    /**
-     * Check to see if we are Admin user.
-     */
-    public function preDispatch()
-    {
-        if (!$this->_helper->acl('Admin')) {
-           return $this->_helper->redirector('index', 'index');
+            $this->_setSearch(array(
+                'user', 'role'
+            ));
         }
-    }
-
-    /**
-     * Default action
-     */
-    public function indexAction()
-    {
-        // left blank for logging in users.
     }
 
     public function userStoreAction()
@@ -95,7 +80,7 @@ class Power_UserController extends BBA_Controller_Action_Abstract
         return $this->_getAjaxDataStore('getList' ,'user_idUser');
     }
 
-    public function listAction()
+    public function indexAction()
     {
         $this->getForm('userSearch')
             ->populate($this->_getSearch());
@@ -154,10 +139,10 @@ class Power_UserController extends BBA_Controller_Action_Abstract
         if (!$this->getForm('userSave')->isValid($this->_request->getPost())) {
             $html = $this->view->render('users/ajax-form.phtml');
 
-            echo json_encode(array(
+            $returnJson = array(
                 'saved' => 0,
                 'html'  => $html
-            ));
+            );
         } else {
             $saved = $this->_model->save();
 
@@ -169,8 +154,10 @@ class Power_UserController extends BBA_Controller_Action_Abstract
                 $html = $this->view->render('users/ajax-form.phtml');
                 $returnJson['html'] = $html;
             }
-
-            echo json_encode($returnJson);
         }
+
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($returnJson));
     }
 }

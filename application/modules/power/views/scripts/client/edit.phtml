@@ -25,17 +25,17 @@
             </div>
 
             <div class="tableHead">
-                    <?php if ($this->authInfo('role') == 'admin'): ?>
-                    <p class="tableHead-button">
-                        <button dojoType="dijit.form.Button"
-                                id="new-clientAd-button-<?php echo $this->client->id; ?>"
-                                type="button">New Address</button>
-                        <button dojoType="dijit.form.Button"
-                                id="new-clientCo-button-<?php echo $this->client->id; ?>"
-                                type="button">New Contact</button>
-                    </p>
-                    <?php endif; ?>
-                </div>
+                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <p class="tableHead-button">
+                    <button dojoType="dijit.form.Button"
+                            id="new-clientAd-button-<?php echo $this->client->id; ?>"
+                            type="button">New Address</button>
+                    <button dojoType="dijit.form.Button"
+                            id="new-clientCo-button-<?php echo $this->client->id; ?>"
+                            type="button">New Contact</button>
+                </p>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 

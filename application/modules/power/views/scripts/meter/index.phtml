@@ -1,56 +1,63 @@
-<?php
-	$this->title = "BBA Meters";
-	$this->headTitle($this->title);
+<div data-dojo-type="dijit.layout.BorderContainer"
+     data-dojo-props="design: 'headline'"
+     class="tabContainer">
 
-    echo $this->meterSearchForm;
-?>
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'top'">
 
-<?php echo $this->partial('_table-head.phtml', array(
-    'heading'   => 'Meters',
-    'label'     => 'New Meter'
-)); ?>
+        <div class="tabHeading">
+            <?php
+                $this->title = "BBA Meters";
+                $this->headTitle($this->title);
 
-<div dojotype="dojox.data.QueryReadStore"
-     jsid="meterStore"
-     url="/meter/meter-store"
-     requestMethod="post"></div>
+                echo $this->meterSearchForm;
+            ?>
 
-<table dojoType="dojox.grid.DataGrid"
-       jsId="meterGrid"
-       store="meterStore"
-       query="<?php echo $this->search; ?>"
-       sortInfo="2"
-       style="width:100%;margin:auto;"
-       autoWidth="false"
-       autoHeight="20"
-       rowSelector="0px"
-       rowsPerPage="25"
-       clientSort="true"
-       checkRows="true"
-       noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
-    <thead>
-        <tr>
-            <th field="meter_idMeter" width="50px">Id</th>
-            <th field="client_name" width="200px">Client</th>
-            <th field="clientAd_addressName" width="200px">Address Name</th>
-            <th field="clientAd_postcode" width="100px">Postcode</th>
-            <th field="meter_type" width="100px">Meter Type</th>
-            <th field="meter_numberMain" width="120px">Meter #</th>
-            <th field="contract_status" width="80px">Contract Status</th>
-            <th field="contract_dateEnd" width="100px">End Date</th>
-            <th field="" width="auto"></th>
-        </tr>
-    </thead>
-</table>
+            <div class="tableHead">
+                <h2 class="tableHead-heading">Meters:</h2>
+                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <!--
+                <p class="tableHead-button">
+                    <button dojoType="dijit.form.Button"
+                            id="new-meter-button"
+                            type="button">New Meter</button>
+                </p>
+                -->
+                <?php endif; ?>
+            </div>
 
-<?php
-/*
-if ($this->meters instanceof Zend_Paginator) {
-    echo $this->paginationControl(
-            $this->meters,
-            'Sliding',
-            '_paginate.phtml',
-            array('params' => $this->search)
-    );
-}*/
-?>
+        </div>
+    </div>
+
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'center'">
+
+        <span dojoType="dojox.data.QueryReadStore"
+             jsid="meterStore"
+             url="/meter/meter-store"
+             requestMethod="post"></span>
+
+        <table dojoType="dojox.grid.DataGrid"
+               jsId="meterGrid"
+               store="meterStore"
+               query="<?php echo $this->search; ?>"
+               sortInfo="2"
+               search="true"
+               tabs="true"
+               tabTitleColumn="meter_numberMain">
+            <thead>
+                <tr>
+                    <th field="meter_idMeter" width="50px">Id</th>
+                    <th field="client_name" width="200px">Client</th>
+                    <th field="clientAd_addressName" width="200px">Address Name</th>
+                    <th field="clientAd_postcode" width="100px">Postcode</th>
+                    <th field="meter_type" width="100px">Meter Type</th>
+                    <th field="meter_numberMain" width="120px">Meter #</th>
+                    <th field="contract_status" width="80px">Contract Status</th>
+                    <th field="contract_dateEnd" width="100px">End Date</th>
+                    <th field="" width="auto"></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>

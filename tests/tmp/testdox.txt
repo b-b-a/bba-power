@@ -1,6 +1,5 @@
 Power_AuthController
  [x] Init
- [x] Index action
  [x] Login action
  [x] Logout action
  [x] Authenticate action
@@ -8,4 +7,13 @@ Power_AuthController
 Power_IndexController
  [x] Init action
  [x] Index action
+
+Power_UserController
+ [x] Init
+ [ ] Index action
+ [ ] User store action
+ [ ] List action
+ [ ] Add action
+ [ ] Edit action
+ [ ] Save action
 

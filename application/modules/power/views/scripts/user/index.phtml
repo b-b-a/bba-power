@@ -1,4 +1,58 @@
-<?php
-    $this->title = 'BBA Users';
-	$this->headTitle($this->title);
-?>
+<div data-dojo-type="dijit.layout.BorderContainer"
+     data-dojo-props="design: 'headline'"
+     class="tabContainer">
+
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'top'">
+        <div class="tabHeading">
+            <?php
+                $this->title = "BBA Users List";
+                $this->headTitle($this->title);
+
+                echo $this->userSearchForm;
+                /* @var $client Power_Model_Client */
+            ?>
+
+            <div class="tableHead">
+                <h2 class="tableHead-heading">Users:</h2>
+                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <p class="tableHead-button">
+                    <button dojoType="dijit.form.Button"
+                            id="new-user-button"
+                            type="button">New User</button>
+                </p>
+                <?php endif; ?>
+            </div>
+
+        </div>
+    </div>
+
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'center'">
+
+        <span dojoType="dojox.data.QueryReadStore"
+              jsid="userStore"
+              url="/user/user-store"
+              requestMethod="post"></span>
+
+        <table dojoType="dojox.grid.DataGrid"
+               jsId="userGrid"
+               store="userStore"
+               query="<?php echo $this->search; ?>"
+               sortInfo="2"
+               search="true"
+               dialog="true"
+               dialogName="Edit User">
+            <thead>
+                <tr>
+                    <th field="user_idUser" width="75">Id</th>
+                    <th field="user_name" width="200">Username</th>
+                    <th field="user_fullName" width="200">Full Name</th>
+                    <th field="user_role" width="100">Role</th>
+                    <th field="user_accessClient" width="200">Access Client</th>
+                    <th field="" width="auto"></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
