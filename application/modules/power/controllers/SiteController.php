@@ -44,36 +44,35 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
      */
     public function init()
     {
-        if ($this->_helper->acl('Guest')) {
-            return $this->_forward('login', 'auth');
-        }
-
         parent::init();
 
-        $this->_model = new Power_Model_Mapper_Site();
+        if (!$this->_helper->acl('Guest')) {
 
-        $this->setForm('siteAdd', array(
-            'controller' => 'site' ,
-            'action' => 'save',
-            'module' => 'power'
-        ));
+            $this->_model = new Power_Model_Mapper_Site();
 
-        $this->setForm('siteEdit', array(
-            'controller' => 'site' ,
-            'action' => 'save',
-            'module' => 'power'
-        ));
+            $this->setForm('siteAdd', array(
+                'controller' => 'site' ,
+                'action' => 'save',
+                'module' => 'power'
+            ));
 
-        // search form
-        $this->setForm('siteSearch', array(
-            'controller' => 'site' ,
-            'action' => 'index',
-            'module' => 'power'
-        ));
+            $this->setForm('siteEdit', array(
+                'controller' => 'site' ,
+                'action' => 'save',
+                'module' => 'power'
+            ));
 
-        $this->_setSearch(array(
-            'site', 'client', 'meter_idSite'
-        ));
+            // search form
+            $this->setForm('siteSearch', array(
+                'controller' => 'site' ,
+                'action' => 'index',
+                'module' => 'power'
+            ));
+
+            $this->_setSearch(array(
+                'site', 'client', 'meter_idSite'
+            ));
+        }
     }
 
     /**

@@ -6,13 +6,11 @@ require_once 'Zend/Test/PHPUnit/ControllerTestCase.php';
 class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
 {
     /**
-     *
      * @var Zend_Application
      */
     public $application;
 
     /**
-     *
      * @var Zend_Db_Adapter_Pdo_Sqlite
      */
     protected $_db;
@@ -96,8 +94,8 @@ class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
     /**
      * logs in a valid user.
      *
-     * @param type $name
-     * @param type $passwd
+     * @param string $name
+     * @param string $passwd
      */
     protected function login($name, $passwd)
     {

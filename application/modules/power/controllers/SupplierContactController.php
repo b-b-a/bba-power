@@ -44,19 +44,18 @@ class Power_SupplierContactController extends BBA_Controller_Action_Abstract
      */
     public function init()
     {
-        if ($this->_helper->acl('Guest')) {
-            return $this->_forward('login', 'auth');
-        }
-
         parent::init();
 
-        $this->_model = new Power_Model_Mapper_SupplierContact();
+        if (!$this->_helper->acl('Guest')) {
 
-        $this->setForm('supplierContactSave', array(
-            'controller' => 'supplier-address' ,
-            'action' => 'save',
-            'module' => 'power'
-        ));
+            $this->_model = new Power_Model_Mapper_SupplierContact();
+
+            $this->setForm('supplierContactSave', array(
+                'controller' => 'supplier-address' ,
+                'action' => 'save',
+                'module' => 'power'
+            ));
+        }
     }
 
     public function addAction()
@@ -102,10 +101,10 @@ class Power_SupplierContactController extends BBA_Controller_Action_Abstract
         if (!$this->getForm('supplierContactSave')->isValid($this->_request->getPost())) {
             $html = $this->view->render('supplier-contact/ajax-form.phtml');
 
-            echo json_encode(array(
+            $returnJson = array(
                 'saved' => 0,
                 'html'  => $html
-            ));
+            );
         } else {
             $saved = $this->_model->save();
 
@@ -117,8 +116,10 @@ class Power_SupplierContactController extends BBA_Controller_Action_Abstract
                 $html = $this->view->render('supplier-contact/ajax-form.phtml');
                 $returnJson['html'] = $html;
             }
-
-            echo json_encode($returnJson);
         }
+
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($returnJson));
     }
 }

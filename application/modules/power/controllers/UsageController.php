@@ -40,7 +40,7 @@
 class Power_UsageController extends BBA_Controller_Action_Abstract
 {
     /**
-     * @var Power_Model_mapper_Usage
+     * @var Power_Model_Mapper_Usage
      */
     protected $_model;
 
@@ -51,17 +51,20 @@ class Power_UsageController extends BBA_Controller_Action_Abstract
     {
         parent::init();
 
-        $this->_model = new Power_Model_Mapper_Usage();
+        if (!$this->_helper->acl('Guest')) {
 
-        $this->setForm('usageSave', array(
-            'controller' => 'usage' ,
-            'action' => 'save',
-            'module' => 'power'
-        ));
+            $this->_model = new Power_Model_Mapper_Usage();
 
-        $this->_setSearch(array(
-            'usage_idMeter'
-        ));
+            $this->setForm('usageSave', array(
+                'controller' => 'usage' ,
+                'action' => 'save',
+                'module' => 'power'
+            ));
+
+            $this->_setSearch(array(
+                'usage_idMeter'
+            ));
+        }
     }
 
     public function usageStoreAction()
@@ -71,90 +74,63 @@ class Power_UsageController extends BBA_Controller_Action_Abstract
 
     public function addAction()
     {
-        $meterModel = new Power_Model_Mapper_Meter();
-        $meter = $meterModel->getMeterDetails($this->_request->getParam('idMeter'));
-
-        $this->getForm('usageSave')
-                ->populate(array(
-                    'usage_idMeter' => $meter->id
-                ))
-                ->addHiddenElement('returnAction', 'add');
-
-        $this->view->assign(array(
-            'meter'         => $meter
-        ));
-
-        $this->render('save');
+        if ($this->_request->getParam('usage_idMeter')
+                && $this->_request->isXmlHttpRequest()
+                && $this->_request->isPost()) {
+            $this->getForm('usageSave')
+                ->populate(array('usage_idMeter' => $this->_request->getParam('usage_idMeter')));
+            $this->render('ajax-form');
+        } else {
+            return $this->_helper->redirector('index', 'client');
+        }
     }
 
     public function editAction()
     {
-        $meterUsage = $this->_getUsageDetails();
+        if ($this->_request->getParam('idUsage')
+                && $this->_request->isPost()
+                && $this->_request->isXmlHttpRequest()) {
+            $usage = $this->_model->find($this->_request->getParam('idUsage'));
 
-        $this->getForm('usageSave')
-            ->populate($meterUsage->toArray('dd/MM/yyyy'))
-            ->addHiddenElement('returnAction', 'edit');
+            $this->getForm('usageSave')
+                ->populate($usage->toArray('dd/MM/yyyy'));
 
-        $this->render('save');
+            $this->render('ajax-form');
+        } else {
+           return $this->_helper->redirector('index', 'client');
+        }
     }
 
     public function saveAction()
     {
-        if (!$this->_request->isPost()) {
+        if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'meter');
         }
 
-        /* @var $meterId Power_Form_Usage_Save */
-        $meterId = $this->_request->getPost('usage_idMeter');
-
-        if ($this->_request->getParam('cancel')) {
-            return $this->_helper->redirector('edit', 'meter', 'power', array(
-                'meterId' => $meterId
-            ));
-        }
-
-        $action = $this->_request->getParam('returnAction');
-
-        $this->getForm('usageSave')->addHiddenElement('returnAction', $action);
-
+        $this->_helper->viewRenderer->setNoRender(true);
 
         if (!$this->getForm('usageSave')->isValid($this->_request->getPost())) {
-            $this->_getUsageDetails();
-            return $this->render('save'); // re-render the edit form
+           $html = $this->view->render('usage/ajax-form.phtml');
+
+            $returnJson = array(
+                'saved' => 0,
+                'html'  => $html
+            );
         } else {
             $saved = $this->_model->save();
 
-            if ($saved > 0) {
-                $this->_helper->FlashMessenger(array(
-                    'pass' => 'Meter usage saved to database'
-                ));
+            $returnJson = array(
+                'saved' => $saved
+            );
 
-                return $this->_helper->redirector('edit', 'meter', 'power', array(
-                    'meterId'   => $meterId
-                ));
-            } elseif ($saved == 0) {
-                $this->_helper->FlashMessenger(array(
-                    'fail' => 'Nothing new to save'
-                ));
-
-                return $this->_forward($action);
+            if ($saved == 0) {
+                $html = $this->view->render('usage/ajax-form.phtml');
+                $returnJson['html'] = $html;
             }
         }
+
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($returnJson));
     }
-
-    protected function _getUsageDetails()
-    {
-        $meterModel = new Power_Model_Mapper_Meter();
-        $meterUsage = $this->_model->find($this->_request->getParam('idUsage'));
-
-        $meter = $meterModel->getMeterDetails($meterUsage->idMeter);
-
-        $this->view->assign(array(
-            'usage'         => $meterUsage,
-            'meter'         => $meter
-        ));
-
-        return $meterUsage;
-    }
-
 }

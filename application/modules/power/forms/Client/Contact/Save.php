@@ -96,7 +96,7 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
         }
 
         $this->addElement('FilteringSelect', 'clientCo_idAddress', array(
-            'label'     => 'Postcode:',
+            'label'     => 'Address:',
             'filters'   => array('StripTags', 'StringTrim'),
             'atuocomplete' => false,
             'multiOptions'  => $multiOptions,

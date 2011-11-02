@@ -49,23 +49,22 @@ class Power_TenderController extends BBA_Controller_Action_Abstract
      */
     public function init()
     {
-        if ($this->_helper->acl('Guest')) {
-            return $this->_forward('login', 'auth');
-        }
-
         parent::init();
 
-        $this->_model = new Power_Model_Mapper_Tender();
+        if (!$this->_helper->acl('Guest')) {
 
-        $this->setForm('tenderSave', array(
-            'controller' => 'tender' ,
-            'action' => 'save',
-            'module' => 'power'
-        ));
+            $this->_model = new Power_Model_Mapper_Tender();
 
-        $this->_setSearch(array(
-            'tender_idTender', 'tender_idContract'
-        ));
+            $this->setForm('tenderSave', array(
+                'controller' => 'tender' ,
+                'action' => 'save',
+                'module' => 'power'
+            ));
+
+            $this->_setSearch(array(
+                'tender_idTender', 'tender_idContract'
+            ));
+        }
     }
 
     public function tenderStoreAction()

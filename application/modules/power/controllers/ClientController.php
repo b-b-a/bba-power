@@ -49,30 +49,29 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
      */
     public function init()
     {
-        if ($this->_helper->acl('Guest')) {
-            return $this->_forward('login', 'auth');
-        }
-
         parent::init();
 
-        $this->_model = new Power_Model_Mapper_Client();
+        if (!$this->_helper->acl('Guest')) {
 
-        $this->setForm('clientSave', array(
-            'controller' => 'client' ,
-            'action' => 'save',
-            'module' => 'power'
-        ));
+            $this->_model = new Power_Model_Mapper_Client();
 
-        // search form
-        $this->setForm('clientSearch', array(
-            'controller' => 'client' ,
-            'action' => 'index',
-            'module' => 'power'
-        ));
+            $this->setForm('clientSave', array(
+                'controller' => 'client' ,
+                'action' => 'save',
+                'module' => 'power'
+            ));
 
-        $this->_setSearch(array(
-            'client', 'address'
-        ));
+            // search form
+            $this->setForm('clientSearch', array(
+                'controller' => 'client' ,
+                'action' => 'index',
+                'module' => 'power'
+            ));
+
+            $this->_setSearch(array(
+                'client', 'address'
+            ));
+        }
     }
 
     /**
@@ -146,10 +145,10 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
 
             $html = $this->view->render('client/ajax-form.phtml');
 
-            echo json_encode(array(
+            $returnJson = array(
                 'saved' => 0,
                 'html'  => $html
-            ));
+            );
         } else {
             $saved = $this->_model->save();
 
@@ -161,8 +160,10 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
                 $html = $this->view->render('client/ajax-form.phtml');
                 $returnJson['html'] = $html;
             }
-
-            echo json_encode($returnJson);
         }
+
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($returnJson));
     }
 }

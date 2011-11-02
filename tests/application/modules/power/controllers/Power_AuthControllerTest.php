@@ -18,15 +18,6 @@ class Power_AuthControllerTest extends ControllerTestCase
     }
 
     /**
-     * Index tests.
-     */
-    public function testIndexAction()
-    {
-        $this->dispatch('/auth/index');
-        $this->assertQuery('#auth');
-    }
-
-    /**
      * Login tests.
      */
     public function testLoginAction()
@@ -94,7 +85,6 @@ class Power_AuthControllerTest extends ControllerTestCase
         $this->dispatch('/auth/authenticate');
         $this->assertRedirectTo('/meter');
     }
-
 }
 
 ?>

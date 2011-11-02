@@ -33,7 +33,7 @@
         </supplier>
         <users>
             <label>Users</label>
-            <action>list</action>
+            <action>index</action>
             <controller>user</controller>
             <resource>Admin</resource>
         </users>

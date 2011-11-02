@@ -44,30 +44,29 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
      */
     public function init()
     {
-        if ($this->_helper->acl('Guest')) {
-            return $this->_forward('login', 'auth');
-        }
-
         parent::init();
 
-        $this->_model = new Power_Model_Mapper_Supplier();
+        if (!$this->_helper->acl('Guest')) {
 
-        $this->setForm('supplierSave', array(
-            'controller' => 'supplier' ,
-            'action' => 'save',
-            'module' => 'power'
-        ));
+            $this->_model = new Power_Model_Mapper_Supplier();
 
-        // search form
-        $this->setForm('supplierSearch', array(
-            'controller' => 'supplier' ,
-            'action' => 'index',
-            'module' => 'power'
-        ));
+            $this->setForm('supplierSave', array(
+                'controller' => 'supplier' ,
+                'action' => 'save',
+                'module' => 'power'
+            ));
 
-        $this->_setSearch(array(
-            'supplier', 'contact'
-        ));
+            // search form
+            $this->setForm('supplierSearch', array(
+                'controller' => 'supplier' ,
+                'action' => 'index',
+                'module' => 'power'
+            ));
+
+            $this->_setSearch(array(
+                'supplier', 'contact'
+            ));
+        }
     }
 
     /**
@@ -152,10 +151,10 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
         if (!$this->getForm('supplierSave')->isValid($this->_request->getPost())) {
             $html = $this->view->render('supplier/ajax-form.phtml');
 
-            echo json_encode(array(
+            $returnJson = array(
                 'saved' => 0,
                 'html'  => $html
-            ));
+            );
         } else {
             $saved = $this->_model->save();
 
@@ -167,9 +166,11 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
                 $html = $this->view->render('supplier/ajax-form.phtml');
                 $returnJson['html'] = $html;
             }
-
-            echo json_encode($returnJson);
         }
+
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($returnJson));
     }
 
     public function autocompleteAction()
@@ -195,7 +196,10 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
         }
 
         $data = new Zend_Dojo_Data($identifier, $items);
-        echo $data->toJson();
+
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody($data->toJson());
     }
 
 }
