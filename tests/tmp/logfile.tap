@@ -5,11 +5,9 @@ ok 3 - Power_AuthControllerTest::testLogoutAction
 ok 4 - Power_AuthControllerTest::testAuthenticateAction
 ok 5 - Power_IndexControllerTest::testInitAction
 ok 6 - Power_IndexControllerTest::testIndexAction
-ok 7 - Power_UserControllerTest::testInit
-not ok 8 - Power_UserControllerTest::testIndexAction # TODO Incomplete Test
-not ok 9 - Power_UserControllerTest::testUserStoreAction # TODO Incomplete Test
-not ok 10 - Power_UserControllerTest::testListAction # TODO Incomplete Test
-not ok 11 - Power_UserControllerTest::testAddAction # TODO Incomplete Test
-not ok 12 - Power_UserControllerTest::testEditAction # TODO Incomplete Test
-not ok 13 - Power_UserControllerTest::testSaveAction # TODO Incomplete Test
-1..13
+ok 7 - Power_UserControllerTest::testIndexAction
+ok 8 - Power_UserControllerTest::testUserStoreAction
+not ok 9 - Power_UserControllerTest::testAddAction # TODO Incomplete Test
+not ok 10 - Power_UserControllerTest::testEditAction # TODO Incomplete Test
+not ok 11 - Power_UserControllerTest::testSaveAction # TODO Incomplete Test
+1..11

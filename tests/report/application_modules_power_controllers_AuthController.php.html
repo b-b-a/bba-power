@@ -281,26 +281,26 @@
 <span class="lineNum" id="container54"><a name="54"></a><a href="#54" id="line54">      54</a> </span>                :      */                                                                         
 <span class="lineNum" id="container55"><a name="55"></a><a href="#55" id="line55">      55</a> </span>                :     public function init()                                                      
 <span class="lineNum" id="container56"><a name="56"></a><a href="#56" id="line56">      56</a> </span>                :     {                                                                           
-<span class="lineNum" id="container57"><a name="57"></a><a href="#57" id="line57">      57</a> </span><span class="lineCov">              6 :         parent::init();                                                         </span>
+<span class="lineNum" id="container57"><a name="57"></a><a href="#57" id="line57">      57</a> </span><span class="lineCov">              7 :         parent::init();                                                         </span>
 <span class="lineNum" id="container58"><a name="58"></a><a href="#58" id="line58">      58</a> </span>                :                                                                                 
-<span class="lineNum" id="container59"><a name="59"></a><a href="#59" id="line59">      59</a> </span><span class="lineCov">              6 :         $this-&gt;_model = new Power_Model_Mapper_User();                          </span>
-<span class="lineNum" id="container60"><a name="60"></a><a href="#60" id="line60">      60</a> </span><span class="lineCov">              6 :         $this-&gt;_authService = new ZendSF_Service_Authentication();              </span>
+<span class="lineNum" id="container59"><a name="59"></a><a href="#59" id="line59">      59</a> </span><span class="lineCov">              7 :         $this-&gt;_model = new Power_Model_Mapper_User();                          </span>
+<span class="lineNum" id="container60"><a name="60"></a><a href="#60" id="line60">      60</a> </span><span class="lineCov">              7 :         $this-&gt;_authService = new ZendSF_Service_Authentication();              </span>
 <span class="lineNum" id="container61"><a name="61"></a><a href="#61" id="line61">      61</a> </span>                :                                                                                 
-<span class="lineNum" id="container62"><a name="62"></a><a href="#62" id="line62">      62</a> </span><span class="lineCov">              6 :         $this-&gt;setForm('authLogin', array(                                      </span>
-<span class="lineNum" id="container63"><a name="63"></a><a href="#63" id="line63">      63</a> </span><span class="lineCov">              6 :             'controller' =&gt; 'auth' ,                                            </span>
-<span class="lineNum" id="container64"><a name="64"></a><a href="#64" id="line64">      64</a> </span><span class="lineCov">              6 :             'action' =&gt; 'authenticate',                                         </span>
+<span class="lineNum" id="container62"><a name="62"></a><a href="#62" id="line62">      62</a> </span><span class="lineCov">              7 :         $this-&gt;setForm('authLogin', array(                                      </span>
+<span class="lineNum" id="container63"><a name="63"></a><a href="#63" id="line63">      63</a> </span><span class="lineCov">              7 :             'controller' =&gt; 'auth' ,                                            </span>
+<span class="lineNum" id="container64"><a name="64"></a><a href="#64" id="line64">      64</a> </span><span class="lineCov">              7 :             'action' =&gt; 'authenticate',                                         </span>
 <span class="lineNum" id="container65"><a name="65"></a><a href="#65" id="line65">      65</a> </span>                :             'module' =&gt; 'power'                                                 
-<span class="lineNum" id="container66"><a name="66"></a><a href="#66" id="line66">      66</a> </span><span class="lineCov">              6 :         ));                                                                     </span>
-<span class="lineNum" id="container67"><a name="67"></a><a href="#67" id="line67">      67</a> </span><span class="lineCov">              6 :     }                                                                           </span>
+<span class="lineNum" id="container66"><a name="66"></a><a href="#66" id="line66">      66</a> </span><span class="lineCov">              7 :         ));                                                                     </span>
+<span class="lineNum" id="container67"><a name="67"></a><a href="#67" id="line67">      67</a> </span><span class="lineCov">              7 :     }                                                                           </span>
 <span class="lineNum" id="container68"><a name="68"></a><a href="#68" id="line68">      68</a> </span>                :                                                                                 
 <span class="lineNum" id="container69"><a name="69"></a><a href="#69" id="line69">      69</a> </span><span class="lineCov">              3 :     public function loginAction()                                               </span>
 <span class="lineNum" id="container70"><a name="70"></a><a href="#70" id="line70">      70</a> </span>                :     {                                                                           
-<span class="lineNum" id="container71"><a name="71"></a><a href="#71" id="line71">      71</a> </span><span class="lineCov">              6 :         if (!$this-&gt;_helper-&gt;acl('Guest')) {                                    </span>
-<span class="lineNum" id="container72"><a name="72"></a><a href="#72" id="line72">      72</a> </span><span class="lineCov">              6 :             return $this-&gt;_forward('index', 'index');                           </span>
-<span class="lineNum" id="container73"><a name="73"></a><a href="#73" id="line73">      73</a> </span><span class="lineCov">              6 :         }                                                                       </span>
-<span class="lineNum" id="container74"><a name="74"></a><a href="#74" id="line74">      74</a> </span><span class="lineCov">              6 :     }                                                                           </span>
+<span class="lineNum" id="container71"><a name="71"></a><a href="#71" id="line71">      71</a> </span><span class="lineCov">              7 :         if (!$this-&gt;_helper-&gt;acl('Guest')) {                                    </span>
+<span class="lineNum" id="container72"><a name="72"></a><a href="#72" id="line72">      72</a> </span><span class="lineCov">              7 :             return $this-&gt;_forward('index', 'index');                           </span>
+<span class="lineNum" id="container73"><a name="73"></a><a href="#73" id="line73">      73</a> </span><span class="lineCov">              7 :         }                                                                       </span>
+<span class="lineNum" id="container74"><a name="74"></a><a href="#74" id="line74">      74</a> </span><span class="lineCov">              7 :     }                                                                           </span>
 <span class="lineNum" id="container75"><a name="75"></a><a href="#75" id="line75">      75</a> </span>                :                                                                                 
-<span class="lineNum" id="container76"><a name="76"></a><a href="#76" id="line76">      76</a> </span><span class="lineCov">              6 :     public function logoutAction()                                              </span>
+<span class="lineNum" id="container76"><a name="76"></a><a href="#76" id="line76">      76</a> </span><span class="lineCov">              7 :     public function logoutAction()                                              </span>
 <span class="lineNum" id="container77"><a name="77"></a><a href="#77" id="line77">      77</a> </span>                :     {                                                                           
 <span class="lineNum" id="container78"><a name="78"></a><a href="#78" id="line78">      78</a> </span><span class="lineCov">              1 :         if (!$this-&gt;_helper-&gt;acl('Read')) {                                     </span>
 <span class="lineNum" id="container79"><a name="79"></a><a href="#79" id="line79">      79</a> </span><span class="lineCov">              1 :             return $this-&gt;_forward('login');                                    </span>
@@ -328,7 +328,7 @@
 <span class="lineNum" id="container101"><a name="101"></a><a href="#101" id="line101">     101</a> </span>                :                                                                                 
 <span class="lineNum" id="container102"><a name="102"></a><a href="#102" id="line102">     102</a> </span><span class="lineCov">              3 :         if (false === $this-&gt;_authService-&gt;authenticate($form-&gt;getValues())) {  </span>
 <span class="lineNum" id="container103"><a name="103"></a><a href="#103" id="line103">     103</a> </span><span class="lineCov">              1 :             $form-&gt;setDescription('Login failed, Please try again.');           </span>
-<span class="lineNum" id="container104"><a name="104"></a><a href="#104" id="line104">     104</a> </span><span class="lineCov">              6 :             return $this-&gt;render('login'); // re-render the login form          </span>
+<span class="lineNum" id="container104"><a name="104"></a><a href="#104" id="line104">     104</a> </span><span class="lineCov">              7 :             return $this-&gt;render('login'); // re-render the login form          </span>
 <span class="lineNum" id="container105"><a name="105"></a><a href="#105" id="line105">     105</a> </span><span class="lineDeadCode">                :         }                                                                       </span>
 <span class="lineNum" id="container106"><a name="106"></a><a href="#106" id="line106">     106</a> </span>                :                                                                                 
 <span class="lineNum" id="container107"><a name="107"></a><a href="#107" id="line107">     107</a> </span><span class="lineCov">              3 :         return $this-&gt;_helper-&gt;redirector('index', 'meter');                    </span>
@@ -342,7 +342,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.5</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.6-13ubuntu3.2</a> and PHPUnit 3.5.15 at Wed Nov 2 10:13:08 GMT 2011.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.5</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.6-13ubuntu3.2</a> and PHPUnit 3.5.15 at Fri Nov 4 13:33:26 GMT 2011.</td></tr>
     </table>
 
     <br />
@@ -353,43 +353,43 @@
       YAHOO.namespace("phpunit.container");
       YAHOO.phpunit.container.panelsData = {
         "panel57": {
-          "header": "6 tests cover line 57",
-          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testInit</li></ul>",
+          "header": "7 tests cover line 57",
+          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testIndexAction</li><li class=\"testPassed\">Power_UserControllerTest::testUserStoreAction</li></ul>",
           "footer": ""
         },
         "panel59": {
-          "header": "6 tests cover line 59",
-          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testInit</li></ul>",
+          "header": "7 tests cover line 59",
+          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testIndexAction</li><li class=\"testPassed\">Power_UserControllerTest::testUserStoreAction</li></ul>",
           "footer": ""
         },
         "panel60": {
-          "header": "6 tests cover line 60",
-          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testInit</li></ul>",
+          "header": "7 tests cover line 60",
+          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testIndexAction</li><li class=\"testPassed\">Power_UserControllerTest::testUserStoreAction</li></ul>",
           "footer": ""
         },
         "panel62": {
-          "header": "6 tests cover line 62",
-          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testInit</li></ul>",
+          "header": "7 tests cover line 62",
+          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testIndexAction</li><li class=\"testPassed\">Power_UserControllerTest::testUserStoreAction</li></ul>",
           "footer": ""
         },
         "panel63": {
-          "header": "6 tests cover line 63",
-          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testInit</li></ul>",
+          "header": "7 tests cover line 63",
+          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testIndexAction</li><li class=\"testPassed\">Power_UserControllerTest::testUserStoreAction</li></ul>",
           "footer": ""
         },
         "panel64": {
-          "header": "6 tests cover line 64",
-          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testInit</li></ul>",
+          "header": "7 tests cover line 64",
+          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testIndexAction</li><li class=\"testPassed\">Power_UserControllerTest::testUserStoreAction</li></ul>",
           "footer": ""
         },
         "panel66": {
-          "header": "6 tests cover line 66",
-          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testInit</li></ul>",
+          "header": "7 tests cover line 66",
+          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testIndexAction</li><li class=\"testPassed\">Power_UserControllerTest::testUserStoreAction</li></ul>",
           "footer": ""
         },
         "panel67": {
-          "header": "6 tests cover line 67",
-          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testInit</li></ul>",
+          "header": "7 tests cover line 67",
+          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testIndexAction</li><li class=\"testPassed\">Power_UserControllerTest::testUserStoreAction</li></ul>",
           "footer": ""
         },
         "panel69": {
@@ -398,28 +398,28 @@
           "footer": ""
         },
         "panel71": {
-          "header": "6 tests cover line 71",
-          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testInit</li></ul>",
+          "header": "7 tests cover line 71",
+          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testIndexAction</li><li class=\"testPassed\">Power_UserControllerTest::testUserStoreAction</li></ul>",
           "footer": ""
         },
         "panel72": {
-          "header": "6 tests cover line 72",
-          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testInit</li></ul>",
+          "header": "7 tests cover line 72",
+          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testIndexAction</li><li class=\"testPassed\">Power_UserControllerTest::testUserStoreAction</li></ul>",
           "footer": ""
         },
         "panel73": {
-          "header": "6 tests cover line 73",
-          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testInit</li></ul>",
+          "header": "7 tests cover line 73",
+          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testIndexAction</li><li class=\"testPassed\">Power_UserControllerTest::testUserStoreAction</li></ul>",
           "footer": ""
         },
         "panel74": {
-          "header": "6 tests cover line 74",
-          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testInit</li></ul>",
+          "header": "7 tests cover line 74",
+          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testIndexAction</li><li class=\"testPassed\">Power_UserControllerTest::testUserStoreAction</li></ul>",
           "footer": ""
         },
         "panel76": {
-          "header": "6 tests cover line 76",
-          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testInit</li></ul>",
+          "header": "7 tests cover line 76",
+          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testIndexAction</li><li class=\"testPassed\">Power_UserControllerTest::testUserStoreAction</li></ul>",
           "footer": ""
         },
         "panel78": {
@@ -493,8 +493,8 @@
           "footer": ""
         },
         "panel104": {
-          "header": "6 tests cover line 104",
-          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testInit</li></ul>",
+          "header": "7 tests cover line 104",
+          "body": "<ul><li class=\"testPassed\">Power_AuthControllerTest::testInit</li><li class=\"testPassed\">Power_AuthControllerTest::testLoginAction</li><li class=\"testPassed\">Power_AuthControllerTest::testLogoutAction</li><li class=\"testPassed\">Power_AuthControllerTest::testAuthenticateAction</li><li class=\"testPassed\">Power_IndexControllerTest::testInitAction</li><li class=\"testPassed\">Power_UserControllerTest::testIndexAction</li><li class=\"testPassed\">Power_UserControllerTest::testUserStoreAction</li></ul>",
           "footer": ""
         },
         "panel107": {

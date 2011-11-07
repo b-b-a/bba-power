@@ -9,43 +9,43 @@ require_once dirname(__FILE__) . '/../../../../../application/modules/power/cont
 class Power_UserControllerTest extends ControllerTestCase
 {
     /**
-     * Init tests.
-     * only valid users can access this controller.
-     */
-    public function testInit()
-    {
-        $this->dispatch('/');
-        $this->assertQuery('#auth');
-    }
-
-    /**
-     * @todo Implement testIndexAction().
+     * Displays user list.
      */
     public function testIndexAction() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->dispatch('/');
+        $this->assertQuery('#auth');
+        $this->tearDown();
+
+        $this->doAuth();
+        $this->dispatch('/user');
+        $this->assertAction('index');
+        $this->assertQuery('#userGrid');
+        $this->tearDown();
     }
 
     /**
-     * @todo Implement testUserStoreAction().
+     * test user store turns list.
      */
     public function testUserStoreAction() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
-    }
+        $this->dispatch('/');
+        $this->assertQuery('#auth');
+        $this->tearDown();
+        
+        $this->doAuth();
+        $this->request->setHeader('X-Requested-With', 'XmlHttpRequest');
+        $this->request->setMethod('POST')->setPost(array(
+            'sort'  => 'client_name',
+            'count' => 25,
+            'start' => 0
+        ));
+        $this->dispatch('/user/user-store');
+        $json = json_decode($this->getResponse()->getBody(), true);
 
-    /**
-     * @todo Implement testListAction().
-     */
-    public function testListAction() {
-        // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-                'This test has not been implemented yet.'
-        );
+        $this->assertArrayHasKey('identifier', $json);
+        $this->assertArrayHasKey('items', $json);
+        $this->assertArrayHasKey('numRows', $json);
+
+        $this->tearDown();
     }
 
     /**

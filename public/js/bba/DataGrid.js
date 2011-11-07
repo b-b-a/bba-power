@@ -100,7 +100,7 @@ dojo.extend(
 
             if (this.search) this.gridSearch();
 
-            bbaCore.newFormSetup(this.getIdent(), this.query, this.queryParent);
+            if (this.queryParent === '') this.newParentForm();
         },
 
         getIdent : function()
@@ -112,22 +112,6 @@ dojo.extend(
             }
 
             return ident;
-        },
-
-        gridLink : function(selectedId, inputName, url)
-        {
-            var formNode = dojo.create("form", {
-                action:url,
-                method:"post"
-            }, dojo.body());
-
-            dojo.create("input", {
-                type:"hidden",
-                name:inputName,
-                value:selectedId
-            },formNode);
-
-            formNode.submit();
         },
 
         gridRowClick : function(selectedIndex)
@@ -145,12 +129,10 @@ dojo.extend(
             selectedId = this.store.getValue(selectedItem, ident);
 
             if (this.dialog === true) {
-                this.showDialog(selectedId, i[1], i[0]);
-            } else if (this.tabs === true) {
+                this.showDialog(selectedId, i[1], i[0], 'edit');
+            } else {
                 this.tabTitle = this.store.getValue(selectedItem, this.tabTitleColumn);
                 this.openTab(selectedId, i[1], i[0]);
-            } else {
-                this.gridLink(selectedId, i[1], "/" + this.hyphenate(i[0]) + "/edit");
             }
         },
 
@@ -169,8 +151,12 @@ dojo.extend(
                     href: '/' + this.hyphenate(name) + '/edit',
                     ioArgs: { content: contentVars },
                     closable: true,
-                    onLoad : function () {
-                        bbaCore.editFormSetup(selectedId, inputName, name);
+                    onLoad : dojo.hitch(this, function() {
+                        this.editForm(selectedId, inputName, name);
+                        this.newChildForm(selectedId, inputName, name);
+                    }),
+                    onShow : function() {
+                        this.refresh();
                     }
                 });
 
@@ -180,11 +166,39 @@ dojo.extend(
             tc.selectChild(tabId);
         },
 
-        showDialog : function(selectedId, inputName, name)
+        editForm : function(selectedId, inputName, name)
+        {
+            var id = 'edit-' + name + '-' + selectedId;
+
+            dojo.connect(dijit.byId(id), 'onSubmit', dojo.hitch(this, function(e){
+                dojo.stopEvent(e);
+                this.tab = dijit.byId(name + selectedId);
+                this.showDialog(selectedId, inputName, name, 'edit');
+            }));
+        },
+
+        newChildForm : function(selectedId, inputName, name)
+        {
+
+        },
+
+        newParentForm : function()
+        {
+            // this.getIdent(), this.query, this.queryParent
+            var i = this.getIdent().split("_");
+            var id = 'new-' + i[0] + '-button';
+
+            dojo.connect(dijit.byId(id), 'onClick', dojo.hitch(this, function(e){
+                dojo.stopEvent(e);
+                this.tab = dijit.byId(i[0] + '-list');
+                this.showDialog(null, i[1], i[0], 'add');
+            }));
+        },
+
+        showDialog : function(selectedId, inputName, name, type)
         {
             if (!this.dlg[name]) {
 
-                var type = 'edit';
                 var contentVars = {type: type};
                 contentVars[inputName] = selectedId
 
@@ -193,10 +207,10 @@ dojo.extend(
                 }
 
                 this.dlg[name] = new dijit.Dialog({
-                    title: this.dialogName,
+                    title: (this.dialogName) ? this.dialogName : this.capitalize(type + ' ' + this.hyphenate(name).replace('-', ' ')),
                     style: "width:500px;",
                     ioArgs: { content: contentVars },
-                    href: '/' + this.hyphenate(name) + '/edit',
+                    href: '/' + this.hyphenate(name) + '/' + type,
                     execute: dojo.hitch(this, function() {
                         var url = '/' + this.hyphenate(name) + '/save';
                         this.dlg[name].destroyRecursive();
@@ -239,7 +253,11 @@ dojo.extend(
               preventCache: true,
               load: dojo.hitch(this, function(data) {
                   if (data.saved > 0) {
-                      this._refresh();
+                      if (this.tab) {
+                          this.tab.refresh();
+                      } else {
+                          this._refresh();
+                      }
                   } else {
                       this.dlg[name] = new dijit.Dialog({
                         title: this.dialogName,
@@ -290,6 +308,12 @@ dojo.extend(
                     this.setQuery(values);
                 }));
             }
+        },
+
+        capitalize: function(string){
+            return string.replace(/\b[a-z]/g, function(match){
+                return match.toUpperCase();
+            });
         },
 
         hyphenate : function(str)

@@ -307,10 +307,12 @@ input[class=search] {
      float: left;
      margin: 5px;
      margin-left: 30px;
+     max-width: 30%;
 }
 
 .alpha {
     margin-left: 5px;
+    max-width: 30%;
 }
 
 /**

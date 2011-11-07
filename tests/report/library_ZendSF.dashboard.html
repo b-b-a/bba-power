@@ -27,7 +27,7 @@
             <h2>Class Coverage Distribution</h2>
             <canvas id="classCoverageDistribution" width="475" height="200"></canvas>
             <script>
-            var ccd = new RGraph.Bar('classCoverageDistribution', [0,2,0,1,0,0,3,2,1,1,2,0]);
+            var ccd = new RGraph.Bar('classCoverageDistribution', [0,2,0,0,1,0,1,4,2,0,3,0]);
             ccd.Set('chart.background.barcolor1', 'white');
             ccd.Set('chart.background.barcolor2', 'white');
             ccd.Set('chart.colors', ['blue']);
@@ -44,7 +44,7 @@
             <h2>Class Complexity</h2>
             <canvas id="classComplexity" width="475" height="200"></canvas>
             <script>
-            var cc = new RGraph.Scatter('classComplexity', [[92.857142857143,2,"blue","ZendSF_Acl_Abstract"],[58.333333333333,8,"blue","ZendSF_Controller_Action_Abstract"],[70.588235294118,18,"blue","ZendSF_Controller_Helper_Acl"],[5,5,"blue","ZendSF_Controller_Helper_Service"],[50,8,"blue","ZendSF_Form_Abstract"],[60,23,"blue","ZendSF_Model_Abstract"],[24.031007751938,33,"blue","ZendSF_Model_Mapper_Abstract"],[2.4390243902439,19,"blue","ZendSF_Model_Mapper_Acl_Abstract"],[91.666666666667,12,"blue","ZendSF_Service_Authentication"],[66.666666666667,2,"blue","ZendSF_Utility_Password"],[84.615384615385,5,"blue","ZendSF_View_Helper_AuthInfo"],[58.333333333333,6,"blue","ZendSF_View_Helper_FlashMessenger"]]);
+            var cc = new RGraph.Scatter('classComplexity', [[92.857142857143,2,"blue","ZendSF_Acl_Abstract"],[79.166666666667,8,"blue","ZendSF_Controller_Action_Abstract"],[70.588235294118,18,"blue","ZendSF_Controller_Helper_Acl"],[5,5,"blue","ZendSF_Controller_Helper_Service"],[63.888888888889,8,"blue","ZendSF_Form_Abstract"],[68,23,"blue","ZendSF_Model_Abstract"],[34.108527131783,33,"blue","ZendSF_Model_Mapper_Abstract"],[2.4390243902439,19,"blue","ZendSF_Model_Mapper_Acl_Abstract"],[97.916666666667,12,"blue","ZendSF_Service_Authentication"],[66.666666666667,2,"blue","ZendSF_Utility_Password"],[92.307692307692,5,"blue","ZendSF_View_Helper_AuthInfo"],[58.333333333333,6,"blue","ZendSF_View_Helper_FlashMessenger"],[62.857142857143,52,"blue","ZendSF_View_Helper_SfMenu"]]);
             cc.Set('chart.xmax', 100);
             cc.Set('chart.background.barcolor1', 'white');
             cc.Set('chart.background.barcolor2', 'white');
@@ -60,14 +60,15 @@
           <td valign="top">
             <h2>Top Project Risks</h2>
             <ul>
-              <li><a href="library_ZendSF_Model_Mapper_Abstract.php.html#41">ZendSF_Model_Mapper_Abstract</a> (510)</li>
               <li><a href="library_ZendSF_Model_Mapper_Acl_Abstract.php.html#40">ZendSF_Model_Mapper_Acl_Abstract</a> (354)</li>
-              <li><a href="library_ZendSF_Model_Abstract.php.html#40">ZendSF_Model_Abstract</a> (56)</li>
+              <li><a href="library_ZendSF_Model_Mapper_Abstract.php.html#41">ZendSF_Model_Mapper_Abstract</a> (344)</li>
+              <li><a href="library_ZendSF_View_Helper_SfMenu.php.html#58">ZendSF_View_Helper_SfMenu</a> (190)</li>
+              <li><a href="library_ZendSF_Model_Abstract.php.html#40">ZendSF_Model_Abstract</a> (40)</li>
               <li><a href="library_ZendSF_Controller_Helper_Service.php.html#40">ZendSF_Controller_Helper_Service</a> (26)</li>
               <li><a href="library_ZendSF_Controller_Helper_Acl.php.html#41">ZendSF_Controller_Helper_Acl</a> (26)</li>
-              <li><a href="library_ZendSF_Controller_Action_Abstract.php.html#40">ZendSF_Controller_Action_Abstract</a> (12)</li>
               <li><a href="library_ZendSF_Service_Authentication.php.html#40">ZendSF_Service_Authentication</a> (12)</li>
               <li><a href="library_ZendSF_View_Helper_FlashMessenger.php.html#51">ZendSF_View_Helper_FlashMessenger</a> (8)</li>
+              <li><a href="library_ZendSF_Controller_Action_Abstract.php.html#40">ZendSF_Controller_Action_Abstract</a> (8)</li>
               <li><a href="library_ZendSF_View_Helper_AuthInfo.php.html#40">ZendSF_View_Helper_AuthInfo</a> (5)</li>
 
             </ul>
@@ -76,16 +77,16 @@
           <td valign="top">
             <h2>Least Tested Methods</h2>
             <ul>
-              <li><a href="library_ZendSF_Model_Mapper_Abstract.php.html#309">ZendSF_Model_Mapper_Abstract::setCache</a> (0%)</li>
               <li><a href="library_ZendSF_Model_Mapper_Abstract.php.html#319">ZendSF_Model_Mapper_Abstract::setCacheOptions</a> (0%)</li>
               <li><a href="library_ZendSF_Model_Mapper_Abstract.php.html#329">ZendSF_Model_Mapper_Abstract::getCacheOptions</a> (0%)</li>
-              <li><a href="library_ZendSF_Model_Mapper_Abstract.php.html#241">ZendSF_Model_Mapper_Abstract::_paginate</a> (0%)</li>
-              <li><a href="library_ZendSF_Model_Mapper_Abstract.php.html#228">ZendSF_Model_Mapper_Abstract::delete</a> (0%)</li>
-              <li><a href="library_ZendSF_Model_Mapper_Abstract.php.html#143">ZendSF_Model_Mapper_Abstract::fetchAll</a> (0%)</li>
-              <li><a href="library_ZendSF_Model_Mapper_Abstract.php.html#194">ZendSF_Model_Mapper_Abstract::save</a> (0%)</li>
               <li><a href="library_ZendSF_Model_Mapper_Abstract.php.html#353">ZendSF_Model_Mapper_Abstract::getCached</a> (0%)</li>
+              <li><a href="library_ZendSF_Model_Mapper_Abstract.php.html#309">ZendSF_Model_Mapper_Abstract::setCache</a> (0%)</li>
+              <li><a href="library_ZendSF_Model_Mapper_Abstract.php.html#241">ZendSF_Model_Mapper_Abstract::_paginate</a> (0%)</li>
+              <li><a href="library_ZendSF_Model_Mapper_Abstract.php.html#194">ZendSF_Model_Mapper_Abstract::save</a> (0%)</li>
+              <li><a href="library_ZendSF_Acl_Abstract.php.html#63">ZendSF_Acl_Abstract::init</a> (0%)</li>
               <li><a href="library_ZendSF_Model_Mapper_Acl_Abstract.php.html#59">ZendSF_Model_Mapper_Acl_Abstract::getResourceId</a> (0%)</li>
-              <li><a href="library_ZendSF_Model_Mapper_Acl_Abstract.php.html#156">ZendSF_Model_Mapper_Acl_Abstract::getAcl</a> (0%)</li>
+              <li><a href="library_ZendSF_Model_Mapper_Acl_Abstract.php.html#71">ZendSF_Model_Mapper_Acl_Abstract::setIdentity</a> (0%)</li>
+              <li><a href="library_ZendSF_Utility_Password.php.html#48">ZendSF_Utility_Password::sha1</a> (0%)</li>
 
             </ul>
           </td>
@@ -97,7 +98,7 @@
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0">
       <tr><td class="ruler"><img src="glass.png" width="3" height="3" alt=""></td></tr>
-      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.5</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.6-13ubuntu3.2</a> and PHPUnit 3.5.15 at Wed Nov 2 10:13:08 GMT 2011.</td></tr>
+      <tr><td class="versionInfo">Generated by <a href="http://github.com/sebastianbergmann/php-code-coverage" target="_top">PHP_CodeCoverage 1.0.5</a> using <a href="http://www.php.net/" target="_top">PHP 5.3.6-13ubuntu3.2</a> and PHPUnit 3.5.15 at Fri Nov 4 13:33:26 GMT 2011.</td></tr>
     </table>
 
     <br/>

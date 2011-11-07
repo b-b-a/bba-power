@@ -5,10 +5,10 @@
     <div data-dojo-type="dijit.layout.ContentPane"
          data-dojo-props="region: 'top'">
         <div class="tabHeading">
-            <div class="form_wrap zend_form"
+            <div class="form_wrap zend_form ident"
                  dojoType="dijit.form.Form"
                  id="edit-client-<?php echo $this->client->id; ?>">
-                <h2>Client Details</h2>
+                <h3>Client Details</h3>
                 <div class="form_row">
                     <p class="label"><b>Client Name: </b></p>
                     <p><?php echo $this->client->name; ?></p>
@@ -23,6 +23,7 @@
                         name="edit-client-button-<?php echo $this->client->id; ?>"
                         value="submit">Edit Details</button>
             </div>
+            <div class="clear"></div>
 
             <div class="tableHead">
                 <?php if ($this->authInfo('role') == 'admin'): ?>
@@ -30,9 +31,6 @@
                     <button dojoType="dijit.form.Button"
                             id="new-clientAd-button-<?php echo $this->client->id; ?>"
                             type="button">New Address</button>
-                    <button dojoType="dijit.form.Button"
-                            id="new-clientCo-button-<?php echo $this->client->id; ?>"
-                            type="button">New Contact</button>
                 </p>
                 <?php endif; ?>
             </div>

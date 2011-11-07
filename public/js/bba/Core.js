@@ -55,7 +55,6 @@ dojo.declare(
 
             dojo.connect(dijit.byId(id), 'onSubmit', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
-                console.log(name + selectedId);
                 this.tab = dijit.byId(name + selectedId);
                 this.showDialog(selectedId, inputName, name, 'edit');
             }));
@@ -66,6 +65,7 @@ dojo.declare(
             var i = ident.split("_");
             var selectedId = (query[parentKey]) ? '-' + query[parentKey] : '';
             var id = 'new-' + i[0] + '-button' + selectedId;
+            console.log(id)
 
             dojo.connect(dijit.byId(id), 'onClick', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
@@ -201,7 +201,7 @@ dojo.declare(
 dojo.require('bba.Core');
 
 dojo.addOnLoad(function() {
-    bbaCore = new bba.Core();
+    //bbaCore = new bba.Core();
 
     var loader = dojo.byId("loader");
     loader.style.display = "none";
