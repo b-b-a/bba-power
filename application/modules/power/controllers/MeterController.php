@@ -113,7 +113,8 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
         if ($this->_request->isXmlHttpRequest()
                 && $this->_request->getParam('type') == 'add'
                 && $this->_request->isPost()) {
-            $this->getForm('meterSave');
+            $this->getForm('meterSave')
+                ->populate(array('meter_idSite' => $this->_request->getParam('meter_idSite')));
             $this->render('ajax-form');
         } else {
             return $this->_helper->redirector('index', 'client');

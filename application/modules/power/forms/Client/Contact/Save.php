@@ -45,6 +45,7 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
 
         $table = new Power_Model_Mapper_Tables();
         $list = $table->getSelectListByName('ClientCo_type');
+        $multiOptions[0] = 'Select a type';
         foreach($list as $row) {
             $multiOptions[$row->key] = $row->value;
         }
@@ -70,9 +71,9 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
         ));
 
         $this->addElement('ValidationTextBox', 'clientCo_email', array(
-            'label'     => 'email:',
-            'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim', 'StringToLower'),
+            'label'         => 'email:',
+            'required'      => true,
+            'filters'       => array('StripTags', 'StringTrim', 'StringToLower'),
             'validators'    => array(
                 array('EmailAddress', true),
                 array('Db_NoRecordExists', false, array(
@@ -90,7 +91,7 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
         ));
 
         // reset options
-        $multiOptions = array();
+        $multiOptions = array(0 => '');
         foreach($list as $row) {
             $multiOptions[$row->idAddress] = $row->getAddress1AndPostcode();
         }

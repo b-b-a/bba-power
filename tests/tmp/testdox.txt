@@ -9,10 +9,8 @@ Power_IndexController
  [x] Index action
 
 Power_UserController
- [x] Init
- [ ] Index action
- [ ] User store action
- [ ] List action
+ [x] Index action
+ [x] User store action
  [ ] Add action
  [ ] Edit action
  [ ] Save action

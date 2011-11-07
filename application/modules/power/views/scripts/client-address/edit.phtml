@@ -1,0 +1,52 @@
+<div data-dojo-type="dijit.layout.BorderContainer"
+     data-dojo-props="design: 'headline'"
+     class="tabContainer">
+
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'top'">
+        <div class="tabHeading">
+            <div class="form_wrap zend_form ident"
+                 dojoType="dijit.form.Form"
+                 id="edit-clientAd-<?php echo $this->clientAd->id; ?>">
+                <h3>Client Details</h3>
+                <div class="form_row">
+                    <p class="label"><b>Client Name: </b></p>
+                    <p></p>
+                </div>
+                <div class="form_row">
+                    <p class="label"><b>LoA Expiry Date: </b></p>
+                    <p></p>
+                </div>
+
+                <button dojoType="dijit.form.Button"
+                        type="submit"
+                        name="edit-clientAd-button-<?php echo $this->clientAd->id; ?>"
+                        value="submit">Edit Details</button>
+            </div>
+            <div class="clear"></div>
+
+            <div class="tableHead">
+                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <p class="tableHead-button">
+                    <button dojoType="dijit.form.Button"
+                            id="new-clientCo-button-<?php echo $this->clientAd->id; ?>"
+                            type="button">New Contact</button>
+                </p>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <div id="ClientAdTabs<?php echo $this->clientAd->id; ?>"
+         data-dojo-type="dijit.layout.TabContainer"
+         data-dojo-props="region: 'center', tabStrip: 'true'"
+         class="innerTabs">
+
+        <div data-dojo-type="dijit.layout.ContentPane"
+             data-dojo-props="region: 'center', title: 'Client Contacts'">
+            <?php echo $this->partial('client-contact/_table.phtml', array(
+                'idClient' => $this->clientAd->idClient
+            )); ?>
+        </div>
+    </div>
+</div>

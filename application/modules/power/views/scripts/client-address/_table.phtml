@@ -9,11 +9,11 @@
        query="{ clientAd_idClient: <?php echo $this->idClient; ?> }"
        queryParent="clientAd_idClient"
        sortInfo="2"
-       dialog="true"
-       dialogName="Edit Client Address">
+       tabs="true"
+       tabTitleColumn="clientAd_addressName">
     <thead>
         <tr>
-            <th field="clientAd_idAddress" width="75">Id</th>
+            <th field="clientAd_idAddress" width="50">Id</th>
             <th field="clientAd_addressName" width="250">Address Name</th>
             <th field="clientAd_address1" width="300">Address 1</th>
             <th field="clientAd_address2" width="200">Address 2</th>

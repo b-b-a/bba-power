@@ -76,6 +76,7 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
     {
         if ($this->_request->getParam('clientAd_idClient')
                 && $this->_request->isXmlHttpRequest()
+                && $this->_request->getParam('type') == 'add'
                 && $this->_request->isPost()) {
             $this->getForm('clientAddressSave')
                 ->populate(array(
@@ -97,7 +98,13 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
             $this->getForm('clientAddressSave')
                 ->populate($clientAd->toArray('dd/MM/yyyy'));
 
-            $this->render('ajax-form');
+            $this->view->assign(array(
+                'clientAd' => $clientAd
+            ));
+
+            if ($this->_request->getParam('type') == 'edit') {
+                $this->render('ajax-form');
+            }
 
         } else {
            return $this->_helper->redirector('index', 'client');

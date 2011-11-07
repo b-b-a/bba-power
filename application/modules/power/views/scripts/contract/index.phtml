@@ -1,64 +1,60 @@
-<?php
-	$this->title = "BBA Contracts";
-	$this->headTitle($this->title);
+<div data-dojo-type="dijit.layout.BorderContainer"
+     data-dojo-props="design: 'headline'"
+     class="tabContainer">
 
-    echo $this->contractSearchForm;
-    /* @var $meter Power_Model_Meter */
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'top'">
 
-?>
+        <div class="tabHeading">
+            <?php
+                $this->title = "BBA Contracts";
+                $this->headTitle($this->title);
 
-<?php echo $this->partial('_table-head.phtml', array(
-    'heading'   => 'Contracts',
-    'label'     => 'New Contract',
-    'location'  => $this->url(array(
-        'controller'    => 'contract',
-        'action'        => 'add'
-    ),'default', true)
-)); ?>
+                echo $this->contractSearchForm;
+            ?>
 
-<div dojotype="dojox.data.QueryReadStore"
-     jsid="tableStore"
-     url="/contract/contract-store"
-     requestMethod="post"></div>
+            <div class="tableHead">
+                <h2 class="tableHead-heading">Clients:</h2>
+                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <p class="tableHead-button">
+                    <button dojoType="dijit.form.Button"
+                            id="new-contract-button"
+                            type="button">New Contract</button>
+                </p>
+                <?php endif; ?>
+            </div>
 
-<table dojoType="dojox.grid.DataGrid"
-       jsId="grid"
-       store="tableStore"
-       query="<?php echo $this->search; ?>"
-       sortInfo="2"
-       style="margin:auto;height:500px;"
-       autoWidth="false"
-       autoHeight="false"
-       rowSelector="0px"
-       rowsPerPage="25"
-       clientSort="true"
-       checkRows="true"
-       noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
-    <thead>
-        <tr>
-            <th field="contract_idContract" width="50">Id</th>
-            <th field="client_name" width="200">Client</th>
-            <th field="contract_reference" width="200">Reference</th>
-            <th field="contract_dateStart" width="100">Start Date</th>
-            <th field="contract_dateEnd" width="100">End Date</th>
-            <th field="meter_count" width="100"># Meters</th>
-            <th field="contract_desc" width="300">Description</th>
-            <th field="" width="auto"></th>
-        </tr>
-    </thead>
-</table>
+        </div>
+    </div>
 
-<?php
-/*
-if ($this->contracts instanceof Zend_Paginator) {
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'center'">
 
-    echo $this->paginationControl(
-            $this->contracts,
-            'Sliding',
-            '_paginate.phtml',
-            array('params' => $this->search)
-    );
-}*/
-?>
+        <span dojoType="dojox.data.QueryReadStore"
+             jsid="contractStore"
+             url="/contract/contract-store"
+             requestMethod="post"></span>
 
-
+        <table dojoType="dojox.grid.DataGrid"
+               jsId="contractGrid"
+               store="contractStore"
+               query="<?php echo $this->search; ?>"
+               sortInfo="2"
+               search="true"
+               tabs="true"
+               tabTitleColumn="client_name">
+            <thead>
+                <tr>
+                    <th field="contract_idContract" width="50">Id</th>
+                    <th field="client_name" width="200">Client</th>
+                    <th field="contract_reference" width="200">Reference</th>
+                    <th field="contract_dateStart" width="100">Start Date</th>
+                    <th field="contract_dateEnd" width="100">End Date</th>
+                    <th field="meter_count" width="100"># Meters</th>
+                    <th field="contract_desc" width="300">Description</th>
+                    <th field="" width="auto"></th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
