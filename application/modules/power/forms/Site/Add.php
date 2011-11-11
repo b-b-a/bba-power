@@ -51,7 +51,13 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
             'storeId'       => 'clientStore',
             'storeType'     => 'dojo.data.ItemFileReadStore',
             'storeParams'   => array('url' => "/site/autocomplete/param/client"),
-            'dijitParams'   => array('searchAttr' => 'client_name'),
+            'dijitParams'   => array(
+                'searchAttr' => 'client_name',
+                'promptMessage' => 'Select a Client'
+            ),
+            'attribs'       => array(
+                'onChange' => 'bba.Site.changeAddress(this);'
+            ),
             'required'      => true,
             'value'         => '0'
         ));
@@ -65,7 +71,10 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
             //'storeType'     => 'dojo.data.ItemFileReadStore',
             //'storeParams'   => array('url' => "/site/autocomplete/param/address"),
             'dijitParams'   => array('searchAttr' => 'clientAd_address1AndPostcode'),
-            'attribs'       => array('disabled' => true),
+            'attribs'       => array(
+                'disabled' => true,
+                'onChange' => 'bba.Site.changeBillAddress(this);'
+            ),
             'required'      => true
         ));
 

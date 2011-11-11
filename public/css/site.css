@@ -240,17 +240,26 @@ select
 
 input[type=submit] {
     font-size: 90%;
-    margin: 0px 10px;
+    margin: auto 10px;
     float: left;
-    border-radius: 10px;
-    background-color: #98b2d6;
-    background: -moz-linear-gradient(top,  #fff, #98b2d6);
+    border: 1px solid #769dc0;
+    background-image: url("/images/button.png");
+	background-position: center top;
+	background-repeat: repeat-x;
+	background-color: #e4f2ff;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	box-shadow:0px 1px 1px rgba(0,0,0,0.15);
+	-webkit-box-shadow:0px 1px 1px rgba(0,0,0,0.15);
+	-moz-box-shadow: 0px 1px 1px rgba(0,0,0,0.15);
 }
 
 input[type=submit]:hover {
     cursor: pointer;
-    background-color: #efa32b;
-    background: -moz-linear-gradient(top,  #fff, #efa32b);
+    background-color: #afd9ff;
+	color:#000;
+ 	-webkit-transition-duration:.2s;
 }
 /*    see   #Search .search
 input[class=search] {
