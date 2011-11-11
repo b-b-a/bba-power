@@ -75,19 +75,19 @@ class Power_Model_Mapper_User extends BBA_Model_Mapper_Abstract
         }
 
         // add password treatment if set.
-        $pwd = $this->getForm('userSave')->getValue('user_password');
+        $pwd = $this->getForm($form)->getValue('user_password');
         if ($pwd === '') {
-            $this->getForm('userSave')->removeElement('user_password');
+            $this->getForm($form)->removeElement('user_password');
         } else {
 
             $auth = Zend_Registry::get('config')->user->auth;
 
             $treatment = $auth->credentialTreatment;
             $pwd = ZendSF_Utility_Password::$treatment($pwd . $auth->salt);
-            $this->getForm('userSave')->getElement('user_password')->setValue($pwd);
+            $this->getForm($form)->getElement('user_password')->setValue($pwd);
         }
 
-        return parent::save('userSave');
+        return parent::save($form);
     }
 
     public function delete($id)

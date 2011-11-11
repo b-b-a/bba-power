@@ -137,21 +137,21 @@ class Power_UserController extends BBA_Controller_Action_Abstract
         }
 
         if (!$this->getForm('userSave')->isValid($this->_request->getPost())) {
-            $html = $this->view->render('users/ajax-form.phtml');
+            $html = $this->view->render('user/ajax-form.phtml');
 
             $returnJson = array(
                 'saved' => 0,
                 'html'  => $html
             );
         } else {
-            $saved = $this->_model->save();
+            $saved = $this->_model->save('userSave');
 
             $returnJson = array(
                 'saved' => $saved
             );
 
             if ($saved == 0) {
-                $html = $this->view->render('users/ajax-form.phtml');
+                $html = $this->view->render('user/ajax-form.phtml');
                 $returnJson['html'] = $html;
             }
         }

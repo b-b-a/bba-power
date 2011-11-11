@@ -187,10 +187,10 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
         $this->_helper->viewRenderer->setNoRender(true);
 
         $action = $this->_request->getParam('type');
-        $form = 'site' . ucfirst($action) . 'Form';
+        $form = 'site' . ucfirst($action);
 
         $this->view->assign(array(
-            'formName' => $form
+            'formName' => 'site' . ucfirst($action) . 'Form'
         ));
 
         if (!$this->getForm($form)->isValid($this->_request->getPost())) {
@@ -201,7 +201,7 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
                 'html'  => $html
             );
         } else {
-            $saved = $this->_model->save();
+            $saved = $this->_model->save($form);
 
             $returnJson = array(
                 'saved' => $saved
