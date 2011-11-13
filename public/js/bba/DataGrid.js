@@ -55,6 +55,7 @@ dojo.extend(
         dialogName : '',
         dlg : null,
         queryParent : '',
+        newButtonId : null,
 
         _onFetchComplete : function(items, req)
         {
@@ -159,13 +160,15 @@ dojo.extend(
                     id: tabId,
                     title: this.store.getValue(this.selectedItem, this.tabTitleColumn),
                     href: '/' + this.hyphenate(identParts[0]) + '/edit',
-                    ioArgs: {content: contentVars},
+                    ioArgs: { content:contentVars },
                     closable: true,
                     onLoad : dojo.hitch(this, function() {
                         this.editForm();
+                        this.tab = pane;
                     }),
                     onShow : function() {
                         this.refresh();
+                        this.tab = pane;
                     }
                 });
 
@@ -182,7 +185,6 @@ dojo.extend(
 
             dojo.connect(dijit.byId(id), 'onSubmit', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
-                this.tab = dijit.byId(identParts[0] + this.getId());
                 this.showDialog('edit');
             }));
         },
@@ -190,18 +192,17 @@ dojo.extend(
         newChildForm : function()
         {
             var identParts = this.getIdentParts();
-            var id = 'new-' + identParts[0] + '-button';
+            var selectedId = (this.newButtonId === null) ? this.query[this.queryParent] : this.newButtonId;
+            var id = 'new-' + identParts[0] + '-button-' + selectedId;
 
             dojo.connect(dijit.byId(id), 'onClick', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
-                this.tab = dijit.byId(identParts[0] + '-list');
                 this.showDialog('add');
             }));
         },
 
         newParentForm : function()
         {
-            this.selectedItem = this.getItem(0);
             var identParts = this.getIdentParts();
             var id = 'new-' + identParts[0] + '-button';
 
@@ -217,10 +218,12 @@ dojo.extend(
             if (!this.dlg) {
 
                 var identParts = this.getIdentParts();
-                var id = this.getId();
-
                 var contentVars = {type: type};
-                contentVars[identParts[1]] = id;
+
+                if (this.selectedItem) {
+                    var id = this.getId();
+                    contentVars[identParts[1]] = id;
+                }
 
                 if (this.queryParent) {
                     contentVars[this.queryParent] = this.query[this.queryParent];
@@ -259,9 +262,12 @@ dojo.extend(
                     var selects = dijit.registry.byClass("dijit.form.FilteringSelect");
                     selects.forEach(function(widget){
                         dojo.connect(widget, 'onClick', function(){
-                            this._startSearchAll();
+                            widget._startSearchAll();
                         });
-                    })
+                        dojo.connect(widget, 'onFocus', function(){
+                            widget._startSearchAll();
+                        });
+                    });
                 }));
             }
 
@@ -271,10 +277,12 @@ dojo.extend(
         processForm : function(form, url, type)
         {
             var identParts = this.getIdentParts();
-            var id = this.getId();
+             if (this.selectedItem) {
+                var id = this.getId();
+                form[identParts[1]] = id;
+            }
 
             form.cancel = null;
-            form[identParts[1]] = id;
             form.type = type;
 
             dojo.xhrPost({
@@ -311,6 +319,16 @@ dojo.extend(
                                 "onClick",
                                 dojo.hitch(this.dlg, 'hide')
                             );
+
+                            var selects = dijit.registry.byClass("dijit.form.FilteringSelect");
+                            selects.forEach(function(widget){
+                                dojo.connect(widget, 'onClick', function(){
+                                    widget._startSearchAll();
+                                });
+                                dojo.connect(widget, 'onFocus', function(){
+                                    widget._startSearchAll();
+                                });
+                            });
                         }),
                         onHide: dojo.hitch(this, function() {
                             this.dlg.destroyRecursive();
