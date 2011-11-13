@@ -49,13 +49,26 @@ class Power_Model_Mapper_Client extends BBA_Model_Mapper_Abstract
      */
     protected $_modelClass = 'Power_Model_Client';
 
-    public function save()
+    public function save($form)
     {
         if (!$this->checkAcl('save')) {
             throw new ZendSF_Acl_Exception('saving clients is not allowed.');
         }
 
-        return parent::save('clientSave');
+         $this->getDbTable()->getAdapter()->beginTransaction();
+
+        try {
+            // check to see if form is edit or add.
+            $save = parent::save('clientSave');
+
+
+            $this->getDbTable()->getAdapter()->commit();
+        } catch (Exception $e) {
+            $this->getDbTable()->getAdapter()->rollBack();
+            return 0;
+        }
+
+        return $save;
     }
 
     /**

@@ -44,16 +44,32 @@
 
         <div data-dojo-type="dijit.layout.ContentPane"
              data-dojo-props="region: 'center', title: 'Client Addresses'">
-            <?php echo $this->partial('client-address/_table.phtml', array(
-                'idClient' => $this->client->id
-            )); ?>
-        </div>
 
-        <div data-dojo-type="dijit.layout.ContentPane"
-             data-dojo-props="region: 'center', title: 'Client Contacts'">
-            <?php echo $this->partial('client-contact/_table.phtml', array(
-                'idClient' => $this->client->id
-            )); ?>
+            <span dojoType="dojox.data.QueryReadStore"
+                  jsid="clientAddressStore<?php echo $this->client->id; ?>"
+                  url="/client-address/client-address-store"
+                  requestMethod="post"></span>
+
+            <table dojoType="dojox.grid.DataGrid"
+                   jsId="addressGrid<?php echo $this->client->id; ?>"
+                   store="clientAddressStore<?php echo $this->client->id; ?>"
+                   query="{ clientAd_idClient: <?php echo $this->client->id; ?> }"
+                   queryParent="clientAd_idClient"
+                   sortInfo="2"
+                   tabs="true"
+                   tabTitleColumn="clientAd_addressName">
+                <thead>
+                    <tr>
+                        <th field="clientAd_idAddress" width="50">Id</th>
+                        <th field="clientAd_addressName" width="250">Address Name</th>
+                        <th field="clientAd_address1" width="300">Address 1</th>
+                        <th field="clientAd_address2" width="200">Address 2</th>
+                        <th field="clientAd_address3" width="100">Address 3</th>
+                        <th field="clientAd_postcode" width="100">Postcode</th>
+                        <th field="" width="auto"></th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
 </div>
