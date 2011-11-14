@@ -1,6 +1,6 @@
 <?php
 /**
- * Save.php
+ * Add.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Form Class Save.
+ * Form Class Add.
  *
  * @category   BBA
  * @package    Power
@@ -37,48 +37,40 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Client_Save extends ZendSF_Form_Abstract
+class Power_Form_Client_Add extends ZendSF_Form_Abstract
 {
     public function init()
     {
-        //$this->setName('client');
+        $this->getView()->request['clientCo_idClient'] = '';
 
-        $this->setAttrib('enctype', 'multipart/form-data');
+        $clientForm = new Power_Form_Client_Save();
+        $clientAdForm = new Power_Form_Client_Address_Save();
+        $clientCoForm = new Power_Form_Client_Contact_Save();
 
-        $this->addElement('ValidationTextBox', 'client_name', array(
-            'label'     => 'Client Name:',
-            'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
+        /**
+         * Add Client form elements
+         */
+        $this->addElement($clientForm->getElement('client_name'));
+        $this->addElement($clientForm->getElement('client_dateExpiryLoa'));
 
-/*        $this->addElement('file','client_docLoa', array(
-            'label' => 'Upload Letter of Authority:',
-            'destination' => realpath(APPLICATION_PATH . '/../data/loa'),
-            'validators' => array(
-                array('Count', false, array(1)),
-                array('Size', false, array(1048576*5)),
-                array('Extension', false, array('pdf')),
-            ),
-            'decorators' => $this->_fileDecorators
-        ));
-*/
+        /**
+         * Add Client Address form Elements
+         */
+        $this->addElement($clientAdForm->getElement('clientAd_address1'));
+        $this->addElement($clientAdForm->getElement('clientAd_address2'));
+        $this->addElement($clientAdForm->getElement('clientAd_address3'));
+        $this->addElement($clientAdForm->getElement('clientAd_postcode'));
 
-
-        $this->addElement('TextBox', 'client_dateExpiryLoa', array(
-            'label'     => 'LoA Expiry Date:',
-            'formatLength'   => 'short',
-            'filters'   => array('StripTags', 'StringTrim'),
-            'validators'    => array(
-                array('Date', true, array(
-                    'format' => 'dd/MM/yyyy'
-                ))
-            )
-        ));
+        /**
+         * Add Client Contact form Elements
+         */
+        $this->addElement($clientCoForm->getElement('clientCo_type'));
+        $this->addElement($clientCoForm->getElement('clientCo_name'));
+        $this->addElement($clientCoForm->getElement('clientCo_phone'));
+        $this->addElement($clientCoForm->getElement('clientCo_email'));
 
         $auth = Zend_Auth::getInstance()->getIdentity();
-
         $this->addHiddenElement('userId', $auth->getId());
-        $this->addHiddenElement('client_idClient', '');
 
     }
 }

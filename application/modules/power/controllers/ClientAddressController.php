@@ -127,7 +127,7 @@ class Power_ClientAddressController extends BBA_Controller_Action_Abstract
                 'html'  => $html
             );
         } else {
-            $saved = $this->_model->save();
+            $saved = $this->_model->save('clientAddressSave');
 
             $returnJson = array(
                 'saved' => $saved

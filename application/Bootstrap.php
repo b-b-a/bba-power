@@ -219,7 +219,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $this->_view->headLink()
             ->prependStylesheet('/js/release/dojo/dijit/themes/claro/claro.css')
             ->prependStylesheet('/js/release/dojo/dojox/grid/resources/Grid.css')
-            ->prependStylesheet('/js/release/dojo/dojox/grid/resources/claroGrid.css');
+            ->prependStylesheet('/js/release/dojo/dojox/grid/resources/claroGrid.css')
+            ->prependStylesheet('/js/release/dojo/dojox/widget/Wizard/Wizard.css');
 
         $this->_view->headTitle('BBA Power')->setSeparator(' - ');
     }

@@ -42,8 +42,17 @@ html, body {
 }
 
 .claro .tabContainer .dijitTabPaneWrapper,
-.claro .tabContainer .dijitTabContainerTop-tabs {
+.claro .tabContainer .dijitTabContainerTop-tabs,
+.claro .dojoxWizard {
     border: 0px;
+}
+
+.wizard {
+    margin-bottom: 25px;
+}
+
+#addClientWidget {
+    height: 200px;
 }
 
 .tabHeading {
