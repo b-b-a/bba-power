@@ -52,7 +52,7 @@ dojo.extend(
         tabTitle: '',
         tabTitleColumn : '',
         dialog : false,
-        dialogName : '',
+        dialogName : null,
         dlg : null,
         queryParent : '',
         newButtonId : null,
@@ -230,6 +230,7 @@ dojo.extend(
                 }
 
                 this.dlg = new dijit.Dialog({
+                    id: type + identParts[0],
                     title: (this.dialogName) ? this.dialogName :
                         this.capitalize(type + ' ' + this.hyphenate(identParts[0]).replace('-', ' ')),
                     style: "width:500px;",
@@ -249,6 +250,10 @@ dojo.extend(
                     onHide: dojo.hitch(this, function() {
                         this.dlg.destroyRecursive();
                         this.dlg = null;
+                    }),
+                    onShow: dojo.hitch(this.dlg, function(){
+                        this.set("dimensions", [400, 200]);
+                        this.layout();
                     })
                 });
 
@@ -282,7 +287,7 @@ dojo.extend(
                 form[identParts[1]] = id;
             }
 
-            form.cancel = null;
+            if (form.cancel) form.cancel = null;
             form.type = type;
 
             dojo.xhrPost({
@@ -299,7 +304,8 @@ dojo.extend(
                       }
                   } else {
                       this.dlg = new dijit.Dialog({
-                        title: this.dialogName,
+                        title: (this.dialogName) ? this.dialogName :
+                        this.capitalize(type + ' ' + this.hyphenate(identParts[0]).replace('-', ' ')),
                         style: "width:500px;",
                         content: data.html,
                         execute: dojo.hitch(this, function() {

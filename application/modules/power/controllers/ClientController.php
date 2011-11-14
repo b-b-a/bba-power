@@ -61,6 +61,12 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
                 'module' => 'power'
             ));
 
+            $this->setForm('clientAdd', array(
+                'controller' => 'client' ,
+                'action' => 'save',
+                'module' => 'power'
+            ));
+
             // search form
             $this->setForm('clientSearch', array(
                 'controller' => 'client' ,
@@ -93,8 +99,8 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
         if ($this->_request->isXmlHttpRequest()
                 && $this->_request->getParam('type') == 'add'
                 && $this->_request->isPost()) {
-            $this->getForm('clientSave');
-            $this->render('ajax-form');
+
+            $this->render('add-form');
         } else {
             return $this->_helper->redirector('index', 'client');
         }
@@ -136,28 +142,57 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
 
         $this->_helper->viewRenderer->setNoRender(true);
 
-        // remove client_dateExpiryLoa if an empty string so that it can validate.
-        if ($this->_request->getParam('client_dateExpiryLoa') === '') {
-            $this->getForm('clientSave')->removeElement('client_dateExpiryLoa');
+        if ($this->_request->getParam('type') == 'edit') {
+            $render = 'ajax-form.phtml';
+            $form = 'clientSave';
+        } else {
+            $render = 'add-form.phtml';
+            $form = 'clientAdd';
         }
 
-        if (!$this->getForm('clientSave')->isValid($this->_request->getPost())) {
+        // remove client_dateExpiryLoa if an empty string so that it can validate.
+        if ($this->_request->getParam('client_dateExpiryLoa') === '') {
+            $client_dateExpiryLoaValidateRules = $this->getForm($form)
+                ->getElement('client_dateExpiryLoa')
+                ->getValidator('Date');
 
-            $html = $this->view->render('client/ajax-form.phtml');
+            $this->getForm($form)->getElement('client_dateExpiryLoa')
+                ->removeValidator('Date');
+        }
+
+        if (!$this->getForm($form)->isValid($this->_request->getPost())) {
+
+            if (isset($client_dateExpiryLoaValidateRules)) {
+                $this->getForm($form)
+                    ->getElement('client_dateExpiryLoa')
+                    ->addValidator($client_dateExpiryLoaValidateRules);
+            }
+
+            $html = $this->view->render('client/' . $render);
 
             $returnJson = array(
                 'saved' => 0,
                 'html'  => $html
             );
         } else {
-            $saved = $this->_model->save('clientSave');
+            if ($this->_request->getParam('type') == 'edit') {
+                $saved = $this->_model->save($form);
+            } else {
+                $saved = $this->_model->saveNewClient($form);
+            }
 
             $returnJson = array(
                 'saved' => $saved
             );
 
             if ($saved == 0) {
-                $html = $this->view->render('client/ajax-form.phtml');
+                if (isset($client_dateExpiryLoaValidateRules)) {
+                    $this->getForm($form)
+                        ->getElement('client_dateExpiryLoa')
+                        ->addValidator($client_dateExpiryLoaValidateRules);
+                }
+
+                $html = $this->view->render('client/' . $render);
                 $returnJson['html'] = $html;
             }
         }

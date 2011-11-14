@@ -49,26 +49,63 @@ class Power_Model_Mapper_Client extends BBA_Model_Mapper_Abstract
      */
     protected $_modelClass = 'Power_Model_Client';
 
+    public function saveNewClient($form)
+    {
+        if (!$this->checkAcl('save')) {
+            throw new ZendSF_Acl_Exception('saving clients is not allowed.');
+        }
+
+        $log = Zend_Registry::get('log');
+
+        $this->getDbTable()->getAdapter()->beginTransaction();
+
+        try {
+            $form = $this->getForm($form)->getValues();
+
+            // save client first.
+            $clientSave = $this->save($form);
+
+            // then save client address.
+            $clientAd = new Power_Model_Mapper_ClientAddress();
+            $form['clientAd_addressName'] = 'Main';
+            $form['clientAd_idClient'] = $clientSave;
+            $clientAdSave = $clientAd->save($form);
+
+            // now save client contact
+            $clientCo = new Power_Model_Mapper_ClientContact();
+            $form['clientCo_idClient'] = $clientSave;
+            $form['clientCo_idAddress'] = $clientAdSave;
+            $clientCoSave = $clientCo->save($form);
+
+            // now update client with address and contact ids.
+            $form['client_idClient'] = $clientSave;
+            $form['client_idAddress'] = $clientAdSave;
+            $form['client_idClientContact'] = $clientCoSave;
+            $clientSave = $this->save($form);
+
+
+            $log->info($form);
+
+
+            $this->getDbTable()->getAdapter()->commit();
+
+            $save = 1;
+        } catch (Exception $e) {
+            $log->info($e);
+            $this->getDbTable()->getAdapter()->rollBack();
+            return 0;
+        }
+
+        return $save;
+    }
+
     public function save($form)
     {
         if (!$this->checkAcl('save')) {
             throw new ZendSF_Acl_Exception('saving clients is not allowed.');
         }
 
-         $this->getDbTable()->getAdapter()->beginTransaction();
-
-        try {
-            // check to see if form is edit or add.
-            $save = parent::save('clientSave');
-
-
-            $this->getDbTable()->getAdapter()->commit();
-        } catch (Exception $e) {
-            $this->getDbTable()->getAdapter()->rollBack();
-            return 0;
-        }
-
-        return $save;
+        return parent::save($form);
     }
 
     /**

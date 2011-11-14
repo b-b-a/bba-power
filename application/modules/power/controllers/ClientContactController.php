@@ -125,7 +125,7 @@ class Power_ClientContactController extends BBA_Controller_Action_Abstract
                 'html'  => $html
             );
         } else {
-            $saved = $this->_model->save();
+            $saved = $this->_model->save('clientContactSave');
 
             $returnJson = array(
                 'saved' => $saved
