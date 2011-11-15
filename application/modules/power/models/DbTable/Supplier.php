@@ -74,6 +74,7 @@ class Power_Model_DbTable_Supplier extends Zend_Db_Table_Abstract
             ->from('supplier', array(
                 'supplier_idSupplier',
                 'supplier_name',
+                'supplier_nameShort',
                 'supplier_address1',
                 'supplier_postcode'
             ))
