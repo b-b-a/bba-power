@@ -61,7 +61,9 @@ class Power_Model_Mapper_Client extends BBA_Model_Mapper_Abstract
 
         try {
             $form = $this->getForm($form)->getValues();
-
+            /**
+             * TODO: must add checking on each stage.
+             */
             // save client first.
             $clientSave = $this->save($form);
 
@@ -82,10 +84,6 @@ class Power_Model_Mapper_Client extends BBA_Model_Mapper_Abstract
             $form['client_idAddress'] = $clientAdSave;
             $form['client_idClientContact'] = $clientCoSave;
             $clientSave = $this->save($form);
-
-
-            $log->info($form);
-
 
             $this->getDbTable()->getAdapter()->commit();
 

@@ -1,22 +1,21 @@
 <?php $form = $this->clientAddForm; ?>
 <div id="addClientWidget"
      data-dojo-type="dojox.widget.Wizard"
-     data-dojo-props="doneButtonLabel: 'Save'">
+     data-dojo-props="doneButtonLabel: 'Save', style: 'height:auto;'">
 
     <div class="form_wrap wizard">
         <div data-dojo-type="dojox.widget.WizardPane"
-             data-dojo-props=""
+             data-dojo-props="style: 'height:100px;'"
              class="zend_form">
 
             <?php echo $form->client_name; ?>
 
             <?php echo $form->client_dateExpiryLoa; ?>
-
         </div>
 
         <div id="addClientWidgetPane1"
             data-dojo-type="dojox.widget.WizardPane"
-             data-dojo-props=""
+             data-dojo-props="dstyle: 'height:230px;'"
              class="zend_form">
 
             <?php echo $form->clientAd_address1; ?>
@@ -30,7 +29,7 @@
         </div>
 
         <div data-dojo-type="dojox.widget.WizardPane"
-             data-dojo-props=""
+             data-dojo-props="style: 'height:230px;'"
              class="zend_form">
 
             <?php echo $form->clientCo_type; ?>
@@ -55,7 +54,6 @@
                 clientGrid.processForm(vals, '/client/save', 'add');
                 clientGrid._refresh();
             </script>
-
         </div>
     </div>
     <script type="dojo/method" event="cancelFunction">

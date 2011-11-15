@@ -56,22 +56,22 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
             $this->_model = new Power_Model_Mapper_Client();
 
             $this->setForm('clientSave', array(
-                'controller' => 'client' ,
-                'action' => 'save',
-                'module' => 'power'
+                'controller'    => 'client' ,
+                'action'        => 'save',
+                'module'        => 'power'
             ));
 
             $this->setForm('clientAdd', array(
-                'controller' => 'client' ,
-                'action' => 'save',
-                'module' => 'power'
+                'controller'    => 'client' ,
+                'action'        => 'save',
+                'module'        => 'power'
             ));
 
             // search form
             $this->setForm('clientSearch', array(
-                'controller' => 'client' ,
-                'action' => 'index',
-                'module' => 'power'
+                'controller'    => 'client' ,
+                'action'        => 'index',
+                'module'        => 'power'
             ));
 
             $this->_setSearch(array(
@@ -150,7 +150,8 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
             $form = 'clientAdd';
         }
 
-        // remove client_dateExpiryLoa if an empty string so that it can validate.
+        // remove client_dateExpiryLoa validation rules
+        // if an empty string so that it can validate.
         if ($this->_request->getParam('client_dateExpiryLoa') === '') {
             $client_dateExpiryLoaValidateRules = $this->getForm($form)
                 ->getElement('client_dateExpiryLoa')

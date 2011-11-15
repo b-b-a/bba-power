@@ -52,7 +52,7 @@ html, body {
 }
 
 #addClientWidget {
-    height: 200px;
+    /*height: 200px;*/
 }
 
 .tabHeading {
@@ -105,6 +105,10 @@ p {
 
 table {
 	margin-bottom: 10px;
+}
+
+.id_number {
+    font-size: .75em;
 }
 
 /**
@@ -222,6 +226,7 @@ table {
     text-align: right;
     width: 200px;
     margin-right: 5px;
+    margin-bottom: 1px;
 }
 /*    see  #Search .search
 label.search {
@@ -282,6 +287,15 @@ input[class=search] {
 
 .errors {
     text-align: right;
+}
+
+/*
+Form overrides.
+*/
+
+.site_edit .label,
+.meter_edit .label {
+    width: 100px;
 }
 
 #loginWrap {

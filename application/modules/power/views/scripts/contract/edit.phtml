@@ -1,107 +1,138 @@
-<?php
-	$this->title = "BBA Contract Update";
-	$this->headTitle($this->title);
-?>
-<div class="ident alpha">
-    <?php if ($this->previousContract instanceof Power_Model_Contract): ?>
-    <p><b>Previous Contract Ref:</b> <?php echo $this->escape(
-            $this->previousContract->reference
-    ); ?></p>
-    <p><b>Previous End Date:</b> <?php echo $this->escape(
-            $this->previousContract->dateEnd->toString('dd/MM/yyyy')
-    ); ?></p>
-    <?php else: ?>
-    <p><b>No Previous Contract</b></p>
-    <?php endif; ?>
+<div data-dojo-type="dijit.layout.BorderContainer"
+     data-dojo-props="design: 'headline'"
+     class="tabContainer">
+
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'top'">
+        <div class="tabHeading">
+
+            <div class="form_wrap zend_form contract_edit ident alpha"
+                 dojoType="dijit.form.Form"
+                 id="edit-contract-<?php echo $this->contract->id; ?>">
+                <h3>Site Details</h3>
+                <div class="form_row">
+                    <p class="label"><b>Client:</b></p>
+                    <p>&nbsp;</p>
+                </div>
+                <div class="form_row">
+                    <p class="label"><b>Address:</b></p>
+                    <p>&nbsp;</p>
+                </div>
+                 <div class="form_row">
+                    <p class="label"><b>Billing Address:</b></p>
+                    <p>&nbsp;</p>
+                </div>
+                 <div class="form_row">
+                    <p class="label"><b>Client Contact:</b></p>
+                    <p>&nbsp;</p>
+                </div>
+
+                <button dojoType="dijit.form.Button"
+                    type="submit"
+                    name="edit-contract-button-<?php echo $this->contract->id; ?>"
+                    value="submit">Edit Details</button>
+            </div>
+
+            <div class="ident">
+                <?php if ($this->previousContract instanceof Power_Model_Contract): ?>
+                <p><b>Previous Contract Ref:</b> <?php echo $this->escape(
+                        $this->previousContract->reference
+                ); ?></p>
+                <p><b>Previous End Date:</b> <?php echo $this->escape(
+                        $this->previousContract->dateEnd->toString('dd/MM/yyyy')
+                ); ?></p>
+                <?php else: ?>
+                <p><b>No Previous Contract</b></p>
+                <?php endif; ?>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="tableHead">
+                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <p class="tableHead-button">
+                    <button dojoType="dijit.form.Button"
+                            id="new-meter-button-<?php echo $this->contract->id; ?>"
+                            type="button">New Meter</button>
+                </p>
+                <p class="tableHead-button">
+                    <button dojoType="dijit.form.Button"
+                            id="new-tender-button-<?php echo $this->contract->id; ?>"
+                            type="button">New Tender</button>
+                </p>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <div id="ContractTabs<?php echo $this->contract->id; ?>"
+         data-dojo-type="dijit.layout.TabContainer"
+         data-dojo-props="region: 'center', tabStrip: 'true'"
+         class="innerTabs">
+
+        <div data-dojo-type="dijit.layout.ContentPane"
+             data-dojo-props="region: 'center', title: 'Meters'">
+
+            <span dojoType="dojox.data.QueryReadStore"
+                 jsid="meterStore<?php echo $this->contract->id; ?>"
+                 url="/meter/meter-contract-store"
+                 requestMethod="post"></span>
+
+            <table dojoType="dojox.grid.DataGrid"
+                   jsId="meterGrid<?php echo $this->contract->id; ?>"
+                   store="meterStore<?php echo $this->contract->id; ?>"
+                   query="{ meterContract_idContract: <?php echo $this->contract->id; ?> }"
+                   queryParent="meterContract_idContract"
+                   sortInfo="-3"
+                   tabs="true"
+                   tabTitleColumn="meter_numberMain">
+                <thead>
+                    <tr>
+                        <th field="meter_idMeter" width="50">Id</th>
+                        <th field="clientCo_name" width="150">Client Contact</th>
+                        <th field="clientAd_addressName" width="300">Address</th>
+                        <th field="clientAd_postcode" width="100">Postcode</th>
+                        <th field="meter_numberMain" width="150">Number Main</th>
+                        <th field="" width="auto"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+
+        <div data-dojo-type="dijit.layout.ContentPane"
+             data-dojo-props="region: 'center', title: 'Tenders'">
+
+            <span dojoType="dojox.data.QueryReadStore"
+                 jsid="tenderStore"
+                 url="/tender/tender-store"
+                 requestMethod="post"></span>
+
+            <table dojoType="dojox.grid.DataGrid"
+                   jsId="tenderGrid"
+                   store="tenderStore"
+                   query="{ tender_idContract: <?php echo $this->contract->id; ?> }"
+                   sortInfo="1"
+                   queryParent="tender_idContract"
+                   sortInfo="-3"
+                   tabs="true"
+                   tabTitleColumn="supplier_name">
+                <thead>
+                    <tr>
+                        <th field="tender_idTender" width="50">Id</th>
+                        <th field="supplier_name" width=150">Supplier</th>
+                        <th field="supplierCo_name" width="150">Supplier Contact</th>
+                        <th field="supplier_phone" width="100">Phone</th>
+                        <th field="tender_periodContract" width="100">Contract Period</th>
+                        <th field="tender_dateExpiresQuote" width="100">Quote Expires</th>
+                        <th field="tender_chargeStanding" width="100">Standing Charge</th>
+                        <th field="tender_priceUnitDay" width="100">Day Rate</th>
+                        <th field="tender_priceUnitNight" width="100">Night Rate</th>
+                        <th field="tender_priceUnitOther" width="100">Other Rate</th>
+                        <th field="" width="auto"></th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+    </div>
 </div>
-
-<div class="form_wrap ident">
-    <?php echo $this->contractSaveForm; ?>
-</div>
-
-<div class="clear"></div>
-
-<?php echo $this->partial('_table-head.phtml', array(
-    'heading'   => 'Meters',
-    'label'     => 'New Meter',
-    'location'  => $this->url(array(
-        'controller'    => 'contract',
-        'action'        => 'add-meter',
-        'contractId'    => $this->contract->id
-    ),'default', true)
-)); ?>
-
-<div dojoType="dojox.data.QueryReadStore"
-     jsid="meterStore"
-     url="/meter/meter-contract-store"
-     requestMethod="post"></div>
-
-<table dojoType="dojox.grid.DataGrid"
-       jsId="meterGrid"
-       store="meterStore"
-       query="{ meterContract_idContract: <?php echo $this->contract->id; ?> }"
-       sortInfo="1"
-       style="margin:auto;"
-       autoWidth="false"
-       autoHeight="20"
-       selectionMode="single"
-       rowSelector="0px"
-       rowsPerPage="25"
-       clientSort="true"
-       noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
-    <thead>
-        <tr>
-            <th field="meter_idMeter" width="75">Id</th>
-            <th field="clientCo_name" width="150">Client Contact</th>
-            <th field="clientAd_addressName" width="300">Address</th>
-            <th field="clientAd_postcode" width="100">Postcode</th>
-            <th field="meter_numberMain" width="150">Number Main</th>
-            <th field="" width="auto"></th>
-        </tr>
-    </thead>
-</table>
-
-<?php echo $this->partial('_table-head.phtml', array(
-    'heading'   => 'Tenders',
-    'label'     => 'New Tender',
-    'location'  => $this->url(array(
-        'controller'    => 'contract',
-        'action'        => 'add-tender',
-        'contractId'    => $this->contract->id
-    ),'default', true)
-)); ?>
-
-<div dojoType="dojox.data.QueryReadStore"
-     jsid="tenderStore"
-     url="/tender/tender-store"
-     requestMethod="post"></div>
-
-<table dojoType="dojox.grid.DataGrid"
-       jsId="tenderGrid"
-       store="tenderStore"
-       query="{ tender_idContract: <?php echo $this->contract->id; ?> }"
-       sortInfo="1"
-       style="margin:auto;"
-       autoWidth="false"
-       autoHeight="20"
-       selectionMode="single"
-       rowSelector="0px"
-       rowsPerPage="25"
-       clientSort="true"
-       noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
-    <thead>
-        <tr>
-            <th field="tender_idTender" width="75">Id</th>
-            <th field="supplier_name" width=150">Supplier</th>
-            <th field="supplierCo_name" width="150">Supplier Contact</th>
-            <th field="supplier_phone" width="100">Phone</th>
-            <th field="tender_periodContract" width="100">Contract Period</th>
-            <th field="tender_dateExpiresQuote" width="100">Quote Expires</th>
-            <th field="tender_chargeStanding" width="100">Standing Charge</th>
-            <th field="tender_priceUnitDay" width="100">Day Rate</th>
-            <th field="tender_priceUnitNight" width="100">Night Rate</th>
-            <th field="tender_priceUnitOther" width="100">Other Rate</th>
-            <th field="" width="auto"></th>
-        </tr>
-    </thead>
-</table>

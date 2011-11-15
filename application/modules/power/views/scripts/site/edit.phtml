@@ -5,21 +5,11 @@
     <div data-dojo-type="dijit.layout.ContentPane"
          data-dojo-props="region: 'top'">
         <div class="tabHeading">
-            <div class="ident alpha">
-                <p><?php echo $this->escape($this->site->client_name); ?> </p>
-                <p><?php echo $this->escape($this->site->clientAd_addressName); ?></p>
-                <p><?php echo $this->formatAddress(array(
-                    $this->escape($this->site->clientAd_address1),
-                    $this->escape($this->site->clientAd_address2),
-                    $this->escape($this->site->clientAd_address3),
-                    $this->escape($this->site->clientAd_postcode)
-                )); ?></p>
-            </div>
 
-            <div class="form_wrap zend_form ident"
+            <div class="form_wrap zend_form site_edit ident alpha"
                  dojoType="dijit.form.Form"
                  id="edit-site-<?php echo $this->site->id; ?>">
-                <h2>Site Details</h2>
+                <h3>Site Details</h3>
                 <div class="form_row">
                     <p class="label"><b>Client:</b></p>
                     <p>&nbsp;<?php echo $this->site->client_name; ?></p>
@@ -41,6 +31,17 @@
                     type="submit"
                     name="edit-site-button-<?php echo $this->site->id; ?>"
                     value="submit">Edit Details</button>
+            </div>
+
+            <div class="ident">
+                <p><?php echo $this->escape($this->site->client_name); ?> </p>
+                <p><?php echo $this->escape($this->site->clientAd_addressName); ?></p>
+                <p><?php echo $this->formatAddress(array(
+                    $this->escape($this->site->clientAd_address1),
+                    $this->escape($this->site->clientAd_address2),
+                    $this->escape($this->site->clientAd_address3),
+                    $this->escape($this->site->clientAd_postcode)
+                )); ?></p>
             </div>
 
             <div class="clear"></div>
@@ -76,11 +77,11 @@
                    query="{ meter_idSite: <?php echo $this->site->id; ?> }"
                    queryParent="meter_idSite"
                    sortInfo="-3"
-                   dialog="true"
-                   dialogName="Edit Meter">
+                   tabs="true"
+                   tabTitleColumn="meter_numberMain">
                 <thead>
                     <tr>
-                        <th field="meter_idMeter" width="75">Id</th>
+                        <th field="meter_idMeter" width="50">Id</th>
                         <th field="meter_type" width="100">Type</th>
                         <th field="meter_numberSerial" width="200">Number Serial</th>
                         <th field="meter_numberMain" width="200">Number Main</th>
