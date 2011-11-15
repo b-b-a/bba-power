@@ -83,9 +83,9 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
             ->join('client_address', 'clientAd_idAddress = site_idAddress')
             ->join('client', 'client_idClient = site_idClient')
             ->joinLeft('client_contact', 'client_idClientContact = clientCo_idClientContact')
-            ->join('meter_contract', 'meter_idMeter = meterContract_idMeter')
-            ->join('contract', 'meterContract_idContract = contract_idContract')
-            ->join('tender', 'contract_idTenderSelected = tender_idTender')
+            ->joinLeft('meter_contract', 'meter_idMeter = meterContract_idMeter')
+            ->joinLeft('contract', 'meterContract_idContract = contract_idContract')
+            ->joinLeft('tender', 'contract_idTenderSelected = tender_idTender')
             ->joinLeft('supplier', 'tender_idSupplier = supplier_idSupplier');
     }
 
