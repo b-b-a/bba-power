@@ -71,7 +71,7 @@
                  url="/meter/site-meter-store"
                  requestMethod="post"></span>
 
-            <table dojoType="dojox.grid.DataGrid"
+            <table dojoType="bba.DataGrid"
                    jsId="meterGrid<?php echo $this->site->id; ?>"
                    store="meterStore<?php echo $this->site->id; ?>"
                    query="{ meter_idSite: <?php echo $this->site->id; ?> }"

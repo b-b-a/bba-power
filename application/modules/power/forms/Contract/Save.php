@@ -57,22 +57,26 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'storeId'       => 'clientStore',
             'storeType'     => 'dojo.data.ItemFileReadStore',
             'storeParams'   => array('url' => "/site/autocomplete/param/client"),
-            'dijitParams'   => array('searchAttr' => 'client_name'),
+            'dijitParams'   => array(
+                'searchAttr'    => 'client_name',
+                'promptMessage' => 'Select a Client'
+            ),
             //'attribs'       => array('readonly' => true),
-            'required'      => true
+            'required'      => true,
+            'value'         => ''
         ));
 
         $this->addElement('TextBox', 'contract_idTenderSelected', array(
             'label'     => 'Tender Selected:',
-            'required'  => true,
-            'attribs'       => array('disabled' => true),
+            'required'  => false,
+            'attribs'   => array('disabled' => true),
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
         $this->addElement('TextBox', 'contract_idSupplierContactSelected', array(
             'label'     => 'Supplier Contact Selected:',
-            'required'  => true,
-            'attribs'       => array('disabled' => true),
+            'required'  => false,
+            'attribs'   => array('disabled' => true),
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
@@ -92,6 +96,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
 
         $table = new Power_Model_Mapper_Tables();
         $list = $table->getSelectListByName('contract_type');
+        $multiOptions = array(0 => 'Select type');
         foreach($list as $row) {
             $multiOptions[$row->key] = $row->value;
         }
@@ -104,7 +109,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'required'      => true,
         ));
 
-        $multiOptions = array();
+        $multiOptions = array(0 => 'Select a status');
 
         $list = $table->getSelectListByName('contract_status');
         foreach($list as $row) {
@@ -179,18 +184,11 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $auth = Zend_Auth::getInstance()
-            ->getIdentity();
+        $auth = Zend_Auth::getInstance()->getIdentity();
 
         $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('contract_idContract', '');
         $this->addHiddenElement('contract_idContractPrevious', '');
-
-        if ($auth->role == 'admin') {
-            $this->addSubmit('Save');
-        }
-
-        $this->addSubmit('Cancel', 'cancel');
     }
 
 }

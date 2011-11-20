@@ -5,7 +5,7 @@
     <div data-dojo-type="dijit.layout.ContentPane"
          data-dojo-props="region: 'top'">
         <div class="tabHeading">
-            <div class="form_wrap zend_form ident"
+            <div class="form_wrap zend_form client_edit ident alpha"
                  dojoType="dijit.form.Form"
                  id="edit-client-<?php echo $this->client->id; ?>">
                 <h3>Client Details</h3>
@@ -29,7 +29,7 @@
                 <?php if ($this->authInfo('role') == 'admin'): ?>
                 <p class="tableHead-button">
                     <button dojoType="dijit.form.Button"
-                            id="new-clientAd-button-<?php echo $this->client->id; ?>"
+                            id="new-client-address-button-<?php echo $this->client->id; ?>"
                             type="button">New Address</button>
                 </p>
                 <?php endif; ?>
@@ -50,7 +50,7 @@
                   url="/client-address/client-address-store"
                   requestMethod="post"></span>
 
-            <table dojoType="dojox.grid.DataGrid"
+            <table dojoType="bba.DataGrid"
                    jsId="addressGrid<?php echo $this->client->id; ?>"
                    store="clientAddressStore<?php echo $this->client->id; ?>"
                    query="{ clientAd_idClient: <?php echo $this->client->id; ?> }"

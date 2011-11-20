@@ -1,0 +1,49 @@
+<?php $form = $this->contractSaveForm; ?>
+
+<div class="form_wrap">
+    <div class="zend_form">
+
+        <?php echo $form->contract_idClient; ?>
+
+        <?php echo $form->contract_reference; ?>
+
+        <?php echo $form->contract_numberCustomer; ?>
+
+        <?php echo $form->contract_type; ?>
+
+        <?php echo $form->contract_status; ?>
+
+        <?php echo $form->contract_dateStart; ?>
+
+        <?php echo $form->contract_dateEnd; ?>
+
+        <?php echo $form->contract_periodBill; ?>
+
+        <?php echo $form->contract_desc; ?>
+
+        <?php echo $form->contract_txtTenderRequest; ?>
+
+        <?php echo $form->contract_docAnalysis; ?>
+
+        <?php echo $form->contract_docTermination; ?>
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="userId"
+               id="userId"
+               required="true"
+               value="<?php echo $form->userId->getValue(); ?>" />
+
+        <button dojoType="dijit.form.Button"
+                type="submit"
+                id="contractFormSubmitButton"
+                name="submit"
+                value="Save">Save</button>
+
+        <button dojoType="dijit.form.Button"
+                type="button"
+                id="contractFormCancelButton"
+                name="cancel"
+                value="Cancel">Cancel</button>
+    </div>
+</div>

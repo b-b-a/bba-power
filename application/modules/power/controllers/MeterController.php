@@ -100,14 +100,6 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
         return $this->_getAjaxDataStore('getMetersBySiteId' ,'meter_idMeter', true);
     }
 
-    public function meterContractStoreAction()
-    {
-        unset($this->_search);
-        $this->_setSearch(array('meterContract_idContract'));
-
-        return $this->_getAjaxDataStore('getMetersByContractId' ,'meter_idMeter', true);
-    }
-
     public function addAction()
     {
         if ($this->_request->isXmlHttpRequest()
@@ -159,7 +151,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
                 'html'  => $html
             );
         } else {
-            $saved = $this->_model->save();
+            $saved = $this->_model->save('meterSave');
 
             $returnJson = array(
                 'saved' => $saved

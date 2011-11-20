@@ -41,7 +41,7 @@
                 <?php if ($this->authInfo('role') == 'admin'): ?>
                 <p class="tableHead-button">
                     <button dojoType="dijit.form.Button"
-                            id="new-clientCo-button-<?php echo $this->clientAd->id; ?>"
+                            id="new-client-contact-button-<?php echo $this->clientAd->id; ?>"
                             type="button">New Contact</button>
                 </p>
                 <?php endif; ?>
@@ -62,7 +62,7 @@
                   url="/client-contact/client-contact-store"
                   requestMethod="post"></span>
 
-            <table dojoType="dojox.grid.DataGrid"
+            <table dojoType="bba.DataGrid"
                    jsId="contactGrid<?php echo $this->clientAd->idClient; ?>"
                    store="clientContactStore<?php echo $this->clientAd->idClient; ?>"
                    query="{ clientCo_idClient: <?php echo $this->clientAd->idClient; ?> }"
