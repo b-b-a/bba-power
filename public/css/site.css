@@ -52,7 +52,9 @@ html, body {
 }
 
 #addClientWidget {
-    /*height: 200px;*/
+    width: 350px;
+    height:auto;
+    margin: auto;
 }
 
 .tabHeading {
@@ -292,6 +294,11 @@ input[class=search] {
 /*
 Form overrides.
 */
+
+.client_edit .label,
+.client_edit label {
+    width: 110px;
+}
 
 .site_edit .label,
 .meter_edit .label {

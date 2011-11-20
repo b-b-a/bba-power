@@ -81,7 +81,7 @@
                  url="/usage/usage-store"
                  requestMethod="post"></span>
 
-            <table dojoType="dojox.grid.DataGrid"
+            <table dojoType="bba.DataGrid"
                    jsId="usageGrid<?php echo $this->meter->id; ?>"
                    store="usageStore<?php echo $this->meter->id; ?>"
                    query="{ usage_idMeter: <?php echo $this->meter->id; ?> }"

@@ -53,7 +53,7 @@
                   url="/supplier/supplier-contract-store"
                   requestMethod="post"></span>
 
-            <table dojoType="dojox.grid.DataGrid"
+            <table dojoType="bba.DataGrid"
                    jsId="contractGrid"
                    store="contractStore"
                    query="{ tender_idSupplier: <?php echo $this->supplier->idSupplier; ?> }"
@@ -80,7 +80,7 @@
                   url="/supplier/supplier-contact-store"
                   requestMethod="post"></span>
 
-            <table dojoType="dojox.grid.DataGrid"
+            <table dojoType="bba.DataGrid"
                    jsId="contactGrid"
                    store="contactStore"
                    query="{ supplierCo_idSupplier: <?php echo $this->supplier->idSupplier; ?> }"

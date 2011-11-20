@@ -1,12 +1,12 @@
 <?php $form = $this->clientAddForm; ?>
 <div id="addClientWidget"
      data-dojo-type="dojox.widget.Wizard"
-     data-dojo-props="doneButtonLabel: 'Save', style: 'height:auto;'">
+     data-dojo-props="doneButtonLabel: 'Save'">
 
     <div class="form_wrap wizard">
         <div data-dojo-type="dojox.widget.WizardPane"
              data-dojo-props="style: 'height:100px;'"
-             class="zend_form">
+             class="zend_form client_edit">
 
             <?php echo $form->client_name; ?>
 
@@ -16,7 +16,7 @@
         <div id="addClientWidgetPane1"
             data-dojo-type="dojox.widget.WizardPane"
              data-dojo-props="dstyle: 'height:230px;'"
-             class="zend_form">
+             class="zend_form client_edit">
 
             <?php echo $form->clientAd_address1; ?>
 
@@ -30,7 +30,7 @@
 
         <div data-dojo-type="dojox.widget.WizardPane"
              data-dojo-props="style: 'height:230px;'"
-             class="zend_form">
+             class="zend_form client_edit">
 
             <?php echo $form->clientCo_type; ?>
 

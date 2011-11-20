@@ -9,22 +9,33 @@
             <div class="form_wrap zend_form contract_edit ident alpha"
                  dojoType="dijit.form.Form"
                  id="edit-contract-<?php echo $this->contract->id; ?>">
-                <h3>Site Details</h3>
+                <h3>Contract Details</h3>
                 <div class="form_row">
                     <p class="label"><b>Client:</b></p>
-                    <p>&nbsp;</p>
+                    <p>&nbsp;<?php echo $this->contract->client_name; ?></p>
                 </div>
                 <div class="form_row">
-                    <p class="label"><b>Address:</b></p>
-                    <p>&nbsp;</p>
+                    <?php if ($this->previousContract instanceof Power_Model_Contract): ?>
+                    <p class="label"><b>Previous Contract Ref:</b></p>
+                    <p><?php echo $this->escape(
+                        $this->previousContract->reference
+                    ); ?></p>
+                    <p <p class="label"><b>Previous End Date:</b></p>
+                    <p><?php echo $this->escape(
+                        $this->previousContract->dateEnd->toString('dd/MM/yyyy')
+                    ); ?></p>
+                <?php else: ?>
+                <p <p class="label"><b>No Previous Contract</b></p>
+                <p>&nbsp;</p>
+                <?php endif; ?>
                 </div>
                  <div class="form_row">
-                    <p class="label"><b>Billing Address:</b></p>
-                    <p>&nbsp;</p>
+                    <p class="label"><b>Type:</b></p>
+                    <p>&nbsp;<?php echo $this->contract->type; ?></p>
                 </div>
                  <div class="form_row">
-                    <p class="label"><b>Client Contact:</b></p>
-                    <p>&nbsp;</p>
+                    <p class="label"><b>Status:</b></p>
+                    <p>&nbsp;<?php echo $this->contract->status; ?></p>
                 </div>
 
                 <button dojoType="dijit.form.Button"
@@ -33,31 +44,20 @@
                     value="submit">Edit Details</button>
             </div>
 
-            <div class="ident">
-                <?php if ($this->previousContract instanceof Power_Model_Contract): ?>
-                <p><b>Previous Contract Ref:</b> <?php echo $this->escape(
-                        $this->previousContract->reference
-                ); ?></p>
-                <p><b>Previous End Date:</b> <?php echo $this->escape(
-                        $this->previousContract->dateEnd->toString('dd/MM/yyyy')
-                ); ?></p>
-                <?php else: ?>
-                <p><b>No Previous Contract</b></p>
-                <?php endif; ?>
-            </div>
-
             <div class="clear"></div>
 
             <div class="tableHead">
                 <?php if ($this->authInfo('role') == 'admin'): ?>
                 <p class="tableHead-button">
                     <button dojoType="dijit.form.Button"
-                            id="new-meter-button-<?php echo $this->contract->id; ?>"
-                            type="button">New Meter</button>
+                            id="new-meterContract-button-<?php echo $this->contract->id; ?>"
+                            class="newButton"
+                            type="button">Add Meters</button>
                 </p>
                 <p class="tableHead-button">
                     <button dojoType="dijit.form.Button"
                             id="new-tender-button-<?php echo $this->contract->id; ?>"
+                            class="newButton"
                             type="button">New Tender</button>
                 </p>
                 <?php endif; ?>
@@ -74,18 +74,21 @@
              data-dojo-props="region: 'center', title: 'Meters'">
 
             <span dojoType="dojox.data.QueryReadStore"
-                 jsid="meterStore<?php echo $this->contract->id; ?>"
-                 url="/meter/meter-contract-store"
+                 jsid="meterContractStore<?php echo $this->contract->id; ?>"
+                 url="/meter-contract/meter-contract-store"
                  requestMethod="post"></span>
 
-            <table dojoType="dojox.grid.DataGrid"
-                   jsId="meterGrid<?php echo $this->contract->id; ?>"
-                   store="meterStore<?php echo $this->contract->id; ?>"
+            <table dojoType="bba.DataGrid"
+                   jsId="meterContractGrid<?php echo $this->contract->id; ?>"
+                   store="meterContractStore<?php echo $this->contract->id; ?>"
                    query="{ meterContract_idContract: <?php echo $this->contract->id; ?> }"
                    queryParent="meterContract_idContract"
                    sortInfo="-3"
                    tabs="true"
-                   tabTitleColumn="meter_numberMain">
+                   tabController="meter"
+                   tabTitleColumn="meter_numberMain"
+                   newButtonId="<?php echo $this->contract->id; ?>"
+                   newButtonController="meterContract">
                 <thead>
                     <tr>
                         <th field="meter_idMeter" width="50">Id</th>
@@ -107,7 +110,7 @@
                  url="/tender/tender-store"
                  requestMethod="post"></span>
 
-            <table dojoType="dojox.grid.DataGrid"
+            <table dojoType="bba.DataGrid"
                    jsId="tenderGrid"
                    store="tenderStore"
                    query="{ tender_idContract: <?php echo $this->contract->id; ?> }"
@@ -115,7 +118,8 @@
                    queryParent="tender_idContract"
                    sortInfo="-3"
                    tabs="true"
-                   tabTitleColumn="supplier_name">
+                   tabTitleColumn="supplier_name"
+                   newButtonId="<?php echo $this->contract->id; ?>">
                 <thead>
                     <tr>
                         <th field="tender_idTender" width="50">Id</th>
