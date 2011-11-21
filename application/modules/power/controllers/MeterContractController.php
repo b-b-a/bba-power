@@ -91,6 +91,20 @@ class Power_MeterContractController extends BBA_Controller_Action_Abstract
 
     public function saveAction()
     {
+        if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
+            return $this->_helper->redirector('index', 'contract');
+        }
 
+        $this->_helper->viewRenderer->setNoRender(true);
+
+        $data = Zend_Json::decode($this->_request->getPost('jsonData'));
+
+        $saved = $this->_model->save($data);
+
+        $returnJson = array('saved' => $saved);
+
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($returnJson));
     }
 }

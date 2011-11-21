@@ -79,7 +79,7 @@
                  requestMethod="post"></span>
 
             <table dojoType="bba.DataGrid"
-                   jsId="meterContractGrid<?php echo $this->contract->id; ?>"
+                   id="meterContractGrid<?php echo $this->contract->id; ?>"
                    store="meterContractStore<?php echo $this->contract->id; ?>"
                    query="{ meterContract_idContract: <?php echo $this->contract->id; ?> }"
                    queryParent="meterContract_idContract"

@@ -1,19 +1,22 @@
-<span dojoType="dojo.data.ItemFileReadStore"
+<button dojoType="dijit.form.Button"
+        id="addMeterToContractButton"
+        type="button"
+        onClick="bba.Contract.addMeterToContract(contractMeterGrid, <?php echo $this->idContract; ?>);">Add to Contract</button>
+<div>&nbsp;</div>
+
+<span dojoType="dojo.data.ItemFileWriteStore"
       jsid="contractMeterStore"
       url="/meter-contract/store?meterContract_idContract=<?php echo $this->idContract; ?>"
       requestMethod="post"></span>
 
-<table dojoType="dojox.grid.DataGrid"
+<div dojoType="dojox.grid.DataGrid"
        jsId="contractMeterGrid"
        store="contractMeterStore"
-       query="{ }"
-       sortInfo="1"
-       style="width:100%;height:300px;">
-    <thead>
-        <tr>
-            <th field="meter_idMeter" width="50">Id</th>
-            <th field="meter_numberMain" width="150">Number Main</th>
-            <th field="" width="auto"></th>
-        </tr>
-    </thead>
-</table>
+       structure="bba.Contract.meterContractGridLayout"
+       query="{ meter_idMeter : '*' }"
+       clientSort="true"
+       selectionMode="multiple"
+       sortInfo="-5"
+       style="width:100%;height:300px;"
+       noDataMessage="<span class='dojoxGridNoData'>No meters available for this contract</span>">
+</div>

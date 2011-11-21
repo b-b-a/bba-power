@@ -54,7 +54,7 @@ bba.Site = {
         });
 
         this.addressStore.fetch();
-        
+
         dijit.byId("site_idAddress").store = this.addressStore;
     },
 
@@ -65,4 +65,4 @@ bba.Site = {
     }
 };
 
-dojo.require('bba.Site');
+//dojo.require('bba.Site');
