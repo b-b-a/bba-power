@@ -103,8 +103,6 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
 
         $contractMapper = new Power_Model_Mapper_Contract();
 
-        $this->getDbTable()->getAdapter()->beginTransaction();
-
         // get all meters that belong to client.
         // get the current contract.
         $select = $contractMapper->getDbTable()->select()
@@ -112,6 +110,7 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
 
         $contract = $contractMapper->fetchRow($select);
 
+        // get first part of contract status, the bit before the hyphon.
         $type = preg_replace('/-.+/', '', $contract->type);
 
         // get all client sites
@@ -127,6 +126,7 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
 
         $select = $siteMapper->getDbTable()->select();
 
+        // run through the list of sites and get their meters.
         foreach ($sites as $site) {
             $select->reset();
 
@@ -136,41 +136,47 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
                 $select->where('meter_type = ?', $type)
             );
 
+            // run through the list of meters,
+            // geting their attached contracts if any are attached to one.
             /* @var $row Zend_Db_Table_Row */
             foreach ($rowSet as $row) {
                 $select->reset();
 
-                // this should get the most recent contract attach to a meter.
+                // this should get the most recent contract attached to a meter.
                 $con = $row->findManyToManyRowset(
                     'Power_Model_DbTable_Contract',
                     'Power_Model_DbTable_MeterContract',
                     'meter',
-                    'contract'//,
-                    //$select->from('contract')->columns(array(
-                        //'contract_dateStart' => 'MAX(contract.contract_dateStart)'
-                    //))
+                    'contract',
+                    $select->order('contract_dateStart DESC')->limit(1)
                 );
 
-                //$log->info($con);
+                //$log->info($con->toArray());
 
                 $meterCo = new Power_Model_MeterContract($row);
                 $meterCo->setCols($this->getDbTable()->info('cols'));
+                $acceptedStatus = array('current', 'signed', 'selected', 'choosing');
 
-                foreach ($con as $value) {
-                    foreach($value as $key => $val) {
-                        $meterCo->$key = $val;
-                    }
-                }
+                if ($con->count() > 0) {
+                    $meterContract = $con->current()->toArray();
 
-                // if there is a contract, compare the end date
-                // if end date is earlier than new contract start date add to list
-                // if there is no contract add meter to list.
-                if ($meterCo->contract_dateEnd) {
-                    $curCo = new Zend_Date($contract->dateStart);
-                    $meterCoEndDate = new Zend_Date($meterCo->contract_dateEnd);
+                    // check accepted status
+                    if (in_array($meterContract['contract_status'], $acceptedStatus)) {
+                        $meterCoEndDate = new Zend_Date($meterContract['contract_dateEnd']);
 
-                    if ($meterCoEndDate->isEarlier($curCo)) {
-                        $meters[] = $meterCo;
+                        // check if date is earlier than current contract date.
+                        if ($meterCoEndDate->isEarlier($contract->dateStart)) {
+                            foreach($meterContract as $key => $val) {
+                                $meterCo->$key = $val;
+                            }
+                            // get kva data.
+                            $select = $this->getDbTable()->select()
+                                ->from('meter_contract', 'meterContract_kvaNominated')
+                                ->where('meterContract_idContract = ?', $meterCo->contract_idContract);
+                            $kva = $this->fetchRow($select);
+                            $meterCo->meterContract_kvaNominated = $kva->kvaNominated;
+                            $meters[] = $meterCo;
+                        }
                     }
                 } else {
                     $meters[] = $meterCo;
@@ -178,113 +184,61 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
             }
         }
 
-        $this->getDbTable()->getAdapter()->commit();
-
         //$log->info($meters);
         return $meters;
     }
-/*
-    public function getAvailClientMeters($id)
-    {
-        $log = Zend_Registry::get('log');
 
-        $select = $this->getDbTable()
-            ->select(false)
-            ->setIntegrityCheck(false)
-            ->from('contract')
-            ->where('contract_idContract = ?', $id);
-
-        $contract = $this->fetchRow($select, true)->toArray();
-        $select->reset();
-
-        $contractType = explode('-', $contract['contract_type']);
-
-        $log->info($contract);
-
-        $subQuery2 = $this->getDbTable()
-            ->select(false)
-            ->setIntegrityCheck(false)
-            ->from('meter', array('meter_idMeter'))
-            ->joinLeft('site', 'meter_idSite = site_idSite', null)
-            ->joinLeft('meter_contract', 'meter_idMeter = meterContract_idMeter', null)
-            ->joinLeft('contract', 'meterContract_idContract = contract_idContract', null)
-            ->where('site_idClient = ?', $contract['contract_idClient'])
-            ->where('meter_type = ?', $contractType[0])
-            ->where('contract_status IN (?)', array('current', 'signed', 'selected', 'choose'))
-            ->where('CAST(? AS DATE) BETWEEN contract_dateStart AND contract_dateEnd', $contract['contract_dateStart']);
-
-        $subQuery1 = $this->getDbTable()
-            ->select(false)
-            ->setIntegrityCheck(false)
-            ->where('contract_status IN (?)', array('current', 'signed', 'selected', 'choose'))
-            ->where('contract_dateEnd < ?', $contract['contract_dateStart'])
-            ->where('meter_idMeter NOT IN ?', new Zend_Db_Expr('(' . $subQuery2 .')'))
-            ;
-
-        $select = $this->getDbTable()
-            ->select(false)
-            ->setIntegrityCheck(false)
-            ->from('meter', array(
-                'meter_idMeter',
-                'meter_idSite',
-                'meter_type',
-                'meter_numberMain'
-            ))
-            ->joinLeft('site', 'meter_idSite = site_idSite', array('site_idClient'))
-            ->joinLeft('meter_contract', 'meter_idMeter = meterContract_idMeter', array(
-                'meterContract_kvaNominated'
-            ))
-            ->joinLeft('contract', 'meterContract_idContract = contract_idContract', array(
-                'contract_idContract',
-                'contract_idContractPrevious',
-                'contract_type',
-                'contract_status',
-                'MAX(contract_dateStart)',
-                'contract_dateEnd'
-            ))
-            ->where('site_idClient = ?', $contract['contract_idClient'])
-            ->where('meter_type = ?', $contractType[0])
-            //->where(new Zend_Db_Expr(implode(' ', $subQuery1->getPart('where'))))
-            ->orWhere('contract_idContract IS NULL AND site_idClient = ?', $contract['contract_idClient'])
-            ->group('meter_numberMain')
-            ->order(array('contract_idContract', 'meter_numberMain'))
-            ;
-
-        $sql = "
-            SELECT meter_idMeter, meter_type, meter_numberMain, meterContract_kvaNominated,
-            contract_idContract, contract_idContractPrevious, contract_type, contract_status,
-            MAX(contract_dateStart), contract_dateEnd
-            FROM meter
-            LEFT JOIN site ON meter_idSite = site_idSite
-            LEFT JOIN meter_contract ON meter_idMeter = meterContract_idMeter
-            LEFT JOIN contract ON meterContract_idContract = contract_idContract
-            WHERE site_idClient = '".$contract['contract_idClient']."'
-            AND meter_type = '".$contractType[0]."'
-            AND (contract_dateEnd < '".$contract['contract_dateStart']."')
-            OR (contract_idContract IS NULL
-                AND site_idClient = '".$contract['contract_idClient']."'
-                AND meter_type = '".$contractType[0]."'
-            )
-            GROUP BY meter_numberMain
-            ORDER BY contract_idContract, meter_numberMain;
-        ";
-
-        $result = $this->getDbTable()
-            ->getAdapter()
-            ->fetchAssoc($sql);
-
-        $log->info($result);
-        $log->info($sql);
-        //return $this->fetchAll($select);
-    }
-*/
-    public function save($form)
+    public function save($data)
     {
         if (!$this->checkAcl('save')) {
-            throw new ZendSF_Acl_Exception('adding meters is not allowed.');
+            throw new ZendSF_Acl_Exception('adding meters to contracts is not allowed.');
         }
 
-        return parent::save($form);
+        $log = Zend_Registry::get('log');
+        $log->info($data);
+
+        $modelArray = array();
+
+        $model = new $this->_modelClass();
+        $model->setCols($this->getDbTable()->info('cols'));
+
+        foreach($data['meters'] as $key => $value) {
+            $model->idMeter = $value['id'];
+            $model->kvaNominated = $value['kva'];
+            $model->idContract = $data['contract'];
+
+            if ($data['type'] == 'insert') {
+                $model->setDateCreate();
+                $model->userCreate = Zend_Auth::getInstance()->getIdentity()->getId();
+            } else {
+                 $model->userModify = Zend_Auth::getInstance()->getIdentity()->getId();
+                 $model->setDateModify();
+            }
+
+            $modelArray[] = $model;
+        }
+
+        $log->info($modelArray);
+
+        foreach ($modelArray as $model) {
+            $modelData = $model->toArray();
+
+            foreach ($modelData as $key => $value) {
+                if ($value === null) {
+                    unset($modelData[$key]);
+                }
+            }
+
+            if ($data['type'] == 'insert') {
+                $saved = $this->getDbTable()->insert($modelData);
+            } else {
+                $saved = $this->getDbTable()->update($modelData, array(
+                    'meterContract_idContract = ?' => $data['idContract']
+                ));
+            }
+        }
+
+        return $saved;
     }
 
     public function delete($id)

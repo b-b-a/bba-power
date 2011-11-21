@@ -42,7 +42,7 @@ class Power_Model_MeterContract extends BBA_Model_Abstract
     /**
      * @var string
      */
-    protected $_primary = array('idMeter', 'idContract');
+    protected $_primary = 'idMeterContract';
 
     /**
      *

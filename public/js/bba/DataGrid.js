@@ -218,7 +218,7 @@ dojo.declare(
                     id: type + identParts[0],
                     title: (this.dialogName) ? this.dialogName :
                         this.capitalize(type + ' ' + con.replace('-', ' ')),
-                    style: "width:500px;",
+                    'class': identParts[0] + 'Dialog',
                     ioArgs: {content: contentVars},
                     href: '/' + this.hyphenate(con) + '/' + type,
                     execute: dojo.hitch(this, function() {
@@ -363,6 +363,21 @@ dojo.declare(
         }
     }
 );
+
+bba.DataGrid.cell_markupFactory = function(cellFunc, node, cellDef){
+	var field = dojo.trim(dojo.attr(node, "field")||"");
+	if(field){
+		cellDef.field = field;
+	}
+	cellDef.field = cellDef.field||cellDef.name;
+	var fields = dojo.trim(dojo.attr(node, "fields")||"");
+	if(fields){
+		cellDef.fields = fields.split(",");
+	}
+	if(cellFunc){
+		cellFunc(node, cellDef);
+	}
+};
 
 bba.DataGrid.markupFactory = function(props, node, ctor, cellFunc){
 	return dojox.grid._Grid.markupFactory(props, node, ctor,

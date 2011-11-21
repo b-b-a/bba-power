@@ -109,7 +109,7 @@ class BBA_Model_Mapper_Abstract extends ZendSF_Model_Mapper_Acl_Abstract
             $formValues = $form;
         }
 
-        $log->info($formValues);
+        //$log->info($formValues);
 
         // remove primary id if not set.
         if (!$formValues[$primary]) {
@@ -132,7 +132,7 @@ class BBA_Model_Mapper_Abstract extends ZendSF_Model_Mapper_Acl_Abstract
         }
 
 
-        $log->info($model);
+        //$log->info($model);
 
         return parent::save($model);
     }
