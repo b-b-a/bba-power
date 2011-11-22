@@ -42,6 +42,11 @@ bba.Contract = {
         { field: '', width : 'auto', name : ''}
     ],
 
+    closeDialog : function()
+    {
+        dijit.byId('addmeterContract').hide();
+    },
+
     addMeterToContract : function(grid, meterContract) {
 
         var items = grid.selection.getSelected();

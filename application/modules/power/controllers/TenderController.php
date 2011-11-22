@@ -72,18 +72,39 @@ class Power_TenderController extends BBA_Controller_Action_Abstract
         return $this->_getAjaxDataStore('getTendersByContractId', 'tender_idTender', true);
     }
 
+    public function addAction()
+    {
+        if ($this->_request->isXmlHttpRequest()
+                && $this->_request->getParam('type') == 'add'
+                && $this->_request->isPost()) {
+            $this->getForm('tenderSave')
+                ->populate(array(
+                    'tender_idContract' => $this->_request->getParam('tender_idContract')
+                ));
+
+            $this->render('ajax-form');
+        } else {
+            return $this->_helper->redirector('index', 'contract');
+        }
+    }
+
     public function editAction()
     {
-        if ($this->_request->getParam('idTender')) {
+        if ($this->_request->getParam('idTender')
+                && $this->_request->isPost()
+                && $this->_request->isXmlHttpRequest()) {
             $tender = $this->_model->getTenderDetails($this->_request->getParam('idTender'));
 
             $this->getForm('tenderSave')
-                    ->populate($tender->toArray('dd/MM/yyyy'))
-                    ->addHiddenElement('returnAction', 'edit');
+                ->populate($tender->toArray('dd/MM/yyyy'));
 
             $this->view->assign(array(
                 'tender' => $tender
             ));
+
+            if ($this->_request->getParam('type') == 'edit') {
+                $this->render('ajax-form');
+            }
         } else {
            return $this->_helper->redirector('index', 'contract');
         }
@@ -91,16 +112,36 @@ class Power_TenderController extends BBA_Controller_Action_Abstract
 
     public function saveAction()
     {
-        if (!$this->_request->isPost()) {
+        if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'contract');
         }
 
-        $tenderId = $this->_request->getParam('tenderId');
+        $this->_helper->viewRenderer->setNoRender(true);
 
-        if ($this->_request->getParam('cancel')) {
-            // needs to return to contract edit.
-            return $this->_helper->redirector('index', 'contract', 'power');
+        if (!$this->getForm('tenderSave')->isValid($this->_request->getPost())) {
+            $html = $this->view->render('tender/ajax-form.phtml');
+            $this->_log->info('not saved');
+
+            $returnJson = array(
+                'saved' => 0,
+                'html'  => $html
+            );
+        } else {
+            $saved = $this->_model->save('tenderSave');
+
+            $returnJson = array(
+                'saved' => $saved
+            );
+
+            if ($saved == 0) {
+                $html = $this->view->render('tender/ajax-form.phtml');
+                $returnJson['html'] = $html;
+            }
         }
+
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($returnJson));
     }
 
 }

@@ -1,57 +1,67 @@
-<?php
-	$this->title = "BBA Tender Update";
-	$this->headTitle($this->title);
-?>
-<div class="ident alpha">
-    <p><b>Client:</b> <?php echo $this->tender->client_name; ?></p>
-    <p><b>Contract Ref:</b> <?php echo $this->tender->contract_reference; ?></p>
-    <p><b>Type:</b> <?php echo $this->tender->contract_type; ?></p>
-    <p><b>Status:</b> <?php echo $this->tender->contract_status; ?></p>
-    <p><b>Start Date:</b> <?php echo $this->formatDate($this->tender->contract_dateStart); ?></p>
+<div data-dojo-type="dijit.layout.BorderContainer"
+     data-dojo-props="design: 'headline'"
+     class="tabContainer">
+
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'top'">
+        <div class="tabHeading">
+
+            <div class="form_wrap zend_form contract_edit ident alpha"
+                 dojoType="dijit.form.Form"
+                 id="edit-tender-<?php echo $this->tender->id; ?>">
+                <h3>Tender Details</h3>
+                <div class="form_row">
+                    <p class="label"><b>Supplier:</b></p>
+                    <p>&nbsp;<?php echo $this->tender->supplier_name; ?></p>
+                </div>
+                <div class="form_row">
+                    <p class="label"><b>Tender Period:</b></p>
+                    <p>&nbsp;<?php echo $this->tender->periodContract; ?></p>
+                </div>
+                <div class="form_row">
+                    <p class="label"><b>Expiry Date:</b></p>
+                    <p>&nbsp;<?php echo $this->tender->dateExpiresQuote->toString('dd/MM/yyyy'); ?></p>
+                </div>
+                <div class="form_row">
+                    <p class="label"><b>Standing Charge:</b></p>
+                    <p>&nbsp;<?php echo $this->tender->chargeStanding; ?></p>
+                </div>
+                <div class="form_row">
+                    <p class="label"><b>Unit Price Day:</b></p>
+                    <p>&nbsp;<?php echo $this->tender->priceUnitDay; ?></p>
+                </div>
+                <div class="form_row">
+                    <p class="label"><b>Unit Price Night:</b></p>
+                    <p>&nbsp;<?php echo $this->tender->priceUnitNight; ?></p>
+                </div>
+                <div class="form_row">
+                    <p class="label"><b>Unit Price Other:</b></p>
+                    <p>&nbsp;<?php echo $this->tender->priceUnitOther; ?></p>
+                </div>
+                 <div class="form_row">
+                    <p class="label"><b>Charge KVA:</b></p>
+                    <p>&nbsp;<?php echo $this->tender->chargeKva; ?></p>
+                </div>
+                 <div class="form_row">
+                    <p class="label"><b>Commission:</b></p>
+                    <p>&nbsp;<?php echo $this->tender->commission; ?></p>
+                </div>
+
+                <button dojoType="dijit.form.Button"
+                    type="submit"
+                    name="edit-tender-button-<?php echo $this->tender->id; ?>"
+                    value="submit">Edit Details</button>
+            </div>
+
+            <div class="ident">
+                <p><b>Client:</b> <?php echo $this->tender->client_name; ?></p>
+                <p><b>Contract Ref:</b> <?php echo $this->tender->contract_reference; ?></p>
+                <p><b>Type:</b> <?php echo $this->tender->contract_type; ?></p>
+                <p><b>Status:</b> <?php echo $this->tender->contract_status; ?></p>
+                <p><b>Start Date:</b> <?php echo $this->formatDate($this->tender->contract_dateStart); ?></p>
+            </div>
+
+            <div class="clear"></div>
+        </div>
+    </div>
 </div>
-
-<div class="form_wrap ident">
-    <?php echo $this->tenderSaveForm; ?>
-</div>
-
-<div class="clear"></div>
-
-<?php echo $this->partial('_table-head.phtml', array(
-    'heading'   => 'Tenders',
-    'label'     => 'New Tender',
-    'location'  => $this->url(array(
-        'controller'    => 'tender',
-        'action'        => 'add',
-        'contractId'    => $this->tender->id
-    ),'default', true)
-)); ?>
-
-<div dojoType="dojox.data.QueryReadStore"
-     jsid="tenderStore"
-     url="/tender/tender-store"
-     requestMethod="post"></div>
-
-<table dojoType="dojox.grid.DataGrid"
-       jsId="tenderGrid"
-       store="tenderStore"
-       query="{ tender_idTender: <?php echo $this->tender->id; ?> }"
-       sortInfo="1"
-       style="margin:auto;"
-       autoWidth="false"
-       autoHeight="20"
-       selectionMode="single"
-       rowSelector="0px"
-       rowsPerPage="25"
-       clientSort="true"
-       noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
-    <thead>
-    <thead>
-        <tr>
-            <th field="tender_idTender" width="75">Id</th>
-            <th field="tender_periodContract" width="100">Contract Period</th>
-            <th field="tender_dateExpiresQuote" width="100">Quote Expires</th>
-            <th field="tender_chargeStanding" width="100">Standing Charge</th>
-            <th field="" width="auto"></th>
-        </tr>
-    </thead>
-</table>

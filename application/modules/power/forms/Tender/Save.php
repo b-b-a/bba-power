@@ -164,11 +164,11 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
             //'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $auth = Zend_Auth::getInstance()
-            ->getIdentity();
+        $auth = Zend_Auth::getInstance()->getIdentity();
 
         $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('tender_idTender', '');
+        $this->addHiddenElement('tender_idContract', '');
 
         if ($auth->role == 'admin') {
             $this->addSubmit('Save');
