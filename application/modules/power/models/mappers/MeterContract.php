@@ -202,7 +202,7 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
         foreach($data['meters'] as $key => $value) {
             $model = new $this->_modelClass();
             $model->setCols($this->getDbTable()->info('cols'));
-            
+
             $model->idMeter = $value['id'];
             $model->kvaNominated = $value['kva'];
             $model->idContract = $data['contract'];

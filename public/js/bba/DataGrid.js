@@ -56,6 +56,7 @@ dojo.declare(
         tabTitle : '',
         tabController : '',
         tabTitleColumn : '',
+        tabId : null,
         dialog : false,
         dialogName : null,
         dlg : null,
@@ -144,16 +145,13 @@ dojo.declare(
                     id: tabId,
                     title: this.store.getValue(this.selectedItem, this.tabTitleColumn),
                     href: '/' + this.getController() + '/edit',
-                    ioArgs: {content:contentVars},
+                    ioArgs: { content:contentVars },
                     closable: true,
+                    refreshOnShow: true,
                     onLoad : dojo.hitch(this, function() {
-                        this.editForm();
+                        this.editForm(id);
                         this.tab = pane;
-                    }),
-                    onShow : function() {
-                        this.refresh();
-                        this.tab = pane;
-                    }
+                    })
                 });
 
                 tc.addChild(pane);
@@ -162,14 +160,16 @@ dojo.declare(
             tc.selectChild(tabId);
         },
 
-        editForm : function()
+        editForm : function(tabId)
         {
             var identParts = (this.tabController != '') ? this.tabController : this.getIdentParts()[0];
-            var id = 'edit-' + identParts + '-' + this.getId();
+            var id = 'edit-' + identParts + '-' + tabId;
+
+            console.log(id);
 
             dojo.connect(dijit.byId(id), 'onSubmit', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
-                this.showDialog('edit', identParts);
+                this.showDialog('edit', identParts, tabId);
             }));
         },
 
@@ -177,7 +177,7 @@ dojo.declare(
         {
             var selectedId = (this.newButtonId === null) ? this.query[this.queryParent] : this.newButtonId;
             var id = 'new-' + this.getNewController() + '-button-' + selectedId;
-            console.log(id)
+
             dojo.connect(dijit.byId(id), 'onClick', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
                 this.showDialog('add');
@@ -196,7 +196,7 @@ dojo.declare(
             }));
         },
 
-        showDialog : function(type, controller)
+        showDialog : function(type, controller, tabId)
         {
             if (!this.dlg) {
 
@@ -204,7 +204,7 @@ dojo.declare(
                 var contentVars = {type: type};
 
                 if (this.selectedItem) {
-                    var id = this.getId();
+                    var id = (tabId) ? tabId : this.getId();
                     contentVars[identParts[1]] = id;
                 }
 
