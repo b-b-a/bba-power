@@ -151,7 +151,10 @@ dojo.declare(
                     onLoad : dojo.hitch(this, function() {
                         this.editForm(id);
                         this.tab = pane;
-                    })
+                    }),
+                    onHide : function() {
+                        tc.prevTab = pane;
+                    }
                 });
 
                 tc.addChild(pane);
@@ -164,8 +167,6 @@ dojo.declare(
         {
             var identParts = (this.tabController != '') ? this.tabController : this.getIdentParts()[0];
             var id = 'edit-' + identParts + '-' + tabId;
-
-            console.log(id);
 
             dojo.connect(dijit.byId(id), 'onSubmit', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
