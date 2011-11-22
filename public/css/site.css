@@ -62,8 +62,8 @@ html, body {
 }
 
 /* Dialogs */
-.meterContractDialog {
-    width: 1000px;
+#addmeterContract {
+    width: 1010px;
 }
 
 /* pre-loader specific stuff to prevent unsightly flash of unstyled content */

@@ -219,7 +219,6 @@ dojo.declare(
                     id: type + identParts[0],
                     title: (this.dialogName) ? this.dialogName :
                         this.capitalize(type + ' ' + con.replace('-', ' ')),
-                    'class': identParts[0] + 'Dialog',
                     ioArgs: {content: contentVars},
                     href: '/' + this.hyphenate(con) + '/' + type,
                     execute: dojo.hitch(this, function() {

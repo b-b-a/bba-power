@@ -108,7 +108,23 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
         $select = $contractMapper->getDbTable()->select()
                 ->where('contract_idContract = ?', $id);
 
-        $contract = $contractMapper->fetchRow($select);
+        $contract = $contractMapper->fetchRow($select, true);
+
+        // get all meters currently on this contract.
+        $curContractMeters = $contract->findDependentRowset(
+            'Power_Model_DbTable_MeterContract',
+            'contract'
+        );
+
+        $curContractMeterIds = array();
+
+        foreach ($curContractMeters as $meter) {
+            $curContractMeterIds[] = $meter['meterContract_idMeter'];
+        }
+
+        unset($curContractMeters, $contractMapper);
+
+        $contract = new Power_Model_Contract($contract);
 
         // get first part of contract status, the bit before the hyphon.
         $type = preg_replace('/-.+/', '', $contract->type);
@@ -125,15 +141,19 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
         $meters = array();
 
         $select = $siteMapper->getDbTable()->select();
+        unset($siteMapper);
 
         // run through the list of sites and get their meters.
         foreach ($sites as $site) {
             $select->reset();
 
+            // get a list of meters for this client and contract type,
+            // but not the meters currently on this contract.
             $rowSet = $site->findDependentRowset(
                 'Power_Model_DbTable_Meter',
                 'site',
                 $select->where('meter_type = ?', $type)
+                    ->where('meter_idMeter NOT IN (?)', $curContractMeterIds)
             );
 
             // run through the list of meters,
@@ -143,7 +163,7 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
                 $select->reset();
 
                 // this should get the most recent contract attached to a meter.
-                $con = $row->findManyToManyRowset(
+                $meterContracts = $row->findManyToManyRowset(
                     'Power_Model_DbTable_Contract',
                     'Power_Model_DbTable_MeterContract',
                     'meter',
@@ -157,8 +177,8 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
                 $meterCo->setCols($this->getDbTable()->info('cols'));
                 $acceptedStatus = array('current', 'signed', 'selected', 'choosing');
 
-                if ($con->count() > 0) {
-                    $meterContract = $con->current()->toArray();
+                if ($meterContracts->count() > 0) {
+                    $meterContract = $meterContracts->current()->toArray();
 
                     // check accepted status
                     if (in_array($meterContract['contract_status'], $acceptedStatus)) {
@@ -183,6 +203,8 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
                 }
             }
         }
+
+        unset($sites);
 
         //$log->info($meters);
         return $meters;

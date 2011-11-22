@@ -1,4 +1,10 @@
-<?php $form = $this->contractSaveForm; ?>
+<?php
+$form = $this->contractSaveForm;
+
+if ($this->request['action'] == 'edit') {
+    $form->getElement('contract_idClient')->setAttrib('readonly', true);
+}
+?>
 
 <div class="form_wrap">
     <div class="zend_form">
@@ -33,6 +39,20 @@
                id="userId"
                required="true"
                value="<?php echo $form->userId->getValue(); ?>" />
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="contract_idContract"
+               id="contract_idContract"
+               required="true"
+               value="<?php echo $form->contract_idContract->getValue(); ?>" />
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="contract_idContractPrevious"
+               id="contract_idContractPrevious"
+               required="true"
+               value="<?php echo $form->contract_idContractPrevious->getValue(); ?>" />
 
         <button dojoType="dijit.form.Button"
                 type="submit"

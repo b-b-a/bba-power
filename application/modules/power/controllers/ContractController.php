@@ -98,7 +98,7 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
                 && $this->_request->getParam('type') == 'add'
                 && $this->_request->isPost()) {
 
-            $this->render('add-form');
+            $this->render('ajax-form');
         } else {
             return $this->_helper->redirector('index', 'contract');
         }
@@ -139,16 +139,8 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
 
         $this->_helper->viewRenderer->setNoRender(true);
 
-        if ($this->_request->getParam('type') == 'edit') {
-            $render = 'ajax-form.phtml';
-            //$form = 'clientSave';
-        } else {
-            $render = 'add-form.phtml';
-           // $form = 'clientAdd';
-        }
-
         if (!$this->getForm('contractSave')->isValid($this->_request->getPost())) {
-            $html = $this->view->render('contract/' . $render);
+            $html = $this->view->render('contract/ajax-form.phtml');
             $this->_log->info('not saved');
 
             $returnJson = array(
@@ -163,7 +155,7 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
             );
 
             if ($saved == 0) {
-                $html = $this->view->render('contract/' . $render);
+                $html = $this->view->render('contract/ajax-form.phtml');
                 $returnJson['html'] = $html;
             }
         }

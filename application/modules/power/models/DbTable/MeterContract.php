@@ -47,7 +47,7 @@ class Power_Model_DbTable_MeterContract extends Zend_Db_Table_Abstract
     /**
      * @var string primary key
      */
-    protected $_primary = 'meterContract_idMeter';
+    protected $_primary = array('meterContract_idMeter', 'meterContract_idContract');
 
     /**
      * @var array Reference map for parent tables
