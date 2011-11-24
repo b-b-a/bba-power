@@ -97,116 +97,89 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
         return $result->count();
     }
 
+    /**
+     * Selects all availiable meters that are not on current contract by the contract id.
+     * Query example:
+     *
+     * <code>
+     * SELECT meter_idMeter, meter_type, meter_numberMain, meterContract_kvaNominated,
+     * contract_idContract, contract_idContractPrevious, contract_type, contract_status,
+     * MAX(contract_dateStart) AS contract_dateStart, contract_dateEnd
+     * FROM meter
+     * LEFT JOIN meter_contract ON meter_idMeter = meterContract_idMeter
+     * LEFT JOIN contract ON meterContract_idContract = contract_idContract
+     * WHERE meter_idSite IN (
+     *     SELECT site_idSite
+     *     FROM contract
+     *     JOIN site ON contract_idClient = site_idClient
+     *     WHERE contract_idContract = 1709)
+     * AND meter_type = (
+     *     SELECT SUBSTRING_INDEX(contract_type,'-',1)
+     *     FROM contract
+     *     WHERE contract_idContract = 1709)
+     * AND (contract_dateEnd < (
+     *         SELECT contract_dateStart
+     *         FROM contract
+     *         WHERE contract_idContract = 1709)
+     *     AND contract_status IN ('current', 'signed', 'selected', 'choosing')
+     *     OR contract_idContract IS NULL)
+     * GROUP BY meter_numberMain
+     * Order by contract_idContract, meter_numberMain;
+     * </code>
+     *
+     * @param string $id
+     * @return array
+     */
     public function getAvailClientMeters($id)
     {
         $log = Zend_Registry::get('log');
 
-        $contractMapper = new Power_Model_Mapper_Contract();
+        // optimised query to get all availiable meter in one query.
+        $select = $this->getDbTable()->select(false)->setIntegrityCheck(false)
+            ->from('meter', array(
+                'meter_idMeter', 'meter_type', 'meter_numberMain'
+            ))
+            ->joinLeft('meter_contract', 'meter_idMeter = meterContract_idMeter', array(
+                'meterContract_kvaNominated'
+            ))
+            ->joinLeft('contract', 'meterContract_idContract = contract_idContract', array(
+                'contract_idContract',
+                'contract_idContractPrevious',
+                'contract_type',
+                'contract_status',
+                'contract_dateStart' => 'MAX(contract_dateStart)',
+                'contract_dateEnd'
+            ))
+            ->where('meter_idSite IN (?)', new Zend_Db_Expr(
+                $this->getDbTable()->select(false)->setIntegrityCheck(false)
+                    ->from('contract', null)
+                    ->join('site', 'contract_idClient = site_idClient', array(
+                        'site_idSite'
+                    ))
+                    ->where('contract_idContract = ?', $id)
+            ))
+            ->where('meter_type = (?)', new Zend_Db_Expr(
+                $this->getDbTable()->select(false)->setIntegrityCheck(false)
+                    ->from('contract', array(
+                        'contract_type' => 'SUBSTRING_INDEX(contract_type,\'-\',1)'
+                    ))
+                    ->where('contract_idContract = ?', $id)
+            ))
+            ->where('(contract_dateEnd < (?)', new Zend_Db_Expr(
+                $this->getDbTable()->select(false)->setIntegrityCheck(false)
+                    ->from('contract', array('contract_dateStart'))
+                    ->where('contract_idContract = ?', $id)
+            ))
+            ->where('contract_status IN (?)', array(
+                'current', 'signed', 'selected', 'choosing'
+            ))
+            ->orWhere('contract_idContract IS NULL)')
+            ->group('meter_numberMain')
+            ->order(array('contract_idContract', 'meter_numberMain'));
 
-        // get all meters that belong to client.
-        // get the current contract.
-        $select = $contractMapper->getDbTable()->select()
-                ->where('contract_idContract = ?', $id);
+        //$log->info($select->__toString());
+        $meters = $this->fetchAll($select);
 
-        $contract = $contractMapper->fetchRow($select, true);
-
-        // get all meters currently on this contract.
-        $curContractMeters = $contract->findDependentRowset(
-            'Power_Model_DbTable_MeterContract',
-            'contract'
-        );
-
-        $curContractMeterIds = array();
-
-        foreach ($curContractMeters as $meter) {
-            $curContractMeterIds[] = $meter['meterContract_idMeter'];
-        }
-
-        unset($curContractMeters, $contractMapper);
-
-        $contract = new Power_Model_Contract($contract);
-
-        // get first part of contract status, the bit before the hyphon.
-        $type = preg_replace('/-.+/', '', $contract->type);
-
-        // get all client sites
-        $siteMapper = new Power_Model_Mapper_Site();
-
-        $select = $siteMapper->getDbTable()
-                ->select()->where('site_idClient = ?', $contract->idClient);
-
-        $sites = $siteMapper->fetchAll($select, true);
-
-        // now get meters
-        $meters = array();
-
-        $select = $siteMapper->getDbTable()->select();
-        unset($siteMapper);
-
-        // run through the list of sites and get their meters.
-        foreach ($sites as $site) {
-            $select->reset();
-
-            // get a list of meters for this client and contract type,
-            // but not the meters currently on this contract.
-            $rowSet = $site->findDependentRowset(
-                'Power_Model_DbTable_Meter',
-                'site',
-                $select->where('meter_type = ?', $type)
-                    ->where('meter_idMeter NOT IN (?)', $curContractMeterIds)
-            );
-
-            // run through the list of meters,
-            // geting their attached contracts if any are attached to one.
-            /* @var $row Zend_Db_Table_Row */
-            foreach ($rowSet as $row) {
-                $select->reset();
-
-                // this should get the most recent contract attached to a meter.
-                $meterContracts = $row->findManyToManyRowset(
-                    'Power_Model_DbTable_Contract',
-                    'Power_Model_DbTable_MeterContract',
-                    'meter',
-                    'contract',
-                    $select->order('contract_dateStart DESC')->limit(1)
-                );
-
-                //$log->info($con->toArray());
-
-                $meterCo = new Power_Model_MeterContract($row);
-                $meterCo->setCols($this->getDbTable()->info('cols'));
-                $acceptedStatus = array('current', 'signed', 'selected', 'choosing');
-
-                if ($meterContracts->count() > 0) {
-                    $meterContract = $meterContracts->current()->toArray();
-
-                    // check accepted status
-                    if (in_array($meterContract['contract_status'], $acceptedStatus)) {
-                        $meterCoEndDate = new Zend_Date($meterContract['contract_dateEnd']);
-
-                        // check if date is earlier than current contract date.
-                        if ($meterCoEndDate->isEarlier($contract->dateStart)) {
-                            foreach($meterContract as $key => $val) {
-                                $meterCo->$key = $val;
-                            }
-                            // get kva data.
-                            $select = $this->getDbTable()->select()
-                                ->from('meter_contract', 'meterContract_kvaNominated')
-                                ->where('meterContract_idContract = ?', $meterCo->contract_idContract);
-                            $kva = $this->fetchRow($select);
-                            $meterCo->meterContract_kvaNominated = $kva->kvaNominated;
-                            $meters[] = $meterCo;
-                        }
-                    }
-                } else {
-                    $meters[] = $meterCo;
-                }
-            }
-        }
-
-        unset($sites);
-
-        //$log->info($meters);
         return $meters;
     }
 
