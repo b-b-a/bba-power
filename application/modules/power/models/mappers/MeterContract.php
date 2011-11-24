@@ -213,7 +213,7 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
             $modelArray[] = $model;
         }
 
-        $log->info($modelArray);
+        //$log->info($modelArray);
 
         foreach ($modelArray as $model) {
             $modelData = $model->toArray();
