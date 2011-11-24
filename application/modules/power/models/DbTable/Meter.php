@@ -119,7 +119,7 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
             ))
             //->group('meter_idMeter')
             ->where('CURRENT_DATE BETWEEN contract_dateStart AND contract_dateEnd')
-            ->where('contract_status IN (?)', array('current', 'signed', 'selected', 'choose'))
+       //     ->where('contract_status IN (?)', array('current', 'signed', 'selected', 'choose'))
            ;
     }
 
