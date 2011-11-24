@@ -37,6 +37,14 @@
                     <p class="label"><b>Status:</b></p>
                     <p>&nbsp;<?php echo $this->contract->status; ?></p>
                 </div>
+                 <div class="form_row">
+                    <p class="label"><b>Start Date:</b></p>
+                    <p>&nbsp;<?php echo $this->formatDate($this->contract->dateStart); ?></p>
+                </div>
+                 <div class="form_row">
+                    <p class="label"><b>End Date:</b></p>
+                    <p>&nbsp;<?php echo $this->formatDate($this->contract->dateEnd); ?></p>
+                </div>
 
                 <button dojoType="dijit.form.Button"
                     type="submit"
