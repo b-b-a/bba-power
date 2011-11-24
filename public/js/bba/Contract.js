@@ -30,16 +30,16 @@ dojo.provide('bba.Contract');
 bba.Contract = {
 
     meterContractGridLayout : [
-        { field: 'meter_idMeter', width : '50px', name : 'Id' },
-        { field: 'meter_numberMain', width : '150px', name : 'Number Main' },
-        { field: 'meter_type', width : '100px', name : 'meter_type' },
-        { field: 'meterContract_kvaNominated', width : '120px', name : 'Expected Yearly Consumption', editable : true },
-        { field: 'contract_idContract', width : '100px', name : 'Contract Id'},
-        { field: 'contract_type', width : '100px', name : 'Contract Type'},
-        { field: 'contract_status', width : '100px', name : 'Status'},
-        { field: 'contract_dateStart', width : '100px', name : 'Start Date'},
-        { field: 'contract_dateEnd', width : '100px', name : 'End Date'},
-        { field: '', width : 'auto', name : ''}
+        {field: 'meter_idMeter', width : '50px', name : 'Id'},
+        {field: 'meter_numberMain', width : '150px', name : 'Number Main'},
+        {field: 'meter_type', width : '100px', name : 'meter_type'},
+        {field: 'meterContract_kvaNominated', width : '120px', name : 'Expected Yearly Consumption', editable : true},
+        {field: 'contract_idContract', width : '100px', name : 'Contract Id'},
+        {field: 'contract_type', width : '100px', name : 'Contract Type'},
+        {field: 'contract_status', width : '100px', name : 'Status'},
+        {field: 'contract_dateStart', width : '100px', name : 'Start Date'},
+        {field: 'contract_dateEnd', width : '100px', name : 'End Date'},
+        {field: '', width : 'auto', name : ''}
     ],
 
     closeDialog : function()
@@ -54,7 +54,7 @@ bba.Contract = {
         var kvaError = false;
 
         if (items.length) {
-            var data = { type: 'insert', contract : meterContract, meters : [] };
+            var data = {type: 'insert', contract : meterContract, meters : []};
 
             items.forEach(function(selectedItem){
                 if (!selectedItem.meterContract_kvaNominated) {

@@ -10,6 +10,7 @@
                  dojoType="dijit.form.Form"
                  id="edit-contract-<?php echo $this->contract->id; ?>">
                 <h3>Contract Details</h3>
+
                 <div class="form_row">
                     <p class="label"><b>Client:</b></p>
                     <p>&nbsp;<?php echo $this->contract->client_name; ?></p>
@@ -38,6 +39,13 @@
                     <p>&nbsp;<?php echo $this->contract->status; ?></p>
                 </div>
 
+                <div class="form_row">
+                    <p class="label"><b>Description:</b></p>
+                    <p>&nbsp;<?php echo $this->contract->desc; ?></p>
+                </div>
+
+
+                <div class="clear"></div>
                 <button dojoType="dijit.form.Button"
                     type="submit"
                     name="edit-contract-button-<?php echo $this->contract->id; ?>"
@@ -79,7 +87,7 @@
                  requestMethod="post"></span>
 
             <table dojoType="bba.DataGrid"
-                   jsId="meterContractGrid<?php echo $this->contract->id; ?>"
+                   id="meterContractGrid<?php echo $this->contract->id; ?>"
                    store="meterContractStore<?php echo $this->contract->id; ?>"
                    query="{ meterContract_idContract: <?php echo $this->contract->id; ?> }"
                    queryParent="meterContract_idContract"
@@ -106,13 +114,13 @@
              data-dojo-props="region: 'center', title: 'Tenders'">
 
             <span dojoType="dojox.data.QueryReadStore"
-                 jsid="tenderStore"
+                 jsid="tenderStore<?php echo $this->contract->id; ?>"
                  url="/tender/tender-store"
                  requestMethod="post"></span>
 
             <table dojoType="bba.DataGrid"
-                   jsId="tenderGrid"
-                   store="tenderStore"
+                   id="tenderGrid<?php echo $this->contract->id; ?>"
+                   store="tenderStore<?php echo $this->contract->id; ?>"
                    query="{ tender_idContract: <?php echo $this->contract->id; ?> }"
                    sortInfo="1"
                    queryParent="tender_idContract"
@@ -135,7 +143,13 @@
                         <th field="" width="auto"></th>
                     </tr>
                 </thead>
+
             </table>
+
+            <div dojoType="dijit.Menu" id="gridMenu" targetNodeIds="tenderGrid<?php echo $this->contract->id; ?>">
+                <div dojoType="dijit.MenuItem" jsId="ctxMnuSelectTender">Select Tender</div>
+                <div dojoType="dijit.MenuItem" jsId="ctxMnuDeleteTender">Delete Tender</div>
+            </div>
 
         </div>
     </div>
