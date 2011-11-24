@@ -90,6 +90,7 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
             ->from('contract', array(
                 'contract_idContract' => 'contract_idContract',
                 'contract_reference',
+                'contract_status',
                 'contract_dateStart',
                 'contract_dateEnd',
                 'contract_desc' => 'SUBSTR(contract_desc, 1, 15)'

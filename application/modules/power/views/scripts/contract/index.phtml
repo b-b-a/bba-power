@@ -16,7 +16,7 @@
             ?>
 
             <div class="tableHead">
-                <h2 class="tableHead-heading">Clients:</h2>
+                <h2 class="tableHead-heading">Contracts:</h2>
                 <?php if ($this->authInfo('role') == 'admin'): ?>
                 <p class="tableHead-button">
                     <button dojoType="dijit.form.Button"
@@ -48,11 +48,12 @@
             <thead>
                 <tr>
                     <th field="contract_idContract" width="50">Id</th>
-                    <th field="client_name" width="200">Client</th>
-                    <th field="contract_reference" width="200">Reference</th>
+                    <th field="client_name" width="250">Client</th>
+                    <th field="contract_status" width="70">Status</th>
                     <th field="contract_dateStart" width="100">Start Date</th>
                     <th field="contract_dateEnd" width="100">End Date</th>
                     <th field="meter_count" width="100"># Meters</th>
+                    <th field="contract_reference" width="200">Reference</th>
                     <th field="contract_desc" width="300">Description</th>
                     <th field="" width="auto"></th>
                 </tr>
