@@ -111,16 +111,13 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
             ->join('client', 'client_idClient = site_idClient', array(
                 'client_name'
             ))
-            ->join('meter_contract', 'meter_idMeter = meterContract_idMeter', null)
-            ->join('contract', 'meterContract_idContract = contract_idContract', array(
+            ->joinLeft('meter_contract', 'meter_idMeter = meterContract_idMeter', null)
+            ->joinLeft('contract', 'meterContract_idContract = contract_idContract', array(
                 'contract_status',
-                //'MAX(contract.contract_dateStart)',
+                'contract_dateStart' => 'MAX(contract.contract_dateStart)',
                 'contract_dateEnd'
             ))
-            //->group('meter_idMeter')
-            ->where('CURRENT_DATE BETWEEN contract_dateStart AND contract_dateEnd')
-       //     ->where('contract_status IN (?)', array('current', 'signed', 'selected', 'choose'))
-           ;
+            ->group('meter_idMeter');
     }
 
     public function getSearch($search, $select)
