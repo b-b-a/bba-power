@@ -112,16 +112,16 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
      *     SELECT site_idSite
      *     FROM contract
      *     JOIN site ON contract_idClient = site_idClient
-     *     WHERE contract_idContract = 1709)
+     *     WHERE contract_idContract = 1708)
      * AND meter_type = (
      *     SELECT SUBSTRING_INDEX(contract_type,'-',1)
      *     FROM contract
-     *     WHERE contract_idContract = 1709)
+     *     WHERE contract_idContract = 1708)
      * AND (contract_dateEnd < (
      *         SELECT contract_dateStart
      *         FROM contract
-     *         WHERE contract_idContract = 1709)
-     *     AND contract_status IN ('current', 'signed', 'selected', 'choosing')
+     *         WHERE contract_idContract = 1708)
+     *     AND contract_status IN ('current', 'signed', 'selected', 'choose')
      *     OR contract_idContract IS NULL)
      * GROUP BY meter_numberMain
      * Order by contract_idContract, meter_numberMain;
@@ -171,7 +171,7 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
                     ->where('contract_idContract = ?', $id)
             ))
             ->where('contract_status IN (?)', array(
-                'current', 'signed', 'selected', 'choosing'
+                'current', 'signed', 'selected', 'choose'
             ))
             ->orWhere('contract_idContract IS NULL)')
             ->group('meter_numberMain')

@@ -37,14 +37,27 @@ html, body {
 .claro .dijitTabContainerLeft-dijitContentPane,
 .claro .dijitTabContainerRight-dijitContentPane,
 .claro .tabContainer .dijitBorderContainer-child {
-    border: 0px;
+    border: 0px dotted red;
     padding: 0px;
+    margin: 0px;
 }
 
 .claro .tabContainer .dijitTabPaneWrapper,
 .claro .tabContainer .dijitTabContainerTop-tabs,
 .claro .dojoxWizard {
     border: 0px;
+}
+
+.claro .tabContainer .contractEditTabs-BorderContainter {
+    min-height: 225px;
+}
+
+.claro .tabContainer .info-panels {
+    width: 24%;
+}
+
+.tableBottom div {
+    margin: 0px;
 }
 
 .wizard {
@@ -308,6 +321,14 @@ Form overrides.
 .site_edit .label,
 .meter_edit .label {
     width: 100px;
+}
+
+.contract_edit .label {
+    width: 120px;
+}
+
+.align-right {
+    vertical-align: middle;
 }
 
 #loginWrap {
