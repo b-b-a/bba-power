@@ -113,6 +113,10 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
      *     FROM contract
      *     JOIN site ON contract_idClient = site_idClient
      *     WHERE contract_idContract = 1708)
+     * AND meter_idMeter NOT IN (
+     *     SELECT meterContract_idMeter
+     *     FROM meter_contract
+     *     WHERE meterContract_idContract = 1708)
      * AND meter_type = (
      *     SELECT SUBSTRING_INDEX(contract_type,'-',1)
      *     FROM contract
@@ -157,6 +161,11 @@ class Power_Model_Mapper_MeterContract extends BBA_Model_Mapper_Abstract
                         'site_idSite'
                     ))
                     ->where('contract_idContract = ?', $id)
+            ))
+            ->where('meter_idMeter NOT IN (?)', new Zend_Db_Expr(
+                $this->getDbTable()->select(false)->setIntegrityCheck(false)
+                    ->from('meter_contract', array('meterContract_idMeter'))
+                    ->where('meterContract_idContract = ?', $id)
             ))
             ->where('meter_type = (?)', new Zend_Db_Expr(
                 $this->getDbTable()->select(false)->setIntegrityCheck(false)
