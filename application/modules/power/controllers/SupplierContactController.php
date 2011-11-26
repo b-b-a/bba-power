@@ -64,9 +64,7 @@ class Power_SupplierContactController extends BBA_Controller_Action_Abstract
                 && $this->_request->getParam('type') == 'add'
                 && $this->_request->isPost()) {
             $this->getForm('supplierContactSave')
-                ->populate(array(
-                    'supplierCo_idSupplierContact' => $this->_request->getParam('supplierId')
-                ));
+                ->populate($this->_request->getParams());
 
             $this->render('ajax-form');
         } else {
@@ -76,10 +74,10 @@ class Power_SupplierContactController extends BBA_Controller_Action_Abstract
 
     public function editAction()
     {
-        if ($this->_request->getParam('idContact')
+        if ($this->_request->getParam('idSupplierContact')
                 && $this->_request->isXmlHttpRequest()
                 && $this->_request->isPost()) {
-            $supplierCo = $this->_model->find($this->_request->getParam('contactId'));
+            $supplierCo = $this->_model->find($this->_request->getParam('idSupplierContact'));
             $this->getForm('supplierContactSave')
                 ->populate($supplierCo->toArray('dd/MM/yyyy'));
 
@@ -98,6 +96,16 @@ class Power_SupplierContactController extends BBA_Controller_Action_Abstract
 
         $this->_helper->viewRenderer->setNoRender(true);
 
+        if ($this->_request->getParam('type') == 'edit') {
+            $this->getForm('supplierContactSave')
+                ->excludeEmailFromValidation('supplierCo_email', array(
+                    'field' => 'supplierCo_email',
+                    'value' => $this->_model
+                        ->find($this->_request->getParam('supplierCo_idSupplierContact'))
+                        ->email
+                ));
+        }
+
         if (!$this->getForm('supplierContactSave')->isValid($this->_request->getPost())) {
             $html = $this->view->render('supplier-contact/ajax-form.phtml');
 
@@ -106,7 +114,7 @@ class Power_SupplierContactController extends BBA_Controller_Action_Abstract
                 'html'  => $html
             );
         } else {
-            $saved = $this->_model->save();
+            $saved = $this->_model->save('supplierContactSave');
 
             $returnJson = array(
                 'saved' => $saved

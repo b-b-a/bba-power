@@ -42,7 +42,7 @@ class Power_Model_SupplierContact extends BBA_Model_Abstract
     /**
      * @var string
      */
-    protected $_primary = 'idSupplierContract';
+    protected $_primary = 'idSupplierContact';
 
     /**
      * @var string

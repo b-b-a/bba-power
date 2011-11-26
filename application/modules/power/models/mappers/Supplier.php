@@ -88,8 +88,13 @@ class Power_Model_Mapper_Supplier extends BBA_Model_Mapper_Abstract
 
         $entries = array();
 
+        $contractDb = new Power_Model_DbTable_SupplierContact();
+        $cols = $contractDb->info('cols');
+
         foreach ($contactsRowset as $row) {
-			$entries[] = new Power_Model_SupplierContact($row);
+			$model = new Power_Model_SupplierContact($row);
+            $model->setCols($cols);
+			$entries[] = $model;
         }
 
         return $entries;
