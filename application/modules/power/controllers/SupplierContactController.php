@@ -44,117 +44,82 @@ class Power_SupplierContactController extends BBA_Controller_Action_Abstract
      */
     public function init()
     {
-        if ($this->_helper->acl('Guest')) {
-            return $this->_forward('login', 'auth');
-        }
-
         parent::init();
 
-        $this->_model = new Power_Model_Mapper_SupplierContact();
+        if (!$this->_helper->acl('Guest')) {
 
-        $this->setForm('supplierContactSave', array(
-            'controller' => 'supplier-address' ,
-            'action' => 'save',
-            'module' => 'power'
-        ));
+            $this->_model = new Power_Model_Mapper_SupplierContact();
+
+            $this->setForm('supplierContactSave', array(
+                'controller' => 'supplier-address' ,
+                'action' => 'save',
+                'module' => 'power'
+            ));
+        }
     }
 
     public function addAction()
     {
-        $this->getForm('supplierContactSave')
-            ->populate(array(
-                'supplierCo_idSupplierContact' => $this->_request->getParam('supplierId')
-            ))
-            ->addHiddenElement('returnAction', 'add');
+         if ($this->_request->isXmlHttpRequest()
+                && $this->_request->getParam('type') == 'add'
+                && $this->_request->isPost()) {
+            $this->getForm('supplierContactSave')
+                ->populate(array(
+                    'supplierCo_idSupplierContact' => $this->_request->getParam('supplierId')
+                ));
 
-        $this->view->assign(array(
-            'supplierId'    => $this->_request->getParam('supplierId')
-        ));
+            $this->render('ajax-form');
+        } else {
+            return $this->_helper->redirector('index', 'client');
+        }
     }
 
     public function editAction()
     {
-        if ($this->_request->getParam('contactId')) {
+        if ($this->_request->getParam('idContact')
+                && $this->_request->isXmlHttpRequest()
+                && $this->_request->isPost()) {
             $supplierCo = $this->_model->find($this->_request->getParam('contactId'));
             $this->getForm('supplierContactSave')
-                ->populate($supplierCo->toArray('dd/MM/yyyy'))
-                ->addHiddenElement('returnAction', 'edit');
+                ->populate($supplierCo->toArray('dd/MM/yyyy'));
 
-            $contacts = $this->_model->getContactsBySupplierId($clientCo->idSupplier);
-            $contactsStore = $this->getDataStore($contacts, 'supplierCo_idSupplierContact');
+            $this->render('ajax-form');
 
-            $this->view->assign(array(
-                'contactStore' => $contactStore,
-                'supplierCo'    => $supplierCo
-            ));
         } else {
-           return $this->_helper->redirector('index', 'supplier');
+           return $this->_helper->redirector('index', 'client');
         }
     }
 
     public function saveAction()
     {
-        if (!$this->_request->isPost()) {
+        if (!$this->_request->isPost()&& !$this->_request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'supplier');
         }
 
-        $supplierId = $this->_request->getParam('supplierId');
-
-        if ($this->_request->getParam('cancel')) {
-            return $this->_helper->redirector('edit', 'supplier', 'power', array(
-                'supplierId'  => $supplierId
-            ));
-        }
-
-        $action = $this->_request->getParam('returnAction');
-
-        $this->getForm('supplierContactSave')->addHiddenElement('returnAction', $action);
+        $this->_helper->viewRenderer->setNoRender(true);
 
         if (!$this->getForm('supplierContactSave')->isValid($this->_request->getPost())) {
-            $this->view->assign(array(
-                'supplierId'    => $supplierId
-            ));
-            return $this->render($action); // re-render the edit form
+            $html = $this->view->render('supplier-contact/ajax-form.phtml');
+
+            $returnJson = array(
+                'saved' => 0,
+                'html'  => $html
+            );
         } else {
             $saved = $this->_model->save();
 
-            if ($saved) {
-                $this->_helper->FlashMessenger(array(
-                    'pass' => 'Supplier Contact saved to database'
-                ));
+            $returnJson = array(
+                'saved' => $saved
+            );
 
-                return $this->_helper->redirector('edit', 'supplier', 'power', array(
-                    'supplierId'  => $supplierId
-                ));
-            } else {
-                $this->_helper->FlashMessenger(array(
-                    'fail' => 'Nothing new to save'
-                ));
-
-                return $this->_forward($action);
-            }
-        }
-    }
-
-    public function deleteAction()
-    {
-        if ($this->_request->getParam('contactId')) {
-            $contact = $this->_model->delete($this->_request->getParam('contactId'));
-
-            if ($contact) {
-                $this->_helper->FlashMessenger(array(
-                    'pass' => 'Supplier Contact deleted from database.'
-                ));
-            } else {
-                $this->_helper->FlashMessenger(array(
-                    'fail' => 'Could not delete supplier contact from database.'
-                ));
+            if ($saved == 0) {
+                $html = $this->view->render('supplier-contact/ajax-form.phtml');
+                $returnJson['html'] = $html;
             }
         }
 
-        return $this->_helper->redirector('edit', 'supplier', 'power', array(
-            'supplierId'  => $this->_request->getParam('supplierId')
-        ));
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($returnJson));
     }
-
 }

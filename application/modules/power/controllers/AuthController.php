@@ -59,23 +59,11 @@ class Power_AuthController extends ZendSF_Controller_Action_Abstract
         $this->_model = new Power_Model_Mapper_User();
         $this->_authService = new ZendSF_Service_Authentication();
 
-        $this->view->navigation()
-            ->setAcl($this->_helper->getHelper('Acl')->getAcl())
-            ->setRole($this->_helper->getHelper('Acl')->getIdentity());
-
         $this->setForm('authLogin', array(
             'controller' => 'auth' ,
             'action' => 'authenticate',
             'module' => 'power'
         ));
-    }
-
-    /**
-     * Default action
-     */
-    public function indexAction()
-    {
-        $this->_forward('login');
     }
 
     public function loginAction()
@@ -88,7 +76,7 @@ class Power_AuthController extends ZendSF_Controller_Action_Abstract
     public function logoutAction()
     {
         if (!$this->_helper->acl('Read')) {
-            return $this->_forward('index');
+            return $this->_forward('login');
         }
 
         $this->_authService->clear();
@@ -98,7 +86,7 @@ class Power_AuthController extends ZendSF_Controller_Action_Abstract
     public function authenticateAction()
     {
         if (!$this->_helper->acl('Guest')) {
-            return $this->_forward('index');
+            return $this->_forward('login');
         }
 
         if (!$this->_request->isPost()) {
@@ -111,13 +99,11 @@ class Power_AuthController extends ZendSF_Controller_Action_Abstract
             return $this->render('login'); // re-render the login form
         }
 
-        if (false === $this->_authService->authenticate(
-                $form->getValues()
-                )) {
-            $form->setDescription(_('Login failed, Please try again.'));
+        if (false === $this->_authService->authenticate($form->getValues())) {
+            $form->setDescription('Login failed, Please try again.');
             return $this->render('login'); // re-render the login form
         }
 
-        return $this->_helper->redirector('index', 'index');
+        return $this->_helper->redirector('index', 'meter');
     }
 }

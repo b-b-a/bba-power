@@ -1,0 +1,47 @@
+<?php $form = $this->meterSaveForm; ?>
+
+<div class="form_wrap">
+    <div class="zend_form">
+
+        <?php  if ($this->request['action'] == 'add') echo $form->meter_type; ?>
+
+        <?php echo $form->meter_numberSerial; ?>
+
+        <?php echo $form->meter_numberTop; ?>
+
+        <?php echo $form->meter_numberMain; ?>
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="userId"
+               id="userId"
+               required="true"
+               value="<?php echo $form->userId->getValue(); ?>" />
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="meter_idMeter"
+               id="meter_idMeter"
+               required="true"
+               value="<?php echo $form->meter_idMeter->getValue(); ?>" />
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="meter_idSite"
+               id="meter_idSite"
+               required="true"
+               value="<?php echo $form->meter_idSite->getValue(); ?>" />
+
+        <button dojoType="dijit.form.Button"
+                type="submit"
+                id="meterFormSubmitButton"
+                name="submit"
+                value="Save">Save</button>
+
+        <button dojoType="dijit.form.Button"
+                type="button"
+                id="meterFormCancelButton"
+                name="cancel"
+                value="Cancel">Cancel</button>
+    </div>
+</div>

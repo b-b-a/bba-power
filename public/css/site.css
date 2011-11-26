@@ -37,17 +37,46 @@ html, body {
 .claro .dijitTabContainerLeft-dijitContentPane,
 .claro .dijitTabContainerRight-dijitContentPane,
 .claro .tabContainer .dijitBorderContainer-child {
-    border: 0px;
+    border: 0px dotted red;
     padding: 0px;
+    margin: 0px;
 }
 
 .claro .tabContainer .dijitTabPaneWrapper,
-.claro .tabContainer .dijitTabContainerTop-tabs {
+.claro .tabContainer .dijitTabContainerTop-tabs,
+.claro .dojoxWizard {
     border: 0px;
+}
+
+.claro .tabContainer .contractEditTabs-BorderContainter {
+    min-height: 225px;
+}
+
+.claro .tabContainer .info-panels {
+    width: 24%;
+}
+
+.tableBottom div {
+    margin: 0px;
+}
+
+.wizard {
+    margin-bottom: 25px;
+}
+
+#addClientWidget {
+    width: 350px;
+    height:auto;
+    margin: auto;
 }
 
 .tabHeading {
     padding: 5px 5px 0px 5px;
+}
+
+/* Dialogs */
+#addmeterContract {
+    width: 1010px;
 }
 
 /* pre-loader specific stuff to prevent unsightly flash of unstyled content */
@@ -96,6 +125,10 @@ p {
 
 table {
 	margin-bottom: 10px;
+}
+
+.id_number {
+    font-size: .75em;
 }
 
 /**
@@ -213,6 +246,7 @@ table {
     text-align: right;
     width: 200px;
     margin-right: 5px;
+    margin-bottom: 1px;
 }
 /*    see  #Search .search
 label.search {
@@ -240,17 +274,26 @@ select
 
 input[type=submit] {
     font-size: 90%;
-    margin: 0px 10px;
+    margin: auto 10px;
     float: left;
-    border-radius: 10px;
-    background-color: #98b2d6;
-    background: -moz-linear-gradient(top,  #fff, #98b2d6);
+    border: 1px solid #769dc0;
+    background-image: url("/images/button.png");
+	background-position: center top;
+	background-repeat: repeat-x;
+	background-color: #e4f2ff;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	box-shadow:0px 1px 1px rgba(0,0,0,0.15);
+	-webkit-box-shadow:0px 1px 1px rgba(0,0,0,0.15);
+	-moz-box-shadow: 0px 1px 1px rgba(0,0,0,0.15);
 }
 
 input[type=submit]:hover {
     cursor: pointer;
-    background-color: #efa32b;
-    background: -moz-linear-gradient(top,  #fff, #efa32b);
+    background-color: #afd9ff;
+	color:#000;
+ 	-webkit-transition-duration:.2s;
 }
 /*    see   #Search .search
 input[class=search] {
@@ -264,6 +307,28 @@ input[class=search] {
 
 .errors {
     text-align: right;
+}
+
+/*
+Form overrides.
+*/
+
+.client_edit .label,
+.client_edit label {
+    width: 110px;
+}
+
+.site_edit .label,
+.meter_edit .label {
+    width: 100px;
+}
+
+.contract_edit .label {
+    width: 120px;
+}
+
+.align-right {
+    vertical-align: middle;
 }
 
 #loginWrap {
@@ -307,10 +372,12 @@ input[class=search] {
      float: left;
      margin: 5px;
      margin-left: 30px;
+     max-width: 30%;
 }
 
 .alpha {
     margin-left: 5px;
+    max-width: 30%;
 }
 
 /**

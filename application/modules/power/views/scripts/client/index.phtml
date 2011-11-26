@@ -3,15 +3,14 @@
      class="tabContainer">
 
     <div data-dojo-type="dijit.layout.ContentPane"
-         data-dojo-props="region: 'top'"
-         >
+         data-dojo-props="region: 'top'">
+
         <div class="tabHeading">
             <?php
                 $this->title = "BBA Clients";
                 $this->headTitle($this->title);
 
                 echo $this->clientSearchForm;
-                /* @var $client Power_Model_Client */
             ?>
 
             <div class="tableHead">
@@ -36,25 +35,17 @@
              url="/client/client-store"
              requestMethod="post"></span>
 
-        <table dojoType="dojox.grid.DataGrid"
+        <table dojoType="bba.DataGrid"
                jsId="clientGrid"
                store="clientStore"
                query="<?php echo $this->search; ?>"
                sortInfo="2"
-               style="margin:auto;"
-               autoWidth="false"
-               autoHeight="auto"
-               selectionMode="single"
-               rowSelector="0px"
-               rowsPerPage="25"
-               clientSort="true"
-               checkRows="true"
+               search="true"
                tabs="true"
-               tabTitleColumn="client_name"
-               noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
+               tabTitleColumn="client_name">
             <thead>
                 <tr>
-                    <th field="client_idClient" width="75">Id</th>
+                    <th field="client_idClient" width="50">Id</th>
                     <th field="client_name" width="300">Client</th>
                     <th field="client_desc" width="200">Description</th>
                     <th field="clientAd_address1" width="300">Address 1</th>

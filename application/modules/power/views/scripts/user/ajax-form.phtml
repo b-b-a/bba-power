@@ -1,0 +1,35 @@
+<?php $form = $this->userSaveForm; ?>
+
+<div class="form_wrap">
+    <div class="zend_form">
+
+        <?php echo $form->user_name; ?>
+
+        <?php echo $form->user_password; ?>
+
+        <?php echo $form->user_fullName; ?>
+
+        <?php echo $form->user_role; ?>
+
+        <?php echo $form->user_accessClient; ?>
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="user_idUser"
+               id="user_idUser"
+               required="true"
+               value="<?php echo $form->user_idUser->getValue(); ?>" />
+
+        <button dojoType="dijit.form.Button"
+                type="submit"
+                id="userFormSubmitButton"
+                name="submit"
+                value="Save">Save</button>
+
+        <button dojoType="dijit.form.Button"
+                type="button"
+                id="userFormCancelButton"
+                name="cancel"
+                value="Cancel">Cancel</button>
+    </div>
+</div>

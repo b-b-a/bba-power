@@ -71,29 +71,16 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('TextBox', 'meter_numberMain', array(
+        $this->addElement('ValidationTextBox', 'meter_numberMain', array(
             'label'     => 'Main No:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $auth = Zend_Auth::getInstance()
-            ->getIdentity();
+        $auth = Zend_Auth::getInstance()->getIdentity();
 
         $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('meter_idMeter', '');
         $this->addHiddenElement('meter_idSite', '');
-
-        $view = $this->getView();
-
-        if (isset($view->request['meter'])) $this->addHiddenElement('meter', $view->request['meter']);
-        if (isset($view->request['site'])) $this->addHiddenElement('site', $view->request['site']);
-
-        if ($auth->role == 'admin') {
-            $this->addSubmit('Save');
-        }
-
-        $this->addSubmit('Cancel', 'cancel');
     }
-
 }

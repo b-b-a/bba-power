@@ -63,6 +63,7 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
         ));
 */
 
+
         $this->addElement('TextBox', 'client_dateExpiryLoa', array(
             'label'     => 'LoA Expiry Date:',
             'formatLength'   => 'short',
@@ -73,8 +74,6 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
                 ))
             )
         ));
-
-
 
         $auth = Zend_Auth::getInstance()->getIdentity();
 

@@ -1,0 +1,66 @@
+<?php
+/* @var $form Power_Form_Tender_Save */
+$form = $this->tenderSaveForm;
+
+if ($this->request['action'] == 'edit') {
+    $form->getElement('tender_idSupplier')->setAttrib('readonly', true);
+}
+?>
+
+<div class="form_wrap">
+    <div class="zend_form">
+
+        <?php echo $form->tender_idSupplier; ?>
+
+        <?php echo $form->tender_periodContract; ?>
+
+        <?php echo $form->tender_dateExpiresQuote; ?>
+
+        <?php echo $form->tender_chargeStanding; ?>
+
+        <?php echo $form->tender_priceUnitDay; ?>
+
+        <?php echo $form->tender_priceUnitNight; ?>
+
+        <?php echo $form->tender_priceUnitOther; ?>
+
+        <?php echo $form->tender_chargeCapacity; ?>
+
+        <?php echo $form->tender_chargeKva; ?>
+
+        <?php echo $form->tender_commission; ?>
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="userId"
+               id="userId"
+               required="true"
+               value="<?php echo $form->userId->getValue(); ?>" />
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="tender_idTender"
+               id="tender_idTender"
+               required="true"
+               value="<?php echo $form->tender_idTender->getValue(); ?>" />
+
+         <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="tender_idContract"
+               id="tender_idContract"
+               required="true"
+               value="<?php echo $form->tender_idContract->getValue(); ?>" />
+
+        <button dojoType="dijit.form.Button"
+                type="submit"
+                id="tenderFormSubmitButton"
+                name="submit"
+                value="Save">Save</button>
+
+        <button dojoType="dijit.form.Button"
+                type="button"
+                id="tenderFormCancelButton"
+                name="cancel"
+                value="Cancel">Cancel</button>
+    </div>
+</div>

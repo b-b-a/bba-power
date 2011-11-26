@@ -1,89 +1,105 @@
-<?php
-	$this->title = "BBA Supplier Update";
-	$this->headTitle($this->title);
-?>
+<div data-dojo-type="dijit.layout.BorderContainer"
+     data-dojo-props="design: 'headline'"
+     class="tabContainer">
 
-<div class="form_wrap">
-    <?php echo $this->supplierSaveForm; ?>
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'top'">
+
+        <div class="tabHeading">
+            <div class="form_wrap zend_form"
+                 dojoType="dijit.form.Form"
+                 id="edit-supplier-<?php echo $this->supplier->id; ?>">
+                <h2>Supplier Details</h2>
+                <div class="form_row">
+                    <p><b>Supplier Name: </b></p>
+                    <p><?php echo $this->supplier->name; ?></p>
+                </div>
+                <div class="form_row">
+                    <p><b>Address: </b><br />
+                    <?php echo $this->formatAddress(array(
+                        $this->supplier->address1, $this->supplier->address2,
+                        $this->supplier->address3, $this->supplier->postcode
+                    )) ?></p>
+                </div>
+
+                <button dojoType="dijit.form.Button"
+                        type="submit"
+                        name="edit-supplier-button-<?php echo $this->supplier->id; ?>"
+                        value="submit">Edit Details</button>
+            </div>
+
+            <div class="tableHead">
+                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <p class="tableHead-button">
+                    <button dojoType="dijit.form.Button"
+                            id="new-supplierCo-button-<?php echo $this->supplier->id; ?>"
+                            type="button">New Contact</button>
+                </p>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <div id="SupplierTabs<?php echo $this->supplier->id; ?>"
+         data-dojo-type="dijit.layout.TabContainer"
+         data-dojo-props="region: 'center', tabStrip: 'true'"
+         class="innerTabs">
+
+        <div data-dojo-type="dijit.layout.ContentPane"
+             data-dojo-props="region: 'center', title: 'Contracts'">
+
+            <span dojotype="dojox.data.QueryReadStore"
+                  jsid="contractStore"
+                  url="/supplier/supplier-contract-store"
+                  requestMethod="post"></span>
+
+            <table dojoType="bba.DataGrid"
+                   jsId="contractGrid"
+                   store="contractStore"
+                   query="{ tender_idSupplier: <?php echo $this->supplier->idSupplier; ?> }"
+                   sortInfo="2">
+                <thead>
+                    <tr>
+                        <th field="contract_idContract" width="75">Id</th>
+                        <th field="contract_type" width="150">Type</th>
+                        <th field="contract_status" width="100">Status</th>
+                        <th field="contract_dateEnd" width="100">End Date</th>
+                        <th field="contract_reference" width="200">Reference</th>
+                        <th field="" width="auto"></th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+
+        <div data-dojo-type="dijit.layout.ContentPane"
+             data-dojo-props="region: 'center', title: 'Supplier Contacts'">
+
+            <span dojotype="dojox.data.QueryReadStore"
+                  jsid="contactStore"
+                  url="/supplier/supplier-contact-store"
+                  requestMethod="post"></span>
+
+            <table dojoType="bba.DataGrid"
+                   jsId="contactGrid"
+                   store="contactStore"
+                   query="{ supplierCo_idSupplier: <?php echo $this->supplier->idSupplier; ?> }"
+                   queryParent="supplierCo_idSupplier"
+                   sortInfo="2"
+                   dialog="true"
+                   dialogName="Edit Supplier Address">
+                <thead>
+                    <tr>
+                        <th field="supplierCo_idSupplierContact" width="75">Id</th>
+                        <th field="supplierCo_name" width="150">Name</th>
+                        <th field="supplierCo_phone" width="100">Phone</th>
+                        <th field="supplierCo_email" width="300">Email</th>
+                        <th field="supplierCo_address1" width="200">Address 1</th>
+                        <th field="supplierCo_postcode" width="auto">Postcode</th>
+                        <th field="" width="auto"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
 </div>
-
-<div class="clear">&nbsp;</div>
-
-<?php echo $this->partial('_table-head.phtml', array(
-    'heading'   => 'Contacts',
-    'label'     => 'New Contact',
-    'location'  => $this->url(array(
-        'controller'    => 'supplier-contact',
-        'action'        => 'add'
-    ),'default', true)
-)); ?>
-
-<div dojotype="dojox.data.QueryReadStore"
-     jsid="contactStore"
-     url="/supplier/supplier-contact-store"
-     requestMethod="post"></div>
-
-<table dojoType="dojox.grid.DataGrid"
-       jsId="contactGrid"
-       store="contactStore"
-       query="{ supplierCo_idSupplier: <?php echo $this->supplier->idSupplier; ?> }"
-       sortInfo="2"
-       style="margin:auto;"
-       autoWidth="false"
-       autoHeight="20"
-       rowSelector="0px"
-       rowsPerPage="25"
-       clientSort="true"
-       noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
-    <thead>
-        <tr>
-            <th field="supplierCo_idSupplierContact" width="75">Id</th>
-            <th field="supplierCo_name" width="150">Name</th>
-            <th field="supplierCo_phone" width="100">Phone</th>
-            <th field="supplierCo_email" width="300">Email</th>
-            <th field="supplierCo_address1" width="200">Address 1</th>
-            <th field="supplierCo_postcode" width="auto">Postcode</th>
-            <th field="" width="auto"></th>
-        </tr>
-    </thead>
-</table>
-
-<?php echo $this->partial('_table-head.phtml', array(
-    'heading'   => 'Contracts',
-    'label'     => 'New Contract',
-    'location'  => $this->url(array(
-        'controller'    => 'contract',
-        'action'        => 'add',
-        'supplierId'    => $this->supplier->idSupplier
-    ),'default', true)
-)); ?>
-
-<div dojotype="dojox.data.QueryReadStore"
-     jsid="contractStore"
-     url="/supplier/supplier-contract-store"
-     requestMethod="post"></div>
-
-<table dojoType="dojox.grid.DataGrid"
-       jsId="contractGrid"
-       store="contractStore"
-       query="{ tender_idSupplier: <?php echo $this->supplier->idSupplier; ?> }"
-       sortInfo="2"
-       style="margin:auto;"
-       autoWidth="false"
-       autoHeight="20"
-       rowSelector="0px"
-       rowsPerPage="25"
-       clientSort="true"
-       noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
-    <thead>
-        <tr>
-            <th field="contract_idContract" width="75">Id</th>
-            <th field="contract_type" width="150">Type</th>
-            <th field="contract_status" width="100">Status</th>
-            <th field="contract_dateEnd" width="100">End Date</th>
-            <th field="contract_reference" width="200">Reference</th>
-            <th field="" width="auto"></th>
-        </tr>
-    </thead>
-</table>
-

@@ -43,18 +43,21 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
     {
         $this->setName('userSave');
 
-        $this->addElement('TextBox', 'user_name', array(
+        $this->addElement('ValidationTextBox', 'user_name', array(
             'label' => 'Username:',
+            'filters'   => array('StripTags', 'StringTrim'),
             'required'      => true
         ));
 
         $this->addElement('PasswordTextBox', 'user_password', array(
             'label' => 'Password:',
+            'filters'   => array('StripTags', 'StringTrim'),
             'required' => true
         ));
 
-        $this->addElement('TextBox', 'user_fullName', array(
+        $this->addElement('ValidationTextBox', 'user_fullName', array(
             'label' => 'Full Name:',
+            'filters'   => array('StripTags', 'StringTrim'),
             'required'      => true
         ));
 
@@ -78,16 +81,11 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
             'required'      => true
         ));
 
+        $this->addElement('TextBox', 'user_accessClient', array(
+            'label' => 'Access Client:',
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
         $this->addHiddenElement('user_idUser', '');
-
-        $auth = Zend_Auth::getInstance()
-            ->getIdentity();
-
-        if ($auth->role == 'admin') {
-            $this->addSubmit('Save');
-        }
-
-        $this->addSubmit('Cancel', 'cancel');
     }
-
 }

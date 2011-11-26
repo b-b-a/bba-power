@@ -76,13 +76,13 @@ class Power_Model_Mapper_ClientContact extends BBA_Model_Mapper_Abstract
         ), true);
     }
 
-    public function save()
+    public function save($form)
     {
         if (!$this->checkAcl('save')) {
             throw new ZendSF_Acl_Exception('saving clients contacts is not allowed.');
         }
 
-        return parent::save('clientContactSave');
+        return parent::save($form);
     }
 
     public function delete($id)

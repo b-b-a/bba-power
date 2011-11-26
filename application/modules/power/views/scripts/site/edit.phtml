@@ -1,96 +1,95 @@
-<?php
-    $this->title = "BBA Site Update";
-    $this->headTitle($this->title);
-?>
-<div class="ident alpha">
-    <p><?php echo $this->escape($this->site->client_name); ?> </p>
-    <p><?php echo $this->escape($this->site->clientAd_addressName); ?></p>
-    <p><?php echo $this->formatSiteAddress(array(
-        $this->escape($this->site->clientAd_address1),
-        $this->escape($this->site->clientAd_address2),
-        $this->escape($this->site->clientAd_address3),
-        $this->escape($this->site->clientAd_postcode)
-    )); ?></p>
+<div data-dojo-type="dijit.layout.BorderContainer"
+     data-dojo-props="design: 'headline'"
+     class="tabContainer">
+
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'top'">
+        <div class="tabHeading">
+
+            <div class="form_wrap zend_form site_edit ident alpha"
+                 dojoType="dijit.form.Form"
+                 id="edit-site-<?php echo $this->site->id; ?>">
+                <h3>Site Details</h3>
+                <div class="form_row">
+                    <p class="label"><b>Client:</b></p>
+                    <p>&nbsp;<?php echo $this->site->client_name; ?></p>
+                </div>
+                <div class="form_row">
+                    <p class="label"><b>Address:</b></p>
+                    <p>&nbsp;</p>
+                </div>
+                 <div class="form_row">
+                    <p class="label"><b>Billing Address:</b></p>
+                    <p>&nbsp;</p>
+                </div>
+                 <div class="form_row">
+                    <p class="label"><b>Client Contact:</b></p>
+                    <p>&nbsp;</p>
+                </div>
+
+                <button dojoType="dijit.form.Button"
+                    type="submit"
+                    name="edit-site-button-<?php echo $this->site->id; ?>"
+                    value="submit">Edit Details</button>
+            </div>
+
+            <div class="ident">
+                <p><?php echo $this->escape($this->site->client_name); ?> </p>
+                <p><?php echo $this->escape($this->site->clientAd_addressName); ?></p>
+                <p><?php echo $this->formatAddress(array(
+                    $this->escape($this->site->clientAd_address1),
+                    $this->escape($this->site->clientAd_address2),
+                    $this->escape($this->site->clientAd_address3),
+                    $this->escape($this->site->clientAd_postcode)
+                )); ?></p>
+            </div>
+
+            <div class="clear"></div>
+
+            <div class="tableHead">
+                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <p class="tableHead-button">
+                    <button dojoType="dijit.form.Button"
+                            id="new-meter-button-<?php echo $this->site->id; ?>"
+                            type="button">New Meter</button>
+                </p>
+                <?php endif; ?>
+            </div>
+        </div>
+    </div>
+
+    <div id="SiteTabs<?php echo $this->site->id; ?>"
+         data-dojo-type="dijit.layout.TabContainer"
+         data-dojo-props="region: 'center', tabStrip: 'true'"
+         class="innerTabs">
+
+        <div data-dojo-type="dijit.layout.ContentPane"
+             data-dojo-props="region: 'center', title: 'Meters'">
+
+            <span dojoType="dojox.data.QueryReadStore"
+                 jsid="meterStore<?php echo $this->site->id; ?>"
+                 url="/meter/site-meter-store"
+                 requestMethod="post"></span>
+
+            <table dojoType="bba.DataGrid"
+                   jsId="meterGrid<?php echo $this->site->id; ?>"
+                   store="meterStore<?php echo $this->site->id; ?>"
+                   query="{ meter_idSite: <?php echo $this->site->id; ?> }"
+                   queryParent="meter_idSite"
+                   sortInfo="-3"
+                   tabs="true"
+                   tabTitleColumn="meter_numberMain">
+                <thead>
+                    <tr>
+                        <th field="meter_idMeter" width="50">Id</th>
+                        <th field="meter_type" width="100">Type</th>
+                        <th field="meter_numberSerial" width="200">Number Serial</th>
+                        <th field="meter_numberMain" width="200">Number Main</th>
+                        <th field="" width="auto"></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
 </div>
 
-<div class="form_wrap ident">
-    <?php echo $this->siteEditForm; ?>
-</div>
-
-<div class="clear"></div>
-
-<?php echo $this->partial('_table-head.phtml', array(
-    'heading'   => 'Meters',
-    'label'     => 'New Meter',
-    'location'  => $this->url(array(
-        'controller'    => 'meter',
-        'action'        => 'add',
-        'siteId'      => $this->site->id
-    ), 'default', true)
-)); ?>
-
-<script>
-    dojo.declare("bbastore", null, {
-        constructor: function(/* Object */args){
-            dojo.safeMixin(this, args);
-        }
-    });
-
-    dojo.addOnLoad(function(){
-        dojo.connect(dijit.byId("site_idClient"), "onChange", function(val){
-            if (dijit.byId("site_idAddress").get('disabled') == true) {
-                dijit.byId("site_idAddress").set('disabled', false);
-            }
-            dijit.byId('site_idAddress').set('value', '');
-            dijit.byId('site_idAddressBill').set('value', '');
-
-            bbastore.clientId = val;
-            bbastore.addressStore = new dojo.data.ItemFileReadStore({
-                url:'/site/autocomplete/param/address/addressId/' + bbastore.clientId
-            });
-            dijit.byId("site_idAddress").store = bbastore.addressStore;
-        });
-
-        dojo.connect(dijit.byId("site_idAddress"), "onChange", function(val){
-            dijit.byId("site_idAddressBill").set('disabled', false);
-            dijit.byId("site_idAddressBill").store = bbastore.addressStore;
-        });
-    });
-</script>
-
-<script>
-
-    function getDelete(item) {
-        return '<a href="#" class="button">Usage</button>';
-    };
-
-</script>
-
-<div dojoType="dojox.data.QueryReadStore"
-     jsid="meterStore"
-     url="/meter/site-meter-store"
-     requestMethod="post"></div>
-
-<table dojoType="dojox.grid.DataGrid"
-       jsId="meterGrid"
-       store="meterStore"
-       query="{ meter_idSite: <?php echo $this->site->idSite; ?> }"
-       sortInfo="1"
-       style="margin:auto;"
-       autoWidth="false"
-       autoHeight="20"
-       selectionMode="single"
-       rowSelector="0px"
-       rowsPerPage="25"
-       clientSort="true"
-       noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
-    <thead>
-        <tr>
-            <th field="meter_idMeter" width="75">Id</th>
-            <th field="meter_type" width="100">Type</th>
-            <th field="meter_numberSerial" width="200">Number Serial</th>
-            <th field="meter_numberMain" width="200">Number Main</th>
-            <th field="" width="auto"></th>
-        </tr>
-    </thead>
-</table>

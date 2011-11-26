@@ -43,7 +43,7 @@ class Power_Form_Auth_Login extends ZendSF_Form_Abstract
     {
         $this->setName('auth');
 
-        $this->addElement('TextBox', 'user_name', array(
+        $this->addElement('ValidationTextBox', 'user_name', array(
             'label'     => 'Username:',
             'required'  => true,
             'filters'   => array('StringTrim'),
@@ -55,7 +55,7 @@ class Power_Form_Auth_Login extends ZendSF_Form_Abstract
         ));
 
         $this->addSubmit('Login');
-        $this->addHash('bba');
+        $this->addHash('csrf');
     }
 }
 

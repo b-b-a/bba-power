@@ -1,0 +1,17 @@
+Power_AuthController
+ [x] Init
+ [x] Login action
+ [x] Logout action
+ [x] Authenticate action
+
+Power_IndexController
+ [x] Init action
+ [x] Index action
+
+Power_UserController
+ [x] Index action
+ [x] User store action
+ [ ] Add action
+ [ ] Edit action
+ [ ] Save action
+

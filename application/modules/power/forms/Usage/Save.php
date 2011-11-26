@@ -65,8 +65,10 @@ class Power_Form_Usage_Save extends ZendSF_Form_Abstract
             )
         ));
 
-       $table = new Power_Model_Mapper_Tables();
+        $table = new Power_Model_Mapper_Tables();
         $list = $table->getSelectListByName('usage_type');
+        $multiOptions = array(0 => 'Select a type');
+        
         foreach($list as $row) {
             $multiOptions[$row->key] = $row->value;
         }
@@ -109,18 +111,11 @@ class Power_Form_Usage_Save extends ZendSF_Form_Abstract
             'filters'       => array('StripTags', 'StringTrim')
         ));
 
-        $auth = Zend_Auth::getInstance()
-            ->getIdentity();
+        $auth = Zend_Auth::getInstance()->getIdentity();
 
         $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('usage_idUsage', '');
         $this->addHiddenElement('usage_idMeter', '');
-
-        if ($auth->role == 'admin') {
-            $this->addSubmit('Save');
-        }
-
-        $this->addSubmit('Cancel', 'cancel');
     }
 
 }

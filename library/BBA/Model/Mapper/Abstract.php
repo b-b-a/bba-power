@@ -99,28 +99,40 @@ class BBA_Model_Mapper_Abstract extends ZendSF_Model_Mapper_Acl_Abstract
 
     public function save($form)
     {
-        $primary = current($this->getDbTable()->info('primary'));
-        $form = $this->getForm($form)->getValues();
+        $log = Zend_Registry::get('log');
 
-        // remove primary id if not set.
-        if (!$form[$primary]) {
-            unset($form[$primary]);
+        $primary = current($this->getDbTable()->info('primary'));
+
+        if (is_string($form)) {
+            $formValues = $this->getForm($form)->getValues();
+        } else {
+            $formValues = $form;
         }
 
-        $model = new $this->_modelClass($form);
+        //$log->info($formValues);
+
+        // remove primary id if not set.
+        if (!$formValues[$primary]) {
+            unset($formValues[$primary]);
+        }
+
+        $model = new $this->_modelClass($formValues);
         $model->setCols($this->getDbTable()->info('cols'));
 
         // set create date and user.
-        if (!$model->getId()) {
+        if (!$model->getId() && isset($formValues['userId'])) {
             $model->setDateCreate();
-            $model->userCreate = $form['userId'];
+            $model->userCreate = $formValues['userId'];
         }
 
         // add modified date/user if updating record.
-        if ($model->getId()) {
-            $model->userModify = $form['userId'];
+        if ($model->getId() && isset($formValues['userId'])) {
+            $model->userModify = $formValues['userId'];
             $model->setDateModify();
         }
+
+
+        //$log->info($model);
 
         return parent::save($model);
     }

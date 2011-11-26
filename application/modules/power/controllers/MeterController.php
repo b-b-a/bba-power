@@ -45,39 +45,33 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
     protected $_model;
 
     /**
-     * @var int
-     */
-    protected $_page;
-
-    /**
      * Initialization code.
      */
     public function init()
     {
-        if ($this->_helper->acl('Guest')) {
-            return $this->_forward('login', 'auth');
-        }
-
         parent::init();
 
-        $this->_model = new Power_Model_Mapper_Meter();
+        if (!$this->_helper->acl('Guest')) {
 
-        // search form
-        $this->setForm('meterSearch', array(
-            'controller' => 'meter' ,
-            'action' => 'index',
-            'module' => 'power'
-        ), true);
+            $this->_model = new Power_Model_Mapper_Meter();
 
-        $this->setForm('meterSave', array(
-            'controller' => 'meter' ,
-            'action' => 'save',
-            'module' => 'power'
-        ));
+            // search form
+            $this->setForm('meterSearch', array(
+                'controller' => 'meter' ,
+                'action' => 'index',
+                'module' => 'power'
+            ), true);
 
-        $this->_setSearch(array(
-            'meter', 'site'
-        ));
+            $this->setForm('meterSave', array(
+                'controller' => 'meter' ,
+                'action' => 'save',
+                'module' => 'power'
+            ));
+
+            $this->_setSearch(array(
+                'meter', 'site'
+            ));
+        }
     }
 
     /**
@@ -106,96 +100,71 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
         return $this->_getAjaxDataStore('getMetersBySiteId' ,'meter_idMeter', true);
     }
 
-    public function meterContractStoreAction()
-    {
-        unset($this->_search);
-        $this->_setSearch(array('meterContract_idContract'));
-
-        return $this->_getAjaxDataStore('getMetersByContractId' ,'meter_idMeter', true);
-    }
-
     public function addAction()
     {
-        if ($this->_request->getParam('siteId')) {
+        if ($this->_request->isXmlHttpRequest()
+                && $this->_request->getParam('type') == 'add'
+                && $this->_request->isPost()) {
             $this->getForm('meterSave')
-                ->populate(array(
-                    'meter_idSite' => $this->_request->getParam('siteId')
-                ))
-                ->addHiddenElement('returnAction', 'add');
+                ->populate(array('meter_idSite' => $this->_request->getParam('meter_idSite')));
+            $this->render('ajax-form');
         } else {
-            return $this->_helper->redirector('index', 'meter', 'power');
+            return $this->_helper->redirector('index', 'client');
         }
-
     }
 
     public function editAction()
     {
-        if ($this->_request->getParam('idMeter')) {
+        if ($this->_request->getParam('idMeter')
+                && $this->_request->isPost()
+                && $this->_request->isXmlHttpRequest()) {
             $meter = $this->_model->getMeterDetails($this->_request->getParam('idMeter'));
 
             $this->getForm('meterSave')
-                ->populate($meter->toArray('dd/MM/yyyy'))
-                ->addHiddenElement('returnAction', 'edit');
-
-            $this->_log->info($meter);
+                ->populate($meter->toArray('dd/MM/yyyy'));
 
             $this->view->assign(array(
                 'meter' => $meter
             ));
 
+            if ($this->_request->getParam('type') == 'edit') {
+                $this->render('ajax-form');
+            }
         } else {
-           return $this->_helper->redirector('index', 'meter');
+           return $this->_helper->redirector('index', 'site');
         }
     }
 
     public function saveAction()
     {
-        if (!$this->_request->isPost()) {
+        if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'meter');
         }
 
-        $meterId = $this->_request->getParam('meterId');
-
-        if ($this->_request->getParam('cancel')) {
-            $search = array();
-            if ($this->_request->getParam('meter')) {
-                $search['meter'] = $this->_request->getParam('meter');
-            }
-
-            if ($this->_request->getParam('site')) {
-                $search['site'] = $this->_request->getParam('site');
-            }
-
-            return $this->_helper->redirector('index', 'meter', 'power', $search);
-        }
-
-        $action = $this->_request->getParam('returnAction');
-
-        $this->getForm('meterSave')->addHiddenElement('returnAction', $action);
-
+        $this->_helper->viewRenderer->setNoRender(true);
 
         if (!$this->getForm('meterSave')->isValid($this->_request->getPost())) {
-            $this->view->assign(array(
-                'meter'    => $meterId
-            ));
-            return $this->render($action); // re-render the edit form
+            $html = $this->view->render('meter/ajax-form.phtml');
+
+            $returnJson = array(
+                'saved' => 0,
+                'html'  => $html
+            );
         } else {
-            $saved = $this->_model->save();
+            $saved = $this->_model->save('meterSave');
 
-            if ($saved > 0) {
-                $this->_helper->FlashMessenger(array(
-                    'pass' => 'Meter saved to database'
-                ));
+            $returnJson = array(
+                'saved' => $saved
+            );
 
-                return $this->_helper->redirector('index', 'meter');
-            } elseif ($saved == 0) {
-                $this->_helper->FlashMessenger(array(
-                    'fail' => 'Nothing new to save'
-                ));
-
-                return $this->_forward($action);
+            if ($saved == 0) {
+                $html = $this->view->render('meter/ajax-form.phtml');
+                $returnJson['html'] = $html;
             }
         }
-    }
 
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($returnJson));
+    }
 }

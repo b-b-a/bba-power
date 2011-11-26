@@ -52,19 +52,22 @@ class Power_Model_Mapper_Contract extends BBA_Model_Mapper_Abstract
     public function getContractById($id)
     {
         $select = $this->getDbTable()
-            ->select($id)
+            ->select(false)
+            ->setIntegrityCheck(false)
+            ->from('contract')
+            ->join('client', 'contract_idClient = client_idClient')
             ->where('contract_idContract = ?', $id);
 
         return $this->fetchRow($select);
     }
 
-    public function save()
+    public function save($form)
     {
         if (!$this->checkAcl('save')) {
             throw new ZendSF_Acl_Exception('saving contracts is not allowed.');
         }
 
-        //return parent::save('meterSave');
+        return parent::save($form);
     }
 
     public function delete($id)

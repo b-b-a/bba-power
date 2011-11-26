@@ -35,26 +35,19 @@
              url="/supplier/supplier-store"
              requestMethod="post"></span>
 
-        <table dojoType="dojox.grid.DataGrid"
+        <table dojoType="bba.DataGrid"
                jsId="supplierGrid"
                store="supplierStore"
                query="<?php echo $this->search; ?>"
                sortInfo="2"
-               style="margin:auto;height:500px;"
-               autoWidth="false"
-               autoHeight="auto"
-               selectionMode="single"
-               rowSelector="0px"
-               rowsPerPage="25"
-               clientSort="true"
-               checkRows="true"
+               search="true"
                tabs="true"
-               tabTitleColumn="supplier_name"
-               noDataMessage="<span class='dojoxGridNoData'>No records found matching query</span>">
+               tabTitleColumn="supplier_name">
             <thead>
                 <tr>
-                    <th field="supplier_idSupplier" width="75">Id</th>
-                    <th field="supplier_name" width="300">Supplier</th>
+                    <th field="supplier_idSupplier" width="50">Id</th>
+                    <th field="supplier_name" width="300">Supplier Name</th>
+                    <th field="supplier_nameShort" width="75">Supplier</th>
                     <th field="supplier_address1" width="350">Address1</th>
                     <th field="supplier_postcode" width="100">Postcode</th>
                     <th field="" width="auto"></th>

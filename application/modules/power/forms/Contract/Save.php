@@ -44,9 +44,9 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
         $this->setName('contract');
 
         $view = $this->getView();
-        if (isset($view->request['contractId'])) {
-            $siteId = $view->request['contractId'];
-            $row = $this->_model->find($siteId);
+        if (isset($view->request['idContract'])) {
+            $contractId = $view->request['idContract'];
+            $row = $this->_model->find($contractId, true);
         }
 
         $this->addElement('FilteringSelect', 'contract_idClient', array(
@@ -57,22 +57,45 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'storeId'       => 'clientStore',
             'storeType'     => 'dojo.data.ItemFileReadStore',
             'storeParams'   => array('url' => "/site/autocomplete/param/client"),
-            'dijitParams'   => array('searchAttr' => 'client_name'),
+            'dijitParams'   => array(
+                'searchAttr'    => 'client_name',
+                'promptMessage' => 'Select a Client'
+            ),
             //'attribs'       => array('readonly' => true),
-            'required'      => true
+            'required'      => true,
+            'value'         => ''
         ));
 
-        $this->addElement('TextBox', 'contract_idTenderSelected', array(
-            'label'     => 'Tender Selected:',
-            'required'  => true,
-            'attribs'       => array('disabled' => true),
-            'filters'   => array('StripTags', 'StringTrim')
+        $multiOptions = array();
+
+        if (isset($row)) {
+            $list = $row->findDependentRowset(
+                'Power_Model_DbTable_Tender',
+                'contract'
+            );
+            $multiOptions = array(0 => 'Select Supplier');
+            foreach($list as $value) {
+                
+                $supplier = $value->findParentRow(
+                    'Power_Model_DbTable_Supplier',
+                    'supplier'
+                );
+                $multiOptions[$value['tender_idTender']] = $supplier['supplier_name'];
+            }
+        }
+
+        $this->addElement('FilteringSelect', 'contract_idTenderSelected', array(
+            'label'         => 'Tender Selected',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autocomplete'  => false,
+            'multiOptions'  => $multiOptions,
+            'required'      => false,
         ));
 
         $this->addElement('TextBox', 'contract_idSupplierContactSelected', array(
             'label'     => 'Supplier Contact Selected:',
-            'required'  => true,
-            'attribs'       => array('disabled' => true),
+            'required'  => false,
+            'attribs'   => array('disabled' => true),
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
@@ -92,6 +115,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
 
         $table = new Power_Model_Mapper_Tables();
         $list = $table->getSelectListByName('contract_type');
+        $multiOptions = array(0 => 'Select type');
         foreach($list as $row) {
             $multiOptions[$row->key] = $row->value;
         }
@@ -104,7 +128,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'required'      => true,
         ));
 
-        $multiOptions = array();
+        $multiOptions = array(0 => 'Select a status');
 
         $list = $table->getSelectListByName('contract_status');
         foreach($list as $row) {
@@ -179,18 +203,11 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $auth = Zend_Auth::getInstance()
-            ->getIdentity();
+        $auth = Zend_Auth::getInstance()->getIdentity();
 
         $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('contract_idContract', '');
         $this->addHiddenElement('contract_idContractPrevious', '');
-
-        if ($auth->role == 'admin') {
-            $this->addSubmit('Save');
-        }
-
-        $this->addSubmit('Cancel', 'cancel');
     }
 
 }

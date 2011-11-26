@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Mapper_User extends ZendSF_Model_Mapper_Acl_Abstract
+class Power_Model_Mapper_User extends BBA_Model_Mapper_Abstract
 {
    /**
      * @var string the DbTable class name
@@ -68,35 +68,26 @@ class Power_Model_Mapper_User extends ZendSF_Model_Mapper_Acl_Abstract
         return $user;
     }
 
-    public function save()
+    public function save($form)
     {
         if (!$this->checkAcl('save')) {
             throw new ZendSF_Acl_Exception('Saving users is not allowed.');
         }
 
-        $form = $this->getForm('userSave')->getValues();
-
-        // remove userId if not set.
-        if (!$form['user_idUser']) unset($form['user_idUser']);
-
         // add password treatment if set.
-        if ($form['user_password'] === ''){
-            unset($form['user_password']);
+        $pwd = $this->getForm($form)->getValue('user_password');
+        if ($pwd === '') {
+            $this->getForm($form)->removeElement('user_password');
         } else {
-            $auth = Zend_Registry::get('config')
-                    ->user
-                    ->auth;
+
+            $auth = Zend_Registry::get('config')->user->auth;
 
             $treatment = $auth->credentialTreatment;
-            $form['user_password'] = ZendSF_Utility_Password::$treatment(
-                $form['user_password']
-                . $auth->salt
-            );
+            $pwd = ZendSF_Utility_Password::$treatment($pwd . $auth->salt);
+            $this->getForm($form)->getElement('user_password')->setValue($pwd);
         }
 
-        $model = new Power_Model_User($form);
-
-        return parent::save($model);
+        return parent::save($form);
     }
 
     public function delete($id)
@@ -111,27 +102,4 @@ class Power_Model_Mapper_User extends ZendSF_Model_Mapper_Acl_Abstract
 
         return parent::delete($where);
     }
-
-    /**
-     * Injector for the acl, the acl can be injected directly
-     * via this method.
-     *
-     * We add all the access rules for this resource here, so we first call
-     * parent method to add $this as the resource then we
-     * define it rules here.
-     *
-     * @param Zend_Acl_Resource_Interface $acl
-     * @return ZendSF_Model_Mapper_Abstract
-     */
-    public function setAcl(Zend_Acl $acl)
-    {
-        parent::setAcl($acl);
-
-        // implement rules here.
-        $this->_acl->allow('admin', $this)
-            ->deny('admin', $this, array('delete'));
-
-        return $this;
-    }
-
 }

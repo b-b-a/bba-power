@@ -1,0 +1,71 @@
+<?php $form = $this->clientAddForm; ?>
+<div id="addClientWidget"
+     data-dojo-type="dojox.widget.Wizard"
+     data-dojo-props="doneButtonLabel: 'Save'">
+
+    <div class="form_wrap wizard">
+        <div data-dojo-type="dojox.widget.WizardPane"
+             data-dojo-props="style: 'height:100px;'"
+             class="zend_form client_edit">
+
+            <?php echo $form->client_name; ?>
+
+            <?php echo $form->client_dateExpiryLoa; ?>
+        </div>
+
+        <div id="addClientWidgetPane1"
+            data-dojo-type="dojox.widget.WizardPane"
+             data-dojo-props="dstyle: 'height:230px;'"
+             class="zend_form client_edit">
+
+            <?php echo $form->clientAd_address1; ?>
+
+            <?php echo $form->clientAd_address2; ?>
+
+            <?php echo $form->clientAd_address3; ?>
+
+            <?php echo $form->clientAd_postcode; ?>
+
+        </div>
+
+        <div data-dojo-type="dojox.widget.WizardPane"
+             data-dojo-props="style: 'height:230px;'"
+             class="zend_form client_edit">
+
+            <?php echo $form->clientCo_type; ?>
+
+            <?php echo $form->clientCo_name; ?>
+
+            <?php echo $form->clientCo_phone; ?>
+
+            <?php echo $form->clientCo_email; ?>
+
+            <script type='dojo/method' data-dojo-event="doneFunction">
+                if (!clientGrid.dlg.validate()) {
+                    alert('Please recheck all form entries for mistakes.');
+                    return false;
+                }
+                var vals = clientGrid.dlg.get('value');
+
+                clientGrid.dlg.onExecute();
+                clientGrid.dlg.destroyRecursive();
+                clientGrid.dlg = null;
+
+                clientGrid.processForm(vals, '/client/save', 'add');
+                clientGrid._refresh();
+            </script>
+        </div>
+    </div>
+    <script type="dojo/method" event="cancelFunction">
+        clientGrid.dlg.hide();
+    </script>
+</div>
+
+<div class="">
+    <input dojoType="dijit.form.TextBox"
+           type="hidden"
+           name="userId"
+           id="userId"
+           required="true"
+           value="<?php echo $form->userId->getValue(); ?>" />
+</div>
