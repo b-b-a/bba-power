@@ -45,6 +45,79 @@ class Power_Form_Supplier_Contact_Save extends ZendSF_Form_Abstract
 
         // supplier contact to do.
 
+        $table = new Power_Model_Mapper_Tables();
+        $list = $table->getSelectListByName('SupplierCo_type');
+        $multiOptions[0] = 'Select a type';
+        foreach($list as $row) {
+            $multiOptions[$row->key] = $row->value;
+        }
+
+        $this->addElement('FilteringSelect', 'supplierCo_type', array(
+            'label'     => 'Type:',
+            'filters'   => array('StripTags', 'StringTrim'),
+            'autocomplete' => false,
+            'multiOptions'  => $multiOptions,
+            'required'  => true,
+        ));
+
+        $this->addElement('ValidationTextBox', 'supplierCo_name', array(
+            'label'     => 'Name:',
+            'required'  => true,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('ValidationTextBox', 'supplierCo_position', array(
+            'label'     => 'Position:',
+            'required'  => true,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('ValidationTextBox', 'supplierCo_phone', array(
+            'label'     => 'Phone:',
+            'required'  => true,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('ValidationTextBox', 'supplierCo_email', array(
+            'label'         => 'Email:',
+            'required'      => true,
+            'filters'       => array('StripTags', 'StringTrim', 'StringToLower'),
+            'validators'    => array(
+                array('EmailAddress', true),
+                array('Db_NoRecordExists', false, array(
+                    'table' => 'supplier_contact',
+                    'field' => 'supplierCo_email'
+                ))
+            )
+        ));
+
+        $this->addElement('ValidationTextBox', 'supplierCo_address1', array(
+            'label'     => 'Address 1:',
+            'required'  => true,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('TextBox', 'supplierCo_address2', array(
+            'label'     => 'Address 2:',
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('TextBox', 'supplierCo_address3', array(
+            'label'     => 'Address 3:',
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('ValidationTextBox', 'supplierCo_postcode', array(
+            'label'         => 'Postcode:',
+            'required'      => true,
+            'filters'       => array('StripTags', 'StringTrim', 'StringToUpper'),
+            'validators'    => array(
+                array('PostCode', true, array(
+                    'locale' => 'en_GB'
+                ))
+            )
+        ));
+
         $auth = Zend_Auth::getInstance()->getIdentity();
 
         $this->addHiddenElement('userId', $auth->getId());

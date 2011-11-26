@@ -42,7 +42,7 @@ class Power_View_Helper_FormatDate extends Zend_View_Helper_Abstract
     protected $_dateFormat = 'dd/MM/yyyy';
 
     /**
-     * Takes the site address and formats it so that each line is on a new line
+     * Takes the date and formats it through Zend_Date
      *
      * @param string $address
      * @return string

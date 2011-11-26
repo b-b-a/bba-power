@@ -51,11 +51,11 @@ class Power_Model_Mapper_SupplierContact extends BBA_Model_Mapper_Abstract
 
     public function save($form)
     {
-        if (!$this->checkAcl('delete')) {
+        if (!$this->checkAcl('save')) {
             throw new ZendSF_Acl_Exception('Saving supplier contacts is not allowed.');
         }
 
-        parent::save($form);
+        return parent::save($form);
     }
 
     public function delete($id)
