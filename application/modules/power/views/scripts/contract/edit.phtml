@@ -52,12 +52,10 @@
                             <p>&nbsp;<?php echo $this->contract->status; ?></p>
                         </div>
                         <div class="form_row">
-                            <p class="label"><b>Start Date:</b></p>
-                            <p>&nbsp;<?php echo $this->formatDate($this->contract->dateStart); ?></p>
-                        </div>
-                        <div class="form_row">
-                            <p class="label"><b>End Date:</b></p>
-                            <p>&nbsp;<?php echo $this->formatDate($this->contract->dateEnd); ?></p>
+                            <p class="label"><b>Tender Selected:</b></p>
+                            <p>&nbsp;<?php echo $this->tenderHelper($this->contract->idTenderSelected)
+                                    ->getParentRow('supplier')
+                                    ->get('supplier_nameShort'); ?></p>
                         </div>
 
                     </div>
@@ -68,12 +66,11 @@
 
                         <div class="form_row">
                             <p class="label"><b>Start Date:</b></p>
-                            <p>&nbsp;<?php echo $this->contract->dateStart->toString('dd/MM/yyyy'); ?></p>
+                            <p>&nbsp;<?php echo $this->formatDate($this->contract->dateStart); ?></p>
                         </div>
-
                         <div class="form_row">
                             <p class="label"><b>End Date:</b></p>
-                            <p>&nbsp;<?php echo $this->contract->dateEnd->toString('dd/MM/yyyy'); ?></p>
+                            <p>&nbsp;<?php echo $this->formatDate($this->contract->dateEnd); ?></p>
                         </div>
 
                         <div class="form_row">

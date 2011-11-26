@@ -44,9 +44,9 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
         $this->setName('contract');
 
         $view = $this->getView();
-        if (isset($view->request['contractId'])) {
-            $siteId = $view->request['contractId'];
-            $row = $this->_model->find($siteId);
+        if (isset($view->request['idContract'])) {
+            $contractId = $view->request['idContract'];
+            $row = $this->_model->find($contractId, true);
         }
 
         $this->addElement('FilteringSelect', 'contract_idClient', array(
@@ -66,11 +66,30 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'value'         => ''
         ));
 
-        $this->addElement('TextBox', 'contract_idTenderSelected', array(
-            'label'     => 'Tender Selected:',
-            'required'  => false,
-            'attribs'   => array('disabled' => true),
-            'filters'   => array('StripTags', 'StringTrim')
+        $multiOptions = array();
+
+        if (isset($row)) {
+            $list = $row->findDependentRowset(
+                'Power_Model_DbTable_Tender',
+                'contract'
+            );
+            $multiOptions = array(0 => 'Select Supplier');
+            foreach($list as $value) {
+                
+                $supplier = $value->findParentRow(
+                    'Power_Model_DbTable_Supplier',
+                    'supplier'
+                );
+                $multiOptions[$value['tender_idTender']] = $supplier['supplier_name'];
+            }
+        }
+
+        $this->addElement('FilteringSelect', 'contract_idTenderSelected', array(
+            'label'         => 'Tender Selected',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autocomplete'  => false,
+            'multiOptions'  => $multiOptions,
+            'required'      => false,
         ));
 
         $this->addElement('TextBox', 'contract_idSupplierContactSelected', array(
