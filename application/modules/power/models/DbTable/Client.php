@@ -83,10 +83,9 @@ class Power_Model_DbTable_Client extends ZendSF_Model_DbTable_Abstract
         return $this->find($id)->current();
     }
 
-    public function getList()
+    public function searchClients(array $search, $sort = '', $count = null, $offset = null)
     {
-        return $this->select(false)
-            ->setIntegrityCheck(false)
+        $select = $this->select(false)->setIntegrityCheck(false)
             ->from('client', array(
                 'client_idClient',
                 'client_name',
@@ -97,13 +96,6 @@ class Power_Model_DbTable_Client extends ZendSF_Model_DbTable_Abstract
                 'clientAd_address1',
                 'clientAd_postcode'
             ));
-    }
-
-    public function getSearch($search, $select)
-    {
-        if ($search === null) {
-            return $select;
-        }
 
         if (!$search['client'] == '') {
             if (substr($search['client'], 0, 1) == '=') {
@@ -123,7 +115,10 @@ class Power_Model_DbTable_Client extends ZendSF_Model_DbTable_Abstract
                 ->orWhere('clientAd_postcode like ?', '%' . $search['address'] . '%');
         }
 
-        return $select;
+        $select = $this->getLimit($select, $count, $offset);
+        $select = $this->getSortOrder($select, $sort);
+
+        return $this->fetchAll($select);
     }
 
     public function numRows($search)

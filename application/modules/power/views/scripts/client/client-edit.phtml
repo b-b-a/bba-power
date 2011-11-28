@@ -7,20 +7,20 @@
         <div class="tabHeading">
             <div class="form_wrap zend_form client_edit ident alpha"
                  dojoType="dijit.form.Form"
-                 id="edit-client-<?php echo $this->client->id; ?>">
+                 id="edit-client-<?php echo $this->client->client_idClient; ?>">
                 <h3>Client Details</h3>
                 <div class="form_row">
                     <p class="label"><b>Client Name: </b></p>
-                    <p><?php echo $this->client->name; ?></p>
+                    <p><?php echo $this->client->client_name; ?></p>
                 </div>
                 <div class="form_row">
                     <p class="label"><b>LoA Expiry Date: </b></p>
-                    <p><?php echo $this->client->dateExpiryLoa->toString('dd/MM/yyyy'); ?></p>
+                    <p><?php echo $this->formatDate($this->client->client_dateExpiryLoa); ?></p>
                 </div>
 
                 <button dojoType="dijit.form.Button"
                         type="submit"
-                        name="edit-client-button-<?php echo $this->client->id; ?>"
+                        name="edit-client-button-<?php echo $this->client->client_idClient; ?>"
                         value="submit">Edit Details</button>
             </div>
             <div class="clear"></div>
@@ -29,7 +29,7 @@
                 <?php if ($this->authInfo('role') == 'admin'): ?>
                 <p class="tableHead-button">
                     <button dojoType="dijit.form.Button"
-                            id="new-client-address-button-<?php echo $this->client->id; ?>"
+                            id="new-client-address-button-<?php echo $this->client->client_idClient; ?>"
                             type="button">New Address</button>
                 </p>
                 <?php endif; ?>
@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <div id="ClientTabs<?php echo $this->client->id; ?>"
+    <div id="ClientTabs<?php echo $this->client->client_idClient; ?>"
          data-dojo-type="dijit.layout.TabContainer"
          data-dojo-props="region: 'center', tabStrip: 'true'"
          class="innerTabs">
@@ -46,14 +46,14 @@
              data-dojo-props="region: 'center', title: 'Client Addresses'">
 
             <span dojoType="dojox.data.QueryReadStore"
-                  jsid="clientAddressStore<?php echo $this->client->id; ?>"
+                  jsid="clientAddressStore<?php echo $this->client->client_idClient; ?>"
                   url="/client-address/client-address-store"
                   requestMethod="post"></span>
 
             <table dojoType="bba.DataGrid"
-                   jsId="addressGrid<?php echo $this->client->id; ?>"
-                   store="clientAddressStore<?php echo $this->client->id; ?>"
-                   query="{ clientAd_idClient: <?php echo $this->client->id; ?> }"
+                   jsId="addressGrid<?php echo $this->client->client_idClient; ?>"
+                   store="clientAddressStore<?php echo $this->client->client_idClient; ?>"
+                   query="{ clientAd_idClient: <?php echo $this->client->client_idClient; ?> }"
                    queryParent="clientAd_idClient"
                    sortInfo="2"
                    tabs="true"

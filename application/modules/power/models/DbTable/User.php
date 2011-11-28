@@ -97,18 +97,8 @@ class Power_Model_DbTable_User extends ZendSF_Model_DbTable_Abstract
                 ->orWhere('user_accessClient like ?', '%' . $search['role'] . '%');
         }
 
-        if ($count !== null && $offset !== null) $select->limit($count, $offset);
-
-        if ($sort !== '') {
-            if (strchr($sort,'-')) {
-                $sort = substr($sort, 1, strlen($sort));
-                $order = 'DESC';
-            } else {
-                $order = 'ASC';
-            }
-
-            $select->order($sort . ' ' . $order);
-        }
+        $select = $this->getLimit($select, $count, $offset);
+        $select = $this->getSortOrder($select, $sort);
 
         return $this->fetchAll($select);
     }

@@ -83,9 +83,9 @@ class Power_UserController extends Zend_Controller_Action
             ->populate($this->_request->getPost());
 
         $form->setAction($urlHelper->url(array(
-            'controller' => 'user' ,
-            'action' => 'list',
-            'module' => 'power'
+            'controller'    => 'user' ,
+            'action'        => 'index',
+            'module'        => 'power'
         ), 'default'));
 
         $form->setMethod('post');
@@ -97,7 +97,7 @@ class Power_UserController extends Zend_Controller_Action
         ));
     }
 
-    public function addAction()
+    public function userAddAction()
     {
         if ($this->_request->isXmlHttpRequest()
                 && $this->_request->getParam('type') == 'add'
@@ -105,17 +105,17 @@ class Power_UserController extends Zend_Controller_Action
 
             $this->_helper->layout->disableLayout();
 
-            $form = $this->getUserSaveForm();
+            $form = $this->_getUserForm();
 
             $this->view->assign(array('userSaveForm' => $form));
 
-            $this->render('ajax-form');
+            $this->render('user-form');
         } else {
-            return $this->_helper->redirector('index', 'client');
+            return $this->_helper->redirector('index', 'user');
         }
     }
 
-    public function editAction()
+    public function userEditAction()
     {
         if ($this->_request->getParam('idUser')
                 && $this->_request->isPost()
@@ -124,7 +124,7 @@ class Power_UserController extends Zend_Controller_Action
 
             $user = $this->_model->getUserById($this->_request->getParam('idUser'));
 
-            $form = $this->getUserSaveForm();
+            $form = $this->_getUserForm();
             $form->populate($user->toArray())
                 ->getElement('user_password')
                 ->setValue('')
@@ -132,19 +132,19 @@ class Power_UserController extends Zend_Controller_Action
 
             $this->view->assign(array('userSaveForm' => $form));
 
-            $this->render('ajax-form');
+            $this->render('user-form');
         } else {
-           return $this->_helper->redirector('index', 'client');
+           return $this->_helper->redirector('index', 'user');
         }
     }
 
-    public function saveAction()
+    public function userSaveAction()
     {
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
 
-        if (!$this->_request->isPost()&& !$this->_request->isXmlHttpRequest()) {
-            return $this->_helper->redirector('list', 'users');
+        if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
+            return $this->_helper->redirector('index', 'user');
         }
 
         $saved = $this->_model->saveUser($this->_request->getPost());
@@ -152,7 +152,8 @@ class Power_UserController extends Zend_Controller_Action
         $returnJson = array('saved' => $saved);
 
         if ($saved == 0) {
-            $html = $this->view->render('user/ajax-form.phtml');
+            //$this->view->assign(array('userSaveForm' => $this->_getUserForm()));
+            $html = $this->view->render('user/user-form.phtml');
             $returnJson['html'] = $html;
         }
 
@@ -161,15 +162,15 @@ class Power_UserController extends Zend_Controller_Action
             ->setBody(json_encode($returnJson));
     }
 
-    public function getUserSaveForm()
+    private function _getUserForm()
     {
         $urlHelper = $this->_helper->getHelper('url');
         $form = $this->_model->getForm('userSave');
 
         $form->setAction($urlHelper->url(array(
-            'controller' => 'users',
-            'action' => 'save',
-            'module' => 'power'
+            'controller'    => 'user',
+            'action'        => 'user-save',
+            'module'        => 'power'
         ), 'default'));
 
         $form->setMethod('post');

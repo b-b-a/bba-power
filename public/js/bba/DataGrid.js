@@ -144,7 +144,7 @@ dojo.declare(
                 var pane = new dijit.layout.ContentPane({
                     id: tabId,
                     title: this.store.getValue(this.selectedItem, this.tabTitleColumn),
-                    href: '/' + this.getController() + '/edit',
+                    href: '/' + this.getController() + '/' + this.getController() + '-edit',
                     ioArgs: { content:contentVars },
                     closable: true,
                     refreshOnShow: true,
@@ -220,9 +220,9 @@ dojo.declare(
                     title: (this.dialogName) ? this.dialogName :
                         this.capitalize(type + ' ' + con.replace('-', ' ')),
                     ioArgs: {content: contentVars},
-                    href: '/' + this.hyphenate(con) + '/' + type,
+                    href: '/' + this.hyphenate(con) + '/' + this.hyphenate(con) + '-' + type,
                     execute: dojo.hitch(this, function() {
-                        var url = '/' + this.hyphenate(con) + '/save';
+                        var url = '/' + this.hyphenate(con) + '/' + this.hyphenate(con) + '-save';
                         this.dlg.destroyRecursive();
                         this.dlg = null;
                         this.processForm(arguments[0], url, type);

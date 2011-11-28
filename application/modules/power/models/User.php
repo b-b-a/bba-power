@@ -63,29 +63,15 @@ class Power_Model_User extends ZendSF_Model_Acl_Abstract
         return $this->getDbTable('User')->getUserByUsername($username, $ignoreUser);
     }
 
+    /**
+     * Gets the data store list, using search parameters.
+     *
+     * @param array $post
+     * @return string JSON string
+     */
     public function getUserDataStore(array $post)
     {
-        $sort = $post['sort'];
-        $count = $post['count'];
-        $start = $post['start'];
-
-        $form = $this->getForm('userSearch');
-        $search = array();
-
-        if ($form->isValid($post)) {
-            $search = $form->getValues();
-        }
-
-        $dataObj = $this->getDbTable('user')->searchUsers($search, $sort, $count, $start);
-
-        $store = $this->getDojoDataStore($dataObj, 'user_idUser');
-
-        $store->setMetadata(
-            'numRows',
-            $this->getDbTable('user')->numRows($search)
-        );
-
-        return $store->toJson();
+        return $this->_getDojoDataStore($post, 'userSearch', 'user', 'searchUsers', 'user_idUser');
     }
 
     /**

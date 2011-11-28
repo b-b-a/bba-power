@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_ClientController extends BBA_Controller_Action_Abstract
+class Power_ClientController extends Zend_Controller_Action
 {
     /**
      * @var Power_Model_Client
@@ -49,40 +49,26 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
      */
     public function init()
     {
-        parent::init();
+        $this->_model = new Power_Model_Client();
+    }
 
-        if (!$this->_helper->acl('Guest')) {
-
-            $this->_model = new Power_Model_Client();
-
-            $this->setForm('clientSave', array(
-                'controller'    => 'client' ,
-                'action'        => 'save',
-                'module'        => 'power'
-            ));
-
-            $this->setForm('clientAdd', array(
-                'controller'    => 'client' ,
-                'action'        => 'save',
-                'module'        => 'power'
-            ));
-
-            // search form
-            $this->setForm('clientSearch', array(
-                'controller'    => 'client' ,
-                'action'        => 'index',
-                'module'        => 'power'
-            ));
-
-            $this->_setSearch(array(
-                'client', 'address'
-            ));
+    /**
+     * Checks if user is logged, if not then forwards to login.
+     *
+     * @return Zend_Controller_Action::_forward
+     */
+    public function preDispatch()
+    {
+        if ($this->_helper->acl('Guest')) {
+            return $this->_forward('login', 'auth');
         }
     }
 
     public function clientStoreAction()
     {
         $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+
         $data = $this->_model->getClientDataStore($this->_request->getPost());
 
         $this->getResponse()
@@ -92,115 +78,105 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
 
     public function indexAction()
     {
-        $this->getForm('clientSearch')->populate($this->_request->getPost());
+        $urlHelper = $this->_helper->getHelper('url');
+        $form = $this->_model->getForm('clientSearch')
+            ->populate($this->_request->getPost());
+
+        $form->setAction($urlHelper->url(array(
+            'controller'    => 'client' ,
+            'action'        => 'index',
+            'module'        => 'power'
+        ), 'default'));
+
+        $form->setMethod('post');
 
         // assign search to the view script.
         $this->view->assign(array(
-            'search' => $this->_getSearchString('clientSearch')
+            'search' => Zend_Json::encode($form->getValues()),
+            'clientSearchForm'  => $form
         ));
     }
 
-    public function addAction()
+    public function clientAddAction()
     {
         if ($this->_request->isXmlHttpRequest()
                 && $this->_request->getParam('type') == 'add'
                 && $this->_request->isPost()) {
 
-            $this->render('add-form');
+            $this->_helper->layout->disableLayout();
+
+            $form = $this->_getClientForm('clientAdd');
+
+            $this->view->assign(array('clientSaveForm' => $form));
+
+            $this->render('client-add-form');
         } else {
             return $this->_helper->redirector('index', 'client');
         }
     }
 
-    public function editAction()
+    public function clientEditAction()
     {
         if ($this->_request->getParam('idClient')
                 && $this->_request->isPost()
                 && $this->_request->isXmlHttpRequest()) {
+            $this->_helper->layout->disableLayout();
 
-            $client = $this->_model->find($this->_request->getParam('idClient'));
+            $client = $this->_model->getClientById($this->_request->getParam('idClient'));
 
-            $this->getForm('clientSave')
-                ->populate($client->toArray('dd/MM/yyyy'));
+            $form = $this->_getClientForm('clientSave');
+            $form->populate($client->toArray('dd/MM/yyyy'));
 
             $this->view->assign(array(
-                'client' => $client
+                'client'            => $client,
+                'clientSaveForm'    => $form
             ));
 
             if ($this->_request->getParam('type') == 'edit') {
-                $this->render('ajax-form');
+                $this->render('client-edit-form');
             }
         } else {
            return $this->_helper->redirector('index', 'client');
         }
     }
 
-    public function saveAction()
+    public function clientSaveAction()
     {
-        if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+
+        if (!$this->_request->isPost()&& !$this->_request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'client');
         }
 
-        $this->_helper->viewRenderer->setNoRender(true);
+        $request = $this->_request->getPost();
 
-        if ($this->_request->getParam('type') == 'edit') {
-            $render = 'ajax-form.phtml';
-            $form = 'clientSave';
-        } else {
-            $render = 'add-form.phtml';
-            $form = 'clientAdd';
-        }
+        $saved = $this->_model->saveClient($request);
 
-        // remove client_dateExpiryLoa validation rules
-        // if an empty string so that it can validate.
-        if ($this->_request->getParam('client_dateExpiryLoa') === '') {
-            $client_dateExpiryLoaValidateRules = $this->getForm($form)
-                ->getElement('client_dateExpiryLoa')
-                ->getValidator('Date');
+        $returnJson = array('saved' => $saved);
 
-            $this->getForm($form)->getElement('client_dateExpiryLoa')
-                ->removeValidator('Date');
-        }
-
-        if (!$this->getForm($form)->isValid($this->_request->getPost())) {
-
-            if (isset($client_dateExpiryLoaValidateRules)) {
-                $this->getForm($form)
-                    ->getElement('client_dateExpiryLoa')
-                    ->addValidator($client_dateExpiryLoaValidateRules);
-            }
-
-            $html = $this->view->render('client/' . $render);
-
-            $returnJson = array(
-                'saved' => 0,
-                'html'  => $html
-            );
-        } else {
-            if ($this->_request->getParam('type') == 'edit') {
-                $saved = $this->_model->save($form);
-            } else {
-                $saved = $this->_model->saveNewClient($form);
-            }
-
-            $returnJson = array(
-                'saved' => $saved
-            );
-
-            if ($saved == 0) {
-                if (isset($client_dateExpiryLoaValidateRules)) {
-                    $this->getForm($form)
-                        ->getElement('client_dateExpiryLoa')
-                        ->addValidator($client_dateExpiryLoaValidateRules);
-                }
-
-                $html = $this->view->render('client/' . $render);
-                $returnJson['html'] = $html;
-            }
+        if ($saved == 0) {
+            $html = $this->view->render('client/client-'. $request['type'] .'-form.phtml');
+            $returnJson['html'] = $html;
         }
 
         $this->getResponse()
             ->setHeader('Content-Type', 'application/json')
             ->setBody(json_encode($returnJson));
+    }
+
+    private function _getClientForm($action)
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+        $form = $this->_model->getForm($action);
+
+        $form->setAction($urlHelper->url(array(
+            'controller'    => 'client',
+            'action'        => 'client-save',
+            'module'        => 'power'
+        ), 'default'));
+
+        $form->setMethod('post');
+        return $form;
     }
 }

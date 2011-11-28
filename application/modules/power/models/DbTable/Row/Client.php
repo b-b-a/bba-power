@@ -40,15 +40,37 @@
 class Power_Model_DbTable_Row_Client extends ZendSF_Model_DbTable_Row_Abstract
 {
     /**
-     * Sets the date for Letter of Authority using Zend_Date
+     * Array of all columns with need date format applied
+     * to it when outputting row as an array.
      *
-     * @param string The date format for output.
-     * @return strin
+     * @var array
      */
-    public function getDateExpiryLoa($format)
+    protected $_dateKeys = array(
+        'client_dateExpiryLoa',
+        'client_dateCreate',
+        'client_dateModify'
+    );
+
+    /**
+     * Returns row as an array, with optional date formating.
+     *
+     * @param string $dateFormat
+     * @return array
+     */
+    public function toArray($dateFormat = null)
     {
-        $date = $this->getRow()->dateExpiryLoa;
-        $date = new Zend_Date($date);
-        return $date->toString($format);
+        $array = array();
+
+        foreach ($this->getRow() as $key => $value) {
+
+            if (in_array($key, $this->_dateKeys)) {
+                $date = new Zend_Date($value);
+                $value = $date->toString($dateFormat);
+            }
+
+            $array[$key] = $value;
+        }
+
+        return $array;
     }
 }

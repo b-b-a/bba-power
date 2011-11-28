@@ -51,29 +51,44 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         return $this->getDbTable('client')->getClientById($id);
     }
 
+    /**
+     * Gets the data store list, using search parameters.
+     *
+     * @param array $post
+     * @return string JSON string
+     */
     public function getClientDataStore(array $post)
     {
-        $sort = $post['sort'];
-        $count = $post['count'];
-        $start = $post['start'];
+        return $this->_getDojoDataStore(
+            $post,
+            'clientSearch',
+            'client',
+            'searchClients',
+            'client_idClient'
+        );
+    }
 
-        $form = $this->getForm('clientSearch');
-        $search = array();
+    public function saveClient()
+    {
+        /*
+        if ($this->_request->getParam('client_dateExpiryLoa') === '') {
+            $client_dateExpiryLoaValidateRules = $this->getForm($form)
+                ->getElement('client_dateExpiryLoa')
+                ->getValidator('Date');
 
-        if ($form->isValid($post)) {
-            $search = $form->getValues();
+            $this->getForm($form)->getElement('client_dateExpiryLoa')
+                ->removeValidator('Date');
         }
 
-        $dataObj = $this->getDbTable('client')->searchClients($search, $sort, $count, $start);
+        if (!$this->getForm($form)->isValid($this->_request->getPost())) {
 
-        $store = $this->getDojoDataStore($dataObj, 'client_idClient');
-
-        $store->setMetadata(
-            'numRows',
-            $this->getDbTable('client')->numRows($search)
-        );
-
-        return $store->toJson();
+            if (isset($client_dateExpiryLoaValidateRules)) {
+                $this->getForm($form)
+                    ->getElement('client_dateExpiryLoa')
+                    ->addValidator($client_dateExpiryLoaValidateRules);
+            }
+        }
+        */
     }
 
     /**
