@@ -45,23 +45,40 @@ bba.Site = {
     {
         if (dijit.byId("site_idAddress").get('disabled') == true) {
             dijit.byId("site_idAddress").set('disabled', false);
+            dijit.byId("site_idClientContact").set('disabled', false);
         }
+
         dijit.byId('site_idAddress').set('value', '');
         dijit.byId('site_idAddressBill').set('value', '');
+        dijit.byId('site_idClientContact').set('value', '');
 
         this.addressStore = new dojo.data.ItemFileReadStore({
-            url:'/site/autocomplete/param/address/addressId/' + val
+            url:'/site/autocomplete/param/address/clientId/' + val
         });
 
         this.addressStore.fetch();
 
         dijit.byId("site_idAddress").store = this.addressStore;
+
+        this.contactStore = new dojo.data.ItemFileReadStore({
+            url:'/site/autocomplete/param/contact/clientId/' + val
+        });
+
+        this.contactStore.fetch();
+
+        dijit.byId("site_idClientContact").store = this.contactStore;
     },
 
     changeBillAddress : function()
     {
         dijit.byId("site_idAddressBill").set('disabled', false);
         dijit.byId("site_idAddressBill").store = this.addressStore;
+    },
+
+    changeContact : function()
+    {
+        dijit.byId("site_idClientContact").set('disabled', false);
+        dijit.byId("site_idClientContact").store = this.contactStore;
     }
 };
 

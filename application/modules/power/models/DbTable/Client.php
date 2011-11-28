@@ -60,7 +60,7 @@ class Power_Model_DbTable_Client extends Zend_Db_Table_Abstract
 		),
         'clientCo'  => array(
             'columns'       => 'client_idClientContact',
-            'refTableClass' => 'Power_Model_DbTable_ClientContacts',
+            'refTableClass' => 'Power_Model_DbTable_ClientContact',
             'refColumns'    => 'clientCo_idClientContact'
         ),
         'user'      => array(

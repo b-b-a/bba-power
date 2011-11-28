@@ -48,4 +48,9 @@ class Power_Model_SupplierContact extends BBA_Model_Abstract
      * @var string
      */
     protected $_prefix = 'supplierCo_';
+
+    public function getAddress1AndPostcode()
+    {
+        return $this->address1 . ', ' . $this->postcode;
+    }
 }

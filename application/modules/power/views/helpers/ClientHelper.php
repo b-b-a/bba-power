@@ -37,17 +37,19 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_View_Helper_ClientHelper extends Zend_View_Helper_Abstract
+class Power_View_Helper_ClientHelper extends ZendSF_View_Helper_MapperHelper
 {
-    protected $_model;
+    /**
+     * @var string Power_Model_Mapper_Client
+     */
+    protected $_modelClass = 'Power_Model_Mapper_Client';
 
-    public function clientHelper($id, $col)
+    public function clientHelper($id)
     {
-        if (null === $this->_model) {
-            $model = new Power_Model_Mapper_Client();
-            $this->_model = $model->find($id);
+        $this->_row = $this->getModel()->find($id, true);
+        if ($this->_row) {
+            $this->set($this->_row->toArray('dd/MM/yyyy'));
         }
-
-        return $this->_model->$col;
+        return $this;
     }
 }

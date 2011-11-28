@@ -75,6 +75,48 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             )
         ));
 
+        $view = $this->getView();
+
+        if (isset($view->request['idClient'])) {
+            $table = new Power_Model_Mapper_ClientAddress();
+            $list = $table->getAddressByClientId(array(
+                'clientAd_idClient' => $view->request['idClient']
+            ));
+
+            // reset options
+            $multiOptions = array(0 => '');
+            foreach($list as $row) {
+                $multiOptions[$row->idAddress] = $row->getAddress1AndPostcode();
+            }
+
+            $this->addElement('FilteringSelect', 'client_idAddress', array(
+                'label'     => 'Main Address:',
+                'filters'   => array('StripTags', 'StringTrim'),
+                'atuocomplete' => false,
+                'multiOptions'  => $multiOptions,
+                'required'  => true
+            ));
+
+            $table = new Power_Model_Mapper_ClientContact();
+            $list = $table->getContactByClientId(array(
+                'clientCo_idClient' => $view->request['idClient']
+            ));
+
+            // reset options
+            $multiOptions = array(0 => '');
+            foreach($list as $row) {
+                $multiOptions[$row->idClientContact] = $row->name;
+            }
+
+            $this->addElement('FilteringSelect', 'client_idClientContact', array(
+                'label'     => 'Main Contact:',
+                'filters'   => array('StripTags', 'StringTrim'),
+                'atuocomplete' => false,
+                'multiOptions'  => $multiOptions,
+                'required'  => true
+            ));
+        }
+
         $auth = Zend_Auth::getInstance()->getIdentity();
 
         $this->addHiddenElement('userId', $auth->getId());

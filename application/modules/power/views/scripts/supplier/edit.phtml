@@ -6,10 +6,10 @@
          data-dojo-props="region: 'top'">
 
         <div class="tabHeading">
-            <div class="form_wrap zend_form"
+            <div class="form_wrap zend_form ident alpha"
                  dojoType="dijit.form.Form"
                  id="edit-supplier-<?php echo $this->supplier->id; ?>">
-                <h2>Supplier Details</h2>
+                <h3>Supplier Details</h3>
                 <div class="form_row">
                     <p><b>Supplier Name: </b></p>
                     <p><?php echo $this->supplier->name; ?></p>
@@ -27,6 +27,27 @@
                         name="edit-supplier-button-<?php echo $this->supplier->id; ?>"
                         value="submit">Edit Details</button>
             </div>
+
+            <div class="ident">
+                <h3>Main Contact</h3>
+                <div>
+                    <p><?php
+                        $mainContact = $this->supplierHelper($this->supplier->id)
+                            ->getParentRow('supplierContact');
+
+                        echo $this->formatAddress(array(
+                            $mainContact->get('supplierCo_name'),
+                            $mainContact->get('supplierCo_address1'),
+                            $mainContact->get('supplierCo_address2'),
+                            $mainContact->get('supplierCo_address3'),
+                            $mainContact->get('supplierCo_postcode'),
+                            $mainContact->get('supplierCo_phone'),
+                            $mainContact->get('supplierCo_email')
+                        ));
+                    ?></p>
+                </div>
+            </div>
+            <div class="clear"></div>
 
             <div class="tableHead">
                 <?php if ($this->authInfo('role') == 'admin'): ?>

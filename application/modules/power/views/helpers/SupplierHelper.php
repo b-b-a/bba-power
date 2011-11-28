@@ -1,6 +1,6 @@
 <?php
 /**
- * GetClientAddresses.php
+ * SupplierHelper.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Description of GetClientAddresses
+ * Description of SupplierHelper
  *
  * @category   BBA
  * @package    Power
@@ -37,14 +37,19 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_View_Helper_ClientAddresses extends Zend_View_Helper_Abstract
+class Power_View_Helper_SupplierHelper extends ZendSF_View_Helper_MapperHelper
 {
-    public function clientAddresses($id)
+    /**
+     * @var string Power_Model_Mapper_Supplier
+     */
+    protected $_modelClass = 'Power_Model_Mapper_Supplier';
+
+    public function supplierHelper($id)
     {
-        $clientAd = new Power_Model_Mapper_ClientAddress();
-
-        $addresses = $clientAd->getAddressByClientId($id);
-
-        return $addresses;
+        $this->_row = $this->getModel()->find($id, true);
+        if ($this->_row) {
+            $this->set($this->_row->toArray('dd/MM/yyyy'));
+        }
+        return $this;
     }
 }

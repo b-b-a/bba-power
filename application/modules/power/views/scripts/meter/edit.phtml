@@ -34,16 +34,21 @@
             </div>
 
             <div class="ident">
-                <p><?php echo $this->meter->client_name; ?> </p>
-                <p><?php echo $this->formatAddress(array(
-                    $this->escape($this->meter->clientAd_address1),
-                    $this->escape($this->meter->clientAd_address2),
-                    $this->escape($this->meter->clientAd_address3),
-                    $this->escape($this->meter->clientAd_postcode)
-                )); ?></p>
+                <h3>Site Address</h3>
+                <div>
+                    <p><?php
+                        echo $this->formatAddress(array(
+                            $this->escape($this->meter->client_name),
+                            $this->escape($this->meter->clientAd_address1),
+                            $this->escape($this->meter->clientAd_address2),
+                            $this->escape($this->meter->clientAd_address3),
+                            $this->escape($this->meter->clientAd_postcode)
+                        ));
+                    ?></p>
+                </div>
             </div>
 
-            <div class="ident meterContract">
+            <div class="ident">
                 <h3>Contract Info: <span class="id_number">(<?php echo $this->escape($this->meter->contract_idContract); ?>)</span></h3>
                 <p><b>Reference:</b> <?php echo $this->escape($this->meter->contract_reference); ?></p>
                 <p><b>Description:</b> <?php echo $this->escape($this->meter->contract_desc); ?></p>
