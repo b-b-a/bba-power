@@ -49,7 +49,7 @@ class Power_Model_Mapper_ClientContact extends BBA_Model_Mapper_Abstract
      */
     protected $_modelClass = 'Power_Model_ClientContact';
 
-    public function getContactByClientId($search, $sort = '', $count = null, $offset = null)
+    public function getContactByClientId($search, $sort = 'clientCo_name', $count = null, $offset = null)
     {
         $col = key($search);
         $id = current($search);

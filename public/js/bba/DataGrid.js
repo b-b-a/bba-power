@@ -145,7 +145,7 @@ dojo.declare(
                     id: tabId,
                     title: this.store.getValue(this.selectedItem, this.tabTitleColumn),
                     href: '/' + this.getController() + '/edit',
-                    ioArgs: { content:contentVars },
+                    ioArgs: {content:contentVars},
                     closable: true,
                     refreshOnShow: true,
                     onLoad : dojo.hitch(this, function() {
@@ -241,6 +241,8 @@ dojo.declare(
                         this.layout();
                     })
                 });
+
+                con = this.hyphenate(con);
 
                 dojo.connect(this.dlg, 'onLoad', dojo.hitch(this, function(){
                     dojo.connect(

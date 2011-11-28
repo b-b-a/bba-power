@@ -78,6 +78,30 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
             )
         ));
 
+        $view = $this->getView();
+        $table = new Power_Model_Mapper_Supplier();
+
+        if (isset($view->request['idSupplier'])) {
+
+            $list = $table->getContactsBySupplierId(array(
+                'supplier_idSupplier' => $view->request['idSupplier']
+            ));
+
+            // reset options
+            $multiOptions = array(0 => '');
+            foreach($list as $row) {
+                $multiOptions[$row->idSupplierContact] = $row->getAddress1AndPostcode();
+            }
+
+            $this->addElement('FilteringSelect', 'supplier_idSupplierContact', array(
+                'label'     => 'Address:',
+                'filters'   => array('StripTags', 'StringTrim'),
+                'atuocomplete' => false,
+                'multiOptions'  => $multiOptions,
+                'required'  => true
+            ));
+        }
+
         // supplier contact to do.
 
         $auth = Zend_Auth::getInstance()->getIdentity();
