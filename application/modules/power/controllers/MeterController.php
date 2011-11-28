@@ -40,7 +40,7 @@
 class Power_MeterController extends BBA_Controller_Action_Abstract
 {
     /**
-     * @var Power_Model_Mapper_Meter
+     * @var Power_Model_Meter
      */
     protected $_model;
 
@@ -53,7 +53,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
 
         if (!$this->_helper->acl('Guest')) {
 
-            $this->_model = new Power_Model_Mapper_Meter();
+            $this->_model = new Power_Model_Meter();
 
             // search form
             $this->setForm('meterSearch', array(
@@ -62,11 +62,11 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
                 'module' => 'power'
             ), true);
 
-            $this->setForm('meterSave', array(
+            /*$this->setForm('meterSave', array(
                 'controller' => 'meter' ,
                 'action' => 'save',
                 'module' => 'power'
-            ));
+            ));*/
 
             $this->_setSearch(array(
                 'meter', 'site'
@@ -79,8 +79,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        $this->getForm('meterSearch')
-            ->populate($this->_getSearch());
+        $this->getForm('meterSearch')->populate($this->_getSearch());
 
         $this->view->assign(array(
             'search' => $this->_getSearchString('meterSearch')
@@ -89,7 +88,7 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
 
     public function meterStoreAction()
     {
-        return $this->_getAjaxDataStore('getList' ,'meter_idMeter');
+        //return $this->_getAjaxDataStore('getList' ,'meter_idMeter');
     }
 
     public function siteMeterStoreAction()

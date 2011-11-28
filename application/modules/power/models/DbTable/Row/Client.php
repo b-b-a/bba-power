@@ -1,6 +1,6 @@
 <?php
 /**
- * MeterContract.php
+ * Client.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -21,55 +21,34 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_DbTable
+ * @subpackage Model_DbTable_Row
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Database adapter class for the MeterContract table.
+ * Database adapter class for the Client table.
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_DbTable
+ * @subpackage Model_DbTable_Row
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_MeterContract extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Row_Client extends ZendSF_Model_DbTable_Row_Abstract
 {
     /**
-     * @var string database table
+     * Sets the date for Letter of Authority using Zend_Date
+     *
+     * @param string The date format for output.
+     * @return strin
      */
-    protected $_name = 'meter_contract';
-
-    /**
-     * @var string primary key
-     */
-    protected $_primary = array('meterContract_idMeter', 'meterContract_idContract');
-
-    /**
-     * @var array Reference map for parent tables
-     */
-    protected $_referenceMap = array(
-        'meter'     => array(
-            'columns'       => 'meterContract_idMeter',
-            'refTableClass' => 'Power_Model_DbTable_Meter',
-            'refColumns'    => 'meter_idMeter'
-        ),
-        'contract'  => array(
-            'columns'       => 'meterContract_idContract',
-            'refTableClass' => 'Power_Model_DbTable_Contract',
-            'refColumns'    => 'contract_idContract'
-        ),
-        'user'      => array(
-            'columns'       => array(
-                'meterContract_userCreate',
-                'meterContract_userModify'
-            ),
-            'refTableClass' => 'Power_Model_DbTable_User',
-            'refColumns'    => 'user_idUser'
-        )
-    );
+    public function getDateExpiryLoa($format)
+    {
+        $date = $this->getRow()->dateExpiryLoa;
+        $date = new Zend_Date($date);
+        return $date->toString($format);
+    }
 }

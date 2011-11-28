@@ -50,6 +50,11 @@ class Power_Model_DbTable_Tables extends Zend_Db_Table_Abstract
     protected $_primary = 'tables_idTables';
 
     /**
+     * @var string row class
+     */
+    protected $_rowClass = 'Power_Model_DbTable_Row_Tables';
+
+    /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array();

@@ -40,7 +40,7 @@
 class Power_ClientController extends BBA_Controller_Action_Abstract
 {
     /**
-     * @var Power_Model_Mapper_Client
+     * @var Power_Model_Client
      */
     protected $_model;
 
@@ -53,7 +53,7 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
 
         if (!$this->_helper->acl('Guest')) {
 
-            $this->_model = new Power_Model_Mapper_Client();
+            $this->_model = new Power_Model_Client();
 
             $this->setForm('clientSave', array(
                 'controller'    => 'client' ,
@@ -80,13 +80,19 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
         }
     }
 
-    /**
-     * Default action
-     */
+    public function clientStoreAction()
+    {
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $data = $this->_model->getClientDataStore($this->_request->getPost());
+
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody($data);
+    }
+
     public function indexAction()
     {
-        $this->getForm('clientSearch')
-            ->populate($this->_getSearch());
+        $this->getForm('clientSearch')->populate($this->_request->getPost());
 
         // assign search to the view script.
         $this->view->assign(array(
@@ -127,11 +133,6 @@ class Power_ClientController extends BBA_Controller_Action_Abstract
         } else {
            return $this->_helper->redirector('index', 'client');
         }
-    }
-
-    public function clientStoreAction()
-    {
-        return $this->_getAjaxDataStore('getList', 'client_idClient');
     }
 
     public function saveAction()

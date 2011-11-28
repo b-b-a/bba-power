@@ -50,6 +50,11 @@ class Power_Model_DbTable_Tender extends Zend_Db_Table_Abstract
     protected $_primary = 'tender_idTender';
 
     /**
+     * @var string row class
+     */
+    protected $_rowClass = 'Power_Model_DbTable_Row_Tender';
+
+    /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
@@ -77,5 +82,5 @@ class Power_Model_DbTable_Tender extends Zend_Db_Table_Abstract
             'refColumns'    => 'user_idUser'
         )
     );
-    
+
 }

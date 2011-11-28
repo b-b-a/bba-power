@@ -28,7 +28,7 @@
  */
 
 /**
- * DAO to represent a single Client.
+ * Client model.
  *
  * @category   BBA
  * @package    Power
@@ -37,31 +37,63 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Client extends BBA_Model_Abstract
+class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 {
     /**
-     * @var string
-     */
-    protected $_primary = 'idClient';
-
-    /**
-     * @var string
-     */
-    protected $_prefix = 'client_';
-
-    /**
-     * Sets the date for Letter of Authority using Zend_Date
+     * Get Client by their id
      *
-     * @param int $date
-     * @return Power_Model_Client
+     * @param  int $id
+     * @return null|Power_Model_DbTable_Row_Client
      */
-    public function setDateExpiryLoa($date)
+    public function getClientById($id)
     {
-        if (Zend_Date::isDate($date)) {
-            $this->_data->dateExpiryLoa = new Zend_Date($date);
-        } else {
-            $this->_data->dateExpiryLoa = new Zend_Date();
+        $id = (int) $id;
+        return $this->getDbTable('client')->getClientById($id);
+    }
+
+    public function getClientDataStore(array $post)
+    {
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $form = $this->getForm('clientSearch');
+        $search = array();
+
+        if ($form->isValid($post)) {
+            $search = $form->getValues();
         }
+
+        $dataObj = $this->getDbTable('client')->searchClients($search, $sort, $count, $start);
+
+        $store = $this->getDojoDataStore($dataObj, 'client_idClient');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('client')->numRows($search)
+        );
+
+        return $store->toJson();
+    }
+
+    /**
+     * Injector for the acl, the acl can be injected directly
+     * via this method.
+     *
+     * We add all the access rules for this resource here, so we first call
+     * parent method to add $this as the resource then we
+     * define it rules here.
+     *
+     * @param Zend_Acl_Resource_Interface $acl
+     * @return ZendSF_Model_Abstract
+     */
+    public function setAcl(Zend_Acl $acl) {
+        parent::setAcl($acl);
+
+        // implement rules here.
+        $this->_acl->allow('admin', $this)
+            ->deny('admin', $this, array('delete'));
+
         return $this;
     }
 }

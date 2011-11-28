@@ -1,6 +1,6 @@
 <?php
 /**
- * ClientContact.php
+ * ClientAddress.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Database adapter class for the ClientContact table.
+ * Database adapter class for the ClientAddress table.
  *
  * @category   BBA
  * @package    Power
@@ -37,36 +37,36 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_ClientContact extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Client_Address extends Zend_Db_Table_Abstract
 {
     /**
      * @var string database table
      */
-    protected $_name = 'client_contact';
+    protected $_name = 'client_address';
 
     /**
      * @var string primary key
      */
-    protected $_primary = 'clientCo_idClientContact';
+    protected $_primary = 'clientAd_idAddress';
+
+    /**
+     * @var string row class
+     */
+    protected $_rowClass = 'Power_Model_DbTable_Row_Client_Address';
 
     /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
-        'client'        => array(
-            'columns'       => 'clientCo_idClient',
+        'client'    => array(
+            'columns'       => 'clientAd_idClient',
             'refTableClass' => 'Power_Model_DbTable_Client',
             'refColumns'    => 'client_idClient'
         ),
-        'clientAddress' => array(
-            'columns'       => 'clientCo_idAddress',
-            'refTableClass' => 'Power_Model_DbTable_ClientAddress',
-            'refColumns'    => 'clientAd_idAddress'
-        ),
-        'user'          => array(
+        'user'      => array(
             'columns'       => array(
-                'clientCo_userCreate',
-                'clientCo_userModify'
+                'clientAd_userCreate',
+                'clientAd_userModify'
             ),
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
@@ -75,10 +75,7 @@ class Power_Model_DbTable_ClientContact extends Zend_Db_Table_Abstract
 
     public function getList()
     {
-        return $this->select(false)
-            ->setIntegrityCheck(false)
-            ->from('client_contact')
-            ->join('client_address', 'clientCo_idAddress = clientAd_idAddress');
+        return $this->select();
     }
 
     public function getSearch($search, $select)

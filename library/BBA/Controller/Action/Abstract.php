@@ -56,9 +56,6 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
     {
         parent::init();
 
-        $page = $this->_request->getParam('page');
-        $this->_page = ($page) ? $page : 0;
-
         $this->view->navigation()
             ->setAcl($this->_helper->getHelper('Acl')->getAcl())
             ->setRole($this->_helper->getHelper('Acl')->getIdentity());
@@ -98,7 +95,7 @@ abstract class BBA_Controller_Action_Abstract extends ZendSF_Controller_Action_A
     {
         $searchString = '{';
 
-        foreach ($this->getForm($form)->getValues() as $key => $value) {
+        foreach ($this->_model->getForm($form)->getValues() as $key => $value) {
             if ($value) {
                 $searchString .= $key . ":'" . $value . "',";
             }

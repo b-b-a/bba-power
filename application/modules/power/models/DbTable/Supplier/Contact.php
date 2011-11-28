@@ -1,6 +1,6 @@
 <?php
 /**
- * Usage.php
+ * SupplierContact.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Database adapter class for the Usage table.
+ * Database adapter class for the SupplierContact table.
  *
  * @category   BBA
  * @package    Power
@@ -37,36 +37,36 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Usage extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Supplier_Contact extends Zend_Db_Table_Abstract
 {
     /**
      * @var string database table
      */
-    protected $_name = 'pusage';
+    protected $_name = 'supplier_contact';
 
     /**
      * @var string primary key
      */
-    protected $_primary = 'usage_idUsage';
+    protected $_primary = 'supplierCo_idSupplierContact';
 
     /**
      * @var string row class
      */
-    protected $_rowClass = 'Power_Model_DbTable_Row_Usage';
+    protected $_rowClass = 'Power_Model_DbTable_Row_Supplier_Contact';
 
     /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
-        'meter' => array(
-            'columns'       => 'usage_idMeter',
-            'refTableClass' => 'Power_Model_DbTable_Meter',
-            'refColumns'    => 'meter_idMeter'
+        'supplier'  => array(
+            'columns'       => 'supplierCo_idSupplier',
+            'refTableClass' => 'Power_Model_DbTable_Supplier',
+            'refColumns'    => 'supplier_idSupplier'
         ),
-        'user'  => array(
+        'user'      => array(
             'columns'       => array(
-                'usage_userCreate',
-                'usage_userModify'
+                'supplierCo_userCreate',
+                'supplierCo_userModify'
             ),
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'

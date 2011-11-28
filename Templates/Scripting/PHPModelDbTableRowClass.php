@@ -15,20 +15,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     ${author}
  */
-class _Model_DbTable_${name} extends ZendSF_Model_DbTable_Abstract
+class _Model_DbTable_Row_${name} extends ZendSF_Model_DbTable_Row_Abstract
 {
-    /**
-     * @var string database table
-     */
-    protected $_name = '';
-
-    /**
-     * @var string primary key
-     */
-    protected $_primary = '';
-
-    /**
-     * @var array Reference map for parent tables
-     */
-    protected $_referenceMap = array();
+    
 }

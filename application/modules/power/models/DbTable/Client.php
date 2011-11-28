@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Client extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Client extends ZendSF_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -48,6 +48,11 @@ class Power_Model_DbTable_Client extends Zend_Db_Table_Abstract
      * @var string primary key
      */
     protected $_primary = 'client_idClient';
+
+    /**
+     * @var string row class
+     */
+    protected $_rowClass = 'Power_Model_DbTable_Row_Client';
 
     /**
      * @var array Reference map for parent tables
@@ -72,6 +77,11 @@ class Power_Model_DbTable_Client extends Zend_Db_Table_Abstract
             'refColumns'    => 'user_idUser'
         )
     );
+
+    public function getClientById($id)
+    {
+        return $this->find($id)->current();
+    }
 
     public function getList()
     {
@@ -114,5 +124,11 @@ class Power_Model_DbTable_Client extends Zend_Db_Table_Abstract
         }
 
         return $select;
+    }
+
+    public function numRows($search)
+    {
+        $result = $this->searchClients($search);
+        return $result->count();
     }
 }

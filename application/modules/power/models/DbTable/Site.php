@@ -50,6 +50,11 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
     protected $_primary = 'site_idSite';
 
     /**
+     * @var string row class
+     */
+    protected $_rowClass = 'Power_Model_DbTable_Row_Site';
+
+    /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(

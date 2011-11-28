@@ -50,6 +50,11 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
     protected $_primary = 'meter_idMeter';
 
     /**
+     * @var string row class
+     */
+    protected $_rowClass = 'Power_Model_DbTable_Row_Meter';
+
+    /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
@@ -67,6 +72,11 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
             'refColumns'    => 'user_idUser'
         )
     );
+
+    public function getMeterById($id)
+    {
+        return $this->find($id)->current();
+    }
 
     /**
      * Aggregates the site, client and client_address tables

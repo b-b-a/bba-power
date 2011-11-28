@@ -28,7 +28,7 @@
  */
 
 /**
- * DAO to represent a single User.
+ * Database adapter class for the User table.
  *
  * @category   BBA
  * @package    Power
@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_User extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_User extends ZendSF_Model_DbTable_Abstract
 {
      /**
      * @var string database table
@@ -50,25 +50,37 @@ class Power_Model_DbTable_User extends Zend_Db_Table_Abstract
     protected $_primary = 'user_idUser';
 
     /**
+     * @var string row class
+     */
+    protected $_rowClass = 'Power_Model_DbTable_Row_User';
+
+    /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array();
 
-    public function getList()
+    public function getUserById($id)
     {
-        return $this->select(false)
-                ->from('user', array(
-                    'user_idUser', 'user_name',
-                    'user_fullName', 'user_role',
-                    'user_accessClient'
-                ));
+        return $this->find($id)->current();
     }
 
-    public function getSearch($search, $select)
+    /**
+     * Gets a single user from the database using their username.
+     *
+     * @param string $username
+     * @return Zend_Db_Table_Row
+     */
+    public function getUserByUsername($username)
     {
-        if ($search === null) {
-            return $select;
-        }
+        $select = $this->select()
+            ->where('user_name = ?', $username);
+
+        return $this->fetchRow($select);
+    }
+
+    public function searchUsers(array $search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->select();
 
         if (!$search['user'] == '') {
             if (substr($search['user'], 0, 1) == '=') {
@@ -85,6 +97,25 @@ class Power_Model_DbTable_User extends Zend_Db_Table_Abstract
                 ->orWhere('user_accessClient like ?', '%' . $search['role'] . '%');
         }
 
-        return $select;
+        if ($count !== null && $offset !== null) $select->limit($count, $offset);
+
+        if ($sort !== '') {
+            if (strchr($sort,'-')) {
+                $sort = substr($sort, 1, strlen($sort));
+                $order = 'DESC';
+            } else {
+                $order = 'ASC';
+            }
+
+            $select->order($sort . ' ' . $order);
+        }
+
+        return $this->fetchAll($select);
+    }
+
+    public function numRows($search)
+    {
+        $result = $this->searchUsers($search);
+        return $result->count();
     }
 }

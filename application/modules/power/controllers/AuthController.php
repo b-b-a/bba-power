@@ -56,7 +56,7 @@ class Power_AuthController extends ZendSF_Controller_Action_Abstract
     {
         parent::init();
 
-        $this->_model = new Power_Model_Mapper_User();
+        $this->_model = new Power_Model_User();
         $this->_authService = new ZendSF_Service_Authentication();
 
         $this->setForm('authLogin', array(

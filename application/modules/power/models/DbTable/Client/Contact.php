@@ -1,6 +1,6 @@
 <?php
 /**
- * Usage.php
+ * ClientContact.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Database adapter class for the Usage table.
+ * Database adapter class for the ClientContact table.
  *
  * @category   BBA
  * @package    Power
@@ -37,39 +37,61 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Usage extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Client_Contact extends Zend_Db_Table_Abstract
 {
     /**
      * @var string database table
      */
-    protected $_name = 'pusage';
+    protected $_name = 'client_contact';
 
     /**
      * @var string primary key
      */
-    protected $_primary = 'usage_idUsage';
+    protected $_primary = 'clientCo_idClientContact';
 
     /**
      * @var string row class
      */
-    protected $_rowClass = 'Power_Model_DbTable_Row_Usage';
+    protected $_rowClass = 'Power_Model_DbTable_Row_Client_Contact';
 
     /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
-        'meter' => array(
-            'columns'       => 'usage_idMeter',
-            'refTableClass' => 'Power_Model_DbTable_Meter',
-            'refColumns'    => 'meter_idMeter'
+        'client'        => array(
+            'columns'       => 'clientCo_idClient',
+            'refTableClass' => 'Power_Model_DbTable_Client',
+            'refColumns'    => 'client_idClient'
         ),
-        'user'  => array(
+        'clientAddress' => array(
+            'columns'       => 'clientCo_idAddress',
+            'refTableClass' => 'Power_Model_DbTable_ClientAddress',
+            'refColumns'    => 'clientAd_idAddress'
+        ),
+        'user'          => array(
             'columns'       => array(
-                'usage_userCreate',
-                'usage_userModify'
+                'clientCo_userCreate',
+                'clientCo_userModify'
             ),
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
     );
+
+    public function getList()
+    {
+        return $this->select(false)
+            ->setIntegrityCheck(false)
+            ->from('client_contact')
+            ->join('client_address', 'clientCo_idAddress = clientAd_idAddress');
+    }
+
+    public function getSearch($search, $select)
+    {
+        if ($search === null) {
+            return $select;
+        }
+
+        return $select;
+    }
 }

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * Usage.php
+ * Site.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -21,55 +22,23 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_DbTable
+ * @subpackage Model_DbTable_Row
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Database adapter class for the Usage table.
+ * Database class for the Site table row.
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_DbTable
+ * @subpackage Model_DbTable_Row
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Usage extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Row_Site extends ZendSF_Model_DbTable_Row_Abstract
 {
-    /**
-     * @var string database table
-     */
-    protected $_name = 'pusage';
 
-    /**
-     * @var string primary key
-     */
-    protected $_primary = 'usage_idUsage';
-
-    /**
-     * @var string row class
-     */
-    protected $_rowClass = 'Power_Model_DbTable_Row_Usage';
-
-    /**
-     * @var array Reference map for parent tables
-     */
-    protected $_referenceMap = array(
-        'meter' => array(
-            'columns'       => 'usage_idMeter',
-            'refTableClass' => 'Power_Model_DbTable_Meter',
-            'refColumns'    => 'meter_idMeter'
-        ),
-        'user'  => array(
-            'columns'       => array(
-                'usage_userCreate',
-                'usage_userModify'
-            ),
-            'refTableClass' => 'Power_Model_DbTable_User',
-            'refColumns'    => 'user_idUser'
-        )
-    );
 }

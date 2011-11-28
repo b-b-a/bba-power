@@ -1,6 +1,6 @@
 <?php
 /**
- * SupplierContact.php
+ * Contact.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -21,50 +21,23 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_DbTable
+ * @subpackage Model_DbTable_Row
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Database adapter class for the SupplierContact table.
+ * Database class for the Contact table row.
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_DbTable
+ * @subpackage Model_DbTable_Row
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_SupplierContact extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Row_Client_Contact extends ZendSF_Model_DbTable_Row_Abstract
 {
-    /**
-     * @var string database table
-     */
-    protected $_name = 'supplier_contact';
 
-    /**
-     * @var string primary key
-     */
-    protected $_primary = 'supplierCo_idSupplierContact';
-
-    /**
-     * @var array Reference map for parent tables
-     */
-    protected $_referenceMap = array(
-        'supplier'  => array(
-            'columns'       => 'supplierCo_idSupplier',
-            'refTableClass' => 'Power_Model_DbTable_Supplier',
-            'refColumns'    => 'supplier_idSupplier'
-        ),
-        'user'      => array(
-            'columns'       => array(
-                'supplierCo_userCreate',
-                'supplierCo_userModify'
-            ),
-            'refTableClass' => 'Power_Model_DbTable_User',
-            'refColumns'    => 'user_idUser'
-        )
-    );
 }

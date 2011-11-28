@@ -50,6 +50,11 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
     protected $_primary = 'contract_idContract';
 
     /**
+     * @var string row class
+     */
+    protected $_rowClass = 'Power_Model_DbTable_Row_Contract';
+
+    /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(

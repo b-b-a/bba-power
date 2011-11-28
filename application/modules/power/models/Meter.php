@@ -37,15 +37,60 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Meter extends BBA_Model_Abstract
+class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
 {
     /**
-     * @var string
+     * Get meter by their id
+     *
+     * @param  int $id
+     * @return null|Power_Model_DbTable_Row_Meter
      */
-    protected $_primary = 'idMeter';
+    public function getMeterById($id)
+    {
+        $id = (int) $id;
+        return $this->getDbTable('Meter')->getMeterById($id);
+    }
+
+    public function delete($id)
+    {
+        if (!$this->checkAcl('delete')) {
+            throw new ZendSF_Acl_Exception('Deleting users is not allowed.');
+        }
+
+        if ($user instanceof Power_Model_DbTable_Row_Meter) {
+            $meterId = (int) $user->userId;
+        } else {
+            $meterId = (int) $user;
+        }
+
+        $meter = $this->getMeterById($userId);
+
+        if (null !== $user) {
+            $meter->delete();
+            return true;
+        }
+
+        return false;
+    }
 
     /**
-     * @var string
+     * Injector for the acl, the acl can be injected directly
+     * via this method.
+     *
+     * We add all the access rules for this resource here, so we first call
+     * parent method to add $this as the resource then we
+     * define it rules here.
+     *
+     * @param Zend_Acl_Resource_Interface $acl
+     * @return ZendSF_Model_Abstract
      */
-    protected $_prefix = 'meter_';
+    public function setAcl(Zend_Acl $acl) {
+        parent::setAcl($acl);
+
+        // implement rules here.
+        $this->_acl->allow('admin', $this)
+            ->deny('admin', $this, array('delete'));
+
+        return $this;
+    }
 }
