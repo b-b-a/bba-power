@@ -14,18 +14,6 @@
                     <p class="label"><b>Client:</b></p>
                     <p>&nbsp;<?php echo $this->site->client_name; ?></p>
                 </div>
-                <div class="form_row">
-                    <p class="label"><b>Address:</b></p>
-                    <p>&nbsp;</p>
-                </div>
-                 <div class="form_row">
-                    <p class="label"><b>Billing Address:</b></p>
-                    <p>&nbsp;</p>
-                </div>
-                 <div class="form_row">
-                    <p class="label"><b>Client Contact:</b></p>
-                    <p>&nbsp;</p>
-                </div>
 
                 <button dojoType="dijit.form.Button"
                     type="submit"
@@ -34,14 +22,56 @@
             </div>
 
             <div class="ident">
-                <p><?php echo $this->escape($this->site->client_name); ?> </p>
-                <p><?php echo $this->escape($this->site->clientAd_addressName); ?></p>
-                <p><?php echo $this->formatAddress(array(
-                    $this->escape($this->site->clientAd_address1),
-                    $this->escape($this->site->clientAd_address2),
-                    $this->escape($this->site->clientAd_address3),
-                    $this->escape($this->site->clientAd_postcode)
-                )); ?></p>
+                <h3>Address</h3>
+                <div>
+                    <p><?php
+                        $mainContact = $this->siteHelper($this->site->id)
+                            ->getParentRow('siteAddress');
+
+                        echo $this->formatAddress(array(
+                            $mainContact->get('clientAd_addressName'),
+                            $mainContact->get('clientAd_address1'),
+                            $mainContact->get('clientAd_address2'),
+                            $mainContact->get('clientAd_address3'),
+                            $mainContact->get('clientAd_postcode')
+                        ));
+                    ?></p>
+                </div>
+            </div>
+
+            <div class="ident">
+                <h3>Billing Address</h3>
+                <div>
+                    <p><?php
+                        $mainContact = $this->siteHelper($this->site->id)
+                            ->getParentRow('siteAddressBill');
+
+                        echo $this->formatAddress(array(
+                            $mainContact->get('clientAd_addressName'),
+                            $mainContact->get('clientAd_address1'),
+                            $mainContact->get('clientAd_address2'),
+                            $mainContact->get('clientAd_address3'),
+                            $mainContact->get('clientAd_postcode')
+                        ));
+                    ?></p>
+                </div>
+            </div>
+
+            <div class="ident">
+                <h3>Contact</h3>
+                <div>
+                    <p><?php
+                        $mainContact = $this->siteHelper($this->site->id)
+                            ->getParentRow('siteClientContact');
+
+                        echo $this->formatAddress(array(
+                            $mainContact->get('clientCo_name'),
+                            $mainContact->get('clientCo_position'),
+                            $mainContact->get('clientCo_phone'),
+                            $mainContact->get('clientCo_email')
+                        ));
+                    ?></p>
+                </div>
             </div>
 
             <div class="clear"></div>

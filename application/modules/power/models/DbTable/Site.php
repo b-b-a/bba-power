@@ -63,6 +63,21 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
             'refTableClass'     => 'Power_Model_DbTable_Client',
             'refColumns'        => 'client_idClient'
 		),
+        'siteAddress' => array(
+            'columns'           => 'site_idAddress',
+            'refTableClass'     => 'Power_Model_DbTable_ClientAddress',
+            'refColumns'        => 'clientAd_idAddress'
+		),
+        'siteAddressBill' => array(
+            'columns'           => 'site_idAddressBill',
+            'refTableClass'     => 'Power_Model_DbTable_ClientAddress',
+            'refColumns'        => 'clientAd_idAddress'
+		),
+        'siteClientContact' => array(
+            'columns'           => 'site_idClientContact',
+            'refTableClass'     => 'Power_Model_DbTable_ClientContact',
+            'refColumns'        => 'clientCo_idClientContact'
+		),
         'user'      => array(
             'columns'       => array(
                 'site_userCreate',

@@ -69,7 +69,7 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
             'hasDownArrow'  => true,
             'storeId'       => 'addressStore',
             //'storeType'     => 'dojo.data.ItemFileReadStore',
-            //'storeParams'   => array('url' => "/site/autocomplete/param/address"),
+            //'storeParams'   => array('url' => "/site/autocomplete/param/address/"),
             'dijitParams'   => array('searchAttr' => 'clientAd_address1AndPostcode'),
             'attribs'       => array(
                 'disabled' => true,
@@ -85,7 +85,7 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
             'hasDownArrow'  => true,
             'storeId'       => 'addressStore',
             //'storeType'     => 'dojo.data.ItemFileReadStore',
-            //'storeParams'   => array('url' => "/site/autocomplete/param/address"),
+            //'storeParams'   => array('url' => "/site/autocomplete/param/address/"),
             'dijitParams'   => array('searchAttr' => 'clientAd_address1AndPostcode'),
             'attribs'         => array('disabled' => true),
             'required'      => true
@@ -98,7 +98,7 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
             'hasDownArrow'  => true,
             'storeId'       => 'contactStore',
             //'storeType'     => 'dojo.data.ItemFileReadStore',
-            //'storeParams'   => array('url' => "/site/autocomplete/param/contact"),
+            //'storeParams'   => array('url' => "/site/autocomplete/param/contact/client/"),
             'dijitParams'   => array('searchAttr' => 'clientCo_name'),
             'attribs'         => array('disabled' => true),
             'required'      => false

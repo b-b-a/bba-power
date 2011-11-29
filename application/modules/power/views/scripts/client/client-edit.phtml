@@ -23,6 +23,41 @@
                         name="edit-client-button-<?php echo $this->client->client_idClient; ?>"
                         value="submit">Edit Details</button>
             </div>
+
+            <div class="ident">
+                <h3>Main Address</h3>
+                <div>
+                    <p><?php
+                        $mainContact = $this->clientHelper($this->client->id)
+                            ->getParentRow('clientAd');
+
+                        echo $this->formatAddress(array(
+                            $mainContact->get('clientAd_addressName'),
+                            $mainContact->get('clientAd_address1'),
+                            $mainContact->get('clientAd_address2'),
+                            $mainContact->get('clientAd_address3'),
+                            $mainContact->get('clientAd_postcode')
+                        ));
+                    ?></p>
+                </div>
+            </div>
+
+            <div class="ident">
+                <h3>Main Contact</h3>
+                <div>
+                    <p><?php
+                        $mainContact = $this->clientHelper($this->client->id)
+                            ->getParentRow('clientCo');
+
+                        echo $this->formatAddress(array(
+                            $mainContact->get('clientCo_name'),
+                            $mainContact->get('clientCo_position'),
+                            $mainContact->get('clientCo_phone'),
+                            $mainContact->get('clientCo_email')
+                        ));
+                    ?></p>
+                </div>
+            </div>
             <div class="clear"></div>
 
             <div class="tableHead">
