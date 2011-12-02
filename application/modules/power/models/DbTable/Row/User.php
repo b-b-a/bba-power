@@ -43,7 +43,7 @@ class Power_Model_DbTable_Row_User extends ZendSF_Model_DbTable_Row_Abstract
     {
         return $this->getRow()->user_idUser;
     }
-    
+
     public function getRole()
     {
         return $this->getRow()->user_role;

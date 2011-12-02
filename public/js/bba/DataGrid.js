@@ -144,7 +144,7 @@ dojo.declare(
                 var pane = new dijit.layout.ContentPane({
                     id: tabId,
                     title: this.store.getValue(this.selectedItem, this.tabTitleColumn),
-                    href: '/' + this.getController() + '/' + this.getController() + '-edit',
+                    href: '/' + this.getController().split('-')[0] + '/edit-' + this.getController(),
                     ioArgs: { content:contentVars },
                     closable: true,
                     refreshOnShow: true,
@@ -220,9 +220,9 @@ dojo.declare(
                     title: (this.dialogName) ? this.dialogName :
                         this.capitalize(type + ' ' + con.replace('-', ' ')),
                     ioArgs: {content: contentVars},
-                    href: '/' + this.hyphenate(con) + '/' + this.hyphenate(con) + '-' + type,
+                    href: '/' + this.hyphenate(con).split('-')[0] + '/' + type + '-' + this.hyphenate(con),
                     execute: dojo.hitch(this, function() {
-                        var url = '/' + this.hyphenate(con) + '/' + this.hyphenate(con) + '-save';
+                        var url = '/' + this.hyphenate(con).split('-')[0] + '/save-' + this.hyphenate(con);
                         this.dlg.destroyRecursive();
                         this.dlg = null;
                         this.processForm(arguments[0], url, type);
@@ -242,9 +242,10 @@ dojo.declare(
                     })
                 });
 
+                console.log(con)
                 dojo.connect(this.dlg, 'onLoad', dojo.hitch(this, function(){
                     dojo.connect(
-                        dijit.byId(con + 'FormCancelButton'),
+                        dijit.byId(this.hyphenate(con) + 'FormCancelButton'),
                         "onClick",
                         dojo.hitch(this.dlg, 'hide')
                     );
@@ -281,8 +282,9 @@ dojo.declare(
               handleAs: 'json',
               preventCache: true,
               load: dojo.hitch(this, function(data) {
+                  console.log(this.tab.id.split('-')[1]);
                   if (data.saved > 0) {
-                      if (this.tab) {
+                      if (this.tab.id.split('-')[1] !== 'list') {
                           this.tab.refresh();
                       } else {
                           this._refresh();

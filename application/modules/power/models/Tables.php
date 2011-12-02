@@ -37,17 +37,32 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Tables extends BBA_Model_Abstract
+class Power_Model_Tables extends ZendSF_Model_Abstract
 {
-    /**
-     * @var string
-     */
-    protected $_primary = 'idTables';
+    public function getSelectListByName($name)
+    {
+        return $this->getDbTable('tables')->getSelectListByName($name);
+    }
 
     /**
-     * @var string
+     * Injector for the acl, the acl can be injected directly
+     * via this method.
+     *
+     * We add all the access rules for this resource here, so we first call
+     * parent method to add $this as the resource then we
+     * define it rules here.
+     *
+     * @param Zend_Acl_Resource_Interface $acl
+     * @return ZendSF_Model_Mapper_Abstract
      */
-    protected $_prefix = 'tables_';
+    public function setAcl(Zend_Acl $acl)
+    {
+        parent::setAcl($acl);
 
+        // implement rules here.
+        $this->_acl->allow('admin', $this)
+            ->deny('admin', $this, array('delete'));
 
+        return $this;
+    }
 }

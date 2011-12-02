@@ -39,5 +39,5 @@
  */
 class Power_Model_DbTable_Row_Tables extends ZendSF_Model_DbTable_Row_Abstract
 {
-
+    
 }

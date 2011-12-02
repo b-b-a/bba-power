@@ -41,11 +41,9 @@ class Power_Form_Client_Add extends ZendSF_Form_Abstract
 {
     public function init()
     {
-        $this->getView()->request['clientCo_idClient'] = '';
-
-        $clientForm = new Power_Form_Client_Save();
-        $clientAdForm = new Power_Form_Client_Address_Save();
-        $clientCoForm = new Power_Form_Client_Contact_Save();
+        $clientForm = new Power_Form_Client_Save(array('model' => $this->_model));
+        $clientAdForm = new Power_Form_Client_Address_Save(array('model' => $this->_model));
+        $clientCoForm = new Power_Form_Client_Contact_Save(array('model' => $this->_model));
 
         /**
          * Add Client form elements

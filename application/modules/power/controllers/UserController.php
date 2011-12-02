@@ -97,7 +97,7 @@ class Power_UserController extends Zend_Controller_Action
         ));
     }
 
-    public function userAddAction()
+    public function addUserAction()
     {
         if ($this->_request->isXmlHttpRequest()
                 && $this->_request->getParam('type') == 'add'
@@ -115,7 +115,7 @@ class Power_UserController extends Zend_Controller_Action
         }
     }
 
-    public function userEditAction()
+    public function editUserAction()
     {
         if ($this->_request->getParam('idUser')
                 && $this->_request->isPost()
@@ -138,7 +138,7 @@ class Power_UserController extends Zend_Controller_Action
         }
     }
 
-    public function userSaveAction()
+    public function saveUserAction()
     {
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();

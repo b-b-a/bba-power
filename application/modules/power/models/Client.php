@@ -52,43 +52,322 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     }
 
     /**
-     * Gets the data store list, using search parameters.
+     * Get Client Address by their id
+     *
+     * @param  int $id
+     * @return null|Power_Model_DbTable_Row_Client_Address
+     */
+    public function getClientAddressById($id)
+    {
+        $id = (int) $id;
+        return $this->getDbTable('clientAddress')->getClientAddressById($id);
+    }
+
+    /**
+     * Get all addresses belonging to a client.
+     *
+     * @param int $id
+     * @return null|array
+     */
+    public function getClientAddressesByClientId($id)
+    {
+        $id = (int) $id;
+        return $this->getDbTable('clientAddress')->getClientAddressesByClientId($id);
+    }
+
+    /**
+     * Get Client Contact by their id
+     *
+     * @param  int $id
+     * @return null|Power_Model_DbTable_Row_Client_Contact
+     */
+    public function getClientContactById($id)
+    {
+        $id = (int) $id;
+        return $this->getDbTable('clientContact')->getClientContactById($id);
+    }
+
+    /**
+     * Get all contacts that belong to a client.
+     *
+     * @param int $id
+     * @return null|array
+     */
+    public function getClientContactsByClientId($id)
+    {
+        $id = (int) $id;
+        return $this->getDbTable('clientContact')->getClientContactsByClientId($id);
+    }
+
+    /**
+     * Gets the client data store list, using search parameters.
      *
      * @param array $post
      * @return string JSON string
      */
     public function getClientDataStore(array $post)
     {
-        return $this->_getDojoDataStore(
-            $post,
-            'clientSearch',
-            'client',
-            'searchClients',
-            'client_idClient'
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $form = $this->getForm('clientSearch');
+        $search = array();
+
+        if ($form->isValid($post)) {
+            $search = $form->getValues();
+        }
+
+        $dataObj = $this->getDbTable('client')->searchClients($search, $sort, $count, $start);
+
+        $store = $this->_getDojoData($dataObj, 'client_idClient');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('client')->numRows($search)
         );
+
+        return $store->toJson();
     }
 
-    public function saveClient()
+    /**
+     * Gets the address data store list, using search parameters.
+     *
+     * @param array $post
+     * @return string JSON string
+     */
+    public function getClientAddressDataStore(array $post)
     {
-        /*
-        if ($this->_request->getParam('client_dateExpiryLoa') === '') {
-            $client_dateExpiryLoaValidateRules = $this->getForm($form)
-                ->getElement('client_dateExpiryLoa')
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $dataObj = $this->getDbTable('clientAddress')->searchAddress($post, $sort, $count, $start);
+
+        $store = $this->_getDojoData($dataObj, 'clientAd_idAddress');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('clientAddress')->numRows($post)
+        );
+
+        return $store->toJson();
+    }
+
+    /**
+     * Gets the contact data store list, using search parameters.
+     *
+     * @param array $post
+     * @return string JSON string
+     */
+    public function getClientContactDataStore(array $post)
+    {
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $dataObj = $this->getDbTable('clientContact')->searchContact($post, $sort, $count, $start);
+
+        $store = $this->_getDojoData($dataObj, 'clientCo_idClientContact');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('clientContact')->numRows($post)
+        );
+
+        return $store->toJson();
+    }
+
+    /**
+     * Add new Client.
+     *
+     * @param array $post
+     * @return false|int
+     */
+    public function saveNewClient($post)
+    {
+        if (!$this->checkAcl('saveNewClient')) {
+            throw new ZendSF_Acl_Exception('saving clients is not allowed.');
+        }
+
+        $log = Zend_Registry::get('log');
+
+        $this->getDbTable('client')->getAdapter()->beginTransaction();
+
+        try {
+            /**
+             * TODO: must add checking on each stage.
+             */
+            // save client first.
+            $clientSave = $this->saveClient($post);
+
+            // then save client address.
+            $post['clientAd_addressName'] = 'Main';
+            $post['clientAd_idClient'] = $clientSave;
+            $clientAdSave = $this->saveClientAddress($post);
+
+            // now save client contact
+            $post['clientCo_idClient'] = $clientSave;
+            $post['clientCo_idAddress'] = $clientAdSave;
+            $clientCoSave = $this->saveClientContact($post);
+
+            // now update client with address and contact ids.
+            $form = $this->getForm('clientSave');
+
+            $form->addElement('hidden', 'client_idAddress', array(
+                'value' => $clientAdSave
+            ));
+
+            $form->addElement('hidden', 'client_idClientContact', array(
+                'value' => $clientCoSave
+            ));
+
+            $post['client_idClient'] = $clientSave;
+            $post['client_idAddress'] = $clientAdSave;
+            $post['client_idClientContact'] = $clientCoSave;
+            $clientSave = $this->saveClient($post);
+
+        } catch (Exception $e) {
+            $log->info($e);
+            $this->getDbTable('client')->getAdapter()->rollBack();
+            return 0;
+        }
+
+        $this->getDbTable('client')->getAdapter()->commit();
+
+        return $clientSave;
+    }
+
+    /**
+     * Updates a client.
+     *
+     * @param array $post
+     * @return false|int
+     */
+    public function saveClient($post)
+    {
+        if (!$this->checkAcl('saveClient')) {
+            throw new ZendSF_Acl_Exception('Insufficient rights');
+        }
+
+        $form = $this->getForm('clientSave');
+
+        if ($post['client_dateExpiryLoa'] === '') {
+            $client_dateExpiryLoaValidateRules = $form->getElement('client_dateExpiryLoa')
                 ->getValidator('Date');
 
-            $this->getForm($form)->getElement('client_dateExpiryLoa')
+            $form->getElement('client_dateExpiryLoa')
                 ->removeValidator('Date');
         }
 
-        if (!$this->getForm($form)->isValid($this->_request->getPost())) {
-
+        if (!$form->isValid($post)) {
             if (isset($client_dateExpiryLoaValidateRules)) {
-                $this->getForm($form)
-                    ->getElement('client_dateExpiryLoa')
+                $form->getElement('client_dateExpiryLoa')
                     ->addValidator($client_dateExpiryLoaValidateRules);
             }
+
+            return false;
         }
-        */
+
+        // get filtered values
+        $data = $form->getValues();
+
+        if (Zend_Date::isDate($data['client_dateExpiryLoa'])) {
+            $date = new Zend_Date($data['client_dateExpiryLoa']);
+            $data['client_dateExpiryLoa'] = $date->toString('yyyy-MM-dd');
+        }
+
+        $client = array_key_exists('client_idClient', $data) ?
+            $this->getClientById($data['client_idClient']) : null;
+
+        $data = (null === $client) ? $this->_getUserCreate($data, 'client') :
+            $this->_getUserModify($data, 'client');
+
+        return $this->getDbTable('client')->saveRow($data, $client);
+    }
+
+    /**
+     * Updates a client address.
+     *
+     * @param array $post
+     * @return false|int
+     */
+    public function saveClientAddress($post)
+    {
+        if (!$this->checkAcl('saveClientAddress')) {
+            throw new ZendSF_Acl_Exception('Insufficient rights');
+        }
+
+        $form = $this->getForm('clientAddressSave');
+
+        if (!$form->isValid($post)) {
+            return false;
+        }
+
+        // get filtered values
+        $data = $form->getValues();
+
+        $clientAd = array_key_exists('clientAd_idAddress', $data) ?
+            $this->getClientAddressById($data['clientAd_idAddress']) : null;
+
+        $data = (null === $clientAd) ? $this->_getUserCreate($data, 'clientAd') :
+            $this->_getUserModify($data, 'clientAd');
+
+        return $this->getDbTable('clientAddress')->saveRow($data, $clientAd);
+    }
+
+    /**
+     * Updates a client contact.
+     *
+     * @param array $post
+     * @return false|int
+     */
+    public function saveClientContact($post)
+    {
+        if (!$this->checkAcl('saveClientContact')) {
+            throw new ZendSF_Acl_Exception('Insufficient rights');
+        }
+
+        $form = $this->getForm('clientContactSave');
+
+        if ($post['type'] == 'edit') {
+            $form->excludeEmailFromValidation('clientCo_email', array(
+                'field' => 'clientCo_email',
+                'value' => $this->getClientContactById($post['clientCo_idClientContact'])
+                    ->clientCo_email
+            ));
+        }
+
+        if (!$form->isValid($post)) {
+            return false;
+        }
+
+        // get filtered values
+        $data = $form->getValues();
+
+        $clientCo = array_key_exists('clientCo_idClientContact', $data) ?
+            $this->getClientContactById($data['clientCo_idClientContact']) : null;
+
+        $data = (null === $clientCo) ? $this->_getUserCreate($data, 'clientCo') :
+            $this->_getUserModify($data, 'clientCo');
+
+        return $this->getDbTable('clientContact')->saveRow($data, $clientCo);
+    }
+
+    private function _getUserCreate($data, $prefix)
+    {
+        $date = new Zend_Date();
+        $data[$prefix . '_dateCreate'] = $date->toString('yyyy-MM-dd');
+        $data[$prefix . '_userCreate'] = $data['userId'];
+        return $data;
+    }
+
+    private function _getUserModify($data, $prefix)
+    {
+        $date = new Zend_Date();
+        $data[$prefix . '_dateModify'] = $date->toString('yyyy-MM-dd');
+        $data[$prefix . '_userModify'] = $data['userId'];
+        return $data;
     }
 
     /**
@@ -102,7 +381,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
      * @param Zend_Acl_Resource_Interface $acl
      * @return ZendSF_Model_Abstract
      */
-    public function setAcl(Zend_Acl $acl) {
+    public function setAcl(Zend_Acl $acl)
+    {
         parent::setAcl($acl);
 
         // implement rules here.

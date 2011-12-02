@@ -7,32 +7,32 @@
         <div class="tabHeading">
             <div class="form_wrap zend_form ident"
                  dojoType="dijit.form.Form"
-                 id="edit-clientAd-<?php echo $this->clientAd->id; ?>">
+                 id="edit-clientAd-<?php echo $this->clientAd->clientAd_idAddress; ?>">
                 <h3>Client Address Details</h3>
                 <div class="form_row">
                     <p class="label"><b>Address Name: </b></p>
-                    <p>&nbsp;<?php echo $this->clientAd->addressName; ?></p>
+                    <p>&nbsp;<?php echo $this->clientAd->clientAd_addressName; ?></p>
                 </div>
                 <div class="form_row">
                     <p class="label"><b>Address 1: </b></p>
-                    <p>&nbsp;<?php echo $this->clientAd->address1; ?></p>
+                    <p>&nbsp;<?php echo $this->clientAd->clientAd_address1; ?></p>
                 </div>
                 <div class="form_row">
                     <p class="label"><b>Address 2: </b></p>
-                    <p>&nbsp;<?php echo $this->clientAd->address2; ?></p>
+                    <p>&nbsp;<?php echo $this->clientAd->clientAd_address2; ?></p>
                 </div>
                 <div class="form_row">
                     <p class="label"><b>Address 3: </b></p>
-                    <p>&nbsp;<?php echo $this->clientAd->address3; ?></p>
+                    <p>&nbsp;<?php echo $this->clientAd->clientAd_address3; ?></p>
                 </div>
                 <div class="form_row">
                     <p class="label"><b>Postcode: </b></p>
-                    <p>&nbsp;<?php echo $this->clientAd->postcode; ?></p>
+                    <p>&nbsp;<?php echo $this->clientAd->clientAd_postcode; ?></p>
                 </div>
 
                 <button dojoType="dijit.form.Button"
                         type="submit"
-                        name="edit-clientAd-button-<?php echo $this->clientAd->id; ?>"
+                        name="edit-clientAd-button-<?php echo $this->clientAd->clientAd_idAddress; ?>"
                         value="submit">Edit Details</button>
             </div>
             <div class="clear"></div>
@@ -41,7 +41,7 @@
                 <?php if ($this->authInfo('role') == 'admin'): ?>
                 <p class="tableHead-button">
                     <button dojoType="dijit.form.Button"
-                            id="new-client-contact-button-<?php echo $this->clientAd->id; ?>"
+                            id="new-client-contact-button-<?php echo $this->clientAd->clientAd_idAddress; ?>"
                             type="button">New Contact</button>
                 </p>
                 <?php endif; ?>
@@ -49,7 +49,7 @@
         </div>
     </div>
 
-    <div id="ClientAdTabs<?php echo $this->clientAd->id; ?>"
+    <div id="ClientAdTabs<?php echo $this->clientAd->clientAd_idAddress; ?>"
          data-dojo-type="dijit.layout.TabContainer"
          data-dojo-props="region: 'center', tabStrip: 'true'"
          class="innerTabs">
@@ -58,17 +58,17 @@
              data-dojo-props="region: 'center', title: 'Client Contacts'">
 
             <span dojoType="dojox.data.QueryReadStore"
-                  jsid="clientContactStore<?php echo $this->clientAd->idClient; ?>"
-                  url="/client-contact/client-contact-store"
+                  jsid="clientContactStore<?php echo $this->clientAd->clientAd_idClient; ?>"
+                  url="/client/data-store/type/contact"
                   requestMethod="post"></span>
 
             <table dojoType="bba.DataGrid"
-                   jsId="contactGrid<?php echo $this->clientAd->idClient; ?>"
-                   store="clientContactStore<?php echo $this->clientAd->idClient; ?>"
-                   query="{ clientCo_idClient: <?php echo $this->clientAd->idClient; ?> }"
+                   jsId="contactGrid<?php echo $this->clientAd->clientAd_idClient; ?>"
+                   store="clientContactStore<?php echo $this->clientAd->clientAd_idClient; ?>"
+                   query="{ clientCo_idClient: <?php echo $this->clientAd->clientAd_idClient; ?> }"
                    queryParent="clientCo_idClient"
                    sortInfo="2"
-                   newButtonId="<?php echo $this->clientAd->id; ?>"
+                   newButtonId="<?php echo $this->clientAd->clientAd_idAddress; ?>"
                    dialog="true">
                 <thead>
                     <tr>

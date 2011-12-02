@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Client_Address extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Client_Address extends ZendSF_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -73,17 +73,30 @@ class Power_Model_DbTable_Client_Address extends Zend_Db_Table_Abstract
         )
     );
 
-    public function getList()
+    public function getClientAddressById($id)
     {
-        return $this->select();
+        return $this->find($id)->current();
     }
 
-    public function getSearch($search, $select)
+    public function getClientAddressesByClientId($id)
     {
-        if ($search === null) {
-            return $select;
-        }
+        $select = $this->select()->where('clientAd_idClient = ?', $id);
+        return $this->fetchAll($select);
+    }
 
-        return $select;
+    public function searchAddress(array $search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->select()->where('clientAd_idClient = ?', $search['clientAd_idClient']);
+
+        $select = $this->getLimit($select, $count, $offset);
+        $select = $this->getSortOrder($select, $sort);
+
+        return $this->fetchAll($select);
+    }
+
+    public function numRows($search)
+    {
+        $result = $this->searchAddress($search);
+        return $result->count();
     }
 }

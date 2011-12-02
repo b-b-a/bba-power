@@ -72,9 +72,7 @@ class Power_Model_DbTable_User extends ZendSF_Model_DbTable_Abstract
      */
     public function getUserByUsername($username)
     {
-        $select = $this->select()
-            ->where('user_name = ?', $username);
-
+        $select = $this->select()->where('user_name = ?', $username);
         return $this->fetchRow($select);
     }
 

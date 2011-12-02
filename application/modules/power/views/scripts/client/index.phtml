@@ -31,11 +31,12 @@
          data-dojo-props="region: 'center'">
 
         <span dojoType="dojox.data.QueryReadStore"
-             jsid="clientStore"
-             url="/client/client-store"
-             requestMethod="post"></span>
+              jsid="clientStore"
+              url="/client/data-store/type/client"
+              requestMethod="post"></span>
 
         <table dojoType="bba.DataGrid"
+               id="clientGrid"
                jsId="clientGrid"
                store="clientStore"
                query='<?php echo $this->search; ?>'

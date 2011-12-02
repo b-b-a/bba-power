@@ -71,7 +71,27 @@ class Power_Model_User extends ZendSF_Model_Acl_Abstract
      */
     public function getUserDataStore(array $post)
     {
-        return $this->_getDojoDataStore($post, 'userSearch', 'user', 'searchUsers', 'user_idUser');
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $form = $this->getForm('userSearch');
+        $search = array();
+
+        if ($form->isValid($post)) {
+            $search = $form->getValues();
+        }
+
+        $dataObj = $this->getDbTable('user')->searchUsers($search, $sort, $count, $start);
+
+        $store = $this->_getDojoData($dataObj, 'user_idUser');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('user')->numRows($search)
+        );
+
+        return $store->toJson();
     }
 
     /**

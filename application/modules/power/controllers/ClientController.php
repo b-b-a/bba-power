@@ -64,23 +64,40 @@ class Power_ClientController extends Zend_Controller_Action
         }
     }
 
-    public function clientStoreAction()
+    public function dataStoreAction()
     {
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
 
-        $data = $this->_model->getClientDataStore($this->_request->getPost());
+        $request = $this->getRequest();
+        if ($request->isXmlHttpRequest()) {
 
-        $this->getResponse()
-            ->setHeader('Content-Type', 'application/json')
-            ->setBody($data);
+            switch ($request->getParam('type')) {
+                case 'client':
+                    $data = $this->_model->getClientDataStore($request->getPost());
+                    break;
+                case 'address':
+                    $data = $this->_model->getClientAddressDataStore($request->getPost());
+                    break;
+                case 'contact':
+                    $data = $this->_model->getClientContactDataStore($request->getPost());
+                    break;
+                default :
+                    $data = '{}';
+                    break;
+            }
+
+            $this->getResponse()
+                ->setHeader('Content-Type', 'application/json')
+                ->setBody($data);
+        }
     }
 
     public function indexAction()
     {
         $urlHelper = $this->_helper->getHelper('url');
         $form = $this->_model->getForm('clientSearch')
-            ->populate($this->_request->getPost());
+            ->populate($this->getRequest()->getPost());
 
         $form->setAction($urlHelper->url(array(
             'controller'    => 'client' ,
@@ -97,34 +114,35 @@ class Power_ClientController extends Zend_Controller_Action
         ));
     }
 
-    public function clientAddAction()
+    public function addClientAction()
     {
-        if ($this->_request->isXmlHttpRequest()
-                && $this->_request->getParam('type') == 'add'
-                && $this->_request->isPost()) {
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
 
-            $this->_helper->layout->disableLayout();
+        if ($request->isXmlHttpRequest() && $request->getPost('type') == 'add'
+                && $request->isPost()) {
 
-            $form = $this->_getClientForm('clientAdd');
+            $form = $this->_getForm('clientAdd', 'save-client');
 
-            $this->view->assign(array('clientSaveForm' => $form));
+            $this->view->assign(array('clientAddForm' => $form));
 
-            $this->render('client-add-form');
+            $this->render('add-client-form');
         } else {
             return $this->_helper->redirector('index', 'client');
         }
     }
 
-    public function clientEditAction()
+    public function editClientAction()
     {
-        if ($this->_request->getParam('idClient')
-                && $this->_request->isPost()
-                && $this->_request->isXmlHttpRequest()) {
-            $this->_helper->layout->disableLayout();
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
 
-            $client = $this->_model->getClientById($this->_request->getParam('idClient'));
+        if ($request->getParam('idClient') && $request->isPost()
+                && $request->isXmlHttpRequest()) {
 
-            $form = $this->_getClientForm('clientSave');
+            $client = $this->_model->getClientById($request->getPost('idClient'));
+
+            $form = $this->_getForm('clientSave', 'save-client');
             $form->populate($client->toArray('dd/MM/yyyy'));
 
             $this->view->assign(array(
@@ -133,30 +151,38 @@ class Power_ClientController extends Zend_Controller_Action
             ));
 
             if ($this->_request->getParam('type') == 'edit') {
-                $this->render('client-edit-form');
+                $this->render('edit-client-form');
             }
         } else {
            return $this->_helper->redirector('index', 'client');
         }
     }
 
-    public function clientSaveAction()
+    public function saveClientAction()
     {
+        $request = $this->getRequest();
+
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
 
-        if (!$this->_request->isPost()&& !$this->_request->isXmlHttpRequest()) {
+        if (!$request->isPost()&& !$request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'client');
         }
 
-        $request = $this->_request->getPost();
-
-        $saved = $this->_model->saveClient($request);
+        $saved = ($request->getPost('type') === 'add') ?
+            $this->_model->saveNewClient($request->getPost()) :
+            $this->_model->saveClient($request->getPost());
 
         $returnJson = array('saved' => $saved);
 
-        if ($saved == 0) {
-            $html = $this->view->render('client/client-'. $request['type'] .'-form.phtml');
+        if (false === $saved) {
+            $type = ($request->getPost('type') == 'add') ? 'Add' : 'Save';
+
+            $form = $this->_getForm('client' . $type, 'save-client');
+            $form->populate($request->getPost());
+
+            $this->view->assign(array('client' . $type . 'Form' => $form));
+            $html = $this->view->render('client/'. $request->getPost('type') .'-client-form.phtml');
             $returnJson['html'] = $html;
         }
 
@@ -165,14 +191,155 @@ class Power_ClientController extends Zend_Controller_Action
             ->setBody(json_encode($returnJson));
     }
 
-    private function _getClientForm($action)
+    public function addClientAddressAction()
+    {
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
+
+        if ($request->getPost('clientAd_idClient') && $request->isXmlHttpRequest()
+                && $request->getPost('type') == 'add' && $request->isPost()) {
+
+            $form = $this->_getForm('clientAddressSave', 'save-client-address');
+            $form->populate(array('clientAd_idClient' => $request->getPost('clientAd_idClient')));
+
+            $this->view->assign(array('clientAddressSaveForm' => $form));
+
+            $this->render('address-form');
+        }
+    }
+
+    public function editClientAddressAction()
+    {
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
+
+        if ($request->getPost('idAddress') && $request->isXmlHttpRequest()
+                && $request->isPost()) {
+
+            $clientAd = $this->_model->getClientAddressById($request->getPost('idAddress'));
+
+            $form = $this->_getForm('clientAddressSave', 'save-client-address');
+            $form->populate($clientAd->toArray());
+
+            $this->view->assign(array(
+                'clientAd'              => $clientAd,
+                'clientAddressSaveForm' => $form
+            ));
+
+            if ($this->_request->getParam('type') == 'edit') {
+                $this->render('address-form');
+            }
+
+        } else {
+           return $this->_helper->redirector('index', 'client');
+        }
+    }
+
+    public function saveClientAddressAction()
+    {
+        $request = $this->getRequest();
+
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+
+        if (!$request->isPost()&& !$request->isXmlHttpRequest()) {
+            return $this->_helper->redirector('index', 'client');
+        }
+
+        $saved = $this->_model->saveClientAddress($request->getPost());
+
+        $returnJson = array('saved' => $saved);
+
+        if (false === $saved) {
+            $form = $this->_getForm('clientAddressSave', 'save-client-address');
+            $form->populate($request->getPost());
+            $this->view->assign(array('clientAddressSaveForm' => $form));
+            $html = $this->view->render('client/address-form.phtml');
+            $returnJson['html'] = $html;
+        }
+
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($returnJson));
+    }
+
+    public function addClientContactAction()
+    {
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
+        $this->getHelper('viewRenderer')->setNoRender(true);
+
+        if ($request->getPost('clientCo_idClient') && $request->isXmlHttpRequest()
+                && $request->getPost('type') == 'add' && $request->isPost()) {
+
+            $form = $this->_getForm('clientContactSave', 'save-client-contact');
+            $form->populate(array('clientCo_idClient' => $request->getPost('clientCo_idClient')));
+
+            $this->view->assign(array('clientContactSaveForm' => $form));
+
+            $this->render('contact-form');
+        }
+    }
+
+    public function editClientContactAction()
+    {
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
+        $this->getHelper('viewRenderer')->setNoRender(true);
+
+        if ($request->getPost('idClientContact') && $request->isXmlHttpRequest()
+                && $request->isPost()) {
+
+            $clientCo = $this->_model->getClientContactById($request->getParam('idClientContact'));
+
+            $form = $this->_getForm('clientContactSave', 'save-client-contact');
+            $form->populate($clientCo->toArray());
+
+            $this->view->assign(array('clientContactSaveForm' => $form));
+
+            $this->render('contact-form');
+
+        } else {
+           return $this->_helper->redirector('index', 'client');
+        }
+    }
+
+    public function saveClientContactAction()
+    {
+        $request = $this->getRequest();
+
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+
+        if (!$request->isPost()&& !$request->isXmlHttpRequest()) {
+            return $this->_helper->redirector('index', 'client');
+        }
+
+        $saved = $this->_model->saveClientContact($request->getPost());
+
+        $returnJson = array('saved' => $saved);
+
+        if (false === $saved) {
+            $form = $this->_getForm('clientContactSave', 'save-client-contact');
+            $form->populate($request->getPost());
+            $this->view->assign(array('clientContactSaveForm' => $form));
+            $html = $this->view->render('client/client-form.phtml');
+            $returnJson['html'] = $html;
+        }
+
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($returnJson));
+    }
+
+    private function _getForm($name, $action)
     {
         $urlHelper = $this->_helper->getHelper('url');
-        $form = $this->_model->getForm($action);
+        $form = $this->_model->getForm($name);
 
         $form->setAction($urlHelper->url(array(
             'controller'    => 'client',
-            'action'        => 'client-save',
+            'action'        => $action,
             'module'        => 'power'
         ), 'default'));
 

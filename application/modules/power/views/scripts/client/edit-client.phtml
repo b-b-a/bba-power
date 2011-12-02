@@ -28,7 +28,7 @@
                 <h3>Main Address</h3>
                 <div>
                     <p><?php
-                        $mainContact = $this->clientHelper($this->client->id)
+                        $mainContact = $this->clientHelper($this->client->client_idClient)
                             ->getParentRow('clientAd');
 
                         echo $this->formatAddress(array(
@@ -46,7 +46,7 @@
                 <h3>Main Contact</h3>
                 <div>
                     <p><?php
-                        $mainContact = $this->clientHelper($this->client->id)
+                        $mainContact = $this->clientHelper($this->client->client_idClient)
                             ->getParentRow('clientCo');
 
                         echo $this->formatAddress(array(
@@ -82,7 +82,7 @@
 
             <span dojoType="dojox.data.QueryReadStore"
                   jsid="clientAddressStore<?php echo $this->client->client_idClient; ?>"
-                  url="/client-address/client-address-store"
+                  url="/client/data-store/type/address"
                   requestMethod="post"></span>
 
             <table dojoType="bba.DataGrid"

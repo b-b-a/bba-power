@@ -60,12 +60,12 @@ class Power_Model_DbTable_Client extends ZendSF_Model_DbTable_Abstract
     protected $_referenceMap = array(
         'clientAd'  => array(
             'columns'       => 'client_idAddress',
-            'refTableClass' => 'Power_Model_DbTable_ClientAddress',
+            'refTableClass' => 'Power_Model_DbTable_Client_Address',
             'refColumns'    => 'clientAd_idAddress'
 		),
         'clientCo'  => array(
             'columns'       => 'client_idClientContact',
-            'refTableClass' => 'Power_Model_DbTable_ClientContact',
+            'refTableClass' => 'Power_Model_DbTable_Client_Contact',
             'refColumns'    => 'clientCo_idClientContact'
         ),
         'user'      => array(

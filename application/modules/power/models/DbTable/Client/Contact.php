@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Client_Contact extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -78,20 +78,34 @@ class Power_Model_DbTable_Client_Contact extends Zend_Db_Table_Abstract
         )
     );
 
-    public function getList()
+    public function getClientContactById($id)
     {
-        return $this->select(false)
-            ->setIntegrityCheck(false)
-            ->from('client_contact')
-            ->join('client_address', 'clientCo_idAddress = clientAd_idAddress');
+        return $this->find($id)->current();
     }
 
-    public function getSearch($search, $select)
+    public function getClientContactsByClientId($id)
     {
-        if ($search === null) {
-            return $select;
-        }
+        $select = $this->select()->where('clientCo_idClient = ?', $id);
+        return $this->fetchAll($select);
+    }
 
-        return $select;
+    public function searchContact(array $search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->select(false)
+            ->setIntegrityCheck(false)
+            ->from('client_contact')
+            ->join('client_address', 'clientCo_idAddress = clientAd_idAddress')
+            ->where('clientCo_idClient = ?', $search['clientCo_idClient']);
+
+        $select = $this->getLimit($select, $count, $offset);
+        $select = $this->getSortOrder($select, $sort);
+
+        return $this->fetchAll($select);
+    }
+
+    public function numRows($search)
+    {
+        $result = $this->searchContact($search);
+        return $result->count();
     }
 }
