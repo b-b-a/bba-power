@@ -99,4 +99,20 @@ class Power_Model_DbTable_Client_Address extends ZendSF_Model_DbTable_Abstract
         $result = $this->searchAddress($search);
         return $result->count();
     }
+
+    public function insert(array $data)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['clientAd_dateCreate'] = Zend_Date::now()->toString('yyyy-MM-dd');
+        $data['clientAd_userCreate'] = $auth->getId();
+        return parent::insert($data);
+    }
+
+    public function update(array $data, $where)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['clientAd_dateModify'] = Zend_Date::now()->toString('yyyy-MM-dd');
+        $data['clientAd_userModify'] = $auth->getId();;
+        return parent::update($data, $where);
+    }
 }

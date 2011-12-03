@@ -126,4 +126,20 @@ class Power_Model_DbTable_Client extends ZendSF_Model_DbTable_Abstract
         $result = $this->searchClients($search);
         return $result->count();
     }
+
+    public function insert(array $data)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['client_dateCreate'] = Zend_Date::now()->toString('yyyy-MM-dd');
+        $data['client_userCreate'] = $auth->getId();
+        return parent::insert($data);
+    }
+
+    public function update(array $data, $where)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['client_dateModify'] = Zend_Date::now()->toString('yyyy-MM-dd');
+        $data['client_userModify'] = $auth->getId();;
+        return parent::update($data, $where);
+    }
 }

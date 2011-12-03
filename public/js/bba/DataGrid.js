@@ -282,13 +282,13 @@ dojo.declare(
               handleAs: 'json',
               preventCache: true,
               load: dojo.hitch(this, function(data) {
-                  console.log(this.tab.id.split('-')[1]);
                   if (data.saved > 0) {
-                      if (this.tab.id.split('-')[1] !== 'list') {
+                      if (this.tab && this.tab.id.split('-')[1] !== 'list') {
                           this.tab.refresh();
                       } else {
                           this._refresh();
                       }
+                      console.log(data);
                   } else {
                       this.dlg = new dijit.Dialog({
                         title: (this.dialogName) ? this.dialogName :

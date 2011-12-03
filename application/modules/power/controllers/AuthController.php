@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_AuthController extends ZendSF_Controller_Action_Abstract
+class Power_AuthController extends Zend_Controller_Action
 {
     /**
      * @var ZendSF_Service_Authentication
@@ -45,7 +45,7 @@ class Power_AuthController extends ZendSF_Controller_Action_Abstract
     protected $_authService;
 
     /**
-     * @var Core_Model_Mapper_User
+     * @var Core_Model_User
      */
     protected $_model;
 
@@ -58,12 +58,6 @@ class Power_AuthController extends ZendSF_Controller_Action_Abstract
 
         $this->_model = new Power_Model_User();
         $this->_authService = new ZendSF_Service_Authentication();
-
-        $this->setForm('authLogin', array(
-            'controller' => 'auth' ,
-            'action' => 'authenticate',
-            'module' => 'power'
-        ));
     }
 
     public function loginAction()
@@ -71,6 +65,8 @@ class Power_AuthController extends ZendSF_Controller_Action_Abstract
         if (!$this->_helper->acl('Guest')) {
             return $this->_forward('index', 'index');
         }
+
+        $this->view->assign('authLoginForm', $this->_getLoginForm());
     }
 
     public function logoutAction()
@@ -85,25 +81,47 @@ class Power_AuthController extends ZendSF_Controller_Action_Abstract
 
     public function authenticateAction()
     {
+        $request = $this->getRequest();
+
         if (!$this->_helper->acl('Guest')) {
             return $this->_forward('login');
         }
 
-        if (!$this->_request->isPost()) {
+        if (!$request->isPost()) {
             return $this->_forward('login');
         }
 
-        $form = $this->getForm('authLogin');
+        // Validate
+        $form = $this->_getLoginForm();
 
-        if (!$form->isValid($this->_request->getPost())) {
+        if (!$form->isValid($request->getPost())) {
+            $this->view->assign('authLoginForm', $form);
             return $this->render('login'); // re-render the login form
         }
 
         if (false === $this->_authService->authenticate($form->getValues())) {
             $form->setDescription('Login failed, Please try again.');
+            $this->view->assign('authLoginForm', $form);
             return $this->render('login'); // re-render the login form
         }
 
         return $this->_helper->redirector('index', 'meter');
+    }
+
+    private function _getLoginForm()
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+
+        $form = $this->_model->getForm('authLogin');
+        $form->setAction($urlHelper->url(array(
+            'controller'    => 'auth' ,
+            'action'        => 'authenticate',
+            'module'        => 'power'
+            ),
+            'default'
+        ));
+        $form->setMethod('post');
+
+        return $form;
     }
 }

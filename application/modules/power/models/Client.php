@@ -280,9 +280,6 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         $client = array_key_exists('client_idClient', $data) ?
             $this->getClientById($data['client_idClient']) : null;
 
-        $data = (null === $client) ? $this->_getUserCreate($data, 'client') :
-            $this->_getUserModify($data, 'client');
-
         return $this->getDbTable('client')->saveRow($data, $client);
     }
 
@@ -309,9 +306,6 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
         $clientAd = array_key_exists('clientAd_idAddress', $data) ?
             $this->getClientAddressById($data['clientAd_idAddress']) : null;
-
-        $data = (null === $clientAd) ? $this->_getUserCreate($data, 'clientAd') :
-            $this->_getUserModify($data, 'clientAd');
 
         return $this->getDbTable('clientAddress')->saveRow($data, $clientAd);
     }
@@ -348,26 +342,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         $clientCo = array_key_exists('clientCo_idClientContact', $data) ?
             $this->getClientContactById($data['clientCo_idClientContact']) : null;
 
-        $data = (null === $clientCo) ? $this->_getUserCreate($data, 'clientCo') :
-            $this->_getUserModify($data, 'clientCo');
-
         return $this->getDbTable('clientContact')->saveRow($data, $clientCo);
-    }
-
-    private function _getUserCreate($data, $prefix)
-    {
-        $date = new Zend_Date();
-        $data[$prefix . '_dateCreate'] = $date->toString('yyyy-MM-dd');
-        $data[$prefix . '_userCreate'] = $data['userId'];
-        return $data;
-    }
-
-    private function _getUserModify($data, $prefix)
-    {
-        $date = new Zend_Date();
-        $data[$prefix . '_dateModify'] = $date->toString('yyyy-MM-dd');
-        $data[$prefix . '_userModify'] = $data['userId'];
-        return $data;
     }
 
     /**

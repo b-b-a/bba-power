@@ -116,10 +116,6 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             ));
         }
 
-        $auth = Zend_Auth::getInstance()->getIdentity();
-
-        $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('client_idClient', '');
-
     }
 }
