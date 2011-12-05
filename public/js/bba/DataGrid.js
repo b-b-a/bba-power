@@ -63,6 +63,7 @@ dojo.declare(
         queryParent : '',
         newButtonId : null,
         newButtonController : '',
+        controller : '',
 
         _onFetchComplete : function(items, req)
         {
@@ -214,15 +215,17 @@ dojo.declare(
                 }
 
                 var con =  (controller) ? controller : this.hyphenate(this.getNewController());
+                var urlCon = (this.controller != '') ?
+                        this.controller : this.hyphenate(con).split('-')[0];
 
                 this.dlg = new dijit.Dialog({
                     id: type + identParts[0],
                     title: (this.dialogName) ? this.dialogName :
                         this.capitalize(type + ' ' + con.replace('-', ' ')),
                     ioArgs: {content: contentVars},
-                    href: '/' + this.hyphenate(con).split('-')[0] + '/' + type + '-' + this.hyphenate(con),
+                    href: '/' + urlCon + '/' + type + '-' + this.hyphenate(con),
                     execute: dojo.hitch(this, function() {
-                        var url = '/' + this.hyphenate(con).split('-')[0] + '/save-' + this.hyphenate(con);
+                        var url = '/' + urlCon + '/save-' + this.hyphenate(con);
                         this.dlg.destroyRecursive();
                         this.dlg = null;
                         this.processForm(arguments[0], url, type);

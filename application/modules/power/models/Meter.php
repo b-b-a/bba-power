@@ -28,7 +28,7 @@
  */
 
 /**
- * DAO to represent a single Meter.
+ * Meter model.
  *
  * @category   BBA
  * @package    Power
@@ -51,26 +51,98 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
         return $this->getDbTable('Meter')->getMeterById($id);
     }
 
-    public function delete($id)
+    /**
+     * Gets an aggregate of rows connected to this meter.
+     *
+     * @param int $id
+     * @return null|Power_Model_DbTable_Row_Meter
+     */
+    public function getMeterDetailsById($id)
     {
-        if (!$this->checkAcl('delete')) {
-            throw new ZendSF_Acl_Exception('Deleting users is not allowed.');
+        $id = (int) $id;
+        return $this->getDbTable('meter')->getMeterDetails($id);
+    }
+
+    /**
+     * Gets the meter data store list, using search parameters.
+     *
+     * @param array $post
+     * @return string
+     */
+    public function getMeterDataStore(array $post)
+    {
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $form = $this->getForm('meterSearch');
+        $search = array();
+
+        if ($form->isValid($post)) {
+            $search = $form->getValues();
         }
 
-        if ($user instanceof Power_Model_DbTable_Row_Meter) {
-            $meterId = (int) $user->userId;
-        } else {
-            $meterId = (int) $user;
+        $dataObj = $this->getDbTable('meter')->searchMeters($search, $sort, $count, $start);
+
+        $store = $this->_getDojoData($dataObj, 'meter_idMeter');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('meter')->numRows($search)
+        );
+
+        return $store->toJson();
+    }
+
+    /**
+     * Gets the meter data store list, using search parameters.
+     *
+     * @param array $post
+     * @return string
+     */
+    public function getUsageDataStore(array $post)
+    {
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $dataObj = $this->getDbTable('meterUsage')->searchUsage($post, $sort, $count, $start);
+
+        $store = $this->_getDojoData($dataObj, 'usage_idUsage');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('meterUsage')->numRows($post)
+        );
+
+        return $store->toJson();
+    }
+
+    /**
+     * Updates a meter.
+     *
+     * @param array $post
+     * @return false|int
+     */
+    public function saveMeter($post)
+    {
+        if (!$this->checkAcl('saveMeterAddress')) {
+            throw new ZendSF_Acl_Exception('Insufficient rights');
         }
 
-        $meter = $this->getMeterById($userId);
+        $form = $this->getForm('meterSave');
 
-        if (null !== $user) {
-            $meter->delete();
-            return true;
+        if (!$form->isValid($post)) {
+            return false;
         }
 
-        return false;
+        // get filtered values
+        $data = $form->getValues();
+
+        $meter = array_key_exists('meter_idMeter', $data) ?
+            $this->getClientAddressById($data['meter_idMeter']) : null;
+
+        return $this->getDbTable('meter')->saveRow($data, $meter);
     }
 
     /**
@@ -88,8 +160,7 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
-        $this->_acl->allow('admin', $this)
-            ->deny('admin', $this, array('delete'));
+        $this->_acl->allow('admin', $this);
 
         return $this;
     }

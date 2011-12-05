@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Usage_Save extends ZendSF_Form_Abstract
+class Power_Form_Meter_Usage_Save extends ZendSF_Form_Abstract
 {
     public function init()
     {
@@ -68,7 +68,7 @@ class Power_Form_Usage_Save extends ZendSF_Form_Abstract
         $table = new Power_Model_Mapper_Tables();
         $list = $table->getSelectListByName('usage_type');
         $multiOptions = array(0 => 'Select a type');
-        
+
         foreach($list as $row) {
             $multiOptions[$row->key] = $row->value;
         }
@@ -111,9 +111,6 @@ class Power_Form_Usage_Save extends ZendSF_Form_Abstract
             'filters'       => array('StripTags', 'StringTrim')
         ));
 
-        $auth = Zend_Auth::getInstance()->getIdentity();
-
-        $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('usage_idUsage', '');
         $this->addHiddenElement('usage_idMeter', '');
     }

@@ -1,6 +1,6 @@
 <?php
 /**
- * ClientAddress.php
+ * Usage.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Database adapter class for the ClientAddress table.
+ * Database adapter class for the Usage table.
  *
  * @category   BBA
  * @package    Power
@@ -37,56 +37,50 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Client_Address extends ZendSF_Model_DbTable_Abstract
+class Power_Model_DbTable_Meter_Usage extends ZendSF_Model_DbTable_Abstract
 {
     /**
      * @var string database table
      */
-    protected $_name = 'client_address';
+    protected $_name = 'pusage';
 
     /**
      * @var string primary key
      */
-    protected $_primary = 'clientAd_idAddress';
+    protected $_primary = 'usage_idUsage';
 
     /**
      * @var string row class
      */
-    protected $_rowClass = 'Power_Model_DbTable_Row_Client_Address';
+    protected $_rowClass = 'Power_Model_DbTable_Row_Meter_Usage';
 
     /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
-        'client'    => array(
-            'columns'       => 'clientAd_idClient',
-            'refTableClass' => 'Power_Model_DbTable_Client',
-            'refColumns'    => 'client_idClient'
+        'meter' => array(
+            'columns'       => 'usage_idMeter',
+            'refTableClass' => 'Power_Model_DbTable_Meter',
+            'refColumns'    => 'meter_idMeter'
         ),
-        'user'      => array(
+        'user'  => array(
             'columns'       => array(
-                'clientAd_userCreate',
-                'clientAd_userModify'
+                'usage_userCreate',
+                'usage_userModify'
             ),
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
     );
 
-    public function getClientAddressById($id)
+    public function getUsageById($id)
     {
         return $this->find($id)->current();
     }
 
-    public function getClientAddressesByClientId($id)
+    public function searchUsage(array $search, $sort = '', $count = null, $offset = null)
     {
-        $select = $this->select()->where('clientAd_idClient = ?', $id);
-        return $this->fetchAll($select);
-    }
-
-    public function searchAddress(array $search, $sort = '', $count = null, $offset = null)
-    {
-        $select = $this->select()->where('clientAd_idClient = ?', $search['clientAd_idClient']);
+        $select = $this->select()->where('usage_idMeter = ?', $search['usage_idMeter']);
 
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
@@ -96,23 +90,23 @@ class Power_Model_DbTable_Client_Address extends ZendSF_Model_DbTable_Abstract
 
     public function numRows($search)
     {
-        $result = $this->searchAddress($search);
+        $result = $this->searchUsage($search);
         return $result->count();
     }
 
     public function insert(array $data)
     {
         $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['clientAd_dateCreate'] = new Zend_Db_Expr('CURDATE()');
-        $data['clientAd_userCreate'] = $auth->getId();
+        $data['usage_dateCreate'] = new Zend_Db_Expr('CURDATE()');
+        $data['usage_userCreate'] = $auth->getId();
         return parent::insert($data);
     }
 
     public function update(array $data, $where)
     {
         $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['clientAd_dateModify'] = new Zend_Db_Expr('CURDATE()');
-        $data['clientAd_userModify'] = $auth->getId();
+        $data['usage_dateModify'] = new Zend_Db_Expr('CURDATE()');
+        $data['usage_userModify'] = $auth->getId();
         return parent::update($data, $where);
     }
 }

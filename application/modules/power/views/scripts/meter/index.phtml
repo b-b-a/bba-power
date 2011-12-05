@@ -34,13 +34,14 @@
 
         <span dojoType="dojox.data.QueryReadStore"
              jsid="meterStore"
-             url="/meter/meter-store"
+             url="/meter/data-store/type/meter"
              requestMethod="post"></span>
 
         <table dojoType="bba.DataGrid"
+               id="meterGrid"
                jsId="meterGrid"
                store="meterStore"
-               query="<?php echo $this->search; ?>"
+               query='<?php echo $this->search; ?>'
                sortInfo="2"
                search="true"
                tabs="true"

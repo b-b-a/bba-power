@@ -68,8 +68,8 @@ class Power_ClientController extends Zend_Controller_Action
     {
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
-
         $request = $this->getRequest();
+        
         if ($request->isXmlHttpRequest()) {
 
             switch ($request->getParam('type')) {
@@ -109,7 +109,7 @@ class Power_ClientController extends Zend_Controller_Action
 
         // assign search to the view script.
         $this->view->assign(array(
-            'search' => Zend_Json::encode($form->getValues()),
+            'search'            => Zend_Json::encode($form->getValues()),
             'clientSearchForm'  => $form
         ));
     }

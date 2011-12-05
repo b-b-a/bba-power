@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_MeterContractController extends BBA_Controller_Action_Abstract
+class Power_MeterContractController extends Zend_Controller_Action
 {
     /**
      * @var Power_Model_Mappper_MeterContract

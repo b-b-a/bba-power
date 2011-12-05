@@ -112,7 +112,7 @@ class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
     public function insert(array $data)
     {
         $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['clientCo_dateCreate'] = Zend_Date::now()->toString('yyyy-MM-dd');
+        $data['clientCo_dateCreate'] = new Zend_Db_Expr('CURDATE()');
         $data['clientCo_userCreate'] = $auth->getId();
         return parent::insert($data);
     }
@@ -120,8 +120,8 @@ class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
     public function update(array $data, $where)
     {
         $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['clientCo_dateModify'] = Zend_Date::now()->toString('yyyy-MM-dd');
-        $data['clientCo_userModify'] = $auth->getId();;
+        $data['clientCo_dateModify'] = new Zend_Db_Expr('CURDATE()');
+        $data['clientCo_userModify'] = $auth->getId();
         return parent::update($data, $where);
     }
 }

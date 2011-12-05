@@ -8,28 +8,28 @@
 
             <div class="form_wrap zend_form meter_edit ident alpha"
                  dojoType="dijit.form.Form"
-                 id="edit-meter-<?php echo $this->meter->id; ?>">
+                 id="edit-meter-<?php echo $this->meter->meter_idMeter; ?>">
                 <h3>Meter Details</h3>
                 <div class="form_row">
                     <p class="label"><b>Type:</b></p>
-                    <p>&nbsp;<?php echo $this->meter->type; ?></p>
+                    <p>&nbsp;<?php echo $this->meter->meter_type; ?></p>
                 </div>
                 <div class="form_row">
                     <p class="label"><b>Serial Number:</b></p>
-                    <p>&nbsp;<?php echo $this->meter->numberSerial; ?></p>
+                    <p>&nbsp;<?php echo $this->meter->meter_numberSerial; ?></p>
                 </div>
                  <div class="form_row">
                     <p class="label"><b>Number Top:</b></p>
-                    <p>&nbsp;<?php echo $this->meter->numberTop; ?></p>
+                    <p>&nbsp;<?php echo $this->meter->meter_numberTop; ?></p>
                 </div>
                  <div class="form_row">
                     <p class="label"><b>Number Main:</b></p>
-                    <p>&nbsp;<?php echo $this->meter->numberMain; ?></p>
+                    <p>&nbsp;<?php echo $this->meter->meter_numberMain; ?></p>
                 </div>
 
                 <button dojoType="dijit.form.Button"
                     type="submit"
-                    name="edit-meter-button-<?php echo $this->meter->id; ?>"
+                    name="edit-meter-button-<?php echo $this->meter->meter_idMeter; ?>"
                     value="submit">Edit Details</button>
             </div>
 
@@ -65,7 +65,7 @@
                 <?php if ($this->authInfo('role') == 'admin'): ?>
                 <p class="tableHead-button">
                     <button dojoType="dijit.form.Button"
-                            id="new-usage-button-<?php echo $this->meter->id; ?>"
+                            id="new-usage-button-<?php echo $this->meter->meter_idMeter; ?>"
                             type="button">New Usage</button>
                 </p>
                 <?php endif; ?>
@@ -73,7 +73,7 @@
         </div>
     </div>
 
-    <div id="MeterTabs<?php echo $this->meter->id; ?>"
+    <div id="MeterTabs<?php echo $this->meter->meter_idMeter; ?>"
          data-dojo-type="dijit.layout.TabContainer"
          data-dojo-props="region: 'center', tabStrip: 'true'"
          class="innerTabs">
@@ -82,18 +82,19 @@
              data-dojo-props="region: 'center', title: 'Meter Usage'">
 
             <span dojoType="dojox.data.QueryReadStore"
-                 jsid="usageStore<?php echo $this->meter->id; ?>"
-                 url="/usage/usage-store"
+                 jsid="usageStore<?php echo $this->meter->meter_idMeter; ?>"
+                 url="/meter/data-store/type/usage"
                  requestMethod="post"></span>
 
             <table dojoType="bba.DataGrid"
-                   jsId="usageGrid<?php echo $this->meter->id; ?>"
-                   store="usageStore<?php echo $this->meter->id; ?>"
-                   query="{ usage_idMeter: <?php echo $this->meter->id; ?> }"
+                   jsId="usageGrid<?php echo $this->meter->meter_idMeter; ?>"
+                   store="usageStore<?php echo $this->meter->meter_idMeter; ?>"
+                   query="{ usage_idMeter: <?php echo $this->meter->meter_idMeter; ?> }"
                    queryParent="usage_idMeter"
                    sortInfo="-3"
                    dialog="true"
-                   newButtonId="<?php echo $this->meter->id; ?>">
+                   newButtonId="<?php echo $this->meter->meter_idMeter; ?>"
+                   controller="meter">
                 <thead>
                     <tr>
                         <th field="usage_idUsage" width="50">Id</th>
