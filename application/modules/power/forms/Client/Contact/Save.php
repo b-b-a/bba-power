@@ -111,6 +111,5 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
 
         $this->addHiddenElement('clientCo_idClientContact', '');
         $this->addHiddenElement('clientCo_idClient', '');
-
     }
 }

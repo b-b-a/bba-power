@@ -37,35 +37,59 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_SupplierController extends BBA_Controller_Action_Abstract
+class Power_SupplierController extends Zend_Controller_Action
 {
+    /**
+     * @var Power_Model_Supplier
+     */
+    protected $_model;
+
     /**
      * Initialization code.
      */
     public function init()
     {
-        parent::init();
 
-        if (!$this->_helper->acl('Guest')) {
+        $this->_model = new Power_Model_Supplier();
+/*
+        $this->setForm('supplierSave', array(
+            'controller' => 'supplier' ,
+            'action' => 'save',
+            'module' => 'power'
+        ));
 
-            $this->_model = new Power_Model_Mapper_Supplier();
+        // search form
+        $this->setForm('supplierSearch', array(
+            'controller' => 'supplier' ,
+            'action' => 'index',
+            'module' => 'power'
+        ));
 
-            $this->setForm('supplierSave', array(
-                'controller' => 'supplier' ,
-                'action' => 'save',
-                'module' => 'power'
-            ));
+        $this->_setSearch(array(
+            'supplier', 'contact'
+        ));*/
+    }
 
-            // search form
-            $this->setForm('supplierSearch', array(
-                'controller' => 'supplier' ,
-                'action' => 'index',
-                'module' => 'power'
-            ));
+    public function dataStoreAction()
+    {
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+        $request = $this->getRequest();
 
-            $this->_setSearch(array(
-                'supplier', 'contact'
-            ));
+        if ($request->isXmlHttpRequest()) {
+
+            switch ($request->getParam('type')) {
+                case 'suppliers':
+                    $data = $this->_model->getSupplierDataStore($request->getPost());
+                    break;
+                default :
+                    $data = '{}';
+                    break;
+            }
+
+            $this->getResponse()
+                ->setHeader('Content-Type', 'application/json')
+                ->setBody($data);
         }
     }
 
@@ -74,17 +98,23 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        $this->getForm('supplierSearch')
-            ->populate($this->_getSearch());
+        $urlHelper = $this->_helper->getHelper('url');
+        $form = $this->_model->getForm('supplierSearch')
+            ->populate($this->getRequest()->getPost());
 
+        $form->setAction($urlHelper->url(array(
+            'controller'    => 'supplier' ,
+            'action'        => 'index',
+            'module'        => 'power'
+        ), 'default'));
+
+        $form->setMethod('post');
+
+        // assign search to the view script.
         $this->view->assign(array(
-            'search' => $this->_getSearchString('supplierSearch')
+            'search'                => Zend_Json::encode($form->getValues()),
+            'supplierSearchForm'    => $form
         ));
-    }
-
-    public function supplierStoreAction()
-    {
-        return $this->_getAjaxDataStore('getList' ,'supplier_idSupplier');
     }
 
     public function supplierContactStoreAction()
@@ -105,7 +135,7 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
         return $this->_getAjaxDataStore('getContractsBySupplierId' ,'contract_idContract', true);
     }
 
-    public function addAction()
+    public function addSupplierAction()
     {
         if ($this->_request->isXmlHttpRequest()
                 && $this->_request->getParam('type') == 'add'
@@ -117,7 +147,7 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
         }
     }
 
-    public function editAction()
+    public function editSupplierAction()
     {
         if ($this->_request->getParam('idSupplier')
                 && $this->_request->isPost()
@@ -140,7 +170,7 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
         }
     }
 
-    public function saveAction()
+    public function saveSupplierAction()
     {
         if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'supplier');
@@ -202,4 +232,18 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
             ->setBody($data->toJson());
     }
 
+    private function _getForm($name, $action)
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+        $form = $this->_model->getForm($name);
+
+        $form->setAction($urlHelper->url(array(
+            'controller'    => 'supplier',
+            'action'        => $action,
+            'module'        => 'power'
+        ), 'default'));
+
+        $form->setMethod('post');
+        return $form;
+    }
 }

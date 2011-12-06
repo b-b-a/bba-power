@@ -39,5 +39,8 @@
  */
 class Power_Model_DbTable_Row_Supplier_Contact extends ZendSF_Model_DbTable_Row_Abstract
 {
-
+    public function getAddress1AndPostcode()
+    {
+        return $this->getRow()->supplierCo_address1 . ', ' . $this->getRow()->supplierCo_postcode;
+    }
 }

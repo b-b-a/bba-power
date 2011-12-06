@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Supplier_Contact extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Supplier_Contact extends ZendSF_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -72,4 +72,41 @@ class Power_Model_DbTable_Supplier_Contact extends Zend_Db_Table_Abstract
             'refColumns'    => 'user_idUser'
         )
     );
+
+    public function getSupplierContactById($id)
+    {
+        return $this->find($id)->current();
+    }
+
+    public function searchContacts(array $search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->select()->where('supplierCo_idSupplier = ?', $search['supplierCo_idSupplier']);
+
+        $select = $this->getLimit($select, $count, $offset);
+        $select = $this->getSortOrder($select, $sort);
+
+        return $this->fetchAll($select);
+    }
+
+    public function numRows($search)
+    {
+        $result = $this->searchSuppliers($search);
+        return $result->count();
+    }
+
+    public function insert(array $data)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['supplierCo_dateCreate'] = new Zend_Db_Expr('CURDATE()');
+        $data['supplierCo_userCreate'] = $auth->getId();
+        return parent::insert($data);
+    }
+
+    public function update(array $data, $where)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['supplierCo_dateModify'] = new Zend_Db_Expr('CURDATE()');
+        $data['supplierCo_userModify'] = $auth->getId();
+        return parent::update($data, $where);
+    }
 }

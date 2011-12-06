@@ -361,8 +361,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
-        $this->_acl->allow('admin', $this)
-            ->deny('admin', $this, array('delete'));
+        $this->_acl->allow('admin', $this);
 
         return $this;
     }
