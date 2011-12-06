@@ -51,6 +51,12 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
         return $this->getDbTable('Meter')->getMeterById($id);
     }
 
+    /**
+     * Get meter usage by their id
+     *
+     * @param  int $id
+     * @return null|Power_Model_DbTable_Row_Meter_Usage
+     */
     public function getUsageById($id)
     {
         $id = (int) $id;
@@ -172,7 +178,7 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
         // get filtered values
         $data = $form->getValues();
 
-        $meter = array_key_exists('usage_idUsgae', $data) ?
+        $meter = array_key_exists('usage_idUsage', $data) ?
             $this->getUsageById($data['usage_idUsage']) : null;
 
         return $this->getDbTable('meterUsage')->saveRow($data, $meter);

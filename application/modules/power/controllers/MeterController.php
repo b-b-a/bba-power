@@ -96,8 +96,8 @@ class Power_MeterController extends Zend_Controller_Action
     public function indexAction()
     {
         $urlHelper = $this->_helper->getHelper('url');
-        $form = $this->_model->getForm('meterSearch')
-            ->populate($this->getRequest()->getPost());
+        $form = $this->_model->getForm('meterSearch');
+        $form->populate($this->getRequest()->getPost());
 
         $form->setAction($urlHelper->url(array(
             'controller'    => 'meter' ,

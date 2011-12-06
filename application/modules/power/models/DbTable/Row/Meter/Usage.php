@@ -52,6 +52,8 @@ class Power_Model_DbTable_Row_Meter_Usage extends ZendSF_Model_DbTable_Row_Abstr
         'usage_dateModify'
     );
 
+    protected $_dateFormat = 'dd/MM/yyyy';
+
     /**
      * Returns row as an array, with optional date formating.
      *
@@ -66,7 +68,7 @@ class Power_Model_DbTable_Row_Meter_Usage extends ZendSF_Model_DbTable_Row_Abstr
 
             if (in_array($key, $this->_dateKeys)) {
                 $date = new Zend_Date($value);
-                $value = $date->toString($dateFormat);
+                $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
             }
 
             $array[$key] = $value;

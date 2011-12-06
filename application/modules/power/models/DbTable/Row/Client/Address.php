@@ -52,7 +52,7 @@ class Power_Model_DbTable_Row_Client_Address extends ZendSF_Model_DbTable_Row_Ab
 
     /**
      * Concats client address1 and postcode.
-     * 
+     *
      * @return string
      */
     public function getAddress1AndPostcode()

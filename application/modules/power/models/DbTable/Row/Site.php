@@ -40,5 +40,48 @@
  */
 class Power_Model_DbTable_Row_Site extends ZendSF_Model_DbTable_Row_Abstract
 {
+    public function getClient()
+    {
+        return $this->getRow()->findParentRow(
+            'Power_Model_DbTable_Client',
+            'siteClient'
+        );
+    }
 
+    public function getSiteAddress()
+    {
+        return $this->getRow()->findParentRow(
+            'Power_Model_DbTable_Client_Address',
+            'siteAddress'
+        );
+    }
+
+    public function getBillingAddress()
+    {
+        return $this->getRow()->findParentRow(
+            'Power_Model_DbTable_Client_Address',
+            'siteAddressBill'
+        );
+    }
+
+    public function getClientContact()
+    {
+        return $this->getRow()->findParentRow(
+            'Power_Model_DbTable_Client_Contact',
+            'siteClientContact'
+        );
+    }
+
+    public function getMeters($sort = null, $count = null, $offset = null)
+    {
+        $select = $this->getRow()->select();
+
+        $select = $this->getRow()->getTable()->getLimit($select, $count, $offset);
+        $select = $this->getRow()->getTable()->getSortOrder($select, $sort);
+
+        return $this->getRow()->findDependentRowset(
+            'Power_Model_DbTable_Meter',
+            'site',
+            $select);
+    }
 }

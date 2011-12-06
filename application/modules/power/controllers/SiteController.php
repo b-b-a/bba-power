@@ -37,41 +37,72 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_SiteController extends BBA_Controller_Action_Abstract
+class Power_SiteController extends Zend_Controller_Action
 {
+    /**
+     * @var Power_Model_Site
+     */
+    protected $_model;
+
     /**
      * Initialization code.
      */
     public function init()
     {
-        parent::init();
+        $this->_model = new Power_Model_Site();
+        /*
+        $this->setForm('siteAdd', array(
+            'controller'    => 'site' ,
+            'action'        => 'save',
+            'module'        => 'power'
+        ));
 
-        if (!$this->_helper->acl('Guest')) {
+        $this->setForm('siteEdit', array(
+            'controller'    => 'site' ,
+            'action'        => 'save',
+            'module'        => 'power'
+        ));
 
-            $this->_model = new Power_Model_Mapper_Site();
+        // search form
+        $this->setForm('siteSearch', array(
+            'controller'    => 'site' ,
+            'action'        => 'index',
+            'module'        => 'power'
+        ));
 
-            $this->setForm('siteAdd', array(
-                'controller'    => 'site' ,
-                'action'        => 'save',
-                'module'        => 'power'
-            ));
+        $this->_setSearch(array(
+            'site', 'client', 'meter_idSite'
+        ));*/
+    }
 
-            $this->setForm('siteEdit', array(
-                'controller'    => 'site' ,
-                'action'        => 'save',
-                'module'        => 'power'
-            ));
+    public function dataStoreAction()
+    {
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+        $request = $this->getRequest();
 
-            // search form
-            $this->setForm('siteSearch', array(
-                'controller'    => 'site' ,
-                'action'        => 'index',
-                'module'        => 'power'
-            ));
+        if ($request->isXmlHttpRequest()) {
 
-            $this->_setSearch(array(
-                'site', 'client', 'meter_idSite'
-            ));
+            switch ($request->getParam('type')) {
+                case 'site':
+                    $data = $this->_model->getSiteDataStore($request->getPost());
+                    break;
+                case 'siteMeters':
+                    $data = $this->_model->getSiteMetersDataStore($request->getPost());
+                    break;
+                case 'clients':
+                case 'address':
+                case 'contact':
+                    $data = $this->_model->getFileringSelectData($request->getParams());
+                    break;
+                default :
+                    $data = '{}';
+                    break;
+            }
+
+            $this->getResponse()
+                ->setHeader('Content-Type', 'application/json')
+                ->setBody($data);
         }
     }
 
@@ -80,104 +111,71 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        $this->getForm('siteSearch')
-            ->populate($this->_getSearch());
+        $urlHelper = $this->_helper->getHelper('url');
+        $form = $this->_model->getForm('siteSearch');
+        $form->populate($this->getRequest()->getPost());
 
+        $form->setAction($urlHelper->url(array(
+            'controller'    => 'site' ,
+            'action'        => 'index',
+            'module'        => 'power'
+        ), 'default'));
+
+        $form->setMethod('post');
+
+        // assign search to the view script.
         $this->view->assign(array(
-            'search' => $this->_getSearchString('siteSearch')
+            'search'            => Zend_Json::encode($form->getValues()),
+            'siteSearchForm'   => $form
         ));
     }
 
-    public function addAction()
+    public function addSiteAction()
     {
-        if ($this->_request->isXmlHttpRequest()
-                && $this->_request->getParam('type') == 'add'
-                && $this->_request->isPost()) {
-            $this->getForm('siteAdd');
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
+
+        if ($request->isXmlHttpRequest() && $request->getParam('type') == 'add'
+                && $request->isPost()) {
+
+            $form = $this->_getForm('siteAdd', 'save-site');
+
             $this->view->assign(array(
-                'formName' => 'siteAddForm'
+                'formName'      => 'siteAddForm',
+                'siteAddForm'   => $form
             ));
-            $this->render('ajax-form');
+
+            $this->render('site-form');
         } else {
-            return $this->_helper->redirector('index', 'client');
+            return $this->_helper->redirector('index', 'site');
         }
     }
 
-    public function editAction()
+    public function editSiteAction()
     {
-        if ($this->_request->getParam('idSite')
-                && $this->_request->isPost()
-                && $this->_request->isXmlHttpRequest()) {
-            $site = $this->_model->getSiteDetails($this->_request->getParam('idSite'));
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
 
-            $this->getForm('siteEdit')
-                ->populate($site->toArray('dd/MM/yyyy'));
+        if ($request->getParam('idSite') && $request->isPost()
+                && $request->isXmlHttpRequest()) {
+
+            $site = $this->_model->getSiteDetailsById($request->getPost('idSite'));
+
+            $form = $this->_getForm('siteEdit', 'save-site');
+            $form->populate($site->toArray());
 
             $this->view->assign(array(
-                'formName'  => 'siteEditForm',
-                'site'      => $site
+                'site'          => $site,
+                'formName'      => 'siteEditForm',
+                'siteEditForm'  => $form
             ));
 
-            if ($this->_request->getParam('type') == 'edit') {
-                $this->render('ajax-form');
+            if ($request->getPost('type') == 'edit') {
+                $this->render('site-form');
             }
         } else {
            return $this->_helper->redirector('index', 'site');
         }
-    }
-
-    public function siteStoreAction()
-    {
-        return $this->_getAjaxDataStore('getList' ,'site_idSite');
-    }
-
-    public function autocompleteAction()
-    {
-        $this->_helper->layout->disableLayout();
-        $this->getHelper('viewRenderer')->setNoRender(true);
-
-        switch ($this->_request->getParam('param')) {
-            case 'client':
-                $model = new Power_Model_Mapper_Client();
-                $identifier = 'client_idClient';
-                $searchItems = array('idClient', 'name');
-                $result = $model->fetchAll();
-                break;
-
-            case 'address':
-                $model = new Power_Model_Mapper_ClientAddress();
-                $identifier = 'clientAd_idAddress';
-                $searchItems = array('idAddress', 'address1AndPostcode');
-                $result = $model->getAddressByClientId(array(
-                   'clientAd_idClient' => $this->_request->getParam('clientId')
-                ), 'clientAd_postcode');
-                break;
-
-            case 'contact':
-                $model = new Power_Model_Mapper_ClientContact();
-                $identifier = 'clientCo_idClientContact';
-                $searchItems = array('idClientContact', 'name');
-                $result = $model->getContactByClientId(array(
-                   'clientCo_idClient' => $this->_request->getParam('clientId')
-                ), 'clientCo_name');
-                break;
-        }
-
-        $items = array();
-
-        foreach ($result as $row) {
-            //$row = $row->toArray();
-            $items[] = array(
-                $identifier                     => $row->{$searchItems[0]},
-                $row->prefix . $searchItems[1]  => $row->{$searchItems[1]}
-            );
-        }
-
-        $data = new Zend_Dojo_Data($identifier, $items);
-
-        $this->getResponse()
-            ->setHeader('Content-Type', 'application/json')
-            ->setBody($data->toJson());
     }
 
     public function saveAction()
@@ -218,5 +216,20 @@ class Power_SiteController extends BBA_Controller_Action_Abstract
          $this->getResponse()
             ->setHeader('Content-Type', 'application/json')
             ->setBody(json_encode($returnJson));
+    }
+
+    private function _getForm($name, $action)
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+        $form = $this->_model->getForm($name);
+
+        $form->setAction($urlHelper->url(array(
+            'controller'    => 'site',
+            'action'        => $action,
+            'module'        => 'power'
+        ), 'default'));
+
+        $form->setMethod('post');
+        return $form;
     }
 }

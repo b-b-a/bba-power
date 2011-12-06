@@ -37,15 +37,121 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Site extends BBA_Model_Abstract
+class Power_Model_Site extends ZendSF_Model_Abstract
 {
-   /**
-     * @var string
+    /**
+     * Get site by their id
+     *
+     * @param  int $id
+     * @return null|Power_Model_DbTable_Row_Site
      */
-    protected $_primary = 'idSite';
+    public function getSiteById($id)
+    {
+        $id = (int) $id;
+        return $this->getDbTable('site')->getSiteById($id);
+    }
+
+    public function getSiteDetailsById($id)
+    {
+        $id = (int) $id;
+        return $this->getDbTable('site')->getSiteDetailsById($id);
+    }
 
     /**
-     * @var string
+     * Gets the site data store list, using search parameters.
+     *
+     * @param array $post
+     * @return string
      */
-    protected $_prefix = 'site_';
+    public function getSiteDataStore(array $post)
+    {
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $form = $this->getForm('siteSearch');
+        $search = array();
+
+        if ($form->isValid($post)) {
+            $search = $form->getValues();
+        }
+
+        $dataObj = $this->getDbTable('site')->searchSites($search, $sort, $count, $start);
+
+        $store = $this->_getDojoData($dataObj, 'site_idSite');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('site')->numRows($search)
+        );
+
+        return $store->toJson();
+    }
+
+    /**
+     * Gets the site meters data store list, using search parameters.
+     *
+     * @param array $post
+     * @return string
+     */
+    public function getSiteMetersDataStore($post)
+    {
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $row = $this->getSiteById($post['meter_idSite']);
+        $meters = $row->getMeters($sort, $count, $start);
+
+        $store = $this->_getDojoData($meters, 'meter_idMeter');
+
+        $store->setMetadata(
+            'numRows',
+            $row->getMeters()->count()
+        );
+
+        return $store->toJson();
+    }
+
+    /**
+     * Gets the data for filtering selects.
+     *
+     * @param array $param
+     * @return string
+     */
+    public function getFileringSelectData($params)
+    {
+        switch ($params['type']) {
+            case 'clients':
+                $result = $this->getDbTable('client')->fetchAll();
+                $identifier = 'client_idClient';
+                $searchItems = array('client_idClient', 'client_name');
+                break;
+            case 'address':
+                $identifier = 'clientAd_idAddress';
+                $searchItems = array('clientAd_idAddress', 'address1AndPostcode');
+                $result = $this->getDbTable('clientAddress')
+                    ->getClientAddressesByClientId($params['clientId']);
+                break;
+            case 'contact':
+                $identifier = 'clientCo_idClientContact';
+                $searchItems = array('clientCo_idClientContact', 'clientCo_name');
+                $result = $this->getDbTable('clientContact')
+                    ->getClientContactsByClientId($params['clientId']);
+                break;
+        }
+
+        $items = array();
+
+        foreach ($result as $row) {
+            $items[] = array(
+                $identifier     => $row->{$searchItems[0]},
+                $searchItems[1] => $row->{$searchItems[1]}
+            );
+        }
+
+        $data = new Zend_Dojo_Data($identifier, $items);
+
+        return $data->toJson();
+    }
 }

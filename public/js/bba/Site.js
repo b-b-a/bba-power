@@ -53,7 +53,7 @@ bba.Site = {
         dijit.byId('site_idClientContact').set('value', '');
 
         this.addressStore = new dojo.data.ItemFileReadStore({
-            url:'/site/autocomplete/param/address/clientId/' + val
+            url:'/site/data-store/type/address/clientId/' + val
         });
 
         this.addressStore.fetch();
@@ -61,7 +61,7 @@ bba.Site = {
         dijit.byId("site_idAddress").store = this.addressStore;
 
         this.contactStore = new dojo.data.ItemFileReadStore({
-            url:'/site/autocomplete/param/contact/clientId/' + val
+            url:'/site/data-store/type/contact/clientId/' + val
         });
 
         this.contactStore.fetch();
