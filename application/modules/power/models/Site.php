@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Site extends ZendSF_Model_Abstract
+class Power_Model_Site extends ZendSF_Model_Acl_Abstract
 {
     /**
      * Get site by their id
@@ -153,5 +153,52 @@ class Power_Model_Site extends ZendSF_Model_Abstract
         $data = new Zend_Dojo_Data($identifier, $items);
 
         return $data->toJson();
+    }
+
+    /**
+     * Updates sites.
+     *
+     * @param array $post
+     * @return false|int
+     */
+    public function saveSite($post, $form)
+    {
+        if (!$this->checkAcl('saveSite')) {
+            throw new ZendSF_Acl_Exception('Insufficient rights');
+        }
+
+        $form = $this->getForm($form);
+
+        if (!$form->isValid($post)) {
+            return false;
+        }
+
+        // get filtered values
+        $data = $form->getValues();
+
+        $site = array_key_exists('site_idSite', $data) ?
+            $this->getSiteById($data['site_idSite']) : null;
+
+        return $this->getDbTable('site')->saveRow($data, $site);
+    }
+
+    /**
+     * Injector for the acl, the acl can be injected directly
+     * via this method.
+     *
+     * We add all the access rules for this resource here, so we first call
+     * parent method to add $this as the resource then we
+     * define it rules here.
+     *
+     * @param Zend_Acl_Resource_Interface $acl
+     * @return ZendSF_Model_Abstract
+     */
+    public function setAcl(Zend_Acl $acl) {
+        parent::setAcl($acl);
+
+        // implement rules here.
+        $this->_acl->allow('admin', $this);
+
+        return $this;
     }
 }

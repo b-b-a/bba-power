@@ -178,42 +178,38 @@ class Power_SiteController extends Zend_Controller_Action
         }
     }
 
-    public function saveAction()
+    public function saveSiteAction()
     {
-        if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
+        $request = $this->getRequest();
+
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+
+        if (!$request->isPost() && !$request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'site');
         }
 
-        $this->_helper->viewRenderer->setNoRender(true);
+        $type = ($request->getPost('type') == 'add') ? 'Add' : 'Edit';
+        $formName = 'site' . $type . 'Form';
 
-        $action = $this->_request->getParam('type');
-        $form = 'site' . ucfirst($action);
+        $saved = $this->_model->saveSite($request->getPost(), 'site' . $type);
 
-        $this->view->assign(array(
-            'formName' => 'site' . ucfirst($action) . 'Form'
-        ));
+        $returnJson = array('saved' => $saved);
 
-        if (!$this->getForm($form)->isValid($this->_request->getPost())) {
-            $html = $this->view->render('site/ajax-form.phtml');
+        if (false === $saved) {
 
-            $returnJson = array(
-                'saved' => 0,
-                'html'  => $html
-            );
-        } else {
-            $saved = $this->_model->save($form);
+            $form = $this->_getForm('site' . $type, 'save-site');
+            $form->populate($request->getPost());
 
-            $returnJson = array(
-                'saved' => $saved
-            );
-
-            if ($saved == 0) {
-                $html = $this->view->render('site/ajax-form.phtml');
-                $returnJson['html'] = $html;
-            }
+            $this->view->assign(array(
+                'formName'  => $formName,
+                $fromName   => $form
+            ));
+            $html = $this->view->render('site/site-form.phtml');
+            $returnJson['html'] = $html;
         }
 
-         $this->getResponse()
+        $this->getResponse()
             ->setHeader('Content-Type', 'application/json')
             ->setBody(json_encode($returnJson));
     }
