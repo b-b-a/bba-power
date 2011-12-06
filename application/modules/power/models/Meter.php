@@ -51,6 +51,12 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
         return $this->getDbTable('Meter')->getMeterById($id);
     }
 
+    public function getUsageById($id)
+    {
+        $id = (int) $id;
+        return $this->getDbTable('meterUsage')->getUsageById($id);
+    }
+
     /**
      * Gets an aggregate of rows connected to this meter.
      *
@@ -126,7 +132,7 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
      */
     public function saveMeter($post)
     {
-        if (!$this->checkAcl('saveMeterAddress')) {
+        if (!$this->checkAcl('saveMeter')) {
             throw new ZendSF_Acl_Exception('Insufficient rights');
         }
 
@@ -140,9 +146,36 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
         $data = $form->getValues();
 
         $meter = array_key_exists('meter_idMeter', $data) ?
-            $this->getClientAddressById($data['meter_idMeter']) : null;
+            $this->getMeterById($data['meter_idMeter']) : null;
 
         return $this->getDbTable('meter')->saveRow($data, $meter);
+    }
+
+    /**
+     * Updates meter usage.
+     *
+     * @param array $post
+     * @return false|int
+     */
+    public function saveUsage($post)
+    {
+        if (!$this->checkAcl('saveUsage')) {
+            throw new ZendSF_Acl_Exception('Insufficient rights');
+        }
+
+        $form = $this->getForm('meterUsageSave');
+
+        if (!$form->isValid($post)) {
+            return false;
+        }
+
+        // get filtered values
+        $data = $form->getValues();
+
+        $meter = array_key_exists('usage_idUsgae', $data) ?
+            $this->getUsageById($data['usage_idUsage']) : null;
+
+        return $this->getDbTable('meterUsage')->saveRow($data, $meter);
     }
 
     /**

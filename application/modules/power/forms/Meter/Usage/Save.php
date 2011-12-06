@@ -65,12 +65,11 @@ class Power_Form_Meter_Usage_Save extends ZendSF_Form_Abstract
             )
         ));
 
-        $table = new Power_Model_Mapper_Tables();
-        $list = $table->getSelectListByName('usage_type');
+        $list = $this->getModel()->getDbTable('tables')->getSelectListByName('usage_type');
         $multiOptions = array(0 => 'Select a type');
 
         foreach($list as $row) {
-            $multiOptions[$row->key] = $row->value;
+            $multiOptions[$row->tables_key] = $row->tables_value;
         }
 
         $this->addElement('FilteringSelect', 'usage_type', array(

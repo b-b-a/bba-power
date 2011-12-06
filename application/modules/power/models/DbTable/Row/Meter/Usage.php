@@ -39,5 +39,39 @@
  */
 class Power_Model_DbTable_Row_Meter_Usage extends ZendSF_Model_DbTable_Row_Abstract
 {
+    /**
+     * Array of all columns with need date format applied
+     * to it when outputting row as an array.
+     *
+     * @var array
+     */
+    protected $_dateKeys = array(
+        'usage_dateBill',
+        'usage_dateReading',
+        'usage_dateCreate',
+        'usage_dateModify'
+    );
 
+    /**
+     * Returns row as an array, with optional date formating.
+     *
+     * @param string $dateFormat
+     * @return array
+     */
+    public function toArray($dateFormat = null)
+    {
+        $array = array();
+
+        foreach ($this->getRow() as $key => $value) {
+
+            if (in_array($key, $this->_dateKeys)) {
+                $date = new Zend_Date($value);
+                $value = $date->toString($dateFormat);
+            }
+
+            $array[$key] = $value;
+        }
+
+        return $array;
+    }
 }
