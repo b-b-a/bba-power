@@ -41,6 +41,7 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
 {
     public function init()
     {
+
         $this->setName('site');
 
         $clientId = null;
@@ -49,35 +50,32 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
 
         $log = Zend_Registry::get('log');
 
+        $multiOptions = array();
 
-        if ($request->getPost('idSite')) {
-            $siteId = $request->getPost('idSite');
-            $row = $this->_model->getSiteById($siteId);
-            $clientId = $row->site_idClient;
-        }
+        $siteId = $request->getPost('idSite');
+        $row = $this->_model->getSiteById($siteId);
+        $clientId =$row->site_idClient;
 
-       $this->addElement('FilteringSelect', 'site_idClient', array(
+        $client = $row->getClient();
+        $siteAd = $row->getSiteAddress();
+
+        $multiOptions[$client->client_idClient] = $client->client_name;
+        $this->addElement('FilteringSelect', 'site_idClient', array(
             'label'         => 'Client:',
             'filters'       => array('StripTags', 'StringTrim'),
             'autoComplete'  => false,
-            'hasDownArrow'  => true,
-            'storeId'       => 'clientStore',
-            'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/site/data-store/type/clients"),
-            'dijitParams'   => array('searchAttr' => 'client_name'),
+            'multiOptions'  => $multiOptions,
             'attribs'       => array('readonly' => true),
             'required'      => true
         ));
 
+        $multiOptions = array();
+        $multiOptions[$siteAd->clientAd_idAddress] = $siteAd->address1AndPostcode;
         $this->addElement('FilteringSelect', 'site_idAddress', array(
             'label'         => 'Address:',
             'filters'       => array('StripTags', 'StringTrim'),
             'autoComplete'  => false,
-            'hasDownArrow'  => true,
-            'storeId'       => 'addressStore',
-            'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/site/data-store/type/address/clientId/" . $clientId),
-            'dijitParams'   => array('searchAttr' => 'address1AndPostcode'),
+            'multiOptions'  => $multiOptions,
             'attribs'         => array('readonly' => true),
             'required'      => true
         ));
@@ -89,7 +87,9 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
             'hasDownArrow'  => true,
             'storeId'       => 'addressStore',
             'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/site/data-store/type/address/clientId/" . $clientId),
+            'storeParams'   => array(
+                'url' => "/site/data-store/type/address/clientId/" . $row->site_idClient
+            ),
             'dijitParams'   => array('searchAttr' => 'address1AndPostcode'),
             //'attribs'         => array('disabled' => true),
             'required'      => true
@@ -102,7 +102,9 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
             'hasDownArrow'  => true,
             'storeId'       => 'contactStore',
             'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/site/data-store/type/contact/clientId/" . $clientId),
+            'storeParams'   => array(
+                'url' => "/site/data-store/type/contact/clientId/" . $row->site_idClient
+            ),
             'dijitParams'   => array('searchAttr' => 'clientCo_name'),
             //'attribs'         => array('disabled' => true),
             'required'      => false
