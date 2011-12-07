@@ -5,18 +5,23 @@
 
     <div class="form_wrap wizard">
         <div data-dojo-type="dojox.widget.WizardPane"
-             data-dojo-props="style: 'height:100px;'"
+             data-dojo-props="style: 'height:130px;'"
              class="zend_form client_edit">
 
             <?php echo $form->client_name; ?>
 
             <?php echo $form->client_dateExpiryLoa; ?>
+            <script type="dojo/method" event="onShow">
+                clientGrid.dlg.attr('title', 'Client Information');
+            </script>
         </div>
 
         <div id="addClientWidgetPane1"
             data-dojo-type="dojox.widget.WizardPane"
-             data-dojo-props="dstyle: 'height:230px;'"
+             data-dojo-props="style: 'height:130px;'"
              class="zend_form client_edit">
+
+            <?php echo $form->clientAd_addressName; ?>
 
             <?php echo $form->clientAd_address1; ?>
 
@@ -25,11 +30,13 @@
             <?php echo $form->clientAd_address3; ?>
 
             <?php echo $form->clientAd_postcode; ?>
-
+            <script type="dojo/method" event="onShow">
+                clientGrid.dlg.attr('title', 'Main (HQ) Address');
+            </script>
         </div>
 
         <div data-dojo-type="dojox.widget.WizardPane"
-             data-dojo-props="style: 'height:230px;'"
+             data-dojo-props="style: 'height:130px;'"
              class="zend_form client_edit">
 
             <?php echo $form->clientCo_type; ?>
@@ -39,6 +46,10 @@
             <?php echo $form->clientCo_phone; ?>
 
             <?php echo $form->clientCo_email; ?>
+
+            <script type="dojo/method" event="onShow">
+                clientGrid.dlg.attr('title', 'Main Contact for BBA');
+            </script>
 
             <script type='dojo/method' data-dojo-event="doneFunction">
                 if (!clientGrid.dlg.validate()) {

@@ -91,8 +91,7 @@ class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
 
     public function searchContact(array $search, $sort = '', $count = null, $offset = null)
     {
-        $select = $this->select(false)
-            ->setIntegrityCheck(false)
+        $select = $this->select(false)->setIntegrityCheck(false)
             ->from('client_contact')
             ->join('client_address', 'clientCo_idAddress = clientAd_idAddress')
             ->where('clientCo_idClient = ?', $search['clientCo_idClient']);

@@ -54,6 +54,7 @@ class Power_Form_Client_Add extends ZendSF_Form_Abstract
         /**
          * Add Client Address form Elements
          */
+        $this->addElement($clientAdForm->getElement('clientAd_addressName'));
         $this->addElement($clientAdForm->getElement('clientAd_address1'));
         $this->addElement($clientAdForm->getElement('clientAd_address2'));
         $this->addElement($clientAdForm->getElement('clientAd_address3'));
@@ -62,7 +63,7 @@ class Power_Form_Client_Add extends ZendSF_Form_Abstract
         /**
          * Add Client Contact form Elements
          */
-        $this->addElement($clientCoForm->getElement('clientCo_type'));
+        $this->addElement($clientCoForm->getElement('clientCo_type')->setValue('liaison'));
         $this->addElement($clientCoForm->getElement('clientCo_name'));
         $this->addElement($clientCoForm->getElement('clientCo_phone'));
         $this->addElement($clientCoForm->getElement('clientCo_email'));

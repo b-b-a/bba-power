@@ -202,7 +202,6 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $clientSave = $this->saveClient($post);
 
             // then save client address.
-            $post['clientAd_addressName'] = 'Main';
             $post['clientAd_idClient'] = $clientSave;
             $clientAdSave = $this->saveClientAddress($post);
 
