@@ -42,7 +42,7 @@ class Power_Form_Meter_Usage_Save extends ZendSF_Form_Abstract
     public function init()
     {
         $this->addElement('TextBox', 'usage_dateBill', array(
-            'label'     => 'Bill Date:',
+            'label'     => 'Bill Date last:',
             'formatLength'   => 'short',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim'),
@@ -56,7 +56,7 @@ class Power_Form_Meter_Usage_Save extends ZendSF_Form_Abstract
         $this->addElement('TextBox', 'usage_dateReading', array(
             'label'     => 'Reading Date:',
             'formatLength'   => 'short',
-            'required'  => false,
+            'required'  => true,
             'filters'   => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Date', true, array(
@@ -73,7 +73,7 @@ class Power_Form_Meter_Usage_Save extends ZendSF_Form_Abstract
         }
 
         $this->addElement('FilteringSelect', 'usage_type', array(
-            'label'         => 'Type:',
+            'label'         => 'Reading Type:',
             'filters'       => array('StripTags', 'StringTrim'),
             'autocomplete'  => false,
             'multiOptions'  => $multiOptions,

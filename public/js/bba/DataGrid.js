@@ -58,7 +58,7 @@ dojo.declare(
         tabTitleColumn : '',
         tabId : null,
         dialog : false,
-        dialogName : null,
+        dialogName : '',
         dlg : null,
         queryParent : '',
         newButtonId : null,
