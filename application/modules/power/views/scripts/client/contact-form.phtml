@@ -13,10 +13,6 @@ $form = $this->clientContactSaveForm;
         <?php echo $form->clientCo_phone; ?>
 
         <?php echo $form->clientCo_email; ?>
-        <?php
-        $log = Zend_Registry::get('log');
-        $log->info($form->getElement('clientCo_idAddress')->helper);
-        ?>
 
         <?php if ($form->getElement('clientCo_idAddress')->helper == 'formHidden'): ?>
         <input dojoType="dijit.form.TextBox"

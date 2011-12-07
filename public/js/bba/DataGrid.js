@@ -180,7 +180,7 @@ dojo.declare(
             var selectedId = (!this.newButtonId) ? this.query[this.queryParent] : this.newButtonId;
 
             var id = 'new-' + this.getNewController() + '-button-' + selectedId;
-            console.log(id)
+            
             dojo.connect(dijit.byId(id), 'onClick', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
 
@@ -230,7 +230,7 @@ dojo.declare(
                         var url = '/' + urlCon + '/save-' + this.hyphenate(con);
                         this.dlg.destroyRecursive();
                         this.dlg = null;
-                        console.log(arguments)
+
                         this.processForm(arguments[0], url, type);
                     }),
                     _onSubmit: dojo.hitch(this.dlg, function() {
