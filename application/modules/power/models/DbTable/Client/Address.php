@@ -84,6 +84,20 @@ class Power_Model_DbTable_Client_Address extends ZendSF_Model_DbTable_Abstract
         return $this->fetchAll($select);
     }
 
+    public function getAvailableSiteAddressesByClientId($id)
+    {
+        $select = $this->select()
+            ->from('client_address')
+            ->where('clientAd_idAddress NOT IN (?)', new Zend_Db_Expr(
+                $this->select(false)->setIntegrityCheck(false)
+                ->from('site', array('site_idAddress'))
+                ->where('site_idClient = ?', $id))
+            )
+            ->where('clientAd_idClient = ?', $id);
+
+        return $this->fetchAll($select);
+    }
+
     public function searchAddress(array $search, $sort = '', $count = null, $offset = null)
     {
         $select = $this->select()->where('clientAd_idClient = ?', $search['clientAd_idClient']);

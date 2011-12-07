@@ -60,6 +60,12 @@ bba.Site = {
 
         dijit.byId("site_idAddress").store = this.addressStore;
 
+        this.billAddressStore = new dojo.data.ItemFileReadStore({
+            url:'/site/data-store/type/billAddress/clientId/' + val
+        });
+
+        this.billAddressStore.fetch();
+
         this.contactStore = new dojo.data.ItemFileReadStore({
             url:'/site/data-store/type/contact/clientId/' + val
         });
@@ -72,7 +78,7 @@ bba.Site = {
     changeBillAddress : function()
     {
         dijit.byId("site_idAddressBill").set('disabled', false);
-        dijit.byId("site_idAddressBill").store = this.addressStore;
+        dijit.byId("site_idAddressBill").store = this.billAddressStore;
     },
 
     changeContact : function()

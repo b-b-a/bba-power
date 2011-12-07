@@ -88,7 +88,7 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
             'storeId'       => 'addressStore',
             'storeType'     => 'dojo.data.ItemFileReadStore',
             'storeParams'   => array(
-                'url' => "/site/data-store/type/address/clientId/" . $row->site_idClient
+                'url' => "/site/data-store/type/billAddress/clientId/" . $row->site_idClient
             ),
             'dijitParams'   => array('searchAttr' => 'address1AndPostcode'),
             //'attribs'         => array('disabled' => true),
