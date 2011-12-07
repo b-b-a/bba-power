@@ -61,7 +61,7 @@ dojo.declare(
         dialogName : '',
         dlg : null,
         queryParent : '',
-        newButtonId : null,
+        newButtonId : '',
         newButtonController : '',
         controller : '',
 
@@ -177,11 +177,13 @@ dojo.declare(
 
         newChildForm : function()
         {
-            var selectedId = (this.newButtonId === null) ? this.query[this.queryParent] : this.newButtonId;
-            var id = 'new-' + this.getNewController() + '-button-' + selectedId;
+            var selectedId = (!this.newButtonId) ? this.query[this.queryParent] : this.newButtonId;
 
+            var id = 'new-' + this.getNewController() + '-button-' + selectedId;
+            console.log(id)
             dojo.connect(dijit.byId(id), 'onClick', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
+                
                 this.showDialog('add');
             }));
         },

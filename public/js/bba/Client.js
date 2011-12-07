@@ -1,0 +1,40 @@
+/*
+ * Client.js
+ *
+ * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
+ *
+ * This file is part of BBA.
+ *
+ * BBA is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * BBA is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with BBA.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ * @category   BBA
+ * @package
+ * @subpackage
+ * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
+ * @license    http://www.gnu.org/licenses GNU General Public License
+ * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
+ */
+dojo.provide('bba.Client');
+
+bba.Client = {
+
+    clientGridLayout : [
+        {field: 'client_idClient', width : '50px', name : 'Id'},
+        {field: 'client_name', width : '300px', name : 'Client'},
+        {field: 'client_desc', width : '200px', name : 'Description'},
+        {field: 'clientAd_address1', width : '300px', name : 'Address 1'},
+        {field: 'clientAd_postcode', width : '100px', name : 'Postcode'},
+        {field: '', width : 'auto', name : ''}
+    ]
+}

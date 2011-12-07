@@ -95,6 +95,10 @@ class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
             ->from('client_contact')
             ->join('client_address', 'clientCo_idAddress = clientAd_idAddress')
             ->where('clientCo_idClient = ?', $search['clientCo_idClient']);
+        
+        if (isset($search['clientCo_idAddress'])) {
+            $select->where('clientCo_idAddress = ? ', $search['clientCo_idAddress']);
+        }
 
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);

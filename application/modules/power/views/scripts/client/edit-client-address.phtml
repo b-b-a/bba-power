@@ -63,7 +63,8 @@
             <table dojoType="bba.DataGrid"
                    jsId="contactGrid<?php echo $this->clientAd->clientAd_idClient; ?>"
                    store="clientContactStore<?php echo $this->clientAd->clientAd_idClient; ?>"
-                   query="{ clientCo_idClient: <?php echo $this->clientAd->clientAd_idClient; ?> }"
+                   query="{ clientCo_idClient: <?php echo $this->clientAd->clientAd_idClient; ?>,
+                   clientCo_idAddress: <?php echo $this->clientAd->clientAd_idAddress; ?>}"
                    queryParent="clientCo_idClient"
                    sortInfo="2"
                    newButtonId="<?php echo $this->clientAd->clientAd_idAddress; ?>"
