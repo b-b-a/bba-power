@@ -132,13 +132,13 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
                 $identifier = 'clientAd_idAddress';
                 $searchItems = array('clientAd_idAddress', 'address1AndPostcode');
 
-                //if ($params['type'] == 'address') {
+                if ($params['type'] == 'address') {
                     $result = $this->getDbTable('clientAddress')
                         ->getAvailableSiteAddressesByClientId($params['clientId']);
-                //} else {
-                    //$result = $this->getDbTable('clientAddress')
-                        //->getClientAddressesByClientId($params['clientId']);
-                //}
+                } else {
+                    $result = $this->getDbTable('clientAddress')
+                        ->getClientAddressesByClientId($params['clientId']);
+                }
 
                 break;
             case 'contact':

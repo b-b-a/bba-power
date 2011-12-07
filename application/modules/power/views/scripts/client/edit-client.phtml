@@ -61,14 +61,19 @@
             <div class="clear"></div>
 
             <div class="tableHead">
-                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <p class="tableHead-button">
+                    <button dojoType="dijit.form.Button"
+                            id="new-client-contact-button-<?php echo $this->client->client_idAddress; ?>"
+                            type="button">New Contact</button>
+                </p>
+                
                 <p class="tableHead-button">
                     <button dojoType="dijit.form.Button"
                             id="new-client-address-button-<?php echo $this->client->client_idClient; ?>"
                             type="button">New Address</button>
                 </p>
-                <?php endif; ?>
             </div>
+
         </div>
     </div>
 
@@ -106,5 +111,37 @@
                 </thead>
             </table>
         </div>
+
+        <div data-dojo-type="dijit.layout.ContentPane"
+             data-dojo-props="region: 'center', title: 'Client Contacts'">
+
+            <span dojoType="dojox.data.QueryReadStore"
+                  jsid="clientContactStore<?php echo $this->client->client_idClient; ?>"
+                  url="/client/data-store/type/contact"
+                  requestMethod="post"></span>
+
+            <table dojoType="bba.DataGrid"
+                   jsId="contactGrid<?php echo $this->client->client_idClient; ?>"
+                   store="clientContactStore<?php echo $this->client->client_idClient; ?>"
+                   query="{ clientCo_idClient: <?php echo $this->client->client_idClient; ?> }"
+                   queryParent="clientCo_idClient"
+                   sortInfo="2"
+                   newButtonId="<?php echo $this->client->client_idAddress; ?>"
+                   dialog="true">
+                <thead>
+                    <tr>
+                        <th field="clientCo_idClientContact" width="50">Id</th>
+                        <th field="clientCo_type" width="100">Type</th>
+                        <th field="clientCo_name" width="200">Name</th>
+                        <th field="clientCo_phone" width="300">Phone</th>
+                        <th field="clientCo_email" width="200">Email</th>
+                        <th field="clientAd_postcode" width="100">Postcode</th>
+                        <th field="" width="auto"></th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+
     </div>
 </div>

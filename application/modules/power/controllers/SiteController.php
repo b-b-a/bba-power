@@ -52,6 +52,18 @@ class Power_SiteController extends Zend_Controller_Action
         $this->_model = new Power_Model_Site();
     }
 
+    /**
+     * Checks if user is logged, if not then forwards to login.
+     *
+     * @return Zend_Controller_Action::_forward
+     */
+    public function preDispatch()
+    {
+        if ($this->_helper->acl('Guest')) {
+            return $this->_forward('login', 'auth');
+        }
+    }
+
     public function dataStoreAction()
     {
         $this->getHelper('viewRenderer')->setNoRender(true);
