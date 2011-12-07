@@ -80,7 +80,10 @@ class Power_Model_DbTable_Client_Address extends ZendSF_Model_DbTable_Abstract
 
     public function getClientAddressesByClientId($id)
     {
-        $select = $this->select()->where('clientAd_idClient = ?', $id);
+        $select = $this->select()
+            ->where('clientAd_idClient = ?', $id)
+            ->order(array('clientAd_postcode', 'clientAd_address1'));
+
         return $this->fetchAll($select);
     }
 

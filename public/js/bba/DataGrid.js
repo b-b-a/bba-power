@@ -183,7 +183,7 @@ dojo.declare(
             console.log(id)
             dojo.connect(dijit.byId(id), 'onClick', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
-                
+
                 this.showDialog('add');
             }));
         },
@@ -213,7 +213,7 @@ dojo.declare(
                 }
 
                 if (this.queryParent) {
-                    contentVars[this.queryParent] = this.query[this.queryParent];
+                    contentVars = dojo.mixin(contentVars, this.query);
                 }
 
                 var con =  (controller) ? controller : this.hyphenate(this.getNewController());
@@ -230,6 +230,7 @@ dojo.declare(
                         var url = '/' + urlCon + '/save-' + this.hyphenate(con);
                         this.dlg.destroyRecursive();
                         this.dlg = null;
+                        console.log(arguments)
                         this.processForm(arguments[0], url, type);
                     }),
                     _onSubmit: dojo.hitch(this.dlg, function() {

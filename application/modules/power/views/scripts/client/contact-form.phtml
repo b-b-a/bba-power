@@ -1,4 +1,7 @@
-<?php $form = $this->clientContactSaveForm; ?>
+<?php
+/* @var $form ZendSF_Form_Abstract */
+$form = $this->clientContactSaveForm;
+?>
 
 <div class="form_wrap">
     <div class="zend_form">
@@ -10,8 +13,21 @@
         <?php echo $form->clientCo_phone; ?>
 
         <?php echo $form->clientCo_email; ?>
+        <?php
+        $log = Zend_Registry::get('log');
+        $log->info($form->getElement('clientCo_idAddress')->helper);
+        ?>
 
+        <?php if ($form->getElement('clientCo_idAddress')->helper == 'formHidden'): ?>
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="clientCo_idAddress"
+               id="clientCo_idAddress"
+               required="true"
+               value="<?php echo $form->clientCo_idAddress->getValue(); ?>" />
+        <?php else: ?>
         <?php echo $form->clientCo_idAddress; ?>
+        <?php endif; ?>
 
         <input dojoType="dijit.form.TextBox"
                type="hidden"

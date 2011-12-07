@@ -84,9 +84,11 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
             )
         ));
 
+        $this->addHiddenElement('clientCo_idAddress', '');
+
         $request = Zend_Controller_Front::getInstance()->getRequest();
 
-        //if ($request->getPost('type') === 'edit') {
+        if ($request->getPost('type') === 'edit') {
 
             $list = $this->getModel()->getClientAddressesByClientId(
                 $request->getPost('clientCo_idClient')
@@ -105,9 +107,7 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
                 'multiOptions'  => $multiOptions,
                 'required'  => true
             ));
-        //} else {
-            //$this->addHiddenElement('clientCo_idAddress', '');
-        //}
+        }
 
         $this->addHiddenElement('clientCo_idClientContact', '');
         $this->addHiddenElement('clientCo_idClient', '');

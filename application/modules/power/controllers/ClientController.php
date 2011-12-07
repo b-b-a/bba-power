@@ -69,7 +69,7 @@ class Power_ClientController extends Zend_Controller_Action
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
         $request = $this->getRequest();
-        
+
         if ($request->isXmlHttpRequest()) {
 
             switch ($request->getParam('type')) {
@@ -200,7 +200,7 @@ class Power_ClientController extends Zend_Controller_Action
                 && $request->getPost('type') == 'add' && $request->isPost()) {
 
             $form = $this->_getForm('clientAddressSave', 'save-client-address');
-            $form->populate(array('clientAd_idClient' => $request->getPost('clientAd_idClient')));
+            $form->populate($request->getPost());
 
             $this->view->assign(array('clientAddressSaveForm' => $form));
 
@@ -273,7 +273,7 @@ class Power_ClientController extends Zend_Controller_Action
                 && $request->getPost('type') == 'add' && $request->isPost()) {
 
             $form = $this->_getForm('clientContactSave', 'save-client-contact');
-            $form->populate(array('clientCo_idClient' => $request->getPost('clientCo_idClient')));
+            $form->populate($request->getPost());
 
             $this->view->assign(array('clientContactSaveForm' => $form));
 
