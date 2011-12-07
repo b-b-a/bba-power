@@ -50,29 +50,6 @@ class Power_SiteController extends Zend_Controller_Action
     public function init()
     {
         $this->_model = new Power_Model_Site();
-        /*
-        $this->setForm('siteAdd', array(
-            'controller'    => 'site' ,
-            'action'        => 'save',
-            'module'        => 'power'
-        ));
-
-        $this->setForm('siteEdit', array(
-            'controller'    => 'site' ,
-            'action'        => 'save',
-            'module'        => 'power'
-        ));
-
-        // search form
-        $this->setForm('siteSearch', array(
-            'controller'    => 'site' ,
-            'action'        => 'index',
-            'module'        => 'power'
-        ));
-
-        $this->_setSearch(array(
-            'site', 'client', 'meter_idSite'
-        ));*/
     }
 
     public function dataStoreAction()

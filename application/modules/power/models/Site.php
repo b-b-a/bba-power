@@ -123,7 +123,7 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
     {
         switch ($params['type']) {
             case 'clients':
-                $result = $this->getDbTable('client')->fetchAll();
+                $result = $this->getDbTable('client')->fetchAll(null, 'client_name ASC');
                 $identifier = 'client_idClient';
                 $searchItems = array('client_idClient', 'client_name');
                 break;
