@@ -40,5 +40,38 @@
  */
 class Power_Model_DbTable_Row_Supplier extends ZendSF_Model_DbTable_Row_Abstract
 {
+    public function getFullAddress()
+    {
+        return $this->supplier_address1 . '<br />'
+             . $this->supplier_address2 . '<br />'
+             . $this->supplier_address3 . '<br />'
+             . $this->supplier_postcode . '<br />';
+    }
 
+    public function getSupplierContact()
+    {
+        return $this->getRow()->findParentRow(
+            'Power_Model_DbTable_Supplier_Contact',
+            'supplierContact'
+        );
+    }
+
+    public function getFullContactAddress()
+    {
+        $row = $this->getSupplierContact();
+
+        if ($row) {
+            $address = $row->supplierCo_name . '<br />'
+                . $row->supplierCo_address1 . '<br />'
+                . $row->supplierCo_address2 . '<br />'
+                . $row->supplierCo_address3 . '<br />'
+                . $row->supplierCo_postcode . '<br />'
+                . $row->supplierCo_phone . '<br />'
+                . $row->supplierCo_email . '<br />';
+        } else {
+            $address = 'No main contact found';
+        }
+
+        return $address;
+    }
 }

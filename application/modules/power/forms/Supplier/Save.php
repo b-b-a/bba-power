@@ -79,7 +79,7 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
         ));
 
         $request = Zend_Controller_Front::getInstance()->getRequest();
-
+/*
         if ($request->getPost('idSupplier')) {
 
             $list = $this->getModel()->getSupplierContactsBySupplierId(
@@ -100,7 +100,7 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
                 'required'  => true
             ));
         }
-
+*/
         $this->addHiddenElement('supplier_idSupplier', '');
     }
 }

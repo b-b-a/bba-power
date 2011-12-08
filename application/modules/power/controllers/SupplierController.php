@@ -49,25 +49,7 @@ class Power_SupplierController extends Zend_Controller_Action
      */
     public function init()
     {
-
         $this->_model = new Power_Model_Supplier();
-/*
-        $this->setForm('supplierSave', array(
-            'controller' => 'supplier' ,
-            'action' => 'save',
-            'module' => 'power'
-        ));
-
-        // search form
-        $this->setForm('supplierSearch', array(
-            'controller' => 'supplier' ,
-            'action' => 'index',
-            'module' => 'power'
-        ));
-
-        $this->_setSearch(array(
-            'supplier', 'contact'
-        ));*/
     }
 
     /**
@@ -94,6 +76,8 @@ class Power_SupplierController extends Zend_Controller_Action
                 case 'suppliers':
                     $data = $this->_model->getSupplierDataStore($request->getPost());
                     break;
+                case 'contacts':
+                case 'contracts':
                 default :
                     $data = '{}';
                     break;
@@ -129,56 +113,44 @@ class Power_SupplierController extends Zend_Controller_Action
         ));
     }
 
-    public function supplierContactStoreAction()
-    {
-        unset($this->_search);
-        $this->_setSearch(array(
-            'supplierCo_idSupplier'
-        ));
-        return $this->_getAjaxDataStore('getContactsBySupplierId' ,'supplierCo_idSupplierContact', true);
-    }
-
-    public function supplierContractStoreAction()
-    {
-        unset($this->_search);
-        $this->_setSearch(array(
-            'tender_idSupplier'
-        ));
-        return $this->_getAjaxDataStore('getContractsBySupplierId' ,'contract_idContract', true);
-    }
-
     public function addSupplierAction()
     {
-        if ($this->_request->isXmlHttpRequest()
-                && $this->_request->getParam('type') == 'add'
-                && $this->_request->isPost()) {
-            $this->getForm('supplierSave');
-            $this->render('ajax-form');
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
+
+        if ($request->isXmlHttpRequest() && $request->getPost('type') == 'add'
+                && $request->isPost()) {
+
+            $form = $this->_getForm('supplierSave', 'save-supplier');
+
+            $this->view->assign(array('supplierForm' => $form));
+
+            $this->render('supplier-form');
         } else {
-            return $this->_helper->redirector('index', 'client');
+            return $this->_helper->redirector('index', 'supplier');
         }
     }
 
     public function editSupplierAction()
     {
-        if ($this->_request->getParam('idSupplier')
-                && $this->_request->isPost()
-                && $this->_request->isXmlHttpRequest()) {
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
 
-            $supplier = $this->_model->find($this->_request->getParam('idSupplier'));
+        if ($request->getParam('idSupplier') && $request->isPost()
+                && $request->isXmlHttpRequest()) {
 
-            $this->getForm('supplierSave')
-                ->populate($supplier->toArray('dd/MM/yyyy'));
+            $supplier = $this->_model->getSupplierById($request->getPost('idSupplier'));
 
-            $this->view->assign(array(
-                'supplier' => $supplier
-            ));
+            $this->view->assign(array('supplier' => $supplier));
 
             if ($this->_request->getParam('type') == 'edit') {
-                $this->render('ajax-form');
+                $form = $this->_getForm('supplierSave', 'save-supplier');
+                $form->populate($supplier->toArray());
+                $this->view->assign(array('supplierSaveForm' => $form));
+                $this->render('supplier-form');
             }
         } else {
-           return $this->_helper->redirector('index', 'client');
+           return $this->_helper->redirector('index', 'supplier');
         }
     }
 

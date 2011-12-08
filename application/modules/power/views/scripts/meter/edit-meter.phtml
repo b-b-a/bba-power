@@ -3,7 +3,7 @@
      class="tabContainer">
 
     <div data-dojo-type="dijit.layout.ContentPane"
-         data-dojo-props="region: 'top', splitter: 'true'">
+         data-dojo-props="region: 'center'">
         <div class="tabHeading">
 
             <div class="form_wrap zend_form meter_edit ident alpha"
@@ -61,25 +61,20 @@
 
             <div class="clear"></div>
 
-            <div class="tableHead">
-                <?php if ($this->authInfo('role') == 'admin'): ?>
-                <p class="tableHead-button">
-                    <button dojoType="dijit.form.Button"
-                            id="new-usage-button-<?php echo $this->meter->meter_idMeter; ?>"
-                            type="button">New Usage</button>
-                </p>
-                <?php endif; ?>
-            </div>
         </div>
     </div>
 
+    <div data-dojo-type="dijit.layout.BorderContainer"
+             data-dojo-props="design: 'headline', region: 'bottom', splitter: 'true'"
+             class="contractEditTabs-BorderContainter">
+
     <div id="MeterTabs<?php echo $this->meter->meter_idMeter; ?>"
          data-dojo-type="dijit.layout.TabContainer"
-         data-dojo-props="region: 'center', tabStrip: 'true'"
+         data-dojo-props="region: 'center', tabStrip: 'true', splitter: 'true'"
          class="innerTabs">
 
         <div data-dojo-type="dijit.layout.ContentPane"
-             data-dojo-props="region: 'center', title: 'Meter Usage'">
+             data-dojo-props="title: 'Meter Usage'">
 
             <span dojoType="dojox.data.QueryReadStore"
                  jsid="usageStore<?php echo $this->meter->meter_idMeter; ?>"
@@ -89,6 +84,7 @@
             <table dojoType="bba.DataGrid"
                    jsId="usageGrid<?php echo $this->meter->meter_idMeter; ?>"
                    store="usageStore<?php echo $this->meter->meter_idMeter; ?>"
+                   structure="bba.gridLayouts.meterUsage"
                    query="{ usage_idMeter: <?php echo $this->meter->meter_idMeter; ?> }"
                    queryParent="usage_idMeter"
                    sortInfo="-3"
@@ -96,20 +92,23 @@
                    dialogName="Consumption for period"
                    newButtonId="<?php echo $this->meter->meter_idMeter; ?>"
                    controller="meter">
-                <thead>
-                    <tr>
-                        <th field="usage_idUsage" width="50">Id</th>
-                        <th field="usage_dateBill" width="100">Bill Date</th>
-                        <th field="usage_dateReading" width="100">Reading Date</th>
-                        <th field="usage_type" width="100">Type</th>
-                        <th field="usage_usageDay" width="100">Day</th>
-                        <th field="usage_usageNight" width="100">Night</th>
-                        <th field="usage_usageOther" width="100">Other</th>
-                        <th field="" width="auto"></th>
-                    </tr>
-                </thead>
             </table>
         </div>
+    </div>
+    </div>
+
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'bottom'"
+         class="tableHeadPane">
+        <div class="tableHead">
+                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <p class="tableHead-button">
+                    <button dojoType="dijit.form.Button"
+                            id="new-usage-button-<?php echo $this->meter->meter_idMeter; ?>"
+                            type="button">New Usage</button>
+                </p>
+                <?php endif; ?>
+            </div>
     </div>
 </div>
 

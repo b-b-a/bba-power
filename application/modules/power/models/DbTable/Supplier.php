@@ -59,7 +59,7 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
     protected $_referenceMap = array(
         'supplierContact'   => array(
             'columns'       => 'supplier_idSupplierContact',
-            'refTableClass' => 'Power_Model_DbTable_SupplierContact',
+            'refTableClass' => 'Power_Model_DbTable_Supplier_Contact',
             'refColumns'    => 'supplierCo_idSupplierContact'
         ),
         'user'              => array(

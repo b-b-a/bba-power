@@ -28,13 +28,5 @@
 dojo.provide('bba.Client');
 
 bba.Client = {
-
-    clientGridLayout : [
-        {field: 'client_idClient', width : '50px', name : 'Id'},
-        {field: 'client_name', width : '300px', name : 'Client'},
-        {field: 'client_desc', width : '200px', name : 'Description'},
-        {field: 'clientAd_address1', width : '300px', name : 'Address 1'},
-        {field: 'clientAd_postcode', width : '100px', name : 'Postcode'},
-        {field: '', width : 'auto', name : ''}
-    ]
+    
 }

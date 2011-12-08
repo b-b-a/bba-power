@@ -75,7 +75,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             );
             $multiOptions = array(0 => 'Select Supplier');
             foreach($list as $value) {
-                
+
                 $supplier = $value->findParentRow(
                     'Power_Model_DbTable_Supplier',
                     'supplier'
@@ -202,10 +202,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim')
         ));
-
-        $auth = Zend_Auth::getInstance()->getIdentity();
-
-        $this->addHiddenElement('userId', $auth->getId());
+        
         $this->addHiddenElement('contract_idContract', '');
         $this->addHiddenElement('contract_idContractPrevious', '');
     }
