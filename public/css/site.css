@@ -108,6 +108,7 @@ html, body {
 /* Overides of text.css  -  or can we just remove text.css??  */
 h1 {
 	margin: 0px;
+    font-size: 1.50em;
 }
 
 h2 {
