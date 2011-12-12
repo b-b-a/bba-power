@@ -43,10 +43,10 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
     {
         $this->setName('contract');
 
-        $view = $this->getView();
-        if (isset($view->request['idContract'])) {
-            $contractId = $view->request['idContract'];
-            $row = $this->_model->find($contractId, true);
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+        if (isset($request->getParam('idContract'))) {
+            $contractId = $request->getParam('idContract');
+            $row = $this->getModel()->getDbTable('contract')->getContractById($contractId);
         }
 
         $this->addElement('FilteringSelect', 'contract_idClient', array(
@@ -113,11 +113,11 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
 
         $multiOptions = array();
 
-        $table = new Power_Model_Mapper_Tables();
+        $table = $this->getModel()->getDbTable('tables');
         $list = $table->getSelectListByName('contract_type');
         $multiOptions = array(0 => 'Select type');
         foreach($list as $row) {
-            $multiOptions[$row->key] = $row->value;
+            $multiOptions[$row->tables_key] = $row->tables_value;
         }
 
         $this->addElement('FilteringSelect', 'contract_type', array(
@@ -132,7 +132,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
 
         $list = $table->getSelectListByName('contract_status');
         foreach($list as $row) {
-            $multiOptions[$row->key] = $row->value;
+            $multiOptions[$row->tables_key] = $row->tables_value;
         }
 
         $this->addElement('FilteringSelect', 'contract_status', array(
@@ -202,7 +202,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim')
         ));
-        
+
         $this->addHiddenElement('contract_idContract', '');
         $this->addHiddenElement('contract_idContractPrevious', '');
     }

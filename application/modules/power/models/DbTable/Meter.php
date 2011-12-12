@@ -121,8 +121,7 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
                 'contract_status',
                 'contract_dateStart' => 'MAX(contract.contract_dateStart)',
                 'contract_dateEnd'
-            ))
-            ->group('meter_idMeter');
+            ))->group('meter_idMeter');
 
         if (!$search['meter'] == '') {
             $filter = new Zend_Filter_PregReplace(array(

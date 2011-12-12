@@ -37,27 +37,48 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Contract extends BBA_Model_Abstract
+class Power_Model_Contract extends ZendSF_Model_Abstract
 {
     /**
-     * @var string
+     * Get contract by their id
+     *
+     * @param  int $id
+     * @return null|Power_Model_DbTable_Row_Contract
      */
-    protected $_primary = 'idContract';
-
-    /**
-     * @var string
-     */
-    protected $_prefix = 'contract_';
-
-    public function setDateStart($date)
+    public function getContractById($id)
     {
-        $this->_data->dateStart = new Zend_Date($date);
-        return $this;
+        $id = (int) $id;
+        return $this->getDbTable('contract')->getContractById($id);
     }
 
-    public function setDateEnd($date)
+    /**
+     * Gets the contract data store list, using search parameters.
+     *
+     * @param array $post
+     * @return string
+     */
+    public function getContractDataStore(array $post)
     {
-        $this->_data->dateEnd = new Zend_Date($date);
-        return $this;
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $form = $this->getForm('contractSearch');
+        $search = array();
+
+        if ($form->isValid($post)) {
+            $search = $form->getValues();
+        }
+
+        $dataObj = $this->getDbTable('contract')->searchContracts($search, $sort, $count, $start);
+
+        $store = $this->_getDojoData($dataObj, 'contract_idContract');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('contract')->numRows($search)
+        );
+
+        return $store->toJson();
     }
 }

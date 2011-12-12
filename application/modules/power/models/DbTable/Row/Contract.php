@@ -39,5 +39,47 @@
  */
 class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
 {
+    /**
+     * @var Power_Model_DbTable_Row_Contract
+     */
+    protected $_contractPrevious;
 
+    /**
+     * @var Power_Model_DbTable_Row_Client
+     */
+    protected $_client;
+
+    /**
+     * @var Power_Model_DbTable_Row_Tender
+     */
+    protected $_tenderSelected;
+
+    public function getContractPrevious($row = null)
+    {
+        if (!$this->_contractPrevious instanceof Power_Model_DbTable_Row_Contract) {
+            $this->_contractPrevious = $this->getRow()
+                ->findParentRow('Power_Model_DbTable_Contract', 'contractPrevious');
+        }
+
+        return (null === $row) ? $this->_contractPrevious : $this->_contractPrevious->$row;
+    }
+
+    public function getClient($row = null)
+    {
+        if (!$this->_client instanceof Power_Model_DbTable_Row_Client) {
+            $this->_client = $this->getRow()
+                ->findParentRow('Power_Model_DbTable_Client', 'client');
+        }
+
+        return (null === $row) ? $this->_client : $this->_client->$row;
+    }
+
+    public function getTenderSelected($row = null)
+    {
+        if (!$this->_tenderSelected instanceof Power_Model_DbTable_Row_Tender) {
+            $this->_tenderSelected = $this->getRow()
+                ->findParentRow('Power_Model_DbTable_Tender', 'tenderSelected');
+        }
+        return (null === $row) ? $this->_tenderSelected : $this->_tenderSelected->$row;
+    }
 }

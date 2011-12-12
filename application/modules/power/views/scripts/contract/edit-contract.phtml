@@ -25,10 +25,10 @@
 
                         <div class="form_row">
                             <p><span class="label"><b>Client:</b></span>
-                            <?php echo $this->contract->client_name; ?></p>
+                            <?php echo $this->contract->getClient('client_name'); ?></p>
                         </div>
                         <div class="form_row">
-                            <?php if ($this->previousContract instanceof Power_Model_Contract): ?>
+                            <?php if ($this->contract->getContractPrevious()): ?>
                             <p class="label"><b>Previous Contract Ref:</b></p>
                             <p><?php echo $this->escape(
                                 $this->previousContract->reference
@@ -45,17 +45,15 @@
                         </div>
                         <div class="form_row">
                             <p><span class="label"><b>Type:</b></span>
-                            <?php echo $this->contract->type; ?></p>
+                            <?php echo $this->contract->contract_type; ?></p>
                         </div>
                         <div class="form_row">
                             <p class="label"><b>Status:</b></p>
-                            <p>&nbsp;<?php echo $this->contract->status; ?></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_status; ?></p>
                         </div>
                         <div class="form_row">
                             <p class="label"><b>Tender Selected:</b></p>
-                            <p>&nbsp;<?php echo $this->tenderHelper($this->contract->idTenderSelected)
-                                    ->getParentRow('supplier')
-                                    ->get('supplier_nameShort'); ?></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_idTenderSelected; ?></p>
                         </div>
 
                     </div>
@@ -66,51 +64,51 @@
 
                         <div class="form_row">
                             <p class="label"><b>Start Date:</b></p>
-                            <p>&nbsp;<?php echo $this->formatDate($this->contract->dateStart); ?></p>
+                            <p>&nbsp;<?php echo $this->formatDate($this->contract->contract_dateStart); ?></p>
                         </div>
                         <div class="form_row">
                             <p class="label"><b>End Date:</b></p>
-                            <p>&nbsp;<?php echo $this->formatDate($this->contract->dateEnd); ?></p>
+                            <p>&nbsp;<?php echo $this->formatDate($this->contract->contract_dateEnd); ?></p>
                         </div>
 
                         <div class="form_row">
                             <p class="label"><b>Reference:</b></p>
-                            <p>&nbsp;<?php echo $this->contract->reference; ?></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_reference; ?></p>
                         </div>
 
                         <div class="form_row">
                             <p class="label"><b>Customer Number:</b></p>
-                            <p>&nbsp;<?php echo $this->contract->numberCustomer; ?></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_numberCustomer; ?></p>
                         </div>
                     </div>
 
                     <div data-dojo-type="dijit.layout.ContentPane"
                          data-dojo-props="region: 'leading'"
                          class="zend_form info-panels">
-
+                        <!--
                         <div class="form_row">
                             <p class="label"><b>Tender Request:</b></p>
-                            <p>&nbsp;<?php echo $this->contract->txtTenderRequest; ?></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_txtTenderRequest; ?></p>
                         </div>
 
                         <div class="form_row">
                             <p class="label"><b>Analysis:</b></p>
-                            <p>&nbsp;<?php echo $this->contract->docAnalysis; ?></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_docAnalysis; ?></p>
                         </div>
 
                         <div class="form_row">
                             <p class="label"><b>Termination:</b></p>
-                            <p>&nbsp;<?php echo $this->contract->docTermination; ?></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_docTermination; ?></p>
                         </div>
-
+                        -->
                         <div class="form_row">
                             <p class="label"><b>Bill Period:</b></p>
-                            <p>&nbsp;<?php echo $this->contract->periodBill; ?></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_periodBill; ?></p>
                         </div>
 
                         <div class="form_row">
                             <p class="label"><b>Agent:</b></p>
-                            <p>&nbsp;<?php echo $this->contract->idUserAgent; ?></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_idUserAgent; ?></p>
                         </div>
                     </div>
 
@@ -120,7 +118,7 @@
 
                         <div class="">
                             <p><b>Description:</b></p>
-                            <p>&nbsp;<?php echo $this->contract->desc; ?></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_desc; ?></p>
                         </div>
 
                      </div>
@@ -135,23 +133,23 @@
                 <div class="tableHead">
                     <div class="tableHead-heading"
                      dojoType="dijit.form.Form"
-                     id="edit-contract-<?php echo $this->contract->id; ?>">
+                     id="edit-contract-<?php echo $this->contract->contract_idContract; ?>">
 
                     <button dojoType="dijit.form.Button"
                             type="submit"
-                            name="edit-contract-button-<?php echo $this->contract->id; ?>"
+                            name="edit-contract-button-<?php echo $this->contract->contract_idContract; ?>"
                             value="submit">Edit Details</button>
                 </div>
                     <?php if ($this->authInfo('role') == 'admin'): ?>
                     <p class="tableHead-button">
                         <button dojoType="dijit.form.Button"
-                                id="new-meterContract-button-<?php echo $this->contract->id; ?>"
+                                id="new-meterContract-button-<?php echo $this->contract->contract_idContract; ?>"
                                 class="newButton"
                                 type="button">Add Meters</button>
                     </p>
                     <p class="tableHead-button">
                         <button dojoType="dijit.form.Button"
-                                id="new-tender-button-<?php echo $this->contract->id; ?>"
+                                id="new-tender-button-<?php echo $this->contract->contract_idContract; ?>"
                                 class="newButton"
                                 type="button">New Tender</button>
                     </p>
@@ -167,7 +165,7 @@
          data-dojo-props="design: 'headline', region: 'bottom', splitter: 'true'"
          class="contractEditTabs-BorderContainter">
 
-    <div id="ContractTabs<?php echo $this->contract->id; ?>"
+    <div id="ContractTabs<?php echo $this->contract->contract_idContract; ?>"
          data-dojo-type="dijit.layout.TabContainer"
          data-dojo-props="region: 'center', tabStrip: 'true', tabPosition: 'top'"
          class="innerTabs">
@@ -176,20 +174,20 @@
              data-dojo-props="region: 'center', title: 'Meters'">
 
             <span dojoType="dojox.data.QueryReadStore"
-                 jsid="meterContractStore<?php echo $this->contract->id; ?>"
-                 url="/meter-contract/meter-contract-store"
+                 jsid="meterContractStore<?php echo $this->contract->contract_idContract; ?>"
+                 url="/meter/data-store/type/meter"
                  requestMethod="post"></span>
 
             <table dojoType="bba.DataGrid"
-                   id="meterContractGrid<?php echo $this->contract->id; ?>"
-                   store="meterContractStore<?php echo $this->contract->id; ?>"
-                   query="{ meterContract_idContract: <?php echo $this->contract->id; ?> }"
+                   id="meterContractGrid<?php echo $this->contract->contract_idContract; ?>"
+                   store="meterContractStore<?php echo $this->contract->contract_idContract; ?>"
+                   query="{ meterContract_idContract: <?php echo $this->contract->contract_idContract; ?> }"
                    queryParent="meterContract_idContract"
                    sortInfo="-3"
                    tabs="true"
                    tabController="meter"
                    tabTitleColumn="meter_numberMain"
-                   newButtonId="<?php echo $this->contract->id; ?>"
+                   newButtonId="<?php echo $this->contract->contract_idContract; ?>"
                    newButtonController="meterContract">
                 <thead>
                     <tr>
@@ -209,20 +207,20 @@
              data-dojo-props="region: 'center', title: 'Tenders'">
 
             <span dojoType="dojox.data.QueryReadStore"
-                 jsid="tenderStore<?php echo $this->contract->id; ?>"
+                 jsid="tenderStore<?php echo $this->contract->contract_idContract; ?>"
                  url="/tender/tender-store"
                  requestMethod="post"></span>
 
             <table dojoType="bba.DataGrid"
-                   id="tenderGrid<?php echo $this->contract->id; ?>"
-                   store="tenderStore<?php echo $this->contract->id; ?>"
-                   query="{ tender_idContract: <?php echo $this->contract->id; ?> }"
+                   id="tenderGrid<?php echo $this->contract->contract_idContract; ?>"
+                   store="tenderStore<?php echo $this->contract->contract_idContract; ?>"
+                   query="{ tender_idContract: <?php echo $this->contract->contract_idContract; ?> }"
                    sortInfo="1"
                    queryParent="tender_idContract"
                    sortInfo="-3"
                    tabs="true"
                    tabTitleColumn="supplier_name"
-                   newButtonId="<?php echo $this->contract->id; ?>">
+                   newButtonId="<?php echo $this->contract->contract_idContract; ?>">
                 <thead>
                     <tr>
                         <th field="tender_idTender" width="50">Id</th>

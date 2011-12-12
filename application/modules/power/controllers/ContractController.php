@@ -37,10 +37,10 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_ContractController extends BBA_Controller_Action_Abstract
+class Power_ContractController extends Zend_Controller_Action
 {
     /**
-     * @var Power_Model_Mapper_Contract
+     * @var Power_Model_Contract
      */
     protected $_model;
 
@@ -49,29 +49,63 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
      */
     public function init()
     {
-        parent::init();
+        $this->_model = new Power_Model_Contract();
 
-         if (!$this->_helper->acl('Guest')) {
+        // search form
+        /*$this->setForm('contractSearch', array(
+            'controller' => 'contract' ,
+            'action' => 'index',
+            'module' => 'power'
+        ));
 
-            $this->_model = new Power_Model_Mapper_Contract();
+        $this->setForm('contractSave', array(
+            'controller' => 'contract' ,
+            'action' => 'save',
+            'module' => 'power'
+        ));
 
-            // search form
-            $this->setForm('contractSearch', array(
-                'controller' => 'contract' ,
-                'action' => 'index',
-                'module' => 'power'
-            ));
+        $this->_setSearch(array(
+            'contract', 'meter'
+        ));*/
 
-            $this->setForm('contractSave', array(
-                'controller' => 'contract' ,
-                'action' => 'save',
-                'module' => 'power'
-            ));
+    }
 
-            $this->_setSearch(array(
-                'contract', 'meter'
-            ));
-         }
+    /**
+     * Checks if user is logged, if not then forwards to login.
+     *
+     * @return Zend_Controller_Action::_forward
+     */
+    public function preDispatch()
+    {
+        if ($this->_helper->acl('Guest')) {
+            return $this->_forward('login', 'auth');
+        }
+    }
+
+    public function dataStoreAction()
+    {
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+        $request = $this->getRequest();
+
+        if ($request->isXmlHttpRequest()) {
+
+            switch ($request->getParam('type')) {
+                case 'contract':
+                    $data = $this->_model->getContractDataStore($request->getPost());
+                    break;
+                case 'meter':
+                    $data = $this->_model->getMeterContractDataStore($request->getPost());
+                    break;
+                default :
+                    $data = '{}';
+                    break;
+            }
+
+            $this->getResponse()
+                ->setHeader('Content-Type', 'application/json')
+                ->setBody($data);
+        }
     }
 
     /**
@@ -79,59 +113,70 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        $this->getForm('contractSearch')
-            ->populate($this->_getSearch());
+        $urlHelper = $this->_helper->getHelper('url');
+        $form = $this->_model->getForm('contractSearch');
+        $form->populate($this->getRequest()->getPost());
 
+        $form->setAction($urlHelper->url(array(
+            'controller'    => 'cntract' ,
+            'action'        => 'index',
+            'module'        => 'power'
+        ), 'default'));
+
+        $form->setMethod('post');
+
+        // assign search to the view script.
         $this->view->assign(array(
-            'search'    => $this->_getSearchString('contractSearch')
+            'search'                => Zend_Json::encode($form->getValues()),
+            'contractSearchForm'    => $form
         ));
     }
 
-    public function contractStoreAction()
+    public function addContractAction()
     {
-        return $this->_getAjaxDataStore('getList', 'contract_idContract');
-    }
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
 
-    public function addAction()
-    {
-        if ($this->_request->isXmlHttpRequest()
-                && $this->_request->getParam('type') == 'add'
-                && $this->_request->isPost()) {
+        if ($request->isXmlHttpRequest() && $request->getParam('type') == 'add'
+                && $request->isPost()) {
 
-            $this->render('ajax-form');
+            $form = $this->_getForm('contractSave', 'save-contract');
+
+            $this->view->assign(array('contractSaveForm' => $form));
+
+            $this->render('contract-form');
         } else {
             return $this->_helper->redirector('index', 'contract');
         }
     }
 
-    public function editAction()
+    public function editContractAction()
     {
-        if ($this->_request->getParam('idContract')
-                && $this->_request->isPost()
-                && $this->_request->isXmlHttpRequest()) {
-            $contract = $this->_model->getContractById($this->_request->getParam('idContract'));
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
 
-            $this->getForm('contractSave')
-                ->populate($contract->toArray('dd/MM/yyyy'));
+        if ($request->getParam('idContract') && $request->isPost()
+                && $request->isXmlHttpRequest()) {
 
-            $this->_log->info($contract);
+            $contract = $this->_model->getContractById($request->getPost('idContract'));
 
-            $this->view->assign(array(
-                'contract'      => $contract,
-                'previousContract' => $this->_model->getContractById(
-                    $contract->idContractPrevious
-                )
-            ));
 
-            if ($this->_request->getParam('type') == 'edit') {
-                $this->render('ajax-form');
+            $this->view->assign('contract', $contract);
+
+            if ($request->getPost('type') == 'edit') {
+                $form = $this->_getForm('contractSave', 'save-contract');
+                $form->populate($contract->toArray());
+                $this->view->assign('contractSaveForm', $form);
+                $this->render('contract-form');
             }
+            $log = Zend_Registry::get('log');
+            $log->info($contract);
         } else {
            return $this->_helper->redirector('index', 'contract');
         }
     }
 
-    public function saveAction()
+    public function saveContractAction()
     {
         if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'contract');
@@ -163,5 +208,20 @@ class Power_ContractController extends BBA_Controller_Action_Abstract
         $this->getResponse()
             ->setHeader('Content-Type', 'application/json')
             ->setBody(json_encode($returnJson));
+    }
+
+    private function _getForm($name, $action)
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+        $form = $this->_model->getForm($name);
+
+        $form->setAction($urlHelper->url(array(
+            'controller'    => 'contract',
+            'action'        => $action,
+            'module'        => 'power'
+        ), 'default'));
+
+        $form->setMethod('post');
+        return $form;
     }
 }
