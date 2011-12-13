@@ -101,14 +101,14 @@
          data-dojo-props="region: 'bottom'"
          class="tableHeadPane">
         <div class="tableHead">
-                <?php if ($this->authInfo('role') == 'admin'): ?>
-                <p class="tableHead-button">
-                    <button dojoType="dijit.form.Button"
-                            id="new-usage-button-<?php echo $this->meter->meter_idMeter; ?>"
-                            type="button">New Usage</button>
-                </p>
-                <?php endif; ?>
-            </div>
+            <?php if ($this->authInfo('role') == 'admin'): ?>
+            <p class="tableHead-button">
+                <button dojoType="dijit.form.Button"
+                        id="new-usage-button-<?php echo $this->meter->meter_idMeter; ?>"
+                        type="button">New Usage</button>
+            </p>
+            <?php endif; ?>
+        </div>
     </div>
 </div>
 

@@ -81,4 +81,40 @@ class Power_Model_Contract extends ZendSF_Model_Abstract
 
         return $store->toJson();
     }
+
+    public function getMeterContractDataStore(array $post)
+    {
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $dataObj = $this->getDbTable('meterContract')->searchMeterContracts($post, $sort, $count, $start);
+
+        $store = $this->_getDojoData($dataObj, 'meter_idMeter');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('meterContract')->numRows($post)
+        );
+
+        return $store->toJson();
+    }
+
+    public function getTenderDataStore(array $post)
+    {
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $dataObj = $this->getDbTable('tender')->searchTenders($post, $sort, $count, $start);
+
+        $store = $this->_getDojoData($dataObj, 'tender_idTender');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('tender')->numRows($post)
+        );
+
+        return $store->toJson();
+    }
 }

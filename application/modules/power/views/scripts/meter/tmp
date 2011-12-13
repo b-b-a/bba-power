@@ -1,0 +1,246 @@
+<div data-dojo-type="dijit.layout.BorderContainer"
+     data-dojo-props="design: 'headline',"
+     class="tabContainer contract_edit">
+
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'center'">
+        <div data-dojo-type="dijit.layout.BorderContainer"
+             data-dojo-props="design: 'headline'"
+             class="contractEdit-BorderContainter">
+
+            <div data-dojo-type="dijit.layout.ContentPane"
+                 data-dojo-props="region: 'top'">
+                <h3>Contract Details</h3>
+            </div>
+
+            <div data-dojo-type="dijit.layout.ContentPane"
+                 data-dojo-props="region: 'center'">
+
+                <div data-dojo-type="dijit.layout.BorderContainer"
+                     data-dojo-props="design: 'headline'">
+
+                    <div data-dojo-type="dijit.layout.ContentPane"
+                         data-dojo-props="region: 'leading'"
+                         class="zend_form info-panels">
+
+                        <div class="form_row">
+                            <p><span class="label"><b>Client:</b></span>
+                            <?php echo $this->contract->getClient('client_name'); ?></p>
+                        </div>
+                        <div class="form_row">
+                            <?php if ($this->contract->getContractPrevious()): ?>
+                            <p class="label"><b>Previous Contract Ref:</b></p>
+                            <p><?php echo $this->escape(
+                                $this->previousContract->reference
+                            ); ?></p>
+                            <p class="label"><b>Previous End Date:</b></p>
+                            <p><?php echo $this->escape(
+                                $this->previousContract->dateEnd->toString('dd/MM/yyyy')
+                            ); ?></p>
+                            <?php else: ?>
+                            <p><span class="label"><b>Previous Contract:</b></span>
+                            No Previous Contract</p>
+
+                            <?php endif; ?>
+                        </div>
+                        <div class="form_row">
+                            <p><span class="label"><b>Type:</b></span>
+                            <?php echo $this->contract->contract_type; ?></p>
+                        </div>
+                        <div class="form_row">
+                            <p class="label"><b>Status:</b></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_status; ?></p>
+                        </div>
+                        <div class="form_row">
+                            <p class="label"><b>Tender Selected:</b></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_idTenderSelected; ?></p>
+                        </div>
+
+                    </div>
+
+                    <div data-dojo-type="dijit.layout.ContentPane"
+                         data-dojo-props="region: 'leading'"
+                         class="zend_form info-panels">
+
+                        <div class="form_row">
+                            <p class="label"><b>Start Date:</b></p>
+                            <p>&nbsp;<?php echo $this->formatDate($this->contract->contract_dateStart); ?></p>
+                        </div>
+                        <div class="form_row">
+                            <p class="label"><b>End Date:</b></p>
+                            <p>&nbsp;<?php echo $this->formatDate($this->contract->contract_dateEnd); ?></p>
+                        </div>
+
+                        <div class="form_row">
+                            <p class="label"><b>Reference:</b></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_reference; ?></p>
+                        </div>
+
+                        <div class="form_row">
+                            <p class="label"><b>Customer Number:</b></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_numberCustomer; ?></p>
+                        </div>
+                    </div>
+
+                    <div data-dojo-type="dijit.layout.ContentPane"
+                         data-dojo-props="region: 'leading'"
+                         class="zend_form info-panels">
+                        <!--
+                        <div class="form_row">
+                            <p class="label"><b>Tender Request:</b></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_txtTenderRequest; ?></p>
+                        </div>
+
+                        <div class="form_row">
+                            <p class="label"><b>Analysis:</b></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_docAnalysis; ?></p>
+                        </div>
+
+                        <div class="form_row">
+                            <p class="label"><b>Termination:</b></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_docTermination; ?></p>
+                        </div>
+                        -->
+                        <div class="form_row">
+                            <p class="label"><b>Bill Period:</b></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_periodBill; ?></p>
+                        </div>
+
+                        <div class="form_row">
+                            <p class="label"><b>Agent:</b></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_idUserAgent; ?></p>
+                        </div>
+                    </div>
+
+                     <div data-dojo-type="dijit.layout.ContentPane"
+                         data-dojo-props="region: 'leading'"
+                         class="zend_form info-panels">
+
+                        <div class="">
+                            <p><b>Description:</b></p>
+                            <p>&nbsp;<?php echo $this->contract->contract_desc; ?></p>
+                        </div>
+
+                     </div>
+
+                </div>
+            </div>
+
+            <div data-dojo-type="dijit.layout.ContentPane"
+                 data-dojo-props="region: 'bottom'"
+                 class="tableBottom">
+
+                <div class="tableHead">
+                    <div class="tableHead-heading"
+                     dojoType="dijit.form.Form"
+                     id="edit-contract-<?php echo $this->contract->contract_idContract; ?>">
+
+                    <button dojoType="dijit.form.Button"
+                            type="submit"
+                            name="edit-contract-button-<?php echo $this->contract->contract_idContract; ?>"
+                            value="submit">Edit Details</button>
+                </div>
+                    <?php if ($this->authInfo('role') == 'admin'): ?>
+                    <p class="tableHead-button">
+                        <button dojoType="dijit.form.Button"
+                                id="new-meterContract-button-<?php echo $this->contract->contract_idContract; ?>"
+                                class="newButton"
+                                type="button">Add Meters</button>
+                    </p>
+                    <p class="tableHead-button">
+                        <button dojoType="dijit.form.Button"
+                                id="new-tender-button-<?php echo $this->contract->contract_idContract; ?>"
+                                class="newButton"
+                                type="button">New Tender</button>
+                    </p>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div data-dojo-type="dijit.layout.BorderContainer"
+         data-dojo-props="design: 'headline', region: 'bottom', splitter: 'true'"
+         class="contractEditTabs-BorderContainter">
+
+    <div id="ContractTabs<?php echo $this->contract->contract_idContract; ?>"
+         data-dojo-type="dijit.layout.TabContainer"
+         data-dojo-props="region: 'center', tabStrip: 'true', tabPosition: 'top'"
+         class="innerTabs">
+
+        <div data-dojo-type="dijit.layout.ContentPane"
+             data-dojo-props="region: 'center', title: 'Meters'">
+
+            <span dojoType="dojox.data.QueryReadStore"
+                 jsid="meterContractStore<?php echo $this->contract->contract_idContract; ?>"
+                 url="/contract/data-store/type/meter"
+                 requestMethod="post"></span>
+
+            <table dojoType="bba.DataGrid"
+                   id="meterContractGrid<?php echo $this->contract->contract_idContract; ?>"
+                   store="meterContractStore<?php echo $this->contract->contract_idContract; ?>"
+                   query="{ meterContract_idContract: <?php echo $this->contract->contract_idContract; ?> }"
+                   queryParent="meterContract_idContract"
+                   sortInfo="-3"
+                   tabs="true"
+                   tabController="meter"
+                   tabTitleColumn="meter_numberMain"
+                   newButtonId="<?php echo $this->contract->contract_idContract; ?>"
+                   newButtonController="meterContract">
+                <thead>
+                    <tr>
+                        <th field="meter_idMeter" width="50">Id</th>
+                        <th field="clientCo_name" width="150">Client Contact</th>
+                        <th field="clientAd_addressName" width="300">Address</th>
+                        <th field="clientAd_postcode" width="100">Postcode</th>
+                        <th field="meter_numberMain" width="150">Number Main</th>
+                        <th field="" width="auto"></th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+
+        <div data-dojo-type="dijit.layout.ContentPane"
+             data-dojo-props="region: 'center', title: 'Tenders'">
+
+            <span dojoType="dojox.data.QueryReadStore"
+                 jsid="tenderStore<?php echo $this->contract->contract_idContract; ?>"
+                 url="/contract/data-store/type/tender"
+                 requestMethod="post"></span>
+
+            <table dojoType="bba.DataGrid"
+                   id="tenderGrid<?php echo $this->contract->contract_idContract; ?>"
+                   store="tenderStore<?php echo $this->contract->contract_idContract; ?>"
+                   query="{ tender_idContract: <?php echo $this->contract->contract_idContract; ?> }"
+                   sortInfo="1"
+                   queryParent="tender_idContract"
+                   sortInfo="-3"
+                   tabs="true"
+                   tabTitleColumn="supplier_name"
+                   newButtonId="<?php echo $this->contract->contract_idContract; ?>">
+                <thead>
+                    <tr>
+                        <th field="tender_idTender" width="50">Id</th>
+                        <th field="supplier_name" width=150">Supplier</th>
+                        <th field="supplierCo_name" width="150">Supplier Contact</th>
+                        <th field="supplier_phone" width="100">Phone</th>
+                        <th field="tender_periodContract" width="100">Contract Period</th>
+                        <th field="tender_dateExpiresQuote" width="100">Quote Expires</th>
+                        <th field="tender_chargeStanding" width="100">Standing Charge</th>
+                        <th field="tender_priceUnitDay" width="100">Day Rate</th>
+                        <th field="tender_priceUnitNight" width="100">Night Rate</th>
+                        <th field="tender_priceUnitOther" width="100">Other Rate</th>
+                        <th field="" width="auto"></th>
+                    </tr>
+                </thead>
+            </table>
+
+        </div>
+    </div>
+    </div>
+
+</div>
+

@@ -97,6 +97,9 @@ class Power_ContractController extends Zend_Controller_Action
                 case 'meter':
                     $data = $this->_model->getMeterContractDataStore($request->getPost());
                     break;
+                case 'tender':
+                    $data = $this->_model->getTenderDataStore($request->getPost());
+                    break;
                 default :
                     $data = '{}';
                     break;

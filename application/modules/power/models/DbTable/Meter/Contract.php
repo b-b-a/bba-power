@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Meter_Contract extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -180,12 +180,28 @@ class Power_Model_DbTable_Meter_Contract extends Zend_Db_Table_Abstract
 
     public function searchMeterContracts($search, $sort = '', $count = null, $offset = null)
     {
+        $select = $this->select(false)->setIntegrityCheck(false)
+            ->from('meter')
+            ->join('site', 'site_idSite = meter_idSite', null)
+            ->join('client_address', 'clientAd_idAddress = site_idAddress', array(
+                'clientAd_addressName','clientAd_postcode'
+            ))
+            ->join('client', 'client_idClient = site_idClient', null)
+            ->joinLeft('client_contact', 'client_idClientContact = clientCo_idClientContact', array(
+                'clientCo_name'
+            ))
+            ->join('meter_contract', 'meter_idMeter = meterContract_idMeter')
+            ->where('meterContract_idContract = ?', $search['meterContract_idContract']);
 
+        $select = $this->getLimit($select, $count, $offset);
+        $select = $this->getSortOrder($select, $sort);
+
+        return $this->fetchAll($select);
     }
 
     public function numRows($search)
     {
-        $result = $this->searchContracts($search);
+        $result = $this->searchMeterContracts($search);
         return $result->count();
     }
 
