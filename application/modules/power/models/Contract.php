@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Contract extends ZendSF_Model_Abstract
+class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 {
     /**
      * Get contract by their id
@@ -116,5 +116,46 @@ class Power_Model_Contract extends ZendSF_Model_Abstract
         );
 
         return $store->toJson();
+    }
+
+    public function saveContract(array $post)
+    {
+        if (!$this->checkAcl('saveContract')) {
+            throw new ZendSF_Acl_Exception('Insufficient rights');
+        }
+
+        $form = $this->getForm('contractSave');
+
+        if (!$form->isValid($post)) {
+            return false;
+        }
+
+        // get filtered values
+        $data = $form->getValues();
+
+        $meter = array_key_exists('contract_idContract', $data) ?
+            $this->getMeterById($data['contract_idContract']) : null;
+
+        return $this->getDbTable('contract')->saveRow($data, $meter);
+    }
+
+    /**
+     * Injector for the acl, the acl can be injected directly
+     * via this method.
+     *
+     * We add all the access rules for this resource here, so we first call
+     * parent method to add $this as the resource then we
+     * define it rules here.
+     *
+     * @param Zend_Acl_Resource_Interface $acl
+     * @return ZendSF_Model_Abstract
+     */
+    public function setAcl(Zend_Acl $acl) {
+        parent::setAcl($acl);
+
+        // implement rules here.
+        $this->_acl->allow('admin', $this);
+
+        return $this;
     }
 }

@@ -180,31 +180,27 @@ class Power_ContractController extends Zend_Controller_Action
 
     public function saveContractAction()
     {
-        if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
+        $request = $this->getRequest();
+
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+
+        if (!$request->isPost() && !$request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'contract');
         }
 
-        $this->_helper->viewRenderer->setNoRender(true);
+        $saved = $this->_model->saveContract($request->getPost());
 
-        if (!$this->getForm('contractSave')->isValid($this->_request->getPost())) {
-            $html = $this->view->render('contract/ajax-form.phtml');
-            $this->_log->info('not saved');
+        $returnJson = array('saved' => $saved);
 
-            $returnJson = array(
-                'saved' => 0,
-                'html'  => $html
-            );
-        } else {
-            $saved = $this->_model->save('contractSave');
+        if (false === $saved) {
+            $form = $this->_getForm('contractSave', 'save-meter');
+            $form->populate($request->getPost());
 
-            $returnJson = array(
-                'saved' => $saved
-            );
+            $this->view->assign(array('contractSaveForm' => $form));
 
-            if ($saved == 0) {
-                $html = $this->view->render('contract/ajax-form.phtml');
-                $returnJson['html'] = $html;
-            }
+            $html = $this->view->render('contract/contract-form.phtml');
+            $returnJson['html'] = $html;
         }
 
         $this->getResponse()
