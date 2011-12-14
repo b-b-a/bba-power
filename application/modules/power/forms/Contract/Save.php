@@ -53,7 +53,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
 
             $this->addElement('TextBox', 'client', array(
                 'label'     => 'Client:',
-                'required'  => true,
+                'required'  => false,
                 'attribs'   => array('disabled' => true),
                 'filters'   => array('StripTags', 'StringTrim'),
                 'value'     => $row->getClient('client_name')

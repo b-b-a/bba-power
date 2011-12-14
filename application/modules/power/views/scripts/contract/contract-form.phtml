@@ -1,21 +1,19 @@
-<?php
-$form = $this->contractSaveForm;
-
-if ($this->request()->getParam('type') == 'edit') {
-
-}
-?>
+<?php $form = $this->contractSaveForm; ?>
 
 <div class="form_wrap">
     <div class="zend_form">
 
-        <?php
-        if ($this->request()->getParam('type') == 'edit') {
-            echo $form->client;
-        }
-        ?>
-
-        <?php echo $form->contract_idClient; ?>
+        <?php if ($this->request()->getParam('type') == 'edit'): ?>
+            <?php echo $form->client; ?>
+            <input dojoType="dijit.form.TextBox"
+                   type="hidden"
+                   name="contract_idClient"
+                   id="contract_idClient"
+                   required="true"
+                   value="<?php echo $form->contract_idClient->getValue(); ?>" />
+        <?php else: ?>
+            <?php echo $form->contract_idClient; ?>
+        <?php endif; ?>
 
         <?php echo $form->contract_idTenderSelected ?>
 

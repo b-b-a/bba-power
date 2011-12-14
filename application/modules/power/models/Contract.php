@@ -133,10 +133,22 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         // get filtered values
         $data = $form->getValues();
 
-        $meter = array_key_exists('contract_idContract', $data) ?
-            $this->getMeterById($data['contract_idContract']) : null;
+        $dateKeys = array(
+            'contract_dateStart',
+            'contract_dateEnd'
+        );
 
-        return $this->getDbTable('contract')->saveRow($data, $meter);
+        foreach ($data as $key => $value) {
+            if (in_array($key, $dateKeys)) {
+                $date = new Zend_Date($value);
+                $data[$key] = $date->toString('yyyy-MM-dd');
+            }
+        }
+
+        $contract = array_key_exists('contract_idContract', $data) ?
+            $this->getContractById($data['contract_idContract']) : null;
+
+        return $this->getDbTable('contract')->saveRow($data, $contract);
     }
 
     /**

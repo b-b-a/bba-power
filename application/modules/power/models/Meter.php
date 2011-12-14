@@ -178,6 +178,18 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
         // get filtered values
         $data = $form->getValues();
 
+        $dateKeys = array(
+            'usage_dateBill',
+            'usage_dateReading',
+        );
+
+        foreach ($data as $key => $value) {
+            if (in_array($key, $dateKeys)) {
+                $date = new Zend_Date($value);
+                $data[$key] = $date->toString('yyyy-MM-dd');
+            }
+        }
+
         $meter = array_key_exists('usage_idUsage', $data) ?
             $this->getUsageById($data['usage_idUsage']) : null;
 
