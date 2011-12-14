@@ -168,12 +168,11 @@ class Power_ContractController extends Zend_Controller_Action
 
             if ($request->getPost('type') == 'edit') {
                 $form = $this->_getForm('contractSave', 'save-contract');
-                $form->populate($contract->toArray());
+                $form->populate($contract->toArray('dd/MM/yyyy'));
                 $this->view->assign('contractSaveForm', $form);
                 $this->render('contract-form');
             }
-            $log = Zend_Registry::get('log');
-            $log->info($contract);
+
         } else {
            return $this->_helper->redirector('index', 'contract');
         }

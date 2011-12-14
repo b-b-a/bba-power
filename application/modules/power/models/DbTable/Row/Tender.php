@@ -39,5 +39,18 @@
  */
 class Power_Model_DbTable_Row_Tender extends ZendSF_Model_DbTable_Row_Abstract
 {
+    /**
+     * @var Power_Model_DbTable_Row_Supplier
+     */
+    protected $_supplier;
 
+    public function getSupplier($row = null)
+    {
+        if (!$this->_supplier instanceof Power_Model_DbTable_Row_Supplier) {
+            $this->_supplier = $this->getRow()
+                ->findParentRow('Power_Model_DbTable_Supplier', 'supplier');
+        }
+
+        return (null === $row) ? $this->_supplier : $this->_supplier->$row;
+    }
 }

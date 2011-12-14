@@ -44,53 +44,60 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
         $this->setName('contract');
 
         $request = Zend_Controller_Front::getInstance()->getRequest();
-        if (isset($request->getParam('idContract'))) {
+        if ($request->getParam('idContract')) {
             $contractId = $request->getParam('idContract');
             $row = $this->getModel()->getDbTable('contract')->getContractById($contractId);
         }
 
-        $this->addElement('FilteringSelect', 'contract_idClient', array(
-            'label'         => 'Client:',
-            'filters'       => array('StripTags', 'StringTrim'),
-            'autoComplete'  => false,
-            'hasDownArrow'  => true,
-            'storeId'       => 'clientStore',
-            'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/site/autocomplete/param/client"),
-            'dijitParams'   => array(
-                'searchAttr'    => 'client_name',
-                'promptMessage' => 'Select a Client'
-            ),
-            //'attribs'       => array('readonly' => true),
-            'required'      => true,
-            'value'         => ''
-        ));
+        if ($request->getParam('type') == 'edit') {
+
+            $this->addElement('TextBox', 'client', array(
+                'label'     => 'Client:',
+                'required'  => true,
+                'attribs'   => array('disabled' => true),
+                'filters'   => array('StripTags', 'StringTrim'),
+                'value'     => $row->getClient('client_name')
+            ));
+            $this->addHiddenElement('contract_idClient', '');
+        } else {
+            $this->addElement('FilteringSelect', 'contract_idClient', array(
+                'label'         => 'Client:',
+                'filters'       => array('StripTags', 'StringTrim'),
+                'autoComplete'  => false,
+                'hasDownArrow'  => true,
+                'storeId'       => 'clientStore',
+                'storeType'     => 'dojo.data.ItemFileReadStore',
+                'storeParams'   => array('url' => "/site/data-store/type/clients"),
+                'dijitParams'   => array(
+                    'searchAttr'    => 'client_name',
+                    'promptMessage' => 'Select a Client'
+                ),
+                //'attribs'       => array('readonly' => true),
+                'required'      => true,
+                'value'         => ''
+            ));
+        }
 
         $multiOptions = array();
 
         if (isset($row)) {
-            $list = $row->findDependentRowset(
-                'Power_Model_DbTable_Tender',
-                'contract'
-            );
+            $list = $row->getAllTenders();
+
             $multiOptions = array(0 => 'Select Supplier');
-            foreach($list as $value) {
 
-                $supplier = $value->findParentRow(
-                    'Power_Model_DbTable_Supplier',
-                    'supplier'
-                );
-                $multiOptions[$value['tender_idTender']] = $supplier['supplier_name'];
+            foreach($list as $row) {
+                $supplier = $row->getSupplier();
+                $multiOptions[$row->tender_idTender] = $supplier->supplier_name;
             }
-        }
 
-        $this->addElement('FilteringSelect', 'contract_idTenderSelected', array(
-            'label'         => 'Tender Selected',
-            'filters'       => array('StripTags', 'StringTrim'),
-            'autocomplete'  => false,
-            'multiOptions'  => $multiOptions,
-            'required'      => false,
-        ));
+            $this->addElement('FilteringSelect', 'contract_idTenderSelected', array(
+                'label'         => 'Tender Selected',
+                'filters'       => array('StripTags', 'StringTrim'),
+                'autocomplete'  => false,
+                'multiOptions'  => $multiOptions,
+                'required'      => false,
+            ));
+        }
 
         $this->addElement('TextBox', 'contract_idSupplierContactSelected', array(
             'label'     => 'Supplier Contact Selected:',
@@ -176,9 +183,10 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
         $this->addElement('SimpleTextarea', 'contract_desc', array(
             'label'     => 'Description:',
             'required'  => false,
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'style'     => 'width: 212px; height: 200px;',
         ));
-
+        /*
         $this->addElement('SimpleTextarea', 'contract_txtTenderRequest', array(
             'label'     => 'Temder Request:',
             'required'  => false,
@@ -196,7 +204,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim')
         ));
-
+        */
         $this->addElement('TextBox', 'contract_idUserAgent', array(
             'label'     => 'User Agent:',
             'required'  => false,

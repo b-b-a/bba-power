@@ -60,8 +60,7 @@ class Power_Model_Tables extends ZendSF_Model_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
-        $this->_acl->allow('admin', $this)
-            ->deny('admin', $this, array('delete'));
+        $this->_acl->allow('admin', $this);
 
         return $this;
     }

@@ -54,6 +54,26 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
      */
     protected $_tenderSelected;
 
+    /**
+     * @var Zend_Db_Table_Rowset
+     */
+    protected $_tenders;
+
+    /**
+     * Array of all columns with need date format applied
+     * to it when outputting row as an array.
+     *
+     * @var array
+     */
+    protected $_dateKeys = array(
+        'contract_dateStart',
+        'contract_dateEnd',
+        'contract_dateCreate',
+        'contract_dateModify'
+    );
+
+    protected $_dateFormat = 'dd/MM/yyyy';
+
     public function getContractPrevious($row = null)
     {
         if (!$this->_contractPrevious instanceof Power_Model_DbTable_Row_Contract) {
@@ -81,5 +101,37 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
                 ->findParentRow('Power_Model_DbTable_Tender', 'tenderSelected');
         }
         return (null === $row) ? $this->_tenderSelected : $this->_tenderSelected->$row;
+    }
+
+    public function getAllTenders()
+    {
+         if (!$this->_tenders instanceof Zend_Db_Table_Rowset_Abstract) {
+            $this->_tenders = $this->getRow()
+                ->findDependentRowset('Power_Model_DbTable_Tender', 'contract');
+        }
+        return $this->_tenders;
+    }
+
+    /**
+     * Returns row as an array, with optional date formating.
+     *
+     * @param string $dateFormat
+     * @return array
+     */
+    public function toArray($dateFormat = null)
+    {
+        $array = array();
+
+        foreach ($this->getRow() as $key => $value) {
+
+            if (in_array($key, $this->_dateKeys)) {
+                $date = new Zend_Date($value);
+                $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
+            }
+
+            $array[$key] = $value;
+        }
+
+        return $array;
     }
 }
