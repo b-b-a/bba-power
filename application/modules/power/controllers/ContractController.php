@@ -274,7 +274,32 @@ class Power_ContractController extends Zend_Controller_Action
 
     public function saveTenderAction()
     {
+        $request = $this->getRequest();
 
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+
+        if (!$request->isPost() && !$request->isXmlHttpRequest()) {
+            return $this->_helper->redirector('index', 'contract');
+        }
+
+        $saved = $this->_model->saveTender($request->getPost());
+
+        $returnJson = array('saved' => $saved);
+
+        if (false === $saved) {
+            $form = $this->_getForm('tenderSave', 'save-tender');
+            $form->populate($request->getPost());
+
+            $this->view->assign(array('tenderSaveForm' => $form));
+
+            $html = $this->view->render('contract/tender-form.phtml');
+            $returnJson['html'] = $html;
+        }
+
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($returnJson));
     }
 
     private function _getForm($name, $action)

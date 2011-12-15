@@ -197,6 +197,38 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         return $saved;
     }
 
+    public function saveTender(array $post)
+    {
+        if (!$this->checkAcl('saveTender')) {
+            throw new ZendSF_Acl_Exception('Insufficient rights');
+        }
+
+        $form = $this->getForm('tenderSave');
+
+        if (!$form->isValid($post)) {
+            return false;
+        }
+
+        // get filtered values
+        $data = $form->getValues();
+
+        $dateKeys = array(
+            'tender_dateExpiresQuote'
+        );
+
+        foreach ($data as $key => $value) {
+            if (in_array($key, $dateKeys)) {
+                $date = new Zend_Date($value);
+                $data[$key] = $date->toString('yyyy-MM-dd');
+            }
+        }
+
+        $contract = array_key_exists('tender_idTender', $data) ?
+            $this->getContractById($data['tender_idTender']) : null;
+
+        return $this->getDbTable('tender')->saveRow($data, $contract);
+    }
+
     /**
      * Injector for the acl, the acl can be injected directly
      * via this method.

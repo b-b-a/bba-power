@@ -49,6 +49,12 @@ class Power_Model_DbTable_Row_Tender extends ZendSF_Model_DbTable_Row_Abstract
      */
     protected $_contract;
 
+    protected $_dateKeys = array(
+        'tender_dateExpiresQuote',
+        'tender_dateCreate',
+        'tender_dateModify'
+    );
+
     public function getSupplier($row = null)
     {
         if (!$this->_supplier instanceof Power_Model_DbTable_Row_Supplier) {
@@ -67,5 +73,28 @@ class Power_Model_DbTable_Row_Tender extends ZendSF_Model_DbTable_Row_Abstract
         }
 
         return (null === $row) ? $this->_contract : $this->_contract->$row;
+    }
+
+    /**
+     * Returns row as an array, with optional date formating.
+     *
+     * @param string $dateFormat
+     * @return array
+     */
+    public function toArray($dateFormat = null)
+    {
+        $array = array();
+
+        foreach ($this->getRow() as $key => $value) {
+
+            if (in_array($key, $this->_dateKeys)) {
+                $date = new Zend_Date($value);
+                $value = $date->toString($dateFormat);
+            }
+
+            $array[$key] = $value;
+        }
+
+        return $array;
     }
 }
