@@ -39,7 +39,41 @@
 dojo.provide('bba');
 dojo.provide('bba.Core');
 
-bba = {};
+bba = {
+    gridLayouts : {
+        client : [
+            {field: 'client_idClient', width : '50px', name : 'Id'},
+            {field: 'client_name', width : '300px', name : 'Client'},
+            {field: 'client_desc', width : '200px', name : 'Description'},
+            {field: 'clientAd_address1', width : '300px', name : 'Address 1'},
+            {field: 'clientAd_postcode', width : '100px', name : 'Postcode'},
+            {field: '', width : 'auto', name : ''}
+        ],
+        meterContract : [
+            {field: 'meter_idMeter', width : '50px', name : 'Id'},
+            {field: 'meter_numberMain', width : '150px', name : 'Number Main'},
+            {field: 'meter_type', width : '100px', name : 'meter_type'},
+            {field: 'meterContract_kvaNominated', width : '120px', name : 'Expected Yearly Consumption', editable : true},
+            {field: 'contract_idContract', width : '100px', name : 'Contract Id'},
+            {field: 'contract_type', width : '100px', name : 'Contract Type'},
+            {field: 'contract_status', width : '100px', name : 'Status'},
+            {field: 'contract_dateStart', width : '100px', name : 'Start Date'},
+            {field: 'contract_dateEnd', width : '100px', name : 'End Date'},
+            {field: '', width : 'auto', name : ''}
+        ],
+        meterUsage : [
+            {field: 'usage_idUsage', width : '50px', name : 'Id'},
+            {field: 'usage_dateBill', width : '100px', name : 'Bill Date'},
+            {field: 'usage_dateReading', width : '100px', name : 'Reading Date'},
+            {field: 'usage_type', width : '100px', name : 'type'},
+            {field: 'usage_usageDay', width : '100px', name : 'Day'},
+            {field: 'usage_usageNight', width : '100px', name : 'Night'},
+            {field: 'usage_usageOther', width : '100px', name : 'Other'},
+            {field: '', width : 'auto', name : ''}
+        ]
+    }
+
+};
 
 dojo.declare(
     'bba.Core',

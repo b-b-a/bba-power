@@ -78,19 +78,18 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
             )
         ));
 
-        $view = $this->getView();
-        $table = new Power_Model_Mapper_Supplier();
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+/*
+        if ($request->getPost('idSupplier')) {
 
-        if (isset($view->request['idSupplier'])) {
-
-            $list = $table->getContactsBySupplierId(array(
-                'supplier_idSupplier' => $view->request['idSupplier']
-            ));
+            $list = $this->getModel()->getSupplierContactsBySupplierId(
+                $request->getPost('idSupplier')
+            );
 
             // reset options
             $multiOptions = array(0 => '');
             foreach($list as $row) {
-                $multiOptions[$row->idSupplierContact] = $row->getAddress1AndPostcode();
+                $multiOptions[$row->supplierCo_idSupplierContact] = $row->getAddress1AndPostcode();
             }
 
             $this->addElement('FilteringSelect', 'supplier_idSupplierContact', array(
@@ -101,12 +100,7 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
                 'required'  => true
             ));
         }
-
-        // supplier contact to do.
-
-        $auth = Zend_Auth::getInstance()->getIdentity();
-
-        $this->addHiddenElement('userId', $auth->getId());
+*/
         $this->addHiddenElement('supplier_idSupplier', '');
     }
 }

@@ -1,0 +1,50 @@
+<?php $form = $this->supplierContactSaveForm; ?>
+
+<div class="form_wrap">
+    <div class="zend_form">
+
+        <?php echo $form->supplierCo_type; ?>
+
+        <?php echo $form->supplierCo_name; ?>
+
+        <?php echo $form->supplierCo_position; ?>
+
+        <?php echo $form->supplierCo_phone; ?>
+
+        <?php echo $form->supplierCo_email; ?>
+
+        <?php echo $form->supplierCo_address1; ?>
+
+        <?php echo $form->supplierCo_address2; ?>
+
+        <?php echo $form->supplierCo_address3; ?>
+
+        <?php echo $form->supplierCo_postcode; ?>
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="supplierCo_idSupplierContact"
+               id="supplierCo_idSupplierContact"
+               required="true"
+               value="<?php echo $form->supplierCo_idSupplierContact->getValue(); ?>" />
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="supplierCo_idSupplier"
+               id="supplierCo_idSupplier"
+               required="true"
+               value="<?php echo $form->supplierCo_idSupplier->getValue(); ?>" />
+
+        <button dojoType="dijit.form.Button"
+                type="submit"
+                id="supplierCoFormSubmitButton"
+                name="submit"
+                value="Save">Save</button>
+
+        <button dojoType="dijit.form.Button"
+                type="button"
+                id="supplier-contactFormCancelButton"
+                name="cancel"
+                value="Cancel">Cancel</button>
+    </div>
+</div>

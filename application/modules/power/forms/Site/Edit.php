@@ -41,44 +41,41 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
 {
     public function init()
     {
+
         $this->setName('site');
 
         $clientId = null;
 
-        $view = $this->getView();
+        $request = Zend_Controller_Front::getInstance()->getRequest();
 
         $log = Zend_Registry::get('log');
 
+        $multiOptions = array();
 
-        if (isset($view->request['idSite'])) {
-            $siteId = $view->request['idSite'];
+        $siteId = $request->getPost('idSite');
+        $row = $this->_model->getSiteById($siteId);
+        $clientId =$row->site_idClient;
 
-            $row = $this->_model->find($siteId);
-            $clientId = $row->idClient;
-        }
+        $client = $row->getClient();
+        $siteAd = $row->getSiteAddress();
 
-       $this->addElement('FilteringSelect', 'site_idClient', array(
+        $multiOptions[$client->client_idClient] = $client->client_name;
+        $this->addElement('FilteringSelect', 'site_idClient', array(
             'label'         => 'Client:',
             'filters'       => array('StripTags', 'StringTrim'),
             'autoComplete'  => false,
-            'hasDownArrow'  => true,
-            'storeId'       => 'clientStore',
-            'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/site/autocomplete/param/client"),
-            'dijitParams'   => array('searchAttr' => 'client_name'),
+            'multiOptions'  => $multiOptions,
             'attribs'       => array('readonly' => true),
             'required'      => true
         ));
 
+        $multiOptions = array();
+        $multiOptions[$siteAd->clientAd_idAddress] = $siteAd->address1AndPostcode;
         $this->addElement('FilteringSelect', 'site_idAddress', array(
             'label'         => 'Address:',
             'filters'       => array('StripTags', 'StringTrim'),
             'autoComplete'  => false,
-            'hasDownArrow'  => true,
-            'storeId'       => 'addressStore',
-            'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/site/autocomplete/param/address/clientId/" . $clientId),
-            'dijitParams'   => array('searchAttr' => 'clientAd_address1AndPostcode'),
+            'multiOptions'  => $multiOptions,
             'attribs'         => array('readonly' => true),
             'required'      => true
         ));
@@ -90,8 +87,10 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
             'hasDownArrow'  => true,
             'storeId'       => 'addressStore',
             'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/site/autocomplete/param/address/clientId/" . $clientId),
-            'dijitParams'   => array('searchAttr' => 'clientAd_address1AndPostcode'),
+            'storeParams'   => array(
+                'url' => "/site/data-store/type/billAddress/clientId/" . $row->site_idClient
+            ),
+            'dijitParams'   => array('searchAttr' => 'address1AndPostcode'),
             //'attribs'         => array('disabled' => true),
             'required'      => true
         ));
@@ -103,15 +102,14 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
             'hasDownArrow'  => true,
             'storeId'       => 'contactStore',
             'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/site/autocomplete/param/contact/clientId/" . $clientId),
+            'storeParams'   => array(
+                'url' => "/site/data-store/type/contact/clientId/" . $row->site_idClient
+            ),
             'dijitParams'   => array('searchAttr' => 'clientCo_name'),
             //'attribs'         => array('disabled' => true),
             'required'      => false
         ));
 
-        $auth = Zend_Auth::getInstance()->getIdentity();
-
-        $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('site_idSite', '');
     }
 }

@@ -1,0 +1,114 @@
+<div data-dojo-type="dijit.layout.BorderContainer"
+     data-dojo-props="design: 'headline'"
+     class="tabContainer">
+
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'center'">
+        <div class="tabHeading">
+
+            <div class="form_wrap zend_form meter_edit ident alpha"
+                 dojoType="dijit.form.Form"
+                 id="edit-meter-<?php echo $this->meter->meter_idMeter; ?>">
+                <h3>Meter Details</h3>
+                <div class="form_row">
+                    <p class="label"><b>Type:</b></p>
+                    <p>&nbsp;<?php echo $this->meter->meter_type; ?></p>
+                </div>
+                <div class="form_row">
+                    <p class="label"><b>Serial Number:</b></p>
+                    <p>&nbsp;<?php echo $this->meter->meter_numberSerial; ?></p>
+                </div>
+                 <div class="form_row">
+                    <p class="label"><b>Number Top:</b></p>
+                    <p>&nbsp;<?php echo $this->meter->meter_numberTop; ?></p>
+                </div>
+                 <div class="form_row">
+                    <p class="label"><b>Number Main:</b></p>
+                    <p>&nbsp;<?php echo $this->meter->meter_numberMain; ?></p>
+                </div>
+
+                <button dojoType="dijit.form.Button"
+                    type="submit"
+                    name="edit-meter-button-<?php echo $this->meter->meter_idMeter; ?>"
+                    value="submit">Edit Details</button>
+            </div>
+
+            <div class="ident">
+                <h3>Site Address</h3>
+                <div>
+                    <p><?php
+                        echo $this->formatAddress(array(
+                            $this->escape($this->meter->client_name),
+                            $this->escape($this->meter->clientAd_address1),
+                            $this->escape($this->meter->clientAd_address2),
+                            $this->escape($this->meter->clientAd_address3),
+                            $this->escape($this->meter->clientAd_postcode)
+                        ));
+                    ?></p>
+                </div>
+            </div>
+
+            <div class="ident">
+                <h3>Contract Info: <span class="id_number">(<?php echo $this->escape($this->meter->contract_idContract); ?>)</span></h3>
+                <p><b>Reference:</b> <?php echo $this->escape($this->meter->contract_reference); ?></p>
+                <p><b>Description:</b> <?php echo $this->escape($this->meter->contract_desc); ?></p>
+                <p><b>Status:</b> <?php echo $this->escape($this->meter->contract_status); ?></p>
+                <p><b>Start Date:</b> <?php echo $this->formatDate($this->meter->contract_dateStart); ?></p>
+                <p><b>End Date:</b> <?php echo $this->formatDate($this->meter->contract_dateEnd); ?></p>
+                <p><b>Supplier:</b> <?php echo $this->escape($this->meter->supplier_name); ?></p>
+                <p><b>Commission:</b> <?php echo $this->escape($this->meter->tender_commission); ?></p>
+            </div>
+
+            <div class="clear"></div>
+
+        </div>
+    </div>
+
+    <div data-dojo-type="dijit.layout.BorderContainer"
+             data-dojo-props="design: 'headline', region: 'bottom', splitter: 'true'"
+             class="contractEditTabs-BorderContainter">
+
+    <div id="MeterTabs<?php echo $this->meter->meter_idMeter; ?>"
+         data-dojo-type="dijit.layout.TabContainer"
+         data-dojo-props="region: 'center', tabStrip: 'true', splitter: 'true'"
+         class="innerTabs">
+
+        <div data-dojo-type="dijit.layout.ContentPane"
+             data-dojo-props="title: 'Meter Usage'">
+
+            <span dojoType="dojox.data.QueryReadStore"
+                 jsid="usageStore<?php echo $this->meter->meter_idMeter; ?>"
+                 url="/meter/data-store/type/usage"
+                 requestMethod="post"></span>
+
+            <table dojoType="bba.DataGrid"
+                   jsId="usageGrid<?php echo $this->meter->meter_idMeter; ?>"
+                   store="usageStore<?php echo $this->meter->meter_idMeter; ?>"
+                   structure="bba.gridLayouts.meterUsage"
+                   query="{ usage_idMeter: <?php echo $this->meter->meter_idMeter; ?> }"
+                   queryParent="usage_idMeter"
+                   sortInfo="-3"
+                   dialog="true"
+                   dialogName="Consumption for period"
+                   newButtonId="<?php echo $this->meter->meter_idMeter; ?>"
+                   controller="meter">
+            </table>
+        </div>
+    </div>
+    </div>
+
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'bottom'"
+         class="tableHeadPane">
+        <div class="tableHead">
+            <?php if ($this->authInfo('role') == 'admin'): ?>
+            <p class="tableHead-button">
+                <button dojoType="dijit.form.Button"
+                        id="new-usage-button-<?php echo $this->meter->meter_idMeter; ?>"
+                        type="button">New Usage</button>
+            </p>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+

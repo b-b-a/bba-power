@@ -45,10 +45,11 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
 
         $multiOptions = array();
 
-        $table = new Power_Model_Mapper_Tables();
+        $table = $this->getModel()->getDbTable('tables');
         $list = $table->getSelectListByName('meter_type');
+        
         foreach($list as $row) {
-            $multiOptions[$row->key] = $row->value;
+            $multiOptions[$row->tables_key] = $row->tables_value;
         }
 
         $this->addElement('FilteringSelect', 'meter_type', array(
@@ -77,9 +78,6 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $auth = Zend_Auth::getInstance()->getIdentity();
-
-        $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('meter_idMeter', '');
         $this->addHiddenElement('meter_idSite', '');
     }

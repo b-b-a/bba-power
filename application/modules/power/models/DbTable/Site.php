@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -50,6 +50,11 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
     protected $_primary = 'site_idSite';
 
     /**
+     * @var string row class
+     */
+    protected $_rowClass = 'Power_Model_DbTable_Row_Site';
+
+    /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
@@ -60,17 +65,17 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
 		),
         'siteAddress' => array(
             'columns'           => 'site_idAddress',
-            'refTableClass'     => 'Power_Model_DbTable_ClientAddress',
+            'refTableClass'     => 'Power_Model_DbTable_Client_Address',
             'refColumns'        => 'clientAd_idAddress'
 		),
         'siteAddressBill' => array(
             'columns'           => 'site_idAddressBill',
-            'refTableClass'     => 'Power_Model_DbTable_ClientAddress',
+            'refTableClass'     => 'Power_Model_DbTable_Client_Address',
             'refColumns'        => 'clientAd_idAddress'
 		),
         'siteClientContact' => array(
             'columns'           => 'site_idClientContact',
-            'refTableClass'     => 'Power_Model_DbTable_ClientContact',
+            'refTableClass'     => 'Power_Model_DbTable_Client_Contact',
             'refColumns'        => 'clientCo_idClientContact'
 		),
         'user'      => array(
@@ -83,9 +88,14 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
         )
     );
 
-    public function getSiteDetails()
+    public function getSiteById($id)
     {
-        return $this->select(false)
+        return $this->find($id)->current();
+    }
+
+    public function getSiteDetailsById($id)
+    {
+        $select = $this->select(false)
             ->setIntegrityCheck(false)
             ->from('site')
             ->join('client', 'client_idClient = site_idClient ', array(
@@ -97,13 +107,14 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
                 'clientAd_address2',
                 'clientAd_address3',
                 'clientAd_postcode'
-            ));
+            ))
+            ->where('site_idSite = ?', $id);
+        return $this->fetchRow($select);
     }
 
-    public function getList()
+    public function searchSites(array $search, $sort = '', $count = null, $offset = null)
     {
-        return $this->select(false)
-            ->setIntegrityCheck(false)
+        $select = $this->select(false)->setIntegrityCheck(false)
             ->from('site', array('site_idSite'))
             ->join('client_address', 'clientAd_idAddress = site_idAddress', array(
                 'clientAd_addressName',
@@ -118,13 +129,6 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
                 'client_contact', 'clientCo_idClientContact = site_idClientContact', array(
 				'clientCo_name'
             ));
-    }
-
-    public function getSearch($search, $select)
-    {
-        if ($search === null) {
-            return $select;
-        }
 
         if (!$search['site'] == '') {
             if (substr($search['site'], 0, 1) == '=') {
@@ -144,6 +148,31 @@ class Power_Model_DbTable_Site extends Zend_Db_Table_Abstract
                 ->orWhere('client_desc like ?', '%' . $search['client'] . '%');
         }
 
-        return $select;
+        $select = $this->getLimit($select, $count, $offset);
+        $select = $this->getSortOrder($select, $sort);
+
+        return $this->fetchAll($select);
+    }
+
+    public function numRows($search)
+    {
+        $result = $this->searchSites($search);
+        return $result->count();
+    }
+
+    public function insert(array $data)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['site_dateCreate'] = new Zend_Db_Expr('CURDATE()');
+        $data['site_userCreate'] = $auth->getId();
+        return parent::insert($data);
+    }
+
+    public function update(array $data, $where)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['site_dateModify'] = new Zend_Db_Expr('CURDATE()');
+        $data['site_userModify'] = $auth->getId();
+        return parent::update($data, $where);
     }
 }

@@ -58,11 +58,13 @@ dojo.declare(
         tabTitleColumn : '',
         tabId : null,
         dialog : false,
-        dialogName : null,
+        dialogName : '',
         dlg : null,
         queryParent : '',
-        newButtonId : null,
+        newButton : '',
+        newButtonId : '',
         newButtonController : '',
+        controller : '',
 
         _onFetchComplete : function(items, req)
         {
@@ -139,13 +141,17 @@ dojo.declare(
             var tabId = identParts[0] + id;
             var tc = dijit.byId("ContentTabs");
 
+            var url = (this.tabController != '') ?
+                '/' + this.tabController + '/edit-' + this.getIdentParts()[0] :
+                '/' + this.getController().split('-')[0] + '/edit-' + this.getController();
+
             if (!dijit.byId(tabId)) {
 
                 var pane = new dijit.layout.ContentPane({
                     id: tabId,
                     title: this.store.getValue(this.selectedItem, this.tabTitleColumn),
-                    href: '/' + this.getController() + '/edit',
-                    ioArgs: {content:contentVars},
+                    href: url,
+                    ioArgs: { content:contentVars },
                     closable: true,
                     refreshOnShow: true,
                     onLoad : dojo.hitch(this, function() {
@@ -166,7 +172,10 @@ dojo.declare(
         editForm : function(tabId)
         {
             var identParts = (this.tabController != '') ? this.tabController : this.getIdentParts()[0];
+            if (this.newButton != '') identParts = this.newButton;
             var id = 'edit-' + identParts + '-' + tabId;
+
+            console.log(id)
 
             dojo.connect(dijit.byId(id), 'onSubmit', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
@@ -176,11 +185,16 @@ dojo.declare(
 
         newChildForm : function()
         {
-            var selectedId = (this.newButtonId === null) ? this.query[this.queryParent] : this.newButtonId;
-            var id = 'new-' + this.getNewController() + '-button-' + selectedId;
+            var selectedId = (!this.newButtonId) ? this.query[this.queryParent] : this.newButtonId;
+
+            var con = (this.tabController != '') ? this.tabController : this.getNewController();
+            if (this.newButton !== '') con = this.newButton;
+            var id = 'new-' + con + '-button-' + selectedId;
+            console.log(id)
 
             dojo.connect(dijit.byId(id), 'onClick', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
+
                 this.showDialog('add');
             }));
         },
@@ -210,21 +224,25 @@ dojo.declare(
                 }
 
                 if (this.queryParent) {
-                    contentVars[this.queryParent] = this.query[this.queryParent];
+                    contentVars = dojo.mixin(contentVars, this.query);
                 }
 
                 var con =  (controller) ? controller : this.hyphenate(this.getNewController());
+
+                var urlCon = (this.controller != '') ?
+                        this.controller : this.hyphenate(con).split('-')[0];
 
                 this.dlg = new dijit.Dialog({
                     id: type + identParts[0],
                     title: (this.dialogName) ? this.dialogName :
                         this.capitalize(type + ' ' + con.replace('-', ' ')),
                     ioArgs: {content: contentVars},
-                    href: '/' + this.hyphenate(con) + '/' + type,
+                    href: '/' + urlCon + '/' + type + '-' + this.hyphenate(con),
                     execute: dojo.hitch(this, function() {
-                        var url = '/' + this.hyphenate(con) + '/save';
+                        var url = '/' + urlCon + '/save-' + this.hyphenate(con);
                         this.dlg.destroyRecursive();
                         this.dlg = null;
+
                         this.processForm(arguments[0], url, type);
                     }),
                     _onSubmit: dojo.hitch(this.dlg, function() {
@@ -242,11 +260,9 @@ dojo.declare(
                     })
                 });
 
-                con = this.hyphenate(con);
-
                 dojo.connect(this.dlg, 'onLoad', dojo.hitch(this, function(){
                     dojo.connect(
-                        dijit.byId(con + 'FormCancelButton'),
+                        dijit.byId(this.hyphenate(con) + 'FormCancelButton'),
                         "onClick",
                         dojo.hitch(this.dlg, 'hide')
                     );
@@ -284,11 +300,12 @@ dojo.declare(
               preventCache: true,
               load: dojo.hitch(this, function(data) {
                   if (data.saved > 0) {
-                      if (this.tab) {
+                      if (this.tab && this.tab.id.split('-')[1] !== 'list') {
                           this.tab.refresh();
                       } else {
                           this._refresh();
                       }
+                      console.log(data);
                   } else {
                       this.dlg = new dijit.Dialog({
                         title: (this.dialogName) ? this.dialogName :

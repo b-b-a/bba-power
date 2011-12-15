@@ -43,11 +43,12 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
     {
         $this->setName('client-contact');
 
-        $table = new Power_Model_Mapper_Tables();
+        $table = $this->getModel()->getDbTable('tables');
+
         $list = $table->getSelectListByName('ClientCo_type');
         $multiOptions[0] = 'Select a type';
         foreach($list as $row) {
-            $multiOptions[$row->key] = $row->value;
+            $multiOptions[$row->tables_key] = $row->tables_value;
         }
 
         $this->addElement('FilteringSelect', 'clientCo_type', array(
@@ -83,32 +84,32 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
             )
         ));
 
-        $view = $this->getView();
-        $table = new Power_Model_Mapper_ClientAddress();
+        $this->addHiddenElement('clientCo_idAddress', '');
 
-        $list = $table->getAddressByClientId(array(
-            'clientAd_idClient' => $view->request['clientCo_idClient']
-        ));
+        $request = Zend_Controller_Front::getInstance()->getRequest();
 
-        // reset options
-        $multiOptions = array(0 => '');
-        foreach($list as $row) {
-            $multiOptions[$row->idAddress] = $row->getAddress1AndPostcode();
+        if ($request->getPost('type') === 'edit') {
+
+            $list = $this->getModel()->getClientAddressesByClientId(
+                $request->getPost('clientCo_idClient')
+            );
+
+            // reset options
+            $multiOptions = array(0 => '');
+            foreach($list as $row) {
+                $multiOptions[$row->clientAd_idAddress] = $row->getAddress1AndPostcode();
+            }
+
+            $this->addElement('FilteringSelect', 'clientCo_idAddress', array(
+                'label'     => 'Address:',
+                'filters'   => array('StripTags', 'StringTrim'),
+                'atuocomplete' => false,
+                'multiOptions'  => $multiOptions,
+                'required'  => true
+            ));
         }
 
-        $this->addElement('FilteringSelect', 'clientCo_idAddress', array(
-            'label'     => 'Address:',
-            'filters'   => array('StripTags', 'StringTrim'),
-            'atuocomplete' => false,
-            'multiOptions'  => $multiOptions,
-            'required'  => true
-        ));
-
-        $auth = Zend_Auth::getInstance()->getIdentity();
-
-        $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('clientCo_idClientContact', '');
         $this->addHiddenElement('clientCo_idClient', '');
-
     }
 }

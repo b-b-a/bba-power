@@ -34,13 +34,13 @@
 
         <span dojoType="dojox.data.QueryReadStore"
               jsid="siteStore"
-              url="/site/site-store"
+              url="/site/data-store/type/site"
               requestMethod="post"></span>
 
         <table dojoType="bba.DataGrid"
                jsId="siteGrid"
                store="siteStore"
-               query="<?php echo $this->search; ?>"
+               query='<?php echo $this->search; ?>'
                sortInfo="2"
                search="true"
                tabs="true"

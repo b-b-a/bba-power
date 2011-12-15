@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Tables extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Tables extends ZendSF_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -50,7 +50,27 @@ class Power_Model_DbTable_Tables extends Zend_Db_Table_Abstract
     protected $_primary = 'tables_idTables';
 
     /**
+     * @var string row class
+     */
+    protected $_rowClass = 'Power_Model_DbTable_Row_Tables';
+
+    /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array();
+
+    public function getTableById($id)
+    {
+        return $this->find($id)->current();
+    }
+
+    public function getSelectListByName($name)
+    {
+        $select = $this->select(true)
+            ->columns(array('tables_key', 'tables_value'))
+            ->where('tables_name = ?', $name)
+            ->order('tables_sort ASC');
+
+        return $this->fetchAll($select);
+    }
 }

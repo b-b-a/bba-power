@@ -37,35 +37,57 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_SupplierController extends BBA_Controller_Action_Abstract
+class Power_SupplierController extends Zend_Controller_Action
 {
+    /**
+     * @var Power_Model_Supplier
+     */
+    protected $_model;
+
     /**
      * Initialization code.
      */
     public function init()
     {
-        parent::init();
+        $this->_model = new Power_Model_Supplier();
+    }
 
-        if (!$this->_helper->acl('Guest')) {
+    /**
+     * Checks if user is logged, if not then forwards to login.
+     *
+     * @return Zend_Controller_Action::_forward
+     */
+    public function preDispatch()
+    {
+        if ($this->_helper->acl('Guest')) {
+            return $this->_forward('login', 'auth');
+        }
+    }
 
-            $this->_model = new Power_Model_Mapper_Supplier();
+    public function dataStoreAction()
+    {
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+        $request = $this->getRequest();
 
-            $this->setForm('supplierSave', array(
-                'controller' => 'supplier' ,
-                'action' => 'save',
-                'module' => 'power'
-            ));
+        if ($request->isXmlHttpRequest()) {
 
-            // search form
-            $this->setForm('supplierSearch', array(
-                'controller' => 'supplier' ,
-                'action' => 'index',
-                'module' => 'power'
-            ));
+            switch ($request->getParam('type')) {
+                case 'suppliers':
+                    $data = $this->_model->getSupplierDataStore($request->getPost());
+                    break;
+                case 'contacts':
+                    $data = $this->_model->getSupplierContactDataStore($request->getPost());
+                    break;
+                case 'contracts':
+                default :
+                    $data = '{}';
+                    break;
+            }
 
-            $this->_setSearch(array(
-                'supplier', 'contact'
-            ));
+            $this->getResponse()
+                ->setHeader('Content-Type', 'application/json')
+                ->setBody($data);
         }
     }
 
@@ -74,73 +96,67 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        $this->getForm('supplierSearch')
-            ->populate($this->_getSearch());
+        $urlHelper = $this->_helper->getHelper('url');
+        $form = $this->_model->getForm('supplierSearch')
+            ->populate($this->getRequest()->getPost());
 
+        $form->setAction($urlHelper->url(array(
+            'controller'    => 'supplier' ,
+            'action'        => 'index',
+            'module'        => 'power'
+        ), 'default'));
+
+        $form->setMethod('post');
+
+        // assign search to the view script.
         $this->view->assign(array(
-            'search' => $this->_getSearchString('supplierSearch')
+            'search'                => Zend_Json::encode($form->getValues()),
+            'supplierSearchForm'    => $form
         ));
     }
 
-    public function supplierStoreAction()
+    public function addSupplierAction()
     {
-        return $this->_getAjaxDataStore('getList' ,'supplier_idSupplier');
-    }
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
 
-    public function supplierContactStoreAction()
-    {
-        unset($this->_search);
-        $this->_setSearch(array(
-            'supplierCo_idSupplier'
-        ));
-        return $this->_getAjaxDataStore('getContactsBySupplierId' ,'supplierCo_idSupplierContact', true);
-    }
+        if ($request->isXmlHttpRequest() && $request->getPost('type') == 'add'
+                && $request->isPost()) {
 
-    public function supplierContractStoreAction()
-    {
-        unset($this->_search);
-        $this->_setSearch(array(
-            'tender_idSupplier'
-        ));
-        return $this->_getAjaxDataStore('getContractsBySupplierId' ,'contract_idContract', true);
-    }
+            $form = $this->_getForm('supplierSave', 'save-supplier');
 
-    public function addAction()
-    {
-        if ($this->_request->isXmlHttpRequest()
-                && $this->_request->getParam('type') == 'add'
-                && $this->_request->isPost()) {
-            $this->getForm('supplierSave');
-            $this->render('ajax-form');
+            $this->view->assign(array('supplierForm' => $form));
+
+            $this->render('supplier-form');
         } else {
-            return $this->_helper->redirector('index', 'client');
+            return $this->_helper->redirector('index', 'supplier');
         }
     }
 
-    public function editAction()
+    public function editSupplierAction()
     {
-        if ($this->_request->getParam('idSupplier')
-                && $this->_request->isPost()
-                && $this->_request->isXmlHttpRequest()) {
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
 
-            $supplier = $this->_model->find($this->_request->getParam('idSupplier'));
+        if ($request->getParam('idSupplier') && $request->isPost()
+                && $request->isXmlHttpRequest()) {
 
-            $this->getForm('supplierSave')
-                ->populate($supplier->toArray('dd/MM/yyyy'));
+            $supplier = $this->_model->getSupplierById($request->getPost('idSupplier'));
 
-            $this->view->assign(array(
-                'supplier' => $supplier
-            ));
+            $this->view->assign(array('supplier' => $supplier));
 
             if ($this->_request->getParam('type') == 'edit') {
-                $this->render('ajax-form');
+                $form = $this->_getForm('supplierSave', 'save-supplier');
+                $form->populate($supplier->toArray());
+                $this->view->assign(array('supplierSaveForm' => $form));
+                $this->render('supplier-form');
             }
         } else {
-           return $this->_helper->redirector('index', 'client');
+           return $this->_helper->redirector('index', 'supplier');
         }
     }
 
-    public function saveAction()
+    public function saveSupplierAction()
     {
         if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'supplier');
@@ -202,4 +218,18 @@ class Power_SupplierController extends BBA_Controller_Action_Abstract
             ->setBody($data->toJson());
     }
 
+    private function _getForm($name, $action)
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+        $form = $this->_model->getForm($name);
+
+        $form->setAction($urlHelper->url(array(
+            'controller'    => 'supplier',
+            'action'        => $action,
+            'module'        => 'power'
+        ), 'default'));
+
+        $form->setMethod('post');
+        return $form;
+    }
 }

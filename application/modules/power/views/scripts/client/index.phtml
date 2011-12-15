@@ -1,3 +1,4 @@
+<?php $this->headScript()->appendFile('/js/bba/Client.js','text/javascript'); ?>
 <div data-dojo-type="dijit.layout.BorderContainer"
      data-dojo-props="design: 'headline'"
      class="tabContainer">
@@ -31,28 +32,20 @@
          data-dojo-props="region: 'center'">
 
         <span dojoType="dojox.data.QueryReadStore"
-             jsid="clientStore"
-             url="/client/client-store"
-             requestMethod="post"></span>
+              jsid="clientStore"
+              url="/client/data-store/type/client"
+              requestMethod="post"></span>
 
         <table dojoType="bba.DataGrid"
+               id="clientGrid"
                jsId="clientGrid"
                store="clientStore"
-               query="<?php echo $this->search; ?>"
+               structure="bba.gridLayouts.client"
+               query='<?php echo $this->search; ?>'
                sortInfo="2"
                search="true"
                tabs="true"
                tabTitleColumn="client_name">
-            <thead>
-                <tr>
-                    <th field="client_idClient" width="50">Id</th>
-                    <th field="client_name" width="300">Client</th>
-                    <th field="client_desc" width="200">Description</th>
-                    <th field="clientAd_address1" width="300">Address 1</th>
-                    <th field="clientAd_postcode" width="100">Postcode</th>
-                    <th field="" width="auto"></th>
-                </tr>
-            </thead>
         </table>
     </div>
 </div>

@@ -15,7 +15,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     ${author}
  */
-class _Model_DbTable_${name} extends Zend_Db_Table_Abstract
+class _Model_DbTable_${name} extends ZendSF_Model_DbTable_Abstract
 {
     /**
      * @var string database table

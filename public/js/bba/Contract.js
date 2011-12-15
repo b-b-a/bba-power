@@ -29,22 +29,9 @@ dojo.provide('bba.Contract');
 
 bba.Contract = {
 
-    meterContractGridLayout : [
-        {field: 'meter_idMeter', width : '50px', name : 'Id'},
-        {field: 'meter_numberMain', width : '150px', name : 'Number Main'},
-        {field: 'meter_type', width : '100px', name : 'meter_type'},
-        {field: 'meterContract_kvaNominated', width : '120px', name : 'Expected Yearly Consumption', editable : true},
-        {field: 'contract_idContract', width : '100px', name : 'Contract Id'},
-        {field: 'contract_type', width : '100px', name : 'Contract Type'},
-        {field: 'contract_status', width : '100px', name : 'Status'},
-        {field: 'contract_dateStart', width : '100px', name : 'Start Date'},
-        {field: 'contract_dateEnd', width : '100px', name : 'End Date'},
-        {field: '', width : 'auto', name : ''}
-    ],
-
     closeDialog : function()
     {
-        dijit.byId('addmeterContract').hide();
+        dijit.byId('addmeter').hide();
     },
 
     addMeterToContract : function(grid, meterContract) {
@@ -70,14 +57,14 @@ bba.Contract = {
 
             if (!kvaError) {
                 dojo.xhrPost({
-                    url: '/meter-contract/save',
+                    url: '/contract/save-meter-contract',
                     content: {jsonData : dojo.toJson(data)},
                     handleAs: 'json',
                     preventCache: true,
                     load: function(data) {
                         if (data.saved) {
                             dijit.byId('meterContractGrid' + meterContract)._refresh();
-                            dijit.byId('addmeterContract').hide();
+                            dijit.byId('addmeter').hide();
                         } else {
                             alert('meters could not be saved');
                         }

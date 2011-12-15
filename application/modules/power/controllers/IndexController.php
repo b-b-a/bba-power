@@ -37,14 +37,14 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_IndexController extends BBA_Controller_Action_Abstract
+class Power_IndexController extends Zend_Controller_Action
 {
     /**
      * Initialization code.
      */
     public function init()
     {
-        parent::init();
+        
     }
 
     /**

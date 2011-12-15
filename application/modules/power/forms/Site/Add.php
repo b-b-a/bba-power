@@ -50,7 +50,7 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
             'hasDownArrow'  => true,
             'storeId'       => 'clientStore',
             'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/site/autocomplete/param/client"),
+            'storeParams'   => array('url' => "/site/data-store/type/clients"),
             'dijitParams'   => array(
                 'searchAttr' => 'client_name',
                 'promptMessage' => 'Select a Client'
@@ -70,7 +70,7 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
             'storeId'       => 'addressStore',
             //'storeType'     => 'dojo.data.ItemFileReadStore',
             //'storeParams'   => array('url' => "/site/autocomplete/param/address/"),
-            'dijitParams'   => array('searchAttr' => 'clientAd_address1AndPostcode'),
+            'dijitParams'   => array('searchAttr' => 'address1AndPostcode'),
             'attribs'       => array(
                 'disabled' => true,
                 'onChange' => 'bba.Site.changeBillAddress(this);'
@@ -86,7 +86,7 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
             'storeId'       => 'addressStore',
             //'storeType'     => 'dojo.data.ItemFileReadStore',
             //'storeParams'   => array('url' => "/site/autocomplete/param/address/"),
-            'dijitParams'   => array('searchAttr' => 'clientAd_address1AndPostcode'),
+            'dijitParams'   => array('searchAttr' => 'address1AndPostcode'),
             'attribs'         => array('disabled' => true),
             'required'      => true
         ));
@@ -104,9 +104,6 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
             'required'      => false
         ));
 
-        $auth = Zend_Auth::getInstance()->getIdentity();
-
-        $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('site_idSite', '');
     }
 }

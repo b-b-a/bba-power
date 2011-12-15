@@ -75,9 +75,6 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
             )
         ));
 
-        $auth = Zend_Auth::getInstance()->getIdentity();
-
-        $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('clientAd_idAddress', '');
         $this->addHiddenElement('clientAd_idClient', '');
 

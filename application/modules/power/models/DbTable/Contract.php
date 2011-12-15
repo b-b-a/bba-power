@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -48,6 +48,11 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
      * @var string primary key
      */
     protected $_primary = 'contract_idContract';
+
+    /**
+     * @var string row class
+     */
+    protected $_rowClass = 'Power_Model_DbTable_Row_Contract';
 
     /**
      * @var array Reference map for parent tables
@@ -83,10 +88,14 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
         )
     );
 
-    public function getList()
+    public function getContractById($id)
     {
-        return $this->select(false)
-            ->setIntegrityCheck(false)
+        return $this->find($id)->current();
+    }
+
+    public function searchContracts(array $search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->select(false)->setIntegrityCheck(false)
             ->from('contract', array(
                 'contract_idContract' => 'contract_idContract',
                 'contract_reference',
@@ -94,30 +103,19 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
                 'contract_dateStart',
                 'contract_dateEnd',
                 'contract_desc' => 'SUBSTR(contract_desc, 1, 15)'
-            ))
-            ->join(
+            ))->join(
                 'client',
                 'client_idClient = contract_idClient ',
                 array('client_name')
-            )
-            ->joinLeft(
+            )->joinLeft(
                 'meter_contract',
                 'meterContract_idContract = contract_idContract',
                 array('meter_count' => 'COUNT( contract_idContract )')
-            )
-            ->joinLeft(
+            )->joinLeft(
                 'meter',
                 'meter_idMeter = meterContract_idMeter',
                 array('meter_numberMain', 'meter_type')
-           )
-           ->group('contract_idContract');
-    }
-
-    public function getSearch($search, $select)
-    {
-        if ($search === null) {
-            return $select;
-        }
+           )->group('contract_idContract');
 
         if (!$search['contract'] == '') {
             if (substr($search['contract'], 0, 1) == '=') {
@@ -135,6 +133,31 @@ class Power_Model_DbTable_Contract extends Zend_Db_Table_Abstract
                 ->orWhere('meter_type like ?', '%' . $search['meter'] . '%');
         }
 
-        return $select;
+        $select = $this->getLimit($select, $count, $offset);
+        $select = $this->getSortOrder($select, $sort);
+
+        return $this->fetchAll($select);
+    }
+
+    public function numRows($search)
+    {
+        $result = $this->searchContracts($search);
+        return $result->count();
+    }
+
+    public function insert(array $data)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['contract_dateCreate'] = new Zend_Db_Expr('CURDATE()');
+        $data['contract_userCreate'] = $auth->getId();
+        return parent::insert($data);
+    }
+
+    public function update(array $data, $where)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['contract_dateModify'] = new Zend_Db_Expr('CURDATE()');
+        $data['contract_userModify'] = $auth->getId();
+        return parent::update($data, $where);
     }
 }

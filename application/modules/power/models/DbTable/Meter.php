@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -48,6 +48,11 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
      * @var string primary key
      */
     protected $_primary = 'meter_idMeter';
+
+    /**
+     * @var string row class
+     */
+    protected $_rowClass = 'Power_Model_DbTable_Row_Meter';
 
     /**
      * @var array Reference map for parent tables
@@ -68,16 +73,20 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
         )
     );
 
+    public function getMeterById($id)
+    {
+        return $this->find($id)->current();
+    }
+
     /**
      * Aggregates the site, client and client_address tables
      * into the meter details.
      *
      * @return Zend_Db_Table_Select
      */
-    public function getMeterDetails()
+    public function getMeterDetails($id)
     {
-       return $this->select(false)
-            ->setIntegrityCheck(false)
+       $select = $this->select(false)->setIntegrityCheck(false)
             ->from('meter')
             ->join('site', 'site_idSite = meter_idSite', null)
             ->join('client_address', 'clientAd_idAddress = site_idAddress')
@@ -86,18 +95,14 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
             ->joinLeft('meter_contract', 'meter_idMeter = meterContract_idMeter')
             ->joinLeft('contract', 'meterContract_idContract = contract_idContract')
             ->joinLeft('tender', 'contract_idTenderSelected = tender_idTender')
-            ->joinLeft('supplier', 'tender_idSupplier = supplier_idSupplier');
+            ->joinLeft('supplier', 'tender_idSupplier = supplier_idSupplier')
+            ->where('meter_idMeter = ?', $id);
+       return $this->fetchRow($select);
     }
 
-    /**
-     * Cherry pick which columns to return for speed.
-     *
-     * @return Zend_Db_Table_Select
-     */
-    public function getList()
+    public function searchMeters(array $search, $sort = '', $count = null, $offset = null)
     {
-        return $this->select(false)
-            ->setIntegrityCheck(false)
+       $select = $this->select(false)->setIntegrityCheck(false)
             ->from('meter', array(
                 'meter_idMeter',
                 'meter_type',
@@ -116,15 +121,7 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
                 'contract_status',
                 'contract_dateStart' => 'MAX(contract.contract_dateStart)',
                 'contract_dateEnd'
-            ))
-            ->group('meter_idMeter');
-    }
-
-    public function getSearch($search, $select)
-    {
-        if ($search === null) {
-            return $select;
-        }
+            ))->group('meter_idMeter');
 
         if (!$search['meter'] == '') {
             $filter = new Zend_Filter_PregReplace(array(
@@ -150,6 +147,31 @@ class Power_Model_DbTable_Meter extends Zend_Db_Table_Abstract
                 ->orWhere('clientAd_postcode like ?', '%' . $search['site'] . '%');
         }
 
-        return $select;
+        $select = $this->getLimit($select, $count, $offset);
+        $select = $this->getSortOrder($select, $sort);
+
+        return $this->fetchAll($select);
+    }
+
+    public function numRows($search)
+    {
+        $result = $this->searchMeters($search);
+        return $result->count();
+    }
+
+    public function insert(array $data)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['meter_dateCreate'] = new Zend_Db_Expr('CURDATE()');
+        $data['meter_userCreate'] = $auth->getId();
+        return parent::insert($data);
+    }
+
+    public function update(array $data, $where)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['meter_dateModify'] = new Zend_Db_Expr('CURDATE()');
+        $data['meter_userModify'] = $auth->getId();
+        return parent::update($data, $where);
     }
 }

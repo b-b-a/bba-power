@@ -75,18 +75,18 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             )
         ));
 
-        $view = $this->getView();
+        $request = Zend_Controller_Front::getInstance()->getRequest();
 
-        if (isset($view->request['idClient'])) {
-            $table = new Power_Model_Mapper_ClientAddress();
-            $list = $table->getAddressByClientId(array(
-                'clientAd_idClient' => $view->request['idClient']
-            ));
+        if ($request->getPost('type') === 'edit') {
+
+            $list = $this->getModel()->getClientAddressesByClientId(
+                $request->getPost('idClient')
+            );
 
             // reset options
             $multiOptions = array(0 => '');
             foreach($list as $row) {
-                $multiOptions[$row->idAddress] = $row->getAddress1AndPostcode();
+                $multiOptions[$row->clientAd_idAddress] = $row->getAddress1AndPostcode();
             }
 
             $this->addElement('FilteringSelect', 'client_idAddress', array(
@@ -97,15 +97,14 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
                 'required'  => true
             ));
 
-            $table = new Power_Model_Mapper_ClientContact();
-            $list = $table->getContactByClientId(array(
-                'clientCo_idClient' => $view->request['idClient']
-            ));
+            $list = $this->getModel()->getClientContactsByClientId(
+                $request->getPost('idClient')
+            );
 
             // reset options
             $multiOptions = array(0 => '');
             foreach($list as $row) {
-                $multiOptions[$row->idClientContact] = $row->name;
+                $multiOptions[$row->clientCo_idClientContact] = $row->clientCo_name;
             }
 
             $this->addElement('FilteringSelect', 'client_idClientContact', array(
@@ -117,10 +116,6 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             ));
         }
 
-        $auth = Zend_Auth::getInstance()->getIdentity();
-
-        $this->addHiddenElement('userId', $auth->getId());
         $this->addHiddenElement('client_idClient', '');
-
     }
 }

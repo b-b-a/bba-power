@@ -1,0 +1,44 @@
+<?php $form = $this->meterUsageSaveForm; ?>
+
+<div class="form_wrap">
+    <div class="zend_form">
+
+        <?php echo $form->usage_dateBill; ?>
+
+        <?php echo $form->usage_dateReading; ?>
+
+        <?php echo $form->usage_type; ?>
+
+        <?php echo $form->usage_usageDay; ?>
+
+        <?php echo $form->usage_usageNight; ?>
+
+        <?php echo $form->usage_usageOther; ?>
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="usage_idUsage"
+               id="usage_idUsage"
+               required="true"
+               value="<?php echo $form->usage_idUsage->getValue(); ?>" />
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="usage_idMeter"
+               id="usage_idMeter"
+               required="true"
+               value="<?php echo $form->usage_idMeter->getValue(); ?>" />
+
+        <button dojoType="dijit.form.Button"
+                type="submit"
+                id="usageFormSubmitButton"
+                name="submit"
+                value="Save">Save</button>
+
+        <button dojoType="dijit.form.Button"
+                type="button"
+                id="usageFormCancelButton"
+                name="cancel"
+                value="Cancel">Cancel</button>
+    </div>
+</div>

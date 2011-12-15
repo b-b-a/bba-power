@@ -37,10 +37,10 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_UserController extends BBA_Controller_Action_Abstract
+class Power_UserController extends Zend_Controller_Action
 {
     /**
-     * @var Power_Model_Mapper_User
+     * @var Power_Model_User
      */
     protected $_model;
 
@@ -49,115 +49,131 @@ class Power_UserController extends BBA_Controller_Action_Abstract
      */
     public function init()
     {
-        parent::init();
+        $this->_model = new Power_Model_User();
+    }
 
-        if (!$this->_helper->acl('Guest')) {
-
-            $this->_model = new Power_Model_Mapper_User();
-
-            // register forms
-            $this->setForm('userSave', array(
-                'controller' => 'users' ,
-                'action' => 'save',
-                'module' => 'power'
-            ));
-
-            // search form
-            $this->setForm('userSearch', array(
-                'controller' => 'user' ,
-                'action' => 'list',
-                'module' => 'power'
-            ));
-
-            $this->_setSearch(array(
-                'user', 'role'
-            ));
+    /**
+     * Checks if user is logged, if not then forwards to login.
+     *
+     * @return Zend_Controller_Action::_forward
+     */
+    public function preDispatch()
+    {
+        if ($this->_helper->acl('Guest')) {
+            return $this->_forward('login', 'auth');
         }
     }
 
     public function userStoreAction()
     {
-        return $this->_getAjaxDataStore('getList' ,'user_idUser');
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+
+        $data = $this->_model->getUserDataStore($this->_request->getPost());
+
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody($data);
     }
 
     public function indexAction()
     {
-        $this->getForm('userSearch')
-            ->populate($this->_getSearch());
+        $urlHelper = $this->_helper->getHelper('url');
+        $form = $this->_model->getForm('userSearch')
+            ->populate($this->_request->getPost());
+
+        $form->setAction($urlHelper->url(array(
+            'controller'    => 'user' ,
+            'action'        => 'index',
+            'module'        => 'power'
+        ), 'default'));
+
+        $form->setMethod('post');
 
         // assign search to the view script.
         $this->view->assign(array(
-            'search' => $this->_getSearchString('userSearch')
+            'search' => Zend_Json::encode($form->getValues()),
+            'userSearchForm'  => $form
         ));
     }
 
-    public function addAction()
+    public function addUserAction()
     {
         if ($this->_request->isXmlHttpRequest()
                 && $this->_request->getParam('type') == 'add'
                 && $this->_request->isPost()) {
-            $this->getForm('userSave');
-            $this->render('ajax-form');
+
+            $this->_helper->layout->disableLayout();
+
+            $form = $this->_getUserForm();
+
+            $this->view->assign(array('userSaveForm' => $form));
+
+            $this->render('user-form');
         } else {
-            return $this->_helper->redirector('index', 'client');
+            return $this->_helper->redirector('index', 'user');
         }
     }
 
-    public function editAction()
+    public function editUserAction()
     {
         if ($this->_request->getParam('idUser')
                 && $this->_request->isPost()
                 && $this->_request->isXmlHttpRequest()) {
+            $this->_helper->layout->disableLayout();
 
-            $user = $this->_model->find($this->_request->getParam('idUser'));
-            $this->getForm('userSave')
-                ->populate($user->toArray('dd/MM/yyyy'))
+            $user = $this->_model->getUserById($this->_request->getParam('idUser'));
+
+            $form = $this->_getUserForm();
+            $form->populate($user->toArray())
                 ->getElement('user_password')
                 ->setValue('')
                 ->setRequired(false);
 
-            $this->render('ajax-form');
+            $this->view->assign(array('userSaveForm' => $form));
+
+            $this->render('user-form');
         } else {
-           return $this->_helper->redirector('index', 'client');
+           return $this->_helper->redirector('index', 'user');
         }
     }
 
-    public function saveAction()
+    public function saveUserAction()
     {
-        if (!$this->_request->isPost()&& !$this->_request->isXmlHttpRequest()) {
-            return $this->_helper->redirector('list', 'users');
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+
+        if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
+            return $this->_helper->redirector('index', 'user');
         }
 
-        $this->_helper->viewRenderer->setNoRender(true);
+        $saved = $this->_model->saveUser($this->_request->getPost());
 
-        if ($this->_request->getParam('type') === 'edit') {
-            $this->getForm('userSave')
-                ->getElement('user_password')
-                ->setRequired(false);
-        }
+        $returnJson = array('saved' => $saved);
 
-        if (!$this->getForm('userSave')->isValid($this->_request->getPost())) {
-            $html = $this->view->render('user/ajax-form.phtml');
-
-            $returnJson = array(
-                'saved' => 0,
-                'html'  => $html
-            );
-        } else {
-            $saved = $this->_model->save('userSave');
-
-            $returnJson = array(
-                'saved' => $saved
-            );
-
-            if ($saved == 0) {
-                $html = $this->view->render('user/ajax-form.phtml');
-                $returnJson['html'] = $html;
-            }
+        if ($saved == 0) {
+            //$this->view->assign(array('userSaveForm' => $this->_getUserForm()));
+            $html = $this->view->render('user/user-form.phtml');
+            $returnJson['html'] = $html;
         }
 
         $this->getResponse()
             ->setHeader('Content-Type', 'application/json')
             ->setBody(json_encode($returnJson));
+    }
+
+    private function _getUserForm()
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+        $form = $this->_model->getForm('userSave');
+
+        $form->setAction($urlHelper->url(array(
+            'controller'    => 'user',
+            'action'        => 'user-save',
+            'module'        => 'power'
+        ), 'default'));
+
+        $form->setMethod('post');
+        return $form;
     }
 }

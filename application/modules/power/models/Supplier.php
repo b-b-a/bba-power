@@ -37,15 +37,94 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Supplier extends BBA_Model_Abstract
+class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
 {
-    /**
-     * @var string
-     */
-    protected $_primary = 'idSupplier';
+    public function getSupplierById($id)
+    {
+        $id = (int) $id;
+        return $this->getDbTable('supplier')->getSupplierById($id);
+    }
+
+    public function getSupplierContactById($id)
+    {
+        $id = (int) $id;
+        return $this->getDbTable('supplierContact')->getSupplierContactById($id);
+    }
 
     /**
-     * @var string
+     * Gets the supplier data store list, using search parameters.
+     *
+     * @param array $post
+     * @return string JSON string
      */
-    protected $_prefix = 'supplier_';
+    public function getSupplierDataStore(array $post)
+    {
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $form = $this->getForm('supplierSearch');
+        $search = array();
+
+        if ($form->isValid($post)) {
+            $search = $form->getValues();
+        }
+
+        $dataObj = $this->getDbTable('supplier')->searchSuppliers($search, $sort, $count, $start);
+
+        $store = $this->_getDojoData($dataObj, 'supplier_idSupplier');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('supplier')->numRows($search)
+        );
+
+        return $store->toJson();
+    }
+
+    public function getSupplierContactDataStore(array $post)
+    {
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $id = (int) $post['supplierCo_idSupplier'];
+
+        $dataObj = $this->getDbTable('supplierContact')->searchContacts($id, $sort, $count, $start);
+
+        $store = $this->_getDojoData($dataObj, 'supplierCo_idSupplierContact');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('supplierContact')->numRows($id)
+        );
+
+        return $store->toJson();
+    }
+
+    /**
+     * Gets the data for filtering selects.
+     *
+     * @param array $param
+     * @return string
+     */
+    public function getFileringSelectData($params)
+    {
+        switch ($params['type']) {
+
+        }
+
+        $items = array();
+
+        foreach ($result as $row) {
+            $items[] = array(
+                $identifier     => $row->{$searchItems[0]},
+                $searchItems[1] => $row->{$searchItems[1]}
+            );
+        }
+
+        $data = new Zend_Dojo_Data($identifier, $items);
+
+        return $data->toJson();
+    }
 }

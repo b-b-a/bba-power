@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Supplier extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -49,12 +49,17 @@ class Power_Model_DbTable_Supplier extends Zend_Db_Table_Abstract
     protected $_primary = 'supplier_idSupplier';
 
     /**
+     * @var string row class
+     */
+    protected $_rowClass = 'Power_Model_DbTable_Row_Supplier';
+
+    /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
         'supplierContact'   => array(
             'columns'       => 'supplier_idSupplierContact',
-            'refTableClass' => 'Power_Model_DbTable_SupplierContact',
+            'refTableClass' => 'Power_Model_DbTable_Supplier_Contact',
             'refColumns'    => 'supplierCo_idSupplierContact'
         ),
         'user'              => array(
@@ -67,10 +72,14 @@ class Power_Model_DbTable_Supplier extends Zend_Db_Table_Abstract
         )
     );
 
-    public function getList()
+    public function getSupplierById($id)
     {
-        return $this->select(false)
-            ->setIntegrityCheck(false)
+        return $this->find($id)->current();
+    }
+
+    public function searchSuppliers(array $search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->select(false)->setIntegrityCheck(false)
             ->from('supplier', array(
                 'supplier_idSupplier',
                 'supplier_name',
@@ -83,13 +92,6 @@ class Power_Model_DbTable_Supplier extends Zend_Db_Table_Abstract
                 'supplier_idSupplierContact = supplierCo_idSupplierContact',
                 null
             );
-    }
-
-    public function getSearch($search, $select)
-    {
-        if ($search === null) {
-            return $select;
-        }
 
         if (!$search['supplier'] == '') {
             if (substr($search['supplier'], 0, 1) == '=') {
@@ -113,6 +115,31 @@ class Power_Model_DbTable_Supplier extends Zend_Db_Table_Abstract
                 ->orWhere('supplierCo_postcode like ?', '%' . $search['contact'] . '%');
         }
 
-        return $select;
+        $select = $this->getLimit($select, $count, $offset);
+        $select = $this->getSortOrder($select, $sort);
+
+        return $this->fetchAll($select);
+    }
+
+    public function numRows($search)
+    {
+        $result = $this->searchSuppliers($search);
+        return $result->count();
+    }
+
+    public function insert(array $data)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['supplier_dateCreate'] = new Zend_Db_Expr('CURDATE()');
+        $data['supplier_userCreate'] = $auth->getId();
+        return parent::insert($data);
+    }
+
+    public function update(array $data, $where)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['supplier_dateModify'] = new Zend_Db_Expr('CURDATE()');
+        $data['supplier_userModify'] = $auth->getId();
+        return parent::update($data, $where);
     }
 }

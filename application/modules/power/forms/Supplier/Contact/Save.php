@@ -45,11 +45,11 @@ class Power_Form_Supplier_Contact_Save extends ZendSF_Form_Abstract
 
         // supplier contact to do.
 
-        $table = new Power_Model_Mapper_Tables();
+        $table = $this->getModel()->getDbTable('tables');
         $list = $table->getSelectListByName('SupplierCo_type');
         $multiOptions[0] = 'Select a type';
         foreach($list as $row) {
-            $multiOptions[$row->key] = $row->value;
+            $multiOptions[$row->tables_key] = $row->tables_value;
         }
 
         $this->addElement('FilteringSelect', 'supplierCo_type', array(
@@ -117,10 +117,7 @@ class Power_Form_Supplier_Contact_Save extends ZendSF_Form_Abstract
                 ))
             )
         ));
-
-        $auth = Zend_Auth::getInstance()->getIdentity();
-
-        $this->addHiddenElement('userId', $auth->getId());
+        
         $this->addHiddenElement('supplierCo_idSupplierContact', '');
         $this->addHiddenElement('supplierCo_idSupplier', '');
     }

@@ -1,0 +1,55 @@
+<?php
+/* @var $form ZendSF_Form_Abstract */
+$form = $this->clientContactSaveForm;
+?>
+
+<div class="form_wrap">
+    <div class="zend_form">
+
+        <?php echo $form->clientCo_type; ?>
+
+        <?php echo $form->clientCo_name; ?>
+
+        <?php echo $form->clientCo_phone; ?>
+
+        <?php echo $form->clientCo_email; ?>
+
+        <?php if ($form->getElement('clientCo_idAddress')->helper == 'formHidden'): ?>
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="clientCo_idAddress"
+               id="clientCo_idAddress"
+               required="true"
+               value="<?php echo $form->clientCo_idAddress->getValue(); ?>" />
+        <?php else: ?>
+        <?php echo $form->clientCo_idAddress; ?>
+        <?php endif; ?>
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="clientCo_idClientContact"
+               id="clientCo_idClientContact"
+               required="true"
+               value="<?php echo $form->clientCo_idClientContact->getValue(); ?>" />
+
+        <input dojoType="dijit.form.TextBox"
+               type="hidden"
+               name="clientCo_idClient"
+               id="clientCo_idClient"
+               required="true"
+               value="<?php echo $form->clientCo_idClient->getValue(); ?>" />
+
+
+        <button dojoType="dijit.form.Button"
+                type="submit"
+                id="clientCoFormSubmitButton"
+                name="submit"
+                value="Save">Save</button>
+
+        <button dojoType="dijit.form.Button"
+                type="button"
+                id="client-contactFormCancelButton"
+                name="cancel"
+                value="Cancel">Cancel</button>
+    </div>
+</div>

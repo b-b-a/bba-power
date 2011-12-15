@@ -34,13 +34,13 @@
 
         <span dojoType="dojox.data.QueryReadStore"
              jsid="contractStore"
-             url="/contract/contract-store"
+             url="/contract/data-store/type/contract"
              requestMethod="post"></span>
 
         <table dojoType="bba.DataGrid"
                jsId="contractGrid"
                store="contractStore"
-               query="<?php echo $this->search; ?>"
+               query='<?php echo $this->search; ?>'
                sortInfo="2"
                search="true"
                tabs="true"

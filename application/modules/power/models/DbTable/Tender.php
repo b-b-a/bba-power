@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Tender extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Tender extends ZendSF_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -48,6 +48,11 @@ class Power_Model_DbTable_Tender extends Zend_Db_Table_Abstract
      * @var string primary key
      */
     protected $_primary = 'tender_idTender';
+
+    /**
+     * @var string row class
+     */
+    protected $_rowClass = 'Power_Model_DbTable_Row_Tender';
 
     /**
      * @var array Reference map for parent tables
@@ -77,5 +82,49 @@ class Power_Model_DbTable_Tender extends Zend_Db_Table_Abstract
             'refColumns'    => 'user_idUser'
         )
     );
-    
+
+    public function getTenderById($id)
+    {
+        return $this->find($id)->current();
+    }
+
+    public function searchTenders($search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->select(false)->setIntegrityCheck(false)
+            ->from('tender')
+            ->join('contract', 'contract_idContract = tender_idContract')
+            ->join('client', 'client_idClient = contract_idClient')
+            ->join('supplier', 'tender_idSupplier = supplier_idSupplier')
+            ->joinLeft('supplier_contact', 'tender_idSupplierContact = SupplierCo_idSuppliercontact')
+            ->where('tender_idContract = ?', $search['tender_idContract']);
+
+        $select = $this->getLimit($select, $count, $offset);
+
+        $select = $this->getSortOrder($select, $sort);
+
+        return $this->fetchAll($select);
+    }
+
+    public function numRows($search)
+    {
+        $result = $this->searchTenders($search);
+        return $result->count();
+    }
+
+    public function insert(array $data)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['tender_dateCreate'] = new Zend_Db_Expr('CURDATE()');
+        $data['tender_userCreate'] = $auth->getId();
+        return parent::insert($data);
+    }
+
+    public function update(array $data, $where)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['tender_dateModify'] = new Zend_Db_Expr('CURDATE()');
+        $data['tender_userModify'] = $auth->getId();
+        return parent::update($data, $where);
+    }
+
 }

@@ -37,10 +37,10 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_MeterController extends BBA_Controller_Action_Abstract
+class Power_MeterController extends Zend_Controller_Action
 {
     /**
-     * @var Power_Model_Mapper_Meter
+     * @var Power_Model_Meter
      */
     protected $_model;
 
@@ -49,28 +49,44 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
      */
     public function init()
     {
-        parent::init();
+        $this->_model = new Power_Model_Meter();
+    }
 
-        if (!$this->_helper->acl('Guest')) {
+    /**
+     * Checks if user is logged, if not then forwards to login.
+     *
+     * @return Zend_Controller_Action::_forward
+     */
+    public function preDispatch()
+    {
+        if ($this->_helper->acl('Guest')) {
+            return $this->_forward('login', 'auth');
+        }
+    }
 
-            $this->_model = new Power_Model_Mapper_Meter();
+    public function dataStoreAction()
+    {
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+        $request = $this->getRequest();
 
-            // search form
-            $this->setForm('meterSearch', array(
-                'controller' => 'meter' ,
-                'action' => 'index',
-                'module' => 'power'
-            ), true);
+        if ($request->isXmlHttpRequest()) {
 
-            $this->setForm('meterSave', array(
-                'controller' => 'meter' ,
-                'action' => 'save',
-                'module' => 'power'
-            ));
+            switch ($request->getParam('type')) {
+                case 'meter':
+                    $data = $this->_model->getMeterDataStore($request->getPost());
+                    break;
+                case 'usage':
+                    $data = $this->_model->getUsageDataStore($request->getPost());
+                    break;
+                default :
+                    $data = '{}';
+                    break;
+            }
 
-            $this->_setSearch(array(
-                'meter', 'site'
-            ));
+            $this->getResponse()
+                ->setHeader('Content-Type', 'application/json')
+                ->setBody($data);
         }
     }
 
@@ -79,92 +95,183 @@ class Power_MeterController extends BBA_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        $this->getForm('meterSearch')
-            ->populate($this->_getSearch());
+        $urlHelper = $this->_helper->getHelper('url');
+        $form = $this->_model->getForm('meterSearch');
+        $form->populate($this->getRequest()->getPost());
 
+        $form->setAction($urlHelper->url(array(
+            'controller'    => 'meter' ,
+            'action'        => 'index',
+            'module'        => 'power'
+        ), 'default'));
+
+        $form->setMethod('post');
+
+        // assign search to the view script.
         $this->view->assign(array(
-            'search' => $this->_getSearchString('meterSearch')
+            'search'            => Zend_Json::encode($form->getValues()),
+            'meterSearchForm'   => $form
         ));
     }
 
-    public function meterStoreAction()
+    public function addMeterAction()
     {
-        return $this->_getAjaxDataStore('getList' ,'meter_idMeter');
-    }
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
 
-    public function siteMeterStoreAction()
-    {
-        unset($this->_search);
-        $this->_setSearch(array('meter_idSite'));
+        if ($request->isXmlHttpRequest() && $request->getParam('type') == 'add'
+                && $request->isPost()) {
 
-        return $this->_getAjaxDataStore('getMetersBySiteId' ,'meter_idMeter', true);
-    }
+            $form = $this->_getForm('meterSave', 'save-meter');
+            $form->populate(array('meter_idSite' => $request->getParam('meter_idSite')));
 
-    public function addAction()
-    {
-        if ($this->_request->isXmlHttpRequest()
-                && $this->_request->getParam('type') == 'add'
-                && $this->_request->isPost()) {
-            $this->getForm('meterSave')
-                ->populate(array('meter_idSite' => $this->_request->getParam('meter_idSite')));
-            $this->render('ajax-form');
+            $this->view->assign(array('meterSaveForm' => $form));
+
+            $this->render('meter-form');
         } else {
             return $this->_helper->redirector('index', 'client');
         }
     }
 
-    public function editAction()
+    public function editMeterAction()
     {
-        if ($this->_request->getParam('idMeter')
-                && $this->_request->isPost()
-                && $this->_request->isXmlHttpRequest()) {
-            $meter = $this->_model->getMeterDetails($this->_request->getParam('idMeter'));
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
 
-            $this->getForm('meterSave')
-                ->populate($meter->toArray('dd/MM/yyyy'));
+        if ($request->getParam('idMeter') && $request->isPost()
+                && $request->isXmlHttpRequest()) {
+
+            $meter = $this->_model->getMeterDetailsById($request->getPost('idMeter'));
+
+            $form = $this->_getForm('meterSave', 'save-meter');
+            $form->populate($meter->toArray());
 
             $this->view->assign(array(
-                'meter' => $meter
+                'meter'         => $meter,
+                'meterSaveForm' => $form
             ));
 
-            if ($this->_request->getParam('type') == 'edit') {
-                $this->render('ajax-form');
+            if ($request->getPost('type') == 'edit') {
+                $this->render('meter-form');
             }
         } else {
            return $this->_helper->redirector('index', 'site');
         }
     }
 
-    public function saveAction()
+    public function saveMeterAction()
     {
-        if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
+        $request = $this->getRequest();
+
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+
+        if (!$request->isPost() && !$request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'meter');
         }
 
-        $this->_helper->viewRenderer->setNoRender(true);
+        $saved = $this->_model->saveMeter($request->getPost());
 
-        if (!$this->getForm('meterSave')->isValid($this->_request->getPost())) {
-            $html = $this->view->render('meter/ajax-form.phtml');
+        $returnJson = array('saved' => $saved);
 
-            $returnJson = array(
-                'saved' => 0,
-                'html'  => $html
-            );
-        } else {
-            $saved = $this->_model->save('meterSave');
+        if (false === $saved) {
+            $form = $this->_getForm('meterSave', 'save-meter');
+            $form->populate($request->getPost());
 
-            $returnJson = array(
-                'saved' => $saved
-            );
+            $this->view->assign(array('meterSaveForm' => $form));
 
-            if ($saved == 0) {
-                $html = $this->view->render('meter/ajax-form.phtml');
-                $returnJson['html'] = $html;
-            }
+            $html = $this->view->render('meter/meter-form.phtml');
+            $returnJson['html'] = $html;
         }
 
         $this->getResponse()
             ->setHeader('Content-Type', 'application/json')
             ->setBody(json_encode($returnJson));
+    }
+
+    public function addUsageAction()
+    {
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
+        $this->getHelper('viewRenderer')->setNoRender(true);
+
+         if ($request->getParam('usage_idMeter') && $request->isXmlHttpRequest()
+                && $request->isPost()) {
+
+            $form = $this->_getForm('meterUsageSave', 'save-usage');
+            $form->populate(array('usage_idMeter' => $request->getParam('usage_idMeter')));
+
+            $this->view->assign(array('meterUsageSaveForm' => $form));
+            $this->render('usage-form');
+        } else {
+            return $this->_helper->redirector('index', 'client');
+        }
+    }
+
+    public function editUsageAction()
+    {
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
+        $this->getHelper('viewRenderer')->setNoRender(true);
+
+        if ($request->getParam('idUsage') && $request->isPost()
+                && $request->isXmlHttpRequest()) {
+
+            $usage = $this->_model->getUsageById($request->getParam('idUsage'));
+
+            $form = $this->_getForm('meterUsageSave', 'save-usage');
+            $form->populate($usage->toArray('dd/MM/yyyy'));
+
+            $this->view->assign(array('meterUsageSaveForm' => $form));
+
+            $this->render('usage-form');
+        } else {
+           return $this->_helper->redirector('index', 'client');
+        }
+    }
+
+    public function saveUsageAction()
+    {
+        $request = $this->getRequest();
+
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+
+        if (!$request->isPost() && !$request->isXmlHttpRequest()) {
+            return $this->_helper->redirector('index', 'meter');
+        }
+
+        $saved = $this->_model->saveUsage($request->getPost());
+
+        $returnJson = array('saved' => $saved);
+
+        if (false === $saved) {
+            $form = $this->_getForm('meterUsageSave', 'save-usage');
+            $form->populate($request->getPost());
+
+            $this->view->assign(array('meterUsageSaveForm' => $form));
+
+            $html = $this->view->render('meter/usage-form.phtml');
+            $returnJson['html'] = $html;
+        }
+
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($returnJson));
+    }
+
+    private function _getForm($name, $action)
+    {
+        $urlHelper = $this->_helper->getHelper('url');
+        $form = $this->_model->getForm($name);
+
+        $form->setAction($urlHelper->url(array(
+            'controller'    => 'meter',
+            'action'        => $action,
+            'module'        => 'power'
+        ), 'default'));
+
+        $form->setMethod('post');
+        return $form;
     }
 }

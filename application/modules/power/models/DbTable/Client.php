@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Client extends Zend_Db_Table_Abstract
+class Power_Model_DbTable_Client extends ZendSF_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -50,17 +50,22 @@ class Power_Model_DbTable_Client extends Zend_Db_Table_Abstract
     protected $_primary = 'client_idClient';
 
     /**
+     * @var string row class
+     */
+    protected $_rowClass = 'Power_Model_DbTable_Row_Client';
+
+    /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
         'clientAd'  => array(
             'columns'       => 'client_idAddress',
-            'refTableClass' => 'Power_Model_DbTable_ClientAddress',
+            'refTableClass' => 'Power_Model_DbTable_Client_Address',
             'refColumns'    => 'clientAd_idAddress'
 		),
         'clientCo'  => array(
             'columns'       => 'client_idClientContact',
-            'refTableClass' => 'Power_Model_DbTable_ClientContact',
+            'refTableClass' => 'Power_Model_DbTable_Client_Contact',
             'refColumns'    => 'clientCo_idClientContact'
         ),
         'user'      => array(
@@ -73,10 +78,14 @@ class Power_Model_DbTable_Client extends Zend_Db_Table_Abstract
         )
     );
 
-    public function getList()
+    public function getClientById($id)
     {
-        return $this->select(false)
-            ->setIntegrityCheck(false)
+        return $this->find($id)->current();
+    }
+
+    public function searchClients(array $search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->select(false)->setIntegrityCheck(false)
             ->from('client', array(
                 'client_idClient',
                 'client_name',
@@ -87,13 +96,6 @@ class Power_Model_DbTable_Client extends Zend_Db_Table_Abstract
                 'clientAd_address1',
                 'clientAd_postcode'
             ));
-    }
-
-    public function getSearch($search, $select)
-    {
-        if ($search === null) {
-            return $select;
-        }
 
         if (!$search['client'] == '') {
             if (substr($search['client'], 0, 1) == '=') {
@@ -113,6 +115,31 @@ class Power_Model_DbTable_Client extends Zend_Db_Table_Abstract
                 ->orWhere('clientAd_postcode like ?', '%' . $search['address'] . '%');
         }
 
-        return $select;
+        $select = $this->getLimit($select, $count, $offset);
+        $select = $this->getSortOrder($select, $sort);
+
+        return $this->fetchAll($select);
+    }
+
+    public function numRows($search)
+    {
+        $result = $this->searchClients($search);
+        return $result->count();
+    }
+
+    public function insert(array $data)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['client_dateCreate'] = new Zend_Db_Expr('CURDATE()');
+        $data['client_userCreate'] = $auth->getId();
+        return parent::insert($data);
+    }
+
+    public function update(array $data, $where)
+    {
+        $auth = Zend_Auth::getInstance()->getIdentity();
+        $data['client_dateModify'] = new Zend_Db_Expr('CURDATE()');
+        $data['client_userModify'] = $auth->getId();
+        return parent::update($data, $where);
     }
 }
