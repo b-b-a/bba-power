@@ -39,23 +39,5 @@
  */
 class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
 {
-<<<<<<< HEAD
-    /**
-     * @var string
-     */
-    protected $_primary = 'idSupplierContact';
-
-    /**
-     * @var string
-     */
-    protected $_prefix = 'supplierCo_';
-
-    public function getAddress1AndPostcode()
-    {
-        return $this->address1 . ', ' . $this->postcode;
-    }
-}
-=======
     
 }
->>>>>>> 6fd8e7cc06c273a22db40350798b8a5fd6f09834

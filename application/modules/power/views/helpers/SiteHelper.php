@@ -37,18 +37,6 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-<<<<<<< HEAD
-class Power_View_Helper_SiteHelper extends ZendSF_View_Helper_MapperHelper
-{
-    /**
-     * @var string Power_Model_Mapper_Client
-     */
-    protected $_modelClass = 'Power_Model_Mapper_Site';
-
-    public function siteHelper($id)
-    {
-        $this->_row = $this->getModel()->find($id, true);
-=======
 class Power_View_Helper_SiteHelper extends ZendSF_View_Helper_ModelHelper
 {
     /**
@@ -59,7 +47,6 @@ class Power_View_Helper_SiteHelper extends ZendSF_View_Helper_ModelHelper
     public function siteHelper($id)
     {
         $this->_row = $this->getModel()->getSiteById($id);
->>>>>>> 6fd8e7cc06c273a22db40350798b8a5fd6f09834
         if ($this->_row) {
             $this->set($this->_row->toArray('dd/MM/yyyy'));
         }
