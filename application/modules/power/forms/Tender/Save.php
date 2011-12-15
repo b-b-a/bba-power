@@ -48,7 +48,7 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
             'hasDownArrow'  => true,
             'storeId'       => 'supplierStore',
             'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/supplier/autocomplete/param/supplier"),
+            'storeParams'   => array('url' => "/supplier/data-store/type/supplier"),
             'dijitParams'   => array('searchAttr' => 'supplier_name'),
             //'attribs'       => array('readonly' => true),
             'required'      => true
@@ -166,7 +166,7 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
 
         $this->addHiddenElement('tender_idTender', '');
         $this->addHiddenElement('tender_idContract', '');
-        
+
     }
 
 }

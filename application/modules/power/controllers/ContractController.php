@@ -50,24 +50,6 @@ class Power_ContractController extends Zend_Controller_Action
     public function init()
     {
         $this->_model = new Power_Model_Contract();
-
-        // search form
-        /*$this->setForm('contractSearch', array(
-            'controller' => 'contract' ,
-            'action' => 'index',
-            'module' => 'power'
-        ));
-
-        $this->setForm('contractSave', array(
-            'controller' => 'contract' ,
-            'action' => 'save',
-            'module' => 'power'
-        ));
-
-        $this->_setSearch(array(
-            'contract', 'meter'
-        ));*/
-
     }
 
     /**
@@ -96,6 +78,11 @@ class Power_ContractController extends Zend_Controller_Action
                     break;
                 case 'meter':
                     $data = $this->_model->getMeterContractDataStore($request->getPost());
+                    break;
+                case 'availableMeters':
+                     $data = $this->_model->getAvailableMetersDataStore(
+                        $request->getParam('meterContract_idContract')
+                    );
                     break;
                 case 'tender':
                     $data = $this->_model->getTenderDataStore($request->getPost());
@@ -206,6 +193,88 @@ class Power_ContractController extends Zend_Controller_Action
         $this->getResponse()
             ->setHeader('Content-Type', 'application/json')
             ->setBody(json_encode($returnJson));
+    }
+
+    public function addMeterContractAction()
+    {
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
+
+        if ($request->getParam('meterContract_idContract') && $request->isPost()
+                && $request->isXmlHttpRequest()) {
+            $this->view->assign(array(
+                'idContract' => $this->_request->getParam('meterContract_idContract')
+            ));
+        }
+    }
+
+    public function saveMeterContractAction()
+    {
+        $request = $this->getRequest();
+
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+
+        if (!$request->isPost() && !$request->isXmlHttpRequest()) {
+            return $this->_helper->redirector('index', 'contract');
+        }
+
+        $saved = $this->_model->saveMetersToContract($request->getPost());
+
+        $returnJson = array('saved' => $saved);
+
+        $this->getResponse()
+            ->setHeader('Content-Type', 'application/json')
+            ->setBody(json_encode($returnJson));
+    }
+
+    public function addTenderAction()
+    {
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
+
+        if ($request->isXmlHttpRequest() && $request->getParam('type') == 'add'
+                && $request->isPost()) {
+            $form = $this->_getForm('tenderSave', 'save-tender');
+            $form->populate(array(
+                'tender_idContract' => $request->getParam('tender_idContract')
+            ));
+
+            $this->view->assign(array('tenderSaveForm' => $form));
+
+            $this->render('tender-form');
+        } else {
+            return $this->_helper->redirector('index', 'contract');
+        }
+    }
+
+    public function editTenderAction()
+    {
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
+
+        if ($request->getParam('idTender') && $request->isPost()
+                && $request->isXmlHttpRequest()) {
+            $tender = $this->_model->getTenderById($request->getParam('idTender'));
+
+            $this->view->assign(array(
+                'tender' => $tender
+            ));
+
+            if ($request->getParam('type') == 'edit') {
+                $form = $this->_getForm('tenderSave', 'save-tender');
+                $form->populate($tender->toArray('dd/MM/yyyy'));
+                $this->view->assign(array('tenderSaveForm' => $form));
+                $this->render('tender-form');
+            }
+        } else {
+           return $this->_helper->redirector('index', 'contract');
+        }
+    }
+
+    public function saveTenderAction()
+    {
+
     }
 
     private function _getForm($name, $action)

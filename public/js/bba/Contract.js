@@ -31,7 +31,7 @@ bba.Contract = {
 
     closeDialog : function()
     {
-        dijit.byId('addmeterContract').hide();
+        dijit.byId('addmeter').hide();
     },
 
     addMeterToContract : function(grid, meterContract) {
@@ -57,14 +57,14 @@ bba.Contract = {
 
             if (!kvaError) {
                 dojo.xhrPost({
-                    url: '/meter-contract/save',
+                    url: '/contract/save-meter-contract',
                     content: {jsonData : dojo.toJson(data)},
                     handleAs: 'json',
                     preventCache: true,
                     load: function(data) {
                         if (data.saved) {
                             dijit.byId('meterContractGrid' + meterContract)._refresh();
-                            dijit.byId('addmeterContract').hide();
+                            dijit.byId('addmeter').hide();
                         } else {
                             alert('meters could not be saved');
                         }

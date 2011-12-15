@@ -51,6 +51,18 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         return $this->getDbTable('contract')->getContractById($id);
     }
 
+    public function getMeterContractByContractId($id)
+    {
+        $id = (int) $id;
+        return $this->getDbTable('meterContract')->getMeterContractByContractId($id);
+    }
+
+    public function getTenderById($id)
+    {
+        $id = (int) $id;
+        return $this->getDbTable('tender')->getTenderById($id);
+    }
+
     /**
      * Gets the contract data store list, using search parameters.
      *
@@ -118,6 +130,17 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         return $store->toJson();
     }
 
+    public function getAvailableMetersDataStore($id)
+    {
+        $id = (int) $id;
+        $dataObj = $this->getDbTable('meterContract')
+            ->getAvailableClientMetersByContractId($id);
+
+        $store = $this->_getDojoData($dataObj, 'meter_idMeter');
+
+        return $store->toJson();
+    }
+
     public function saveContract(array $post)
     {
         if (!$this->checkAcl('saveContract')) {
@@ -149,6 +172,29 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             $this->getContractById($data['contract_idContract']) : null;
 
         return $this->getDbTable('contract')->saveRow($data, $contract);
+    }
+
+    public function saveMetersToContract(array $post)
+    {
+        $post = Zend_Json::decode($post['jsonData']);
+
+        $data = array();
+
+        $c = 0;
+        foreach($post['meters'] as $value) {
+            $data[$c]['meterContract_idMeter'] = $value['id'];
+            $data[$c]['meterContract_kvaNominated'] = $value['kva'];
+            $data[$c]['meterContract_idContract'] = $post['contract'];
+            $c++;
+        }
+
+        foreach ($data as $row) {
+            //$meterContract = array_key_exists('meterContract_idContract', $row) ?
+                //$this->getMeterContractByContractId($row['meterContract_idContract']) : null;
+            $saved = (is_array($this->getDbTable('meterContract')->saveRow($row))) ? true : false;
+        }
+
+        return $saved;
     }
 
     /**

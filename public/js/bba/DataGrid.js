@@ -61,6 +61,7 @@ dojo.declare(
         dialogName : '',
         dlg : null,
         queryParent : '',
+        newButton : '',
         newButtonId : '',
         newButtonController : '',
         controller : '',
@@ -140,12 +141,16 @@ dojo.declare(
             var tabId = identParts[0] + id;
             var tc = dijit.byId("ContentTabs");
 
+            var url = (this.tabController != '') ?
+                '/' + this.tabController + '/edit-' + this.getIdentParts()[0] :
+                '/' + this.getController().split('-')[0] + '/edit-' + this.getController();
+
             if (!dijit.byId(tabId)) {
 
                 var pane = new dijit.layout.ContentPane({
                     id: tabId,
                     title: this.store.getValue(this.selectedItem, this.tabTitleColumn),
-                    href: '/' + this.getController().split('-')[0] + '/edit-' + this.getController(),
+                    href: url,
                     ioArgs: { content:contentVars },
                     closable: true,
                     refreshOnShow: true,
@@ -167,7 +172,10 @@ dojo.declare(
         editForm : function(tabId)
         {
             var identParts = (this.tabController != '') ? this.tabController : this.getIdentParts()[0];
+            if (this.newButton != '') identParts = this.newButton;
             var id = 'edit-' + identParts + '-' + tabId;
+
+            console.log(id)
 
             dojo.connect(dijit.byId(id), 'onSubmit', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
@@ -179,8 +187,11 @@ dojo.declare(
         {
             var selectedId = (!this.newButtonId) ? this.query[this.queryParent] : this.newButtonId;
 
-            var id = 'new-' + this.getNewController() + '-button-' + selectedId;
-            
+            var con = (this.tabController != '') ? this.tabController : this.getNewController();
+            if (this.newButton !== '') con = this.newButton;
+            var id = 'new-' + con + '-button-' + selectedId;
+            console.log(id)
+
             dojo.connect(dijit.byId(id), 'onClick', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
 
@@ -217,6 +228,7 @@ dojo.declare(
                 }
 
                 var con =  (controller) ? controller : this.hyphenate(this.getNewController());
+
                 var urlCon = (this.controller != '') ?
                         this.controller : this.hyphenate(con).split('-')[0];
 
@@ -248,7 +260,6 @@ dojo.declare(
                     })
                 });
 
-                console.log(con)
                 dojo.connect(this.dlg, 'onLoad', dojo.hitch(this, function(){
                     dojo.connect(
                         dijit.byId(this.hyphenate(con) + 'FormCancelButton'),

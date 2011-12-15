@@ -78,9 +78,15 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
         )
     );
 
-    public function geMetertContractById($id)
+    public function getMeterContractById($id)
     {
         return $this->find($id)->current();
+    }
+
+    public function getMeterContractByContractId($id)
+    {
+        $select = $this->select()->where('meterContract_idContract = ?', $id);
+        return $this->fetchRow($select);
     }
 
     /**
@@ -125,7 +131,7 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
         $log = Zend_Registry::get('log');
 
         // optimised query to get all availiable meter in one query.
-        $select = $this->getDbTable()->select(false)->setIntegrityCheck(false)
+        $select = $this->select(false)->setIntegrityCheck(false)
             ->from('meter', array(
                 'meter_idMeter', 'meter_type', 'meter_numberMain'
             ))
@@ -141,7 +147,7 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
                 'contract_dateEnd'
             ))
             ->where('meter_idSite IN (?)', new Zend_Db_Expr(
-                $this->getDbTable()->select(false)->setIntegrityCheck(false)
+                $this->select(false)->setIntegrityCheck(false)
                     ->from('contract', null)
                     ->join('site', 'contract_idClient = site_idClient', array(
                         'site_idSite'
@@ -149,19 +155,19 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
                     ->where('contract_idContract = ?', $id)
             ))
             ->where('meter_idMeter NOT IN (?)', new Zend_Db_Expr(
-                $this->getDbTable()->select(false)->setIntegrityCheck(false)
+                $this->select(false)->setIntegrityCheck(false)
                     ->from('meter_contract', array('meterContract_idMeter'))
                     ->where('meterContract_idContract = ?', $id)
             ))
             ->where('meter_type = (?)', new Zend_Db_Expr(
-                $this->getDbTable()->select(false)->setIntegrityCheck(false)
+                $this->select(false)->setIntegrityCheck(false)
                     ->from('contract', array(
                         'contract_type' => 'SUBSTRING_INDEX(contract_type,\'-\',1)'
                     ))
                     ->where('contract_idContract = ?', $id)
             ))
             ->where('(contract_dateEnd < (?)', new Zend_Db_Expr(
-                $this->getDbTable()->select(false)->setIntegrityCheck(false)
+                $this->select(false)->setIntegrityCheck(false)
                     ->from('contract', array('contract_dateStart'))
                     ->where('contract_idContract = ?', $id)
             ))
@@ -173,9 +179,8 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
             ->order(array('contract_idContract', 'meter_numberMain'));
 
         //$log->info($select->__toString());
-        $meters = $this->fetchAll($select);
 
-        return $meters;
+        return $this->fetchAll($select);
     }
 
     public function searchMeterContracts($search, $sort = '', $count = null, $offset = null)

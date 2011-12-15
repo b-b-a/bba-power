@@ -3,7 +3,16 @@
 <div class="form_wrap">
     <div class="zend_form">
 
-        <?php  if ($this->request['action'] == 'add') echo $form->meter_type; ?>
+        <?php  if ($this->request()->getParam('type') == 'add'): ?>
+            <?php echo $form->meter_type; ?>
+        <?php else: ?>
+            <input dojoType="dijit.form.TextBox"
+                   type="hidden"
+                   name="meter_type"
+                   id="meter_type"
+                   required="true"
+                   value="<?php echo $form->meter_type->getValue(); ?>" />
+        <?php endif; ?>
 
         <?php echo $form->meter_numberSerial; ?>
 

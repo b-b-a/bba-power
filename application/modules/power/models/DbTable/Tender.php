@@ -88,19 +88,6 @@ class Power_Model_DbTable_Tender extends ZendSF_Model_DbTable_Abstract
         return $this->find($id)->current();
     }
 
-    public function getTenderDetails($id)
-    {
-        $select = $this->select(false)->setIntegrityCheck(false)
-            ->from('tender')
-            ->join('contract', 'contract_idContract = tender_idContract')
-            ->join('client', 'client_idClient = contract_idClient')
-            ->join('supplier', 'tender_idSupplier = supplier_idSupplier')
-            ->joinLeft('supplier_contact', 'tender_idSupplierContact = SupplierCo_idSuppliercontact')
-            ->where('tender_idTender = ?', $id);
-
-        return $this->fetchAll($select);
-    }
-
     public function searchTenders($search, $sort = '', $count = null, $offset = null)
     {
         $select = $this->select(false)->setIntegrityCheck(false)

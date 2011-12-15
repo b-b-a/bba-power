@@ -117,7 +117,8 @@
                        tabController="meter"
                        tabTitleColumn="meter_numberMain"
                        newButtonId="<?php echo $this->contract->contract_idContract; ?>"
-                       newButtonController="meterContract">
+                       newButtonController="meterContract"
+                       controller="contract">
                     <thead>
                         <tr>
                             <th field="meter_idMeter" width="50">Id</th>
@@ -147,7 +148,11 @@
                        queryParent="tender_idContract"
                        sortInfo="-3"
                        tabs="true"
+                       tabController="contract"
                        tabTitleColumn="supplier_name"
+                       newButton="tender"
+                       newButtonController="tender"
+                       controller="contract"
                        newButtonId="<?php echo $this->contract->contract_idContract; ?>">
                     <thead>
                         <tr>
@@ -178,7 +183,7 @@
             <?php if ($this->authInfo('role') == 'admin'): ?>
             <p class="tableHead-button">
                 <button dojoType="dijit.form.Button"
-                        id="new-meterContract-button-<?php echo $this->contract->contract_idContract; ?>"
+                        id="new-meter-button-<?php echo $this->contract->contract_idContract; ?>"
                         class="newButton"
                         type="button">Add Meters</button>
             </p>
