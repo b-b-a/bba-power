@@ -45,6 +45,12 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
         return $this->getDbTable('supplier')->getSupplierById($id);
     }
 
+    public function getSupplierContactById($id)
+    {
+        $id = (int) $id;
+        return $this->getDbTable('supplierContact')->getSupplierContactById($id);
+    }
+
     /**
      * Gets the supplier data store list, using search parameters.
      *
@@ -74,5 +80,51 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
         );
 
         return $store->toJson();
+    }
+
+    public function getSupplierContactDataStore(array $post)
+    {
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $id = (int) $post['supplierCo_idSupplier'];
+
+        $dataObj = $this->getDbTable('supplierContact')->searchContacts($id, $sort, $count, $start);
+
+        $store = $this->_getDojoData($dataObj, 'supplierCo_idSupplierContact');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('supplierContact')->numRows($id)
+        );
+
+        return $store->toJson();
+    }
+
+    /**
+     * Gets the data for filtering selects.
+     *
+     * @param array $param
+     * @return string
+     */
+    public function getFileringSelectData($params)
+    {
+        switch ($params['type']) {
+
+        }
+
+        $items = array();
+
+        foreach ($result as $row) {
+            $items[] = array(
+                $identifier     => $row->{$searchItems[0]},
+                $searchItems[1] => $row->{$searchItems[1]}
+            );
+        }
+
+        $data = new Zend_Dojo_Data($identifier, $items);
+
+        return $data->toJson();
     }
 }

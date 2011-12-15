@@ -78,9 +78,9 @@ class Power_Model_DbTable_Supplier_Contact extends ZendSF_Model_DbTable_Abstract
         return $this->find($id)->current();
     }
 
-    public function searchContacts(array $search, $sort = '', $count = null, $offset = null)
+    public function searchContacts($id, $sort = '', $count = null, $offset = null)
     {
-        $select = $this->select()->where('supplierCo_idSupplier = ?', $search['supplierCo_idSupplier']);
+        $select = $this->select()->where('supplierCo_idSupplier = ?', $id);
 
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
@@ -90,7 +90,7 @@ class Power_Model_DbTable_Supplier_Contact extends ZendSF_Model_DbTable_Abstract
 
     public function numRows($search)
     {
-        $result = $this->searchSuppliers($search);
+        $result = $this->searchContacts($search);
         return $result->count();
     }
 

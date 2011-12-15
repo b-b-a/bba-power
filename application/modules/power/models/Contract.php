@@ -223,10 +223,10 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             }
         }
 
-        $contract = array_key_exists('tender_idTender', $data) ?
+        $tender = array_key_exists('tender_idTender', $data) ?
             $this->getContractById($data['tender_idTender']) : null;
 
-        return $this->getDbTable('tender')->saveRow($data, $contract);
+        return $this->getDbTable('tender')->saveRow($data, $tender);
     }
 
     /**
