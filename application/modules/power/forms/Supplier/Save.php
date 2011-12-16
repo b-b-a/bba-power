@@ -78,29 +78,41 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
             )
         ));
 
+        $this->addElement('NumberSpinner', 'supplier_commission', array(
+            'label'         => 'Normal Commission:',
+            'smallDelta'    => 0.01,
+            'constraints'   => array(
+                'places'    => 2,
+                'min'       => 0
+            ),
+            'required'  => true,
+            'value'     => 0,
+            //'filters'   => array('StripTags', 'StringTrim')
+        ));
+
         $request = Zend_Controller_Front::getInstance()->getRequest();
-/*
+
         if ($request->getPost('idSupplier')) {
 
-            $list = $this->getModel()->getSupplierContactsBySupplierId(
+            $list = $this->getModel()->getSupplierById(
                 $request->getPost('idSupplier')
-            );
+            )->getSupplierContacts();
 
             // reset options
             $multiOptions = array(0 => '');
             foreach($list as $row) {
-                $multiOptions[$row->supplierCo_idSupplierContact] = $row->getAddress1AndPostcode();
+                $multiOptions[$row->supplierCo_idSupplierContact] = $row->supplierCo_name;
             }
 
             $this->addElement('FilteringSelect', 'supplier_idSupplierContact', array(
-                'label'     => 'Address:',
+                'label'     => 'Main Contact:',
                 'filters'   => array('StripTags', 'StringTrim'),
                 'atuocomplete' => false,
                 'multiOptions'  => $multiOptions,
-                'required'  => true
+                //'required'  => true
             ));
         }
-*/
+
         $this->addHiddenElement('supplier_idSupplier', '');
     }
 }

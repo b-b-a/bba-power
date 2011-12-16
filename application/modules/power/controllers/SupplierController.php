@@ -79,7 +79,12 @@ class Power_SupplierController extends Zend_Controller_Action
                 case 'contacts':
                     $data = $this->_model->getSupplierContactDataStore($request->getPost());
                     break;
-                case 'contracts':
+                case 'contract':
+                    $data = $this->_model->getSupplierContractDataStore($request->getPost());
+                    break;
+                case 'supplierList':
+                    $data = $this->_model->getFileringSelectData($request->getParams());
+                    break;
                 default :
                     $data = '{}';
                     break;
@@ -125,7 +130,7 @@ class Power_SupplierController extends Zend_Controller_Action
 
             $form = $this->_getForm('supplierSave', 'save-supplier');
 
-            $this->view->assign(array('supplierForm' => $form));
+            $this->view->assign(array('supplierSaveForm' => $form));
 
             $this->render('supplier-form');
         } else {
@@ -158,30 +163,27 @@ class Power_SupplierController extends Zend_Controller_Action
 
     public function saveSupplierAction()
     {
-        if (!$this->_request->isPost() && !$this->_request->isXmlHttpRequest()) {
+        $request = $this->getRequest();
+
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+
+        if (!$request->isPost() && !$request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'supplier');
         }
 
-        $this->_helper->viewRenderer->setNoRender(true);
+        $saved = $this->_model->saveSupplier($request->getPost());
 
-        if (!$this->getForm('supplierSave')->isValid($this->_request->getPost())) {
-            $html = $this->view->render('supplier/ajax-form.phtml');
+        $returnJson = array(
+            'saved' => $saved
+        );
 
-            $returnJson = array(
-                'saved' => 0,
-                'html'  => $html
-            );
-        } else {
-            $saved = $this->_model->save('supplierSave');
-
-            $returnJson = array(
-                'saved' => $saved
-            );
-
-            if ($saved == 0) {
-                $html = $this->view->render('supplier/ajax-form.phtml');
-                $returnJson['html'] = $html;
-            }
+        if (false === $saved) {
+            $form = $this->_getForm('supplierSave', 'save-supplier');
+            $form->populate($request->getPost());
+            $this->view->assign(array('supplierSaveForm' => $form));
+            $html = $this->view->render('supplier/supplier-form.phtml');
+            $returnJson['html'] = $html;
         }
 
         $this->getResponse()
@@ -189,33 +191,76 @@ class Power_SupplierController extends Zend_Controller_Action
             ->setBody(json_encode($returnJson));
     }
 
-    public function autocompleteAction()
+    public function addSupplierContactAction()
     {
+        $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
+
+        if ($request->isXmlHttpRequest() && $request->getParam('type') == 'add'
+                && $request->isPost()) {
+            $form = $this->_getForm('supplierContactSave', 'save-supplier-contact');
+            $form->populate($request->getPost());
+
+            $this->view->assign(array('supplierContactSaveForm' => $form));
+
+            $this->render('supplier-contact-form');
+        } else {
+            return $this->_helper->redirector('index', 'client');
+        }
+    }
+
+    public function editSupplierContactAction()
+    {
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
+
+        if ($request->getPost('idSupplierContact') && $request->isXmlHttpRequest()
+                && $request->isPost()) {
+
+            $supplierCo = $this->_model->getSupplierContactById($request->getPost('idSupplierContact'));
+
+            $form = $this->_getForm('supplierContactSave', 'save-supplier-contact');
+            $form->populate($supplierCo->toArray());
+
+            $this->view->assign(array(
+                'supplierContactSaveForm' => $form
+            ));
+
+            $this->render('supplier-contact-form');
+
+        } else {
+           return $this->_helper->redirector('index', 'client');
+        }
+    }
+
+    public function saveSupplierContactAction()
+    {
+        $request = $this->getRequest();
+
         $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
 
-        switch ($this->_request->getParam('param')) {
-            case 'supplier':
-                $identifier = 'supplier_idSupplier';
-                $searchItems = array('idSupplier', 'name');
-                $result = $this->_model->fetchAll();
-                break;
+        if (!$request->isPost() && !$request->isXmlHttpRequest()) {
+            return $this->_helper->redirector('index', 'supplier');
         }
 
-        $items = array();
+        $saved = $this->_model->saveSupplierContact($request->getPost());
 
-        foreach ($result as $row) {
-            $items[] = array(
-                $identifier                     => $row->{$searchItems[0]},
-                $row->prefix . $searchItems[1]  => $row->{$searchItems[1]}
-            );
+        $returnJson = array(
+            'saved' => $saved
+        );
+
+        if (false === $saved) {
+            $form = $this->_getForm('supplierContactSave', 'save-supplier-contact');
+            $form->populate($request->getPost());
+            $this->view->assign(array('supplierContactSaveForm' => $form));
+            $html = $this->view->render('supplier/supplier-contact-form.phtml');
+            $returnJson['html'] = $html;
         }
-
-        $data = new Zend_Dojo_Data($identifier, $items);
 
         $this->getResponse()
             ->setHeader('Content-Type', 'application/json')
-            ->setBody($data->toJson());
+            ->setBody(json_encode($returnJson));
     }
 
     private function _getForm($name, $action)

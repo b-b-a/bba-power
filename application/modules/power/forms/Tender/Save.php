@@ -48,7 +48,7 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
             'hasDownArrow'  => true,
             'storeId'       => 'supplierStore',
             'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/supplier/data-store/type/supplier"),
+            'storeParams'   => array('url' => "/supplier/data-store/type/supplierList"),
             'dijitParams'   => array('searchAttr' => 'supplier_name'),
             //'attribs'       => array('readonly' => true),
             'required'      => true
@@ -95,6 +95,7 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
                 'min'       => 0
             ),
             'required'  => true,
+            'value'     => 0,
             //'filters'   => array('StripTags', 'StringTrim')
         ));
 
@@ -106,6 +107,7 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
                 'min'       => 0
             ),
             'required'  => true,
+            'value'     => 0,
             //'filters'   => array('StripTags', 'StringTrim')
         ));
 
@@ -117,6 +119,7 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
                 'min'       => 0
             ),
             'required'  => true,
+            'value'     => 0,
             //'filters'   => array('StripTags', 'StringTrim')
         ));
 
@@ -128,6 +131,7 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
                 'min'       => 0
             ),
             'required'  => true,
+            'value'     => 0,
             //'filters'   => array('StripTags', 'StringTrim')
         ));
 
@@ -139,6 +143,7 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
                 'min'       => 0
             ),
             'required'  => true,
+            'value'     => 0,
             //'filters'   => array('StripTags', 'StringTrim')
         ));
 
@@ -150,6 +155,7 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
                 'min'       => 0
             ),
             'required'  => true,
+            'value'     => 0,
             //'filters'   => array('StripTags', 'StringTrim')
         ));
 
@@ -161,6 +167,7 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
                 'min'       => 0
             ),
             'required'  => true,
+            'value'     => 0,
             //'filters'   => array('StripTags', 'StringTrim')
         ));
 

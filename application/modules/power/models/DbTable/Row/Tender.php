@@ -55,6 +55,8 @@ class Power_Model_DbTable_Row_Tender extends ZendSF_Model_DbTable_Row_Abstract
         'tender_dateModify'
     );
 
+    protected $_dateFormat = 'dd/MM/yyyy';
+
     public function getSupplier($row = null)
     {
         if (!$this->_supplier instanceof Power_Model_DbTable_Row_Supplier) {
@@ -89,7 +91,7 @@ class Power_Model_DbTable_Row_Tender extends ZendSF_Model_DbTable_Row_Abstract
 
             if (in_array($key, $this->_dateKeys)) {
                 $date = new Zend_Date($value);
-                $value = $date->toString($dateFormat);
+                $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
             }
 
             $array[$key] = $value;

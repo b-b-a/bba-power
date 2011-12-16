@@ -102,6 +102,28 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
         return $store->toJson();
     }
 
+    public function getSupplierContractDataStore(array $post)
+    {
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $id = (int) $post['tender_idSupplier'];
+
+        $supplier = $this->getSupplierById($id);
+
+        $select = $this->getDbTable('supplier')->select();
+
+        $select = $this->getDbTable('supplier')->getLimit($select, $count, $start);
+        $select = $this->getDbTable('supplier')->getSortOrder($select, $sort);
+
+        $dataObj = $supplier->getContracts($select);
+
+        $store = $this->_getDojoData($dataObj, 'contract_idContract');
+
+        return $store->toJson();
+    }
+
     /**
      * Gets the data for filtering selects.
      *
@@ -111,7 +133,11 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
     public function getFileringSelectData($params)
     {
         switch ($params['type']) {
-
+            case 'supplierList':
+                $result = $this->getDbTable('supplier')->fetchAll(null, 'supplier_name ASC');
+                $identifier = 'supplier_idSupplier';
+                $searchItems = array('supplier_idSupplier', 'supplier_name');
+                break;
         }
 
         $items = array();
@@ -126,5 +152,76 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
         $data = new Zend_Dojo_Data($identifier, $items);
 
         return $data->toJson();
+    }
+
+    public function saveSupplier($post)
+    {
+        if (!$this->checkAcl('saveSupplier')) {
+            throw new ZendSF_Acl_Exception('Insufficient rights');
+        }
+
+        $form = $this->getForm('supplierSave');
+
+        if (!$form->isValid($post)) {
+            return false;
+        }
+
+        // get filtered values
+        $data = $form->getValues();
+
+        $supplier = array_key_exists('supplier_idSupplier', $data) ?
+            $this->getSupplierById($data['supplier_idSupplier']) : null;
+
+        return $this->getDbTable('supplier')->saveRow($data, $supplier);
+    }
+
+    public function saveSupplierContact($post)
+    {
+        if (!$this->checkAcl('saveSupplierContact')) {
+            throw new ZendSF_Acl_Exception('Insufficient rights');
+        }
+
+        $form = $this->getForm('supplierContactSave');
+
+        if ($post['type'] == 'edit') {
+            $form->excludeEmailFromValidation('supplierCo_email', array(
+                'field' => 'supplierCo_email',
+                'value' => $this->getSupplierContactById($post['supplierCo_idSupplierContact'])
+                    ->clientCo_email
+            ));
+        }
+
+        if (!$form->isValid($post)) {
+            return false;
+        }
+
+        // get filtered values
+        $data = $form->getValues();
+
+        $supplierCo = array_key_exists('supplierCo_idSupplierContact', $data) ?
+            $this->getSupplierContactById($data['supplierCo_idSupplierContact']) : null;
+
+        return $this->getDbTable('supplierContact')->saveRow($data, $supplierCo);
+    }
+
+    /**
+     * Injector for the acl, the acl can be injected directly
+     * via this method.
+     *
+     * We add all the access rules for this resource here, so we first call
+     * parent method to add $this as the resource then we
+     * define it rules here.
+     *
+     * @param Zend_Acl_Resource_Interface $acl
+     * @return ZendSF_Model_Abstract
+     */
+    public function setAcl(Zend_Acl $acl)
+    {
+        parent::setAcl($acl);
+
+        // implement rules here.
+        $this->_acl->allow('admin', $this);
+
+        return $this;
     }
 }

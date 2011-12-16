@@ -56,6 +56,14 @@ class Power_Model_DbTable_Row_Supplier extends ZendSF_Model_DbTable_Row_Abstract
         );
     }
 
+    public function getSupplierContacts()
+    {
+        return $this->getRow()->findDependentRowset(
+            'Power_Model_DbTable_Supplier_Contact',
+            'supplier'
+        );
+    }
+
     public function getFullContactAddress()
     {
         $row = $this->getSupplierContact();
@@ -73,5 +81,16 @@ class Power_Model_DbTable_Row_Supplier extends ZendSF_Model_DbTable_Row_Abstract
         }
 
         return $address;
+    }
+
+    public function getContracts($select = null)
+    {
+        return $this->getRow()->findManyToManyRowset(
+            'Power_Model_DbTable_Contract',
+            'Power_Model_DbTable_Tender',
+            'supplier',
+            'contract',
+            $select
+        );
     }
 }
