@@ -170,7 +170,8 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
                 array('Date', true, array(
                     'format' => 'dd/MM/yyyy'
                 ))
-            )
+            ),
+            'required'      => false
         ));
 
         $this->addElement('NumberSpinner', 'contract_periodBill', array(

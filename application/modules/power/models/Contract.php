@@ -162,7 +162,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         );
 
         foreach ($data as $key => $value) {
-            if (in_array($key, $dateKeys)) {
+            if (in_array($key, $dateKeys) && $value != '') {
                 $date = new Zend_Date($value);
                 $data[$key] = $date->toString('yyyy-MM-dd');
             }
