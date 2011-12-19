@@ -34,15 +34,24 @@ bba.Contract = {
         dijit.byId('addmeter').hide();
     },
 
+    preselectMeters : function(grid, id, items)
+    {
+        dojo.forEach(items, function(item){
+            if (item.contract_idContract == id) {
+                grid.selection.addToSelection(item)
+            }
+        });
+    },
+
     addMeterToContract : function(grid, meterContract) {
 
         var items = grid.selection.getSelected();
 
         var kvaError = false;
 
-        if (items.length) {
-            var data = {type: 'insert', contract : meterContract, meters : []};
+        var data = {type: 'insert', contract : meterContract, meters : []};
 
+        if (items.length) {
             items.forEach(function(selectedItem){
                 if (!selectedItem.meterContract_kvaNominated) {
                     kvaError = true;
@@ -54,29 +63,25 @@ bba.Contract = {
                     kva : selectedItem.meterContract_kvaNominated[0]
                 });
             });
+        }
 
-            if (!kvaError) {
-                dojo.xhrPost({
-                    url: '/contract/save-meter-contract',
-                    content: {jsonData : dojo.toJson(data)},
-                    handleAs: 'json',
-                    preventCache: true,
-                    load: function(data) {
-                        if (data.saved) {
-                            dijit.byId('meterContractGrid' + meterContract)._refresh();
-                            dijit.byId('addmeter').hide();
-                        } else {
-                            alert('meters could not be saved');
-                        }
+        if (!kvaError) {
+            dojo.xhrPost({
+                url: '/contract/save-meter-contract',
+                content: {jsonData : dojo.toJson(data)},
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                    if (data.saved) {
+                        dijit.byId('meterContractGrid' + meterContract)._refresh();
+                        dijit.byId('addmeter').hide();
+                    } else {
+                        alert('meters could not be saved');
                     }
-                });
-            } else {
-                alert('No yearly comsuption was entered for one or more selected meters.');
-            }
-
-            console.log(data);
+                }
+            });
         } else {
-            alert('No selections were made, please select meters to add to contract.');
+            alert('No yearly comsuption was entered for one or more selected meters.');
         }
     }
 }

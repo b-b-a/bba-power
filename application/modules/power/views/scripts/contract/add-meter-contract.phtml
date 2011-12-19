@@ -2,7 +2,7 @@
         id="addMeterToContractButton"
         type="button"
         onClick="bba.Contract.addMeterToContract(contractMeterGrid, <?php echo $this->idContract; ?>);">
-    Add to Contract
+    Update Contract
 </button>
 
 <button dojoType="dijit.form.Button"
@@ -38,5 +38,9 @@
        rowSelector="10px"
        sortInfo="-5"
        style="width:1100px;height:300px;"
+       contractId="<?php echo $this->idContract; ?>"
        noDataMessage="<span class='dojoxGridNoData'>No meters available for this contract</span>">
+    <script type="dojo/connect" event="_onFetchComplete" args="items, req">
+        bba.Contract.preselectMeters(this, '<?php echo $this->idContract; ?>', items);
+    </script>
 </div>

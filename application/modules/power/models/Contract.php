@@ -28,7 +28,7 @@
  */
 
 /**
- * DAO to represent a single Contract.
+ * Contract Model.
  *
  * @category   BBA
  * @package    Power
@@ -49,6 +49,13 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     {
         $id = (int) $id;
         return $this->getDbTable('contract')->getContractById($id);
+    }
+
+    public function getMeterContractById($meterId, $contractId)
+    {
+        $meterId = (int) $meterId;
+        $contractId = (int) $contractId;
+        return $this->getDbTable('meterContract')->getMeterContractById($meterId, $contractId);
     }
 
     public function getMeterContractByContractId($id)
@@ -132,11 +139,60 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
     public function getAvailableMetersDataStore($id)
     {
-        $id = (int) $id;
+        /*$id = (int) $id;
         $dataObj = $this->getDbTable('meterContract')
             ->getAvailableClientMetersByContractId($id);
 
         $store = $this->_getDojoData($dataObj, 'meter_idMeter');
+
+        return $store->toJson();*/
+
+        $id = (int) $id;
+        $log = Zend_Registry::get('log');
+
+        // get contract
+        $contract = $this->getContractById($id);
+        $curCoStartDate = new Zend_Date($contract->contract_dateStart);
+
+        $type = preg_replace('/-.+/', '', $contract->contract_type);
+
+        // get client sites
+        $sites = $this->getDbTable('site')
+            ->fetchAll('site_idClient = ' . $contract->contract_idClient);
+
+        $meters = array();
+        $notInStatus = array('current', 'signed', 'selected', 'choosing');
+
+        // get meters on sites.
+        foreach ($sites as $site) {
+
+            $rowSet = $site->getMetersByType($type);
+
+            // run through each meter attaching contracts if any.
+            foreach ($rowSet as $row) {
+                $meter = $row->toArray();
+
+                $meterCo = $row->getCurrentContract();
+                //$log->info($meterCo);
+
+                if ($meterCo) {
+                    //if (!in_array($meterCo->contract_status, $notInStatus)) {
+                        $meterCoEndDate = new Zend_Date($meterCo->contract_dateEnd);
+
+                        if ($meterCoEndDate->isEarlier($curCoStartDate) ||
+                                $contract->contract_idContract == $meterCo->contract_idContract) {
+                            $meterCo = $meterCo->toArray();
+                            $meter = array_merge($meter, $meterCo);
+                            $meters[] = $meter;
+                        }
+                    //}
+                } else {
+                    $meters[] = $meter;
+                }
+            }
+        }
+
+        $store = new Zend_Dojo_Data('meter_idMeter', $meters);
 
         return $store->toJson();
     }
@@ -188,13 +244,34 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             $c++;
         }
 
+        // list current meter contracts.
+        // we will use this list to delete meters no longer on this contract.
+        $oldMeterContracts = $this->getMeterContractByContractId($post['contract'])->toArray();
+
+        // update or insert rows
         foreach ($data as $row) {
-            //$meterContract = array_key_exists('meterContract_idContract', $row) ?
-                //$this->getMeterContractByContractId($row['meterContract_idContract']) : null;
-            $saved = (is_array($this->getDbTable('meterContract')->saveRow($row))) ? true : false;
+            $meterContract = array_key_exists('meterContract_idContract', $row) ?
+                $this->getMeterContractById($row['meterContract_idMeter'], $row['meterContract_idContract']) : null;
+            $result = (is_array($this->getDbTable('meterContract')->saveRow($row, $meterContract))) ? true : false;
+
+            // check to see if of the current meter list.
+            foreach($oldMeterContracts as $key => $value) {
+                if ($value['meterContract_idMeter'] == $row['meterContract_idMeter']) {
+                    unset($oldMeterContracts[$key]);
+                }
+            }
         }
 
-        return $saved;
+        // delete any rows that were deselected
+        if ($oldMeterContracts) {
+            foreach ($oldMeterContracts as $row) {
+                $result = $this->getDbTable('meterContract')
+                    ->deleteRow($row['meterContract_idMeter'], $row['meterContract_idContract']);
+                $log->info($result);
+            }
+        }
+        
+        return $result;
     }
 
     public function saveTender(array $post)
@@ -224,7 +301,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         }
 
         $tender = array_key_exists('tender_idTender', $data) ?
-            $this->getContractById($data['tender_idTender']) : null;
+            $this->getTenderById($data['tender_idTender']) : null;
 
         return $this->getDbTable('tender')->saveRow($data, $tender);
     }

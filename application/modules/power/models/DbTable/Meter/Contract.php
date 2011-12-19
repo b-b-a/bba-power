@@ -78,15 +78,15 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
         )
     );
 
-    public function getMeterContractById($id)
+    public function getMeterContractById($idMeter, $idContract)
     {
-        return $this->find($id)->current();
+        return $this->find($idMeter, $idContract)->current();
     }
 
     public function getMeterContractByContractId($id)
     {
         $select = $this->select()->where('meterContract_idContract = ?', $id);
-        return $this->fetchRow($select);
+        return $this->fetchAll($select);
     }
 
     /**
@@ -208,6 +208,22 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
     {
         $result = $this->searchMeterContracts($search);
         return $result->count();
+    }
+
+    /**
+     * Delete a row in the database.
+     *
+     * @param int $id Primary key of the row to be deleted
+     * @return int The number of rows deleted
+     */
+    public function deleteRow($idMeter, $idContract)
+    {
+        if (!is_numeric($idMeter) && !is_numeric($idContract)) {
+            throw new ZendSF_Model_Exception('Could not delete row in ' . __CLASS__);
+        }
+
+        $row = $this->find($idMeter, $idContract)->current();
+        return $row->delete();
     }
 
     public function insert(array $data)

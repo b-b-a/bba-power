@@ -84,4 +84,14 @@ class Power_Model_DbTable_Row_Site extends ZendSF_Model_DbTable_Row_Abstract
             'site',
             $select);
     }
+
+    public function getMetersByType($type)
+    {
+        $select = $this->getRow()->select()->where('meter_type = ?', $type);
+        
+        return $this->getRow()->findDependentRowset(
+            'Power_Model_DbTable_Meter',
+            'site',
+            $select);
+    }
 }

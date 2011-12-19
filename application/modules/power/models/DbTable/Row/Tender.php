@@ -57,24 +57,24 @@ class Power_Model_DbTable_Row_Tender extends ZendSF_Model_DbTable_Row_Abstract
 
     protected $_dateFormat = 'dd/MM/yyyy';
 
-    public function getSupplier($row = null)
+    public function getSupplier($col = null)
     {
         if (!$this->_supplier instanceof Power_Model_DbTable_Row_Supplier) {
             $this->_supplier = $this->getRow()
                 ->findParentRow('Power_Model_DbTable_Supplier', 'supplier');
         }
 
-        return (null === $row) ? $this->_supplier : $this->_supplier->$row;
+        return (null === $col) ? $this->_supplier : $this->_supplier->$col;
     }
 
-    public function getContract($row = null)
+    public function getContract($col = null)
     {
         if (!$this->_contract instanceof Power_Model_DbTable_Row_Contract) {
             $this->_contract = $this->getRow()
                 ->findParentRow('Power_Model_DbTable_Contract', 'contract');
         }
 
-        return (null === $row) ? $this->_contract : $this->_contract->$row;
+        return (null === $col) ? $this->_contract : $this->_contract->$col;
     }
 
     /**
