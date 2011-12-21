@@ -77,6 +77,29 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
         return $this->find($id)->current();
     }
 
+    public function getSupplierContractsBySupplierId($id, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->select(false)->setIntegrityCheck(false)
+            ->from('supplier', null)
+            ->join('tender', 'tender_idSupplier = supplier_idSupplier', null)
+            ->join('contract', 'contract_idContract = tender_idContract', array(
+                'contract_idContract',
+                'contract_type',
+                'contract_status',
+                'contract_dateEnd',
+                'contract_reference'
+            ))
+            ->join('client', 'client_idClient = contract_idClient', array(
+                'client_name'
+            ))
+            ->where('supplier_idSupplier = ?', $id);
+
+        $select = $this->getLimit($select, $count, $offset);
+        $select = $this->getSortOrder($select, $sort);
+
+        return $this->fetchAll($select);
+    }
+
     public function searchSuppliers(array $search, $sort = '', $count = null, $offset = null)
     {
         $select = $this->select(false)->setIntegrityCheck(false)

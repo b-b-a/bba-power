@@ -213,7 +213,8 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
     /**
      * Delete a row in the database.
      *
-     * @param int $id Primary key of the row to be deleted
+     * @param int $idMeter
+     * @param int $idContract
      * @return int The number of rows deleted
      */
     public function deleteRow($idMeter, $idContract)

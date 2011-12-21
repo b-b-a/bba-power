@@ -110,14 +110,15 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
 
         $id = (int) $post['tender_idSupplier'];
 
-        $supplier = $this->getSupplierById($id);
+        //$supplier = $this->getSupplierById($id);
 
-        $select = $this->getDbTable('supplier')->select();
+        //$select = $this->getDbTable('supplier')->select();
 
-        $select = $this->getDbTable('supplier')->getLimit($select, $count, $start);
-        $select = $this->getDbTable('supplier')->getSortOrder($select, $sort);
+        //$select = $this->getDbTable('supplier')->getLimit($select, $count, $start);
+        //$select = $this->getDbTable('supplier')->getSortOrder($select, $sort);
 
-        $dataObj = $supplier->getContracts($select);
+        $dataObj = $this->getDbTable('supplier')
+            ->getSupplierContractsBySupplierId($id, $sort, $count, $start);
 
         $store = $this->_getDojoData($dataObj, 'contract_idContract');
 
