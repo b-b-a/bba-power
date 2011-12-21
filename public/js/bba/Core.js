@@ -49,6 +49,15 @@ bba = {
             {field: 'clientAd_postcode', width : '100px', name : 'Postcode'},
             {field: '', width : 'auto', name : ''}
         ],
+        clientAddress : [
+            {field: 'clientAd_idAddress', width : '50px', name : 'Id'},
+            {field: 'clientAd_addressName', width : '250px', name : 'Address Name'},
+            {field: 'clientAd_address1', width : '300px', name : 'Address 1'},
+            {field: 'clientAd_address2', width : '200px', name : 'Address 2'},
+            {field: 'clientAd_address3', width : '100px', name : 'Address 3'},
+            {field: 'clientAd_postcode', width : '100px', name : 'Postcode'},
+            {field: '', width : 'auto', name : ''}
+        ],
         meterContract : [
             {field: 'meter_idMeter', width : '50px', name : 'Id'},
             {field: 'meter_numberMain', width : '150px', name : 'Number Main'},
