@@ -1,5 +1,5 @@
 /*
- * Client.js
+ * Meter.js
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -25,10 +25,11 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-dojo.provide('bba.Client');
 
-bba.Client = {}
+dojo.provide('bba.Meter');
+
+bba.Meter = {}
 
 dojo.addOnLoad(function () {
-    dijit.byId('client').focus();
+    dijit.byId('meter').focus();
 });

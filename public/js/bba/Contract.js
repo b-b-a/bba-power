@@ -86,3 +86,6 @@ bba.Contract = {
     }
 }
 
+dojo.addOnLoad(function () {
+    dijit.byId('contract').focus();
+});

@@ -88,4 +88,6 @@ bba.Site = {
     }
 };
 
-//dojo.require('bba.Site');
+dojo.addOnLoad(function () {
+    dijit.byId('site').focus();
+});
