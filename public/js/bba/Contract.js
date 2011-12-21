@@ -43,8 +43,18 @@ bba.Contract = {
         });
     },
 
-    addMeterToContract : function(grid, meterContract) {
+    selectAll : function(grid)
+    {
+        for (i = 0; i < grid.rowCount; i++)
+        {
+          var obj = grid.getItem(i);
+          // optionally, add it to the selection:
+          grid.selection.addToSelection(obj);
+        }
+    },
 
+    addMeterToContract : function(grid, meterContract)
+    {
         var items = grid.selection.getSelected();
 
         var kvaError = false;
