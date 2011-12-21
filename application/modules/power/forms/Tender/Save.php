@@ -89,9 +89,9 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
 
         $this->addElement('NumberSpinner', 'tender_chargeStanding', array(
             'label'         => 'Standing Charge:',
-            'smallDelta'    => 0.01,
+            //'smallDelta'    => 0.01,
             'constraints'   => array(
-                'places'    => 2,
+                //'places'    => 2,
                 'min'       => 0
             ),
             'required'  => true,
@@ -101,9 +101,9 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
 
         $this->addElement('NumberSpinner', 'tender_priceUnitDay', array(
             'label'         => 'Unit Price Day:',
-            'smallDelta'    => 0.01,
+            //'smallDelta'    => 0.01,
             'constraints'   => array(
-                'places'    => 2,
+                //'places'    => 2,
                 'min'       => 0
             ),
             'required'  => true,
@@ -113,9 +113,9 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
 
         $this->addElement('NumberSpinner', 'tender_priceUnitNight', array(
             'label'         => 'Unit Price Night:',
-            'smallDelta'    => 0.01,
+            //'smallDelta'    => 0.01,
             'constraints'   => array(
-                'places'    => 2,
+                //'places'    => 2,
                 'min'       => 0
             ),
             'required'  => true,
@@ -125,9 +125,9 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
 
         $this->addElement('NumberSpinner', 'tender_priceUnitOther', array(
             'label'         => 'Unit Price Other:',
-            'smallDelta'    => 0.01,
+            //'smallDelta'    => 0.01,
             'constraints'   => array(
-                'places'    => 2,
+                //'places'    => 2,
                 'min'       => 0
             ),
             'required'  => true,
@@ -137,9 +137,9 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
 
         $this->addElement('NumberSpinner', 'tender_chargeCapacity', array(
             'label'         => 'Charge Capacity:',
-            'smallDelta'    => 0.01,
+            //'smallDelta'    => 0.01,
             'constraints'   => array(
-                'places'    => 2,
+                //'places'    => 2,
                 'min'       => 0
             ),
             'required'  => true,
@@ -149,9 +149,9 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
 
         $this->addElement('NumberSpinner', 'tender_chargeKva', array(
             'label'         => 'Charge KVA:',
-            'smallDelta'    => 0.01,
+            //'smallDelta'    => 0.01,
             'constraints'   => array(
-                'places'    => 2,
+                //'places'    => 2,
                 'min'       => 0
             ),
             'required'  => true,
@@ -161,9 +161,9 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
 
         $this->addElement('NumberSpinner', 'tender_commission', array(
             'label'         => 'Commission:',
-            'smallDelta'    => 0.01,
+            //'smallDelta'    => 0.01,
             'constraints'   => array(
-                'places'    => 2,
+                //'places'    => 2,
                 'min'       => 0
             ),
             'required'  => true,
