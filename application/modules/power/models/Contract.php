@@ -152,6 +152,14 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         // get contract
         $contract = $this->getContractById($id);
+        $notInStatus = array('current', 'signed', 'selected', 'choosing');
+        $meters = array();
+
+        if (in_array($contract->contract_status, $notInStatus)) {
+            $store = new Zend_Dojo_Data('meter_idMeter', $meters);
+            return $store->toJson();
+        }
+
         $curCoStartDate = new Zend_Date($contract->contract_dateStart);
 
         $type = preg_replace('/-.+/', '', $contract->contract_type);
@@ -159,9 +167,6 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         // get client sites
         $sites = $this->getDbTable('site')
             ->fetchAll('site_idClient = ' . $contract->contract_idClient);
-
-        $meters = array();
-        $inStatus = array('current', 'signed', 'selected', 'choosing', 'new');
 
         // get meters on sites.
         foreach ($sites as $site) {
@@ -176,21 +181,22 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
                 //$log->info($meterCo);
 
                 if ($meterCo) {
-                    if (in_array($meterCo->contract_status, $inStatus)) {
-                        if ($meterCo->contract_status == 'new'
-                                && $contract->contract_idContract != $meterCo->contract_idContract) {
-                            continue;
-                        }
-                        
-                        $meterCoEndDate = new Zend_Date($meterCo->contract_dateEnd);
-
-                        if ($meterCoEndDate->isEarlier($curCoStartDate) ||
-                                $contract->contract_idContract == $meterCo->contract_idContract) {
-                            $meterCo = $meterCo->toArray();
-                            $meter = array_merge($meter, $meterCo);
-                            $meters[] = $meter;
-                        }
+                    if (in_array($meterCo->contract_status, $notInStatus)) continue;
+                    //if (!in_array($meterCo->contract_status, $inStatus)) {
+                    if ($meterCo->contract_status == 'new'
+                            && $contract->contract_idContract != $meterCo->contract_idContract) {
+                        continue;
                     }
+
+                    $meterCoEndDate = new Zend_Date($meterCo->contract_dateEnd);
+
+                    if ($meterCoEndDate->isEarlier($curCoStartDate) ||
+                            $contract->contract_idContract == $meterCo->contract_idContract) {
+                        $meterCo = $meterCo->toArray();
+                        $meter = array_merge($meter, $meterCo);
+                        $meters[] = $meter;
+                    }
+                    //}
                 } else {
                     $meters[] = $meter;
                 }

@@ -58,6 +58,11 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
+        'siteMeters' => array(
+            'columns'           => 'site_idSite',
+            'refTableClass'     => 'Power_Model_DbTable_Meter',
+            'refColumns'        => 'meter_idSite'
+		),
         'siteClient' => array(
             'columns'           => 'site_idClient',
             'refTableClass'     => 'Power_Model_DbTable_Client',
