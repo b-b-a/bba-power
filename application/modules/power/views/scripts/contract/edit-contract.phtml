@@ -38,6 +38,7 @@
                     <p class="label"><b>Status:</b></p>
                     <p>&nbsp;<?php echo $this->contract->contract_status; ?></p>
                 </div>
+                <?php if ($this->contract->contract_idTenderSelected): ?>
                 <div class="form_row">
                     <p class="label"><b>Tender Selected:</b></p>
                     <p>&nbsp;<?php echo $this->contract->contract_idTenderSelected; ?></p>
@@ -48,9 +49,7 @@
                     <p class="label"><b>Tender Period:</b></p>
                     <p>&nbsp;<?php echo $this->contract->getTenderSelected('tender_periodContract'); ?></p>
                 </div>
-
-
-
+                <?php endif; ?>
 
                 <button dojoType="dijit.form.Button"
                         type="submit"
