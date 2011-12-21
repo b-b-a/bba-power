@@ -41,7 +41,16 @@
                 <div class="form_row">
                     <p class="label"><b>Tender Selected:</b></p>
                     <p>&nbsp;<?php echo $this->contract->contract_idTenderSelected; ?></p>
+                    <div class="clear"></div>
+                    <p class="label"><b>Supplier Name:</b></p>
+                    <p>&nbsp;<?php echo $this->contract->getTenderSelected()->getSupplier('supplier_name'); ?></p>
+                    <div class="clear"></div>
+                    <p class="label"><b>Tender Period:</b></p>
+                    <p>&nbsp;<?php echo $this->contract->getTenderSelected('tender_periodContract'); ?></p>
                 </div>
+
+
+
 
                 <button dojoType="dijit.form.Button"
                         type="submit"
@@ -74,10 +83,6 @@
                     <p>&nbsp;<?php echo $this->contract->contract_periodBill; ?></p>
                 </div>
 
-                <div class="form_row">
-                    <p class="label"><b>Agent:</b></p>
-                    <p>&nbsp;<?php echo $this->contract->contract_idUserAgent; ?></p>
-                </div>
             </div>
 
             <div class="zend_form ident">
