@@ -1,4 +1,9 @@
 <div id="loginWrap">
     <h1 style="text-align:center;">Please Login</h1>
     <?php echo $this->authLoginForm; ?>
+    <script>
+        dojo.addOnLoad(function () {
+            dijit.byId('user_name').focus();
+        });
+    </script>
 </div>

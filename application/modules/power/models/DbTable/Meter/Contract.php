@@ -154,11 +154,11 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
                     ))
                     ->where('contract_idContract = ?', $id)
             ))
-            ->where('meter_idMeter NOT IN (?)', new Zend_Db_Expr(
+            /*->where('meter_idMeter NOT IN (?)', new Zend_Db_Expr(
                 $this->select(false)->setIntegrityCheck(false)
                     ->from('meter_contract', array('meterContract_idMeter'))
                     ->where('meterContract_idContract = ?', $id)
-            ))
+            ))*/
             ->where('meter_type = (?)', new Zend_Db_Expr(
                 $this->select(false)->setIntegrityCheck(false)
                     ->from('contract', array(
@@ -171,10 +171,10 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
                     ->from('contract', array('contract_dateStart'))
                     ->where('contract_idContract = ?', $id)
             ))
-            ->where('contract_status IN (?)', array(
+            ->where('contract_status IN (?))', array(
                 'current', 'signed', 'selected', 'choose'
             ))
-            ->orWhere('contract_idContract IS NULL)')
+            ->orWhere('contract_idContract IS NULL')
             ->group('meter_numberMain')
             ->order(array('contract_idContract', 'meter_numberMain'));
 

@@ -161,7 +161,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             ->fetchAll('site_idClient = ' . $contract->contract_idClient);
 
         $meters = array();
-        $notInStatus = array('current', 'signed', 'selected', 'choosing');
+        $inStatus = array('current', 'signed', 'selected', 'choosing', 'new');
 
         // get meters on sites.
         foreach ($sites as $site) {
@@ -176,7 +176,12 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
                 //$log->info($meterCo);
 
                 if ($meterCo) {
-                    //if (!in_array($meterCo->contract_status, $notInStatus)) {
+                    if (in_array($meterCo->contract_status, $inStatus)) {
+                        if ($meterCo->contract_status == 'new'
+                                && $contract->contract_idContract != $meterCo->contract_idContract) {
+                            continue;
+                        }
+                        
                         $meterCoEndDate = new Zend_Date($meterCo->contract_dateEnd);
 
                         if ($meterCoEndDate->isEarlier($curCoStartDate) ||
@@ -185,7 +190,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
                             $meter = array_merge($meter, $meterCo);
                             $meters[] = $meter;
                         }
-                    //}
+                    }
                 } else {
                     $meters[] = $meter;
                 }
@@ -247,6 +252,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         // list current meter contracts.
         // we will use this list to delete meters no longer on this contract.
         $oldMeterContracts = $this->getMeterContractByContractId($post['contract'])->toArray();
+        $result = true;
 
         // update or insert rows
         foreach ($data as $row) {
@@ -267,10 +273,9 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             foreach ($oldMeterContracts as $row) {
                 $result = $this->getDbTable('meterContract')
                     ->deleteRow($row['meterContract_idMeter'], $row['meterContract_idContract']);
-                $log->info($result);
             }
         }
-        
+
         return $result;
     }
 

@@ -86,6 +86,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     {
         $this->bootstrap('frontController');
         $logger = new Zend_Log();
+        $logger->registerErrorHandler();
 
         $writer = 'production' == $this->getEnvironment() ?
             new Zend_Log_Writer_Stream(APPLICATION_PATH.'/../data/logs/app.log') :

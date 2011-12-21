@@ -110,11 +110,15 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
             )->joinLeft(
                 'meter_contract',
                 'meterContract_idContract = contract_idContract',
-                array('meter_count' => 'COUNT( contract_idContract )')
+                array('meter_count' => '(
+                    SELECT COUNT(meterContract_idMeter)
+                    FROM meter_contract
+                    WHERE meterContract_idContract = contract_idContract
+                )')
             )->joinLeft(
                 'meter',
                 'meter_idMeter = meterContract_idMeter',
-                array('meter_numberMain', 'meter_type')
+                null
            )->group('contract_idContract');
 
         if (!$search['contract'] == '') {
