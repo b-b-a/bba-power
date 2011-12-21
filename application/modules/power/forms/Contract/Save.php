@@ -83,11 +83,14 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
         if (isset($row)) {
             $list = $row->getAllTenders();
 
-            $multiOptions = array(0 => 'Select Supplier');
+            $multiOptions = array(0 => 'Select Tender');
 
             foreach($list as $row) {
                 $supplier = $row->getSupplier();
-                $multiOptions[$row->tender_idTender] = $supplier->supplier_name;
+                $multiOptions[$row->tender_idTender]
+                    = $supplier->supplier_name . ', '
+                    . $row->tender_periodContract . ', '
+                    . $row->tender_idTender;
             }
 
             $this->addElement('FilteringSelect', 'contract_idTenderSelected', array(
@@ -206,6 +209,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'filters'   => array('StripTags', 'StringTrim')
         ));
         */
+
         $this->addElement('TextBox', 'contract_idUserAgent', array(
             'label'     => 'User Agent:',
             'required'  => false,
