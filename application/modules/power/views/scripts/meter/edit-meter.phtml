@@ -48,6 +48,7 @@
                 </div>
             </div>
 
+            <?php if ($this->meter->contract_idContract): ?>
             <div class="ident">
                 <h3>Contract Info: <span class="id_number">(<?php echo $this->escape($this->meter->contract_idContract); ?>)</span></h3>
                 <p><b>Reference:</b> <?php echo $this->escape($this->meter->contract_reference); ?></p>
@@ -58,7 +59,7 @@
                 <p><b>Supplier:</b> <?php echo $this->escape($this->meter->supplier_name); ?></p>
                 <p><b>Commission:</b> <?php echo $this->escape($this->meter->tender_commission); ?></p>
             </div>
-
+            <?php endif; ?>
             <div class="clear"></div>
 
         </div>
