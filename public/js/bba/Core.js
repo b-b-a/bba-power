@@ -61,7 +61,7 @@ bba = {
         meterContract : [
             {field: 'meter_idMeter', width : '50px', name : 'Id'},
             {field: 'meter_numberMain', width : '150px', name : 'Number Main'},
-            {field: 'meter_type', width : '100px', name : 'meter_type'},
+            {field: 'meter_type', width : '100px', name : 'Meter Type'},
             {field: 'meterContract_kvaNominated', width : '120px', name : 'Expected Yearly Consumption', editable : true},
             {field: 'contract_idContract', width : '100px', name : 'Contract Id'},
             {field: 'contract_type', width : '100px', name : 'Contract Type'},

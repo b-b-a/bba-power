@@ -203,7 +203,7 @@ class Power_ContractController extends Zend_Controller_Action
         if ($request->getParam('meterContract_idContract') && $request->isPost()
                 && $request->isXmlHttpRequest()) {
             $this->view->assign(array(
-                'idContract' => $this->_request->getParam('meterContract_idContract')
+                'contract' => $this->_model->getContractById($request->getParam('meterContract_idContract'))
             ));
         }
     }

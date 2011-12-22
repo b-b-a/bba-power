@@ -1,7 +1,7 @@
 <button dojoType="dijit.form.Button"
         id="addMeterToContractButton"
         type="button"
-        onClick="bba.Contract.addMeterToContract(contractMeterGrid, <?php echo $this->idContract; ?>);">
+        onClick="bba.Contract.addMeterToContract(contractMeterGrid, <?php echo $this->contract->contract_idContract; ?>);">
     Update Contract
 </button>
 
@@ -34,7 +34,7 @@
 
 <span dojoType="dojo.data.ItemFileWriteStore"
       jsId="contractMeterStore"
-      url="/contract/data-store/type/availableMeters/meterContract_idContract/<?php echo $this->idContract; ?>"
+      url="/contract/data-store/type/availableMeters/meterContract_idContract/<?php echo $this->contract->contract_idContract; ?>"
       requestMethod="post"></span>
 
 <div dojoType="dojox.grid.DataGrid"
@@ -47,9 +47,26 @@
        rowSelector="10px"
        sortInfo="-5"
        style="width:1100px;height:300px;"
-       contractId="<?php echo $this->idContract; ?>"
        noDataMessage="<span class='dojoxGridNoData'>No meters available for this contract</span>">
     <script type="dojo/connect" event="_onFetchComplete" args="items, req">
-        bba.Contract.preselectMeters(this, '<?php echo $this->idContract; ?>', items);
+        bba.Contract.preselectMeters(this, '<?php echo $this->contract->contract_idContract; ?>', items);
+        <?php if ($this->contract->contract_status == 'tender'): ?>
+            dijit.byId('tenderWarningDialog').show();
+        <?php endif; ?>
     </script>
+</div>
+
+<div dojoType="dijit.Dialog" id="tenderWarningDialog" title="Tender Warning" onLoad="alert('load')">
+    <div class="dijitDialogPaneContentArea" style="text-align: center;">
+        <img src="/images/Warning.png" />
+        <p>
+            <b>After editing meters the tenders<br />
+            will need re-submitting.</b>
+        </p>
+    </div>
+    <div class="dijitDialogPaneActionBar">
+        <button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('tenderWarningDialog').hide();">
+            OK
+        </button>
+    </div>
 </div>

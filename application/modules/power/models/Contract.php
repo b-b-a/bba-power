@@ -181,7 +181,9 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
                 //$log->info($meterCo);
 
                 if ($meterCo) {
-                    if (in_array($meterCo->contract_status, $notInStatus)) continue;
+                    if (in_array($meterCo->contract_status, $notInStatus)) {
+                        continue;
+                    }
                     //if (!in_array($meterCo->contract_status, $inStatus)) {
                     if ($meterCo->contract_status == 'new'
                             && $contract->contract_idContract != $meterCo->contract_idContract) {
