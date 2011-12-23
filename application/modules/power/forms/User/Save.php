@@ -63,6 +63,7 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
 
         $multiOptions = array(
             0               => 'Select Role',
+            'decline'       => 'Decline',
             'agent'         => 'Agent',
             'read'          => 'Read',
             'meterReading'  => 'Meter Reading',

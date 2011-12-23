@@ -51,10 +51,12 @@
                 </div>
                 <?php endif; ?>
 
+                <?php if ($this->isAllowed('User')): ?>
                 <button dojoType="dijit.form.Button"
                         type="submit"
                         name="edit-contract-button-<?php echo $this->contract->contract_idContract; ?>"
                         value="submit">Edit Details</button>
+                <?php endif; ?>
             </div>
 
             <div class="zend_form ident">
@@ -184,7 +186,7 @@
          class="tableHeadPane">
 
         <div class="tableHead">
-            <?php if ($this->authInfo('role') == 'admin'): ?>
+            <?php if ($this->isAllowed('User')): ?>
             <p class="tableHead-button">
                 <button dojoType="dijit.form.Button"
                         id="new-meter-button-<?php echo $this->contract->contract_idContract; ?>"

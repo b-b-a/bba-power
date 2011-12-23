@@ -59,6 +59,7 @@ class Power_ClientController extends Zend_Controller_Action
      */
     public function preDispatch()
     {
+
         if ($this->_helper->acl('Guest')) {
             return $this->_forward('login', 'auth');
         }

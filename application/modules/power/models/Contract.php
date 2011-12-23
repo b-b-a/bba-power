@@ -185,7 +185,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
                         continue;
                     }
                     //if (!in_array($meterCo->contract_status, $inStatus)) {
-                    if ($meterCo->contract_status == 'new'
+                    if ($meterCo->contract_status == ('new' || 'tender')
                             && $contract->contract_idContract != $meterCo->contract_idContract) {
                         continue;
                     }
@@ -245,6 +245,10 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
     public function saveMetersToContract(array $post)
     {
+        if (!$this->checkAcl('saveMetersToContract')) {
+            throw new ZendSF_Acl_Exception('Insufficient rights');
+        }
+
         $post = Zend_Json::decode($post['jsonData']);
 
         $data = array();
@@ -334,7 +338,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
-        $this->_acl->allow('admin', $this);
+        $this->_acl->allow('user', $this)
+            ->allow('admin', $this);
 
         return $this;
     }

@@ -27,10 +27,12 @@
                     <p>&nbsp;<?php echo $this->meter->meter_numberMain; ?></p>
                 </div>
 
+                <?php if ($this->isAllowed('User')): ?>
                 <button dojoType="dijit.form.Button"
                     type="submit"
                     name="edit-meter-button-<?php echo $this->meter->meter_idMeter; ?>"
                     value="submit">Edit Details</button>
+                <?php endif; ?>
             </div>
 
             <div class="ident">
@@ -102,7 +104,7 @@
          data-dojo-props="region: 'bottom'"
          class="tableHeadPane">
         <div class="tableHead">
-            <?php if ($this->authInfo('role') == 'admin'): ?>
+            <?php if ($this->isAllowed('User')): ?>
             <p class="tableHead-button">
                 <button dojoType="dijit.form.Button"
                         id="new-usage-button-<?php echo $this->meter->meter_idMeter; ?>"

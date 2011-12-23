@@ -30,13 +30,16 @@
                     <p>&nbsp;<?php echo $this->clientAd->clientAd_postcode; ?></p>
                 </div>
 
+                <?php if ($this->isAllowed('User')): ?>
                 <button dojoType="dijit.form.Button"
                         type="submit"
                         name="edit-clientAd-button-<?php echo $this->clientAd->clientAd_idAddress; ?>"
                         value="submit">Edit Details</button>
+                <?php endif; ?>
             </div>
             <div class="clear"></div>
 
+            <?php if ($this->isAllowed('User')): ?>
             <div class="tableHead">
                 <p class="tableHead-button">
                     <button dojoType="dijit.form.Button"
@@ -44,6 +47,7 @@
                             type="button">New Contact</button>
                 </p>
             </div>
+            <?php endif; ?>
         </div>
     </div>
 

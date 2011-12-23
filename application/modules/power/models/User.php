@@ -136,34 +136,6 @@ class Power_Model_User extends ZendSF_Model_Acl_Abstract
     }
 
     /**
-     * Deletes a user.
-     *
-     * @param int $id
-     * @return bool
-     */
-    public function delete($id)
-    {
-        if (!$this->checkAcl('delete')) {
-            throw new ZendSF_Acl_Exception('Deleting users is not allowed.');
-        }
-
-        if ($user instanceof Power_Model_DbTable_Row_User) {
-            $userId = (int) $user->userId;
-        } else {
-            $userId = (int) $user;
-        }
-
-        $user = $this->getUserById($userId);
-
-        if (null !== $user) {
-            $user->delete();
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Injector for the acl, the acl can be injected directly
      * via this method.
      *
@@ -178,8 +150,7 @@ class Power_Model_User extends ZendSF_Model_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
-        $this->_acl->allow('admin', $this)
-            ->deny('admin', $this, array('delete'));
+        $this->_acl->allow('admin', $this);
 
         return $this;
     }

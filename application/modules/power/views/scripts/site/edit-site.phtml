@@ -14,11 +14,12 @@
                     <p class="label"><b>Client:</b></p>
                     <p>&nbsp;<?php echo $this->site->client_name; ?></p>
                 </div>
-
+                <?php if ($this->isAllowed('User')): ?>
                 <button dojoType="dijit.form.Button"
                     type="submit"
                     name="edit-site-button-<?php echo $this->site->site_idSite; ?>"
                     value="submit">Edit Details</button>
+                <?php endif; ?>
             </div>
 
             <div class="ident">
@@ -77,7 +78,7 @@
             <div class="clear"></div>
 
             <div class="tableHead">
-                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <?php if ($this->isAllowed('User')): ?>
                 <p class="tableHead-button">
                     <button dojoType="dijit.form.Button"
                             id="new-meter-button-<?php echo $this->site->site_idSite; ?>"

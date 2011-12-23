@@ -18,11 +18,12 @@
                     <p><b>Address: </b><br />
                     <?php echo $this->supplier->getFullAddress(); ?></p>
                 </div>
-
+                <?php if ($this->isAllowed('User')): ?>
                 <button dojoType="dijit.form.Button"
                         type="submit"
                         name="edit-supplier-button-<?php echo $this->supplier->supplier_idSupplier; ?>"
                         value="submit">Edit Details</button>
+                <?php endif; ?>
             </div>
 
             <div class="ident">
@@ -34,7 +35,7 @@
             <div class="clear"></div>
 
             <div class="tableHead">
-                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <?php if ($this->isAllowed('User')): ?>
                 <p class="tableHead-button">
                     <button dojoType="dijit.form.Button"
                             id="new-supplier-contact-button-<?php echo $this->supplier->supplier_idSupplier; ?>"

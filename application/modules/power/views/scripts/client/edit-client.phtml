@@ -17,11 +17,12 @@
                     <p class="label"><b>LoA Expiry Date: </b></p>
                     <p><?php echo $this->formatDate($this->client->client_dateExpiryLoa); ?></p>
                 </div>
-
+                <?php if ($this->isAllowed('User')): ?>
                 <button dojoType="dijit.form.Button"
                         type="submit"
                         name="edit-client-button-<?php echo $this->client->client_idClient; ?>"
                         value="submit">Edit Details</button>
+                <?php endif; ?>
             </div>
 
             <div class="ident">
@@ -60,21 +61,20 @@
             </div>
             <div class="clear"></div>
 
+            <?php if ($this->isAllowed('User')): ?>
             <div class="tableHead">
-                <!--
                 <p class="tableHead-button">
                     <button dojoType="dijit.form.Button"
-                            id="new-clientCo-button-<?php echo $this->client->client_idAddress; ?>"
+                            id="new-client-contact-button-<?php echo $this->client->client_idClient; ?>"
                             type="button">New Contact</button>
                 </p>
-                -->
                 <p class="tableHead-button">
                     <button dojoType="dijit.form.Button"
                             id="new-client-address-button-<?php echo $this->client->client_idClient; ?>"
                             type="button">New Address</button>
                 </p>
             </div>
-
+            <?php endif; ?>
         </div>
     </div>
 
@@ -117,7 +117,7 @@
                    query="{ clientCo_idClient: <?php echo $this->client->client_idClient; ?> }"
                    queryParent="clientCo_idClient"
                    sortInfo="2"
-                   newButtonController="clientCo"
+                   newButtonId="<?php echo $this->client->client_idClient; ?>"
                    dialog="true">
                 <thead>
                     <tr>

@@ -187,7 +187,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     public function saveNewClient($post)
     {
         if (!$this->checkAcl('saveNewClient')) {
-            throw new ZendSF_Acl_Exception('saving clients is not allowed.');
+            throw new ZendSF_Acl_Exception('Insufficient rights');
         }
 
         $log = Zend_Registry::get('log');
@@ -360,7 +360,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
-        $this->_acl->allow('admin', $this);
+        $this->_acl->allow('user', $this)
+            ->allow('admin', $this);
 
         return $this;
     }

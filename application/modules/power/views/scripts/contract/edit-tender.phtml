@@ -47,10 +47,12 @@
                     <p>&nbsp;<?php echo $this->tender->tender_commission; ?></p>
                 </div>
 
+                <?php if ($this->isAllowed('User')): ?>
                 <button dojoType="dijit.form.Button"
                     type="submit"
                     name="edit-tender-button-<?php echo $this->tender->tender_idTender; ?>"
                     value="submit">Edit Details</button>
+                <?php endif; ?>
             </div>
 
             <div class="ident">

@@ -54,8 +54,6 @@ class Power_AuthController extends Zend_Controller_Action
      */
     public function init()
     {
-        parent::init();
-
         $this->_model = new Power_Model_User();
         $this->_authService = new ZendSF_Service_Authentication();
     }
@@ -103,6 +101,12 @@ class Power_AuthController extends Zend_Controller_Action
             $form->setDescription('Login failed, Please try again.');
             $this->view->assign('authLoginForm', $form);
             return $this->render('login'); // re-render the login form
+        }
+
+        // no access for agent or decline roles.
+        if ($this->_helper->acl('Agent') || $this->_helper->acl('Decline')) {
+            $this->_authService->clear();
+            throw new ZendSF_Acl_Exception('Access denied');
         }
 
         return $this->_helper->redirector('index', 'meter');

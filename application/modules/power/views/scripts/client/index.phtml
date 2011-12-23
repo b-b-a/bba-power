@@ -16,7 +16,7 @@
 
             <div class="tableHead">
                 <h2 class="tableHead-heading">Clients:</h2>
-                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <?php if ($this->isAllowed('User')): ?>
                 <p class="tableHead-button">
                     <button dojoType="dijit.form.Button"
                             id="new-client-button"

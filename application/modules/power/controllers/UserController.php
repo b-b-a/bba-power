@@ -62,6 +62,10 @@ class Power_UserController extends Zend_Controller_Action
         if ($this->_helper->acl('Guest')) {
             return $this->_forward('login', 'auth');
         }
+
+        if (!$this->_helper->acl('Admin')) {
+            throw new ZendSF_Acl_Exception('Access denied');
+        }
     }
 
     public function userStoreAction()

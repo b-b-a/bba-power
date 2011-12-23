@@ -57,13 +57,16 @@ class Power_ErrorController extends Zend_Controller_Action
                 $this->view->message = $errors->exception->getMessage();
                 break;
             case 'ZendSF_Acl_Exception':
-                $this->_helper->layout->setLayout('layout');
                 $this->view->message = $errors->exception->getMessage();
                 break;
             default:
                 // application error
                 $this->view->message = $errors->exception->getMessage();
                 break;
+        }
+
+        if ($this->getRequest()->isXmlHttpRequest()) {
+           // $this->getHelper('layout')->disableLayout();
         }
     }
 }

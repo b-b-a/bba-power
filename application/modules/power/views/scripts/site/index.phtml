@@ -17,7 +17,7 @@
 
             <div class="tableHead">
                 <h2 class="tableHead-heading">Sites:</h2>
-                <?php if ($this->authInfo('role') == 'admin'): ?>
+                <?php if ($this->isAllowed('User')): ?>
                 <p class="tableHead-button">
                     <button dojoType="dijit.form.Button"
                             id="new-site-button"
