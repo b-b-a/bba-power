@@ -44,13 +44,15 @@ class Power_Form_Site_Search extends Power_Form_SearchBase
         $this->addElement('TextBox', 'site', array(
             'label'     => 'Site:',
             'attribs'   => array('class' => 'search'),
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'required'  => false
         ));
 
         $this->addElement('TextBox', 'client', array(
             'label'     => 'Client:',
             'attribs'   => array('class' => 'search'),
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'required'  => false
         ));
 
         parent::init();

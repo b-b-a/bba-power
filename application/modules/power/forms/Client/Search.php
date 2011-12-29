@@ -44,15 +44,17 @@ class Power_Form_Client_Search extends Power_Form_SearchBase
         $this->addElement('TextBox', 'client', array(
             'label'     => 'Client:',
             'attribs'   => array('class' => 'search'),
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'required'  => false
         ));
 
         $this->addElement('TextBox', 'address', array(
             'label'     => 'Address:',
             'attribs'   => array('class' => 'search'),
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'required'  => false
         ));
-        
+
         parent::init();
     }
 

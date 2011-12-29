@@ -56,7 +56,7 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
                 'promptMessage' => 'Select a Client'
             ),
             'attribs'       => array(
-                'onChange' => 'bba.Site.changeAddress(this);'
+                'onChange' => 'bba.Site.changeAddress(this.value);'
             ),
             'required'      => true,
             'value'         => '0'

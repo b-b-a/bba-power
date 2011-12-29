@@ -27,6 +27,7 @@
  */
 
 dojo.provide('bba.User');
+dojo.require('bba.Core');
 
 bba.User = {}
 

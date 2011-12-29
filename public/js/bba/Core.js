@@ -36,7 +36,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-dojo.provide('bba');
+
 dojo.provide('bba.Core');
 
 bba = {
@@ -91,10 +91,7 @@ dojo.declare(
     }
 );
 
-//dojo.require('bba.Core');
-
 dojo.addOnLoad(function() {
-    //bbaCore = new bba.Core();
 
     var loader = dojo.byId("loader");
     loader.style.display = "none";

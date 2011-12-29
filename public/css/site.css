@@ -243,23 +243,30 @@ table {
 	/* 1px seems to make the dojo type of field the correct size (was 10px)*/
 }
 
-.zend_form label, .zend_form .label {
+.zend_form p[id$=label], .zend_form .label {
     float: left;
     text-align: right;
     width: 200px;
     margin-right: 5px;
     margin-bottom: 1px;
+    height: 100%;
 }
 /*    see  #Search .search
 label.search {
 	float: none;
 }
 */
-.zend_form p
+
+.zend_form .element
 {
     margin: 0px;
     display: inline;
-    clear: both;
+}
+
+.zend_form .element label {
+    float: none;
+    text-align: left;
+    width: auto;
 }
 
 .zend_form .errors
@@ -316,7 +323,7 @@ Form overrides.
 */
 
 .client_edit .label,
-.client_edit label {
+.client_edit p[id$=label] {
     width: 110px;
 }
 
@@ -327,6 +334,14 @@ Form overrides.
 
 .contract_edit .label {
     width: 120px;
+}
+
+#contract_type-label {
+    height: 50px;
+}
+
+#usage_type-label {
+    height: 50px;
 }
 
 .align-right {
@@ -414,7 +429,7 @@ th {
 
 .claro .dojoxGridHeader .dojoxGridCell  {
 	padding-left: 5px;
-    background: url("/js/release/dojo/dojox/grid/resources/images/header_shadow.png") #e5edf4 repeat-x bottom;
+    background: url("/js/dojox/grid/resources/images/header_shadow.png") #e5edf4 repeat-x bottom;
 }
 
 .claro .dojoxGridHeader .dojoxGridCell:hover {

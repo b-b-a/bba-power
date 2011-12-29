@@ -44,13 +44,15 @@ class Power_Form_User_Search extends Power_Form_SearchBase
         $this->addElement('TextBox', 'user', array(
             'label'     => 'User:',
             'attribs'   => array('class' => 'search'),
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'required'  => false
         ));
 
         $this->addElement('TextBox', 'role', array(
             'label'     => 'Role:',
             'attribs'   => array('class' => 'search'),
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'required'  => false
         ));
 
         parent::init();

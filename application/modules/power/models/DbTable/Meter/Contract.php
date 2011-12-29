@@ -232,6 +232,10 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
         $auth = Zend_Auth::getInstance()->getIdentity();
         $data['meterContract_dateCreate'] = new Zend_Db_Expr('CURDATE()');
         $data['meterContract_userCreate'] = $auth->getId();
+
+        $log = Zend_Registry::get('log');
+        $log->info(Zend_Debug::dump($data, "INSERT: " . __CLASS__, false));
+
         return parent::insert($data);
     }
 
@@ -240,6 +244,18 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
         $auth = Zend_Auth::getInstance()->getIdentity();
         $data['meterContract_dateModify'] = new Zend_Db_Expr('CURDATE()');
         $data['meterContract_userModify'] = $auth->getId();
+
+        $log = Zend_Registry::get('log');
+        $log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
+
         return parent::update($data, $where);
+    }
+
+    public function delete($where)
+    {
+        $log = Zend_Registry::get('log');
+        $log->info(Zend_Debug::dump($where, "DELETE: " . __CLASS__, false));
+
+        return parent::delete($where);
     }
 }

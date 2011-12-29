@@ -1,7 +1,7 @@
 <?php $form = $this->contractSaveForm; ?>
 
 <div class="form_wrap">
-    <div class="zend_form">
+    <div id="contractForm" class="zend_form">
 
         <?php if ($this->request()->getParam('type') == 'edit'): ?>
             <?php echo $form->client; ?>

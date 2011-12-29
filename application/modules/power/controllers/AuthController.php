@@ -64,6 +64,12 @@ class Power_AuthController extends Zend_Controller_Action
             return $this->_forward('index', 'index');
         }
 
+        $request = $this->getRequest();
+
+        if ($request->isXmlHttpRequest()) {
+            $this->_helper->layout->disableLayout();
+        }
+
         $this->view->assign('authLoginForm', $this->_getLoginForm());
     }
 
@@ -105,8 +111,11 @@ class Power_AuthController extends Zend_Controller_Action
 
         // no access for agent or decline roles.
         if ($this->_helper->acl('Agent') || $this->_helper->acl('Decline')) {
+            $e = new ZendSF_Acl_Exception('Access denied for '. Zend_Auth::getInstance()->getIdentity()->user_name);
+            $log = Zend_Registry::get('log');
+            $log->info($e);
             $this->_authService->clear();
-            throw new ZendSF_Acl_Exception('Access denied');
+            throw $e;
         }
 
         return $this->_helper->redirector('index', 'meter');

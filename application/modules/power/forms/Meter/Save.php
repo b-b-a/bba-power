@@ -47,17 +47,18 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
 
         $table = $this->getModel()->getDbTable('tables');
         $list = $table->getSelectListByName('meter_type');
-        
+
         foreach($list as $row) {
             $multiOptions[$row->tables_key] = $row->tables_value;
         }
 
-        $this->addElement('FilteringSelect', 'meter_type', array(
+        $this->addElement('RadioButton', 'meter_type', array(
             'label'         => 'Type:',
             'filters'       => array('StripTags', 'StringTrim'),
             'autocomplete'  => false,
             'multiOptions'  => $multiOptions,
             'required'      => true,
+            'attribs'       => array('class' => 'radio')
         ));
 
         $this->addElement('TextBox', 'meter_numberSerial', array(

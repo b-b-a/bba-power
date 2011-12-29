@@ -45,13 +45,15 @@ class Power_Form_Contract_Search extends Power_Form_SearchBase
         $this->addElement('TextBox', 'contract', array(
             'label'     => 'Contract:',
             'attribs'   => array('class' => 'search'),
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'required'  => false
         ));
 
         $this->addElement('TextBox', 'meter', array(
             'label'     => 'Meter:',
             'attribs'   => array('class' => 'search'),
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'required'  => false
         ));
 
         parent::init();

@@ -37,6 +37,7 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 dojo.provide('bba.Site');
+dojo.require('bba.Core');
 
 bba.Site = {
     addressStore : null,
@@ -58,7 +59,7 @@ bba.Site = {
 
         this.addressStore.fetch();
 
-        dijit.byId("site_idAddress").store = this.addressStore;
+        dijit.byId("site_idAddress").set('store', this.addressStore);
 
         this.billAddressStore = new dojo.data.ItemFileReadStore({
             url:'/site/data-store/type/billAddress/clientId/' + val
@@ -72,19 +73,19 @@ bba.Site = {
 
         this.contactStore.fetch();
 
-        dijit.byId("site_idClientContact").store = this.contactStore;
+        dijit.byId("site_idClientContact").set('store', this.contactStore);
     },
 
     changeBillAddress : function()
     {
         dijit.byId("site_idAddressBill").set('disabled', false);
-        dijit.byId("site_idAddressBill").store = this.billAddressStore;
+        dijit.byId("site_idAddressBill").set('store', this.billAddressStore);
     },
 
     changeContact : function()
     {
         dijit.byId("site_idClientContact").set('disabled', false);
-        dijit.byId("site_idClientContact").store = this.contactStore;
+        dijit.byId("site_idClientContact").set('store', this.contactStore);
     }
 };
 

@@ -36,6 +36,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
+dojo.provide("bba.DataGrid");
 dojo.require("dojox.grid.DataGrid");
 
 dojo.declare(

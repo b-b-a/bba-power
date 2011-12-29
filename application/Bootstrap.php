@@ -59,6 +59,29 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     public $frontController;
 
+    private $errorType = array (
+		E_ERROR				=> 'ERROR',
+		E_WARNING			=> 'WARNING',
+		E_PARSE				=> 'PARSING ERROR',
+		E_NOTICE			=> 'NOTICE',
+		E_CORE_ERROR		=> 'CORE ERROR',
+		E_CORE_WARNING		=> 'CORE WARNING',
+		E_COMPILE_ERROR		=> 'COMPILE ERROR',
+		E_COMPILE_WARNING	=> 'COMPILE WARNING',
+		E_USER_ERROR		=> 'USER ERROR',
+		E_USER_WARNING		=> 'USER WARNING',
+		E_USER_NOTICE		=> 'USER NOTICE',
+		E_STRICT			=> 'STRICT NOTICE',
+		E_RECOVERABLE_ERROR	=> 'RECOVERABLE ERROR',
+		E_DEPRECATED		=> 'DEPRECATED',
+		E_USER_DEPRECATED	=> 'USER DEPRECATED'
+	);
+
+    /**
+     * EOL character
+     */
+    const EOL = "\n";
+
     /**
      * Adds a cache to production environment for plugin loader.
      */
@@ -85,21 +108,49 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initLogging()
     {
         $this->bootstrap('frontController');
+        $bbaErrorHandler = set_error_handler(array($this,'errorHandler'));
         $logger = new Zend_Log();
-        $logger->registerErrorHandler();
-
-        $writer = 'production' == $this->getEnvironment() ?
-            new Zend_Log_Writer_Stream(APPLICATION_PATH.'/../data/logs/app.log') :
-            new Zend_Log_Writer_Firebug();
-        $logger->addWriter($writer);
 
         if ('production' == $this->getEnvironment()) {
-            $filter = new Zend_Log_Filter_Priority(Zend_Log::CRIT);
+            $writer = new Zend_Log_Writer_Stream(APPLICATION_PATH.'/../data/logs/bba-power.log');
+            $filter = new Zend_Log_Filter_Priority(Zend_Log::INFO);
             $logger->addFilter($filter);
+        } else {
+            $writer = new Zend_Log_Writer_Firebug();
+            $writer->setPriorityStyle(8, 'TABLE');
+            $logger->addPriority('TABLE', 8);
         }
+
+        $logger->addWriter($writer);
 
         $this->_logger = $logger;
         Zend_Registry::set('log', $logger);
+    }
+
+    public function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
+    {
+        if ('production' == $this->getEnvironment()) {
+            $errorMessage = self::EOL . 'Error ' . $this->errorType[$errno] . self::EOL;
+            $errorMessage .= 'ERROR NO : ' . $errno . self::EOL;
+            $errorMessage .= 'TEXT : ' . $errstr . self::EOL;
+            $errorMessage .= 'LOCATION : ' . $errfile . ' ' . $errline . self::EOL;
+            $errorMessage .= 'DATE : ' . date('F j, Y, g:i a') . self::EOL;
+            $errorMessage .= '------------------------------------' . self::EOL;
+            $this->_logger->log($errorMessage, $errno);
+        } else {
+            $errorMessage = array('Error : ' . $this->errorType[$errno], array(
+                array('', ''),
+                array('Error No', $errno),
+                array('Message', $errstr),
+                array('File Name', $errfile),
+                array('Line No', $errline),
+                //array('Context', $errcontext)
+            ));
+
+            $this->_logger->table($errorMessage);
+        }
+
+        return true;
     }
 
     /**
@@ -107,8 +158,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initDbProfiler()
     {
-        $this->_logger->info(__METHOD__);
-
         if ('production' !== $this->getEnvironment()) {
             $this->bootstrap('db');
             $profiler = new Zend_Db_Profiler_Firebug('All DB Queries');
@@ -124,23 +173,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initDbCaches()
     {
-        $this->_logger->info(__METHOD__);
-
         if ('production' == $this->getEnvironment()) {
-            $frontendOptions = array(
-                // set cache life time for 30 days
-                'lifetime'                => 60*60*24*30,
-                'automatic_serialization' => true
-            );
-            $backendOptions = array(
-                'cache_dir' => APPLICATION_PATH . '/../data/cache'
-            );
-
-            $cache = Zend_Cache::factory(
-                'Core',
-                'File',
-                $frontendOptions,
-                $backendOptions
+            $cache = Zend_Cache::factory('Core', 'File',
+                array(
+                    'lifetime'                => 60*60*24*1,
+                    'automatic_serialization' => true
+                ),
+                array('cache_dir' => APPLICATION_PATH . '/../data/cache')
             );
             Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);
         }
@@ -151,8 +190,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initDefaultModuleAutoloader()
     {
-        $this->_logger->info(__METHOD__);
-
         $this->_resourceLoader = new Zend_Application_Module_Autoloader(array(
             'namespace' => 'Power',
             'basePath'  => APPLICATION_PATH . '/modules/power',
@@ -164,8 +201,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     public function _initCoreSession()
     {
-        $this->_logger->info(__METHOD__);
-
         $this->bootstrap('db');
         $this->bootstrap('session');
 
@@ -177,8 +212,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initActionHelpers()
     {
-        $this->_logger->info(__METHOD__);
-
         Zend_Controller_Action_HelperBroker::addHelper(new ZendSF_Controller_Helper_Acl());
         Zend_Controller_Action_HelperBroker::addHelper(new ZendSF_Controller_Helper_Service());
     }
@@ -188,8 +221,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initGlobalViewHelperPath()
     {
-        $this->_logger->info(__METHOD__);
-
         $this->bootstrap('view');
 
         $this->_view = $this->getResource('view');
@@ -202,34 +233,44 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     protected function _initConfig()
     {
-        $this->_logger->info(__METHOD__);
-
         $options = new Zend_Config_Ini(APPLICATION_PATH . '/configs/options.ini');
         Zend_Registry::set('config', $options);
     }
 
     protected function _initViewSettings()
     {
-        $this->_logger->info(__METHOD__);
-
         Zend_Dojo::enableView($this->_view);
         Zend_Dojo_View_Helper_Dojo::setUseDeclarative();
 
         $this->_view->dojo()
-            ->setLocalPath('/js/release/dojo/dojo.js');
-        $this->_view->headLink()
-            ->prependStylesheet('/js/release/dojo/dijit/themes/claro/claro.css')
-            ->prependStylesheet('/js/release/dojo/dojox/grid/resources/Grid.css')
-            ->prependStylesheet('/js/release/dojo/dojox/grid/resources/claroGrid.css')
-            ->prependStylesheet('/js/release/dojo/dojox/widget/Wizard/Wizard.css');
+            ->setDjConfig(array(
+                'parseOnLoad' => true
+            ))
+            ->addStyleSheetModule('dijit.themes.claro')
+            ->addLayer('/js/bba/layer.js')
+            ;
+
+        if ('development' !== $this->getEnvironment()) {
+            $this->_view->dojo()
+                ->setLocalPath('/js/release/bba/dojo/dojo.js');
+            $this->_view->headLink()
+                ->appendStylesheet('/js/release/bba/dojox/grid/resources/Grid.css')
+                ->appendStylesheet('/js/release/bba/dojox/grid/resources/claroGrid.css')
+                ->appendStylesheet('/js/release/bba/dojox/widget/Wizard/Wizard.css');
+        } else {
+            $this->_view->dojo()
+                ->setLocalPath('/js/dojo/dojo.js');
+            $this->_view->headLink()
+                ->appendStylesheet('/js/dojox/grid/resources/Grid.css')
+                ->appendStylesheet('/js/dojox/grid/resources/claroGrid.css')
+                ->appendStylesheet('/js/dojox/widget/Wizard/Wizard.css');
+        }
 
         $this->_view->headTitle('BBA Power')->setSeparator(' - ');
     }
 
     protected function _initMenu()
     {
-        $this->_logger->info(__METHOD__);
-
         $menu = new Zend_Config_Xml(APPLICATION_PATH . '/configs/navigation.xml', 'nav');
         $this->_view->navigation(new Zend_Navigation($menu));
     }

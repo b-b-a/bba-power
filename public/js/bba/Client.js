@@ -26,6 +26,7 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 dojo.provide('bba.Client');
+dojo.require('bba.Core');
 
 bba.Client = {}
 

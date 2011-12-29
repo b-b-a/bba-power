@@ -1,6 +1,6 @@
 <?php $form = $this->meterSaveForm; ?>
 
-<div class="form_wrap">
+<div class="form_wrap meter-add">
     <div class="zend_form">
 
         <?php  if ($this->request()->getParam('type') == 'add'): ?>
@@ -13,7 +13,7 @@
                    required="true"
                    value="<?php echo $form->meter_type->getValue(); ?>" />
         <?php endif; ?>
-
+        
         <?php echo $form->meter_numberSerial; ?>
 
         <?php echo $form->meter_numberTop; ?>

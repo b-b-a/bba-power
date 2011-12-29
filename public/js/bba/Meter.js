@@ -27,6 +27,7 @@
  */
 
 dojo.provide('bba.Meter');
+dojo.require('bba.Core');
 
 bba.Meter = {}
 

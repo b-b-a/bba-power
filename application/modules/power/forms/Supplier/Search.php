@@ -44,15 +44,17 @@ class Power_Form_Supplier_Search extends Power_Form_SearchBase
         $this->addElement('TextBox', 'supplier', array(
             'label'     => 'Supplier:',
             'attribs'   => array('class' => 'search'),
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'required'  => false
         ));
 
         $this->addElement('TextBox', 'contact', array(
             'label'     => 'Contact:',
             'attribs'   => array('class' => 'search'),
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'required'  => false
         ));
-        
+
         parent::init();
     }
 

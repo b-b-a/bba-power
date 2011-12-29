@@ -125,12 +125,12 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
 
         $table = $this->getModel()->getDbTable('tables');
         $list = $table->getSelectListByName('contract_type');
-        $multiOptions = array(0 => 'Select type');
+        
         foreach($list as $row) {
             $multiOptions[$row->tables_key] = $row->tables_value;
         }
 
-        $this->addElement('FilteringSelect', 'contract_type', array(
+        $this->addElement('RadioButton', 'contract_type', array(
             'label'         => 'Type:',
             'filters'       => array('StripTags', 'StringTrim'),
             'autocomplete'  => false,
