@@ -9,5 +9,6 @@ data/cache/db/*
 !data/cache/db/donotremove
 data/logs/*
 !data/logs/donotremove
+public/.htaccess
 tests/tmp/db/*
 tests/tmp/session/*

@@ -429,7 +429,7 @@ th {
 
 .claro .dojoxGridHeader .dojoxGridCell  {
 	padding-left: 5px;
-    background: url("/js/dojox/grid/resources/images/header_shadow.png") #e5edf4 repeat-x bottom;
+    background: url("/js/release/bba/dojox/grid/resources/images/header_shadow.png") #e5edf4 repeat-x bottom;
 }
 
 .claro .dojoxGridHeader .dojoxGridCell:hover {
