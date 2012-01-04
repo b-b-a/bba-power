@@ -48,7 +48,12 @@ html, body {
     border: 0px;
 }
 
-.claro .tabContainer .contractEditTabs-BorderContainter {
+.claro .tabContainer .clientEditTabs-BorderContainter,
+.claro .tabContainer .clientAddressEditTabs-BorderContainter,
+.claro .tabContainer .siteEditTabs-BorderContainter,
+.claro .tabContainer .meterEditTabs-BorderContainter,
+.claro .tabContainer .contractEditTabs-BorderContainter,
+.claro .tabContainer .supplierEditTabs-BorderContainter {
     height: 50%;
 }
 

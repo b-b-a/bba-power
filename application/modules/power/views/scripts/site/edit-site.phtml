@@ -3,7 +3,7 @@
      class="tabContainer">
 
     <div data-dojo-type="dijit.layout.ContentPane"
-         data-dojo-props="region: 'top'">
+         data-dojo-props="region: 'center'">
         <div class="tabHeading">
 
             <div class="form_wrap zend_form site_edit ident alpha"
@@ -76,50 +76,51 @@
             </div>
 
             <div class="clear"></div>
+        </div>
+    </div>
 
-            <div class="tableHead">
-                <?php if ($this->isAllowed('User')): ?>
-                <p class="tableHead-button">
-                    <button dojoType="dijit.form.Button"
-                            id="new-meter-button-<?php echo $this->site->site_idSite; ?>"
-                            type="button">New Meter</button>
-                </p>
-                <?php endif; ?>
+    <div data-dojo-type="dijit.layout.BorderContainer"
+         data-dojo-props="design: 'headline', region: 'bottom', splitter: 'true'"
+         class="siteEditTabs-BorderContainter">
+
+        <div id="SiteTabs<?php echo $this->site->site_idSite; ?>"
+             data-dojo-type="dijit.layout.TabContainer"
+             data-dojo-props="region: 'center', tabStrip: 'true'"
+             class="innerTabs">
+
+            <div data-dojo-type="dijit.layout.ContentPane"
+                 data-dojo-props="region: 'center', title: 'Meters'">
+
+                <span dojoType="dojox.data.QueryReadStore"
+                     jsid="meterStore<?php echo $this->site->site_idSite; ?>"
+                     url="/site/data-store/type/siteMeters"
+                     requestMethod="post"></span>
+
+                <table dojoType="bba.DataGrid"
+                       jsId="meterGrid<?php echo $this->site->site_idSite; ?>"
+                       store="meterStore<?php echo $this->site->site_idSite; ?>"
+                       structure="bba.gridLayouts.site"
+                       query="{ meter_idSite: <?php echo $this->site->site_idSite; ?> }"
+                       queryParent="meter_idSite"
+                       sortInfo="-3"
+                       tabs="true"
+                       tabTitleColumn="meter_numberMain">
+                </table>
             </div>
         </div>
     </div>
 
-    <div id="SiteTabs<?php echo $this->site->site_idSite; ?>"
-         data-dojo-type="dijit.layout.TabContainer"
-         data-dojo-props="region: 'center', tabStrip: 'true'"
-         class="innerTabs">
-
-        <div data-dojo-type="dijit.layout.ContentPane"
-             data-dojo-props="region: 'center', title: 'Meters'">
-
-            <span dojoType="dojox.data.QueryReadStore"
-                 jsid="meterStore<?php echo $this->site->site_idSite; ?>"
-                 url="/site/data-store/type/siteMeters"
-                 requestMethod="post"></span>
-
-            <table dojoType="bba.DataGrid"
-                   jsId="meterGrid<?php echo $this->site->site_idSite; ?>"
-                   store="meterStore<?php echo $this->site->site_idSite; ?>"
-                   query="{ meter_idSite: <?php echo $this->site->site_idSite; ?> }"
-                   queryParent="meter_idSite"
-                   sortInfo="-3"
-                   tabs="true"
-                   tabTitleColumn="meter_numberMain">
-                <thead>
-                    <tr>
-                        <th field="meter_idMeter" width="50">Id</th>
-                        <th field="meter_type" width="100">Type</th>
-                        <th field="meter_numberSerial" width="200">Number Serial</th>
-                        <th field="meter_numberMain" width="200">Number Main</th>
-                        <th field="" width="auto"></th>
-                    </tr>
-                </thead>
-            </table>
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'bottom'"
+         class="tableHeadPane">
+        <div class="tableHead">
+            <?php if ($this->isAllowed('User')): ?>
+            <p class="tableHead-button">
+                <button dojoType="dijit.form.Button"
+                        id="new-meter-button-<?php echo $this->site->site_idSite; ?>"
+                        type="button">New Meter</button>
+            </p>
+            <?php endif; ?>
         </div>
     </div>
 </div>

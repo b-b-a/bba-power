@@ -3,8 +3,9 @@
      class="tabContainer">
 
     <div data-dojo-type="dijit.layout.ContentPane"
-         data-dojo-props="region: 'top'">
+         data-dojo-props="region: 'center'">
         <div class="tabHeading">
+
             <div class="form_wrap zend_form client_edit ident alpha"
                  dojoType="dijit.form.Form"
                  id="edit-client-<?php echo $this->client->client_idClient; ?>">
@@ -60,7 +61,66 @@
                 </div>
             </div>
             <div class="clear"></div>
+        </div>
+    </div>
 
+    <div data-dojo-type="dijit.layout.BorderContainer"
+         data-dojo-props="design: 'headline', region: 'bottom', splitter: 'true'"
+         class="clientEditTabs-BorderContainter">
+
+        <div id="ClientTabs<?php echo $this->client->client_idClient; ?>"
+             data-dojo-type="dijit.layout.TabContainer"
+             data-dojo-props="region: 'center', tabStrip: 'true'"
+             class="innerTabs">
+
+            <div data-dojo-type="dijit.layout.ContentPane"
+                 data-dojo-props="region: 'center', title: 'Client Addresses'">
+
+                <span dojoType="dojox.data.QueryReadStore"
+                      jsid="clientAddressStore<?php echo $this->client->client_idClient; ?>"
+                      url="/client/data-store/type/address"
+                      requestMethod="post"></span>
+
+                <table dojoType="bba.DataGrid"
+                       jsId="addressGrid<?php echo $this->client->client_idClient; ?>"
+                       store="clientAddressStore<?php echo $this->client->client_idClient; ?>"
+                       structure="bba.gridLayouts.clientAddress"
+                       query="{ clientAd_idClient: <?php echo $this->client->client_idClient; ?> }"
+                       queryParent="clientAd_idClient"
+                       sortInfo="2"
+                       tabs="true"
+                       tabTitleColumn="clientAd_addressName">
+                </table>
+            </div>
+
+            <div data-dojo-type="dijit.layout.ContentPane"
+                 data-dojo-props="region: 'center', title: 'Client Contacts'">
+
+                <span dojoType="dojox.data.QueryReadStore"
+                      jsid="clientContactStore<?php echo $this->client->client_idClient; ?>"
+                      url="/client/data-store/type/contact"
+                      requestMethod="post"></span>
+
+                <table dojoType="bba.DataGrid"
+                       jsId="contactGrid<?php echo $this->client->client_idClient; ?>"
+                       store="clientContactStore<?php echo $this->client->client_idClient; ?>"
+                       structure="bba.gridLayouts.clientContact"
+                       query="{ clientCo_idClient: <?php echo $this->client->client_idClient; ?> }"
+                       queryParent="clientCo_idClient"
+                       sortInfo="2"
+                       newButtonId="<?php echo $this->client->client_idClient; ?>"
+                       dialog="true">
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'bottom'"
+         class="tableHeadPane">
+        <div class="tableHead">
             <?php if ($this->isAllowed('User')): ?>
             <div class="tableHead">
                 <p class="tableHead-button">
@@ -76,63 +136,5 @@
             </div>
             <?php endif; ?>
         </div>
-    </div>
-
-    <div id="ClientTabs<?php echo $this->client->client_idClient; ?>"
-         data-dojo-type="dijit.layout.TabContainer"
-         data-dojo-props="region: 'center', tabStrip: 'true'"
-         class="innerTabs">
-
-        <div data-dojo-type="dijit.layout.ContentPane"
-             data-dojo-props="region: 'center', title: 'Client Addresses'">
-
-            <span dojoType="dojox.data.QueryReadStore"
-                  jsid="clientAddressStore<?php echo $this->client->client_idClient; ?>"
-                  url="/client/data-store/type/address"
-                  requestMethod="post"></span>
-
-            <table dojoType="bba.DataGrid"
-                   jsId="addressGrid<?php echo $this->client->client_idClient; ?>"
-                   store="clientAddressStore<?php echo $this->client->client_idClient; ?>"
-                   structure="bba.gridLayouts.clientAddress"
-                   query="{ clientAd_idClient: <?php echo $this->client->client_idClient; ?> }"
-                   queryParent="clientAd_idClient"
-                   sortInfo="2"
-                   tabs="true"
-                   tabTitleColumn="clientAd_addressName">
-            </table>
-        </div>
-
-        <div data-dojo-type="dijit.layout.ContentPane"
-             data-dojo-props="region: 'center', title: 'Client Contacts'">
-
-            <span dojoType="dojox.data.QueryReadStore"
-                  jsid="clientContactStore<?php echo $this->client->client_idClient; ?>"
-                  url="/client/data-store/type/contact"
-                  requestMethod="post"></span>
-
-            <table dojoType="bba.DataGrid"
-                   jsId="contactGrid<?php echo $this->client->client_idClient; ?>"
-                   store="clientContactStore<?php echo $this->client->client_idClient; ?>"
-                   query="{ clientCo_idClient: <?php echo $this->client->client_idClient; ?> }"
-                   queryParent="clientCo_idClient"
-                   sortInfo="2"
-                   newButtonId="<?php echo $this->client->client_idClient; ?>"
-                   dialog="true">
-                <thead>
-                    <tr>
-                        <th field="clientCo_idClientContact" width="50">Id</th>
-                        <th field="clientCo_type" width="100">Type</th>
-                        <th field="clientCo_name" width="200">Name</th>
-                        <th field="clientCo_phone" width="300">Phone</th>
-                        <th field="clientCo_email" width="200">Email</th>
-                        <th field="clientAd_postcode" width="100">Postcode</th>
-                        <th field="" width="auto"></th>
-                    </tr>
-                </thead>
-            </table>
-
-        </div>
-
     </div>
 </div>
