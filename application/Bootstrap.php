@@ -244,7 +244,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $this->_view->dojo()
             ->setDjConfig(array(
-                'parseOnLoad' => true
+                'parseOnLoad'   => true,
+                'async'         => true
             ))
             ->addStyleSheetModule('dijit.themes.claro')
             ->addLayer('/js/bba/layer.js')

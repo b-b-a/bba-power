@@ -25,12 +25,12 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-
-dojo.provide('bba.Meter');
-dojo.require('bba.Core');
+define("bba/Meter", ["dojo", "dijit", "bba/Core"], function(dojo, dijit){
 
 bba.Meter = {}
 
 dojo.addOnLoad(function () {
     dijit.byId('meter').focus();
+});
+
 });

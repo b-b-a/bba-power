@@ -1,36 +1,36 @@
-dojo.provide("bba.layer");
 
-(function(){
+require(
+    [
+        "dojo/data/ItemFileReadStore",
+        "dojo/data/ItemFileWriteStore",
+        "dojo/parser",
 
-dojo.require("dojo.data.ItemFileReadStore");
-dojo.require("dojo.data.ItemFileWriteStore")
-dojo.require("dojo.parser");
+        "dijit/Dialog",
+        "dijit/WidgetSet",
 
-dojo.require("dijit.Dialog");
+        "dijit/form/Button",
+        "dijit/form/DateTextBox",
+        "dijit/form/FilteringSelect",
+        "dijit/form/Form",
+        "dijit/form/NumberSpinner",
+        "dijit/form/RadioButton",
+        "dijit/form/SimpleTextarea",
+        "dijit/form/TextBox",
+        "dijit/form/ValidationTextBox",
 
-dojo.require("dijit.form.Button");
-dojo.require("dijit.form.DateTextBox");
-dojo.require("dijit.form.FilteringSelect");
-dojo.require("dijit.form.Form");
-dojo.require("dijit.form.NumberSpinner");
-dojo.require("dijit.form.RadioButton");
-dojo.require("dijit.form.SimpleTextarea");
-dojo.require("dijit.form.TextBox");
-dojo.require("dijit.form.ValidationTextBox");
+        "dijit/layout/BorderContainer",
+        "dijit/layout/ContentPane",
+        "dijit/layout/LinkPane",
+        "dijit/layout/TabContainer",
 
-dojo.require("dijit.layout.BorderContainer");
-dojo.require("dijit.layout.ContentPane");
-dojo.require("dijit.layout.LinkPane");
-dojo.require("dijit.layout.TabContainer");
+        "dojox/data/QueryReadStore",
+        "dojox/grid/DataGrid",
 
-dojo.require("dojox.data.QueryReadStore");
-dojo.require("dojox.grid.DataGrid");
+        "dojox/widget/Wizard",
 
-dojo.require("dojox.widget.Wizard");
-
-dojo.require("bba.Core");
-dojo.require("bba.ContentPane");
-dojo.require("bba.StackContainer");
-dojo.require("bba.DataGrid");
-
-})();
+        "bba/Core",
+        "bba/ContentPane",
+        "bba/StackContainer",
+        "bba/DataGrid"
+    ]
+);

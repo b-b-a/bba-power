@@ -26,11 +26,12 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
-dojo.provide('bba.User');
-dojo.require('bba.Core');
+define("bba/User", ["dojo", "dijit", "bba/Core"], function(dojo, dijit){
 
 bba.User = {}
 
 dojo.addOnLoad(function () {
     dijit.byId('user').focus();
+});
+
 });

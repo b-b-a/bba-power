@@ -129,5 +129,7 @@ dojo.addOnLoad(function() {
     loader.style.display = "none";
 });
 
+return bba;
+
 });
 

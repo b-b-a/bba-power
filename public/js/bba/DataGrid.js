@@ -36,8 +36,8 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-dojo.provide("bba.DataGrid");
-dojo.require("dojox.grid.DataGrid");
+
+define("bba/DataGrid", ["dojo", "dijit", "dojox"], function(dojo, dijit, dojox){
 
 dojo.declare(
     "bba.DataGrid",
@@ -261,6 +261,9 @@ dojo.declare(
                     })
                 });
 
+                var ws = new dijit.WidgetSet();
+                ws.add(this.dlg);
+
                 dojo.connect(this.dlg, 'onLoad', dojo.hitch(this, function(){
                     dojo.connect(
                         dijit.byId(this.hyphenate(con) + 'FormCancelButton'),
@@ -330,6 +333,9 @@ dojo.declare(
                                 "onClick",
                                 dojo.hitch(this.dlg, 'hide')
                             );
+
+                            var ws = new dijit.WidgetSet();
+                            ws.add(this.dlg);
 
                             var selects = dijit.registry.byClass("dijit.form.FilteringSelect");
                             selects.forEach(function(widget){
@@ -403,4 +409,6 @@ bba.DataGrid.markupFactory = function(props, node, ctor, cellFunc){
 	return dojox.grid._Grid.markupFactory(props, node, ctor,
 					dojo.partial(dojox.grid.DataGrid.cell_markupFactory, cellFunc));
 };
+
+});
 

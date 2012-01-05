@@ -36,8 +36,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-dojo.provide('bba.Site');
-dojo.require('bba.Core');
+define("bba/Site", ["dojo", "dijit", "bba/Core"], function(dojo, dijit){
 
 bba.Site = {
     addressStore : null,
@@ -91,4 +90,6 @@ bba.Site = {
 
 dojo.addOnLoad(function () {
     dijit.byId('site').focus();
+});
+
 });

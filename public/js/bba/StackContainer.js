@@ -25,8 +25,8 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-dojo.provide('bba.StackContainer');
-dojo.require("dijit.layout.StackContainer");
+
+define("bba/StackContainer", ["dojo", "dijit"], function(dojo, dijit){
 
 dojo.extend(
     dijit.layout.StackContainer,
@@ -74,4 +74,6 @@ dojo.extend(
         }
     }
 );
+
+});
 

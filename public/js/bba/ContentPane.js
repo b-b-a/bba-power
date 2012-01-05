@@ -25,8 +25,8 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-dojo.provide('bba.ContentPane');
-dojo.require("dijit.layout.ContentPane");
+
+define("bba/ContentPane", ["dojo", "dijit"], function(dojo, dijit){
 
 dojo.extend(
     dijit.layout.ContentPane,
@@ -82,4 +82,6 @@ dojo.extend(
         }
     }
 );
+
+});
 

@@ -25,8 +25,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-dojo.provide('bba.Contract');
-dojo.require('bba.Core');
+define("bba/Contract", ["dojo", "dijit", "bba/Core"], function(dojo, dijit){
 
 bba.Contract = {
 
@@ -97,4 +96,6 @@ bba.Contract = {
 
 dojo.addOnLoad(function () {
     dijit.byId('contract').focus();
+});
+
 });
