@@ -1,4 +1,5 @@
 assets/*
+!assets/htaccess
 scripts/*
 nbproject/*
 /*.log
