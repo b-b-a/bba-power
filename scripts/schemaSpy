@@ -1,1 +1,0 @@
-java -jar schemaSpy.jar -t mysql -o ./html -host localhost -db bba-power -u bba -p password -dp /usr/share/java/mysql-connector-java-5.1.10.jar -hq
