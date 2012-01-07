@@ -4,3 +4,15 @@
 [submodule "library/Zend"]
 	path = library/Zend
 	url = git@github.com:shaun-freeman/Zend.git
+[submodule "public/js/dojo"]
+	path = public/js/dojo
+	url = git@github.com:shaun-freeman/dojo.git
+[submodule "public/js/dijit"]
+	path = public/js/dijit
+	url = git@github.com:shaun-freeman/dijit.git
+[submodule "public/js/dojox"]
+	path = public/js/dojox
+	url = git@github.com:shaun-freeman/dojox.git
+[submodule "public/js/util"]
+	path = public/js/util
+	url = git@github.com:shaun-freeman/util.git
