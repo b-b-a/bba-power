@@ -1,7 +1,7 @@
 dependencies = {
 	action: "clean,release",
 	version: "bba-2.0",
-	releaseName: "bba",
+	releaseName: "bba-1",
 	stripConsole: "normal",
 	selectorEngine:"acme",
 	optimize: "shrinksafe",
