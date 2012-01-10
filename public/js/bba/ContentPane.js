@@ -26,11 +26,9 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
-define("bba/ContentPane", ["dojo", "dijit"], function(dojo, dijit){
+define("bba/ContentPane", ["dijit/layout/ContentPane"], function(ContentPane){
 
-dojo.extend(
-    dijit.layout.ContentPane,
-    {
+    dojo.extend(ContentPane, {
         _load: function()
         {
             // summary:
@@ -80,8 +78,7 @@ dojo.extend(
         {
             console.log(error);
         }
-    }
-);
+    });
 
 });
 

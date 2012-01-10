@@ -40,23 +40,12 @@
         <table dojoType="bba.DataGrid"
                jsId="siteGrid"
                store="siteStore"
+               structure="bba.gridLayouts.site"
                query='<?php echo $this->search; ?>'
                sortInfo="2"
                search="true"
                tabs="true"
                tabTitleColumn="client_name">
-            <thead>
-                <tr>
-                    <th field="site_idSite" width="50">Id</th>
-                    <th field="client_name" width="300">Client</th>
-                    <th field="client_desc" width="200">Description</th>
-                    <th field="clientAd_addressName" width="200">Address Name</th>
-                    <th field="clientAd_address1" width="200">Address 1</th>
-                    <th field="clientAd_postcode" width="100">Postcode</th>
-                    <th field="clientCo_name" width="100">Contact</th>
-                    <th field="" width="auto"></th>
-                </tr>
-            </thead>
         </table>
     </div>
 </div>

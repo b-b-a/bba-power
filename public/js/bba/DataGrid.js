@@ -37,12 +37,12 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
-define("bba/DataGrid", ["dojo", "dijit", "dojox"], function(dojo, dijit, dojox){
+define("bba/DataGrid",
+    ["dojo/_base/declare", "dojo/_base/lang", "dojo/_base/html", "dojo",
+    "dijit", "dijit/WidgetSet", "dijit/Dialog", "dojox/grid/DataGrid", "dojox/grid/_Grid"],
+    function(declare, lang, html, dojo, dijit, WidgetSet, Dialog, DataGrid, _Grid) {
 
-dojo.declare(
-    "bba.DataGrid",
-    dojox.grid.DataGrid,
-    {
+    var bbaDataGrid = declare("bba.DataGrid", DataGrid, {
         autoWidth : false,
         selectionMode : 'single',
         clientSort : true,
@@ -233,7 +233,7 @@ dojo.declare(
                 var urlCon = (this.controller != '') ?
                         this.controller : this.hyphenate(con).split('-')[0];
 
-                this.dlg = new dijit.Dialog({
+                this.dlg = new Dialog({
                     id: type + identParts[0],
                     title: (this.dialogName) ? this.dialogName :
                         this.capitalize(type + ' ' + con.replace('-', ' ')),
@@ -257,11 +257,11 @@ dojo.declare(
                     }),
                     onShow: dojo.hitch(this.dlg, function(){
                         this.set("dimensions", [400, 200]);
-                        this.layout();
+                        //this.layout();
                     })
                 });
 
-                var ws = new dijit.WidgetSet();
+                var ws = new WidgetSet();
                 ws.add(this.dlg);
 
                 dojo.connect(this.dlg, 'onLoad', dojo.hitch(this, function(){
@@ -311,7 +311,7 @@ dojo.declare(
                       }
                       console.log(data);
                   } else {
-                      this.dlg = new dijit.Dialog({
+                      this.dlg = new Dialog({
                         title: (this.dialogName) ? this.dialogName :
                         this.capitalize(type + ' ' + this.hyphenate(this.getNewController()).replace('-', ' ')),
                         style: "width:500px;",
@@ -334,7 +334,7 @@ dojo.declare(
                                 dojo.hitch(this.dlg, 'hide')
                             );
 
-                            var ws = new dijit.WidgetSet();
+                            var ws = new WidgetSet();
                             ws.add(this.dlg);
 
                             var selects = dijit.registry.byClass("dijit.form.FilteringSelect");
@@ -387,28 +387,29 @@ dojo.declare(
             if (str.match('{')) str = str + '}';
             return dojo.replace(str, this.abrev);
         }
-    }
-);
+    });
 
-bba.DataGrid.cell_markupFactory = function(cellFunc, node, cellDef){
-	var field = dojo.trim(dojo.attr(node, "field")||"");
-	if(field){
-		cellDef.field = field;
-	}
-	cellDef.field = cellDef.field||cellDef.name;
-	var fields = dojo.trim(dojo.attr(node, "fields")||"");
-	if(fields){
-		cellDef.fields = fields.split(",");
-	}
-	if(cellFunc){
-		cellFunc(node, cellDef);
-	}
-};
+    bbaDataGrid.cell_markupFactory = function(cellFunc, node, cellDef){
+        var field = lang.trim(html.attr(node, "field")||"");
+        if(field){
+            cellDef.field = field;
+        }
+        cellDef.field = cellDef.field||cellDef.name;
+        var fields = lang.trim(html.attr(node, "fields")||"");
+        if(fields){
+            cellDef.fields = fields.split(",");
+        }
+        if(cellFunc){
+            cellFunc(node, cellDef);
+        }
+    };
 
-bba.DataGrid.markupFactory = function(props, node, ctor, cellFunc){
-	return dojox.grid._Grid.markupFactory(props, node, ctor,
-					dojo.partial(dojox.grid.DataGrid.cell_markupFactory, cellFunc));
-};
+    bbaDataGrid.markupFactory = function(props, node, ctor, cellFunc){
+        return _Grid.markupFactory(props, node, ctor,
+                        lang.partial(DataGrid.cell_markupFactory, cellFunc));
+    };
+
+    return bbaDataGrid;
 
 });
 

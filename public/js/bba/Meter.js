@@ -25,12 +25,18 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-define("bba/Meter", ["dojo", "dijit", "bba/Core"], function(dojo, dijit){
+require(
+    //"bba/Meter",
+    ["dojo/dom","dojo/ready", "bba/Core",
+    "bba/DataGrid", "dijit/form/RadioButton", "dijit/form/NumberSpinner"],
+    function(dom, ready, bba) {
 
-bba.Meter = {}
+    ready(function(){
+        dom.byId('meter').focus();
+    });
 
-dojo.addOnLoad(function () {
-    dijit.byId('meter').focus();
-});
+    bba.Meter = {}
+
+    return bba.Meter;
 
 });

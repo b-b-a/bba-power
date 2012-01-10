@@ -26,11 +26,9 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
-define("bba/StackContainer", ["dojo", "dijit"], function(dojo, dijit){
+define("bba/StackContainer", ["dijit/layout/StackContainer"], function(StackContainer){
 
-dojo.extend(
-    dijit.layout.StackContainer,
-    {
+    dojo.extend(StackContainer, {
         prevTab : null,
 
         removeChild: function(/*dijit._Widget*/ page){
@@ -72,8 +70,7 @@ dojo.extend(
                 this.layout();
             }
         }
-    }
-);
+    });
 
 });
 

@@ -124,12 +124,11 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
             ->join('client_address', 'clientAd_idAddress = site_idAddress', array(
                 'clientAd_addressName',
                 'clientAd_address1',
+                'clientAd_address2',
+                'clientAd_address3',
                 'clientAd_postcode'
             ))
-            ->join('client', 'client_idClient = site_idClient', array(
-                'client_name',
-                'client_desc' => 'SUBSTR(client_desc, 1, 15)'
-            ))
+            ->join('client', 'client_idClient = site_idClient', array('client_name'))
             ->joinLeft(
                 'client_contact', 'clientCo_idClientContact = site_idClientContact', array(
 				'clientCo_name'
