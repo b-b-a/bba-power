@@ -25,77 +25,84 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-define("bba/Contract", ["dojo", "dijit", "bba/Core"], function(dojo, dijit){
+define("bba/Contract",
+    ["dojo/dom","dojo/ready", "bba/Core", "bba/Meter", "dijit/form/ValidationTextBox",
+    "dojo/data/ItemFileReadStore", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea",
+    "dojo/data/ItemFileWriteStore"],
+    function(dom, ready, bba) {
 
-bba.Contract = {
+    ready(function () {
+        if (dom.byId('contract')) {
+            dom.byId('contract').focus();
+        }
+    });
 
-    closeDialog : function()
-    {
-        dijit.byId('addmeter').hide();
-    },
+    bba.Contract = {
 
-    preselectMeters : function(grid, id, items)
-    {
-        dojo.forEach(items, function(item){
-            if (item.contract_idContract == id) {
-                grid.selection.addToSelection(item)
+        closeDialog : function()
+        {
+            dijit.byId('addmeter').hide();
+        },
+
+        preselectMeters : function(grid, id, items)
+        {
+            dojo.forEach(items, function(item){
+                if (item.contract_idContract == id) {
+                    grid.selection.addToSelection(item)
+                }
+            });
+        },
+
+        selectAll : function(grid)
+        {
+            for (i = 0; i < grid.rowCount; i++) {
+              var obj = grid.getItem(i);
+              grid.selection.addToSelection(obj);
             }
-        });
-    },
+        },
 
-    selectAll : function(grid)
-    {
-        for (i = 0; i < grid.rowCount; i++) {
-          var obj = grid.getItem(i);
-          grid.selection.addToSelection(obj);
-        }
-    },
+        addMeterToContract : function(grid, meterContract)
+        {
+            var items = grid.selection.getSelected();
 
-    addMeterToContract : function(grid, meterContract)
-    {
-        var items = grid.selection.getSelected();
+            var kvaError = false;
 
-        var kvaError = false;
+            var data = {type: 'insert', contract : meterContract, meters : []};
 
-        var data = {type: 'insert', contract : meterContract, meters : []};
-
-        if (items.length) {
-            items.forEach(function(selectedItem){
-                if (!selectedItem.meterContract_kvaNominated) {
-                    kvaError = true;
-                    return false;
-                }
-
-                data.meters.push({
-                    id : selectedItem.meter_idMeter[0],
-                    kva : selectedItem.meterContract_kvaNominated[0]
-                });
-            });
-        }
-
-        if (!kvaError) {
-            dojo.xhrPost({
-                url: '/contract/save-meter-contract',
-                content: {jsonData : dojo.toJson(data)},
-                handleAs: 'json',
-                preventCache: true,
-                load: function(data) {
-                    if (data.saved) {
-                        dijit.byId('meterContractGrid' + meterContract)._refresh();
-                        dijit.byId('addmeter').hide();
-                    } else {
-                        alert('meters could not be saved');
+            if (items.length) {
+                items.forEach(function(selectedItem){
+                    if (!selectedItem.meterContract_kvaNominated) {
+                        kvaError = true;
+                        return false;
                     }
-                }
-            });
-        } else {
-            alert('No yearly comsuption was entered for one or more selected meters.');
+
+                    data.meters.push({
+                        id : selectedItem.meter_idMeter[0],
+                        kva : selectedItem.meterContract_kvaNominated[0]
+                    });
+                });
+            }
+
+            if (!kvaError) {
+                dojo.xhrPost({
+                    url: '/contract/save-meter-contract',
+                    content: {jsonData : dojo.toJson(data)},
+                    handleAs: 'json',
+                    preventCache: true,
+                    load: function(data) {
+                        if (data.saved) {
+                            dijit.byId('meterContractGrid' + meterContract)._refresh();
+                            dijit.byId('addmeter').hide();
+                        } else {
+                            alert('meters could not be saved');
+                        }
+                    }
+                });
+            } else {
+                alert('No yearly comsuption was entered for one or more selected meters.');
+            }
         }
     }
-}
 
-dojo.addOnLoad(function () {
-    dijit.byId('contract').focus();
-});
-
+    return bba.Contract;
 });

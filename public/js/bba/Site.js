@@ -36,71 +36,78 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-define("bba/Site", ["dojo", "dijit", "bba/Core"], function(dojo, dijit){
+define("bba/Site",
+    ["dojo/dom", "dojo/ready", "dojo/data/ItemFileReadStore", "dijit/registry", "bba/Core",
+    "dijit/form/RadioButton", "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect", "bba/DataGrid"],
+    function(dom, ready, ItemFileReadStore, registry, bba) {
 
-bba.gridLayouts.site = [
-    {field: 'site_idSite', width: '50px', name: 'Id'},
-    {field: 'client_name', width: '300px', name: 'Client'},
-    {field: 'clientAd_address1', width: '200px', name: 'Address 1'},
-    {field: 'clientAd_address2', width: '200px', name: 'Address 2'},
-    {field: 'clientAd_address3', width: '200px', name: 'Address 3'},
-    {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
-    {field: 'clientCo_name', width: '100px', name: 'Contact'},
-    {field: '', width: 'auto', name: ''}
-];
+    ready(function(){
+        dom.byId('site').focus();
+    });
 
-bba.Site = {
-    addressStore : null,
+    bba.Site = {
+        addressStore : null,
 
-    changeAddress : function(val)
-    {
-        if (dijit.byId("site_idAddress").get('disabled') == true) {
-            dijit.byId("site_idAddress").set('disabled', false);
-            dijit.byId("site_idClientContact").set('disabled', false);
+        gridLayouts : {
+            site : [
+                {field: 'site_idSite', width: '50px', name: 'Id'},
+                {field: 'client_name', width: '300px', name: 'Client'},
+                {field: 'clientAd_address1', width: '200px', name: 'Address 1'},
+                {field: 'clientAd_address2', width: '200px', name: 'Address 2'},
+                {field: 'clientAd_address3', width: '200px', name: 'Address 3'},
+                {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
+                {field: 'clientCo_name', width: '100px', name: 'Contact'},
+                {field: '', width: 'auto', name: ''}
+            ]
+        },
+
+        changeAddress : function(val)
+        {
+            if (registry.byId("site_idAddress").get('disabled') == true) {
+                registry.byId("site_idAddress").set('disabled', false);
+                registry.byId("site_idClientContact").set('disabled', false);
+            }
+
+            registry.byId('site_idAddress').set('value', '');
+            registry.byId('site_idAddressBill').set('value', '');
+            registry.byId('site_idClientContact').set('value', '');
+
+            this.addressStore = new ItemFileReadStore({
+                url:'/site/data-store/type/address/clientId/' + val
+            });
+
+            this.addressStore.fetch();
+
+            registry.byId("site_idAddress").set('store', this.addressStore);
+
+            this.billAddressStore = new ItemFileReadStore({
+                url:'/site/data-store/type/billAddress/clientId/' + val
+            });
+
+            this.billAddressStore.fetch();
+
+            this.contactStore = new ItemFileReadStore({
+                url:'/site/data-store/type/contact/clientId/' + val
+            });
+
+            this.contactStore.fetch();
+
+            registry.byId("site_idClientContact").set('store', this.contactStore);
+        },
+
+        changeBillAddress : function()
+        {
+            registry.byId("site_idAddressBill").set('disabled', false);
+            registry.byId("site_idAddressBill").set('store', this.billAddressStore);
+        },
+
+        changeContact : function()
+        {
+            registry.byId("site_idClientContact").set('disabled', false);
+            registry.byId("site_idClientContact").set('store', this.contactStore);
         }
+    };
 
-        dijit.byId('site_idAddress').set('value', '');
-        dijit.byId('site_idAddressBill').set('value', '');
-        dijit.byId('site_idClientContact').set('value', '');
-
-        this.addressStore = new dojo.data.ItemFileReadStore({
-            url:'/site/data-store/type/address/clientId/' + val
-        });
-
-        this.addressStore.fetch();
-
-        dijit.byId("site_idAddress").set('store', this.addressStore);
-
-        this.billAddressStore = new dojo.data.ItemFileReadStore({
-            url:'/site/data-store/type/billAddress/clientId/' + val
-        });
-
-        this.billAddressStore.fetch();
-
-        this.contactStore = new dojo.data.ItemFileReadStore({
-            url:'/site/data-store/type/contact/clientId/' + val
-        });
-
-        this.contactStore.fetch();
-
-        dijit.byId("site_idClientContact").set('store', this.contactStore);
-    },
-
-    changeBillAddress : function()
-    {
-        dijit.byId("site_idAddressBill").set('disabled', false);
-        dijit.byId("site_idAddressBill").set('store', this.billAddressStore);
-    },
-
-    changeContact : function()
-    {
-        dijit.byId("site_idClientContact").set('disabled', false);
-        dijit.byId("site_idClientContact").set('store', this.contactStore);
-    }
-};
-
-dojo.addOnLoad(function () {
-    dijit.byId('site').focus();
-});
+    return bba.Site;
 
 });

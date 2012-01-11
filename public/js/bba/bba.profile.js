@@ -1,58 +1,27 @@
-dependencies = {
-	action: "clean,release",
-	version: "bba-2.0",
-	releaseName: "bba-1",
-	stripConsole: "normal",
-	selectorEngine:"acme",
-	optimize: "shrinksafe",
-	layerOptimize: "shrinksafe",
-	copyTests: "false",
-    layers:[
-        {
-            name: "dojo.js",
-            dependencies: [
-				"dojo.data.ItemFileReadStore",
-				"dojo.data.ItemFileWriteStore",
-				"dojo.parser",
-				"dijit.Dialog",
+var profile = (function(){
 
-				"dijit.form.Button",
-				"dijit.form.DateTextBox",
-				"dijit.form.FilteringSelect",
-				"dijit.form.Form",
-				"dijit.form.NumberSpinner",
-				"dijit.form.RadioButton",
-				"dijit.form.SimpleTextarea",
-				"dijit.form.TextBox",
-				"dijit.form.ValidationTextBox",
+    copyOnly = function(filename, mid){
+        var list = {
+            "bba/bba.profile":1,
+            "bba/package.json":1
+        };
+        return (mid in list) || (/^dijit\/resources\//.test(mid) && !/\.css$/.test(filename)) || /(png|jpg|jpeg|gif|tiff)$/.test(filename);
+    };
 
-				"dijit.layout.BorderContainer",
-				"dijit.layout.ContentPane",
-				"dijit.layout.LinkPane",
-				"dijit.layout.TabContainer",
+	return {
+		resourceTags:{
 
-				"dojox.data.QueryReadStore",
-				"dojox.grid.DataGrid",
+			copyOnly: function(filename, mid){
+				return copyOnly(filename, mid);
+			},
 
-				"dojox.widget.Wizard",
+			amd: function(filename, mid){
+				return !copyOnly(filename, mid) && /\.js$/.test(filename);
+			}
+		},
 
-                "bba.Core",
-                "bba.ContentPane",
-                "bba.StackContainer",
-                "bba.DataGrid",
-
-                "bba.Client",
-                "bba.Contract",
-                "bba.Meter",
-                "bba.Site",
-                "bba.Supplier",
-                "bba.User"
-			]
-        }
-    ],
-    "prefixes": [
-        ["dijit","../dijit"],
-        ["dojox","../dojox"],
-        ["bba","../bba"]
-    ]
-};
+		trees:[
+			[".", ".", /(\/\.)|(~$)/]
+		]
+	};
+})();

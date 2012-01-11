@@ -99,7 +99,7 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
             )->getSupplierContacts();
 
             // reset options
-            $multiOptions = array(0 => '');
+            $multiOptions = array(0 => 'Select a Contact');
             foreach($list as $row) {
                 $multiOptions[$row->supplierCo_idSupplierContact] = $row->supplierCo_name;
             }

@@ -25,41 +25,46 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-define("bba/Client", ["dojo", "dijit", "bba/Core"], function(dojo, dijit, bba){
+define("bba/Client",
+    ["dojo/dom", "dojo/ready", "bba/Core", "bba/DataGrid", "dojox/widget/Wizard",
+    "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect"],
+    function(dom, ready, bba) {
 
-bba.Client = {
-     gridLayouts : {
-        client : [
-            {field: 'client_idClient', width: '50px', name: 'Id'},
-            {field: 'client_name', width: '300px', name: 'Client'},
-            {field: 'client_desc', width: '200px', name: 'Description'},
-            {field: 'clientAd_address1', width: '300px', name: 'Address 1'},
-            {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
-            {field: '', width: 'auto', name: ''}
-        ],
-        clientAddress : [
-            {field: 'clientAd_idAddress', width: '50px', name: 'Id'},
-            {field: 'clientAd_addressName', width: '250px', name: 'Address Name'},
-            {field: 'clientAd_address1', width: '300px', name: 'Address 1'},
-            {field: 'clientAd_address2', width: '200px', name: 'Address 2'},
-            {field: 'clientAd_address3', width: '100px', name: 'Address 3'},
-            {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
-            {field: '', width: 'auto', name: ''}
-        ],
-        clientContact : [
-            {field: 'clientCo_idClientContact', width: '50px', name: 'Id'},
-            {field: 'clientCo_type', width: '100px', name: 'Type'},
-            {field: 'clientCo_name', width: '200px', name: 'Name'},
-            {field: 'clientCo_phone', width: '300px', name: 'Phone'},
-            {field: 'clientCo_email', width: '200px', name: 'Email'},
-            {field: 'clientCo_postcode', width: '100px', name: 'Postcode'},
-            {field: '', width: 'auto', name: ''}
-        ]
-     }
-}
+    ready(function () {
+        dom.byId('client').focus();
+    });
 
-dojo.addOnLoad(function () {
-    dijit.byId('client').focus();
-});
+    bba.Client = {
+         gridLayouts : {
+            client : [
+                {field: 'client_idClient', width: '50px', name: 'Id'},
+                {field: 'client_name', width: '300px', name: 'Client'},
+                {field: 'client_desc', width: '200px', name: 'Description'},
+                {field: 'clientAd_address1', width: '300px', name: 'Address 1'},
+                {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
+                {field: '', width: 'auto', name: ''}
+            ],
+            clientAddress : [
+                {field: 'clientAd_idAddress', width: '50px', name: 'Id'},
+                {field: 'clientAd_addressName', width: '250px', name: 'Address Name'},
+                {field: 'clientAd_address1', width: '300px', name: 'Address 1'},
+                {field: 'clientAd_address2', width: '200px', name: 'Address 2'},
+                {field: 'clientAd_address3', width: '100px', name: 'Address 3'},
+                {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
+                {field: '', width: 'auto', name: ''}
+            ],
+            clientContact : [
+                {field: 'clientCo_idClientContact', width: '50px', name: 'Id'},
+                {field: 'clientCo_type', width: '100px', name: 'Type'},
+                {field: 'clientCo_name', width: '200px', name: 'Name'},
+                {field: 'clientCo_phone', width: '300px', name: 'Phone'},
+                {field: 'clientCo_email', width: '200px', name: 'Email'},
+                {field: 'clientCo_postcode', width: '100px', name: 'Postcode'},
+                {field: '', width: 'auto', name: ''}
+            ]
+         }
+    };
+
+    return bba.Client;
 
 });

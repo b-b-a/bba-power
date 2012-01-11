@@ -1,4 +1,4 @@
-<?php $this->dojo()->requireModule('bba.Site'); ?>
+<?php $this->dojo()->requireModule('bba/Site', true); ?>
 
 <div data-dojo-type="dijit.layout.BorderContainer"
      data-dojo-props="design: 'headline'"
@@ -40,7 +40,7 @@
         <table dojoType="bba.DataGrid"
                jsId="siteGrid"
                store="siteStore"
-               structure="bba.gridLayouts.site"
+               structure="bba.Site.gridLayouts.site"
                query='<?php echo $this->search; ?>'
                sortInfo="2"
                search="true"

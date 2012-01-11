@@ -26,12 +26,17 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
-define("bba/User", ["dojo", "dijit", "bba/Core"], function(dojo, dijit){
+define("bba/User",
+    ["dojo/dom","dojo/ready", "bba/Core", "bba/DataGrid", "dijit/form/ValidationTextBox",
+    "dijit/form/FilteringSelect"],
+    function(dom, ready, bba){
 
-bba.User = {}
+    ready(function () {
+        dom.byId('user').focus();
+    });
 
-dojo.addOnLoad(function () {
-    dijit.byId('user').focus();
-});
+    bba.User = {}
+
+    return bba.User;
 
 });

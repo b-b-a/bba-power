@@ -39,6 +39,20 @@
  */
 class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
 {
+    /**
+     * Array of all columns with need date format applied
+     * to it when outputting row as an array.
+     *
+     * @var array
+     */
+    protected $_dateKeys = array(
+        'contract_dateEnd',
+        'meter_dateCreate',
+        'meter_dateModify'
+    );
+
+    protected $_dateFormat = 'dd/MM/yyyy';
+
     public function getCurrentContract()
     {
         // find the most recent contract.
@@ -57,5 +71,28 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
             'contract',
             $select
         )->current();
+    }
+
+    /**
+     * Returns row as an array, with optional date formating.
+     *
+     * @param string $dateFormat
+     * @return array
+     */
+    public function toArray($dateFormat = null)
+    {
+        $array = array();
+
+        foreach ($this->getRow() as $key => $value) {
+
+            if (in_array($key, $this->_dateKeys)) {
+                $date = new Zend_Date($value);
+                $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
+            }
+
+            $array[$key] = $value;
+        }
+
+        return $array;
     }
 }

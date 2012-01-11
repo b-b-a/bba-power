@@ -2,8 +2,8 @@
 	"name": "bba",
 	"version":"2.0",
 	"main":"main",
-	"dependencies": {
-		"dojo": "current"
+	"directories": {
+		"lib": "."
 	},
 	"description": "Dijit provides the core bba files",
 	"licenses": [

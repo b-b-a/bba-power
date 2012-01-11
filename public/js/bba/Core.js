@@ -38,7 +38,8 @@
  */
 define("bba/Core",
     ["dojo/dom","dojo/ready", "dijit/layout/BorderContainer","dijit/layout/TabContainer",
-    "bba/ContentPane", "bba/StackContainer", "dojox/data/QueryReadStore"],
+    "bba/ContentPane", "bba/StackContainer", "dojox/data/QueryReadStore",
+    "dijit/form/Form", "dijit/form/Button"],
     function(dom, ready) {
 
     ready(function(){

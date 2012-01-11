@@ -25,12 +25,16 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-define("bba/Supplier", ["dojo", "dijit", "bba/Core"], function(dojo, dijit){
+define("bba/Supplier",
+    ["dojo/dom","dojo/ready", "bba/Core", "bba/Contract"],
+    function(dom, ready, bba){
 
-bba.Supplier = {}
+    ready(function () {
+        dom.byId('supplier').focus();
+    });
 
-dojo.addOnLoad(function () {
-    dijit.byId('supplier').focus();
-});
+    bba.Supplier = {}
+
+    return bba.Supplier;
 
 });

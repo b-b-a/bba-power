@@ -191,7 +191,7 @@ define("bba/DataGrid",
             var con = (this.tabController != '') ? this.tabController : this.getNewController();
             if (this.newButton !== '') con = this.newButton;
             var id = 'new-' + con + '-button-' + selectedId;
-            console.log(id)
+            //console.log(id)
 
             dojo.connect(dijit.byId(id), 'onClick', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
@@ -309,7 +309,7 @@ define("bba/DataGrid",
                       } else {
                           this._refresh();
                       }
-                      console.log(data);
+                      //console.log(data);
                   } else {
                       this.dlg = new Dialog({
                         title: (this.dialogName) ? this.dialogName :
