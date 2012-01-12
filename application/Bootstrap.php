@@ -248,9 +248,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 'async'         => true
             ))
             ->addStyleSheetModule('dijit.themes.claro')
-            ->setRenderModules(false)
-            //->addLayer('/js/bba/layer.js')
-            ;
+            ->setRenderModules(false);
 
         if ('development' !== $this->getEnvironment()) {
             $this->_view->dojo()

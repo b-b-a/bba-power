@@ -60,9 +60,15 @@
   transition-timing-function: ease-out;
 }
 .claro .dijitTreeRowSelected {
-  background-repeat: repeat-x;
   background-color: #cfe5fa;
-  background-image: url("images/commonHighlight.png");
+  background-image: url("images/standardGradient.png");
+  background-repeat: repeat-x;
+  background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -ms-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  _background-image: none;
   padding: 3px 0 1px;
   margin: 0;
   border: solid 1px #759dc0;
@@ -70,7 +76,14 @@
 }
 .claro .dijitTreeRowHover {
   background-color: #abd6ff;
-  background-image: url("images/commonHighlight.png");
+  background-image: url("images/standardGradient.png");
+  background-repeat: repeat-x;
+  background-image: -moz-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: -ms-linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 100%);
+  _background-image: none;
   padding: 3px 0 1px;
   margin: 0;
   border: solid 1px #759dc0;
@@ -81,15 +94,18 @@
 }
 .claro .dijitTreeRowActive {
   background-color: #7dbdfa;
-  background-image: url("images/commonHighlight.png");
-  background-position: 0 -177px;
+  background-image: url("images/activeGradient.png");
+  background-repeat: repeat-x;
+  background-image: -moz-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
+  background-image: -webkit-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
+  background-image: -o-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
+  background-image: -ms-linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
+  background-image: linear-gradient(rgba(190, 190, 190, 0.98) 0px, rgba(255, 255, 255, 0.65) 3px, rgba(255, 255, 255, 0) 100%);
+  _background-image: none;
   padding: 3px 0 1px;
   margin-left: 0;
   border: solid 1px #759dc0;
   color: #000000;
-}
-.dj_ie6 .claro .dijitTreeRow {
-  background-image: none;
 }
 .claro .dijitTreeRowFocused {
   background-repeat: repeat;
