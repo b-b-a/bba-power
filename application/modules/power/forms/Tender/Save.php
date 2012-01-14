@@ -49,8 +49,10 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
             'storeId'       => 'supplierStore',
             'storeType'     => 'dojo.data.ItemFileReadStore',
             'storeParams'   => array('url' => "/supplier/data-store/type/supplierList"),
-            'dijitParams'   => array('searchAttr' => 'supplier_name'),
-            //'attribs'       => array('readonly' => true),
+            'dijitParams'   => array(
+                'searchAttr' => 'supplier_name',
+                'promptMessage' => 'Select a Supplier'
+            ),
             'required'      => true
         ));
 
@@ -68,14 +70,22 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
             'required'      => true
         ));*/
 
-        $this->addElement('NumberSpinner', 'tender_periodContract', array(
-            'label'     => 'Tender Period:',
-            'min'       => 0,
+        $this->addElement('NumberTextBox', 'tender_periodContract', array(
+            'label'     => 'Contract Period:',
+            'constraints'   => array(
+                'min'       => 0
+            ),
             'required'  => true,
-            //'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter contract period (Months)',
+                'style'         => 'width:50px'
+            ),
+            'Description'   => '(Months)'
         ));
 
-        $this->addElement('TextBox', 'tender_dateExpiresQuote', array(
+        /*
+        $this->addElement('ValidationTextBox', 'tender_dateExpiresQuote', array(
             'label'         => 'Expiry Date:',
             'formatLength'  => 'short',
             'filters'       => array('StripTags', 'StringTrim'),
@@ -84,91 +94,126 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
                     'format' => 'dd/MM/yyyy'
                 ))
             ),
-            'required'      => true
+            'required'      => true,
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter expiry date for this tender.'
+            )
         ));
+        */
 
-        $this->addElement('NumberSpinner', 'tender_chargeStanding', array(
+        $this->addElement('NumberTextBox', 'tender_chargeStanding', array(
             'label'         => 'Standing Charge:',
-            //'smallDelta'    => 0.01,
             'constraints'   => array(
-                //'places'    => 2,
                 'min'       => 0
             ),
             'required'  => true,
             'value'     => 0,
-            //'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter Standing charge (£ / Months)',
+                'style'         => 'width:50px'
+            ),
+            'Description'   => '(£ / Months)'
         ));
 
-        $this->addElement('NumberSpinner', 'tender_priceUnitDay', array(
-            'label'         => 'Unit Price Day:',
-            //'smallDelta'    => 0.01,
+        $this->addElement('NumberTextBox', 'tender_priceUnitDay', array(
+            'label'         => 'Unit Price - Day:',
             'constraints'   => array(
-                //'places'    => 2,
                 'min'       => 0
             ),
             'required'  => true,
             'value'     => 0,
-            //'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter unit price for day rate (Pence / Unit)',
+                'style'         => 'width:50px'
+            ),
+            'Description'   => '(Pence / Unit)'
         ));
 
-        $this->addElement('NumberSpinner', 'tender_priceUnitNight', array(
-            'label'         => 'Unit Price Night:',
-            //'smallDelta'    => 0.01,
+        $this->addElement('NumberTextBox', 'tender_priceUnitNight', array(
+            'label'         => 'Unit Price - Night:',
             'constraints'   => array(
-                //'places'    => 2,
                 'min'       => 0
             ),
             'required'  => true,
             'value'     => 0,
-            //'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter unit price for night rate (Pence / Unit)',
+                'style'         => 'width:50px'
+            ),
+            'Description'   => '(Pence / Unit)'
         ));
 
-        $this->addElement('NumberSpinner', 'tender_priceUnitOther', array(
-            'label'         => 'Unit Price Other:',
-            //'smallDelta'    => 0.01,
+        $this->addElement('NumberTextBox', 'tender_priceUnitOther', array(
+            'label'         => 'Unit Price - Other:',
             'constraints'   => array(
-                //'places'    => 2,
                 'min'       => 0
             ),
             'required'  => true,
             'value'     => 0,
-            //'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter unit price for other rate (Pence / Unit)',
+                'style'         => 'width:50px'
+            ),
+            'Description'   => '(Pence / Unit)'
         ));
 
-        $this->addElement('NumberSpinner', 'tender_chargeCapacity', array(
-            'label'         => 'Charge Capacity:',
-            //'smallDelta'    => 0.01,
+        $this->addElement('NumberTextBox', 'tender_chargeCapacity', array(
+            'label'         => 'Capacity Charge:',
             'constraints'   => array(
-                //'places'    => 2,
                 'min'       => 0
             ),
             'required'  => true,
             'value'     => 0,
-            //'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter unit price for day rate (£ / Kva)',
+                'style'         => 'width:50px'
+            ),
+            'Description'   => '(£ / Kva)'
         ));
 
-        $this->addElement('NumberSpinner', 'tender_chargeKva', array(
+        $this->addElement('NumberTextBox', 'tender_chargeKva', array(
             'label'         => 'Charge KVA:',
-            //'smallDelta'    => 0.01,
             'constraints'   => array(
-                //'places'    => 2,
                 'min'       => 0
             ),
             'required'  => true,
             'value'     => 0,
-            //'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('NumberSpinner', 'tender_commission', array(
-            'label'         => 'Commission:',
-            //'smallDelta'    => 0.01,
+        $this->addElement('NumberTextBox', 'tender_commission', array(
+            'label'         => 'Commission Rate:',
             'constraints'   => array(
-                //'places'    => 2,
                 'min'       => 0
             ),
             'required'  => true,
             'value'     => 0,
-            //'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter commission rate (Pence / Unit)',
+                'style'         => 'width:50px'
+            ),
+            'Description'   => '(Pence / Unit)'
+        ));
+
+        $this->addElement('NumberTextBox', 'tender_fee', array(
+            'label'         => 'Commission Fee:',
+            'constraints'   => array(
+                'min'       => 0
+            ),
+            'required'  => true,
+            'value'     => 0,
+            'filters'   => array('StripTags', 'StringTrim'),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter commission fee (£ / Year)',
+                'style'        => 'width:50px'
+            ),
+            'Description'   => '(£ / Year)'
         ));
 
         $this->addHiddenElement('tender_idTender', '');

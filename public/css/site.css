@@ -274,14 +274,16 @@ label.search {
     width: auto;
 }
 
-.zend_form .errors
-{
+.zend_form .errors {
     color: #f00;
 }
 
+.zend_form .hint {
+    display: inline;
+}
+
 input,
-select
-{
+select {
     color: #000;
     border: 1px solid #000;
 }
