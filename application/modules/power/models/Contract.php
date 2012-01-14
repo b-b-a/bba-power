@@ -153,6 +153,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         // get contract
         $contract = $this->getContractById($id);
         $notInStatus = array('current', 'signed', 'selected', 'choosing');
+        $notInNewStatus = array('new', 'tender');
         $meters = array();
 
         if (in_array($contract->contract_status, $notInStatus)) {
@@ -180,17 +181,18 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
                 $meterCo = $row->getCurrentContract();
                 //$log->info($meterCo);
 
+                $meterCoEndDate = new Zend_Date($meterCo->contract_dateEnd);
+
                 if ($meterCo) {
-                    if (in_array($meterCo->contract_status, $notInStatus)) {
-                        continue;
-                    }
-                    //if (!in_array($meterCo->contract_status, $inStatus)) {
-                    if ($meterCo->contract_status == ('new' || 'tender')
-                            && $contract->contract_idContract != $meterCo->contract_idContract) {
+                    if (in_array($meterCo->contract_status, $notInStatus) &&
+                            !$meterCoEndDate->isEarlier($curCoStartDate)) {
                         continue;
                     }
 
-                    $meterCoEndDate = new Zend_Date($meterCo->contract_dateEnd);
+                    if (in_array($meterCo->contract_status, $notInNewStatus)
+                            && $contract->contract_idContract != $meterCo->contract_idContract) {
+                        continue;
+                    }
 
                     if ($meterCoEndDate->isEarlier($curCoStartDate) ||
                             $contract->contract_idContract == $meterCo->contract_idContract) {
@@ -198,7 +200,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
                         $meter = array_merge($meter, $meterCo);
                         $meters[] = $meter;
                     }
-                    //}
+
                 } else {
                     $meters[] = $meter;
                 }
