@@ -85,6 +85,10 @@ html, body {
     width: 1010px;
 }
 
+#contractform {
+    width: auto;
+}
+
 /* pre-loader specific stuff to prevent unsightly flash of unstyled content */
 #loader {
 	padding:0;

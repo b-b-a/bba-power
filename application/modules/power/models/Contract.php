@@ -181,9 +181,9 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
                 $meterCo = $row->getCurrentContract();
                 //$log->info($meterCo);
 
-                $meterCoEndDate = new Zend_Date($meterCo->contract_dateEnd);
-
                 if ($meterCo) {
+                    $meterCoEndDate = new Zend_Date($meterCo->contract_dateEnd);
+
                     if (in_array($meterCo->contract_status, $notInStatus) &&
                             !$meterCoEndDate->isEarlier($curCoStartDate)) {
                         continue;
@@ -234,7 +234,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         foreach ($data as $key => $value) {
             if (in_array($key, $dateKeys) && $value != '') {
-                $date = new Zend_Date($value);
+                $date = new Zend_Date($value, Zend_Date::DATE_SHORT);
+
                 $date->set($date->toString('yy'), Zend_Date::YEAR_SHORT);
                 $data[$key] = $date->toString('yyyy-MM-dd');
             }
@@ -315,7 +316,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         foreach ($data as $key => $value) {
             if (in_array($key, $dateKeys)) {
-                $date = new Zend_Date($value);
+                $date = new Zend_Date($value, Zend_Date::DATE_SHORT);
+
                 $date->set($date->toString('yy'), Zend_Date::YEAR_SHORT);
                 $data[$key] = $date->toString('yyyy-MM-dd');
             }

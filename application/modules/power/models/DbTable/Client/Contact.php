@@ -95,7 +95,7 @@ class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
             ->from('client_contact')
             ->join('client_address', 'clientCo_idAddress = clientAd_idAddress')
             ->where('clientCo_idClient = ?', $search['clientCo_idClient']);
-        
+
         if (isset($search['clientCo_idAddress'])) {
             $select->where('clientCo_idAddress = ? ', $search['clientCo_idAddress']);
         }
@@ -117,6 +117,9 @@ class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
         $auth = Zend_Auth::getInstance()->getIdentity();
         $data['clientCo_dateCreate'] = new Zend_Db_Expr('CURDATE()');
         $data['clientCo_userCreate'] = $auth->getId();
+
+        $this->_log->info(Zend_Debug::dump($data, "\nINSERT: " . __CLASS__ . "\n", false));
+
         return parent::insert($data);
     }
 
@@ -125,6 +128,9 @@ class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
         $auth = Zend_Auth::getInstance()->getIdentity();
         $data['clientCo_dateModify'] = new Zend_Db_Expr('CURDATE()');
         $data['clientCo_userModify'] = $auth->getId();
+
+        $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
+
         return parent::update($data, $where);
     }
 }

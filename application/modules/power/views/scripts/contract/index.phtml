@@ -19,9 +19,9 @@
                 <h2 class="tableHead-heading">Contracts:</h2>
                 <?php if ($this->isAllowed('User')): ?>
                 <p class="tableHead-button">
-                    <button dojoType="dijit.form.Button"
-                            id="new-contract-button"
-                            type="button">New Contract</button>
+                    <button data-dojo-type="dijit.form.Button"
+                            data-dojo-props="onClick: bba.Contract.newContractButtonClick"
+                            id="new-contract-button">New Contract</button>
                 </p>
                 <?php endif; ?>
             </div>
@@ -32,32 +32,19 @@
     <div data-dojo-type="dijit.layout.ContentPane"
          data-dojo-props="region: 'center'">
 
-        <span dojoType="dojox.data.QueryReadStore"
-             jsid="contractStore"
-             url="/contract/data-store/type/contract"
-             requestMethod="post"></span>
+        <span data-dojo-type="dojox.data.QueryReadStore"
+              data-dojo-props="url: '/contract/data-store/type/contract', requestMethod: 'post'"
+              data-dojo-id="contractStore"></span>
 
-        <table dojoType="bba.DataGrid"
-               jsId="contractGrid"
-               store="contractStore"
-               query='<?php echo $this->search; ?>'
-               sortInfo="2"
-               search="true"
-               tabs="true"
-               tabTitleColumn="client_name">
-            <thead>
-                <tr>
-                    <th field="contract_idContract" width="50">Id</th>
-                    <th field="client_name" width="250">Client</th>
-                    <th field="contract_status" width="70">Status</th>
-                    <th field="contract_dateStart" width="100">Start Date</th>
-                    <th field="contract_dateEnd" width="100">End Date</th>
-                    <th field="meter_count" width="100"># Meters</th>
-                    <th field="contract_reference" width="200">Reference</th>
-                    <th field="contract_desc" width="300">Description</th>
-                    <th field="" width="auto"></th>
-                </tr>
-            </thead>
+        <table data-dojo-type="dojox.grid.DataGrid"
+               data-dojo-id="contractGrid"
+               data-dojo-props='
+                store: contractStore,
+                structure: bba.Contract.gridLayouts.contract,
+                query: <?php echo $this->search; ?>,
+                sortInfo: "2",
+                noDataMessage : bba.gridMessage,
+                onSelected: bba.Contract.contractGridRowClick'>
         </table>
     </div>
 </div>

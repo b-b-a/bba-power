@@ -52,10 +52,11 @@
                 <?php endif; ?>
 
                 <?php if ($this->isAllowed('User')): ?>
-                <button dojoType="dijit.form.Button"
-                        type="submit"
-                        name="edit-contract-button-<?php echo $this->contract->contract_idContract; ?>"
-                        value="submit">Edit Details</button>
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: bba.Contract.editContractButtonClick"
+                        type="button"
+                        value="<?php echo $this->contract->contract_idContract; ?>"
+                        id="edit-contract-button-<?php echo $this->contract->contract_idContract; ?>">Edit Details</button>
                 <?php endif; ?>
             </div>
 

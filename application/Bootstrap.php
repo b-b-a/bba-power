@@ -110,21 +110,27 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $this->bootstrap('frontController');
         $bbaErrorHandler = set_error_handler(array($this,'errorHandler'));
         $logger = new Zend_Log();
+        $dbLog = new Zend_Log();
 
         if ('production' == $this->getEnvironment()) {
             $writer = new Zend_Log_Writer_Stream(APPLICATION_PATH.'/../data/logs/bba-power.log');
+            $dbWriter = new Zend_Log_Writer_Stream(APPLICATION_PATH.'/../data/logs/bba-power-db.log');
             $filter = new Zend_Log_Filter_Priority(Zend_Log::INFO);
             $logger->addFilter($filter);
+            $dbLog->addFilter($filter);
         } else {
             $writer = new Zend_Log_Writer_Firebug();
+            $dbWriter = new Zend_Log_Writer_Firebug();
             $writer->setPriorityStyle(8, 'TABLE');
             $logger->addPriority('TABLE', 8);
         }
 
         $logger->addWriter($writer);
+        $dbLog->addWriter($dbWriter);
 
         $this->_logger = $logger;
         Zend_Registry::set('log', $logger);
+        Zend_Registry::set('dblog', $dbLog);
     }
 
     public function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)

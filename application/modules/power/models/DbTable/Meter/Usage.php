@@ -99,6 +99,9 @@ class Power_Model_DbTable_Meter_Usage extends ZendSF_Model_DbTable_Abstract
         $auth = Zend_Auth::getInstance()->getIdentity();
         $data['usage_dateCreate'] = new Zend_Db_Expr('CURDATE()');
         $data['usage_userCreate'] = $auth->getId();
+
+        $this->_log->info(Zend_Debug::dump($data, "INSERT: " . __CLASS__, false));
+
         return parent::insert($data);
     }
 
@@ -107,6 +110,9 @@ class Power_Model_DbTable_Meter_Usage extends ZendSF_Model_DbTable_Abstract
         $auth = Zend_Auth::getInstance()->getIdentity();
         $data['usage_dateModify'] = new Zend_Db_Expr('CURDATE()');
         $data['usage_userModify'] = $auth->getId();
+
+        $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
+
         return parent::update($data, $where);
     }
 }

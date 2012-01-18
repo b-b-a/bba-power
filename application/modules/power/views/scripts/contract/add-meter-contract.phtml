@@ -12,12 +12,9 @@
     Select All Meters
 </button>
 
-<button dojoType="dijit.form.Button"
-        id="cancelButton"
-        type="button"
-        onClick="bba.Contract.closeDialog()">
-    Cancel
-</button>
+<button data-dojo-type="dijit.form.Button"
+        data-dojo-props="onClick: 'bba.Contract.closeDialog()', type: 'button'"
+        id="cancelButton">Cancel</button>
 
 <img id="contractMeterHelp" src="/images/help.png" />
 

@@ -37,10 +37,11 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Core",
-    ["dojo/dom","dojo/ready", "dijit/layout/BorderContainer","dijit/layout/TabContainer",
-    "bba/ContentPane", "bba/StackContainer", "dojox/data/QueryReadStore",
+    ["dojo/dom","dojo/ready", "dojo/parser", "dojo/_base/connect", "dojo/_base/xhr", "dijit/registry",
+    "dijit/WidgetSet", "dijit/layout/ContentPane", "dijit/Dialog", "dijit/layout/StackContainer",
+    "dijit/layout/BorderContainer", "dijit/layout/TabContainer", "dojox/data/QueryReadStore",
     "dijit/form/Form", "dijit/form/Button"],
-    function(dom, ready) {
+    function(dom, ready, parser, connect, xhr, registry, WidgetSet, ContentPane, Dialog) {
 
     ready(function(){
         loader = dom.byId("loader");
@@ -48,6 +49,8 @@ define("bba/Core",
     });
 
     bba = {
+        gridMessage : '<span class="dojoxGridNoData">No records found matching query</span>',
+
         gridLayouts : {
             siteMeter : [
                 {field: 'meter_idMeter', width: '50px', name: 'Id'},
@@ -96,8 +99,98 @@ define("bba/Core",
                 {field: 'supplierCo_postcode', width: '100px', name: 'Postcode'},
                 {field: '', width: 'auto', name: ''}
             ]
-        }
+        },
 
+        gridSearch : function(form, grid)
+        {
+            connect.connect(form, 'onSubmit', function(e) {
+                e.preventDefault();
+                var values = form.getValues();
+                delete values.reset;
+                delete values.submit;
+                grid.setQuery(values);
+            });
+        },
+
+        openTab : function(options)
+        {
+            tc = registry.byId("ContentTabs");
+
+            if (!registry.byId(options.tabId)) {
+
+                pane = new ContentPane({
+                    id: options.tabId,
+                    title: options.title,
+                    href: options.url,
+                    ioMethod: xhr.post,
+                    ioArgs: {content : options.contentVars},
+                    closable: true,
+                    refreshOnShow: true,
+                    onLoad : function() {
+                        //this.tabs = pane;
+                    },
+                    onHide : function() {
+                        //tc.prevTab = pane;
+                    },
+                    onContentError : function(error) {
+                        console.log(error);
+                    }
+                });
+
+                tc.addChild(pane);
+            }
+
+            tc.selectChild(options.tabId);
+        },
+
+        openFormDialog : function(options)
+        {
+            xhr.post({
+                url: options.url,
+                content: options.content,
+                handleAs: 'text',
+                preventCache: true,
+                load: function(data) {
+                    dom.byId('dialog').innerHTML = data;
+                    parser.parse('dialog');
+                    dialog = registry.byId(options.dialog);
+                    bba.setupDialog(dialog);
+                    dialog.show();
+                }
+            });
+        },
+
+        setupDialog : function(dialog)
+        {
+            ws = new WidgetSet();
+            ws.add(dialog);
+            selects = registry.byClass("dijit.form.FilteringSelect");
+            selects.forEach(function(widget){
+                connect.connect(widget, 'onClick', widget._startSearchAll);
+                connect.connect(widget, 'onFocus', widget._startSearchAll);
+            });
+            connect.connect(dialog, 'onHide', function() {
+                bba.closeDialog(dialog);
+            });
+        },
+
+        closeDialog : function(dialog)
+        {
+            dialog.hide();
+            dialog.destroyRecursive();
+        },
+
+        comfirmDialog : function()
+        {
+            dialog = new Dialog({
+                content: '<p>Done</p>',
+                onHide: function() {
+                    this.destroyRecursive();
+                }
+            });
+
+            dialog.show();
+        }
     };
 
     return bba;

@@ -72,7 +72,6 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
                     'searchAttr'    => 'client_name',
                     'promptMessage' => 'Select a Client'
                 ),
-                //'attribs'       => array('readonly' => true),
                 'required'      => true,
                 'value'         => ''
             ));
@@ -125,7 +124,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
 
         $table = $this->getModel()->getDbTable('tables');
         $list = $table->getSelectListByName('contract_type');
-        
+
         foreach($list as $row) {
             $multiOptions[$row->tables_key] = $row->tables_value;
         }

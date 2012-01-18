@@ -116,6 +116,9 @@ class Power_Model_DbTable_Tender extends ZendSF_Model_DbTable_Abstract
         $auth = Zend_Auth::getInstance()->getIdentity();
         $data['tender_dateCreate'] = new Zend_Db_Expr('CURDATE()');
         $data['tender_userCreate'] = $auth->getId();
+
+        $this->_log->info(Zend_Debug::dump($data, "\nINSERT: " . __CLASS__ . "\n", false));
+
         return parent::insert($data);
     }
 
@@ -124,6 +127,9 @@ class Power_Model_DbTable_Tender extends ZendSF_Model_DbTable_Abstract
         $auth = Zend_Auth::getInstance()->getIdentity();
         $data['tender_dateModify'] = new Zend_Db_Expr('CURDATE()');
         $data['tender_userModify'] = $auth->getId();
+
+        $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
+
         return parent::update($data, $where);
     }
 

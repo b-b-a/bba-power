@@ -153,6 +153,7 @@ define("bba/DataGrid",
                     title: this.store.getValue(this.selectedItem, this.tabTitleColumn),
                     href: url,
                     ioArgs: { content:contentVars },
+                    ioMethod: dojo.xhrPost,
                     closable: true,
                     refreshOnShow: true,
                     onLoad : dojo.hitch(this, function() {
@@ -176,7 +177,7 @@ define("bba/DataGrid",
             if (this.newButton != '') identParts = this.newButton;
             var id = 'edit-' + identParts + '-' + tabId;
 
-            console.log(id)
+            //console.log(id)
 
             dojo.connect(dijit.byId(id), 'onSubmit', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
@@ -191,7 +192,7 @@ define("bba/DataGrid",
             var con = (this.tabController != '') ? this.tabController : this.getNewController();
             if (this.newButton !== '') con = this.newButton;
             var id = 'new-' + con + '-button-' + selectedId;
-            console.log(id)
+            //console.log(id)
 
             dojo.connect(dijit.byId(id), 'onClick', dojo.hitch(this, function(e){
                 dojo.stopEvent(e);
@@ -238,6 +239,7 @@ define("bba/DataGrid",
                     title: (this.dialogName) ? this.dialogName :
                         this.capitalize(type + ' ' + con.replace('-', ' ')),
                     ioArgs: {content: contentVars},
+                    ioMethod: dojo.xhrPost,
                     href: '/' + urlCon + '/' + type + '-' + this.hyphenate(con),
                     execute: dojo.hitch(this, function() {
                         var url = '/' + urlCon + '/save-' + this.hyphenate(con);

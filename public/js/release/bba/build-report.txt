@@ -1,4 +1,4 @@
-Build started: Sat Jan 14 2012 15:29:27 GMT-0000 (GMT)
+Build started: Wed Jan 18 2012 06:08:05 GMT-0000 (GMT)
 Build application version: 1.7.0dev (23930)
 Messages:
 info(100) Assumed module uses legacy loader API.
@@ -189,7 +189,6 @@ info(100) Assumed module uses legacy loader API.
 	module: dojox/lang/aspect/timer
 	module: dojox/layout/ext-dijit/layout/StackContainer-touch
 	module: dojox/mobile/app/List
-	module: dojox/widget/UpgradeBar
 	module: dojox/layout/dnd/Avatar
 	module: dojox/data/demos/widgets/FileView
 	module: dojox/drawing/annotations/Arrow
@@ -779,6 +778,7 @@ info(102) Optimizing module
 	module: dojox/mobile/sniff
 	module: dojox/data/RailsStore
 	module: dojox/grid/TreeSelection
+	module: dojox/mobile/Pane
 	module: dojox/mobile/RoundRectCategory
 	module: dojox/charting/plot2d/Lines
 	module: dojox/drawing/plugins/tools/Iconize
@@ -805,6 +805,7 @@ info(102) Optimizing module
 	module: dojox/sketch/LeadAnnotation
 	module: dojox/editor/plugins/InsertAnchor
 	module: dojox/data/XmlItem
+	module: dojox/mobile/Container
 	module: dojox/html/styles
 	module: dojox/mvc/Bind
 	module: dojox/encoding/crypto/SimpleAES
@@ -858,6 +859,7 @@ info(102) Optimizing module
 	module: dojox/gfx/vml
 	module: dojox/editor/plugins/_SpellCheckParser
 	module: dojox/wire/TableAdapter
+	module: dojox/mobile/_ExecScriptMixin
 	module: dojox/gfx/canvas_attach
 	module: dojox/color/api/ColorModel
 	module: dojox/drawing/stencil/Line
@@ -1070,6 +1072,7 @@ info(102) Optimizing module
 	module: dojox/charting/action2d/PlotAction
 	module: dojox/grid/util
 	module: dojox/grid/enhanced/plugins/Filter
+	module: dojox/mobile/dh/HtmlScriptContentHandler
 	module: dojox/treemap/Keyboard
 	module: dojox/xmpp/RosterService
 	module: dojox/robot/recorder
@@ -1401,6 +1404,7 @@ info(102) Optimizing module
 	module: dojo/store/DataStore
 	module: dojo/_base/lang
 	module: dojo/DeferredList
+	module: dojo/sniff
 	module: dojo/io-query
 	module: dojo/cldr/monetary
 	module: dojo/dom-geometry
@@ -1464,8 +1468,6 @@ info(102) Optimizing module
 	module: dojo/parser
 	module: bba/Supplier
 	module: bba/User
-	module: bba/StackContainer
-	module: bba/ContentPane
 	module: bba/Auth
 	module: bba/Core
 	module: bba/Meter
@@ -1703,6 +1705,8 @@ info(108) Interning strings.
 	module: dojox/drawing/Drawing
 	module: dojox/drawing/ui/dom/Zoom
 	module: dojox/wire/ml/Data
+warn(205) Module not tagged as pure AMD yet it contains AMD API applications.
+	module: dojox/widget/UpgradeBar
 warn(216) dojo/has plugin resource could not be resolved during build-time.
 	plugin resource id: touch?dojox/gesture/tap; reference module id: dojox/treemap/DrillDownUp
 	plugin resource id: dojo-firebug?./_firebug/firebug; reference module id: dojo/main
@@ -1713,6 +1717,7 @@ Layer Contents:
 dojo/dojo:
 	dijit/form/nls/validate
 	dijit/templates/CheckedMenuItem.html
+	dojo/sniff
 	dijit/form/TextBox
 	dojo/dom-geometry
 	dojox/grid/DataGrid
@@ -1836,7 +1841,6 @@ dojo/dojo:
 	bba/User
 	dijit/templates/Tooltip.html
 	dojox/grid/_Grid
-	bba/ContentPane
 	dojo/_base/config
 	dojo/_base/browser
 	dojo/_base/kernel
@@ -1896,7 +1900,6 @@ dojo/dojo:
 	dijit/Viewport
 	dojo/topic
 	dojox/grid/util
-	bba/StackContainer
 	dijit/form/_ComboBoxMenu
 	dojo/_base/declare
 	dijit/layout/templates/ScrollingTabController.html
@@ -1923,5 +1926,5 @@ dojo/dojo:
 
 Process finished normally
 	errors: 0
-	warnings: 4
-	build time: 69.218 seconds
+	warnings: 5
+	build time: 56.334 seconds

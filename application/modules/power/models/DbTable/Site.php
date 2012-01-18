@@ -169,6 +169,9 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
         $auth = Zend_Auth::getInstance()->getIdentity();
         $data['site_dateCreate'] = new Zend_Db_Expr('CURDATE()');
         $data['site_userCreate'] = $auth->getId();
+
+        $this->_log->info(Zend_Debug::dump($data, "\nINSERT: " . __CLASS__ . "\n", false));
+
         return parent::insert($data);
     }
 
@@ -177,6 +180,9 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
         $auth = Zend_Auth::getInstance()->getIdentity();
         $data['site_dateModify'] = new Zend_Db_Expr('CURDATE()');
         $data['site_userModify'] = $auth->getId();
+
+        $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
+
         return parent::update($data, $where);
     }
 }

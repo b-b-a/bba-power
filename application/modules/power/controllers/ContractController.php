@@ -181,7 +181,7 @@ class Power_ContractController extends Zend_Controller_Action
         $returnJson = array('saved' => $saved);
 
         if (false === $saved) {
-            $form = $this->_getForm('contractSave', 'save-meter');
+            $form = $this->_getForm('contractSave', 'save-contract');
             $form->populate($request->getPost());
 
             $this->view->assign(array('contractSaveForm' => $form));
