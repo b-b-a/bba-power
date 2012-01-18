@@ -42,9 +42,13 @@ class Power_Form_Meter_Usage_Save extends ZendSF_Form_Abstract
     public function init()
     {
         $this->addElement('TextBox', 'usage_dateBill', array(
-            'label'     => 'Bill Date last:',
+            'label'     => 'Bill Date:',
             'formatLength'   => 'short',
             'required'  => false,
+			'dijitParams'   => array(
+                'promptMessage' => 'Enter the date of the Bill',
+                'style'         => 'width:100px'
+            ),
             'filters'   => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Date', true, array(
@@ -57,6 +61,10 @@ class Power_Form_Meter_Usage_Save extends ZendSF_Form_Abstract
             'label'     => 'Reading Date:',
             'formatLength'   => 'short',
             'required'  => true,
+			'dijitParams'   => array(
+                'promptMessage' => 'Enter the date of the Reading',
+                'style'         => 'width:100px'
+            ),
             'filters'   => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Date', true, array(
@@ -79,34 +87,49 @@ class Power_Form_Meter_Usage_Save extends ZendSF_Form_Abstract
             'required'      => true,
         ));
 
-        $this->addElement('NumberSpinner', 'usage_usageDay', array(
-            'label'     => 'Day:',
+        $this->addElement('NumberTextBox', 'usage_usageDay', array(
+            'label'     => 'Consumption - Day:',
             'constraints'   => array(
                 'pattern'    => '#',
                 'min'       => 0
             ),
             'required'  => false,
+			'value'		=> "0",
+			'dijitParams'   => array(
+                'promptMessage' => 'Enter the number of Day Units consumed',
+                'style'         => 'width:75px'
+            ),
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('NumberSpinner', 'usage_usageNight', array(
-            'label'     => 'Night:',
+        $this->addElement('NumberTextBox', 'usage_usageNight', array(
+            'label'     => 'Consumption - Night:',
             'constraints'   => array(
                 'pattern'    => '#',
                 'min'       => 0
             ),
             'required'  => false,
+			'value'		=> "0",
+			'dijitParams'   => array(
+                'promptMessage' => 'Enter the number of Night Units consumed',
+                'style'         => 'width:75px'
+            ),
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('NumberSpinner', 'usage_usageOther', array(
-            'label'         => 'Other:',
+        $this->addElement('NumberTextBox', 'usage_usageOther', array(
+            'label'         => 'Consumption - Other & Gas:',
             'constraints'   => array(
                 'pattern'   => '#',
                 'min'       => 0
             ),
             'required'      => false,
-            'filters'       => array('StripTags', 'StringTrim')
+ 			'value'			=> "0",
+			'dijitParams'   => array(
+                'promptMessage' => 'Enter the number of Other or Gas Units consumed',
+                'style'         => 'width:75px'
+            ),
+           'filters'       => array('StripTags', 'StringTrim')
         ));
 
         $this->addHiddenElement('usage_idUsage', '');
