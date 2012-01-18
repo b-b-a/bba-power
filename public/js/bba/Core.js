@@ -55,6 +55,7 @@ define("bba/Core",
             siteMeter : [
                 {field: 'meter_idMeter', width: '50px', name: 'Id'},
                 {field: 'meter_type', width: '150px', name: 'Type'},
+                {field: 'meter_status', width: '150px', name: 'Status'},
                 {field: 'meter_numberSerial', width: '200px', name: 'Number Serial'},
                 {field: 'meter_numberMain', width: '200px', name: 'Number Main'},
                 {field: '', width: 'auto', name: ''}

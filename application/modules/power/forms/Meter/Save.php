@@ -61,6 +61,22 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             'attribs'       => array('class' => 'radio')
         ));
 
+        $multiOptions = array();
+
+        $list = $table->getSelectListByName('meter_status');
+        $multiOptions[0] = 'Select a status';
+        foreach($list as $row) {
+            $multiOptions[$row->tables_key] = $row->tables_value;
+        }
+
+        $this->addElement('FilteringSelect', 'meter_status', array(
+            'label'     => 'Status:',
+            'filters'   => array('StripTags', 'StringTrim'),
+            'autocomplete' => false,
+            'multiOptions'  => $multiOptions,
+            'required'  => true,
+        ));
+
         $this->addElement('TextBox', 'meter_numberSerial', array(
             'label'     => 'Serial No:',
             'required'  => false,
