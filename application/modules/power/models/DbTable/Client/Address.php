@@ -96,7 +96,8 @@ class Power_Model_DbTable_Client_Address extends ZendSF_Model_DbTable_Abstract
                 ->from('site', array('site_idAddress'))
                 ->where('site_idClient = ?', $id))
             )
-            ->where('clientAd_idClient = ?', $id);
+            ->where('clientAd_idClient = ?', $id)
+            ->order(array('clientAd_postcode', 'clientAd_address1'));
 
         return $this->fetchAll($select);
     }

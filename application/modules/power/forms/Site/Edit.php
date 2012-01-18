@@ -92,7 +92,7 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
             ),
             'dijitParams'   => array('searchAttr' => 'address1AndPostcode'),
             //'attribs'         => array('disabled' => true),
-            'required'      => true
+            'required'      => false
         ));
 
         $this->addElement('FilteringSelect', 'site_idClientContact', array(
