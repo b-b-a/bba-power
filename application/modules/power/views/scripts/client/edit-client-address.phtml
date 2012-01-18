@@ -61,7 +61,8 @@
                 <table dojoType="bba.DataGrid"
                        jsId="contactGrid<?php echo $this->clientAd->clientAd_idClient; ?>"
                        store="clientContactStore<?php echo $this->clientAd->clientAd_idClient; ?>"
-                       structure="bba.Client.gridLayouts.clientAddress"
+//ep
+                       structure="bba.Client.gridLayouts.clientContact"
                        query="{ clientCo_idClient: <?php echo $this->clientAd->clientAd_idClient; ?>,
                        clientCo_idAddress: <?php echo $this->clientAd->clientAd_idAddress; ?>}"
                        queryParent="clientCo_idClient"
