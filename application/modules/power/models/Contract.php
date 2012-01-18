@@ -189,7 +189,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
                         continue;
                     }
 
-                    if (in_array($meterCo->contract_status, $notInNewStatus)
+                    if (in_array($meterCo->contract_status, $notInNewStatus) &&
+                            !$meterCoEndDate->isEarlier($curCoStartDate)
                             && $contract->contract_idContract != $meterCo->contract_idContract) {
                         continue;
                     }
