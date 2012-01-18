@@ -95,7 +95,7 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
             ->from('meter')
             ->join('site', 'site_idSite = meter_idSite', null)
             ->join('client_address', 'clientAd_idAddress = site_idAddress', array(
-                'clientAd_addressName','clientAd_postcode'
+                'clientAd_addressName','clientAd_address1','clientAd_address2','clientAd_address3','clientAd_postcode'
             ))
             ->join('client', 'client_idClient = site_idClient', null)
             ->joinLeft('client_contact', 'client_idClientContact = clientCo_idClientContact', array(
