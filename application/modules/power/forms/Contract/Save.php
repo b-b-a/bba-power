@@ -176,10 +176,17 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'required'      => false
         ));
 
-        $this->addElement('NumberSpinner', 'contract_periodBill', array(
+        $this->addElement('NumberTextBox', 'contract_periodBill', array(
             'label'     => 'Billing Period:',
-            'min'       => 0,
+            'constraints'   => array(
+                'min'       => 0
+            ),
             'required'  => false,
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter contract billing period (Months)',
+                'style'         => 'width:50px'
+            ),
+            'Description'   => '(Months)'
             //'filters'   => array('StripTags', 'StringTrim')
         ));
 
