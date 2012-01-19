@@ -147,7 +147,7 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
         ));
 
         $this->addElement('NumberTextBox', 'tender_priceUnitOther', array(
-            'label'         => 'Unit Price - Other:',
+            'label'         => 'Unit Price - Other & Gas:',
             'constraints'   => array(
                 'min'       => 0
             ),
@@ -170,14 +170,14 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
             'value'     => 0,
             'filters'   => array('StripTags', 'StringTrim'),
             'dijitParams'   => array(
-                'promptMessage' => 'Enter unit price for day rate (£ / Kva)',
+                'promptMessage' => 'Enter unit price for day rate (£ / kVA)',
                 'style'         => 'width:50px'
             ),
-            'Description'   => '(£ / Kva)'
+            'Description'   => '(£ / kVA)'
         ));
-
+/*
         $this->addElement('NumberTextBox', 'tender_chargeKva', array(
-            'label'         => 'Charge KVA:',
+            'label'         => 'Charge kVA:',
             'constraints'   => array(
                 'min'       => 0
             ),
@@ -185,7 +185,7 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
             'value'     => 0,
             'filters'   => array('StripTags', 'StringTrim')
         ));
-
+*/
         $this->addElement('NumberTextBox', 'tender_commission', array(
             'label'         => 'Commission Rate:',
             'constraints'   => array(
