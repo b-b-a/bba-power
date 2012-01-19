@@ -234,7 +234,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         );
 
         foreach ($data as $key => $value) {
-            if (in_array($key, $dateKeys) && $value != '') {
+            if (in_array($key, $dateKeys)) {
+                if ($value === '') $value = '01-01-1970';
                 $date = new Zend_Date($value, Zend_Date::DATE_SHORT);
                 $data[$key] = $date->toString('yyyy-MM-dd');
             }
@@ -315,6 +316,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         foreach ($data as $key => $value) {
             if (in_array($key, $dateKeys)) {
+                if ($value === '') $value = '01-01-1970';
                 $date = new Zend_Date($value, Zend_Date::DATE_SHORT);
                 $data[$key] = $date->toString('yyyy-MM-dd');
             }
