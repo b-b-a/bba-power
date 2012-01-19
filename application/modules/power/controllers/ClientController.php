@@ -324,7 +324,7 @@ class Power_ClientController extends Zend_Controller_Action
             $form = $this->_getForm('clientContactSave', 'save-client-contact');
             $form->populate($request->getPost());
             $this->view->assign(array('clientContactSaveForm' => $form));
-            $html = $this->view->render('client/client-form.phtml');
+            $html = $this->view->render('client/contact-form.phtml');
             $returnJson['html'] = $html;
         }
 
