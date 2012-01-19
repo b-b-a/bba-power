@@ -58,7 +58,7 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             'autocomplete'  => false,
             'multiOptions'  => $multiOptions,
             'required'      => true,
-            'attribs'       => array('class' => 'radio')
+            'separator'       => '&nbsp;'
         ));
 
         $multiOptions = array();

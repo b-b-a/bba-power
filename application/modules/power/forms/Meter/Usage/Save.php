@@ -85,6 +85,7 @@ class Power_Form_Meter_Usage_Save extends ZendSF_Form_Abstract
             'autocomplete'  => false,
             'multiOptions'  => $multiOptions,
             'required'      => true,
+            'separator'       => '&nbsp;'
         ));
 
         $this->addElement('NumberTextBox', 'usage_usageDay', array(

@@ -135,6 +135,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'autocomplete'  => false,
             'multiOptions'  => $multiOptions,
             'required'      => true,
+            'separator'       => '&nbsp;'
         ));
 
         $multiOptions = array(0 => 'Select a status');
