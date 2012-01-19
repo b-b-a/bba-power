@@ -84,7 +84,8 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             );
 
             // reset options
-            $multiOptions = array(0 => '');
+            $multiOptions = array(0 => 'Please select an address');
+
             foreach($list as $row) {
                 $multiOptions[$row->clientAd_idAddress] = $row->getAddress1AndPostcode();
             }
@@ -94,7 +95,12 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
                 'filters'   => array('StripTags', 'StringTrim'),
                 'atuocomplete' => false,
                 'multiOptions'  => $multiOptions,
-                'required'  => true
+                'required'  => true,
+                'validators'    => array(
+                    array('GreaterThan', true, array(
+                        'min' => '1'
+                    ))
+                )
             ));
 
             $list = $this->getModel()->getClientContactsByClientId(

@@ -74,7 +74,8 @@ class Power_Form_Meter_Usage_Save extends ZendSF_Form_Abstract
         ));
 
         $list = $this->getModel()->getDbTable('tables')->getSelectListByName('usage_type');
-
+        $multiOptions = array();
+        
         foreach($list as $row) {
             $multiOptions[$row->tables_key] = $row->tables_value;
         }

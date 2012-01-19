@@ -57,8 +57,7 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             'filters'       => array('StripTags', 'StringTrim'),
             'autocomplete'  => false,
             'multiOptions'  => $multiOptions,
-            'required'      => true,
-            'separator'       => '&nbsp;'
+            'required'      => true
         ));
 
         $multiOptions = array();
