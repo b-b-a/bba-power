@@ -186,8 +186,8 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
                 'promptMessage' => 'Enter contract billing period (Months)',
                 'style'         => 'width:50px'
             ),
-            'Description'   => '(Months)'
-            //'filters'   => array('StripTags', 'StringTrim')
+            'Description'   => '(Months)',
+            'filters'   => array('StripTags', 'StringTrim')
         ));
 
         $this->addElement('SimpleTextarea', 'contract_desc', array(
