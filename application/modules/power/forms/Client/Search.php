@@ -41,14 +41,14 @@ class Power_Form_Client_Search extends Power_Form_SearchBase
 {
     public function init()
     {
-        $this->addElement('DojoTextBox', 'client', array(
+        $this->addElement('ZendSFDojoTextBox', 'client', array(
             'label'     => 'Client:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim'),
             'required'  => false
         ));
 
-        $this->addElement('DojoTextBox', 'address', array(
+        $this->addElement('ZendSFDojoTextBox', 'address', array(
             'label'     => 'Address:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim'),

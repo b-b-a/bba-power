@@ -41,14 +41,14 @@ class Power_Form_Site_Search extends Power_Form_SearchBase
 {
     public function init()
     {
-        $this->addElement('TextBox', 'site', array(
+        $this->addElement('ZendSFDojoTextBox', 'site', array(
             'label'     => 'Site:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim'),
             'required'  => false
         ));
 
-        $this->addElement('TextBox', 'client', array(
+        $this->addElement('ZendSFDojoTextBox', 'client', array(
             'label'     => 'Client:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim'),

@@ -41,14 +41,14 @@ class Power_Form_Meter_Search extends Power_Form_SearchBase
 {
     public function init()
     {
-        $this->addElement('TextBox', 'meter', array(
+        $this->addElement('ZendSFDojoTextBox', 'meter', array(
             'label'     => 'Meter:',
             'required'      => false,
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('TextBox', 'site', array(
+        $this->addElement('ZendSFDojoTextBox', 'site', array(
             'label'     => 'Site:',
             'required'      => false,
             'attribs'   => array('class' => 'search'),
