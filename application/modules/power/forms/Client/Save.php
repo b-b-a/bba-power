@@ -45,34 +45,20 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
 
         $this->setAttrib('enctype', 'multipart/form-data');
 
+        $this->addHiddenElement('client_idClient', '');
+
         $this->addElement('ValidationTextBox', 'client_name', array(
-            'label'     => 'Client Name:',
-            'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
-
-/*        $this->addElement('file','client_docLoa', array(
-            'label' => 'Upload Letter of Authority:',
-            'destination' => realpath(APPLICATION_PATH . '/../data/loa'),
-            'validators' => array(
-                array('Count', false, array(1)),
-                array('Size', false, array(1048576*5)),
-                array('Extension', false, array('pdf')),
-            ),
-            'decorators' => $this->_fileDecorators
-        ));
-*/
-
-
-        $this->addElement('TextBox', 'client_dateExpiryLoa', array(
-            'label'     => 'LoA Expiry Date:',
-            'formatLength'   => 'short',
-            'filters'   => array('StripTags', 'StringTrim'),
+            'label'         => 'Client Name:',
+            'required'      => true,
+            'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
-                array('Date', true, array(
-                    'format' => 'dd/MM/yyyy'
-                ))
-            )
+                array('Alnum', true, array('allowWhiteSpace' => true)),
+                array('StringLength', true, array('max' => 64))
+            ),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter the clients name.'
+            ),
+
         ));
 
         $request = Zend_Controller_Front::getInstance()->getRequest();
@@ -91,15 +77,20 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             }
 
             $this->addElement('FilteringSelect', 'client_idAddress', array(
-                'label'     => 'Main Address:',
-                'filters'   => array('StripTags', 'StringTrim'),
-                'atuocomplete' => false,
+                'label'         => 'Main Address:',
+                'filters'       => array('StripTags', 'StringTrim'),
+                'atuocomplete'  => false,
                 'multiOptions'  => $multiOptions,
-                'required'  => true,
+                'required'      => true,
                 'validators'    => array(
                     array('GreaterThan', true, array(
-                        'min' => '1'
+                        'min'       => '0',
+                        'message'   => 'Please select an address.'
                     ))
+                ),
+                'ErrorMessages' => array('Please select an address.'),
+                'dijitParams'   => array(
+                    'promptMessage' => 'Choose a client address.'
                 )
             ));
 
@@ -108,20 +99,61 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             );
 
             // reset options
-            $multiOptions = array(0 => '');
+            $multiOptions = array(0 => ($list->count() > 0) ? 'Please select contact' : 'No contacts available');
             foreach($list as $row) {
                 $multiOptions[$row->clientCo_idClientContact] = $row->clientCo_name;
             }
 
             $this->addElement('FilteringSelect', 'client_idClientContact', array(
-                'label'     => 'Main Contact:',
-                'filters'   => array('StripTags', 'StringTrim'),
-                'atuocomplete' => false,
+                'label'         => 'Main Contact:',
+                'filters'       => array('StripTags', 'StringTrim'),
+                'atuocomplete'  => false,
                 'multiOptions'  => $multiOptions,
-                'required'  => true
+                'required'      => false,
+                'dijitParams'   => array(
+                    'promptMessage' => 'Choose a client contact.'
+                )
             ));
         }
 
-        $this->addHiddenElement('client_idClient', '');
+        $this->addElement('ValidationTextBox', 'client_desc', array(
+            'label'             => 'Description:',
+            'filters'           => array('StripTags', 'StringTrim'),
+            'validators'    => array(
+                array('StringLength', true, array('max' => 255))
+            ),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter a description for this client.'
+            ),
+            'required'      => false
+        ));
+
+/*        $this->addElement('file','client_docLoa', array(
+            'label' => 'Upload Letter of Authority:',
+            'destination' => realpath(APPLICATION_PATH . '/../data/loa'),
+            'validators' => array(
+                array('Count', false, array(1)),
+                array('Size', false, array(1048576*5)),
+                array('Extension', false, array('pdf')),
+            ),
+            'decorators' => $this->_fileDecorators
+        ));
+*/
+
+
+        $this->addElement('ValidationTextBox', 'client_dateExpiryLoa', array(
+            'label'         => 'LoA Expiry Date:',
+            'formatLength'  => 'short',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'validators'    => array(
+                array('Date', true, array(
+                    'format' => 'dd/MM/yyyy'
+                ))
+            ),
+            'required'      => false,
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter the date that the letter of authority expires.'
+            )
+        ));
     }
 }

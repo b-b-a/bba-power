@@ -15,6 +15,10 @@
                     <p><?php echo $this->client->client_name; ?></p>
                 </div>
                 <div class="form_row">
+                    <p class="label"><b>Description: </b></p>
+                    <p>&nbsp;<?php echo $this->client->client_desc; ?></p>
+                </div>
+                <div class="form_row">
                     <p class="label"><b>LoA Expiry Date: </b></p>
                     <p><?php echo $this->formatDate($this->client->client_dateExpiryLoa); ?></p>
                 </div>
