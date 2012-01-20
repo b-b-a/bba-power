@@ -271,11 +271,12 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         // get filtered values
         $data = $form->getValues();
 
-        if (Zend_Date::isDate($data['client_dateExpiryLoa'])) {
-            $date = new Zend_Date($data['client_dateExpiryLoa']);
-            $date->set($date->toString('yy'), Zend_Date::YEAR_SHORT);
-            $data['client_dateExpiryLoa'] = $date->toString('yyyy-MM-dd');
-        }
+        // format date for database.
+        $dateValue =  ($data['client_dateExpiryLoa'] === '') ? '01-01-1970' : $data['client_dateExpiryLoa'];
+        $date = new Zend_Date($dateValue);
+        $date->set($date->toString('yy'), Zend_Date::YEAR_SHORT);
+        $data['client_dateExpiryLoa'] = $date->toString('yyyy-MM-dd');
+
 
         $client = array_key_exists('client_idClient', $data) ?
             $this->getClientById($data['client_idClient']) : null;
