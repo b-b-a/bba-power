@@ -115,11 +115,11 @@ define("bba/Core",
 
         openTab : function(options)
         {
-            tc = registry.byId("ContentTabs");
+            var tc = registry.byId("ContentTabs");
 
             if (!registry.byId(options.tabId)) {
 
-                pane = new ContentPane({
+                var pane = new ContentPane({
                     id: options.tabId,
                     title: options.title,
                     href: options.url,

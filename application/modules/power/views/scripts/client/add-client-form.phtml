@@ -26,15 +26,16 @@
              data-dojo-props="style: 'height:130px;'"
              class="zend_form client_edit">
 
-            <?php echo $form->clientAd_addressName; ?>
-
             <?php echo $form->clientAd_address1; ?>
+
+            <?php echo $form->clientAd_postcode; ?>
+
+            <?php echo $form->clientAd_addressName; ?>
 
             <?php echo $form->clientAd_address2; ?>
 
             <?php echo $form->clientAd_address3; ?>
 
-            <?php echo $form->clientAd_postcode; ?>
             <script type="dojo/method" event="onShow">
                 clientGrid.dlg.attr('title', 'Main (HQ) Address');
             </script>

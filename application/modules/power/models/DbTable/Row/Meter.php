@@ -56,13 +56,7 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
     public function getCurrentContract()
     {
         // find the most recent contract.
-        $select = $this->getRow()->select(false)->setIntegrityCheck(false)
-            ->from('meter_contract')
-            ->columns(array(
-                'meterContract_kvaNominated'
-            ))
-            ->where('meter_contract.meterContract_idMeter = ?', $this->getRow()->meter_idMeter)
-            ->order('contract_dateStart DESC')->limit(1);
+        $select = $this->getRow()->select()->order('contract_dateStart DESC')->limit(1);
 
         return $this->getRow()->findManyToManyRowset(
             'Power_Model_DbTable_Contract',

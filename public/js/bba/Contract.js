@@ -121,9 +121,13 @@ define("bba/Contract",
 
         contractGridRowClick : function(selectedIndex)
         {
-            var selectedItem = this.getItem(selectedIndex);
-            id = this.store.getValue(selectedItem, 'contract_idContract');
+            if (typeof(selectedIndex) != 'number') {
+                selectedIndex = this.focus.rowIndex;
+            }
 
+            selectedItem = this.getItem(selectedIndex);
+            id = this.store.getValue(selectedItem, 'contract_idContract');
+            console.log(id)
             bba.openTab({
                 tabId : 'contract' + id,
                 title : this.store.getValue(selectedItem, 'client_name'),

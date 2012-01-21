@@ -197,8 +197,12 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
                     if ($meterCoEndDate->isEarlier($curCoStartDate) ||
                             $contract->contract_idContract == $meterCo->contract_idContract) {
+                        $log = Zend_Registry::get('log');
+
+                        $mc = $this->getDbTable('meterContract')
+                            ->getMeterContractById($row->meter_idMeter, $meterCo->contract_idContract);
                         $meterCo = $meterCo->toArray();
-                        $meter = array_merge($meter, $meterCo);
+                        $meter = array_merge($meter, $meterCo, $mc->toArray());
                         $meters[] = $meter;
                     }
 
