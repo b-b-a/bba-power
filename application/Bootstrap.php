@@ -59,7 +59,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     public $frontController;
 
-    private $errorType = array (
+    private $_errorType = array (
 		E_ERROR				=> 'ERROR',
 		E_WARNING			=> 'WARNING',
 		E_PARSE				=> 'PARSING ERROR',
@@ -75,6 +75,21 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		E_RECOVERABLE_ERROR	=> 'RECOVERABLE ERROR',
 		E_DEPRECATED		=> 'DEPRECATED',
 		E_USER_DEPRECATED	=> 'USER DEPRECATED'
+	);
+
+    private $_errorHandlerMap = array (
+		E_NOTICE            => Zend_Log::NOTICE,
+        E_USER_NOTICE       => Zend_Log::NOTICE,
+        E_WARNING           => Zend_Log::WARN,
+        E_CORE_WARNING      => Zend_Log::WARN,
+        E_USER_WARNING      => Zend_Log::WARN,
+        E_ERROR             => Zend_Log::ERR,
+        E_USER_ERROR        => Zend_Log::ERR,
+        E_CORE_ERROR        => Zend_Log::ERR,
+        E_RECOVERABLE_ERROR => Zend_Log::ERR,
+        E_STRICT            => Zend_Log::DEBUG,
+        E_DEPRECATED        => Zend_Log::DEBUG,
+        E_USER_DEPRECATED   => Zend_Log::DEBUG
 	);
 
     /**
@@ -117,7 +132,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $dbWriter = new Zend_Log_Writer_Stream(APPLICATION_PATH.'/../data/logs/bba-power-db.log');
             $filter = new Zend_Log_Filter_Priority(Zend_Log::INFO);
             $logger->addFilter($filter);
-            $dbLog->addFilter($filter);
+            //$dbLog->addFilter($filter);
         } else {
             $writer = new Zend_Log_Writer_Firebug();
             $dbWriter = new Zend_Log_Writer_Firebug();
@@ -136,15 +151,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     public function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
     {
         if ('production' == $this->getEnvironment()) {
-            $errorMessage = self::EOL . 'Error ' . $this->errorType[$errno] . self::EOL;
+            if (isset($this->_errorHandlerMap[$errno])) {
+                $priority = $this->_errorHandlerMap[$errno];
+            } else {
+                $priority = Zend_Log::INFO;
+            }
+            $errorMessage = self::EOL . 'Error ' . $this->_errorType[$errno] . self::EOL;
             $errorMessage .= 'ERROR NO : ' . $errno . self::EOL;
             $errorMessage .= 'TEXT : ' . $errstr . self::EOL;
             $errorMessage .= 'LOCATION : ' . $errfile . ' ' . $errline . self::EOL;
             $errorMessage .= 'DATE : ' . date('F j, Y, g:i a') . self::EOL;
             $errorMessage .= '------------------------------------' . self::EOL;
-            $this->_logger->log($errorMessage, $errno);
+            $this->_logger->log($errorMessage, $priority);
         } else {
-            $errorMessage = array('Error : ' . $this->errorType[$errno], array(
+            $errorMessage = array('Error : ' . $this->_errorType[$errno], array(
                 array('', ''),
                 array('Error No', $errno),
                 array('Message', $errstr),
