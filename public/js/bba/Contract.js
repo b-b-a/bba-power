@@ -57,7 +57,7 @@ define("bba/Contract",
 
         closeDialog : function()
         {
-            registry.byId('addmeter').hide();
+            return registry.byId('addmeter').hide();
         },
 
         preselectMeters : function(grid, id, items)
@@ -127,7 +127,7 @@ define("bba/Contract",
 
             selectedItem = this.getItem(selectedIndex);
             id = this.store.getValue(selectedItem, 'contract_idContract');
-            console.log(id)
+
             bba.openTab({
                 tabId : 'contract' + id,
                 title : this.store.getValue(selectedItem, 'client_name'),
