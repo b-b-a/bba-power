@@ -67,6 +67,7 @@ class Power_Form_Client_Add extends ZendSF_Form_Abstract
          */
         $this->addElement($clientCoForm->getElement('clientCo_type')->setValue('liaison'));
         $this->addElement($clientCoForm->getElement('clientCo_name'));
+        $this->addElement($clientCoForm->getElement('clientCo_position'));
         $this->addElement($clientCoForm->getElement('clientCo_phone'));
         $this->addElement($clientCoForm->getElement('clientCo_email'));
     }
