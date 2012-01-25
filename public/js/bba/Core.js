@@ -38,15 +38,21 @@
  */
 define("bba/Core",
     ["dojo/dom","dojo/ready", "dojo/parser", "dojo/_base/connect", "dojo/_base/xhr", "dijit/registry",
-    "dijit/WidgetSet", "dijit/layout/ContentPane", "dijit/Dialog", "dijit/layout/StackContainer",
+    "dijit/WidgetSet", "dijit/layout/ContentPane", "dijit/Dialog", "dojox/grid/DataGrid", "dijit/layout/StackContainer",
     "dijit/layout/BorderContainer", "dijit/layout/TabContainer", "dojox/data/QueryReadStore",
-    "dijit/form/Form", "dijit/form/Button"],
-    function(dom, ready, parser, connect, xhr, registry, WidgetSet, ContentPane, Dialog) {
+    "dijit/form/Form", "dijit/form/Button", "dojox/grid/_CheckBoxSelector", "dojox/grid/cells/_base"],
+    function(dom, ready, parser, connect, xhr, registry, WidgetSet, ContentPane, Dialog, DataGrid) {
 
     ready(function(){
         loader = dom.byId("loader");
         loader.style.display = "none";
     });
+
+    DataGrid.extend({
+        onRowClick: function(e){
+            this.edit.rowClick(e);
+        }
+    })
 
     bba = {
         gridMessage : '<span class="dojoxGridNoData">No records found matching query</span>',
@@ -61,16 +67,21 @@ define("bba/Core",
                 {field: '', width: 'auto', name: ''}
             ],
             meterContract : [
-                {field: 'meter_idMeter', width: '50px', name: 'Id'},
-                {field: 'meter_numberMain', width : '150px', name: 'Number Main'},
-                {field: 'meter_type', width : '100px', name: 'Meter Type'},
-                {field: 'meterContract_kvaNominated', width: '120px', name: 'Expected Yearly Consumption', editable: true},
-                {field: 'contract_idContract', width: '100px', name: 'Contract Id'},
-                {field: 'contract_type', width: '100px', name: 'Contract Type'},
-                {field: 'contract_status', width: '100px', name: 'Status'},
-                {field: 'contract_dateStart', width: '100px', name: 'Start Date'},
-                {field: 'contract_dateEnd', width: '100px', name: 'End Date'},
-                {field: '', width: 'auto', name: ''}
+                {
+                    type: "dojox.grid._CheckBoxSelector"
+                },
+                [
+                    {field: 'meter_idMeter', width: '50px', name: 'Id'},
+                    {field: 'meter_numberMain', width : '150px', name: 'Number Main'},
+                    {field: 'meter_type', width : '100px', name: 'Meter Type'},
+                    {field: 'meterContract_kvaNominated', width: '120px', name: 'Expected Yearly Consumption', editable: true},
+                    {field: 'contract_idContract', width: '100px', name: 'Contract Id'},
+                    {field: 'contract_type', width: '100px', name: 'Contract Type'},
+                    {field: 'contract_status', width: '100px', name: 'Status'},
+                    {field: 'contract_dateStart', width: '100px', name: 'Start Date'},
+                    {field: 'contract_dateEnd', width: '100px', name: 'End Date'},
+                    {field: '', width: 'auto', name: ''}
+                ]
             ],
             meterUsage : [
                 {field: 'usage_idUsage', width: '50px', name: 'Id'},

@@ -5,38 +5,43 @@
     <div data-dojo-type="dijit.layout.ContentPane"
          data-dojo-props="region: 'center'">
         <div class="tabHeading">
-            <div class="form_wrap zend_form ident"
-                 dojoType="dijit.form.Form"
-                 id="edit-clientAd-<?php echo $this->clientAd->clientAd_idAddress; ?>">
-                <h3>Client Address Details</h3>
-                <div class="form_row">
-                    <p class="label"><b>Address Name: </b></p>
-                    <p>&nbsp;<?php echo $this->clientAd->clientAd_addressName; ?></p>
-                </div>
-                <div class="form_row">
-                    <p class="label"><b>Address 1: </b></p>
-                    <p>&nbsp;<?php echo $this->clientAd->clientAd_address1; ?></p>
-                </div>
-                <div class="form_row">
-                    <p class="label"><b>Address 2: </b></p>
-                    <p>&nbsp;<?php echo $this->clientAd->clientAd_address2; ?></p>
-                </div>
-                <div class="form_row">
-                    <p class="label"><b>Address 3: </b></p>
-                    <p>&nbsp;<?php echo $this->clientAd->clientAd_address3; ?></p>
-                </div>
-                <div class="form_row">
-                    <p class="label"><b>Postcode: </b></p>
-                    <p>&nbsp;<?php echo $this->clientAd->clientAd_postcode; ?></p>
-                </div>
+            <table class="info_wrap">
+                <caption>Client Address Details</caption>
+                <tr>
+                    <th>Address Name:</th>
+                    <td><?php echo $this->clientAd->clientAd_addressName; ?></td>
+                </tr>
+                <tr>
+                    <th>Address 1:</th>
+                    <td><?php echo $this->clientAd->clientAd_address1; ?></td>
+                </tr>
+                <tr>
+                    <th>Address 2:</th>
+                    <td><?php echo $this->clientAd->clientAd_address2; ?></td>
+                </tr>
+                <tr>
+                    <th>Address 3:</th>
+                    <th><?php echo $this->clientAd->clientAd_address3; ?></th>
+                </tr>
+                <tr>
+                    <th>Postcode:</th>
+                    <td><?php echo $this->clientAd->clientAd_postcode; ?></td>
+                </tr>
 
                 <?php if ($this->isAllowed('User')): ?>
-                <button dojoType="dijit.form.Button"
-                        type="submit"
-                        name="edit-clientAd-button-<?php echo $this->clientAd->clientAd_idAddress; ?>"
-                        value="submit">Edit Details</button>
+                <tr>
+                    <td class="footer" colspan="2">
+                        <div dojoType="dijit.form.Form"
+                             id="edit-clientAd-<?php echo $this->clientAd->clientAd_idAddress; ?>">
+                            <button dojoType="dijit.form.Button"
+                                    type="submit"
+                                    name="edit-clientAd-button-<?php echo $this->clientAd->clientAd_idAddress; ?>"
+                                    value="submit">Edit Details</button>
+                        </div>
+                    </td>
+                </tr>
                 <?php endif; ?>
-            </div>
+            </table>
             <div class="clear"></div>
         </div>
     </div>
@@ -61,7 +66,6 @@
                 <table dojoType="bba.DataGrid"
                        jsId="contactGrid<?php echo $this->clientAd->clientAd_idClient; ?>"
                        store="clientContactStore<?php echo $this->clientAd->clientAd_idClient; ?>"
-//ep
                        structure="bba.Client.gridLayouts.clientContact"
                        query="{ clientCo_idClient: <?php echo $this->clientAd->clientAd_idClient; ?>,
                        clientCo_idAddress: <?php echo $this->clientAd->clientAd_idAddress; ?>}"

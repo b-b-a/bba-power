@@ -52,23 +52,54 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
         }
 
         $this->addElement('FilteringSelect', 'clientCo_type', array(
-            'label'     => 'Type:',
-            'filters'   => array('StripTags', 'StringTrim'),
-            'autocomplete' => false,
+            'label'         => 'Type:',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autocomplete'  => false,
             'multiOptions'  => $multiOptions,
-            'required'  => true,
+            'required'      => true,
+            'validators'    => array(
+                array('GreaterThan', true, array(
+                    'min'       => '0',
+                    'message'   => 'Please select an contact type.'
+                ))
+            ),
+            'ErrorMessages' => array('Please select an contact type.'),
+            'dijitParams'   => array(
+                'promptMessage' => 'Choose a client contact type.'
+            )
         ));
 
         $this->addElement('ValidationTextBox', 'clientCo_name', array(
-            'label'     => 'Name:',
-            'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim')
+            'label'         => 'Name:',
+            'required'      => true,
+            'filters'       => array('StripTags', 'StringTrim'),
+            'validators'    => array(
+                array('Alpha', true, array('allowWhiteSpace' => true))
+            ),
+            'dijitParams'   => array(
+                'promptMessage' => 'Choose a client contact.'
+            )
+        ));
+
+        $this->addElement('ValidationTextBox', 'clientCo_position', array(
+            'label'         => 'Position:',
+            'required'      => false,
+            'filters'       => array('StripTags', 'StringTrim'),
+            'validators'    => array(
+                array('Alpha', true, array('allowWhiteSpace' => true))
+            ),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter a clients position.'
+            )
         ));
 
         $this->addElement('ValidationTextBox', 'clientCo_phone', array(
-            'label'     => 'Phone:',
-            'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim')
+            'label'         => 'Phone:',
+            'required'      => true,
+            'filters'       => array('StripTags', 'StringTrim'),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter clients phone No.'
+            )
         ));
 
         $this->addElement('ValidationTextBox', 'clientCo_email', array(
@@ -81,6 +112,9 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
                     'table' => 'client_contact',
                     'field' => 'clientCo_email'
                 ))
+            ),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter clients Email.'
             )
         ));
 
@@ -95,17 +129,22 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
             );
 
             // reset options
-            $multiOptions = array(0 => '');
+            $multiOptions = array(0 => ($list->count() > 0) ? 'Please select an address' : 'No addresses available');
+
             foreach($list as $row) {
                 $multiOptions[$row->clientAd_idAddress] = $row->getAddress1AndPostcode();
             }
 
             $this->addElement('FilteringSelect', 'clientCo_idAddress', array(
-                'label'     => 'Address:',
-                'filters'   => array('StripTags', 'StringTrim'),
-                'atuocomplete' => false,
+                'label'         => 'Address:',
+                'filters'       => array('StripTags', 'StringTrim'),
+                'atuocomplete'  => false,
                 'multiOptions'  => $multiOptions,
-                'required'  => true
+                'required'      => false,
+                'ErrorMessages' => array('Please select a client address.'),
+                'dijitParams'   => array(
+                    'promptMessage' => 'Choose a address.'
+                )
             ));
         }
 

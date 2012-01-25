@@ -46,10 +46,38 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
         $this->addHiddenElement('clientAd_idAddress', '');
         $this->addHiddenElement('clientAd_idClient', '');
 
+        $this->addElement('TextBox', 'clientAd_addressName', array(
+            'label'     => 'Address Name:',
+            'filters'   => array('StripTags', 'StringTrim'),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter the clients address name.'
+            )
+        ));
+
         $this->addElement('ValidationTextBox', 'clientAd_address1', array(
             'label'     => 'Address 1:',
             'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'validators'    => array('NotEmpty'),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter the first line of clients address.'
+            )
+        ));
+
+        $this->addElement('TextBox', 'clientAd_address2', array(
+            'label'     => 'Address 2:',
+            'filters'   => array('StripTags', 'StringTrim'),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter the second line of clients address.'
+            )
+        ));
+
+        $this->addElement('TextBox', 'clientAd_address3', array(
+            'label'     => 'Address 3:',
+            'filters'   => array('StripTags', 'StringTrim'),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter the third line of clients address.'
+            )
         ));
 
         $this->addElement('ValidationTextBox', 'clientAd_postcode', array(
@@ -60,22 +88,10 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
                 array('PostCode', true, array(
                     'locale' => 'en_GB'
                 ))
+            ),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter the clients postcode.'
             )
-        ));
-
-        $this->addElement('TextBox', 'clientAd_addressName', array(
-            'label'     => 'Address Name:',
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
-
-        $this->addElement('TextBox', 'clientAd_address2', array(
-            'label'     => 'Address 2:',
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
-
-        $this->addElement('TextBox', 'clientAd_address3', array(
-            'label'     => 'Address 3:',
-            'filters'   => array('StripTags', 'StringTrim')
         ));
     }
 }

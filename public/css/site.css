@@ -134,10 +134,6 @@ p {
 	margin-bottom: 10px;
 }
 
-table {
-	margin-bottom: 10px;
-}
-
 .id_number {
     font-size: .75em;
 }
@@ -245,11 +241,6 @@ table {
 .zend_form .form_row {
     text-align: left;
     margin: 5px 0px;
-    /* 1px stll had a 1px gap. so I have given each
-     * each row a class name of 'form_row' and added
-     * top and bottom margin to seperate the elements better.
-     */
-	/* 1px seems to make the dojo type of field the correct size (was 10px)*/
 }
 
 .zend_form p[id$=label], .zend_form .label {
@@ -260,11 +251,6 @@ table {
     margin-bottom: 1px;
     height: 100%;
 }
-/*    see  #Search .search
-label.search {
-	float: none;
-}
-*/
 
 .zend_form .element
 {
@@ -286,13 +272,12 @@ label.search {
     display: inline;
 }
 
-input,
-select {
+.zend_form input,
+.zend_form select {
     color: #000;
-    border: 1px solid #000;
 }
 
-input[type=submit] {
+.zend_form input[type=submit] {
     font-size: 90%;
     margin: auto 10px;
     float: left;
@@ -309,23 +294,19 @@ input[type=submit] {
 	-moz-box-shadow: 0px 1px 1px rgba(0,0,0,0.15);
 }
 
-input[type=submit]:hover {
+.zend_form input[type=submit]:hover {
     cursor: pointer;
     background-color: #afd9ff;
 	color:#000;
  	-webkit-transition-duration:.2s;
 }
-/*    see   #Search .search
-input[class=search] {
-    float: none;
-}
-*/
-.required:before {
+
+.zend_form .required:before {
     content: '*';
     color: #f00;
 }
 
-.errors {
+.zend_form .errors {
     text-align: right;
 }
 
@@ -394,38 +375,61 @@ Form overrides.
 }
 
 /**
+ * Info Displays
+ */
+.info_wrap {
+    vertical-align: top;
+    text-align: center;
+    float: left;
+    margin: 5px;
+    max-width: 400px;
+    min-width: 200px;
+ }
+
+.info_wrap caption {
+     font-size: 1.10em;
+     font-weight: bold;
+     text-align: left;
+     padding: 0px 10px;
+}
+
+.info_wrap th {
+     font-weight: bold;
+     text-align: right;
+     width: 120px;
+ }
+
+.info_wrap td {
+     text-align: left;
+     padding: 0px 10px;
+}
+
+.info_wrap .footer {
+     text-align: center;
+}
+
+/**
  * Ident Styles
  */
 .ident {
      float: left;
-     margin: 5px;
      margin-left: 30px;
      max-width: 30%;
-}
-
-.alpha {
-    margin-left: 5px;
-    max-width: 30%;
 }
 
 /**
  * Table Styles
  */
-table {
-    width: 100%;
-    border: 1px solid #000;
-    border-collapse: collapse;
-}
-
-th {
-    text-align: left;
-    font-weight: bold;
-}
 
 .dojoxGrid table {
+    width: 100%;
     margin: 0px;
     padding: 0px;
     border: 0px;
+}
+
+.dojoxGrid th {
+    font-weight: bold;
 }
 
 .dojoxGrid td {

@@ -1,4 +1,4 @@
-Build started: Mon Jan 23 2012 16:36:05 GMT-0000 (GMT)
+Build started: Tue Jan 24 2012 23:57:10 GMT-0000 (GMT)
 Build application version: 1.7.0dev (23930)
 Messages:
 info(100) Assumed module uses legacy loader API.
@@ -1726,8 +1726,8 @@ dojo/dojo:
 	dojo/_base/unload
 	dijit/_CssStateMixin
 	dojo/selector/_loader
-	dijit/layout/ScrollingTabController
 	dijit/DialogUnderlay
+	dijit/layout/ScrollingTabController
 	dijit/place
 	dijit/_HasDropDown
 	dojo/dnd/Selector
@@ -1744,8 +1744,8 @@ dojo/dojo:
 	dojox/html/metrics
 	bba/Auth
 	dijit/form/_ComboBoxMenuMixin
-	dojo/parser
 	dojox/grid/_RowSelector
+	dojo/parser
 	dojox/widget/Wizard/Wizard.html
 	dojo/dnd/Manager
 	dijit/form/ToggleButton
@@ -1758,8 +1758,8 @@ dojo/dojo:
 	dijit/layout/templates/_ScrollingTabControllerButton.html
 	dijit/form/MappedTextBox
 	dijit/form/ComboBoxMixin
-	bba/DataGrid
 	dijit/form/_TextBoxMixin
+	bba/DataGrid
 	dojo/Evented
 	dijit/form/SimpleTextarea
 	dijit/layout/templates/_TabButton.html
@@ -1795,6 +1795,7 @@ dojo/dojo:
 	dojo/text
 	dijit/form/templates/CheckBox.html
 	dojo/dom
+	dojox/grid/_CheckBoxSelector
 	dojo/keys
 	dojo/uacss
 	dijit/Tooltip
@@ -1820,21 +1821,22 @@ dojo/dojo:
 	dijit/MenuItem
 	dijit/layout/TabController
 	dijit/layout/_LayoutWidget
-	dijit/popup
 	dijit/_base/manager
 	dijit/layout/StackController
+	dijit/popup
 	dojox/grid/_RowManager
 	dojo/dnd/Mover
 	dijit/layout/TabContainer
+	dojox/grid/_Selector
 	dijit/BackgroundIframe
-	dijit/templates/Menu.html
 	dojo/dnd/Avatar
+	dijit/templates/Menu.html
 	dijit/form/_Spinner
 	dijit/form/Button
 	dijit/layout/templates/TabContainer.html
 	dijit/_WidgetBase
-	dijit/layout/_TabContainerBase
 	dijit/form/Form
+	dijit/layout/_TabContainerBase
 	dojo/_base/html
 	dojo/_base/array
 	dojo/store/Memory
@@ -1848,8 +1850,8 @@ dojo/dojo:
 	dijit/layout/StackContainer
 	dojo/regexp
 	dojo/main
-	dijit/DropDownMenu
 	dijit/form/_FormMixin
+	dijit/DropDownMenu
 	dojo/data/util/simpleFetch
 	dijit/Menu
 	dojo/on
@@ -1858,9 +1860,9 @@ dojo/dojo:
 	dojo/_base/fx
 	dijit/form/templates/ValidationTextBox.html
 	dijit/form/templates/TextBox.html
-	dijit/_KeyNavContainer
 	dijit/layout/utils
 	dijit/_Contained
+	dijit/_KeyNavContainer
 	dijit/form/DataList
 	dijit/templates/Dialog.html
 	dijit/form/CheckBox
@@ -1877,8 +1879,8 @@ dojo/dojo:
 	dijit/_FocusMixin
 	dijit/_WidgetsInTemplateMixin
 	dojo/data/util/filter
-	dojo/_base/connect
 	dojox/grid/_Builder
+	dojo/_base/connect
 	dojox/grid/_EditManager
 	dijit/form/FilteringSelect
 	dojo/data/util/sorter
@@ -1895,8 +1897,8 @@ dojo/dojo:
 	dijit/form/_FormWidget
 	dojo/_base/Color
 	dojo/dnd/common
-	dojox/grid/_Events
 	dijit/CheckedMenuItem
+	dojox/grid/_Events
 	dijit/Viewport
 	dojo/topic
 	dojox/grid/util
@@ -1927,4 +1929,4 @@ dojo/dojo:
 Process finished normally
 	errors: 0
 	warnings: 5
-	build time: 90.044 seconds
+	build time: 50.004 seconds

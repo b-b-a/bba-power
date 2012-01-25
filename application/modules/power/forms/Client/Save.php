@@ -57,7 +57,7 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             ),
             'dijitParams'   => array(
                 'promptMessage' => 'Enter the clients name.'
-            ),
+            )
 
         ));
 

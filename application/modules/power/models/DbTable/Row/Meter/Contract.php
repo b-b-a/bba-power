@@ -39,5 +39,14 @@
  */
 class Power_Model_DbTable_Row_Meter_Contract extends ZendSF_Model_DbTable_Row_Abstract
 {
-    
+    protected $_meter;
+
+    public function getMeter($row = null)
+    {
+        if (!$this->_meter instanceof Power_Model_DbTable_Row_Meter) {
+            $this->_meter = $this->getRow()
+                ->findParentRow('Power_Model_DbTable_Meter', 'meter');
+        }
+        return (null === $row) ? $this->_meter : $this->_meter->$row;
+    }
 }

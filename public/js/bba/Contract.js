@@ -180,7 +180,11 @@ define("bba/Contract",
                 preventCache: true,
                 load: function(data) {
                     if (data.saved > 0) {
-                        registry.byId('contract' + values.idContract).refresh();
+                        if (values.idContract) {
+                            registry.byId('contract' + values.idContract).refresh();
+                        } else {
+                            contractGrid._refresh();
+                        }
                         //bba.comfirmDialog();
                     } else {
                         dom.byId('dialog').innerHTML = data.html;

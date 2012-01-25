@@ -59,6 +59,8 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
      */
     protected $_tenders;
 
+    protected $_meterContract;
+
     /**
      * Array of all columns with need date format applied
      * to it when outputting row as an array.
@@ -110,6 +112,15 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
                 ->findDependentRowset('Power_Model_DbTable_Tender', 'contract');
         }
         return $this->_tenders;
+    }
+
+    public function getAllMetersOnContract()
+    {
+        if (!$this->_meterContract instanceof Zend_Db_Table_Rowset_Abstract) {
+            $this->_meterContract = $this->getRow()
+                ->findDependentRowset('Power_Model_DbTable_Meter_Contract', 'contract');
+        }
+        return $this->_meterContract;
     }
 
     /**

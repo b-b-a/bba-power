@@ -6,34 +6,39 @@
          data-dojo-props="region: 'center'">
         <div class="tabHeading">
 
-            <div class="form_wrap zend_form client_edit ident alpha"
-                 dojoType="dijit.form.Form"
-                 id="edit-client-<?php echo $this->client->client_idClient; ?>">
-                <h3>Client Details</h3>
-                <div class="form_row">
-                    <p class="label"><b>Client Name: </b></p>
-                    <p><?php echo $this->client->client_name; ?></p>
-                </div>
-                <div class="form_row">
-                    <p class="label"><b>Description: </b></p>
-                    <p>&nbsp;<?php echo $this->client->client_desc; ?></p>
-                </div>
-                <div class="form_row">
-                    <p class="label"><b>LoA Expiry Date: </b></p>
-                    <p><?php echo $this->formatDate($this->client->client_dateExpiryLoa); ?></p>
-                </div>
+            <table class="info_wrap">
+                <caption>Client Details</caption>
+                <tr>
+                    <th>Client Name:</th>
+                    <td><?php echo $this->client->client_name; ?></td>
+                </tr>
+                <tr>
+                    <th>Description:</th>
+                    <td><?php echo $this->client->client_desc; ?></td>
+                </tr>
+                <tr>
+                    <th>LoA Expiry Date:</th>
+                    <td><?php echo $this->formatDate($this->client->client_dateExpiryLoa); ?></td>
+                </tr>
                 <?php if ($this->isAllowed('User')): ?>
-                <button dojoType="dijit.form.Button"
-                        type="submit"
-                        name="edit-client-button-<?php echo $this->client->client_idClient; ?>"
-                        value="submit">Edit Details</button>
+                <tr>
+                    <td class="footer" colspan="2">
+                        <div dojoType="dijit.form.Form"
+                             id="edit-client-<?php echo $this->client->client_idClient; ?>">
+                            <button dojoType="dijit.form.Button"
+                                    type="submit"
+                                    name="edit-client-button-<?php echo $this->client->client_idClient; ?>"
+                                    value="submit">Edit Details</button>
+                        </div>
+                    </td>
+                </tr>
                 <?php endif; ?>
-            </div>
+            </table>
 
-            <div class="ident">
-                <h3>Main Address</h3>
-                <div>
-                    <p><?php
+            <table class="info_wrap ident">
+                <caption>Main Address</caption>
+                <tr>
+                    <td><?php
                         $mainContact = $this->clientHelper($this->client->client_idClient)
                             ->getParentRow('clientAd');
 
@@ -44,26 +49,29 @@
                             $mainContact->get('clientAd_address3'),
                             $mainContact->get('clientAd_postcode')
                         ));
-                    ?></p>
-                </div>
-            </div>
+                    ?></td>
+                </tr>
+            </table>
 
-            <div class="ident">
-                <h3>Main Contact</h3>
-                <div>
-                    <p><?php
-                        $mainContact = $this->clientHelper($this->client->client_idClient)
-                            ->getParentRow('clientCo');
-
-                        echo $this->formatAddress(array(
-                            $mainContact->get('clientCo_name'),
-                            $mainContact->get('clientCo_position'),
-                            $mainContact->get('clientCo_phone'),
-                            $mainContact->get('clientCo_email')
-                        ));
-                    ?></p>
-                </div>
-            </div>
+            <table class="info_wrap ident">
+                <caption>Main Contact</caption>
+                <tr>
+                    <td>
+                        <?php $mainContact = $this->clientHelper($this->client->client_idClient)
+                                ->getParentRow('clientCo'); ?>
+                        <?php if ($mainContact->get('clientCo_idClientContact')): ?>
+                            <?php echo $this->formatAddress(array(
+                                $mainContact->get('clientCo_name'),
+                                $mainContact->get('clientCo_position'),
+                                $mainContact->get('clientCo_phone'),
+                                $mainContact->get('clientCo_email')
+                            )); ?>
+                        <?php else: ?>
+                        <p>No Contact Available</p>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            </table>
             <div class="clear"></div>
         </div>
     </div>
