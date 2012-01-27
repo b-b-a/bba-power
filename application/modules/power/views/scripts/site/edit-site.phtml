@@ -6,74 +6,123 @@
          data-dojo-props="region: 'center'">
         <div class="tabHeading">
 
-            <div class="form_wrap zend_form site_edit ident alpha"
-                 dojoType="dijit.form.Form"
-                 id="edit-site-<?php echo $this->site->site_idSite; ?>">
-                <h3>Site Details</h3>
-                <div class="form_row">
-                    <p class="label"><b>Client:</b></p>
-                    <p>&nbsp;<?php echo $this->site->client_name; ?></p>
-                </div>
-                <?php if ($this->isAllowed('User')): ?>
-                <button dojoType="dijit.form.Button"
-                    type="submit"
-                    name="edit-site-button-<?php echo $this->site->site_idSite; ?>"
-                    value="submit">Edit Details</button>
+            <?php $mainContact = $this->siteHelper($this->site->site_idSite)
+                    ->getParentRow('siteAddress'); ?>
+
+            <table class="info_wrap">
+                <caption>Site Details</caption>
+                <tr>
+                    <th>Client:</th>
+                    <td><?php echo $this->site->client_name; ?></td>
+                </tr>
+                <?php if($mainContact->get('clientAd_addressName')): ?>
+                <tr>
+                    <th>Address Name:</th>
+                    <td><?php echo $mainContact->get('clientAd_addressName'); ?></td>
+                </tr>
                 <?php endif; ?>
-            </div>
+                <tr>
+                    <th>Address 1:</th>
+                    <td><?php echo $mainContact->get('clientAd_address1'); ?></td>
+                </tr>
+                <?php if($mainContact->get('clientAd_address2')): ?>
+                <tr>
+                    <th>Address 2:</th>
+                    <td><?php echo $mainContact->get('clientAd_address2'); ?></td>
+                </tr>
+                <?php endif; ?>
+                <?php if($mainContact->get('clientAd_address3')): ?>
+                <tr>
+                    <th>Address 3:</th>
+                    <td><?php echo $mainContact->get('clientAd_address3'); ?></td>
+                </tr>
+                <?php endif; ?>
+                <tr>
+                    <th>Postcode:</th>
+                    <td><?php echo $mainContact->get('clientAd_postcode'); ?></td>
+                </tr>
+                <?php if ($this->isAllowed('User')): ?>
+                <tr>
+                    <td class="footer" colspan="2">
+                        <div dojoType="dijit.form.Form"
+                             id="edit-site-<?php echo $this->site->site_idSite; ?>">
+                            <button dojoType="dijit.form.Button"
+                                    type="submit"
+                                    name="edit-site-button-<?php echo $this->site->site_idSite; ?>"
+                                    value="submit">Edit Details</button>
+                        </div>
+                    </td>
+                </tr>
+                <?php endif; ?>
+            </table>
 
-            <div class="ident">
-                <h3>Address</h3>
-                <div>
-                    <p><?php
-                        $mainContact = $this->siteHelper($this->site->site_idSite)
-                            ->getParentRow('siteAddress');
+            <?php $mainContact = $this->siteHelper($this->site->site_idSite)
+                    ->getParentRow('siteAddressBill'); ?>
 
-                        echo $this->formatAddress(array(
-                            $mainContact->get('clientAd_addressName'),
-                            $mainContact->get('clientAd_address1'),
-                            $mainContact->get('clientAd_address2'),
-                            $mainContact->get('clientAd_address3'),
-                            $mainContact->get('clientAd_postcode')
-                        ));
-                    ?></p>
-                </div>
-            </div>
+            <table class="info_wrap ident">
+                <caption>Billing Address</caption>
+                <?php if($mainContact->get('clientAd_addressName')): ?>
+                <tr>
+                    <th>Address Name:</th>
+                    <td><?php echo $mainContact->get('clientAd_addressName'); ?></td>
+                </tr>
+                <?php endif; ?>
+                <tr>
+                    <th>Address 1:</th>
+                    <td><?php echo $mainContact->get('clientAd_address1'); ?></td>
+                </tr>
+                <?php if($mainContact->get('clientAd_address2')): ?>
+                <tr>
+                    <th>Address 2:</th>
+                    <td><?php echo $mainContact->get('clientAd_address2'); ?></td>
+                </tr>
+                <?php endif; ?>
+                <?php if($mainContact->get('clientAd_address3')): ?>
+                <tr>
+                    <th>Address 3:</th>
+                    <td><?php echo $mainContact->get('clientAd_address3'); ?></td>
+                </tr>
+                <?php endif; ?>
+                <tr>
+                    <th>Postcode:</th>
+                    <td><?php echo $mainContact->get('clientAd_postcode'); ?></td>
+                </tr>
+            </table>
 
-            <div class="ident">
-                <h3>Billing Address</h3>
-                <div>
-                    <p><?php
-                        $mainContact = $this->siteHelper($this->site->site_idSite)
-                            ->getParentRow('siteAddressBill');
+            <?php $mainContact = $this->siteHelper($this->site->site_idSite)
+                    ->getParentRow('siteClientContact'); ?>
 
-                        echo $this->formatAddress(array(
-                            $mainContact->get('clientAd_addressName'),
-                            $mainContact->get('clientAd_address1'),
-                            $mainContact->get('clientAd_address2'),
-                            $mainContact->get('clientAd_address3'),
-                            $mainContact->get('clientAd_postcode')
-                        ));
-                    ?></p>
-                </div>
-            </div>
-
-            <div class="ident">
-                <h3>Contact</h3>
-                <div>
-                    <p><?php
-                        $mainContact = $this->siteHelper($this->site->site_idSite)
-                            ->getParentRow('siteClientContact');
-
-                        echo $this->formatAddress(array(
-                            $mainContact->get('clientCo_name'),
-                            $mainContact->get('clientCo_position'),
-                            $mainContact->get('clientCo_phone'),
-                            $mainContact->get('clientCo_email')
-                        ));
-                    ?></p>
-                </div>
-            </div>
+            <table class="info_wrap ident">
+                <caption>Contact</caption>
+                <?php if($mainContact->get('clientCo_idClientContact')): ?>
+                <tr>
+                    <th>Name:</th>
+                    <td><?php echo $mainContact->get('clientCo_name'); ?></td>
+                </tr>
+                <?php if($mainContact->get('clientCo_position')): ?>
+                <tr>
+                    <th>Position:</th>
+                    <td><?php echo $mainContact->get('clientCo_position'); ?></td>
+                </tr>
+                <?php endif; ?>
+                <?php if($mainContact->get('clientCo_phone')): ?>
+                <tr>
+                    <th>Phone No:</th>
+                    <td><?php echo $mainContact->get('clientCo_phone'); ?></td>
+                </tr>
+                <?php endif; ?>
+                <?php if($mainContact->get('clientCo_email')): ?>
+                <tr>
+                    <th>Email:</th>
+                    <td><?php echo $mainContact->get('clientCo_email'); ?></td>
+                </tr>
+                <?php endif; ?>
+                <?php else: ?>
+                <tr>
+                    <td>No contact details available</td>
+                </tr>
+                <?php endif; ?>
+            </table>
 
             <div class="clear"></div>
         </div>

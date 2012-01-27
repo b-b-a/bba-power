@@ -193,8 +193,9 @@ class Power_SiteController extends Zend_Controller_Action
 
             $this->view->assign(array(
                 'formName'  => $formName,
-                $fromName   => $form
+                'site' . $type . 'Form'  => $form
             ));
+
             $html = $this->view->render('site/site-form.phtml');
             $returnJson['html'] = $html;
         }

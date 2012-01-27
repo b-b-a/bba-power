@@ -59,7 +59,14 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
                 'onChange' => 'bba.Site.changeAddress(this.value);'
             ),
             'required'      => true,
-            'value'         => '0'
+            'value'         => '0',
+            'validators'    => array(
+                array('GreaterThan', true, array(
+                    'min'       => '0',
+                    'message'   => 'Please select a client.'
+                ))
+            ),
+            'ErrorMessages' => array('Please select a client.'),
         ));
 
         $this->addElement('FilteringSelect', 'site_idAddress', array(
@@ -68,14 +75,20 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
             'autoComplete'  => false,
             'hasDownArrow'  => true,
             'storeId'       => 'addressStore',
-            //'storeType'     => 'dojo.data.ItemFileReadStore',
-            //'storeParams'   => array('url' => "/site/autocomplete/param/address/"),
             'dijitParams'   => array('searchAttr' => 'address1AndPostcode'),
             'attribs'       => array(
                 'disabled' => true,
                 'onChange' => 'bba.Site.changeBillAddress(this);'
             ),
-            'required'      => true
+            'required'      => true,
+            'value'         => '0',
+            'validators'    => array(
+                array('GreaterThan', true, array(
+                    'min'       => '0',
+                    'message'   => 'Please select an address.'
+                ))
+            ),
+            'ErrorMessages' => array('Please select an address.'),
         ));
 
         $this->addElement('FilteringSelect', 'site_idAddressBill', array(
@@ -84,11 +97,10 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
             'autoComplete'  => false,
             'hasDownArrow'  => true,
             'storeId'       => 'addressStore',
-            //'storeType'     => 'dojo.data.ItemFileReadStore',
-            //'storeParams'   => array('url' => "/site/autocomplete/param/address/"),
             'dijitParams'   => array('searchAttr' => 'address1AndPostcode'),
             'attribs'         => array('disabled' => true),
-            'required'      => false
+            'required'      => false,
+            'value'         => '0'
         ));
 
         $this->addElement('FilteringSelect', 'site_idClientContact', array(
@@ -97,11 +109,10 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
             'autoComplete'  => false,
             'hasDownArrow'  => true,
             'storeId'       => 'contactStore',
-            //'storeType'     => 'dojo.data.ItemFileReadStore',
-            //'storeParams'   => array('url' => "/site/autocomplete/param/contact/client/"),
             'dijitParams'   => array('searchAttr' => 'clientCo_name'),
             'attribs'         => array('disabled' => true),
-            'required'      => false
+            'required'      => false,
+            'value'         => '0'
         ));
 
         $this->addHiddenElement('site_idSite', '');

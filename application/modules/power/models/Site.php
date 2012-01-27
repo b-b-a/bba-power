@@ -121,11 +121,13 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
      */
     public function getFileringSelectData($params)
     {
+        if (!isset($params['clientId'])) $params['clientId'] = 0;
         switch ($params['type']) {
             case 'clients':
                 $result = $this->getDbTable('client')->fetchAll(null, 'client_name ASC');
                 $identifier = 'client_idClient';
                 $searchItems = array('client_idClient', 'client_name');
+                $selectMessage = ($result->count()) ? 'Please select a client' : 'No clients available';
                 break;
             case 'address':
             case 'billAddress':
@@ -139,17 +141,18 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
                     $result = $this->getDbTable('clientAddress')
                         ->getClientAddressesByClientId($params['clientId']);
                 }
-
+                $selectMessage = ($result->count()) ? 'Please select a client address' : 'No client addresses available';
                 break;
             case 'contact':
                 $identifier = 'clientCo_idClientContact';
                 $searchItems = array('clientCo_idClientContact', 'clientCo_name');
                 $result = $this->getDbTable('clientContact')
                     ->getClientContactsByClientId($params['clientId']);
+                $selectMessage = ($result->count()) ? 'Please select a client contact' : 'No client contacts available';
                 break;
         }
 
-        $items = array();
+        $items = array(array($identifier => 0, $searchItems[1] => $selectMessage));
 
         foreach ($result as $row) {
             $items[] = array(

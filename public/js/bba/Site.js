@@ -93,18 +93,24 @@ define("bba/Site",
             this.contactStore.fetch();
 
             registry.byId("site_idClientContact").set('store', this.contactStore);
+
+            registry.byId("site_idAddress").set('value', 0);
+            registry.byId("site_idAddressBill").set('value', 0);
+            registry.byId("site_idClientContact").set('value', 0);
         },
 
         changeBillAddress : function()
         {
             registry.byId("site_idAddressBill").set('disabled', false);
             registry.byId("site_idAddressBill").set('store', this.billAddressStore);
+            registry.byId("site_idAddressBill").set('value', 0);
         },
 
         changeContact : function()
         {
             registry.byId("site_idClientContact").set('disabled', false);
             registry.byId("site_idClientContact").set('store', this.contactStore);
+            registry.byId("site_idClientContact").set('value', 0);
         }
     };
 
