@@ -124,7 +124,8 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             'validators'    => array(
                 array('Digits', true),
                 array('StringLength', true, array('max' => 16))
-            )
+            ),
+            'attribs'       => array('style' => 'width: 150px;')
         ));
 
         $this->addElement('NumberTextBox', 'meter_numberTop', array(
@@ -140,7 +141,8 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             'validators'    => array(
                 array('Digits', true),
                 array('StringLength', true, array('max' => 8))
-            )
+            ),
+            'attribs'       => array('style' => 'width: 150px;')
         ));
 
         $this->addElement('NumberTextBox', 'meter_numberMain', array(
@@ -156,23 +158,26 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             'validators'    => array(
                 array('Digits', true),
                 array('StringLength', true, array('max' => 16))
-            )
+            ),
+            'attribs'       => array('style' => 'width: 150px;')
         ));
 
         $this->addElement('NumberTextBox', 'meter_capacity', array(
-            'label'     => 'Capacity:',
+            'label'     => 'Supply Capacity:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim'),
             'constraints'   => array(
                 'pattern'   => '#'
             ),
             'dijitParams'   => array(
-                'promptMessage' => 'Enter the meter capcity.'
+                'promptMessage' => 'Enter the meter capcity (kWH).'
             ),
             'validators'    => array(
                 array('Digits', true),
                 array('StringLength', true, array('max' => 11))
-            )
+            ),
+            'Description'   => '(kWH)',
+            'attribs'       => array('style' => 'width: 100px;')
         ));
 
         $this->addElement('SimpleTextarea', 'meter_desc', array(
