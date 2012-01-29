@@ -38,7 +38,7 @@
  */
 define("bba/Site",
     ["dojo/dom", "dojo/ready", "dojo/data/ItemFileReadStore", "dijit/registry", "bba/Core", "bba/Meter",
-    "dijit/form/RadioButton", "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect",
+    "dijit/form/RadioButton", "dijit/form/NumberTextBox", "dijit/form/FilteringSelect",
     "dijit/form/SimpleTextarea", "bba/DataGrid"],
     function(dom, ready, ItemFileReadStore, registry, bba) {
 

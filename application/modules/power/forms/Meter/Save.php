@@ -39,6 +39,30 @@
  */
 class Power_Form_Meter_Save extends ZendSF_Form_Abstract
 {
+    protected $_simpleTextareaDecorators = array(
+        'DijitElement',
+        'Errors',
+        'Description',
+        array(
+            array('data' => 'HtmlTag'),
+            array(
+                'tag' => 'p',
+                'class' => 'element'
+            )
+        ),
+        array(
+            'Label',
+            array('tag' => 'p')
+        ),
+        array(
+            array('row' => 'HtmlTag'),
+            array(
+                'tag' => 'div',
+                'class' => 'form_row simple-textarea'
+            )
+        )
+    );
+
     public function init()
     {
         $this->setName('meter');
@@ -57,7 +81,8 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             'filters'       => array('StripTags', 'StringTrim'),
             'autocomplete'  => false,
             'multiOptions'  => $multiOptions,
-            'required'      => true
+            'required'      => true,
+            'ErrorMessages' => array('Please select a meter type.'),
         ));
 
         $multiOptions = array();
@@ -69,29 +94,92 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
         }
 
         $this->addElement('FilteringSelect', 'meter_status', array(
-            'label'     => 'Status:',
-            'filters'   => array('StripTags', 'StringTrim'),
-            'autocomplete' => false,
+            'label'         => 'Status:',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autocomplete'  => false,
             'multiOptions'  => $multiOptions,
-            'required'  => true,
+            'required'      => true,
+            'dijitParams'   => array(
+                'promptMessage' => 'Select a Status'
+            ),
+            'validators'    => array(
+                array('GreaterThan', true, array(
+                    'min'       => '0',
+                    'message'   => 'Please select a status.'
+                ))
+            ),
+            'ErrorMessages' => array('Please select a status.'),
         ));
 
-        $this->addElement('TextBox', 'meter_numberSerial', array(
-            'label'     => 'Serial No:',
-            'required'  => false,
-            'filters'   => array('StripTags', 'StringTrim')
+        $this->addElement('NumberTextBox', 'meter_numberSerial', array(
+            'label'         => 'Serial No:',
+            'required'      => false,
+            'filters'       => array('StripTags', 'StringTrim'),
+            'constraints'   => array(
+                'pattern'   => '#'
+            ),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter the meter serial number.'
+            ),
+            'validators'    => array(
+                array('Digits', true),
+                array('StringLength', true, array('max' => 16))
+            )
         ));
 
-        $this->addElement('TextBox', 'meter_numberTop', array(
+        $this->addElement('NumberTextBox', 'meter_numberTop', array(
             'label'     => 'Top No:',
             'required'  => false,
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'constraints'   => array(
+                'pattern'   => '#'
+            ),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter the meter top number.'
+            ),
+            'validators'    => array(
+                array('Digits', true),
+                array('StringLength', true, array('max' => 8))
+            )
         ));
 
-        $this->addElement('ValidationTextBox', 'meter_numberMain', array(
+        $this->addElement('NumberTextBox', 'meter_numberMain', array(
             'label'     => 'Main No:',
             'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'constraints'   => array(
+                'pattern'   => '#'
+            ),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter the meter main number.'
+            ),
+            'validators'    => array(
+                array('Digits', true),
+                array('StringLength', true, array('max' => 16))
+            )
+        ));
+
+        $this->addElement('NumberTextBox', 'meter_capacity', array(
+            'label'     => 'Capacity:',
+            'required'  => false,
+            'filters'   => array('StripTags', 'StringTrim'),
+            'constraints'   => array(
+                'pattern'   => '#'
+            ),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter the meter capcity.'
+            ),
+            'validators'    => array(
+                array('Digits', true),
+                array('StringLength', true, array('max' => 11))
+            )
+        ));
+
+        $this->addElement('SimpleTextarea', 'meter_desc', array(
+            'label'         => 'Description:',
+            'required'      => false,
+            'filters'       => array('StripTags', 'StringTrim'),
+            'decorators'    => $this->_simpleTextareaDecorators
         ));
 
         $this->addHiddenElement('meter_idMeter', '');

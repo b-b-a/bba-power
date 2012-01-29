@@ -26,8 +26,8 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Meter",
-    ["dojo/dom","dojo/ready", "bba/Core", "dijit/form/RadioButton", "dijit/form/NumberSpinner",
-    "dijit/form/FilteringSelect", "bba/DataGrid"],
+    ["dojo/dom","dojo/ready", "bba/Core", "dijit/form/RadioButton", "dijit/form/NumberTextBox",
+    "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea", "bba/DataGrid"],
     function(dom, ready, bba) {
 
     ready(function(){

@@ -135,9 +135,9 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
         ));
 
         $this->addElement('SimpleTextarea', 'site_desc', array(
-            'label'     => 'Description:',
-            'required'  => false,
-            'filters'   => array('StripTags', 'StringTrim'),
+            'label'         => 'Description:',
+            'required'      => false,
+            'filters'       => array('StripTags', 'StringTrim'),
             'decorators'    => $this->_simpleTextareaDecorators
         ));
 
