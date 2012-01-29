@@ -37,8 +37,9 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Site",
-    ["dojo/dom", "dojo/ready", "dojo/data/ItemFileReadStore", "dijit/registry", "bba/Core",
-    "dijit/form/RadioButton", "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect", "bba/DataGrid"],
+    ["dojo/dom", "dojo/ready", "dojo/data/ItemFileReadStore", "dijit/registry", "bba/Core", "bba/Meter",
+    "dijit/form/RadioButton", "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect",
+    "dijit/form/SimpleTextarea", "bba/DataGrid"],
     function(dom, ready, ItemFileReadStore, registry, bba) {
 
     ready(function(){

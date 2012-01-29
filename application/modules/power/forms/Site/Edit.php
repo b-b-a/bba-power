@@ -39,6 +39,30 @@
  */
 class Power_Form_Site_Edit extends ZendSF_Form_Abstract
 {
+    protected $_simpleTextareaDecorators = array(
+        'DijitElement',
+        'Errors',
+        'Description',
+        array(
+            array('data' => 'HtmlTag'),
+            array(
+                'tag' => 'p',
+                'class' => 'element'
+            )
+        ),
+        array(
+            'Label',
+            array('tag' => 'p')
+        ),
+        array(
+            array('row' => 'HtmlTag'),
+            array(
+                'tag' => 'div',
+                'class' => 'form_row simple-textarea'
+            )
+        )
+    );
+
     public function init()
     {
 
@@ -108,6 +132,13 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
             'dijitParams'   => array('searchAttr' => 'clientCo_name'),
             //'attribs'         => array('disabled' => true),
             'required'      => false
+        ));
+
+        $this->addElement('SimpleTextarea', 'site_desc', array(
+            'label'     => 'Description:',
+            'required'  => false,
+            'filters'   => array('StripTags', 'StringTrim'),
+            'decorators'    => $this->_simpleTextareaDecorators
         ));
 
         $this->addHiddenElement('site_idSite', '');

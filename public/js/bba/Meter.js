@@ -36,7 +36,32 @@ define("bba/Meter",
         }
     });
 
-    bba.Meter = {}
+    bba.Meter = {
+        gridLayouts : {
+            meter : [
+                {field: 'meter_idMeter', width: '50px', name: 'Id'},
+                {field: 'client_name', width: '200px', name: 'Client'},
+                {field: 'clientAd_addressName', width: '200px', name: 'Address Name'},
+                {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
+                {field: 'meter_type', width: '100px', name: 'Meter Type'},
+                {field: 'meter_status', width: '100px', name: 'Meter Status'},
+                {field: 'meter_numberMain', width: '120px', name: 'Meter No'},
+                {field: 'contract_status', width: '80px', name: 'Contract Status'},
+                {field: 'contract_dateEnd', width: '100px', name: 'End Date'},
+                {field: '', width: 'auto', name: ''}
+            ],
+            meterUsage : [
+                {field: 'usage_idUsage', width: '50px', name: 'Id'},
+                {field: 'usage_dateBill', width: '100px', name: 'Bill Date'},
+                {field: 'usage_dateReading', width: '100px', name: 'Reading Date'},
+                {field: 'usage_type', width: '100px', name: 'type'},
+                {field: 'usage_usageDay', width: '100px', name: 'Day'},
+                {field: 'usage_usageNight', width: '100px', name: 'Night'},
+                {field: 'usage_usageOther', width: '100px', name: 'Other'},
+                {field: '', width: 'auto', name: ''}
+            ]
+        }
+    }
 
     return bba.Meter;
 

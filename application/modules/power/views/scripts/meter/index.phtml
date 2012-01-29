@@ -33,25 +33,12 @@
                id="meterGrid"
                jsId="meterGrid"
                store="meterStore"
+               structure="bba.Meter.gridLayouts.meter"
                query='<?php echo $this->search; ?>'
                sortInfo="2"
                search="true"
                tabs="true"
                tabTitleColumn="meter_numberMain">
-            <thead>
-                <tr>
-                    <th field="meter_idMeter" width="50px">Id</th>
-                    <th field="client_name" width="200px">Client</th>
-                    <th field="clientAd_addressName" width="200px">Address Name</th>
-                    <th field="clientAd_postcode" width="100px">Postcode</th>
-                    <th field="meter_type" width="100px">Meter Type</th>
-                    <th field="meter_status" width="100px">Meter Status</th>
-                    <th field="meter_numberMain" width="120px">Meter #</th>
-                    <th field="contract_status" width="80px">Contract Status</th>
-                    <th field="contract_dateEnd" width="100px">End Date</th>
-                    <th field="" width="auto"></th>
-                </tr>
-            </thead>
         </table>
     </div>
 </div>

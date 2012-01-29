@@ -83,16 +83,6 @@ define("bba/Core",
                     {field: '', width: 'auto', name: ''}
                 ]
             ],
-            meterUsage : [
-                {field: 'usage_idUsage', width: '50px', name: 'Id'},
-                {field: 'usage_dateBill', width: '100px', name: 'Bill Date'},
-                {field: 'usage_dateReading', width: '100px', name: 'Reading Date'},
-                {field: 'usage_type', width: '100px', name: 'type'},
-                {field: 'usage_usageDay', width: '100px', name: 'Day'},
-                {field: 'usage_usageNight', width: '100px', name: 'Night'},
-                {field: 'usage_usageOther', width: '100px', name: 'Other'},
-                {field: '', width: 'auto', name: ''}
-            ],
             supplierContract : [
                 {field: 'contract_idContract', width: '50px', name: 'Id'},
                 {field: 'client_name', width: '300px', name: 'Client'},

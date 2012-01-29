@@ -216,11 +216,11 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
         ));
         */
 
-        $this->addElement('TextBox', 'contract_idUserAgent', array(
+        /*$this->addElement('TextBox', 'contract_idUserAgent', array(
             'label'     => 'User Agent:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim')
-        ));
+        ));*/
 
         $this->addHiddenElement('contract_idContract', '');
         $this->addHiddenElement('contract_idContractPrevious', '');
