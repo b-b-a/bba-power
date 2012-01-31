@@ -39,6 +39,30 @@
  */
 class Power_Form_Contract_Save extends ZendSF_Form_Abstract
 {
+    protected $_simpleTextareaDecorators = array(
+        'DijitElement',
+        'Errors',
+        'Description',
+        array(
+            array('data' => 'HtmlTag'),
+            array(
+                'tag' => 'p',
+                'class' => 'element'
+            )
+        ),
+        array(
+            'Label',
+            array('tag' => 'p')
+        ),
+        array(
+            array('row' => 'HtmlTag'),
+            array(
+                'tag' => 'div',
+                'class' => 'form_row simple-textarea'
+            )
+        )
+    );
+
     public function init()
     {
         $this->setName('contract');
@@ -73,7 +97,14 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
                     'promptMessage' => 'Select a Client'
                 ),
                 'required'      => true,
-                'value'         => ''
+                'value'         => '0',
+                'validators'    => array(
+                array('GreaterThan', true, array(
+                    'min'       => '0',
+                    'message'   => 'Please select a client.'
+                ))
+            ),
+            'ErrorMessages' => array('Please select a client.'),
             ));
         }
 
@@ -98,6 +129,14 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
                 'autocomplete'  => false,
                 'multiOptions'  => $multiOptions,
                 'required'      => false,
+                'value'         => 0,
+                'validators'    => array(
+                    array('GreaterThan', true, array(
+                        'min'       => '0',
+                        'message'   => 'Please select a tender.'
+                    ))
+                ),
+                'ErrorMessages' => array('Please select a tender.'),
             ));
         }
 
@@ -134,7 +173,14 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'filters'       => array('StripTags', 'StringTrim'),
             'autocomplete'  => false,
             'multiOptions'  => $multiOptions,
-            'required'      => true
+            'required'      => true,
+            'validators'    => array(
+                array('GreaterThan', true, array(
+                    'min'       => '0',
+                    'message'   => 'Please select a contract type.'
+                ))
+            ),
+            'ErrorMessages' => array('Please select a contract type.'),
         ));
 
         $multiOptions = array(0 => 'Select a status');
@@ -150,6 +196,13 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'autocomplete'  => false,
             'multiOptions'  => $multiOptions,
             'required'      => true,
+            'validators'    => array(
+                array('GreaterThan', true, array(
+                    'min'       => '0',
+                    'message'   => 'Please select a status.'
+                ))
+            ),
+            'ErrorMessages' => array('Please select a status.'),
         ));
 
         $this->addElement('TextBox', 'contract_dateStart', array(
@@ -194,7 +247,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             'label'     => 'Description:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim'),
-            'style'     => 'width: 212px; height: 200px;',
+            'decorators'    => $this->_simpleTextareaDecorators
         ));
         /*
         $this->addElement('SimpleTextarea', 'contract_txtTenderRequest', array(

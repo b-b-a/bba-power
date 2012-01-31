@@ -6,93 +6,101 @@
          data-dojo-props="region: 'center'">
 
         <div class="tabHeading">
-             <div class="form_wrap zend_form contract_edit ident alpha"
-                 dojoType="dijit.form.Form"
-                 id="edit-contract-<?php echo $this->contract->contract_idContract; ?>">
-                <h3>Contract Details</h3>
-                <div class="form_row">
-                    <p><span class="label"><b>Client:</b></span>
-                    <?php echo $this->contract->getClient('client_name'); ?></p>
-                </div>
-                <div class="form_row">
-                    <?php if ($this->contract->getContractPrevious()): ?>
-                    <p class="label"><b>Previous Contract Ref:</b></p>
-                    <p><?php echo $this->escape(
+             <table class="info_wrap">
+                <caption>Contract Details</caption>
+                <tr>
+                    <th>Client:</th>
+                    <td><?php echo $this->contract->getClient('client_name'); ?></td>
+                </tr>
+                <?php if ($this->contract->getContractPrevious()): ?>
+                <tr>
+                    <th>Previous Contract Ref:</th>
+                    <td><?php echo $this->escape(
                         $this->previousContract->reference
-                    ); ?></p>
-                    <p class="label"><b>Previous End Date:</b></p>
-                    <p><?php echo $this->escape(
+                    ); ?></td>
+                </tr>
+                <tr>
+                    <th>Previous End Date:</th>
+                    <td><?php echo $this->escape(
                         $this->previousContract->dateEnd->toString('dd/MM/yyyy')
-                    ); ?></p>
-                    <?php else: ?>
-                    <p><span class="label"><b>Previous Contract:</b></span>
-                    No Previous Contract</p>
-
-                    <?php endif; ?>
-                </div>
-                <div class="form_row">
-                    <p><span class="label"><b>Type:</b></span>
-                    <?php echo $this->contract->contract_type; ?></p>
-                </div>
-                <div class="form_row">
-                    <p class="label"><b>Status:</b></p>
-                    <p>&nbsp;<?php echo $this->contract->contract_status; ?></p>
-                </div>
+                    ); ?></td>
+                </tr>
+                <?php else: ?>
+                <tr>
+                    <th>Previous Contract:</th>
+                    <td>No Previous Contract</td>
+                </tr>
+                <?php endif; ?>
+                <tr>
+                    <th>Type:</th>
+                    <td><?php echo $this->contract->contract_type; ?></td>
+                </tr>
+                <tr>
+                    <th>Status:</th>
+                    <td><?php echo $this->contract->contract_status; ?></td>
+                </tr>
                 <?php if ($this->contract->contract_idTenderSelected): ?>
-                <div class="form_row">
-                    <p class="label"><b>Tender Selected:</b></p>
-                    <p>&nbsp;<?php echo $this->contract->contract_idTenderSelected; ?></p>
-                    <div class="clear"></div>
-                    <p class="label"><b>Supplier Name:</b></p>
-                    <p>&nbsp;<?php echo $this->contract->getTenderSelected()->getSupplier('supplier_name'); ?></p>
-                    <div class="clear"></div>
-                    <p class="label"><b>Contract Period:</b></p>
-                    <p>&nbsp;<?php echo $this->contract->getTenderSelected('tender_periodContract'); ?> Months</p>
-                </div>
+                <tr>
+                    <th>Tender Selected:</th>
+                    <td><?php echo $this->contract->contract_idTenderSelected; ?></td>
+                </tr>
+                <tr>
+                    <th>Supplier Name:</th>
+                    <td><?php echo $this->contract->getTenderSelected()->getSupplier('supplier_name'); ?></td>
+                </tr>
+                <tr>
+                    <th>Contract Period:</th>
+                    <td><?php echo $this->contract->getTenderSelected('tender_periodContract'); ?> Months</td>
+                </tr>
                 <?php endif; ?>
 
                 <?php if ($this->isAllowed('User')): ?>
-                <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: bba.Contract.editContractButtonClick"
-                        type="button"
-                        value="<?php echo $this->contract->contract_idContract; ?>"
-                        id="edit-contract-button-<?php echo $this->contract->contract_idContract; ?>">Edit Details</button>
+                <tr>
+                    <td class="footer" colspan="2">
+                        <div dojoType="dijit.form.Form"
+                             id="edit-contract-<?php echo $this->contract->contract_idContract; ?>">
+                            <button data-dojo-type="dijit.form.Button"
+                                    data-dojo-props="onClick: bba.Contract.editContractButtonClick"
+                                    type="button"
+                                    value="<?php echo $this->contract->contract_idContract; ?>"
+                                    id="edit-contract-button-<?php echo $this->contract->contract_idContract; ?>">Edit Details</button>
+                        </div>
+                    </td>
+                </tr>
                 <?php endif; ?>
-            </div>
+            </table>
 
-            <div class="zend_form ident">
-                <div class="form_row">
-                    <p class="label"><b>Start Date:</b></p>
-                    <p>&nbsp;<?php echo $this->formatDate($this->contract->contract_dateStart); ?></p>
-                </div>
-                <div class="form_row">
-                    <p class="label"><b>End Date:</b></p>
-                    <p>&nbsp;<?php echo $this->formatDate($this->contract->contract_dateEnd); ?></p>
-                </div>
+            <table class="info_wrap ident">
+                <caption>&nbsp;</caption>
+                <tr>
+                    <th>Start Date:</th>
+                    <td><?php echo $this->formatDate($this->contract->contract_dateStart); ?></td>
+                </tr>
+                <tr>
+                    <th>End Date:</th>
+                    <td><?php echo $this->formatDate($this->contract->contract_dateEnd); ?></td>
+                </tr>
+                <tr>
+                    <th>Reference:</th>
+                    <td><?php echo $this->contract->contract_reference; ?></td>
+                </tr>
+                <tr>
+                    <th>Customer Number:</th>
+                    <td><?php echo $this->contract->contract_numberCustomer; ?></td>
+                </tr>
+                <tr>
+                    <th>Bill Period:</th>
+                    <td><?php echo $this->contract->contract_periodBill; ?></td>
+                </tr>
+            </table>
 
-                <div class="form_row">
-                    <p class="label"><b>Reference:</b></p>
-                    <p>&nbsp;<?php echo $this->contract->contract_reference; ?></p>
-                </div>
-
-                <div class="form_row">
-                    <p class="label"><b>Customer Number:</b></p>
-                    <p>&nbsp;<?php echo $this->contract->contract_numberCustomer; ?></p>
-                </div>
-
-                <div class="form_row">
-                    <p class="label"><b>Bill Period:</b></p>
-                    <p>&nbsp;<?php echo $this->contract->contract_periodBill; ?></p>
-                </div>
-
-            </div>
-
-            <div class="zend_form ident">
-                <div class="">
-                    <p><b>Description:</b></p>
-                    <p>&nbsp;<?php echo $this->contract->contract_desc; ?></p>
-                </div>
-            </div>
+            <table class="info_wrap ident">
+                <caption>&nbsp;</caption>
+                <tr>
+                    <th>Description:</th>
+                    <td class="description"><?php echo $this->contract->contract_desc; ?></td>
+                </tr>
+            </table>
         </div>
 
     </div>

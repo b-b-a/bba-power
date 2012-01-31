@@ -111,7 +111,7 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             'ErrorMessages' => array('Please select a status.'),
         ));
 
-        $this->addElement('NumberTextBox', 'meter_numberSerial', array(
+        $this->addElement('ValidationTextBox', 'meter_numberSerial', array(
             'label'         => 'Serial No:',
             'required'      => false,
             'filters'       => array('StripTags', 'StringTrim'),
@@ -122,7 +122,7 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
                 'promptMessage' => 'Enter the meter serial number.'
             ),
             'validators'    => array(
-                array('Digits', true),
+                array('Alnum', true),
                 array('StringLength', true, array('max' => 16))
             ),
             'attribs'       => array('style' => 'width: 150px;')

@@ -115,6 +115,13 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
 
         $store = $this->_getDojoData($dataObj, 'contract_idContract');
 
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('supplier')
+                ->getSupplierContractsBySupplierId($id)
+                ->count()
+        );
+
         return $store->toJson();
     }
 

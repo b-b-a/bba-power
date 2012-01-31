@@ -169,7 +169,7 @@ define("bba/Core",
             selects = registry.byClass("dijit.form.FilteringSelect");
             selects.forEach(function(widget){
                 connect.connect(widget, 'onClick', widget._startSearchAll);
-                connect.connect(widget, 'onFocus', widget._startSearchAll);
+                //connect.connect(widget, 'onFocus', widget._startSearchAll);
             });
             connect.connect(dialog, 'onHide', function() {
                 bba.closeDialog(dialog);

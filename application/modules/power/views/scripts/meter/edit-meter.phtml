@@ -28,6 +28,10 @@
                     <th>Number Main:</th>
                     <td><?php echo $this->meter->meter_numberMain; ?></td>
                 </tr>
+                 <tr>
+                    <th>Supply Capacity:</th>
+                    <td><?php echo $this->meter->meter_capacity; ?>&nbsp;kWH</td>
+                </tr>
 
                 <?php if ($this->isAllowed('User')): ?>
                 <tr>

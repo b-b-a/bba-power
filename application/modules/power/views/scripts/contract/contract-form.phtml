@@ -27,10 +27,6 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
 
                 <?php echo $form->contract_idTenderSelected ?>
 
-                <?php echo $form->contract_reference; ?>
-
-                <?php echo $form->contract_numberCustomer; ?>
-
                 <?php echo $form->contract_type; ?>
 
                 <?php echo $form->contract_status; ?>
@@ -38,6 +34,10 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                 <?php echo $form->contract_dateStart; ?>
 
                 <?php echo $form->contract_dateEnd; ?>
+
+                <?php echo $form->contract_reference; ?>
+
+                <?php echo $form->contract_numberCustomer; ?>
 
                 <?php echo $form->contract_periodBill; ?>
 
@@ -48,6 +48,13 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                 <?php echo $form->contract_docAnalysis; ?>
 
                 <?php echo $form->contract_docTermination; ?>
+
+                <input dojoType="dijit.form.TextBox"
+                       type="hidden"
+                       name="type"
+                       id="type"
+                       required="true"
+                       value="<?php echo $this->request()->getParam('type'); ?>" />
 
                 <input dojoType="dijit.form.TextBox"
                        type="hidden"

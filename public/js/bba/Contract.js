@@ -170,6 +170,8 @@ define("bba/Contract",
 
         processForm : function()
         {
+            bba.closeDialog(contractform);
+            
             values = arguments[0];
             values.idContract = values.contract_idContract
 
