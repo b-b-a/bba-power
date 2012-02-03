@@ -178,6 +178,14 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
         // get filtered values
         $data = $form->getValues();
 
+        // check usage values if all zero then return false.
+        $totalUsage = $data['usage_usageDay'] + $data['usage_usageNight'] + $data['usage_usageOther'];
+        
+        if ($totalUsage == 0) {
+            $form->addError('Total Consumption for meters cannot be zero.');
+            return false;
+        }
+
         $dateKeys = array(
             'usage_dateBill',
             'usage_dateReading',

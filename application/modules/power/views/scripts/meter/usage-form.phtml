@@ -13,6 +13,12 @@
 
         <?php echo $form->usage_usageOther; ?>
 
+        <?php if ($form->getErrorMessages()): ?>
+            <?php foreach ($form->getErrorMessages() as $error): ?>
+                <p class="errors"><?php echo $error; ?></p>
+            <?php endforeach; ?>
+        <?php endif; ?>
+
         <?php echo $form->usage_dateBill; ?>
 
         <input dojoType="dijit.form.TextBox"
