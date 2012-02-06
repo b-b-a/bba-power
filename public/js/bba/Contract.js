@@ -87,14 +87,15 @@ define("bba/Contract",
 
             if (items.length) {
                 items.forEach(function(selectedItem){
-                    if (!selectedItem.meterContract_kvaNominated) {
+                    if (!selectedItem.meterContract_kvaNominated || !selectedItem.meterContract_eac) {
                         kvaError = true;
                         return false;
                     }
 
                     data.meters.push({
                         id : selectedItem.meter_idMeter[0],
-                        kva : selectedItem.meterContract_kvaNominated[0]
+                        kva : selectedItem.meterContract_kvaNominated[0],
+                        eac : selectedItem.meterContract_eac[0]
                     });
                 });
             }
@@ -115,7 +116,7 @@ define("bba/Contract",
                     }
                 });
             }else {
-                alert('No yearly comsuption was entered for one or more selected meters.');
+                alert('No EAC or Peak kVA was entered for one or more selected meters.');
             }
         },
 
@@ -171,7 +172,7 @@ define("bba/Contract",
         processForm : function()
         {
             bba.closeDialog(contractform);
-            
+
             values = arguments[0];
             values.idContract = values.contract_idContract
 

@@ -293,6 +293,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         foreach($post['meters'] as $value) {
             $data[$c]['meterContract_idMeter'] = $value['id'];
             $data[$c]['meterContract_kvaNominated'] = $value['kva'];
+            $data[$c]['meterContract_eac'] = $value['eac'];
             $data[$c]['meterContract_idContract'] = $post['contract'];
             $c++;
         }
