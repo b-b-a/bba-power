@@ -36,11 +36,9 @@
 		</p>
 		
 				
-		<pre>ZendSF_Controller_Action_Abstract
+		<pre>Zend_Controller_Action
    |
-   --<a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html">BBA_Controller_Action_Abstract</a>
-      |
-      --Power_MeterController</pre>
+   --Power_MeterController</pre>
 	
 			</div>
 </div>
@@ -61,7 +59,7 @@
 			<div class="var-summary">
 																								<div class="var-title">
 					<img src="../../media/images/Variable.png" alt=" " />
-					<span class="var-type"><a href="../../Power/Model_Mapper/Power_Model_Mapper_Meter.html">Power_Model_Mapper_Meter</a></span>
+					<span class="var-type"><a href="../../Power/Model/Power_Model_Meter.html">Power_Model_Meter</a></span>
 					<a href="#$_model" title="details" class="var-name">$_model</a>
 				</div>
 											</div>
@@ -80,16 +78,34 @@
 		</div>
 		<div class="info-box-body">			
 			<div class="method-summary">
-																																																																								<div class="method-definition">
+																																																																																																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
-										<a href="#addAction" title="details" class="method-name">addAction</a>
+										<a href="#addMeterAction" title="details" class="method-name">addMeterAction</a>
 										()
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
-										<a href="#editAction" title="details" class="method-name">editAction</a>
+										<a href="#addUsageAction" title="details" class="method-name">addUsageAction</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#dataStoreAction" title="details" class="method-name">dataStoreAction</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#editMeterAction" title="details" class="method-name">editMeterAction</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#editUsageAction" title="details" class="method-name">editUsageAction</a>
 										()
 									</div>
 																<div class="method-definition">
@@ -106,20 +122,20 @@
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
-											<span class="method-result">void</span>
-										<a href="#meterStoreAction" title="details" class="method-name">meterStoreAction</a>
+											<span class="method-result">Zend_Controller_Action::_forward</span>
+										<a href="#preDispatch" title="details" class="method-name">preDispatch</a>
 										()
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
-										<a href="#saveAction" title="details" class="method-name">saveAction</a>
+										<a href="#saveMeterAction" title="details" class="method-name">saveMeterAction</a>
 										()
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
-										<a href="#siteMeterStoreAction" title="details" class="method-name">siteMeterStoreAction</a>
+										<a href="#saveUsageAction" title="details" class="method-name">saveUsageAction</a>
 										()
 									</div>
 											</div>
@@ -141,12 +157,12 @@
 		<div class="info-box-body">
 			
 <a name="var$_model" id="$_model"><!-- --></A>
-<div class="oddrow">
+<div class="evenrow">
 
 	<div class="var-header">
 		<img src="../../media/images/Variable.png" />
 		<span class="var-title">
-			<span class="var-type"><a href="../../Power/Model_Mapper/Power_Model_Mapper_Meter.html">Power_Model_Mapper_Meter</a></span>
+			<span class="var-type"><a href="../../Power/Model/Power_Model_Meter.html">Power_Model_Meter</a></span>
 			<span class="var-name">$_model</span>
 						(line <span class="line-number">45</span>)
 		</span>
@@ -162,28 +178,7 @@
 		
 
 </div>
-							<h4>Inherited Variables</h4>
-				<A NAME='inherited_vars'><!-- --></A>
-									<p>Inherited from <span class="classname"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html">BBA_Controller_Action_Abstract</a></span></p>
-					<blockquote>
-													<img src="../../media/images/Variable.png" />
-							<span class="var-title">
-								<span class="var-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#var$_dateFormat">BBA_Controller_Action_Abstract::$_dateFormat</a></span><br>
-							</span>
-													<img src="../../media/images/Variable.png" />
-							<span class="var-title">
-								<span class="var-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#var$_page">BBA_Controller_Action_Abstract::$_page</a></span><br>
-							</span>
-													<img src="../../media/images/Variable.png" />
-							<span class="var-title">
-								<span class="var-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#var$_search">BBA_Controller_Action_Abstract::$_search</a></span><br>
-							</span>
-													<img src="../../media/images/Variable.png" />
-							<span class="var-title">
-								<span class="var-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#var$_searchString">BBA_Controller_Action_Abstract::$_searchString</a></span><br>
-							</span>
-											</blockquote> 
-										
+						
 		</div>
 	</div>
 	
@@ -198,12 +193,12 @@
 		</div>
 		<div class="info-box-body">
 			<A NAME='method_detail'></A>
-<a name="methodaddAction" id="addAction"><!-- --></a>
-<div class="evenrow">
+<a name="methodaddMeterAction" id="addMeterAction"><!-- --></a>
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">addAction</span> (line <span class="line-number">103</span>)
+		<span class="method-title">addMeterAction</span> (line <span class="line-number">117</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -214,7 +209,7 @@
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
-			addAction
+			addMeterAction
 		</span>
 				()
 			</div>
@@ -222,12 +217,12 @@
 		
 			
 	</div>
-<a name="methodeditAction" id="editAction"><!-- --></a>
-<div class="oddrow">
+<a name="methodaddUsageAction" id="addUsageAction"><!-- --></a>
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">editAction</span> (line <span class="line-number">116</span>)
+		<span class="method-title">addUsageAction</span> (line <span class="line-number">192</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -238,7 +233,79 @@
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
-			editAction
+			addUsageAction
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methoddataStoreAction" id="dataStoreAction"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">dataStoreAction</span> (line <span class="line-number">67</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			dataStoreAction
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodeditMeterAction" id="editMeterAction"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">editMeterAction</span> (line <span class="line-number">136</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			editMeterAction
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodeditUsageAction" id="editUsageAction"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">editUsageAction</span> (line <span class="line-number">211</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			editUsageAction
 		</span>
 				()
 			</div>
@@ -251,7 +318,7 @@
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">indexAction</span> (line <span class="line-number">80</span>)
+		<span class="method-title">indexAction</span> (line <span class="line-number">96</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -294,30 +361,26 @@
 			</div>
 	
 		
-			<hr class="separator" />
-		<div class="notes">Redefinition of:</div>
-		<dl>
-			<dt><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#methodinit">BBA_Controller_Action_Abstract::init()</a></dt>
-					</dl>
 			
 	</div>
-<a name="methodmeterStoreAction" id="meterStoreAction"><!-- --></a>
+<a name="methodpreDispatch" id="preDispatch"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">meterStoreAction</span> (line <span class="line-number">90</span>)
+		<span class="method-title">preDispatch</span> (line <span class="line-number">60</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if user is logged, if not then forwards to login.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
 	
 	<div class="method-signature">
-		<span class="method-result">void</span>
+		<span class="method-result">Zend_Controller_Action::_forward</span>
 		<span class="method-name">
-			meterStoreAction
+			preDispatch
 		</span>
 				()
 			</div>
@@ -325,12 +388,12 @@
 		
 			
 	</div>
-<a name="methodsaveAction" id="saveAction"><!-- --></a>
+<a name="methodsaveMeterAction" id="saveMeterAction"><!-- --></a>
 <div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">saveAction</span> (line <span class="line-number">138</span>)
+		<span class="method-title">saveMeterAction</span> (line <span class="line-number">162</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -341,7 +404,7 @@
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
-			saveAction
+			saveMeterAction
 		</span>
 				()
 			</div>
@@ -349,12 +412,12 @@
 		
 			
 	</div>
-<a name="methodsiteMeterStoreAction" id="siteMeterStoreAction"><!-- --></a>
+<a name="methodsaveUsageAction" id="saveUsageAction"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">siteMeterStoreAction</span> (line <span class="line-number">95</span>)
+		<span class="method-title">saveUsageAction</span> (line <span class="line-number">233</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -365,7 +428,7 @@
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
-			siteMeterStoreAction
+			saveUsageAction
 		</span>
 				()
 			</div>
@@ -373,33 +436,13 @@
 		
 			
 	</div>
-							<h4>Inherited Methods</h4>
-				<a name='inherited_methods'><!-- --></a>	
-									<!-- =========== Summary =========== -->
-					<p>Inherited From <span class="classname"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html">BBA_Controller_Action_Abstract</a></span></p>
-					<blockquote>
-													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#methodinit">BBA_Controller_Action_Abstract::init()</a></span><br>
-													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#methodpreDispatch">BBA_Controller_Action_Abstract::preDispatch()</a></span><br>
-													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#method_getAjaxDataStore">BBA_Controller_Action_Abstract::_getAjaxDataStore()</a></span><br>
-													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#method_getSearch">BBA_Controller_Action_Abstract::_getSearch()</a></span><br>
-													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#method_getSearchString">BBA_Controller_Action_Abstract::_getSearchString()</a></span><br>
-													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#method_setSearch">BBA_Controller_Action_Abstract::_setSearch()</a></span><br>
-													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#method_setSearchString">BBA_Controller_Action_Abstract::_setSearchString()</a></span><br>
-											</blockquote>
-										
+						
 		</div>
 	</div>
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Thu, 24 Nov 2011 01:29:40 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Wed, 08 Feb 2012 20:22:29 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
 </html>

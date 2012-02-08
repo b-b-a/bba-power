@@ -19,7 +19,7 @@
 	<div class="info-box-title">Description</div>
 	<div class="nav-bar">
 					<span class="disabled">Description</span> |
-													<a href="#sec-vars">Vars</a>
+													<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
 						|											<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
 						
 					</div>
@@ -36,46 +36,76 @@
 		</p>
 		
 				
-		<pre>ZendSF_Controller_Action_Abstract
+		<pre>Zend_Controller_Action
    |
-   --<a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html">BBA_Controller_Action_Abstract</a>
-      |
-      --Power_SupplierController</pre>
+   --Power_SupplierController</pre>
 	
 			</div>
 </div>
 
 
 
+	<a name="sec-var-summary"></a>
+	<div class="info-box">
+		<div class="info-box-title">Variable Summary</span></div>
+		<div class="nav-bar">
+			<a href="#sec-description">Description</a> |
+						<span class="disabled">Vars</span> (<a href="#sec-vars">details</a>)
+							| 
+									<a href="#sec-method-summary">Methods</a> (<a href="#sec-methods">details</a>)
+							
+								</div>
+		<div class="info-box-body">
+			<div class="var-summary">
+																								<div class="var-title">
+					<img src="../../media/images/Variable.png" alt=" " />
+					<span class="var-type"><a href="../../Power/Model/Power_Model_Supplier.html">Power_Model_Supplier</a></span>
+					<a href="#$_model" title="details" class="var-name">$_model</a>
+				</div>
+											</div>
+		</div>
+	</div>
 
 	<a name="sec-method-summary"></a>
 	<div class="info-box">
 		<div class="info-box-title">Method Summary</span></div>
 		<div class="nav-bar">
 			<a href="#sec-description">Description</a> |
-																		<a href="#sec-vars">Vars</a>
+																		<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
 				 
 				|
 						<span class="disabled">Methods</span> (<a href="#sec-methods">details</a>)
 		</div>
 		<div class="info-box-body">			
 			<div class="method-summary">
-																																																																																								<div class="method-definition">
+																																																																																																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
-										<a href="#addAction" title="details" class="method-name">addAction</a>
+										<a href="#addSupplierAction" title="details" class="method-name">addSupplierAction</a>
 										()
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
-										<a href="#autocompleteAction" title="details" class="method-name">autocompleteAction</a>
+										<a href="#addSupplierContactAction" title="details" class="method-name">addSupplierContactAction</a>
 										()
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
-										<a href="#editAction" title="details" class="method-name">editAction</a>
+										<a href="#dataStoreAction" title="details" class="method-name">dataStoreAction</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#editSupplierAction" title="details" class="method-name">editSupplierAction</a>
+										()
+									</div>
+																<div class="method-definition">
+					<img src="../../media/images/Method.png" alt=" "/>
+											<span class="method-result">void</span>
+										<a href="#editSupplierContactAction" title="details" class="method-name">editSupplierContactAction</a>
 										()
 									</div>
 																<div class="method-definition">
@@ -92,26 +122,20 @@
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
-											<span class="method-result">void</span>
-										<a href="#saveAction" title="details" class="method-name">saveAction</a>
+											<span class="method-result">Zend_Controller_Action::_forward</span>
+										<a href="#preDispatch" title="details" class="method-name">preDispatch</a>
 										()
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
-										<a href="#supplierContactStoreAction" title="details" class="method-name">supplierContactStoreAction</a>
+										<a href="#saveSupplierAction" title="details" class="method-name">saveSupplierAction</a>
 										()
 									</div>
 																<div class="method-definition">
 					<img src="../../media/images/Method.png" alt=" "/>
 											<span class="method-result">void</span>
-										<a href="#supplierContractStoreAction" title="details" class="method-name">supplierContractStoreAction</a>
-										()
-									</div>
-																<div class="method-definition">
-					<img src="../../media/images/Method.png" alt=" "/>
-											<span class="method-result">void</span>
-										<a href="#supplierStoreAction" title="details" class="method-name">supplierStoreAction</a>
+										<a href="#saveSupplierContactAction" title="details" class="method-name">saveSupplierContactAction</a>
 										()
 									</div>
 											</div>
@@ -132,28 +156,29 @@
 					</div>
 		<div class="info-box-body">
 			
-							<h4>Inherited Variables</h4>
-				<A NAME='inherited_vars'><!-- --></A>
-									<p>Inherited from <span class="classname"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html">BBA_Controller_Action_Abstract</a></span></p>
-					<blockquote>
-													<img src="../../media/images/Variable.png" />
-							<span class="var-title">
-								<span class="var-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#var$_dateFormat">BBA_Controller_Action_Abstract::$_dateFormat</a></span><br>
-							</span>
-													<img src="../../media/images/Variable.png" />
-							<span class="var-title">
-								<span class="var-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#var$_page">BBA_Controller_Action_Abstract::$_page</a></span><br>
-							</span>
-													<img src="../../media/images/Variable.png" />
-							<span class="var-title">
-								<span class="var-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#var$_search">BBA_Controller_Action_Abstract::$_search</a></span><br>
-							</span>
-													<img src="../../media/images/Variable.png" />
-							<span class="var-title">
-								<span class="var-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#var$_searchString">BBA_Controller_Action_Abstract::$_searchString</a></span><br>
-							</span>
-											</blockquote> 
-										
+<a name="var$_model" id="$_model"><!-- --></A>
+<div class="evenrow">
+
+	<div class="var-header">
+		<img src="../../media/images/Variable.png" />
+		<span class="var-title">
+			<span class="var-type"><a href="../../Power/Model/Power_Model_Supplier.html">Power_Model_Supplier</a></span>
+			<span class="var-name">$_model</span>
+						(line <span class="line-number">45</span>)
+		</span>
+	</div>
+
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> protected</li>
+			</ul>
+	
+	
+		
+		
+
+</div>
+						
 		</div>
 	</div>
 	
@@ -162,42 +187,18 @@
 		<div class="info-box-title">Methods</div>
 		<div class="nav-bar">
 			<a href="#sec-description">Description</a> |
-															<a href="#sec-vars">Vars</a>
+															<a href="#sec-var-summary">Vars</a> (<a href="#sec-vars">details</a>)
 														<a href="#sec-method-summary">Methods</a> (<span class="disabled">details</span>)
 						
 		</div>
 		<div class="info-box-body">
 			<A NAME='method_detail'></A>
-<a name="methodaddAction" id="addAction"><!-- --></a>
-<div class="evenrow">
-	
-	<div class="method-header">
-		<img src="../../media/images/Method.png" />
-		<span class="method-title">addAction</span> (line <span class="line-number">108</span>)
-	</div> 
-	
-	<!-- ========== Info from phpDoc block ========= -->
-	<ul class="tags">
-				<li><span class="field">access:</span> public</li>
-			</ul>
-	
-	<div class="method-signature">
-		<span class="method-result">void</span>
-		<span class="method-name">
-			addAction
-		</span>
-				()
-			</div>
-	
-		
-			
-	</div>
-<a name="methodautocompleteAction" id="autocompleteAction"><!-- --></a>
+<a name="methodaddSupplierAction" id="addSupplierAction"><!-- --></a>
 <div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">autocompleteAction</span> (line <span class="line-number">176</span>)
+		<span class="method-title">addSupplierAction</span> (line <span class="line-number">123</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -208,7 +209,7 @@
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
-			autocompleteAction
+			addSupplierAction
 		</span>
 				()
 			</div>
@@ -216,12 +217,12 @@
 		
 			
 	</div>
-<a name="methodeditAction" id="editAction"><!-- --></a>
+<a name="methodaddSupplierContactAction" id="addSupplierContactAction"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">editAction</span> (line <span class="line-number">120</span>)
+		<span class="method-title">addSupplierContactAction</span> (line <span class="line-number">194</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -232,7 +233,79 @@
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
-			editAction
+			addSupplierContactAction
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methoddataStoreAction" id="dataStoreAction"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">dataStoreAction</span> (line <span class="line-number">67</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			dataStoreAction
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodeditSupplierAction" id="editSupplierAction"><!-- --></a>
+<div class="evenrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">editSupplierAction</span> (line <span class="line-number">141</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			editSupplierAction
+		</span>
+				()
+			</div>
+	
+		
+			
+	</div>
+<a name="methodeditSupplierContactAction" id="editSupplierContactAction"><!-- --></a>
+<div class="oddrow">
+	
+	<div class="method-header">
+		<img src="../../media/images/Method.png" />
+		<span class="method-title">editSupplierContactAction</span> (line <span class="line-number">212</span>)
+	</div> 
+	
+	<!-- ========== Info from phpDoc block ========= -->
+	<ul class="tags">
+				<li><span class="field">access:</span> public</li>
+			</ul>
+	
+	<div class="method-signature">
+		<span class="method-result">void</span>
+		<span class="method-name">
+			editSupplierContactAction
 		</span>
 				()
 			</div>
@@ -241,11 +314,11 @@
 			
 	</div>
 <a name="methodindexAction" id="indexAction"><!-- --></a>
-<div class="oddrow">
+<div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">indexAction</span> (line <span class="line-number">75</span>)
+		<span class="method-title">indexAction</span> (line <span class="line-number">102</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -266,11 +339,11 @@
 			
 	</div>
 <a name="methodinit" id="init"><!-- --></a>
-<div class="evenrow">
+<div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">init</span> (line <span class="line-number">45</span>)
+		<span class="method-title">init</span> (line <span class="line-number">50</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -288,54 +361,26 @@
 			</div>
 	
 		
-			<hr class="separator" />
-		<div class="notes">Redefinition of:</div>
-		<dl>
-			<dt><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#methodinit">BBA_Controller_Action_Abstract::init()</a></dt>
-					</dl>
 			
 	</div>
-<a name="methodsaveAction" id="saveAction"><!-- --></a>
-<div class="oddrow">
-	
-	<div class="method-header">
-		<img src="../../media/images/Method.png" />
-		<span class="method-title">saveAction</span> (line <span class="line-number">143</span>)
-	</div> 
-	
-	<!-- ========== Info from phpDoc block ========= -->
-	<ul class="tags">
-				<li><span class="field">access:</span> public</li>
-			</ul>
-	
-	<div class="method-signature">
-		<span class="method-result">void</span>
-		<span class="method-name">
-			saveAction
-		</span>
-				()
-			</div>
-	
-		
-			
-	</div>
-<a name="methodsupplierContactStoreAction" id="supplierContactStoreAction"><!-- --></a>
+<a name="methodpreDispatch" id="preDispatch"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">supplierContactStoreAction</span> (line <span class="line-number">90</span>)
+		<span class="method-title">preDispatch</span> (line <span class="line-number">60</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
+<p class="short-description">Checks if user is logged, if not then forwards to login.</p>
 	<ul class="tags">
 				<li><span class="field">access:</span> public</li>
 			</ul>
 	
 	<div class="method-signature">
-		<span class="method-result">void</span>
+		<span class="method-result">Zend_Controller_Action::_forward</span>
 		<span class="method-name">
-			supplierContactStoreAction
+			preDispatch
 		</span>
 				()
 			</div>
@@ -343,12 +388,12 @@
 		
 			
 	</div>
-<a name="methodsupplierContractStoreAction" id="supplierContractStoreAction"><!-- --></a>
+<a name="methodsaveSupplierAction" id="saveSupplierAction"><!-- --></a>
 <div class="oddrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">supplierContractStoreAction</span> (line <span class="line-number">99</span>)
+		<span class="method-title">saveSupplierAction</span> (line <span class="line-number">164</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -359,7 +404,7 @@
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
-			supplierContractStoreAction
+			saveSupplierAction
 		</span>
 				()
 			</div>
@@ -367,12 +412,12 @@
 		
 			
 	</div>
-<a name="methodsupplierStoreAction" id="supplierStoreAction"><!-- --></a>
+<a name="methodsaveSupplierContactAction" id="saveSupplierContactAction"><!-- --></a>
 <div class="evenrow">
 	
 	<div class="method-header">
 		<img src="../../media/images/Method.png" />
-		<span class="method-title">supplierStoreAction</span> (line <span class="line-number">85</span>)
+		<span class="method-title">saveSupplierContactAction</span> (line <span class="line-number">236</span>)
 	</div> 
 	
 	<!-- ========== Info from phpDoc block ========= -->
@@ -383,7 +428,7 @@
 	<div class="method-signature">
 		<span class="method-result">void</span>
 		<span class="method-name">
-			supplierStoreAction
+			saveSupplierContactAction
 		</span>
 				()
 			</div>
@@ -391,33 +436,13 @@
 		
 			
 	</div>
-							<h4>Inherited Methods</h4>
-				<a name='inherited_methods'><!-- --></a>	
-									<!-- =========== Summary =========== -->
-					<p>Inherited From <span class="classname"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html">BBA_Controller_Action_Abstract</a></span></p>
-					<blockquote>
-													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#methodinit">BBA_Controller_Action_Abstract::init()</a></span><br>
-													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#methodpreDispatch">BBA_Controller_Action_Abstract::preDispatch()</a></span><br>
-													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#method_getAjaxDataStore">BBA_Controller_Action_Abstract::_getAjaxDataStore()</a></span><br>
-													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#method_getSearch">BBA_Controller_Action_Abstract::_getSearch()</a></span><br>
-													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#method_getSearchString">BBA_Controller_Action_Abstract::_getSearchString()</a></span><br>
-													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#method_setSearch">BBA_Controller_Action_Abstract::_setSearch()</a></span><br>
-													<img src="../../media/images/Method.png" alt=" "/>
-							<span class="method-name"><a href="../../BBA/Controller_Action/BBA_Controller_Action_Abstract.html#method_setSearchString">BBA_Controller_Action_Abstract::_setSearchString()</a></span><br>
-											</blockquote>
-										
+						
 		</div>
 	</div>
 
 	
 	<p class="notes" id="credit">
-		Documentation generated on Thu, 24 Nov 2011 01:29:41 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
+		Documentation generated on Wed, 08 Feb 2012 20:22:31 +0000 by <a href="http://www.phpdoc.org" target="_blank">phpDocumentor 1.4.3</a>
 	</p>
 	</div></body>
 </html>

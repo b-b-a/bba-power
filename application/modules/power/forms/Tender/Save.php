@@ -39,6 +39,30 @@
  */
 class Power_Form_Tender_Save extends ZendSF_Form_Abstract
 {
+    protected $_simpleTextareaDecorators = array(
+        'DijitElement',
+        'Errors',
+        'Description',
+        array(
+            array('data' => 'HtmlTag'),
+            array(
+                'tag' => 'p',
+                'class' => 'element'
+            )
+        ),
+        array(
+            'Label',
+            array('tag' => 'p')
+        ),
+        array(
+            array('row' => 'HtmlTag'),
+            array(
+                'tag' => 'div',
+                'class' => 'form_row simple-textarea'
+            )
+        )
+    );
+
     public function init()
     {
         $this->addElement('FilteringSelect', 'tender_idSupplier', array(
@@ -186,6 +210,21 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
             'filters'   => array('StripTags', 'StringTrim')
         ));
 */
+        $this->addElement('NumberTextBox', 'tender_chargeSettlement', array(
+            'label'         => 'Settlement Charge:',
+            'constraints'   => array(
+                'min'       => 0
+            ),
+            'required'  => true,
+            'value'     => 0,
+            'filters'   => array('StripTags', 'StringTrim'),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter settlement charge (£ / Month)',
+                'style'        => 'width:50px'
+            ),
+            'Description'   => '(£ / Month)'
+        ));
+
         $this->addElement('NumberTextBox', 'tender_commission', array(
             'label'         => 'Commission Rate:',
             'constraints'   => array(
@@ -214,6 +253,13 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
                 'style'        => 'width:50px'
             ),
             'Description'   => '(£ / Year)'
+        ));
+
+        $this->addElement('SimpleTextarea', 'tender_desc', array(
+            'label'         => 'Description:',
+            'required'      => false,
+            'filters'       => array('StripTags', 'StringTrim'),
+            'decorators'    => $this->_simpleTextareaDecorators
         ));
 
         $this->addHiddenElement('tender_idTender', '');
