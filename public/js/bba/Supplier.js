@@ -26,7 +26,7 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Supplier",
-    ["dojo/dom","dojo/ready", "bba/Core", "bba/Contract"],
+    ["dojo/dom","dojo/ready", "bba/Core", "bba/Contract", "dijit/form/FilteringSelect"],
     function(dom, ready, bba){
 
     ready(function () {
