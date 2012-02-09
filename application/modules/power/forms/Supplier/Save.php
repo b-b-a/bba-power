@@ -49,6 +49,12 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
+        $this->addElement('ValidationTextBox', 'supplier_nameShort', array(
+            'label'     => 'Supplier Short Name:',
+            'required'  => true,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
         $this->addElement('ValidationTextBox', 'supplier_address1', array(
             'label'     => 'Address 1:',
             'required'  => true,
@@ -78,7 +84,7 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
             )
         ));
 
-        $this->addElement('NumberSpinner', 'supplier_commission', array(
+        $this->addElement('NumberTextBox', 'supplier_commission', array(
             'label'         => 'Normal Commission:',
             'smallDelta'    => 0.01,
             'constraints'   => array(
@@ -99,7 +105,7 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
             )->getSupplierContacts();
 
             // reset options
-            $multiOptions = array(0 => 'Select a Contact');
+            $multiOptions = array(0 => ($list->count() > 0) ? 'Select a Contact' : 'No Contacts available');
             foreach($list as $row) {
                 $multiOptions[$row->supplierCo_idSupplierContact] = $row->supplierCo_name;
             }

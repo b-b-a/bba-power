@@ -138,10 +138,11 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
                 $result = $this->getDbTable('supplier')->fetchAll(null, 'supplier_name ASC');
                 $identifier = 'supplier_idSupplier';
                 $searchItems = array('supplier_idSupplier', 'supplier_name');
+                $selectMessage = ($result->count()) ? 'Please select a supplier' : 'No supplier available';
                 break;
         }
 
-        $items = array();
+        $items = array(array($identifier => 0, $searchItems[1] => $selectMessage));
 
         foreach ($result as $row) {
             $items[] = array(
