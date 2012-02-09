@@ -116,7 +116,7 @@ define("bba/Contract",
                     }
                 });
             }else {
-                alert('No EAC or Peak kVA was entered for one or more selected meters.');
+                alert('Please enter Peak kVA and EAC for all selected meters (enter zero if not known).');
             }
         },
 

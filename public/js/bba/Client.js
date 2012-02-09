@@ -38,9 +38,10 @@ define("bba/Client",
          gridLayouts : {
             client : [
                 {field: 'client_idClient', width: '50px', name: 'Id'},
-                {field: 'client_name', width: '300px', name: 'Client'},
-                {field: 'client_desc', width: '200px', name: 'Description'},
-                {field: 'clientAd_address1', width: '300px', name: 'Address 1'},
+                {field: 'client_name', width: '200px', name: 'Client'},
+                {field: 'clientAd_address1', width: '200px', name: 'Address 1'},
+                {field: 'clientAd_address2', width: '200px', name: 'Address 2'},
+                {field: 'clientAd_address3', width: '200px', name: 'Address 3'},
                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
                 {field: '', width: 'auto', name: ''}
             ],
