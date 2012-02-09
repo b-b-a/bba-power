@@ -130,12 +130,6 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
                 'multiOptions'  => $multiOptions,
                 'required'      => false,
                 'value'         => 0,
-                'validators'    => array(
-                    array('GreaterThan', true, array(
-                        'min'       => '0',
-                        'message'   => 'Please select a tender.'
-                    ))
-                ),
                 'ErrorMessages' => array('Please select a tender.'),
             ));
         }

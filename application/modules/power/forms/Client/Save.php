@@ -39,6 +39,31 @@
  */
 class Power_Form_Client_Save extends ZendSF_Form_Abstract
 {
+    protected $_simpleTextareaDecorators = array(
+        'DijitElement',
+        'Errors',
+        'Description',
+        array(
+            array('data' => 'HtmlTag'),
+            array(
+                'tag' => 'p',
+                'class' => 'element'
+            )
+        ),
+        array(
+            'Label',
+            array('tag' => 'p')
+        ),
+        array(
+            array('row' => 'HtmlTag'),
+            array(
+                'tag' => 'div',
+                'class' => 'form_row simple-textarea'
+            )
+        )
+    );
+
+
     public function init()
     {
         //$this->setName('client');
@@ -117,16 +142,11 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
         }
 
         $this->addElement('ValidationTextBox', 'client_desc', array(
-            'label'             => 'Description:',
-            'filters'           => array('StripTags', 'StringTrim'),
-            'validators'    => array(
-                array('StringLength', true, array('max' => 255))
-            ),
-            'dijitParams'   => array(
-                'promptMessage' => 'Enter a description for this client.'
-            ),
-            'required'      => false
-        ));
+            'label'         => 'Description:',
+            'required'      => false,
+            'filters'       => array('StripTags', 'StringTrim'),
+            'decorators'    => $this->_simpleTextareaDecorators
+       ));
 
 /*        $this->addElement('file','client_docLoa', array(
             'label' => 'Upload Letter of Authority:',
@@ -153,7 +173,8 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             'required'      => false,
             'dijitParams'   => array(
                 'promptMessage' => 'Enter the date that the letter of authority expires.'
-            )
+            ),
+            'attribs'       => array('style' => 'width: 80px;')
         ));
     }
 }
