@@ -40,12 +40,11 @@ define("bba/Meter",
         gridLayouts : {
             meter : [
                 {field: 'meter_idMeter', width: '50px', name: 'Id'},
-                {field: 'client_name', width: '200px', name: 'Client'},
                 {field: 'clientAd_addressName', width: '200px', name: 'Address Name'},
                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
-                {field: 'meter_type', width: '100px', name: 'Meter Type'},
                 {field: 'meter_status', width: '100px', name: 'Meter Status'},
                 {field: 'meter_numberMain', width: '120px', name: 'Meter No'},
+                {field: 'contract_type', width: '100px', name: 'Contract Type'},
                 {field: 'contract_status', width: '80px', name: 'Contract Status'},
                 {field: 'contract_dateEnd', width: '100px', name: 'End Date'},
                 {field: '', width: 'auto', name: ''}

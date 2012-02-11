@@ -128,7 +128,7 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             'attribs'       => array('style' => 'width: 150px;')
         ));
 
-        $this->addElement('NumberTextBox', 'meter_numberTop', array(
+        $this->addElement('ValidationTextBox', 'meter_numberTop', array(
             'label'     => 'Top No:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim'),
@@ -173,7 +173,6 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
                 'promptMessage' => 'Enter the meter capcity (kWH).'
             ),
             'validators'    => array(
-                array('Digits', true),
                 array('StringLength', true, array('max' => 11))
             ),
             'Description'   => '(kWH)',
