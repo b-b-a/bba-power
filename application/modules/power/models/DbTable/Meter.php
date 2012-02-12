@@ -119,6 +119,7 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
             ))
             ->joinLeft('meter_contract', 'meter_idMeter = meterContract_idMeter', null)
             ->joinLeft('contract', 'meterContract_idContract = contract_idContract', array(
+                'contract_type',
                 'contract_status',
                 'contract_dateStart' => 'MAX(contract.contract_dateStart)',
                 'contract_dateEnd'
