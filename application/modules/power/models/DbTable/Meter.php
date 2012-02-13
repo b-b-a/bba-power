@@ -117,7 +117,10 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
             ->join('client', 'client_idClient = site_idClient', array(
                 'client_name'
             ))
-            ->joinLeft('meter_contract', 'meter_idMeter = meterContract_idMeter', null)
+            ->joinLeft('meter_contract', 'meter_idMeter = meterContract_idMeter', array(
+                'meterContract_kvaNominated',
+                'meterContract_eac',
+            ))
             ->joinLeft('contract', 'meterContract_idContract = contract_idContract', array(
                 'contract_type',
                 'contract_status',

@@ -94,6 +94,14 @@
                     <th>Commission:</th>
                     <td><?php echo $this->escape($this->meter->tender_commission); ?></td>
                 </tr>
+                <tr>
+                    <th>Peak kVA:</th>
+                    <td><?php echo $this->escape($this->meter->	meterContract_kvaNominated); ?></td>
+                </tr>
+                <tr>
+                    <th>Estimated AC:</th>
+                    <td><?php echo $this->escape($this->meter->	meterContract_eac); ?></td>
+                </tr>
             </table>
             <?php endif; ?>
             <div class="clear"></div>
