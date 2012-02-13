@@ -94,6 +94,8 @@ class Power_Model_DbTable_Client extends ZendSF_Model_DbTable_Abstract
             ->joinLeft('client_address', 'client_idAddress = clientAd_idAddress', array(
                 'clientAd_addressName',
                 'clientAd_address1',
+                'clientAd_address2',
+                'clientAd_address3',
                 'clientAd_postcode'
             ));
 
