@@ -52,7 +52,7 @@ define("bba/Site",
         gridLayouts : {
             site : [
                 {field: 'site_idSite', width: '50px', name: 'Id'},
-                {field: 'client_name', width: '300px', name: 'Client'},
+                {field: 'clientAd_addressName', width: '200px', name: 'Address Name'},
                 {field: 'clientAd_address1', width: '200px', name: 'Address 1'},
                 {field: 'clientAd_address2', width: '200px', name: 'Address 2'},
                 {field: 'clientAd_address3', width: '200px', name: 'Address 3'},
