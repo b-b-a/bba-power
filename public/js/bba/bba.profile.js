@@ -5,7 +5,7 @@ var profile = (function(){
             "bba/bba.profile":1,
             "bba/package.json":1
         };
-        return (mid in list) || (/^dijit\/resources\//.test(mid) && !/\.css$/.test(filename)) || /(png|jpg|jpeg|gif|tiff)$/.test(filename);
+        return (mid in list) || /\.js$/.test(filename);
     };
 
 	return {

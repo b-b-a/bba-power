@@ -268,24 +268,34 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Dojo::enableView($this->_view);
         Zend_Dojo_View_Helper_Dojo::setUseDeclarative();
 
+        $config = array(
+            'parseOnLoad'   => true,
+            'async'         => true,
+        );
+
         $this->_view->dojo()
-            ->setDjConfig(array(
-                'parseOnLoad'   => true,
-                'async'         => true
-            ))
             ->addStyleSheetModule('dijit.themes.claro')
             ->setRenderModules(false);
 
         if ('development' !== $this->getEnvironment()) {
             $this->_view->dojo()
-                ->setLocalPath('/js/release/bba/dojo/dojo.js');
+                ->setLocalPath('/js/release/bba/dojo/dojo.js')
+                ->setDjConfig(array_merge($config, array(
+                    'packages' => array(
+                        array(
+                            'location' => "../../../bba",
+                            'name' => "bba"
+                        )
+                    )
+                )));
             $this->_view->headLink()
                 ->appendStylesheet('/js/release/bba/dojox/grid/resources/Grid.css')
                 ->appendStylesheet('/js/release/bba/dojox/grid/resources/claroGrid.css')
                 ->appendStylesheet('/js/release/bba/dojox/widget/Wizard/Wizard.css');
         } else {
             $this->_view->dojo()
-                ->setLocalPath('/js/dojo/dojo.js');
+                ->setLocalPath('/js/dojo/dojo.js')
+                ->setDjConfig($config);
             $this->_view->headLink()
                 ->appendStylesheet('/js/dojox/grid/resources/Grid.css')
                 ->appendStylesheet('/js/dojox/grid/resources/claroGrid.css')

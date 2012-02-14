@@ -46,6 +46,7 @@ cp -vr bba-temp/dojo/cldr/nls/en-gb/ bba/dojo/cldr/nls
 cp -vr bba-temp/dojo/resources/ bba/dojo
 rm -v bba/dojo/resources/_modules.js
 cp -vr bba-temp/dojo/dojo.js bba/dojo/dojo.js
+#cp -vr bba-temp/dojo/dojo.js.uncompressed.js bba/dojo/dojo.js.uncompressed.js
 
 cp -v bba-temp/build-report.txt bba/build-report.txt
 

@@ -1,4 +1,4 @@
-Build started: Tue Feb 14 2012 08:50:59 GMT-0000 (GMT)
+Build started: Tue Feb 14 2012 19:42:21 GMT-0000 (GMT)
 Build application version: 1.7.0dev (23930)
 Messages:
 info(100) Assumed module uses legacy loader API.
@@ -226,6 +226,161 @@ info(100) Assumed module uses legacy loader API.
 info(101) Using dojo/loadInit plugin for module.
 	module: dojox/cometd/RestChannels
 info(102) Optimizing module
+	module: dijit/MenuBar
+	module: dijit/Viewport
+	module: dijit/_editor/range
+	module: dijit/Dialog
+	module: dijit/form/Slider
+	module: dijit/_Templated
+	module: dijit/_editor/RichText
+	module: dijit/ToolbarSeparator
+	module: dijit/form/RadioButton
+	module: dijit/MenuSeparator
+	module: dijit/form/ToggleButton
+	module: dijit/CheckedMenuItem
+	module: dijit/_tree/dndSource
+	module: dijit/_DialogMixin
+	module: dijit/_Widget
+	module: dijit/layout/AccordionContainer
+	module: dijit/form/SimpleTextarea
+	module: dijit/form/MultiSelect
+	module: dijit/tree/model
+	module: dijit/tree/ObjectStoreModel
+	module: dijit/tree/ForestStoreModel
+	module: dijit/_Calendar
+	module: dijit/layout/SplitContainer
+	module: dijit/form/TimeTextBox
+	module: dijit/Menu
+	module: dijit/dijit-all
+	module: dijit/_base/window
+	module: dijit/form/MappedTextBox
+	module: dijit/form/CheckBox
+	module: dijit/form/Textarea
+	module: dijit/_base/scroll
+	module: dijit/form/DropDownButton
+	module: dijit/_TimePicker
+	module: dijit/_Contained
+	module: dijit/InlineEditBox
+	module: dijit/_Container
+	module: dijit/layout/BorderContainer
+	module: dijit/_base/wai
+	module: dijit/form/ComboBoxMixin
+	module: dijit/form/Select
+	module: dijit/Calendar
+	module: dijit/_base/manager
+	module: dijit/_editor/plugins/AlwaysShowToolbar
+	module: dijit/form/ComboButton
+	module: dijit/WidgetSet
+	module: dijit/form/RangeBoundTextBox
+	module: dijit/DialogUnderlay
+	module: dijit/form/_ToggleButtonMixin
+	module: dijit/form/VerticalSlider
+	module: dijit/_TemplatedMixin
+	module: dijit/form/HorizontalSlider
+	module: dijit/_editor/plugins/ToggleDir
+	module: dijit/form/_TextBoxMixin
+	module: dijit/a11y
+	module: dijit/form/TextBox
+	module: dijit/form/_DateTimeTextBox
+	module: dijit/layout/StackContainer
+	module: dijit/form/_RadioButtonMixin
+	module: dijit/form/Form
+	module: dijit/form/_FormWidgetMixin
+	module: dijit/main
+	module: dijit/_base/place
+	module: dijit/_base/sniff
+	module: dijit/_base/popup
+	module: dijit/_editor/plugins/NewPage
+	module: dijit/registry
+	module: dijit/_base/focus
+	module: dijit/PopupMenuBarItem
+	module: dijit/form/_FormMixin
+	module: dijit/BackgroundIframe
+	module: dijit/layout/TabController
+	module: dijit/_MenuBase
+	module: dijit/_editor/_Plugin
+	module: dijit/layout/ScrollingTabController
+	module: dijit/form/_ListMouseMixin
+	module: dijit/tree/_dndSelector
+	module: dijit/_OnDijitClickMixin
+	module: dijit/form/VerticalRuleLabels
+	module: dijit/layout/StackController
+	module: dijit/form/DateTextBox
+	module: dijit/form/_FormValueMixin
+	module: dijit/layout/AccordionPane
+	module: dijit/TitlePane
+	module: dijit/form/_AutoCompleterMixin
+	module: dijit/form/CurrencyTextBox
+	module: dijit/place
+	module: dijit/layout/_LayoutWidget
+	module: dijit/form/ComboBox
+	module: dijit/layout/_ContentPaneResizeMixin
+	module: dijit/form/_ButtonMixin
+	module: dijit/tree/TreeStoreModel
+	module: dijit/_editor/plugins/Print
+	module: dijit/form/HorizontalRule
+	module: dijit/hccss
+	module: dijit/Editor
+	module: dijit/form/HorizontalRuleLabels
+	module: dijit/popup
+	module: dijit/layout/TabContainer
+	module: dijit/_base
+	module: dijit/_editor/plugins/EnterKeyHandling
+	module: dijit/layout/LinkPane
+	module: dijit/form/_FormValueWidget
+	module: dijit/_BidiSupport
+	module: dijit/tree/_dndContainer
+	module: dijit/focus
+	module: dijit/ColorPalette
+	module: dijit/_CssStateMixin
+	module: dijit/_WidgetBase
+	module: dijit/form/FilteringSelect
+	module: dijit/MenuBarItem
+	module: dijit/_editor/html
+	module: dijit/form/_FormWidget
+	module: dijit/dijit
+	module: dijit/form/NumberSpinner
+	module: dijit/MenuItem
+	module: dijit/DropDownMenu
+	module: dijit/_base/typematic
+	module: dijit/_editor/plugins/LinkDialog
+	module: dijit/form/_ListBase
+	module: dijit/typematic
+	module: dijit/_editor/plugins/FontChoice
+	module: dijit/_editor/plugins/ViewSource
+	module: dijit/form/_FormSelectWidget
+	module: dijit/layout/_TabContainerBase
+	module: dijit/form/_ComboBoxMenu
+	module: dijit/_KeyNavContainer
+	module: dijit/form/DataList
+	module: dijit/Tooltip
+	module: dijit/PopupMenuItem
+	module: dijit/layout/ContentPane
+	module: dijit/_WidgetsInTemplateMixin
+	module: dijit/form/VerticalRule
+	module: dijit/_HasDropDown
+	module: dijit/tree/dndSource
+	module: dijit/form/_CheckBoxMixin
+	module: dijit/_editor/plugins/FullScreen
+	module: dijit/layout/LayoutContainer
+	module: dijit/layout/utils
+	module: dijit/ProgressBar
+	module: dijit/_PaletteMixin
+	module: dijit/_editor/selection
+	module: dijit/Declaration
+	module: dijit/_editor/plugins/TextColor
+	module: dijit/_FocusMixin
+	module: dijit/form/ValidationTextBox
+	module: dijit/form/NumberTextBox
+	module: dijit/form/_ComboBoxMenuMixin
+	module: dijit/Tree
+	module: dijit/form/Button
+	module: dijit/form/_ExpandingTextAreaMixin
+	module: dijit/CalendarLite
+	module: dijit/Toolbar
+	module: dijit/form/_Spinner
+	module: dijit/_editor/plugins/TabIndent
+	module: dijit/TooltipDialog
 	module: dojox/form/MultiComboBox
 	module: dojox/secure/DOM
 	module: dojox/form/uploader/plugins/IFrame
@@ -1188,161 +1343,6 @@ info(102) Optimizing module
 	module: dojox/wire/ml/Data
 	module: dojox/atom/widget/FeedEntryViewer
 	module: dojox/fx/ext-dojo/complex
-	module: dijit/MenuBar
-	module: dijit/Viewport
-	module: dijit/_editor/range
-	module: dijit/Dialog
-	module: dijit/form/Slider
-	module: dijit/_Templated
-	module: dijit/_editor/RichText
-	module: dijit/ToolbarSeparator
-	module: dijit/form/RadioButton
-	module: dijit/MenuSeparator
-	module: dijit/form/ToggleButton
-	module: dijit/CheckedMenuItem
-	module: dijit/_tree/dndSource
-	module: dijit/_DialogMixin
-	module: dijit/_Widget
-	module: dijit/layout/AccordionContainer
-	module: dijit/form/SimpleTextarea
-	module: dijit/form/MultiSelect
-	module: dijit/tree/model
-	module: dijit/tree/ObjectStoreModel
-	module: dijit/tree/ForestStoreModel
-	module: dijit/_Calendar
-	module: dijit/layout/SplitContainer
-	module: dijit/form/TimeTextBox
-	module: dijit/Menu
-	module: dijit/dijit-all
-	module: dijit/_base/window
-	module: dijit/form/MappedTextBox
-	module: dijit/form/CheckBox
-	module: dijit/form/Textarea
-	module: dijit/_base/scroll
-	module: dijit/form/DropDownButton
-	module: dijit/_TimePicker
-	module: dijit/_Contained
-	module: dijit/InlineEditBox
-	module: dijit/_Container
-	module: dijit/layout/BorderContainer
-	module: dijit/_base/wai
-	module: dijit/form/ComboBoxMixin
-	module: dijit/form/Select
-	module: dijit/Calendar
-	module: dijit/_base/manager
-	module: dijit/_editor/plugins/AlwaysShowToolbar
-	module: dijit/form/ComboButton
-	module: dijit/WidgetSet
-	module: dijit/form/RangeBoundTextBox
-	module: dijit/DialogUnderlay
-	module: dijit/form/_ToggleButtonMixin
-	module: dijit/form/VerticalSlider
-	module: dijit/_TemplatedMixin
-	module: dijit/form/HorizontalSlider
-	module: dijit/_editor/plugins/ToggleDir
-	module: dijit/form/_TextBoxMixin
-	module: dijit/a11y
-	module: dijit/form/TextBox
-	module: dijit/form/_DateTimeTextBox
-	module: dijit/layout/StackContainer
-	module: dijit/form/_RadioButtonMixin
-	module: dijit/form/Form
-	module: dijit/form/_FormWidgetMixin
-	module: dijit/main
-	module: dijit/_base/place
-	module: dijit/_base/sniff
-	module: dijit/_base/popup
-	module: dijit/_editor/plugins/NewPage
-	module: dijit/registry
-	module: dijit/_base/focus
-	module: dijit/PopupMenuBarItem
-	module: dijit/form/_FormMixin
-	module: dijit/BackgroundIframe
-	module: dijit/layout/TabController
-	module: dijit/_MenuBase
-	module: dijit/_editor/_Plugin
-	module: dijit/layout/ScrollingTabController
-	module: dijit/form/_ListMouseMixin
-	module: dijit/tree/_dndSelector
-	module: dijit/_OnDijitClickMixin
-	module: dijit/form/VerticalRuleLabels
-	module: dijit/layout/StackController
-	module: dijit/form/DateTextBox
-	module: dijit/form/_FormValueMixin
-	module: dijit/layout/AccordionPane
-	module: dijit/TitlePane
-	module: dijit/form/_AutoCompleterMixin
-	module: dijit/form/CurrencyTextBox
-	module: dijit/place
-	module: dijit/layout/_LayoutWidget
-	module: dijit/form/ComboBox
-	module: dijit/layout/_ContentPaneResizeMixin
-	module: dijit/form/_ButtonMixin
-	module: dijit/tree/TreeStoreModel
-	module: dijit/_editor/plugins/Print
-	module: dijit/form/HorizontalRule
-	module: dijit/hccss
-	module: dijit/Editor
-	module: dijit/form/HorizontalRuleLabels
-	module: dijit/popup
-	module: dijit/layout/TabContainer
-	module: dijit/_base
-	module: dijit/_editor/plugins/EnterKeyHandling
-	module: dijit/layout/LinkPane
-	module: dijit/form/_FormValueWidget
-	module: dijit/_BidiSupport
-	module: dijit/tree/_dndContainer
-	module: dijit/focus
-	module: dijit/ColorPalette
-	module: dijit/_CssStateMixin
-	module: dijit/_WidgetBase
-	module: dijit/form/FilteringSelect
-	module: dijit/MenuBarItem
-	module: dijit/_editor/html
-	module: dijit/form/_FormWidget
-	module: dijit/dijit
-	module: dijit/form/NumberSpinner
-	module: dijit/MenuItem
-	module: dijit/DropDownMenu
-	module: dijit/_base/typematic
-	module: dijit/_editor/plugins/LinkDialog
-	module: dijit/form/_ListBase
-	module: dijit/typematic
-	module: dijit/_editor/plugins/FontChoice
-	module: dijit/_editor/plugins/ViewSource
-	module: dijit/form/_FormSelectWidget
-	module: dijit/layout/_TabContainerBase
-	module: dijit/form/_ComboBoxMenu
-	module: dijit/_KeyNavContainer
-	module: dijit/form/DataList
-	module: dijit/Tooltip
-	module: dijit/PopupMenuItem
-	module: dijit/layout/ContentPane
-	module: dijit/_WidgetsInTemplateMixin
-	module: dijit/form/VerticalRule
-	module: dijit/_HasDropDown
-	module: dijit/tree/dndSource
-	module: dijit/form/_CheckBoxMixin
-	module: dijit/_editor/plugins/FullScreen
-	module: dijit/layout/LayoutContainer
-	module: dijit/layout/utils
-	module: dijit/ProgressBar
-	module: dijit/_PaletteMixin
-	module: dijit/_editor/selection
-	module: dijit/Declaration
-	module: dijit/_editor/plugins/TextColor
-	module: dijit/_FocusMixin
-	module: dijit/form/ValidationTextBox
-	module: dijit/form/NumberTextBox
-	module: dijit/form/_ComboBoxMenuMixin
-	module: dijit/Tree
-	module: dijit/form/Button
-	module: dijit/form/_ExpandingTextAreaMixin
-	module: dijit/CalendarLite
-	module: dijit/Toolbar
-	module: dijit/form/_Spinner
-	module: dijit/_editor/plugins/TabIndent
-	module: dijit/TooltipDialog
 	module: dojo/jaxer
 	module: dojo/date
 	module: dojo/data/api/Request
@@ -1466,22 +1466,11 @@ info(102) Optimizing module
 	module: dojo/selector/_loader
 	module: dojo/_base/unload
 	module: dojo/parser
-	module: bba/Supplier
-	module: bba/User
-	module: bba/Auth
-	module: bba/Core
-	module: bba/Meter
-	module: bba/Site
-	module: bba/DataGrid
-	module: bba/builder/bba.profile
-	module: bba/Contract
-	module: bba/Client
 	module: dojox/cometd/RestChannels-loadInit
 info(107) Package Version:
-	package: dojox; version: 1.8.0dev
 	package: dijit; version: 1.8.0dev
+	package: dojox; version: 1.8.0dev
 	package: dojo; version: 1.8.0dev
-	package: bba; version: 2.0
 info(108) Interning strings.
 	module: dojox/secure/DOM
 	module: dojox/storage
@@ -1726,8 +1715,8 @@ dojo/dojo:
 	dojo/_base/unload
 	dijit/_CssStateMixin
 	dojo/selector/_loader
-	dijit/DialogUnderlay
 	dijit/layout/ScrollingTabController
+	dijit/DialogUnderlay
 	dijit/place
 	dijit/_HasDropDown
 	dojo/dnd/Selector
@@ -1739,13 +1728,11 @@ dojo/dojo:
 	dojo/i18n
 	dijit/hccss
 	dojo/_base/lang
-	bba/Site
 	dojo/_base/NodeList
 	dojox/html/metrics
-	bba/Auth
 	dijit/form/_ComboBoxMenuMixin
-	dojox/grid/_RowSelector
 	dojo/parser
+	dojox/grid/_RowSelector
 	dojox/widget/Wizard/Wizard.html
 	dojo/dnd/Manager
 	dijit/form/ToggleButton
@@ -1758,7 +1745,6 @@ dojo/dojo:
 	dijit/form/MappedTextBox
 	dijit/form/ComboBoxMixin
 	dijit/form/_TextBoxMixin
-	bba/DataGrid
 	dojo/Evented
 	dijit/form/SimpleTextarea
 	dijit/layout/templates/_TabButton.html
@@ -1768,7 +1754,6 @@ dojo/dojo:
 	dojo/_base/window
 	dijit/main
 	dojo/NodeList-dom
-	bba/Client
 	dojo/_base/event
 	dijit/_OnDijitClickMixin
 	dojo/selector/acme
@@ -1779,7 +1764,6 @@ dojo/dojo:
 	dojo/dom-class
 	dojo/_base/sniff
 	dijit/form/_ListMouseMixin
-	bba/Contract
 	dojo/has
 	dojo/cookie
 	dojo/cache
@@ -1806,38 +1790,35 @@ dojo/dojo:
 	dojox/grid/_Layout
 	dijit/layout/_ContentPaneResizeMixin
 	dijit/WidgetSet
-	bba/Core
 	dijit/form/RangeBoundTextBox
 	dijit/nls/loading
 	dojo/dnd/Moveable
-	bba/Supplier
 	dojo/ready
 	dojo/store/util/SimpleQueryEngine
-	dojo/_base/Deferred
 	dojo/cldr/nls/number
+	dojo/_base/Deferred
 	dojox/grid/_View
 	dijit/MenuItem
 	dijit/layout/TabController
 	dijit/layout/_LayoutWidget
+	dijit/popup
 	dijit/_base/manager
 	dijit/layout/StackController
-	dijit/popup
 	dojox/grid/_RowManager
 	dojo/dnd/Mover
 	dijit/layout/TabContainer
 	dojox/grid/_Selector
 	dijit/BackgroundIframe
-	dojo/dnd/Avatar
 	dijit/templates/Menu.html
+	dojo/dnd/Avatar
 	dijit/form/Button
 	dijit/layout/templates/TabContainer.html
 	dijit/_WidgetBase
-	dijit/form/Form
 	dijit/layout/_TabContainerBase
+	dijit/form/Form
 	dojo/_base/html
 	dojo/_base/array
 	dojo/store/Memory
-	bba/User
 	dijit/templates/Tooltip.html
 	dojox/grid/_Grid
 	dojo/_base/config
@@ -1847,8 +1828,8 @@ dojo/dojo:
 	dijit/layout/StackContainer
 	dojo/regexp
 	dojo/main
-	dijit/form/_FormMixin
 	dijit/DropDownMenu
+	dijit/form/_FormMixin
 	dojo/data/util/simpleFetch
 	dijit/Menu
 	dojo/on
@@ -1857,29 +1838,29 @@ dojo/dojo:
 	dojo/_base/fx
 	dijit/form/templates/ValidationTextBox.html
 	dijit/form/templates/TextBox.html
+	dijit/_KeyNavContainer
 	dijit/layout/utils
 	dijit/_Contained
-	dijit/_KeyNavContainer
 	dijit/form/DataList
 	dijit/templates/Dialog.html
 	dijit/form/CheckBox
 	dojo/dom-style
 	dojo/dom-construct
 	dijit/_Container
-	dojo/dnd/Source
 	dojo/data/ItemFileReadStore
+	dojo/dnd/Source
 	dojo/html
 	dijit/form/ValidationTextBox
 	dijit/layout/BorderContainer
 	dojo/window
 	dojo/number
 	dijit/_FocusMixin
-	dijit/_WidgetsInTemplateMixin
 	dojo/data/util/filter
-	dojox/grid/_Builder
+	dijit/_WidgetsInTemplateMixin
 	dojo/_base/connect
-	dojox/grid/_EditManager
+	dojox/grid/_Builder
 	dijit/form/FilteringSelect
+	dojox/grid/_EditManager
 	dojo/data/util/sorter
 	dijit/form/_ButtonMixin
 	dojo/dom-attr
@@ -1893,8 +1874,8 @@ dojo/dojo:
 	dijit/form/_FormWidget
 	dojo/_base/Color
 	dojo/dnd/common
-	dijit/CheckedMenuItem
 	dojox/grid/_Events
+	dijit/CheckedMenuItem
 	dijit/Viewport
 	dojo/topic
 	dojox/grid/util
@@ -1916,7 +1897,6 @@ dojo/dojo:
 	dojox/grid/_SelectionPreserver
 	dojo/dom-form
 	dijit/_DialogMixin
-	bba/Meter
 	dijit/nls/common
 	dijit/form/_FormValueWidget
 
@@ -1925,4 +1905,4 @@ dojo/dojo:
 Process finished normally
 	errors: 0
 	warnings: 5
-	build time: 38.999 seconds
+	build time: 71.49 seconds
