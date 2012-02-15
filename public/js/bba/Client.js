@@ -60,7 +60,7 @@ define("bba/Client",
                 {field: 'clientCo_name', width: '200px', name: 'Name'},
                 {field: 'clientCo_phone', width: '300px', name: 'Phone'},
                 {field: 'clientCo_email', width: '200px', name: 'Email'},
-                {field: 'clientCo_postcode', width: '100px', name: 'Postcode'},
+                {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
                 {field: '', width: 'auto', name: ''}
             ]
          }
