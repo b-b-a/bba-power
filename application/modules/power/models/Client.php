@@ -192,6 +192,25 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
         $log = Zend_Registry::get('log');
 
+        // validate form.
+        $form = $this->getForm('clientAdd');
+
+        if ($post['client_dateExpiryLoa'] === '') {
+            $client_dateExpiryLoaValidateRules = $form->getElement('client_dateExpiryLoa')
+                ->getValidator('Date');
+
+            $form->getElement('client_dateExpiryLoa')
+                ->removeValidator('Date');
+        }
+
+        if (!$form->isValid($post)) {
+            if (isset($client_dateExpiryLoaValidateRules)) {
+                $form->getElement('client_dateExpiryLoa')
+                    ->addValidator($client_dateExpiryLoaValidateRules);
+            }
+            return false;
+        }
+
         $this->getDbTable('client')->getAdapter()->beginTransaction();
 
         try {
@@ -229,7 +248,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         } catch (Exception $e) {
             $log->info($e);
             $this->getDbTable('client')->getAdapter()->rollBack();
-            return 0;
+            return false;
         }
 
         $this->getDbTable('client')->getAdapter()->commit();
@@ -264,7 +283,6 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
                 $form->getElement('client_dateExpiryLoa')
                     ->addValidator($client_dateExpiryLoaValidateRules);
             }
-
             return false;
         }
 

@@ -77,7 +77,7 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             'required'      => true,
             'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
-                array('Alnum', true, array('allowWhiteSpace' => true)),
+                //array('Alnum', true, array('allowWhiteSpace' => true)),
                 array('StringLength', true, array('max' => 64))
             ),
             'dijitParams'   => array(
