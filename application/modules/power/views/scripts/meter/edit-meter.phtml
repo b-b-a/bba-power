@@ -63,9 +63,9 @@
                 </tr>
             </table>
 
-            <?php if ($this->meter->contract_idContract): ?>
             <table class="info_wrap ident contract_info">
                 <caption>Contract Info: <span class="id_number">(<?php echo $this->escape($this->meter->contract_idContract); ?>)</span></caption>
+                <?php if ($this->meter->contract_idContract): ?>
                 <tr>
                     <th>Reference:</th>
                     <td><?php echo $this->escape($this->meter->contract_reference); ?></td>
@@ -102,8 +102,12 @@
                     <th>Estimated AC:</th>
                     <td><?php echo $this->escape($this->meter->	meterContract_eac); ?></td>
                 </tr>
+                <?php else: ?>
+                <tr>
+                    <td>No contract for this meter.</td>
+                </tr>
+                <?php endif; ?>
             </table>
-            <?php endif; ?>
             <div class="clear"></div>
 
         </div>

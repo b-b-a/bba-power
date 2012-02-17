@@ -36,8 +36,11 @@ define("bba/Contract",
             dom.byId('contract').focus();
         }
 
-        var form = registry.byId('Search');
-        if (form) bba.gridSearch(form, contractGrid);
+        if (contractGrid) {
+            var form = registry.byId('Search');
+            if (form) bba.gridSearch(form, contractGrid);
+        }
+
     });
 
     bba.Contract = {
