@@ -51,6 +51,13 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         return $this->getDbTable('contract')->getContractById($id);
     }
 
+    /**
+     * Get a meter contract by it's compound id.
+     * 
+     * @param int $meterId
+     * @param int $contractId
+     * @return null|Power_Model_DbTable_Row_Meter_Contract
+     */
     public function getMeterContractById($meterId, $contractId)
     {
         $meterId = (int) $meterId;

@@ -95,7 +95,7 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             );
 
             // reset options
-            $multiOptions = array(0 => 'Please select an address');
+            $multiOptions = array(0 => ($list->count() > 0) ? 'Please select an address' : 'No addresses Available');
 
             foreach($list as $row) {
                 $multiOptions[$row->clientAd_idAddress] = $row->getAddress1AndPostcode();
