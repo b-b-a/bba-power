@@ -7,7 +7,7 @@
 
         <div class="tabHeading">
              <table class="info_wrap">
-                <caption>Contract Details</caption>
+                 <caption>Contract Details <span class="id_number">(<?php echo $this->contract->contract_idContract; ?>)</span></caption>
                 <tr>
                     <th>Client:</th>
                     <td><?php echo $this->contract->getClient('client_name'); ?></td>

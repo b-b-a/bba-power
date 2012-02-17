@@ -10,7 +10,7 @@
                     ->getParentRow('siteAddress'); ?>
 
             <table class="info_wrap">
-                <caption>Site Details</caption>
+                <caption>Site Details <span class="id_number">(<?php echo $this->site->site_idSite; ?>)</span></caption>
                 <tr>
                     <th>Client:</th>
                     <td><?php echo $this->site->client_name; ?></td>
@@ -60,7 +60,7 @@
                     ->getParentRow('siteAddressBill'); ?>
 
             <table class="info_wrap ident">
-                <caption>Billing Address</caption>
+                <caption>Billing Address <span class="id_number">(<?php echo $mainContact->get('clientAd_idAddress'); ?>)</span></caption>
                 <?php if($mainContact->get('clientAd_addressName')): ?>
                 <tr>
                     <th>Address Name:</th>
@@ -93,7 +93,7 @@
                     ->getParentRow('siteClientContact'); ?>
 
             <table class="info_wrap ident">
-                <caption>Contact</caption>
+                <caption>Contact <span class="id_number">(<?php $mainContact->get('clientCo_idClientContact'); ?>)</span></caption>
                 <?php if($mainContact->get('clientCo_idClientContact')): ?>
                 <tr>
                     <th>Name:</th>

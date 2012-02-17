@@ -174,8 +174,12 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
                     'message'   => 'Please select a contract type.'
                 ))
             ),
-            'ErrorMessages' => array('Please select a contract type.'),
+            'ErrorMessages' => array('Please select a contract type.')
         ));
+
+        if ($request->getParam('type') == 'edit') {
+            $this->getElement('contract_type')->setAttrib('readonly', 'readonly');
+        }
 
         $multiOptions = array(0 => 'Select a status');
 

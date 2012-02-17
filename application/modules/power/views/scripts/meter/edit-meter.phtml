@@ -7,7 +7,7 @@
         <div class="tabHeading">
 
             <table class="info_wrap">
-                <caption>Meter Details</caption>
+                <caption>Meter Details <span class="id_number">(<?php echo $this->meter->meter_idMeter; ?>)</span></caption>
                 <tr>
                     <th>Type:</th>
                     <td><?php echo $this->meter->meter_type; ?></td>
@@ -49,7 +49,7 @@
             </table>
 
             <table class="info_wrap ident">
-                <caption>Site Address</caption>
+                <caption>Site Address <span class="id_number">(<?php echo $this->meter->clientAd_idAddress; ?>)</span></caption>
                 <tr>
                     <td><?php
                         echo $this->formatAddress(array(
