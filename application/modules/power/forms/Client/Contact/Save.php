@@ -74,7 +74,7 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
             'required'      => true,
             'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
-                array('Alpha', true, array('allowWhiteSpace' => true))
+                //array('Alpha', true, array('allowWhiteSpace' => true))
             ),
             'dijitParams'   => array(
                 'promptMessage' => 'Choose a client contact.'
@@ -86,7 +86,7 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
             'required'      => false,
             'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
-                array('Alpha', true, array('allowWhiteSpace' => true))
+                //array('Alpha', true, array('allowWhiteSpace' => true))
             ),
             'dijitParams'   => array(
                 'promptMessage' => 'Enter a clients position.'
