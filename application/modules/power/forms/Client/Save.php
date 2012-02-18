@@ -141,7 +141,7 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             ));
         }
 
-        $this->addElement('ValidationTextBox', 'client_desc', array(
+        $this->addElement('SimpleTextarea', 'client_desc', array(
             'label'         => 'Description:',
             'required'      => false,
             'filters'       => array('StripTags', 'StringTrim'),

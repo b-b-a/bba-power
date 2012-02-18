@@ -27,7 +27,7 @@
  */
 define("bba/Client",
     ["dojo/dom", "dojo/ready", "bba/Core", "bba/DataGrid", "dojox/widget/Wizard",
-    "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect"],
+    "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea"],
     function(dom, ready, bba) {
 
     ready(function () {
