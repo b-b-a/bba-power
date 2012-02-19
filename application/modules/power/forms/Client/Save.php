@@ -141,13 +141,6 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             ));
         }
 
-        $this->addElement('SimpleTextarea', 'client_desc', array(
-            'label'         => 'Description:',
-            'required'      => false,
-            'filters'       => array('StripTags', 'StringTrim'),
-            'decorators'    => $this->_simpleTextareaDecorators
-       ));
-
 /*        $this->addElement('file','client_docLoa', array(
             'label' => 'Upload Letter of Authority:',
             'destination' => realpath(APPLICATION_PATH . '/../data/loa'),
@@ -175,6 +168,13 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
                 'promptMessage' => 'Enter the date that the letter of authority expires.'
             ),
             'attribs'       => array('style' => 'width: 80px;')
+        ));
+
+        $this->addElement('SimpleTextarea', 'client_desc', array(
+            'label'         => 'Description:',
+            'required'      => false,
+            'filters'       => array('StripTags', 'StringTrim'),
+            'decorators'    => $this->_simpleTextareaDecorators
         ));
     }
 }

@@ -26,17 +26,18 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Contract",
-    ["dojo/dom","dojo/ready", "dojo/parser", "dojo/_base/xhr", "dojo/_base/array", "dijit/registry", "bba/Core", "bba/Meter", "dijit/form/ValidationTextBox",
-    "dojo/data/ItemFileReadStore", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea",
-    "dojo/data/ItemFileWriteStore"],
-    function(dom, ready, parser, xhr, array, registry, bba) {
+    ["dojo/dom","dojo/ready", "dojo/parser", "dojo/_base/xhr", "dojo/_base/array", "dijit/registry",
+     "dijit/Dialog", "dojo",
+    "bba/Core", "bba/Meter", "dijit/form/ValidationTextBox", "dojo/data/ItemFileReadStore",
+    "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea", "dojo/data/ItemFileWriteStore"],
+    function(dom, ready, parser, xhr, array, registry, Dialog, dojo, bba) {
 
     ready(function () {
         if (dom.byId('contract')) {
             dom.byId('contract').focus();
         }
 
-        if (contractGrid) {
+        if (dom.byId('contractGrid')) {
             var form = registry.byId('Search');
             if (form) bba.gridSearch(form, contractGrid);
         }
@@ -55,12 +56,53 @@ define("bba/Contract",
                 {field: 'contract_reference', width: '200px', name: 'Reference'},
                 {field: 'contract_desc', width: '300px', name: 'Description'},
                 {field: '', width: 'auto', name: ''}
+            ],
+            meterContract : [
+                {
+                    type: "dojox.grid._CheckBoxSelector"
+                },
+                [
+                    {field: 'meter_idMeter', width: '50px', name: 'Id'},
+                    {field: 'meter_numberMain', width : '150px', name: 'Number Main'},
+                    {field: 'meter_type', width : '100px', name: 'Meter Type'},
+                    {field: 'meterContract_kvaNominated', width: '100px', name: 'Peak kVA', editable: true},
+                    {field: 'meterContract_eac', width: '100px', name: 'EAC', editable: true},
+                    {field: 'contract_idContract', width: '100px', name: 'Contract Id'},
+                    {field: 'contract_type', width: '100px', name: 'Contract Type'},
+                    {field: 'contract_status', width: '100px', name: 'Status'},
+                    {field: 'contract_dateStart', width: '100px', name: 'Start Date'},
+                    {field: 'contract_dateEnd', width: '100px', name: 'End Date'},
+                    {field: '', width: 'auto', name: ''}
+                ]
+            ],
+            meter : [
+                {field: 'meter_idMeter', width: '50px', name: 'Id'},
+                {field: 'clientAd_addressName', width : '150px', name: 'Address Name'},
+                {field: 'clientAd_address1', width : '150px', name: 'Address Line 1'},
+                {field: 'clientAd_address2', width: '150px', name: 'Address Line 2'},
+                {field: 'clientAd_address3', width: '150px', name: 'Address Line 3'},
+                {field: 'clientAd_postcode', width: '85px', name: 'Postcode'},
+                {field: 'meter_numberMain', width: '150px', name: 'Number Main'},
+                {field: '', width: 'auto', name: ''}
+            ],
+            tender : [
+                {field: 'tender_idTender', width: '50px', name: 'Id'},
+                {field: 'supplier_name', width : '150px', name: 'Supplier'},
+                {field: 'supplierCo_name', width : '150px', name: 'Supplier Contact'},
+                {field: 'supplier_phone', width: '100px', name: 'Phone'},
+                {field: 'tender_periodContract', width: '100px', name: 'Contract Period'},
+                {field: 'tender_dateExpiresQuote', width: '100px', name: 'Quote Expires'},
+                {field: 'tender_chargeStanding', width: '100px', name: 'Standing Charge'},
+                {field: 'tender_priceUnitDay', width: '100px', name: 'Day Rate'},
+                {field: 'tender_priceUnitNight', width: '100px', name: 'Night Rate'},
+                {field: 'tender_priceUnitOther', width: '100px', name: 'Other Rate'},
+                {field: '', width: 'auto', name: ''}
             ]
         },
 
         closeDialog : function()
         {
-            return registry.byId('addmeter').hide();
+            return registry.byId('addMeterContractDialog').hide();
         },
 
         preselectMeters : function(grid, id, items)
@@ -112,7 +154,7 @@ define("bba/Contract",
                     load: function(data) {
                         if (data.saved) {
                             registry.byId('meterContractGrid' + meterContract)._refresh();
-                            registry.byId('addmeter').hide();
+                            registry.byId('addMeterContractDialog').hide();
                         } else {
                             alert('meters could not be saved');
                         }
@@ -121,6 +163,27 @@ define("bba/Contract",
             }else {
                 alert('Please enter Peak kVA and EAC for all selected meters (enter zero if not known).');
             }
+        },
+
+        addMeterButtonClick : function()
+        {
+            if (!dom.byId('addMeterContractDialog')) {
+
+                addMeterContractDialog = new Dialog({
+                    id: 'addMeterContractDialog',
+                    title: 'Add/Edit Meters on Contract',
+                    ioArgs: {
+                        content: {
+                            type :  'add',
+                            idContract : this.value
+                        }
+                    },
+                    ioMethod: dojo.xhrPost,
+                    href: '/contract/add-meter-contract'
+                });
+            }
+
+            addMeterContractDialog.show();
         },
 
         contractGridRowClick : function(selectedIndex)
@@ -143,38 +206,87 @@ define("bba/Contract",
             });
         },
 
+        tenderGridRowClick : function(selectedIndex)
+        {
+            if (typeof(selectedIndex) != 'number') {
+                selectedIndex = this.focus.rowIndex;
+            }
+
+            selectedItem = this.getItem(selectedIndex);
+            id = this.store.getValue(selectedItem, 'tender_idTender');
+
+            bba.openTab({
+                tabId : 'tender' + id,
+                title : this.store.getValue(selectedItem, 'supplier_name'),
+                url : '/contract/edit-tender',
+                contentVars : {
+                    type : 'details',
+                    idTender : id
+                }
+            });
+        },
+
         editContractButtonClick : function()
         {
-            if (!dom.byId('contractform')) {
+            if (!dom.byId('contractForm')) {
                 bba.openFormDialog({
                     url: '/contract/edit-contract',
                     content: {
                         type :  'edit',
                         idContract : this.value
                     },
-                    dialog: 'contractform'
+                    dialog: 'contractForm'
                 });
             } else {
-                contractform.show();
+                contractForm.show();
+            }
+        },
+
+        editTenderButtonClick : function()
+        {
+            if (!dom.byId('tenderForm')) {
+                bba.openFormDialog({
+                    url: '/contract/edit-tender',
+                    content: {
+                        type :  'edit',
+                        idTender : this.value
+                    },
+                    dialog: 'tenderForm'
+                });
+            } else {
+                tenderForm.show();
             }
         },
 
         newContractButtonClick : function()
         {
-            if (!dom.byId('contractform')) {
+            if (!dom.byId('contractForm')) {
                 bba.openFormDialog({
                     url: '/contract/add-contract',
                     content: {type :  'add'},
-                    dialog: 'contractform'
+                    dialog: 'contractForm'
                 });
             } else {
-                contractform.show();
+                contractForm.show();
             }
         },
 
-        processForm : function()
+        newTenderButtonClick : function()
         {
-            bba.closeDialog(contractform);
+            if (!dom.byId('tenderForm')) {
+                bba.openFormDialog({
+                    url: '/contract/add-tender',
+                    content: {type :  'add'},
+                    dialog: 'tenderForm'
+                });
+            } else {
+                tenderForm.show();
+            }
+        },
+
+        processContractForm : function()
+        {
+            bba.closeDialog(contractForm);
 
             values = arguments[0];
             values.idContract = values.contract_idContract
@@ -195,8 +307,36 @@ define("bba/Contract",
                     } else {
                         dom.byId('dialog').innerHTML = data.html;
                         parser.parse('dialog');
-                        bba.setupDialog(contractform);
-                        contractform.show();
+                        bba.setupDialog(contractForm);
+                        contractForm.show();
+                    }
+                }
+            });
+        },
+
+        processTenderForm : function()
+        {
+            bba.closeDialog(tenderForm);
+
+            values = arguments[0];
+            values.idTender = values.tender_idTender
+
+            xhr.post({
+                url: '/contract/save-tender',
+                content: values,
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                    if (data.saved > 0) {
+                        if (values.idTender) {
+                            registry.byId('tender' + values.idTender).refresh();
+                        }
+                        //bba.comfirmDialog();
+                    } else {
+                        dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+                        bba.setupDialog(tenderForm);
+                        tenderForm.show();
                     }
                 }
             });

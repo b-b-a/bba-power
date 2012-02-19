@@ -117,75 +117,38 @@
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Meters'">
 
-                <span dojoType="dojox.data.QueryReadStore"
-                     jsid="meterContractStore<?php echo $this->contract->contract_idContract; ?>"
-                     url="/contract/data-store/type/meter"
-                     requestMethod="post"></span>
+                <span data-dojo-type="dojox.data.QueryReadStore"
+                      data-dojo-id="meterContractStore<?php echo $this->contract->contract_idContract; ?>"
+                      data-dojo-props="url:'/contract/data-store/type/meter',requestMethod:'post'"></span>
 
-                <table dojoType="bba.DataGrid"
+                <table data-dojo-type="dojox.grid.DataGrid"
                        id="meterContractGrid<?php echo $this->contract->contract_idContract; ?>"
-                       store="meterContractStore<?php echo $this->contract->contract_idContract; ?>"
-                       query="{ meterContract_idContract: <?php echo $this->contract->contract_idContract; ?> }"
-                       queryParent="meterContract_idContract"
-                       sortInfo="-3"
-                       tabs="true"
-                       tabController="meter"
-                       tabTitleColumn="meter_numberMain"
-                       newButtonId="<?php echo $this->contract->contract_idContract; ?>"
-                       newButtonController="meterContract"
-                       controller="contract">
-                    <thead>
-                        <tr>
-                            <th field="meter_idMeter" width="50">Id</th>
-                            <th field="clientAd_addressName" width="150">Address Name</th>
-                            <th field="clientAd_address1" width="150">Address Line 1</th>
-                            <th field="clientAd_address2" width="150">Address Line 2</th>
-                            <th field="clientAd_address3" width="150">Address Line 3</th>
-                            <th field="clientAd_postcode" width="85">Postcode</th>
-                            <th field="meter_numberMain" width="150">Number Main</th>
-                            <th field="" width="auto"></th>
-                        </tr>
-                    </thead>
+                       data-dojo-props="
+                        store: meterContractStore<?php echo $this->contract->contract_idContract; ?>,
+                        structure: bba.Contract.gridLayouts.meter,
+                        query: { meterContract_idContract: <?php echo $this->contract->contract_idContract; ?> },
+                        sortInfo: '-3',
+                        noDataMessage : bba.gridMessage,
+                        onRowClick: bba.Meter.meterGridRowClick">
                 </table>
             </div>
 
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Tenders'">
 
-                <span dojoType="dojox.data.QueryReadStore"
-                     jsid="tenderStore<?php echo $this->contract->contract_idContract; ?>"
-                     url="/contract/data-store/type/tender"
-                     requestMethod="post"></span>
+                 <span data-dojo-type="dojox.data.QueryReadStore"
+                      data-dojo-id="tenderStore<?php echo $this->contract->contract_idContract; ?>"
+                      data-dojo-props="url:'/contract/data-store/type/tender',requestMethod:'post'"></span>
 
-                <table dojoType="bba.DataGrid"
+                <table data-dojo-type="dojox.grid.DataGrid"
                        id="tenderGrid<?php echo $this->contract->contract_idContract; ?>"
-                       store="tenderStore<?php echo $this->contract->contract_idContract; ?>"
-                       query="{ tender_idContract: <?php echo $this->contract->contract_idContract; ?> }"
-                       sortInfo="1"
-                       queryParent="tender_idContract"
-                       sortInfo="-3"
-                       tabs="true"
-                       tabController="contract"
-                       tabTitleColumn="supplier_name"
-                       newButton="tender"
-                       newButtonController="tender"
-                       controller="contract"
-                       newButtonId="<?php echo $this->contract->contract_idContract; ?>">
-                    <thead>
-                        <tr>
-                            <th field="tender_idTender" width="50">Id</th>
-                            <th field="supplier_name" width=150">Supplier</th>
-                            <th field="supplierCo_name" width="150">Supplier Contact</th>
-                            <th field="supplier_phone" width="100">Phone</th>
-                            <th field="tender_periodContract" width="100">Contract Period</th>
-                            <th field="tender_dateExpiresQuote" width="100">Quote Expires</th>
-                            <th field="tender_chargeStanding" width="100">Standing Charge</th>
-                            <th field="tender_priceUnitDay" width="100">Day Rate</th>
-                            <th field="tender_priceUnitNight" width="100">Night Rate</th>
-                            <th field="tender_priceUnitOther" width="100">Other Rate</th>
-                            <th field="" width="auto"></th>
-                        </tr>
-                    </thead>
+                       data-dojo-props="
+                        store: tenderStore<?php echo $this->contract->contract_idContract; ?>,
+                        structure: bba.Contract.gridLayouts.tender,
+                        query: { tender_idContract: <?php echo $this->contract->contract_idContract; ?> },
+                        sortInfo: '-3',
+                        noDataMessage : bba.gridMessage,
+                        onRowClick: bba.Contract.tenderGridRowClick">
                 </table>
 
             </div>
@@ -199,16 +162,19 @@
         <div class="tableHead">
             <?php if ($this->isAllowed('User')): ?>
             <p class="tableHead-button">
-                <button dojoType="dijit.form.Button"
-                        id="new-meter-button-<?php echo $this->contract->contract_idContract; ?>"
-                        class="newButton"
-                        type="button">Add/Edit Meters</button>
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: bba.Contract.addMeterButtonClick"
+                        type="button"
+                        value="<?php echo $this->contract->contract_idContract; ?>"
+                        id="add-meter-button-<?php echo $this->contract->contract_idContract; ?>">Add/Edit Meters</button>
+
             </p>
             <p class="tableHead-button">
-                <button dojoType="dijit.form.Button"
-                        id="new-tender-button-<?php echo $this->contract->contract_idContract; ?>"
-                        class="newButton"
-                        type="button">New Tender</button>
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: bba.Contract.newTenderButtonClick"
+                        type="button"
+                        value="<?php echo $this->contract->contract_idContract; ?>"
+                        id="new-tender-button-<?php echo $this->contract->contract_idContract; ?>">New Tender</button>
             </p>
             <?php endif; ?>
         </div>

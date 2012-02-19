@@ -1,56 +1,66 @@
-<?php $form = $this->meterSaveForm; ?>
+<?php
+$form = $this->meterSaveForm;
+$type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
+?>
 
-<div class="form_wrap meter-add">
-    <div class="zend_form">
+<div data-dojo-type="dijit.Dialog"
+     id="meterForm"
+     data-dojo-id="meterForm"
+     data-dojo-props="
+        title:'<?php echo $type; ?> Meter',
+        execute: bba.Meter.processMeterForm">
+    <div class="dijitDialogPaneContentArea">
 
-        <?php  if ($this->request()->getParam('type') == 'add'): ?>
-            <?php echo $form->meter_type; ?>
-        <?php else: ?>
-            <input dojoType="dijit.form.TextBox"
-                   type="hidden"
-                   name="meter_type"
-                   id="meter_type"
-                   required="true"
-                   value="<?php echo $form->meter_type->getValue(); ?>" />
-            Meter Type: <?php echo $form->meter_type->getValue(); ?>
-        <?php endif; ?>
+        <div class="form_wrap meter-add">
+            <div class="zend_form">
 
-        <?php echo $form->meter_status; ?>
+                <?php  if ($this->request()->getParam('type') == 'add'): ?>
+                    <?php echo $form->meter_type; ?>
+                <?php else: ?>
+                    <input dojoType="dijit.form.TextBox"
+                           type="hidden"
+                           name="meter_type"
+                           id="meter_type"
+                           required="true"
+                           value="<?php echo $form->meter_type->getValue(); ?>" />
+                    Meter Type: <?php echo $form->meter_type->getValue(); ?>
+                <?php endif; ?>
 
-        <?php echo $form->meter_numberSerial; ?>
+                <?php echo $form->meter_status; ?>
 
-        <?php echo $form->meter_numberTop; ?>
+                <?php echo $form->meter_numberSerial; ?>
 
-        <?php echo $form->meter_numberMain; ?>
+                <?php echo $form->meter_numberTop; ?>
 
-        <?php echo $form->meter_capacity; ?>
+                <?php echo $form->meter_numberMain; ?>
 
-        <?php echo $form->meter_desc; ?>
+                <?php echo $form->meter_capacity; ?>
 
-        <input dojoType="dijit.form.TextBox"
-               type="hidden"
-               name="meter_idMeter"
-               id="meter_idMeter"
-               required="true"
-               value="<?php echo $form->meter_idMeter->getValue(); ?>" />
+                <?php echo $form->meter_desc; ?>
 
-        <input dojoType="dijit.form.TextBox"
-               type="hidden"
-               name="meter_idSite"
-               id="meter_idSite"
-               required="true"
-               value="<?php echo $form->meter_idSite->getValue(); ?>" />
+                <input dojoType="dijit.form.TextBox"
+                       type="hidden"
+                       name="meter_idMeter"
+                       id="meter_idMeter"
+                       required="true"
+                       value="<?php echo $form->meter_idMeter->getValue(); ?>" />
 
-        <button dojoType="dijit.form.Button"
-                type="submit"
-                id="meterFormSubmitButton"
-                name="submit"
-                value="Save">Save</button>
+                <input dojoType="dijit.form.TextBox"
+                       type="hidden"
+                       name="meter_idSite"
+                       id="meter_idSite"
+                       required="true"
+                       value="<?php echo $form->meter_idSite->getValue(); ?>" />
 
-        <button dojoType="dijit.form.Button"
-                type="button"
-                id="meterFormCancelButton"
-                name="cancel"
-                value="Cancel">Cancel</button>
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: function(){return dijit.byId('meterForm').validate();}"
+                        type="submit"
+                        id="meterFormSubmitButton">Save</button>
+
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('meterForm'));}"
+                        id="meterFormCancelButton">Cancel</button>
+            </div>
+        </div>
     </div>
 </div>

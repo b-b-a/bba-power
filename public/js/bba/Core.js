@@ -58,32 +58,6 @@ define("bba/Core",
         gridMessage : '<span class="dojoxGridNoData">No records found matching query</span>',
 
         gridLayouts : {
-            siteMeter : [
-                {field: 'meter_idMeter', width: '50px', name: 'Id'},
-                {field: 'meter_type', width: '150px', name: 'Type'},
-                {field: 'meter_status', width: '150px', name: 'Status'},
-                {field: 'meter_numberSerial', width: '200px', name: 'Number Serial'},
-                {field: 'meter_numberMain', width: '200px', name: 'Number Main'},
-                {field: '', width: 'auto', name: ''}
-            ],
-            meterContract : [
-                {
-                    type: "dojox.grid._CheckBoxSelector"
-                },
-                [
-                    {field: 'meter_idMeter', width: '50px', name: 'Id'},
-                    {field: 'meter_numberMain', width : '150px', name: 'Number Main'},
-                    {field: 'meter_type', width : '100px', name: 'Meter Type'},
-                    {field: 'meterContract_kvaNominated', width: '100px', name: 'Peak kVA', editable: true},
-                    {field: 'meterContract_eac', width: '100px', name: 'EAC', editable: true},
-                    {field: 'contract_idContract', width: '100px', name: 'Contract Id'},
-                    {field: 'contract_type', width: '100px', name: 'Contract Type'},
-                    {field: 'contract_status', width: '100px', name: 'Status'},
-                    {field: 'contract_dateStart', width: '100px', name: 'Start Date'},
-                    {field: 'contract_dateEnd', width: '100px', name: 'End Date'},
-                    {field: '', width: 'auto', name: ''}
-                ]
-            ],
             supplierContract : [
                 {field: 'contract_idContract', width: '50px', name: 'Id'},
                 {field: 'client_name', width: '300px', name: 'Client'},

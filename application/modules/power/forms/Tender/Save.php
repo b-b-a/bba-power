@@ -74,10 +74,18 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
             'storeType'     => 'dojo.data.ItemFileReadStore',
             'storeParams'   => array('url' => "/supplier/data-store/type/supplierList"),
             'dijitParams'   => array(
-                'searchAttr' => 'supplier_name',
+                'searchAttr'    => 'supplier_name',
                 'promptMessage' => 'Select a Supplier'
             ),
-            'required'      => true
+            'value'         => '0',
+            'required'      => true,
+            'validators'    => array(
+                array('GreaterThan', true, array(
+                    'min'       => '0',
+                    'message'   => 'Please select a supplier.'
+                ))
+            ),
+            'ErrorMessages' => array('Please select a supplier.'),
         ));
 
         /*

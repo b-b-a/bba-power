@@ -131,6 +131,26 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
     }
 
     /**
+     * Gets all contracts on a meter data store.
+     *
+     * @param array $post
+     * @return string
+     */
+    public function getMeterContractDataStore(array $post)
+    {
+        $dataObj = $this->getDbTable('meter')->getMeterById($post['meter_idMeter'])->getAllContracts();
+
+        $store = $this->_getDojoData($dataObj, 'contract_idContract');
+
+        $store->setMetadata(
+            'numRows',
+            $dataObj->count()
+        );
+
+        return $store->toJson();
+    }
+
+    /**
      * Updates a meter.
      *
      * @param array $post

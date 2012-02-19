@@ -54,10 +54,11 @@
                     <td class="footer" colspan="2">
                         <div dojoType="dijit.form.Form"
                              id="edit-tender-<?php echo $this->tender->tender_idTender; ?>">
-                            <button dojoType="dijit.form.Button"
-                                    type="submit"
-                                    name="edit-tender-button-<?php echo $this->tender->tender_idTender; ?>"
-                                    value="submit">Edit Details</button>
+                            <button data-dojo-type="dijit.form.Button"
+                                    data-dojo-props="onClick: bba.Contract.editTenderButtonClick"
+                                    type="button"
+                                    value="<?php echo $this->tender->tender_idTender; ?>"
+                                    id="edit-tender-button-<?php echo $this->tender->tender_idTender; ?>">Edit Details</button>
                         </div>
                     </td>
                 </tr>

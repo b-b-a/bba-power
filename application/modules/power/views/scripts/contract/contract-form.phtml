@@ -4,11 +4,11 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
 ?>
 
 <div data-dojo-type="dijit.Dialog"
-     id="contractform"
-     data-dojo-id="contractform"
+     id="contractForm"
+     data-dojo-id="contractForm"
      data-dojo-props="
         title:'<?php echo $type; ?> Contract',
-        execute: bba.Contract.processForm">
+        execute: bba.Contract.processContractForm">
     <div class="dijitDialogPaneContentArea">
         <div class="form_wrap">
             <div id="contractForm" class="zend_form">
@@ -69,17 +69,14 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                        id="contract_idContractPrevious"
                        required="true"
                        value="<?php echo $form->contract_idContractPrevious->getValue(); ?>" />
-            </div>
-
-            <div class="dijitDialogPaneActionBar">
 
                 <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: function(){return dijit.byId('contractform').validate();}"
+                        data-dojo-props="onClick: function(){return dijit.byId('contractForm').validate();}"
                         type="submit"
                         id="contractFormSubmitButton">Save</button>
 
                 <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('contractform'));}"
+                        data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('contractForm'));}"
                         id="contractFormCancelButton">Cancel</button>
             </div>
         </div>

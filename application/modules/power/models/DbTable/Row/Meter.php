@@ -67,6 +67,16 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
         )->current();
     }
 
+    public function getAllContracts()
+    {
+        return $this->getRow()->findManyToManyRowset(
+            'Power_Model_DbTable_Contract',
+            'Power_Model_DbTable_Meter_Contract',
+            'meter',
+            'contract'
+        );
+    }
+
     /**
      * Returns row as an array, with optional date formating.
      *

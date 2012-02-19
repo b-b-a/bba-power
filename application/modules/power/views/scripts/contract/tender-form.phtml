@@ -1,63 +1,71 @@
 <?php
 /* @var $form Power_Form_Tender_Save */
 $form = $this->tenderSaveForm;
+$type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
 
 if ($this->request['action'] == 'edit') {
     $form->getElement('tender_idSupplier')->setAttrib('readonly', true);
 }
 ?>
 
-<div class="form_wrap">
-    <div class="zend_form">
+<div data-dojo-type="dijit.Dialog"
+     id="tenderForm"
+     data-dojo-id="tenderForm"
+     data-dojo-props="
+        title:'<?php echo $type; ?> Tender',
+        execute: bba.Contract.processTenderForm">
+    <div class="dijitDialogPaneContentArea">
 
-        <?php echo $form->tender_idSupplier; ?>
+        <div class="form_wrap">
+            <div class="zend_form">
 
-        <?php echo $form->tender_periodContract; ?>
+                <?php echo $form->tender_idSupplier; ?>
 
-        <?php echo $form->tender_dateExpiresQuote; ?>
+                <?php echo $form->tender_periodContract; ?>
 
-        <?php echo $form->tender_chargeStanding; ?>
+                <?php echo $form->tender_dateExpiresQuote; ?>
 
-        <?php echo $form->tender_priceUnitDay; ?>
+                <?php echo $form->tender_chargeStanding; ?>
 
-        <?php echo $form->tender_priceUnitNight; ?>
+                <?php echo $form->tender_priceUnitDay; ?>
 
-        <?php echo $form->tender_priceUnitOther; ?>
+                <?php echo $form->tender_priceUnitNight; ?>
 
-        <?php echo $form->tender_chargeCapacity; ?>
+                <?php echo $form->tender_priceUnitOther; ?>
 
-        <?php echo $form->tender_chargeSettlement; ?>
+                <?php echo $form->tender_chargeCapacity; ?>
 
-        <?php echo $form->tender_commission; ?>
+                <?php echo $form->tender_chargeSettlement; ?>
 
-        <?php echo $form->tender_fee; ?>
+                <?php echo $form->tender_commission; ?>
 
-        <?php echo $form->tender_desc; ?>
+                <?php echo $form->tender_fee; ?>
 
-        <input dojoType="dijit.form.TextBox"
-               type="hidden"
-               name="tender_idTender"
-               id="tender_idTender"
-               required="true"
-               value="<?php echo $form->tender_idTender->getValue(); ?>" />
+                <?php echo $form->tender_desc; ?>
 
-         <input dojoType="dijit.form.TextBox"
-               type="hidden"
-               name="tender_idContract"
-               id="tender_idContract"
-               required="true"
-               value="<?php echo $form->tender_idContract->getValue(); ?>" />
+                <input dojoType="dijit.form.TextBox"
+                       type="hidden"
+                       name="tender_idTender"
+                       id="tender_idTender"
+                       required="true"
+                       value="<?php echo $form->tender_idTender->getValue(); ?>" />
 
-        <button dojoType="dijit.form.Button"
-                type="submit"
-                id="tenderFormSubmitButton"
-                name="submit"
-                value="Save">Save</button>
+                 <input dojoType="dijit.form.TextBox"
+                       type="hidden"
+                       name="tender_idContract"
+                       id="tender_idContract"
+                       required="true"
+                       value="<?php echo $form->tender_idContract->getValue(); ?>" />
 
-        <button dojoType="dijit.form.Button"
-                type="button"
-                id="tenderFormCancelButton"
-                name="cancel"
-                value="Cancel">Cancel</button>
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: function(){return dijit.byId('tenderForm').validate();}"
+                        type="submit"
+                        id="contractFormSubmitButton">Save</button>
+
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('tenderForm'));}"
+                        id="contractFormCancelButton">Cancel</button>
+            </div>
+        </div>
     </div>
 </div>

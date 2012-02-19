@@ -200,10 +200,10 @@ class Power_ContractController extends Zend_Controller_Action
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
 
-        if ($request->getParam('meterContract_idContract') && $request->isPost()
+        if ($request->getParam('idContract') && $request->isPost()
                 && $request->isXmlHttpRequest()) {
             $this->view->assign(array(
-                'contract' => $this->_model->getContractById($request->getParam('meterContract_idContract'))
+                'contract' => $this->_model->getContractById($request->getParam('idContract'))
             ));
         }
     }

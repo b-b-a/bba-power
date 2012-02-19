@@ -59,7 +59,15 @@ define("bba/Site",
                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
                 {field: 'clientCo_name', width: '100px', name: 'Contact'},
                 {field: '', width: 'auto', name: ''}
-            ]
+            ],
+            meter : [
+                {field: 'meter_idMeter', width: '50px', name: 'Id'},
+                {field: 'meter_type', width: '150px', name: 'Type'},
+                {field: 'meter_status', width: '150px', name: 'Status'},
+                {field: 'meter_numberSerial', width: '200px', name: 'Number Serial'},
+                {field: 'meter_numberMain', width: '200px', name: 'Number Main'},
+                {field: '', width: 'auto', name: ''}
+            ],
         },
 
         changeAddress : function(val)

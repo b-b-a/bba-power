@@ -76,6 +76,9 @@ class Power_MeterController extends Zend_Controller_Action
                 case 'meter':
                     $data = $this->_model->getMeterDataStore($request->getPost());
                     break;
+                case 'contract':
+                    $data = $this->_model->getMeterContractDataStore($request->getPost());
+                    break;
                 case 'usage':
                     $data = $this->_model->getUsageDataStore($request->getPost());
                     break;
@@ -123,7 +126,7 @@ class Power_MeterController extends Zend_Controller_Action
                 && $request->isPost()) {
 
             $form = $this->_getForm('meterSave', 'save-meter');
-            $form->populate(array('meter_idSite' => $request->getParam('meter_idSite')));
+            $form->populate(array('meter_idSite' => $request->getParam('idSite')));
 
             $this->view->assign(array('meterSaveForm' => $form));
 

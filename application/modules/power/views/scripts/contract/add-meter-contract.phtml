@@ -29,22 +29,22 @@
 </div>
 <div>&nbsp;</div>
 
-<span dojoType="dojo.data.ItemFileWriteStore"
-      jsId="contractMeterStore"
-      url="/contract/data-store/type/availableMeters/meterContract_idContract/<?php echo $this->contract->contract_idContract; ?>"
-      requestMethod="post"></span>
+<span data-dojo-type="dojo.data.ItemFileWriteStore"
+        data-dojo-props="url: '/contract/data-store/type/availableMeters/meterContract_idContract/<?php echo $this->contract->contract_idContract; ?>', requestMethod: 'post'"
+        data-dojo-id="contractMeterStore"></span>
 
-<div dojoType="dojox.grid.DataGrid"
-       jsId="contractMeterGrid"
-       store="contractMeterStore"
-       structure="bba.gridLayouts.meterContract"
-       query="{ meter_idMeter : '*' }"
-       clientSort="true"
-       selectionMode="multiple"
-       editable="true"
-       sortInfo="-6"
-       style="width:1100px;height:300px;"
-       noDataMessage="<span class='dojoxGridNoData'>No meters available for this contract</span>">
+<div data-dojo-type="dojox.grid.DataGrid"
+        data-dojo-id="contractMeterGrid"
+        data-dojo-props="
+        store: contractMeterStore,
+        structure: bba.Contract.gridLayouts.meterContract,
+        query: { meter_idMeter : '*' },
+        clientSort: 'true',
+        selectionMode: 'multiple',
+        editable: 'true',
+        sortInfo: '-6',
+        noDataMessage : bba.gridMessage,
+        style: 'width:1100px;height:300px;'">
     <script type="dojo/connect" event="_onFetchComplete" args="items, req">
         bba.Contract.preselectMeters(this, '<?php echo $this->contract->contract_idContract; ?>', items);
         <?php if ($this->contract->contract_status == 'tender'): ?>
