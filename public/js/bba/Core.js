@@ -73,7 +73,7 @@ define("bba/Core",
                 [
                     {field: 'meter_idMeter', width: '50px', name: 'Id'},
                     {field: 'meter_numberMain', width : '150px', name: 'Number Main'},
-                    {field: 'meter_type', width : '100px', name: 'Meter Type'},
+                    {field: 'meter_status', width : '100px', name: 'Meter Status'},
                     {field: 'meterContract_kvaNominated', width: '100px', name: 'Peak kVA', editable: true},
                     {field: 'meterContract_eac', width: '100px', name: 'EAC', editable: true},
                     {field: 'contract_idContract', width: '100px', name: 'Contract Id'},
