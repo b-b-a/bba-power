@@ -17,16 +17,16 @@
                     <td><?php echo $this->meter->meter_status; ?></td>
                 </tr>
                 <tr>
-                    <th>Serial Number:</th>
-                    <td><?php echo $this->meter->meter_numberSerial; ?></td>
-                </tr>
-                <tr>
                     <th>Number Top:</th>
                     <td><?php echo $this->meter->meter_numberTop; ?></td>
                 </tr>
                 <tr>
                     <th>Number Main:</th>
                     <td><?php echo $this->meter->meter_numberMain; ?></td>
+                </tr>
+                <tr>
+                    <th>Serial Number:</th>
+                    <td><?php echo $this->meter->meter_numberSerial; ?></td>
                 </tr>
                  <tr>
                     <th>Supply Capacity:</th>
@@ -94,14 +94,14 @@
                 </tr>
                 <tr>
                     <th>Commission:</th>
-                    <td><?php echo $this->escape($this->meter->tender_commission); ?></td>
+                    <td><?php echo $this->escape($this->meter->tender_commission); ?> (pence / unit)</td>
                 </tr>
                 <tr>
                     <th>Peak kVA:</th>
                     <td><?php echo $this->escape($this->meter->	meterContract_kvaNominated); ?></td>
                 </tr>
                 <tr>
-                    <th>Estimated AC:</th>
+                    <th>EAC:</th>
                     <td><?php echo $this->escape($this->meter->	meterContract_eac); ?></td>
                 </tr>
                 <?php else: ?>

@@ -202,22 +202,12 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
             'value'     => 0,
             'filters'   => array('StripTags', 'StringTrim'),
             'dijitParams'   => array(
-                'promptMessage' => 'Enter unit price for day rate (£ / kVA)',
+                'promptMessage' => 'Enter capacity charge (£ / kVA)',
                 'style'         => 'width:50px'
             ),
             'Description'   => '(£ / kVA)'
         ));
-/*
-        $this->addElement('NumberTextBox', 'tender_chargeKva', array(
-            'label'         => 'Charge kVA:',
-            'constraints'   => array(
-                'min'       => 0
-            ),
-            'required'  => true,
-            'value'     => 0,
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
-*/
+
         $this->addElement('NumberTextBox', 'tender_chargeSettlement', array(
             'label'         => 'Settlement Charge:',
             'constraints'   => array(
