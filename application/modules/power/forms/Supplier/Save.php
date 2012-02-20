@@ -86,14 +86,17 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
 
         $this->addElement('NumberTextBox', 'supplier_commission', array(
             'label'         => 'Normal Commission:',
-            'smallDelta'    => 0.01,
             'constraints'   => array(
-                'places'    => 2,
                 'min'       => 0
             ),
             'required'  => true,
             'value'     => 0,
-            //'filters'   => array('StripTags', 'StringTrim')
+            'filters'   => array('StripTags', 'StringTrim'),
+            'dijitParams'   => array(
+                'promptMessage' => 'Enter standard commission rate (Pence / Unit)',
+                'style'         => 'width:50px'
+            ),
+            'Description'   => '(Pence / Unit)'
         ));
 
         $request = Zend_Controller_Front::getInstance()->getRequest();

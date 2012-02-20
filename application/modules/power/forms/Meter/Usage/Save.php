@@ -92,8 +92,7 @@ class Power_Form_Meter_Usage_Save extends ZendSF_Form_Abstract
         $this->addElement('NumberTextBox', 'usage_usageDay', array(
             'label'     => 'Consumption - Day:',
             'constraints'   => array(
-                'pattern'    => '#',
-                'min'       => 0
+                'pattern'    => '#'
             ),
             'required'  => false,
 			'value'		=> "0",
@@ -107,8 +106,7 @@ class Power_Form_Meter_Usage_Save extends ZendSF_Form_Abstract
         $this->addElement('NumberTextBox', 'usage_usageNight', array(
             'label'     => 'Consumption - Night:',
             'constraints'   => array(
-                'pattern'    => '#',
-                'min'       => 0
+                'pattern'    => '#'
             ),
             'required'  => false,
 			'value'		=> "0",
@@ -122,8 +120,7 @@ class Power_Form_Meter_Usage_Save extends ZendSF_Form_Abstract
         $this->addElement('NumberTextBox', 'usage_usageOther', array(
             'label'         => 'Consumption - Other & Gas:',
             'constraints'   => array(
-                'pattern'   => '#',
-                'min'       => 0
+                'pattern'   => '#'
             ),
             'required'      => false,
  			'value'			=> "0",
