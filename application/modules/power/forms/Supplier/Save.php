@@ -87,7 +87,6 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
         $this->addElement('NumberTextBox', 'supplier_commission', array(
             'label'         => 'Normal Commission:',
             'constraints'   => array(
-                'pattern'   => '#',
                 'min'       => 0
             ),
             'required'  => true,
