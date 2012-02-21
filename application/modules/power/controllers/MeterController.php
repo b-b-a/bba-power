@@ -209,7 +209,7 @@ class Power_MeterController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
         $this->getHelper('viewRenderer')->setNoRender(true);
 
-        if (!$this->_helper->acl('MeterReading')) {
+        if (!$this->_helper->acl('MeterUsage')) {
             throw new ZendSF_Acl_Exception('Access Denied');
         }
 
@@ -232,7 +232,7 @@ class Power_MeterController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
         $this->getHelper('viewRenderer')->setNoRender(true);
 
-        if (!$this->_helper->acl('MeterReading')) {
+        if (!$this->_helper->acl('MeterUsage')) {
             throw new ZendSF_Acl_Exception('Access Denied');
         }
 
@@ -259,7 +259,7 @@ class Power_MeterController extends Zend_Controller_Action
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
 
-        if (!$this->_helper->acl('MeterReading')) {
+        if (!$this->_helper->acl('MeterUsage')) {
             throw new ZendSF_Acl_Exception('Access Denied');
         }
 

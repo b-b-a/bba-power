@@ -66,7 +66,7 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
             'decline'       => 'Decline',
             'agent'         => 'Agent',
             'read'          => 'Read',
-            'meterReading'  => 'Meter Reading',
+            'meterUsage'  => 'Meter Reading',
             'user'          => 'User',
             'admin'         => 'Admin'
         );

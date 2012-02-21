@@ -50,19 +50,19 @@ class Power_Model_Acl_Power extends ZendSF_Acl_Abstract
         $this->addRole(new Zend_Acl_Role('decline'), 'guest');
         $this->addRole(new Zend_Acl_Role('agent'), 'decline');
         $this->addRole(new Zend_Acl_Role('read'));
-        $this->addRole(new Zend_Acl_Role('meterReading'), 'read');
-        $this->addRole(new Zend_Acl_Role('user'), 'meterReading');
+        $this->addRole(new Zend_Acl_Role('meterUsage'), 'read');
+        $this->addRole(new Zend_Acl_Role('user'), 'meterUsage');
         $this->addRole(new Zend_Acl_Role('admin'), 'user');
 
         $this->addResource(new Zend_Acl_Resource('Decline'));
         $this->addResource(new Zend_Acl_Resource('Agent'));
         $this->addResource(new Zend_Acl_Resource('Read'));
-        $this->addResource(new Zend_Acl_Resource('MeterReading'));
+        $this->addResource(new Zend_Acl_Resource('MeterUsage'));
 
         $this->allow('decline', 'Decline');
         $this->allow('agent', 'Agent');
         $this->allow('read', 'Read');
-        $this->allow('meterReading', 'MeterReading');
+        $this->allow('meterUsage', 'MeterUsage');
         $this->allow('user', 'User');
         $this->allow('admin', 'Admin');
     }
