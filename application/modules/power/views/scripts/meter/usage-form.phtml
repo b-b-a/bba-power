@@ -1,50 +1,61 @@
-<?php $form = $this->meterUsageSaveForm; ?>
+<?php
+$form = $this->meterUsageSaveForm;
+$type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
+?>
 
-<div class="form_wrap">
-    <div class="zend_form">
+<div data-dojo-type="dijit.Dialog"
+     id="usageForm"
+     data-dojo-id="usageForm"
+     data-dojo-props="
+        title:'<?php echo $type; ?> Meter Consumption For Period',
+        execute: bba.Meter.processUsageForm">
+    <div class="dijitDialogPaneContentArea">
 
-        <?php echo $form->usage_dateReading; ?>
+        <div class="form_wrap">
+            <div class="zend_form">
 
-        <?php echo $form->usage_type; ?>
+                <?php echo $form->usage_dateReading; ?>
 
-        <?php echo $form->usage_usageDay; ?>
+                <?php echo $form->usage_type; ?>
 
-        <?php echo $form->usage_usageNight; ?>
+                <?php echo $form->usage_usageDay; ?>
 
-        <?php echo $form->usage_usageOther; ?>
+                <?php echo $form->usage_usageNight; ?>
 
-        <?php if ($form->getErrorMessages()): ?>
-            <?php foreach ($form->getErrorMessages() as $error): ?>
-                <p class="errors"><?php echo $error; ?></p>
-            <?php endforeach; ?>
-        <?php endif; ?>
+                <?php echo $form->usage_usageOther; ?>
 
-        <?php echo $form->usage_dateBill; ?>
+                <?php if ($form->getErrorMessages()): ?>
+                    <?php foreach ($form->getErrorMessages() as $error): ?>
+                        <p class="errors"><?php echo $error; ?></p>
+                    <?php endforeach; ?>
+                <?php endif; ?>
 
-        <input dojoType="dijit.form.TextBox"
-               type="hidden"
-               name="usage_idUsage"
-               id="usage_idUsage"
-               required="true"
-               value="<?php echo $form->usage_idUsage->getValue(); ?>" />
+                <?php echo $form->usage_dateBill; ?>
 
-        <input dojoType="dijit.form.TextBox"
-               type="hidden"
-               name="usage_idMeter"
-               id="usage_idMeter"
-               required="true"
-               value="<?php echo $form->usage_idMeter->getValue(); ?>" />
+                <input dojoType="dijit.form.TextBox"
+                    type="hidden"
+                    name="usage_idUsage"
+                    id="usage_idUsage"
+                    required="true"
+                    value="<?php echo $form->usage_idUsage->getValue(); ?>" />
 
-        <button dojoType="dijit.form.Button"
-                type="submit"
-                id="usageFormSubmitButton"
-                name="submit"
-                value="Save">Save</button>
+                <input dojoType="dijit.form.TextBox"
+                    type="hidden"
+                    name="usage_idMeter"
+                    id="usage_idMeter"
+                    required="true"
+                    value="<?php echo $form->usage_idMeter->getValue(); ?>" />
 
-        <button dojoType="dijit.form.Button"
-                type="button"
-                id="usageFormCancelButton"
-                name="cancel"
-                value="Cancel">Cancel</button>
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: function(){return dijit.byId('usageForm').validate();}"
+                        type="submit"
+                        id="meterFormSubmitButton">Save</button>
+
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('usageForm'));}"
+                        id="meterFormCancelButton">Cancel</button>
+            </div>
+        </div>
+
     </div>
 </div>

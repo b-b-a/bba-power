@@ -91,6 +91,29 @@ define("bba/Meter",
             });
         },
 
+        usageGridRowClick : function(selectedIndex)
+        {
+            if (typeof(selectedIndex) != 'number') {
+                selectedIndex = this.focus.rowIndex;
+            }
+
+            selectedItem = this.getItem(selectedIndex);
+            id = this.store.getValue(selectedItem, 'usage_idUsage');
+
+            if (!dom.byId('usageForm')) {
+                bba.openFormDialog({
+                    url: '/meter/edit-usage',
+                    content: {
+                        type :  'edit',
+                        idUsage : id
+                    },
+                    dialog: 'usageForm'
+                });
+            } else {
+                usageForm.show();
+            }
+        },
+
         editMeterButtonClick : function()
         {
             if (!dom.byId('meterForm')) {
@@ -123,6 +146,22 @@ define("bba/Meter",
             }
         },
 
+        newUsageButtonClick : function()
+        {
+            if (!dom.byId('usageForm')) {
+                bba.openFormDialog({
+                    url: '/meter/add-usage',
+                    content: {
+                        type :  'add',
+                        idUsage : this.value
+                    },
+                    dialog: 'usageForm'
+                });
+            } else {
+                usageForm.show();
+            }
+        },
+
         processMeterForm : function()
         {
             bba.closeDialog(meterForm);
@@ -152,6 +191,32 @@ define("bba/Meter",
                         parser.parse('dialog');
                         bba.setupDialog(meterForm);
                         meterForm.show();
+                    }
+                }
+            });
+        },
+
+        processUsageForm : function()
+        {
+            bba.closeDialog(usageForm);
+
+            values = arguments[0];
+            values.idUsage = values.usage_idUsage;
+
+            xhr.post({
+                url: '/meter/save-usage',
+                content: values,
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                    if (data.saved > 0) {
+                        registry.byId('usageGrid' + values.usage_idMeter)._refresh();
+                        //bba.comfirmDialog();
+                    } else {
+                        dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+                        bba.setupDialog(usageForm);
+                        usageForm.show();
                     }
                 }
             });
