@@ -17,13 +17,20 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                 <?php  if ($this->request()->getParam('type') == 'add'): ?>
                     <?php echo $form->meter_type; ?>
                 <?php else: ?>
-                    <input dojoType="dijit.form.TextBox"
-                           type="hidden"
-                           name="meter_type"
-                           id="meter_type"
-                           required="true"
-                           value="<?php echo $form->meter_type->getValue(); ?>" />
-                    Meter Type: <?php echo $form->meter_type->getValue(); ?>
+                    <div class="form_row">
+                        <p id="meter_type-label">
+                            <label class="optional" for="meter_type">Meter Type:</label>
+                        </p>
+                        <p class="element">
+                            <?php echo $form->meter_type->getValue(); ?>
+                            <input dojoType="dijit.form.TextBox"
+                                   type="hidden"
+                                   name="meter_type"
+                                   id="meter_type"
+                                   required="true"
+                                   value="<?php echo $form->meter_type->getValue(); ?>" />
+                        <p/>
+                    </div>
                 <?php endif; ?>
 
                 <?php echo $form->meter_status; ?>

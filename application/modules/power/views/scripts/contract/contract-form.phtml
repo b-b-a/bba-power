@@ -27,7 +27,24 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
 
                 <?php echo $form->contract_idTenderSelected ?>
 
-                <?php echo $form->contract_type; ?>
+                <?php  if ($this->request()->getParam('type') == 'add'): ?>
+                    <?php echo $form->contract_type; ?>
+                <?php else: ?>
+                    <div class="form_row">
+                        <p id="contract_type-edit-label">
+                            <label class="optional" for="contract_type">Type:</label>
+                        </p>
+                        <p class="element">
+                            <?php echo $form->contract_type->getValue(); ?>
+                            <input dojoType="dijit.form.TextBox"
+                                   type="hidden"
+                                   name="contract_type"
+                                   id="contract_type"
+                                   required="true"
+                                   value="<?php echo $form->contract_type->getValue(); ?>" />
+                        <p/>
+                    </div>
+                <?php endif; ?>
 
                 <?php echo $form->contract_status; ?>
 
