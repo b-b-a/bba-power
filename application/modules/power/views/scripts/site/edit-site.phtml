@@ -93,7 +93,7 @@
                     ->getParentRow('siteClientContact'); ?>
 
             <table class="info_wrap ident">
-                <caption>Contact <span class="id_number">(<?php $mainContact->get('clientCo_idClientContact'); ?>)</span></caption>
+                <caption>Contact <span class="id_number">(<?php echo $mainContact->get('clientCo_idClientContact'); ?>)</span></caption>
                 <?php if($mainContact->get('clientCo_idClientContact')): ?>
                 <tr>
                     <th>Name:</th>
