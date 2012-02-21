@@ -125,6 +125,10 @@ class Power_SupplierController extends Zend_Controller_Action
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
 
+        if (!$this->_helper->acl('User')) {
+            throw new ZendSF_Acl_Exception('Access Denied');
+        }
+
         if ($request->isXmlHttpRequest() && $request->getPost('type') == 'add'
                 && $request->isPost()) {
 
@@ -151,6 +155,9 @@ class Power_SupplierController extends Zend_Controller_Action
             $this->view->assign(array('supplier' => $supplier));
 
             if ($this->_request->getParam('type') == 'edit') {
+                if (!$this->_helper->acl('User')) {
+                    throw new ZendSF_Acl_Exception('Access Denied');
+                }
                 $form = $this->_getForm('supplierSave', 'save-supplier');
                 $form->populate($supplier->toArray());
                 $this->view->assign(array('supplierSaveForm' => $form));
@@ -167,6 +174,10 @@ class Power_SupplierController extends Zend_Controller_Action
 
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
+
+        if (!$this->_helper->acl('User')) {
+            throw new ZendSF_Acl_Exception('Access Denied');
+        }
 
         if (!$request->isPost() && !$request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'supplier');
@@ -196,6 +207,10 @@ class Power_SupplierController extends Zend_Controller_Action
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
 
+        if (!$this->_helper->acl('User')) {
+            throw new ZendSF_Acl_Exception('Access Denied');
+        }
+
         if ($request->isXmlHttpRequest() && $request->getParam('type') == 'add'
                 && $request->isPost()) {
             $form = $this->_getForm('supplierContactSave', 'save-supplier-contact');
@@ -213,6 +228,10 @@ class Power_SupplierController extends Zend_Controller_Action
     {
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
+
+        if (!$this->_helper->acl('User')) {
+            throw new ZendSF_Acl_Exception('Access Denied');
+        }
 
         if ($request->getPost('idSupplierContact') && $request->isXmlHttpRequest()
                 && $request->isPost()) {
@@ -239,6 +258,10 @@ class Power_SupplierController extends Zend_Controller_Action
 
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
+
+        if (!$this->_helper->acl('User')) {
+            throw new ZendSF_Acl_Exception('Access Denied');
+        }
 
         if (!$request->isPost() && !$request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'supplier');

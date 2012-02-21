@@ -125,6 +125,10 @@ class Power_SiteController extends Zend_Controller_Action
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
 
+        if (!$this->_helper->acl('User')) {
+            throw new ZendSF_Acl_Exception('Access Denied');
+        }
+
         if ($request->isXmlHttpRequest() && $request->getParam('type') == 'add'
                 && $request->isPost()) {
 
@@ -161,6 +165,9 @@ class Power_SiteController extends Zend_Controller_Action
             ));
 
             if ($request->getPost('type') == 'edit') {
+                if (!$this->_helper->acl('User')) {
+                    throw new ZendSF_Acl_Exception('Access Denied');
+                }
                 $this->render('site-form');
             }
         } else {
@@ -174,6 +181,10 @@ class Power_SiteController extends Zend_Controller_Action
 
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
+
+        if (!$this->_helper->acl('User')) {
+            throw new ZendSF_Acl_Exception('Access Denied');
+        }
 
         if (!$request->isPost() && !$request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'site');

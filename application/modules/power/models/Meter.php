@@ -240,7 +240,8 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
-        $this->_acl->allow('user', $this)
+        $this->_acl->allow('meterReading', $this, array('saveUsage'))
+            ->allow('user', $this)
             ->allow('admin', $this);
 
         return $this;
