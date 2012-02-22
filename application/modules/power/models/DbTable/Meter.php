@@ -107,6 +107,7 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
                 'meter_idMeter',
                 'meter_type',
                 'meter_status',
+                'meter_numberTop',
                 'meter_numberMain'
             ))
             ->join('site', 'site_idSite = meter_idSite', null)
