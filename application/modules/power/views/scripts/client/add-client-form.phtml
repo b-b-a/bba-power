@@ -7,14 +7,13 @@
         title:'New Client',
         execute: bba.Client.processClientForm">
     <div class="dijitDialogPaneContentArea">
-        
+
         <div id="addClientWidget"
              data-dojo-type="dojox.widget.Wizard"
              data-dojo-props="doneButtonLabel: 'Save'">
 
             <div class="form_wrap wizard">
                 <div data-dojo-type="dojox.widget.WizardPane"
-                     data-dojo-props="style: 'height:130px;'"
                      class="zend_form client_edit">
 
                     <?php echo $form->client_name; ?>
@@ -26,13 +25,12 @@
                     <?php echo $form->client_desc; ?>
 
                     <script type="dojo/method" data-dojo-event="onShow">
-                        clientGrid.dlg.attr('title', 'Client Information');
+                        clientForm.attr('title', 'Client Information');
                     </script>
                 </div>
 
                 <div id="addClientWidgetPane1"
                     data-dojo-type="dojox.widget.WizardPane"
-                     data-dojo-props="style: 'height:130px;'"
                      class="zend_form client_edit">
 
                     <?php echo $form->clientAd_addressName; ?>
@@ -46,12 +44,11 @@
                     <?php echo $form->clientAd_postcode; ?>
 
                     <script type="dojo/method" data-dojo-event="onShow">
-                        clientGrid.dlg.attr('title', 'Main (HQ) Address');
+                        clientForm.attr('title', 'Main (HQ) Address');
                     </script>
                 </div>
 
                 <div data-dojo-type="dojox.widget.WizardPane"
-                     data-dojo-props="style: 'height:130px;'"
                      class="zend_form client_edit">
 
                     <?php echo $form->clientCo_type; ?>
@@ -64,29 +61,31 @@
 
                     <?php echo $form->clientCo_email; ?>
 
+                    <input dojoType="dijit.form.TextBox"
+                            type="hidden"
+                            name="type"
+                            id="type"
+                            value="add" />
+
                     <script type="dojo/method" data-dojo-event="onShow">
-                        clientGrid.dlg.attr('title', 'Main Contact for BBA');
+                        clientForm.attr('title', 'Main Contact for BBA');
                         dijit.byId('clientAd_addressName').set('value', dijit.byId('client_name').get('value'));
                     </script>
 
                     <script type='dojo/method' data-dojo-event="doneFunction">
-                        if (!clientGrid.dlg.validate()) {
+                        if (!clientForm.validate()) {
                             alert('Please recheck all form entries for mistakes.');
                             return false;
                         }
-                        var vals = clientGrid.dlg.get('value');
+                        var vals = clientForm.get('value');
 
-                        clientGrid.dlg.onExecute();
-                        clientGrid.dlg.destroyRecursive();
-                        clientGrid.dlg = null;
-
-                        clientGrid.processForm(vals, '/client/save-client', 'add');
+                        clientForm.execute(vals);
                         //clientGrid._refresh();
                     </script>
                 </div>
             </div>
             <script type="dojo/method" data-dojo-event="cancelFunction">
-                clientGrid.dlg.hide();
+                bba.closeDialog(dijit.byId('clientForm'));
             </script>
         </div>
     </div>

@@ -53,7 +53,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
             'dijitParams'   => array(
                 'promptMessage' => 'Enter the clients address name.'
             ),
-            'value'         => ($request->getParam('type') == 'add') ? 
+            'value'         => ($request->getParam('type') == 'add' && $request->getParam('clientAd_idClient')) ?
                 $this->getModel()
                     ->getDbTable('client')
                     ->getClientById($request

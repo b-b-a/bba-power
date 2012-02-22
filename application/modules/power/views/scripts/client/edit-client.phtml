@@ -21,10 +21,11 @@
                     <td class="footer" colspan="2">
                         <div dojoType="dijit.form.Form"
                              id="edit-client-<?php echo $this->client->client_idClient; ?>">
-                            <button dojoType="dijit.form.Button"
-                                    type="submit"
-                                    name="edit-client-button-<?php echo $this->client->client_idClient; ?>"
-                                    value="submit">Edit Details</button>
+                            <button data-dojo-type="dijit.form.Button"
+                                    data-dojo-props="onClick: bba.Client.editClientButtonClick"
+                                    type="button"
+                                    value="<?php echo $this->client->client_idClient; ?>"
+                                    id="edit-client-button-<?php echo $this->client->client_idClient; ?>">New Client</button>
                         </div>
                     </td>
                 </tr>

@@ -64,7 +64,7 @@ define("bba/Client",
                 {field: '', width: 'auto', name: ''}
             ]
          },
-         
+
          clientGridRowClick : function(selectedIndex)
          {
             if (typeof(selectedIndex) != 'number') {
@@ -84,7 +84,7 @@ define("bba/Client",
                 }
             });
         },
-        
+
         newClientButtonClick : function()
         {
             if (!dom.byId('clientForm')) {
@@ -97,7 +97,7 @@ define("bba/Client",
                 clientForm.show();
             }
         },
-        
+
         editClientButtonClick : function()
         {
             if (!dom.byId('clientForm')) {
@@ -113,7 +113,7 @@ define("bba/Client",
                 clientForm.show();
             }
         },
-        
+
         processClientForm : function()
         {
             bba.closeDialog(clientForm);
