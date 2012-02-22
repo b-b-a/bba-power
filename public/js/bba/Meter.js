@@ -26,9 +26,9 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Meter",
-    ["dojo/dom","dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core", "bba/Contract",
-    "dijit/form/RadioButton",
-    "dijit/form/NumberTextBox", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea", "bba/DataGrid"],
+    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core", "bba/Contract",
+    "dijit/form/RadioButton", "dijit/form/NumberTextBox", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea",
+    "bba/DataGrid"],
     function(dom, ready, parser, xhr, registry, bba) {
 
     ready(function(){

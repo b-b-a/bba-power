@@ -26,9 +26,9 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Client",
-    ["dojo/dom", "dojo/ready", "bba/Core", "bba/DataGrid", "dojox/widget/Wizard",
-    "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea"],
-    function(dom, ready, bba) {
+    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core", "bba/DataGrid",
+    "dojox/widget/Wizard", "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea"],
+    function(dom, ready, parser, xhr, registry, bba) {
 
     ready(function () {
         dom.byId('client').focus();
@@ -63,7 +63,85 @@ define("bba/Client",
                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
                 {field: '', width: 'auto', name: ''}
             ]
-         }
+         },
+         
+         clientGridRowClick : function(selectedIndex)
+         {
+            if (typeof(selectedIndex) != 'number') {
+                selectedIndex = this.focus.rowIndex;
+            }
+
+            selectedItem = this.getItem(selectedIndex);
+            id = this.store.getValue(selectedItem, 'client_idClient');
+
+             bba.openTab({
+                tabId : 'client' + id,
+                title : this.store.getValue(selectedItem, 'client_name'),
+                url : '/client/edit-client',
+                contentVars : {
+                    type : 'details',
+                    idClient : id
+                }
+            });
+        },
+        
+        newClientButtonClick : function()
+        {
+            if (!dom.byId('clientForm')) {
+                bba.openFormDialog({
+                    url: '/client/add-client',
+                    content: {type :  'add'},
+                    dialog: 'clientForm'
+                });
+            } else {
+                clientForm.show();
+            }
+        },
+        
+        editClientButtonClick : function()
+        {
+            if (!dom.byId('clientForm')) {
+                bba.openFormDialog({
+                    url: '/client/edit-client',
+                    content: {
+                        type :  'edit',
+                        idClient : this.value
+                    },
+                    dialog: 'clientForm'
+                });
+            } else {
+                clientForm.show();
+            }
+        },
+        
+        processClientForm : function()
+        {
+            bba.closeDialog(clientForm);
+
+            values = arguments[0];
+            values.idClient = values.client_idClient;
+
+            xhr.post({
+                url: '/client/save-client',
+                content: values,
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                    if (data.saved > 0) {
+                        if (values.idClient) {
+                            registry.byId('client' + values.idClient).refresh();
+                        } else {
+                            registry.byId('clientGrid')._refresh();
+                        }
+                    } else {
+                        dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+                        bba.setupDialog(clientForm);
+                        clientForm.show();
+                    }
+                }
+            });
+        }
     };
 
     return bba.Client;

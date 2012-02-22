@@ -55,6 +55,13 @@
                 </tr>
                 <?php endif; ?>
             </table>
+            
+             <table class="info_wrap ident">
+                <caption>Description</caption>
+                <tr>
+                    <td class="description"><?php echo $this->site->site_desc; ?></td>
+                </tr>
+            </table>
 
             <?php $mainContact = $this->siteHelper($this->site->site_idSite)
                     ->getParentRow('siteAddressBill'); ?>
