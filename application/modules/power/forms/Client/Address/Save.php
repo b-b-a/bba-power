@@ -41,17 +41,24 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
 {
     public function init()
     {
+        $request = Zend_Controller_Front::getInstance()->getRequest();
         $this->setName('client-address');
 
         $this->addHiddenElement('clientAd_idAddress', '');
         $this->addHiddenElement('clientAd_idClient', '');
 
         $this->addElement('TextBox', 'clientAd_addressName', array(
-            'label'     => 'Address Name:',
-            'filters'   => array('StripTags', 'StringTrim'),
+            'label'         => 'Address Name:',
+            'filters'       => array('StripTags', 'StringTrim'),
             'dijitParams'   => array(
                 'promptMessage' => 'Enter the clients address name.'
-            )
+            ),
+            'value'         => ($request->getParam('type') == 'add') ? 
+                $this->getModel()
+                    ->getDbTable('client')
+                    ->getClientById($request
+                    ->getParam('clientAd_idClient'))
+                    ->client_name : ''
         ));
 
         $this->addElement('ValidationTextBox', 'clientAd_address1', array(

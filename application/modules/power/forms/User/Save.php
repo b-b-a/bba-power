@@ -44,21 +44,21 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
         $this->setName('userSave');
 
         $this->addElement('ValidationTextBox', 'user_name', array(
-            'label' => 'Username:',
+            'label'     => 'Username:',
             'filters'   => array('StripTags', 'StringTrim'),
-            'required'      => true
+            'required'  => true
         ));
 
         $this->addElement('PasswordTextBox', 'user_password', array(
-            'label' => 'Password:',
+            'label'     => 'Password:',
             'filters'   => array('StripTags', 'StringTrim'),
-            'required' => true
+            'required'  => true
         ));
 
         $this->addElement('ValidationTextBox', 'user_fullName', array(
-            'label' => 'Full Name:',
+            'label'     => 'Full Name:',
             'filters'   => array('StripTags', 'StringTrim'),
-            'required'      => true
+            'required'  => true
         ));
 
         $multiOptions = array(
@@ -66,7 +66,7 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
             'decline'       => 'Decline',
             'agent'         => 'Agent',
             'read'          => 'Read',
-            'meterUsage'  => 'Meter Reading',
+            'meterUsage'    => 'Meter Reading',
             'user'          => 'User',
             'admin'         => 'Admin'
         );
@@ -76,14 +76,14 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
             'validators'    => array(
                 array('Alpha', true)
             ),
-            'atuocomplete' => false,
-            'errorMessages'  => array('Please select a role for this user.'),
+            'atuocomplete'  => false,
+            'errorMessages' => array('Please select a role for this user.'),
             'multiOptions'  => $multiOptions,
             'required'      => true
         ));
 
         $this->addElement('TextBox', 'user_accessClient', array(
-            'label' => 'Access Client:',
+            'label'     => 'Access Client:',
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
