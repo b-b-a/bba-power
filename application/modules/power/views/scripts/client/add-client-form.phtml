@@ -57,6 +57,7 @@
 
             <script type="dojo/method" event="onShow">
                 clientGrid.dlg.attr('title', 'Main Contact for BBA');
+                dijit.byId('clientAd_addressName').set('value', dijit.byId('client_name').get('value'));
             </script>
 
             <script type='dojo/method' data-dojo-event="doneFunction">

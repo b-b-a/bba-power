@@ -222,6 +222,11 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
             // then save client address.
             $post['clientAd_idClient'] = $clientSave;
+            
+            if ($post['clientAd_addressName'] == '') {
+                $post['clientAd_addressName'] = $post['client_name'];
+            }
+            
             $clientAdSave = $this->saveClientAddress($post);
 
             // now save client contact
