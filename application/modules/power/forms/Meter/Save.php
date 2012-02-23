@@ -148,7 +148,11 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
         $this->addElement('NumberTextBox', 'meter_numberMain', array(
             'label'     => 'Main No:',
             'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim'),
+            'filters'   => array(
+                'StripTags',
+                'StringTrim',
+                array('PregReplace', array('match' => '/\s+/', 'replace' => ''))
+            ),
             'constraints'   => array(
                 'pattern'   => '#'
             ),

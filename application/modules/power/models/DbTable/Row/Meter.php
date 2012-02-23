@@ -53,6 +53,24 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
 
     protected $_dateFormat = 'dd/MM/yyyy';
 
+    public function getMeter_numberMain()
+    {
+        if ($this->getRow()->meter_type == 'gas') {
+            return $this->getRow()->meter_numberMain;
+        }
+
+        $regex = '/^([0-9]{2})([0-9]{4})([0-9]{4})([0-9]{3})$/';
+        preg_match($regex, $this->getRow()->meter_numberMain, $matches);
+
+        if (count($matches) == 5) {
+            unset($matches[0]);
+            return implode(' ', $matches);
+        } else {
+            return $this->getRow()->meter_numberMain;
+        }
+
+    }
+
     public function getCurrentContract()
     {
         // find the most recent contract.
@@ -89,7 +107,11 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
                 $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
             }
 
-            $array[$key] = $value;
+            if ($key == 'meter_numberMain') {
+                $array[$key] = $this->getMeter_numberMain();
+            } else {
+                $array[$key] = $value;
+            }
         }
 
         return $array;
