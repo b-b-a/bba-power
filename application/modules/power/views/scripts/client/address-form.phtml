@@ -1,43 +1,52 @@
-<?php $form = $this->clientAddressSaveForm; ?>
+<?php 
+$form = $this->clientAddressSaveForm;
+$type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
+?>
 
-<div class="form_wrap">
-    <div class="zend_form">
+<div data-dojo-type="dijit.Dialog"
+     id="clientAdForm"
+     data-dojo-id="clientAdForm"
+     data-dojo-props="
+        title:'<?php echo $type; ?> Client Address',
+        execute: bba.Client.processClientAdForm">
+    <div class="dijitDialogPaneContentArea">
 
-        <?php echo $form->clientAd_addressName; ?>
+        <div class="form_wrap">
+            <div class="zend_form">
 
-        <?php echo $form->clientAd_address1; ?>
+                <?php echo $form->clientAd_addressName; ?>
 
-        <?php echo $form->clientAd_address2; ?>
+                <?php echo $form->clientAd_address1; ?>
 
-        <?php echo $form->clientAd_address3; ?>
+                <?php echo $form->clientAd_address2; ?>
 
-        <?php echo $form->clientAd_postcode; ?>
+                <?php echo $form->clientAd_address3; ?>
 
-        <input dojoType="dijit.form.TextBox"
-               type="hidden"
-               name="clientAd_idClient"
-               id="clientAd_idClient"
-               required="true"
-               value="<?php echo $form->clientAd_idClient->getValue(); ?>" />
+                <?php echo $form->clientAd_postcode; ?>
 
-        <input dojoType="dijit.form.TextBox"
-               type="hidden"
-               name="clientAd_idAddress"
-               id="clientAd_idAddress"
-               required="true"
-               value="<?php echo $form->clientAd_idAddress->getValue(); ?>" />
+                <input data-dojo-type="dijit.form.TextBox"
+                       type="hidden"
+                       name="clientAd_idClient"
+                       id="clientAd_idClient"
+                       required="true"
+                       value="<?php echo $form->clientAd_idClient->getValue(); ?>" />
 
+                <input data-dojo-type="dijit.form.TextBox"
+                       type="hidden"
+                       name="clientAd_idAddress"
+                       id="clientAd_idAddress"
+                       required="true"
+                       value="<?php echo $form->clientAd_idAddress->getValue(); ?>" />
+                
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: function(){return dijit.byId('clientAdForm').validate();}"
+                        type="submit"
+                        id="clientAdFormSubmitButton">Save</button>
 
-        <button dojoType="dijit.form.Button"
-                type="submit"
-                id="clientAdFormSubmitButton"
-                name="submit"
-                value="Save">Save</button>
-
-        <button dojoType="dijit.form.Button"
-                type="button"
-                id="client-addressFormCancelButton"
-                name="cancel"
-                value="Cancel">Cancel</button>
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('clientAdForm'));}"
+                        id="clientAdFormCancelButton">Cancel</button>
+            </div>
+        </div>
     </div>
 </div>

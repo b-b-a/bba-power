@@ -23,12 +23,12 @@
 
                 <?php echo $form->client_desc; ?>
 
-                <input dojoType="dijit.form.TextBox"
-                    type="hidden"
-                    name="client_idClient"
-                    id="client_idClient"
-                    required="true"
-                    value="<?php echo $form->client_idClient->getValue(); ?>" />
+                <input data-dojo-type="dijit.form.TextBox"
+                       type="hidden"
+                       name="client_idClient"
+                       id="client_idClient"
+                       required="true"
+                       value="<?php echo $form->client_idClient->getValue(); ?>" />
 
                 <button data-dojo-type="dijit.form.Button"
                         data-dojo-props="onClick: function(){return dijit.byId('clientForm').validate();}"

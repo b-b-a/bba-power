@@ -84,6 +84,49 @@ define("bba/Client",
                 }
             });
         },
+        
+        clientAdGridRowClick : function(selectedIndex)
+         {
+            if (typeof(selectedIndex) != 'number') {
+                selectedIndex = this.focus.rowIndex;
+            }
+
+            selectedItem = this.getItem(selectedIndex);
+            id = this.store.getValue(selectedItem, 'clientAd_idAddress');
+
+             bba.openTab({
+                tabId : 'clientAd' + id,
+                title : this.store.getValue(selectedItem, 'clientAd_addressName'),
+                url : '/client/edit-client-address',
+                contentVars : {
+                    type : 'details',
+                    idAddress : id
+                }
+            });
+        },
+        
+        clientCoGridRowClick : function(selectedIndex)
+         {
+            if (typeof(selectedIndex) != 'number') {
+                selectedIndex = this.focus.rowIndex;
+            }
+
+            selectedItem = this.getItem(selectedIndex);
+            id = this.store.getValue(selectedItem, 'clientCo_idClientContact');
+
+             if (!dom.byId('clientCoForm')) {
+                bba.openFormDialog({
+                    url: '/client/edit-client-contact',
+                    content: {
+                        type :  'edit',
+                        idClientContact : id
+                    },
+                    dialog: 'clientCoForm'
+                });
+            } else {
+                clientCoForm.show();
+            }
+        },
 
         newClientButtonClick : function()
         {
@@ -95,6 +138,38 @@ define("bba/Client",
                 });
             } else {
                 clientForm.show();
+            }
+        },
+        
+        newClientAdButtonClick : function()
+        {
+            if (!dom.byId('clientAdForm')) {
+                bba.openFormDialog({
+                    url: '/client/add-client-address',
+                    content: {
+                        type :  'add',
+                        idAddress : this.value
+                    },
+                    dialog: 'clientAdForm'
+                });
+            } else {
+                clientAdForm.show();
+            }
+        },
+        
+        newClientCoButtonClick : function()
+        {
+            if (!dom.byId('clientCoForm')) {
+                bba.openFormDialog({
+                    url: '/client/add-client-contact',
+                    content: {
+                        type :  'add',
+                        idClientContact : this.value
+                    },
+                    dialog: 'clientCoForm'
+                });
+            } else {
+                clientCoForm.show();
             }
         },
 
@@ -111,6 +186,22 @@ define("bba/Client",
                 });
             } else {
                 clientForm.show();
+            }
+        },
+        
+        editClientAdButtonClick : function()
+        {
+            if (!dom.byId('clientAdForm')) {
+                bba.openFormDialog({
+                    url: '/client/edit-client-address',
+                    content: {
+                        type :  'edit',
+                        idAddress : this.value
+                    },
+                    dialog: 'clientAdForm'
+                });
+            } else {
+                clientAdForm.show();
             }
         },
 
@@ -138,6 +229,61 @@ define("bba/Client",
                         parser.parse('dialog');
                         bba.setupDialog(clientForm);
                         clientForm.show();
+                    }
+                }
+            });
+        },
+        
+        processClientAdForm : function()
+        {
+            bba.closeDialog(clientAdForm);
+
+            values = arguments[0];
+            values.idAddress = values.client_idAddress;
+
+            xhr.post({
+                url: '/client/save-client-address',
+                content: values,
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                    if (data.saved > 0) {
+                        if (values.idAddress) {
+                            registry.byId('clientAd' + values.idAddress).refresh();
+                        } else {
+                            registry.byId('clientAdGrid' + values.client_idClient)._refresh();
+                        }
+                    } else {
+                        dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+                        bba.setupDialog(clientAdForm);
+                        clientAdForm.show();
+                    }
+                }
+            });
+        },
+        
+        processClientCoForm : function()
+        {
+            bba.closeDialog(clientCoForm);
+
+            values = arguments[0];
+            values.idClientContact = values.clientCo_idClientContact;
+
+            xhr.post({
+                url: '/client/save-client-contact',
+                content: values,
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                    if (data.saved > 0) {
+                        if (registry.byId('clientCoGrid' + values.clientCo_idAddress)) registry.byId('clientCoGrid' + values.clientCo_idClient)._refresh();
+                        if (registry.byId('clientAdCoGrid' + values.clientCo_idAddress)) registry.byId('clientAdCoGrid' + values.clientCo_idAddress)._refresh();
+                    } else {
+                        dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+                        bba.setupDialog(clientCoForm);
+                        clientCoForm.show();
                     }
                 }
             });

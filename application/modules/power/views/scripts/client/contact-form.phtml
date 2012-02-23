@@ -1,57 +1,64 @@
 <?php
 /* @var $form ZendSF_Form_Abstract */
 $form = $this->clientContactSaveForm;
+$type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
 ?>
 
-<div class="form_wrap">
-    <div class="zend_form">
+<div data-dojo-type="dijit.Dialog"
+     id="clientCoForm"
+     data-dojo-id="clientCoForm"
+     data-dojo-props="
+        title:'<?php echo $type; ?> Client Contact',
+        execute: bba.Client.processClientCoForm">
+    <div class="dijitDialogPaneContentArea">
 
-        <?php echo $form->clientCo_type; ?>
+        <div class="form_wrap">
+            <div class="zend_form">
 
-        <?php echo $form->clientCo_name; ?>
+                <?php echo $form->clientCo_type; ?>
 
-        <?php echo $form->clientCo_position; ?>
+                <?php echo $form->clientCo_name; ?>
 
-        <?php echo $form->clientCo_phone; ?>
+                <?php echo $form->clientCo_position; ?>
 
-        <?php echo $form->clientCo_email; ?>
+                <?php echo $form->clientCo_phone; ?>
 
-        <?php if ($form->getElement('clientCo_idAddress')->helper == 'formHidden'): ?>
-        <input dojoType="dijit.form.TextBox"
-               type="hidden"
-               name="clientCo_idAddress"
-               id="clientCo_idAddress"
-               required="true"
-               value="<?php echo $form->clientCo_idAddress->getValue(); ?>" />
-        <?php else: ?>
-        <?php echo $form->clientCo_idAddress; ?>
-        <?php endif; ?>
+                <?php echo $form->clientCo_email; ?>
 
-        <input dojoType="dijit.form.TextBox"
-               type="hidden"
-               name="clientCo_idClientContact"
-               id="clientCo_idClientContact"
-               required="true"
-               value="<?php echo $form->clientCo_idClientContact->getValue(); ?>" />
+                <?php if ($form->getElement('clientCo_idAddress')->helper == 'formHidden'): ?>
+                <input data-dojo-type="dijit.form.TextBox"
+                       type="hidden"
+                       name="clientCo_idAddress"
+                       id="clientCo_idAddress"
+                       required="true"
+                       value="<?php echo $form->clientCo_idAddress->getValue(); ?>" />
+                <?php else: ?>
+                <?php echo $form->clientCo_idAddress; ?>
+                <?php endif; ?>
 
-        <input dojoType="dijit.form.TextBox"
-               type="hidden"
-               name="clientCo_idClient"
-               id="clientCo_idClient"
-               required="true"
-               value="<?php echo $form->clientCo_idClient->getValue(); ?>" />
+                <input data-dojo-type="dijit.form.TextBox"
+                       type="hidden"
+                       name="clientCo_idClientContact"
+                       id="clientCo_idClientContact"
+                       required="true"
+                       value="<?php echo $form->clientCo_idClientContact->getValue(); ?>" />
 
+                <input data-dojo-type="dijit.form.TextBox"
+                       type="hidden"
+                       name="clientCo_idClient"
+                       id="clientCo_idClient"
+                       required="true"
+                       value="<?php echo $form->clientCo_idClient->getValue(); ?>" />
 
-        <button dojoType="dijit.form.Button"
-                type="submit"
-                id="clientCoFormSubmitButton"
-                name="submit"
-                value="Save">Save</button>
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: function(){return dijit.byId('clientCoForm').validate();}"
+                        type="submit"
+                        id="clientCoFormSubmitButton">Save</button>
 
-        <button dojoType="dijit.form.Button"
-                type="button"
-                id="client-contactFormCancelButton"
-                name="cancel"
-                value="Cancel">Cancel</button>
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('clientCoForm'));}"
+                        id="clientCoFormCancelButton">Cancel</button>
+            </div>
+        </div>
     </div>
 </div>

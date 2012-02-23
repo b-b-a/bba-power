@@ -25,7 +25,7 @@
                                     data-dojo-props="onClick: bba.Client.editClientButtonClick"
                                     type="button"
                                     value="<?php echo $this->client->client_idClient; ?>"
-                                    id="edit-client-button-<?php echo $this->client->client_idClient; ?>">New Client</button>
+                                    id="edit-client-button-<?php echo $this->client->client_idClient; ?>">Edit Details</button>
                         </div>
                     </td>
                 </tr>
@@ -91,43 +91,45 @@
 
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Client Addresses'">
+                
+                <span data-dojo-type="dojox.data.QueryReadStore"
+                      data-dojo-props="url: '/client/data-store/type/address', requestMethod: 'post'"
+                      data-dojo-id="clientAdStore<?php echo $this->client->client_idClient; ?>"></span>
 
-                <span dojoType="dojox.data.QueryReadStore"
-                      jsid="clientAddressStore<?php echo $this->client->client_idClient; ?>"
-                      url="/client/data-store/type/address"
-                      requestMethod="post"></span>
-
-                <table dojoType="bba.DataGrid"
-                       jsId="addressGrid<?php echo $this->client->client_idClient; ?>"
-                       store="clientAddressStore<?php echo $this->client->client_idClient; ?>"
-                       structure="bba.Client.gridLayouts.clientAddress"
-                       query="{ clientAd_idClient: <?php echo $this->client->client_idClient; ?> }"
-                       queryParent="clientAd_idClient"
-                       sortInfo="2"
-                       tabs="true"
-                       tabTitleColumn="clientAd_addressName">
+                <table data-dojo-type="dojox.grid.DataGrid"
+                       data-dojo-id="clientAdGrid<?php echo $this->client->client_idClient; ?>"
+                       id="clientAdGrid<?php echo $this->client->client_idClient; ?>"
+                       data-dojo-props="
+                        store: clientAdStore<?php echo $this->client->client_idClient; ?>,
+                        structure: bba.Client.gridLayouts.clientAddress,
+                        query: { clientAd_idClient: <?php echo $this->client->client_idClient; ?> },
+                        sortInfo: '2',
+                        noDataMessage : bba.gridMessage,
+                        onRowClick: bba.Client.clientAdGridRowClick">
                 </table>
             </div>
 
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Client Contacts'">
+                
+                <span data-dojo-type="dojox.data.QueryReadStore"
+                      data-dojo-props="url: '/client/data-store/type/contact', requestMethod: 'post'"
+                      data-dojo-id="clientCoStore<?php echo $this->client->client_idClient; ?>"></span>
 
-                <span dojoType="dojox.data.QueryReadStore"
-                      jsid="clientContactStore<?php echo $this->client->client_idClient; ?>"
-                      url="/client/data-store/type/contact"
-                      requestMethod="post"></span>
-
-                <table dojoType="bba.DataGrid"
-                       jsId="contactGrid<?php echo $this->client->client_idClient; ?>"
-                       store="clientContactStore<?php echo $this->client->client_idClient; ?>"
-                       structure="bba.Client.gridLayouts.clientContact"
-                       query="{ clientCo_idClient: <?php echo $this->client->client_idClient; ?> }"
-                       queryParent="clientCo_idClient"
-                       sortInfo="2"
-                       newButtonId="<?php echo $this->client->client_idClient; ?>"
-                       dialog="true">
+                <table data-dojo-type="dojox.grid.DataGrid"
+                       data-dojo-id="clientCoGrid<?php echo $this->client->client_idClient; ?>"
+                       id="clientCoGrid<?php echo $this->client->client_idClient; ?>"
+                       data-dojo-props="
+                        store: clientCoStore<?php echo $this->client->client_idClient; ?>,
+                        structure: bba.Client.gridLayouts.clientContact,
+                        query: { clientCo_idClient: <?php echo $this->client->client_idClient; ?> },
+                        sortInfo: '2',
+                        noDataMessage : bba.gridMessage,
+                        <?php if ($this->isAllowed('User')): ?>
+                        onRowClick: bba.Client.clientCoGridRowClick
+                        <?php endif; ?>
+                        ">
                 </table>
-
             </div>
 
         </div>
@@ -139,17 +141,12 @@
         <div class="tableHead">
             <?php if ($this->isAllowed('User')): ?>
             <div class="tableHead">
- <!--  //ep
-				<p class="tableHead-button">
-                    <button dojoType="dijit.form.Button"
-                            id="new-client-contact-button-<?php echo $this->client->client_idClient; ?>"
-                            type="button">New Contact</button>
-                </p>
--->
                 <p class="tableHead-button">
-                    <button dojoType="dijit.form.Button"
-                            id="new-client-address-button-<?php echo $this->client->client_idClient; ?>"
-                            type="button">New Address</button>
+                    <button data-dojo-type="dijit.form.Button"
+                            data-dojo-props="onClick: bba.Client.newClientAdButtonClick"
+                            type="button"
+                            value="<?php echo $this->client->client_idClient; ?> ?>"
+                            id="new-client-address-button-<?php echo $this->client->client_idClient; ?>">New Address</button>
                     &nbsp; To add a Contact: display the required Address.
                 </p>
             </div>

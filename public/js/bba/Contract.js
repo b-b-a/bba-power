@@ -27,9 +27,9 @@
  */
 define("bba/Contract",
     ["dojo/dom","dojo/ready", "dojo/parser", "dojo/_base/xhr", "dojo/_base/array", "dijit/registry",
-     "dijit/Dialog", "dojo",
-    "bba/Core", "bba/Meter", "dijit/form/ValidationTextBox", "dojo/data/ItemFileReadStore",
-    "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea", "dojo/data/ItemFileWriteStore"],
+     "dijit/Dialog", "dojo", "bba/Core", "bba/Meter", "dijit/form/ValidationTextBox",
+     "dojo/data/ItemFileReadStore", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea",
+     "dojo/data/ItemFileWriteStore", "dojox/grid/_CheckBoxSelector"],
     function(dom, ready, parser, xhr, array, registry, Dialog, dojo, bba) {
 
     ready(function () {
@@ -41,7 +41,6 @@ define("bba/Contract",
             var form = registry.byId('Search');
             if (form) bba.gridSearch(form, contractGrid);
         }
-
     });
 
     bba.Contract = {

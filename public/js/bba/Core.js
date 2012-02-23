@@ -40,8 +40,8 @@ define("bba/Core",
     ["dojo/dom","dojo/ready", "dojo/parser", "dojo/_base/connect", "dojo/_base/xhr", "dijit/registry",
     "dijit/WidgetSet", "dijit/layout/ContentPane", "dijit/Dialog", "dojox/grid/DataGrid", "dijit/layout/StackContainer",
     "dijit/layout/BorderContainer", "dijit/layout/TabContainer", "dojox/data/QueryReadStore",
-    "dijit/form/Form", "dijit/form/Button", "dojox/grid/_CheckBoxSelector"],
-    function(dom, ready, parser, connect, xhr, registry, WidgetSet, ContentPane, Dialog, DataGrid) {
+    "dijit/form/Form", "dijit/form/Button"],
+    function(dom, ready, parser, connect, xhr, registry, WidgetSet, ContentPane, Dialog) {
 
     ready(function(){
         loader = dom.byId("loader");
