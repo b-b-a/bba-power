@@ -41,7 +41,7 @@ define("bba/Core",
     "dijit/WidgetSet", "dijit/layout/ContentPane", "dijit/Dialog", "dojox/grid/DataGrid", "dijit/layout/StackContainer",
     "dijit/layout/BorderContainer", "dijit/layout/TabContainer", "dojox/data/QueryReadStore",
     "dijit/form/Form", "dijit/form/Button"],
-    function(dom, ready, parser, connect, xhr, registry, WidgetSet, ContentPane, Dialog) {
+    function(dom, ready, parser, connect, xhr, registry, WidgetSet, ContentPane, Dialog, DataGrid) {
 
     ready(function(){
         loader = dom.byId("loader");

@@ -84,7 +84,7 @@ define("bba/Client",
                 }
             });
         },
-        
+
         clientAdGridRowClick : function(selectedIndex)
          {
             if (typeof(selectedIndex) != 'number') {
@@ -104,7 +104,7 @@ define("bba/Client",
                 }
             });
         },
-        
+
         clientCoGridRowClick : function(selectedIndex)
          {
             if (typeof(selectedIndex) != 'number') {
@@ -119,7 +119,8 @@ define("bba/Client",
                     url: '/client/edit-client-contact',
                     content: {
                         type :  'edit',
-                        idClientContact : id
+                        idClientContact : id,
+                        clientCo_idClient : this.store.getValue(selectedItem, 'clientCo_idClient')
                     },
                     dialog: 'clientCoForm'
                 });
@@ -140,7 +141,7 @@ define("bba/Client",
                 clientForm.show();
             }
         },
-        
+
         newClientAdButtonClick : function()
         {
             if (!dom.byId('clientAdForm')) {
@@ -148,7 +149,7 @@ define("bba/Client",
                     url: '/client/add-client-address',
                     content: {
                         type :  'add',
-                        idAddress : this.value
+                        clientAd_idClient : this.value
                     },
                     dialog: 'clientAdForm'
                 });
@@ -156,15 +157,18 @@ define("bba/Client",
                 clientAdForm.show();
             }
         },
-        
+
         newClientCoButtonClick : function()
         {
+            id = this.value.split(',');
+
             if (!dom.byId('clientCoForm')) {
                 bba.openFormDialog({
                     url: '/client/add-client-contact',
                     content: {
                         type :  'add',
-                        idClientContact : this.value
+                        clientCo_idClient : id[0],
+                        clientCo_idAddress : id[1]
                     },
                     dialog: 'clientCoForm'
                 });
@@ -188,7 +192,7 @@ define("bba/Client",
                 clientForm.show();
             }
         },
-        
+
         editClientAdButtonClick : function()
         {
             if (!dom.byId('clientAdForm')) {
@@ -233,13 +237,13 @@ define("bba/Client",
                 }
             });
         },
-        
+
         processClientAdForm : function()
         {
             bba.closeDialog(clientAdForm);
 
             values = arguments[0];
-            values.idAddress = values.client_idAddress;
+            values.idAddress = values.clientAd_idAddress;
 
             xhr.post({
                 url: '/client/save-client-address',
@@ -251,7 +255,7 @@ define("bba/Client",
                         if (values.idAddress) {
                             registry.byId('clientAd' + values.idAddress).refresh();
                         } else {
-                            registry.byId('clientAdGrid' + values.client_idClient)._refresh();
+                            registry.byId('clientAdGrid' + values.clientAd_idClient)._refresh();
                         }
                     } else {
                         dom.byId('dialog').innerHTML = data.html;
@@ -262,13 +266,17 @@ define("bba/Client",
                 }
             });
         },
-        
+
         processClientCoForm : function()
         {
             bba.closeDialog(clientCoForm);
 
             values = arguments[0];
             values.idClientContact = values.clientCo_idClientContact;
+
+            if (values.idClientContact) {
+                values.type = 'edit';
+            }
 
             xhr.post({
                 url: '/client/save-client-contact',
@@ -277,7 +285,7 @@ define("bba/Client",
                 preventCache: true,
                 load: function(data) {
                     if (data.saved > 0) {
-                        if (registry.byId('clientCoGrid' + values.clientCo_idAddress)) registry.byId('clientCoGrid' + values.clientCo_idClient)._refresh();
+                        if (registry.byId('clientCoGrid' + values.clientCo_idClient)) registry.byId('clientCoGrid' + values.clientCo_idClient)._refresh();
                         if (registry.byId('clientAdCoGrid' + values.clientCo_idAddress)) registry.byId('clientAdCoGrid' + values.clientCo_idAddress)._refresh();
                     } else {
                         dom.byId('dialog').innerHTML = data.html;
