@@ -65,6 +65,16 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
 
     public function init()
     {
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+
+        if ($request->getPost('idTender')) {
+            $tenderId = $request->getPost('idTender');
+            $row = $this->_model->getTenderById($tenderId);
+            $supplier = '/supplierId/' . $row->tender_idSupplier;
+        } else {
+            $supplier = null;
+        }
+
         $this->addElement('FilteringSelect', 'tender_idSupplier', array(
             'label'         => 'Supplier:',
             'filters'       => array('StripTags', 'StringTrim'),
@@ -77,6 +87,9 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
                 'searchAttr'    => 'supplier_name',
                 'promptMessage' => 'Select a Supplier'
             ),
+            'attribs'       => array(
+                'onChange' => 'bba.Meter.changeSupplierContact(this.value);'
+            ),
             'value'         => '0',
             'required'      => true,
             'validators'    => array(
@@ -88,19 +101,24 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
             'ErrorMessages' => array('Please select a supplier.'),
         ));
 
-        /*
+
         $this->addElement('FilteringSelect', 'tender_idSupplierContact', array(
             'label'         => 'Supplier Contact:',
             'filters'       => array('StripTags', 'StringTrim'),
             'autoComplete'  => false,
             'hasDownArrow'  => true,
-            'storeId'       => 'supplierStore',
+            'storeId'       => 'supplierContactStore',
             'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/supplier/autocomplete/param/supplier"),
-            'dijitParams'   => array('searchAttr' => 'supplier_name'),
-            //'attribs'       => array('readonly' => true),
-            'required'      => true
-        ));*/
+            'storeParams'   => array(
+                'url' => "/supplier/data-store/type/supplierContacts" . $supplier
+            ),
+            'dijitParams'   => array(
+                'searchAttr' => 'supplierCo_name',
+                'promptMessage' => 'Select a Supplier Contact'
+            ),
+            'required'      => true,
+            'value'         => '0',
+        ));
 
         $this->addElement('NumberTextBox', 'tender_periodContract', array(
             'label'     => 'Contract Period:',

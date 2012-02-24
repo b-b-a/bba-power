@@ -140,6 +140,18 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
                 $searchItems = array('supplier_idSupplier', 'supplier_name');
                 $selectMessage = ($result->count()) ? 'Please select a supplier' : 'No supplier available';
                 break;
+            case 'supplierContacts':
+                $identifier = 'supplierCo_idSupplierContact';
+                $searchItems = array('supplierCo_idSupplierContact', 'supplierCo_name');
+
+                if (isset($params['supplierId'])) {
+                    $result = $this->getDbTable('supplierContact')->searchContacts($params['supplierId']);
+                    $selectMessage = ($result->count()) ? 'Please select a supplier contact' : 'No supplier contacts available';
+                } else {
+                    $result = array();
+                    $selectMessage = 'Please select a supplier';
+                }
+                break;
         }
 
         $items = array(array($identifier => 0, $searchItems[1] => $selectMessage));

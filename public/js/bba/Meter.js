@@ -26,10 +26,11 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Meter",
-    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core", "bba/Contract",
+    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "dojo/data/ItemFileReadStore",
+    "bba/Core", "bba/Contract",
     "dijit/form/RadioButton", "dijit/form/NumberTextBox", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea",
     "bba/DataGrid"],
-    function(dom, ready, parser, xhr, registry, bba) {
+    function(dom, ready, parser, xhr, registry, ItemFileReadStore, bba) {
 
     ready(function(){
         if (dom.byId('meter')) {
@@ -70,6 +71,20 @@ define("bba/Meter",
                 {field: 'contract_desc', width: '300px', name: 'Description'},
                 {field: '', width: 'auto', name: ''}
             ]
+        },
+
+        changeSupplierContact : function(val)
+        {
+            registry.byId('tender_idSupplierContact').set('value', '');
+
+            this.supplierContactStore = new ItemFileReadStore({
+                url:'/supplier/data-store/type/supplierContacts/supplierId/' + val
+            });
+
+            this.supplierContactStore.fetch();
+
+            registry.byId("tender_idSupplierContact").set('store', this.supplierContactStore);
+            registry.byId('tender_idSupplierContact').set('value', 0);
         },
 
         meterGridRowClick : function(selectedIndex)

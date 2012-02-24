@@ -72,8 +72,6 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
 
         $request = Zend_Controller_Front::getInstance()->getRequest();
 
-        $log = Zend_Registry::get('log');
-
         $multiOptions = array();
 
         $siteId = $request->getPost('idSite');

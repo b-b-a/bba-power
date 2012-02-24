@@ -83,6 +83,7 @@ class Power_SupplierController extends Zend_Controller_Action
                     $data = $this->_model->getSupplierContractDataStore($request->getPost());
                     break;
                 case 'supplierList':
+                case 'supplierContacts':
                     $data = $this->_model->getFileringSelectData($request->getParams());
                     break;
                 default :

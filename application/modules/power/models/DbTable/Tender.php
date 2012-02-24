@@ -70,7 +70,7 @@ class Power_Model_DbTable_Tender extends ZendSF_Model_DbTable_Abstract
         ),
         'supplierContact'   => array(
             'columns'       => 'tender_idSupplierContact',
-            'refTableClass' => 'Power_Model_DbTable_SupplierContact',
+            'refTableClass' => 'Power_Model_DbTable_Supplier_Contact',
             'refColumns'    => 'supplierCo_idSupplierContact'
         ),
         'user'              => array(
