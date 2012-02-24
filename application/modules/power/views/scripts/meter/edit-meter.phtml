@@ -49,7 +49,7 @@
                 </tr>
                 <?php endif; ?>
             </table>
-            
+
              <table class="info_wrap ident">
                 <caption>Description</caption>
                 <tr>
@@ -181,9 +181,11 @@
         <div class="tableHead">
             <?php if ($this->isAllowed('MeterUsage')): ?>
             <p class="tableHead-button">
-                <button dojoType="dijit.form.Button"
-                        id="new-usage-button-<?php echo $this->meter->meter_idMeter; ?>"
-                        type="button">New Usage</button>
+                <button data-dojo-type="dijit.form.Button"
+                            data-dojo-props="onClick: bba.Meter.newUsageButtonClick"
+                            type="button"
+                            value="<?php echo $this->meter->meter_idMeter; ?>"
+                            id="new-usage-button-<?php echo $this->meter->meter_idMeter; ?>">New Usage</button>
             </p>
             <?php endif; ?>
         </div>

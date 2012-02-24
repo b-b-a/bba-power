@@ -154,7 +154,7 @@ define("bba/Meter",
                     url: '/meter/add-usage',
                     content: {
                         type :  'add',
-                        idUsage : this.value
+                        usage_idMeter : this.value
                     },
                     dialog: 'usageForm'
                 });
