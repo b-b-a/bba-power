@@ -215,6 +215,7 @@ define("bba/Client",
 
             values = arguments[0];
             values.idClient = values.client_idClient;
+            values.type = (values.idClient) ? 'edit' : 'add';
 
             xhr.post({
                 url: '/client/save-client',
