@@ -46,13 +46,13 @@ class Power_Form_Auth_Login extends ZendSF_Form_Abstract
         $this->addElement('ValidationTextBox', 'user_name', array(
             'label'     => 'Username:',
             'required'  => true,
-            'filters'   => array('StringTrim')
+            'filters'   => array('StringTrim', 'StripTags')
         ));
 
         $this->addElement('PasswordTextBox', 'user_password', array(
             'label'     => 'Password:',
             'required'  => true,
-            'filters'   => array('StringTrim')
+            'filters'   => array('StringTrim', 'StripTags')
         ));
 
         $this->addSubmit('Login');

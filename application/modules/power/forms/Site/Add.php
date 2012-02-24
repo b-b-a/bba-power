@@ -134,7 +134,7 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
             'hasDownArrow'  => true,
             'storeId'       => 'contactStore',
             'dijitParams'   => array('searchAttr' => 'clientCo_name'),
-            'attribs'         => array('disabled' => true),
+            'attribs'       => array('disabled' => true),
             'required'      => false,
             'value'         => '0'
         ));

@@ -99,12 +99,12 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
                 'required'      => true,
                 'value'         => '0',
                 'validators'    => array(
-                array('GreaterThan', true, array(
-                    'min'       => '0',
-                    'message'   => 'Please select a client.'
-                ))
-            ),
-            'ErrorMessages' => array('Please select a client.'),
+                    array('GreaterThan', true, array(
+                        'min'       => '0',
+                        'message'   => 'Please select a client.'
+                    ))
+                ),
+                'ErrorMessages' => array('Please select a client.'),
             ));
         }
 

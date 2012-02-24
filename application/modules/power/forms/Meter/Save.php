@@ -115,14 +115,11 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             'label'         => 'Serial No:',
             'required'      => false,
             'filters'       => array('StripTags', 'StringTrim'),
-            'constraints'   => array(
-                'pattern'   => '#'
-            ),
             'dijitParams'   => array(
                 'promptMessage' => 'Enter the meter serial number.'
             ),
             'validators'    => array(
-                array('Alnum', true),
+                //array('Alnum', true),
                 array('StringLength', true, array('max' => 16))
             ),
             'attribs'       => array('style' => 'width: 150px;')
@@ -132,47 +129,39 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             'label'     => 'Top No:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim'),
-            'constraints'   => array(
-                'pattern'   => '#'
-            ),
             'dijitParams'   => array(
                 'promptMessage' => 'Enter the meter top number.'
             ),
             'validators'    => array(
-                array('Digits', true),
+                //array('Digits', true),
                 array('StringLength', true, array('max' => 8))
             ),
             'attribs'       => array('style' => 'width: 150px;')
         ));
 
-        $this->addElement('NumberTextBox', 'meter_numberMain', array(
+        $this->addElement('ValidationTextBox', 'meter_numberMain', array(
             'label'     => 'Main No:',
             'required'  => true,
             'filters'   => array(
                 'StripTags',
                 'StringTrim',
-                array('PregReplace', array('match' => '/\s+/', 'replace' => ''))
-            ),
-            'constraints'   => array(
-                'pattern'   => '#'
+                //array('PregReplace', array('match' => '/\s+/', 'replace' => ''))
             ),
             'dijitParams'   => array(
-                'promptMessage' => 'Enter the meter main number.'
+                'promptMessage' => 'Enter the meter main number.',
+                //'regExp'        => '^[0-9 ]{8,16}$'
             ),
             'validators'    => array(
-                array('Digits', true),
+                //array('Regex', true, array('pattern' => '/^[0-9 ]{8,16}$/')),
                 array('StringLength', true, array('max' => 16))
             ),
             'attribs'       => array('style' => 'width: 150px;')
         ));
 
-        $this->addElement('NumberTextBox', 'meter_capacity', array(
+        $this->addElement('ValidationTextBox', 'meter_capacity', array(
             'label'     => 'Supply Capacity:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim'),
-            'constraints'   => array(
-                'pattern'   => '#'
-            ),
             'dijitParams'   => array(
                 'promptMessage' => 'Enter the meter capcity (kWH).'
             ),
