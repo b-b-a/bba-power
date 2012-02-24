@@ -113,7 +113,7 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
                 'url' => "/site/data-store/type/billAddress/clientId/" . $row->site_idClient
             ),
             'dijitParams'   => array('searchAttr' => 'address1AndPostcode'),
-            //'attribs'         => array('disabled' => true),
+            'value'         => '0',
             'required'      => false
         ));
 
@@ -128,6 +128,7 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
                 'url' => "/site/data-store/type/contact/clientId/" . $row->site_idClient
             ),
             'dijitParams'   => array('searchAttr' => 'clientCo_name'),
+            'value'         => '0',
             //'attribs'         => array('disabled' => true),
             'required'      => false
         ));

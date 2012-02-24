@@ -1,50 +1,60 @@
-<?php $form = $this->supplierContactSaveForm; ?>
+<?php
+$form = $this->supplierContactSaveForm;
+$type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
+?>
 
-<div class="form_wrap">
-    <div class="zend_form">
+<div data-dojo-type="dijit.Dialog"
+     id="supplierCoForm"
+     data-dojo-id="supplierCoForm"
+     data-dojo-props="
+        title:'<?php echo $type; ?> Supplier Contact',
+        execute: bba.Supplier.processSupplierCoForm">
+    <div class="dijitDialogPaneContentArea">
 
-        <?php echo $form->supplierCo_type; ?>
+        <div class="form_wrap">
+            <div class="zend_form">
 
-        <?php echo $form->supplierCo_name; ?>
+                <?php echo $form->supplierCo_type; ?>
 
-        <?php echo $form->supplierCo_position; ?>
+                <?php echo $form->supplierCo_name; ?>
 
-        <?php echo $form->supplierCo_phone; ?>
+                <?php echo $form->supplierCo_position; ?>
 
-        <?php echo $form->supplierCo_email; ?>
+                <?php echo $form->supplierCo_phone; ?>
 
-        <?php echo $form->supplierCo_address1; ?>
+                <?php echo $form->supplierCo_email; ?>
 
-        <?php echo $form->supplierCo_address2; ?>
+                <?php echo $form->supplierCo_address1; ?>
 
-        <?php echo $form->supplierCo_address3; ?>
+                <?php echo $form->supplierCo_address2; ?>
 
-        <?php echo $form->supplierCo_postcode; ?>
+                <?php echo $form->supplierCo_address3; ?>
 
-        <input dojoType="dijit.form.TextBox"
-               type="hidden"
-               name="supplierCo_idSupplierContact"
-               id="supplierCo_idSupplierContact"
-               required="true"
-               value="<?php echo $form->supplierCo_idSupplierContact->getValue(); ?>" />
+                <?php echo $form->supplierCo_postcode; ?>
 
-        <input dojoType="dijit.form.TextBox"
-               type="hidden"
-               name="supplierCo_idSupplier"
-               id="supplierCo_idSupplier"
-               required="true"
-               value="<?php echo $form->supplierCo_idSupplier->getValue(); ?>" />
+                <input dojoType="dijit.form.TextBox"
+                    type="hidden"
+                    name="supplierCo_idSupplierContact"
+                    id="supplierCo_idSupplierContact"
+                    required="true"
+                    value="<?php echo $form->supplierCo_idSupplierContact->getValue(); ?>" />
 
-        <button dojoType="dijit.form.Button"
-                type="submit"
-                id="supplierCoFormSubmitButton"
-                name="submit"
-                value="Save">Save</button>
+                <input data-dojo-type="dijit.form.TextBox"
+                    type="hidden"
+                    name="supplierCo_idSupplier"
+                    id="supplierCo_idSupplier"
+                    required="true"
+                    value="<?php echo $form->supplierCo_idSupplier->getValue(); ?>" />
 
-        <button dojoType="dijit.form.Button"
-                type="button"
-                id="supplier-contactFormCancelButton"
-                name="cancel"
-                value="Cancel">Cancel</button>
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: function(){return dijit.byId('supplierCoForm').validate();}"
+                        type="submit"
+                        id="supplierCoFormSubmitButton">Save</button>
+
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('supplierCoForm'));}"
+                        id="supplierCoFormCancelButton">Cancel</button>
+            </div>
+        </div>
     </div>
 </div>

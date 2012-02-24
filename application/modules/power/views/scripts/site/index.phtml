@@ -19,9 +19,9 @@
                 <h2 class="tableHead-heading">Sites:</h2>
                 <?php if ($this->isAllowed('User')): ?>
                 <p class="tableHead-button">
-                    <button dojoType="dijit.form.Button"
-                            id="new-site-button"
-                            type="button">New Site</button>
+                    <button data-dojo-type="dijit.form.Button"
+                            data-dojo-props="onClick: bba.Site.newSiteButtonClick"
+                            id="new-site-button">New Site</button>
                 </p>
                 <?php endif; ?>
             </div>
@@ -32,20 +32,21 @@
     <div data-dojo-type="dijit.layout.ContentPane"
          data-dojo-props="region: 'center'">
 
-        <span dojoType="dojox.data.QueryReadStore"
-              jsid="siteStore"
-              url="/site/data-store/type/site"
-              requestMethod="post"></span>
+            <span data-dojo-type="dojox.data.QueryReadStore"
+              data-dojo-props="url: '/site/data-store/type/site', requestMethod: 'post'"
+              data-dojo-id="siteStore"></span>
 
-        <table dojoType="bba.DataGrid"
-               jsId="siteGrid"
-               store="siteStore"
-               structure="bba.Site.gridLayouts.site"
-               query='<?php echo $this->search; ?>'
-               sortInfo="2"
-               search="true"
-               tabs="true"
-               tabTitleColumn="client_name">
+            <table data-dojo-type="dojox.grid.DataGrid"
+                data-dojo-id="siteGrid"
+                id="siteGrid"
+                data-dojo-props='
+                    store: siteStore,
+                    structure: bba.Site.gridLayouts.site,
+                    query: <?php echo $this->search; ?>,
+                    sortInfo: "2",
+                    noDataMessage : bba.gridMessage,
+                    onRowClick: bba.Site.siteGridRowClick'>
+            </table>
         </table>
     </div>
 </div>

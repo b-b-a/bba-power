@@ -37,10 +37,10 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Site",
-    ["dojo/dom", "dojo/ready", "dojo/data/ItemFileReadStore", "dijit/registry", "bba/Core", "bba/Meter",
-    "dijit/form/RadioButton", "dijit/form/NumberTextBox", "dijit/form/FilteringSelect",
-    "dijit/form/SimpleTextarea", "bba/DataGrid"],
-    function(dom, ready, ItemFileReadStore, registry, bba) {
+    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dojo/data/ItemFileReadStore",
+    "dijit/registry", "bba/Core", "bba/Meter", "dijit/form/RadioButton", "dijit/form/NumberTextBox",
+    "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea"],
+    function(dom, ready, parser, xhr, ItemFileReadStore, registry, bba) {
 
     ready(function(){
         dom.byId('site').focus();
@@ -121,6 +121,88 @@ define("bba/Site",
             registry.byId("site_idClientContact").set('disabled', false);
             registry.byId("site_idClientContact").set('store', this.contactStore);
             registry.byId("site_idClientContact").set('value', 0);
+        },
+
+        siteGridRowClick : function(selectedIndex)
+         {
+            if (typeof(selectedIndex) != 'number') {
+                selectedIndex = this.focus.rowIndex;
+            }
+
+            selectedItem = this.getItem(selectedIndex);
+            id = this.store.getValue(selectedItem, 'site_idSite');
+
+             bba.openTab({
+                tabId : 'site' + id,
+                title : this.store.getValue(selectedItem, 'clientAd_addressName'),
+                url : '/site/edit-site',
+                contentVars : {
+                    type : 'details',
+                    idSite : id
+                }
+            });
+        },
+
+        newSiteButtonClick : function()
+        {
+            if (!dom.byId('siteForm')) {
+                bba.openFormDialog({
+                    url: '/site/add-site',
+                    content: {
+                        type :  'add',
+                        idSite : this.value
+                    },
+                    dialog: 'siteForm'
+                });
+            } else {
+                siteForm.show();
+            }
+        },
+
+        editSiteButtonClick : function()
+        {
+            if (!dom.byId('siteForm')) {
+                bba.openFormDialog({
+                    url: '/site/edit-site',
+                    content: {
+                        type :  'edit',
+                        idSite : this.value
+                    },
+                    dialog: 'siteForm'
+                });
+            } else {
+                siteForm.show();
+            }
+        },
+
+        processSiteForm : function()
+        {
+            bba.closeDialog(siteForm);
+
+            values = arguments[0];
+            values.idSite = values.site_idSite;
+            values.type = (values.idSite) ? 'edit' : 'add';
+
+            xhr.post({
+                url: '/site/save-site',
+                content: values,
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                    if (data.saved > 0) {
+                        if (values.idSite) {
+                            registry.byId('site' + values.idSite).refresh();
+                        } else {
+                            registry.byId('siteGrid')._refresh();
+                        }
+                    } else {
+                        dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+                        bba.setupDialog(siteForm);
+                        siteForm.show();
+                    }
+                }
+            });
         }
     };
 

@@ -57,27 +57,6 @@ define("bba/Core",
     bba = {
         gridMessage : '<span class="dojoxGridNoData">No records found matching query</span>',
 
-        gridLayouts : {
-            supplierContract : [
-                {field: 'contract_idContract', width: '50px', name: 'Id'},
-                {field: 'client_name', width: '300px', name: 'Client'},
-                {field: 'contract_type', width: '150px', name: 'Type'},
-                {field: 'contract_status', width: '100px', name: 'Status'},
-                {field: 'contract_dateEnd', width: '100px', name: 'End Date'},
-                {field: 'contract_reference', width: '200px', name: 'Reference'},
-                {field: '', width: 'auto', name: ''}
-            ],
-            supplierContact : [
-                {field: 'supplierCo_idSupplierContact', width: '50px', name: 'Id'},
-                {field: 'supplierCo_name', width: '150px', name: 'Name'},
-                {field: 'supplierCo_phone', width: '100px', name: 'Phone'},
-                {field: 'supplierCo_email', width: '300px', name: 'Email'},
-                {field: 'supplierCo_address1', width: '200px', name: 'Address 1'},
-                {field: 'supplierCo_postcode', width: '100px', name: 'Postcode'},
-                {field: '', width: 'auto', name: ''}
-            ]
-        },
-
         gridSearch : function(form, grid)
         {
             connect.connect(form, 'onSubmit', function(e) {

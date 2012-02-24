@@ -27,9 +27,8 @@
  */
 define("bba/Meter",
     ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "dojo/data/ItemFileReadStore",
-    "bba/Core", "bba/Contract",
-    "dijit/form/RadioButton", "dijit/form/NumberTextBox", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea",
-    "bba/DataGrid"],
+    "bba/Core", "bba/Contract", "dijit/form/RadioButton", "dijit/form/NumberTextBox",
+    "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea"],
     function(dom, ready, parser, xhr, registry, ItemFileReadStore, bba) {
 
     ready(function(){

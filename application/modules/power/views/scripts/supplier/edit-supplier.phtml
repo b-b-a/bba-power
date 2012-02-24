@@ -21,10 +21,11 @@
                     <td class="footer" colspan="2">
                         <div dojoType="dijit.form.Form"
                              id="edit-supplier-<?php echo $this->supplier->supplier_idSupplier; ?>">
-                            <button dojoType="dijit.form.Button"
-                                    type="submit"
-                                    name="edit-supplier-button-<?php echo $this->supplier->supplier_idSupplier; ?>"
-                                    value="submit">Edit Details</button>
+                            <button data-dojo-type="dijit.form.Button"
+                                    data-dojo-props="onClick: bba.Supplier.editSupplierButtonClick"
+                                    type="button"
+                                    value="<?php echo $this->supplier->supplier_idSupplier; ?>"
+                                    id="edit-supplier-button-<?php echo $this->supplier->supplier_idSupplier; ?>">Edit Details</button>
                         </div>
                     </td>
                 </tr>
@@ -53,38 +54,40 @@
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Contracts'">
 
-                <span dojotype="dojox.data.QueryReadStore"
-                      jsid="contractStore<?php echo $this->supplier->supplier_idSupplier; ?>"
-                      url="/supplier/data-store/type/contract"
-                      requestMethod="post"></span>
+                <span data-dojo-type="dojox.data.QueryReadStore"
+                    data-dojo-props="url: '/supplier/data-store/type/contract', requestMethod: 'post'"
+                    data-dojo-id="contractStore<?php echo $this->supplier->supplier_idSupplier; ?>"></span>
 
-                <table dojoType="bba.DataGrid"
-                       jsId="contractGrid<?php echo $this->supplier->supplier_idSupplier; ?>"
-                       store="contractStore<?php echo $this->supplier->supplier_idSupplier; ?>"
-                       structure="bba.gridLayouts.supplierContract"
-                       query="{ tender_idSupplier: <?php echo $this->supplier->supplier_idSupplier; ?> }"
-                       sortInfo="2">
+                <table data-dojo-type="dojox.grid.DataGrid"
+                    data-dojo-id="contractGrid<?php echo $this->supplier->supplier_idSupplier; ?>"
+                    id="contractGrid<?php echo $this->supplier->supplier_idSupplier; ?>"
+                    data-dojo-props="
+                        store: contractStore<?php echo $this->supplier->supplier_idSupplier; ?>,
+                        structure: bba.Supplier.gridLayouts.supplierContract,
+                        query: { tender_idSupplier: <?php echo $this->supplier->supplier_idSupplier; ?> },
+                        sortInfo: '2',
+                        noDataMessage : bba.gridMessage,
+                        onRowClick: bba.Contract.contractGridRowClick">
                 </table>
-
             </div>
 
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Supplier Contacts'">
 
-                <span dojotype="dojox.data.QueryReadStore"
-                      jsid="contactStore<?php echo $this->supplier->supplier_idSupplier; ?>"
-                      url="/supplier/data-store/type/contacts"
-                      requestMethod="post"></span>
+                <span data-dojo-type="dojox.data.QueryReadStore"
+                    data-dojo-props="url: '/supplier/data-store/type/contacts', requestMethod: 'post'"
+                    data-dojo-id="supplierCoStore<?php echo $this->supplier->supplier_idSupplier; ?>"></span>
 
-                <table dojoType="bba.DataGrid"
-                       jsId="contactGrid<?php echo $this->supplier->supplier_idSupplier; ?>"
-                       store="contactStore<?php echo $this->supplier->supplier_idSupplier; ?>"
-                       structure="bba.gridLayouts.supplierContact"
-                       query="{ supplierCo_idSupplier: <?php echo $this->supplier->supplier_idSupplier; ?> }"
-                       queryParent="supplierCo_idSupplier"
-                       sortInfo="2"
-                       newButtonId="<?php echo $this->supplier->supplier_idSupplier; ?>"
-                       dialog="true">
+                <table data-dojo-type="dojox.grid.DataGrid"
+                    data-dojo-id="supplierCoGrid<?php echo $this->supplier->supplier_idSupplier; ?>"
+                    id="supplierCoGrid<?php echo $this->supplier->supplier_idSupplier; ?>"
+                    data-dojo-props="
+                        store: supplierCoStore<?php echo $this->supplier->supplier_idSupplier; ?>,
+                        structure: bba.Supplier.gridLayouts.supplierContact,
+                        query: { supplierCo_idSupplier: <?php echo $this->supplier->supplier_idSupplier; ?> },
+                        sortInfo: '2',
+                        noDataMessage : bba.gridMessage,
+                        onRowClick: bba.Supplier.supplierCoGridRowClick">
                 </table>
             </div>
         </div>
@@ -96,9 +99,11 @@
         <div class="tableHead">
             <?php if ($this->isAllowed('User')): ?>
             <p class="tableHead-button">
-                <button dojoType="dijit.form.Button"
-                        id="new-supplier-contact-button-<?php echo $this->supplier->supplier_idSupplier; ?>"
-                        type="button">New Contact</button>
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: bba.Supplier.newSupplierCoButtonClick"
+                        type="button"
+                        value="<?php echo $this->supplier->supplier_idSupplier; ?>"
+                        id="new-supplier-contact-button-<?php echo $this->supplier->supplier_idSupplier; ?>">New Contact</button>
             </p>
             <?php endif; ?>
         </div>

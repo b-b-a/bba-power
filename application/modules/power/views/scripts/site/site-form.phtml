@@ -1,35 +1,45 @@
-<?php $form = $this->{$this->formName}; ?>
+<?php
+$form = $this->{$this->formName};
+$type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
+?>
 
-<div class="form_wrap">
-    <div class="zend_form">
+<div data-dojo-type="dijit.Dialog"
+     id="siteForm"
+     data-dojo-id="siteForm"
+     data-dojo-props="
+        title:'<?php echo $type; ?> Site',
+        execute: bba.Site.processSiteForm">
+    <div class="dijitDialogPaneContentArea">
 
-        <?php echo $form->site_idClient; ?>
+        <div class="form_wrap">
+            <div class="zend_form">
 
-        <?php echo $form->site_idAddress; ?>
+                <?php echo $form->site_idClient; ?>
 
-        <?php echo $form->site_idAddressBill; ?>
+                <?php echo $form->site_idAddress; ?>
 
-        <?php echo $form->site_idClientContact; ?>
+                <?php echo $form->site_idAddressBill; ?>
 
-        <?php echo $form->site_desc; ?>
+                <?php echo $form->site_idClientContact; ?>
 
-        <input dojoType="dijit.form.TextBox"
-               type="hidden"
-               name="site_idSite"
-               id="site_idSite"
-               required="true"
-               value="<?php echo $form->site_idSite->getValue(); ?>" />
+                <?php echo $form->site_desc; ?>
 
-        <button dojoType="dijit.form.Button"
-                type="submit"
-                id="siteFormSubmitButton"
-                name="submit"
-                value="Save">Save</button>
+                <input data-dojo-type="dijit.form.TextBox"
+                    type="hidden"
+                    name="site_idSite"
+                    id="site_idSite"
+                    required="true"
+                    value="<?php echo $form->site_idSite->getValue(); ?>" />
 
-        <button dojoType="dijit.form.Button"
-                type="button"
-                id="siteFormCancelButton"
-                name="cancel"
-                value="Cancel">Cancel</button>
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: function(){return dijit.byId('siteForm').validate();}"
+                        type="submit"
+                        id="siteFormSubmitButton">Save</button>
+
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('siteForm'));}"
+                        id="siteFormCancelButton">Cancel</button>
+            </div>
+        </div>
     </div>
 </div>

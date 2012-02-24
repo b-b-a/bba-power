@@ -46,16 +46,17 @@
                     <td class="footer" colspan="2">
                         <div dojoType="dijit.form.Form"
                              id="edit-site-<?php echo $this->site->site_idSite; ?>">
-                            <button dojoType="dijit.form.Button"
-                                    type="submit"
-                                    name="edit-site-button-<?php echo $this->site->site_idSite; ?>"
-                                    value="submit">Edit Details</button>
+                            <button data-dojo-type="dijit.form.Button"
+                                    data-dojo-props="onClick: bba.Site.editSiteButtonClick"
+                                    type="button"
+                                    value="<?php echo $this->site->site_idSite; ?>"
+                                    id="edit-site-button-<?php echo $this->site->site_idSite; ?>">Edit Details</button>
                         </div>
                     </td>
                 </tr>
                 <?php endif; ?>
             </table>
-            
+
              <table class="info_wrap ident">
                 <caption>Description</caption>
                 <tr>

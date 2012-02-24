@@ -1,41 +1,49 @@
-<?php $form = $this->supplierSaveForm; ?>
+<?php $form = $this->supplierSaveForm;
+$type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
+?>
 
-<div class="form_wrap">
-    <div class="zend_form">
+<div data-dojo-type="dijit.Dialog"
+     id="supplierForm"
+     data-dojo-id="supplierForm"
+     data-dojo-props="
+        title:'<?php echo $type; ?> Supplier',
+        execute: bba.Supplier.processSupplierForm">
+    <div class="dijitDialogPaneContentArea">
+        <div class="form_wrap">
+            <div class="zend_form">
 
-        <?php echo $form->supplier_name; ?>
+                <?php echo $form->supplier_name; ?>
 
-        <?php echo $form->supplier_nameShort; ?>
+                <?php echo $form->supplier_nameShort; ?>
 
-        <?php echo $form->supplier_address1; ?>
+                <?php echo $form->supplier_address1; ?>
 
-        <?php echo $form->supplier_address2; ?>
+                <?php echo $form->supplier_address2; ?>
 
-        <?php echo $form->supplier_address3; ?>
+                <?php echo $form->supplier_address3; ?>
 
-        <?php echo $form->supplier_postcode; ?>
+                <?php echo $form->supplier_postcode; ?>
 
-        <?php echo $form->supplier_commission; ?>
+                <?php echo $form->supplier_commission; ?>
 
-        <?php echo $form->supplier_idSupplierContact; ?>
+                <?php echo $form->supplier_idSupplierContact; ?>
 
-        <input dojoType="dijit.form.TextBox"
-               type="hidden"
-               name="supplier_idSupplier"
-               id="supplier_idSupplier"
-               required="true"
-               value="<?php echo $form->supplier_idSupplier->getValue(); ?>" />
+                <input data-dojo-type="dijit.form.TextBox"
+                    type="hidden"
+                    name="supplier_idSupplier"
+                    id="supplier_idSupplier"
+                    required="true"
+                    value="<?php echo $form->supplier_idSupplier->getValue(); ?>" />
 
-        <button dojoType="dijit.form.Button"
-                type="submit"
-                id="supplierFormSubmitButton"
-                name="submit"
-                value="Save">Save</button>
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: function(){return dijit.byId('supplierForm').validate();}"
+                        type="submit"
+                        id="userFormSubmitButton">Save</button>
 
-        <button dojoType="dijit.form.Button"
-                type="button"
-                id="supplierFormCancelButton"
-                name="cancel"
-                value="Cancel">Cancel</button>
+                <button data-dojo-type="dijit.form.Button"
+                        data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('supplierForm'));}"
+                        id="userFormCancelButton">Cancel</button>
+            </div>
+        </div>
     </div>
 </div>
