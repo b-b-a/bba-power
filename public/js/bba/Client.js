@@ -94,7 +94,7 @@ define("bba/Client",
             selectedItem = this.getItem(selectedIndex);
             id = this.store.getValue(selectedItem, 'clientAd_idAddress');
 
-             bba.openTab({
+            bba.openTab({
                 tabId : 'clientAd' + id,
                 title : this.store.getValue(selectedItem, 'clientAd_addressName'),
                 url : '/client/edit-client-address',
