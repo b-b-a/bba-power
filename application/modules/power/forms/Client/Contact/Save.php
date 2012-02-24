@@ -81,9 +81,8 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
             )
         ));
 
-        $this->addElement('ValidationTextBox', 'clientCo_position', array(
+        $this->addElement('TextBox', 'clientCo_position', array(
             'label'         => 'Position:',
-            'required'      => false,
             'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 //array('Alpha', true, array('allowWhiteSpace' => true))
@@ -93,18 +92,16 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
             )
         ));
 
-        $this->addElement('ValidationTextBox', 'clientCo_phone', array(
+        $this->addElement('TextBox', 'clientCo_phone', array(
             'label'         => 'Phone:',
-            'required'      => true,
             'filters'       => array('StripTags', 'StringTrim'),
             'dijitParams'   => array(
                 'promptMessage' => 'Enter clients phone No.'
             )
         ));
 
-        $this->addElement('ValidationTextBox', 'clientCo_email', array(
+        $this->addElement('TextBox', 'clientCo_email', array(
             'label'         => 'email:',
-            'required'      => true,
             'filters'       => array('StripTags', 'StringTrim', 'StringToLower'),
             'validators'    => array(
                 array('EmailAddress', true),

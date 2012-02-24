@@ -72,15 +72,13 @@ class Power_Form_Supplier_Contact_Save extends ZendSF_Form_Abstract
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('ValidationTextBox', 'supplierCo_phone', array(
+        $this->addElement('TextBox', 'supplierCo_phone', array(
             'label'     => 'Phone:',
-            'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('ValidationTextBox', 'supplierCo_email', array(
+        $this->addElement('TextBox', 'supplierCo_email', array(
             'label'         => 'Email:',
-            'required'      => true,
             'filters'       => array('StripTags', 'StringTrim', 'StringToLower'),
             'validators'    => array(
                 array('EmailAddress', true),
@@ -91,9 +89,8 @@ class Power_Form_Supplier_Contact_Save extends ZendSF_Form_Abstract
             )
         ));
 
-        $this->addElement('ValidationTextBox', 'supplierCo_address1', array(
+        $this->addElement('TextBox', 'supplierCo_address1', array(
             'label'     => 'Address 1:',
-            'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
@@ -107,9 +104,8 @@ class Power_Form_Supplier_Contact_Save extends ZendSF_Form_Abstract
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('ValidationTextBox', 'supplierCo_postcode', array(
+        $this->addElement('TextBox', 'supplierCo_postcode', array(
             'label'         => 'Postcode:',
-            'required'      => true,
             'filters'       => array('StripTags', 'StringTrim', 'StringToUpper'),
             'validators'    => array(
                 array('PostCode', true, array(
@@ -117,7 +113,7 @@ class Power_Form_Supplier_Contact_Save extends ZendSF_Form_Abstract
                 ))
             )
         ));
-        
+
         $this->addHiddenElement('supplierCo_idSupplierContact', '');
         $this->addHiddenElement('supplierCo_idSupplier', '');
     }

@@ -33,8 +33,6 @@
                     data-dojo-type="dojox.widget.WizardPane"
                      class="zend_form client_edit">
 
-                    <?php echo $form->clientAd_addressName; ?>
-
                     <?php echo $form->clientAd_address1; ?>
 
                     <?php echo $form->clientAd_address2; ?>
@@ -42,6 +40,8 @@
                     <?php echo $form->clientAd_address3; ?>
 
                     <?php echo $form->clientAd_postcode; ?>
+
+                    <?php echo $form->clientAd_addressName; ?>
 
                     <script type="dojo/method" data-dojo-event="onShow">
                         clientForm.attr('title', 'Main (HQ) Address');

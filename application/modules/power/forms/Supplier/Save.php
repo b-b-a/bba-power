@@ -89,7 +89,7 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
             'constraints'   => array(
                 'min'       => 0
             ),
-            'required'  => true,
+            'required'  => false,
             'value'     => 0,
             'filters'   => array('StripTags', 'StringTrim'),
             'dijitParams'   => array(
@@ -117,8 +117,7 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
                 'label'     => 'Main Contact:',
                 'filters'   => array('StripTags', 'StringTrim'),
                 'atuocomplete' => false,
-                'multiOptions'  => $multiOptions,
-                //'required'  => true
+                'multiOptions'  => $multiOptions
             ));
         }
 

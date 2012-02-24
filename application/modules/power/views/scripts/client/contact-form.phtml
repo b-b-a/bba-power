@@ -19,11 +19,11 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
 
                 <?php echo $form->clientCo_name; ?>
 
-                <?php echo $form->clientCo_position; ?>
-
                 <?php echo $form->clientCo_phone; ?>
 
                 <?php echo $form->clientCo_email; ?>
+
+                <?php echo $form->clientCo_position; ?>
 
                 <?php if ($form->getElement('clientCo_idAddress')->helper == 'formHidden'): ?>
                 <input data-dojo-type="dijit.form.TextBox"
