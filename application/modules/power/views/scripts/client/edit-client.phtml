@@ -143,6 +143,11 @@
             <div class="tableHead">
                 <p class="tableHead-button">
                     <button data-dojo-type="dijit.form.Button"
+                            data-dojo-props="onClick: function(){bba.Contract.newContractButtonClick({idClient : <?php echo $this->client->client_idClient; ?>});}"
+                            type="button"
+                            value="<?php echo $this->client->client_idClient; ?>"
+                            id="new-client-contract-button-<?php echo $this->client->client_idClient; ?>">New Contract</button>
+                    <button data-dojo-type="dijit.form.Button"
                             data-dojo-props="onClick: bba.Client.newClientAdButtonClick"
                             type="button"
                             value="<?php echo $this->client->client_idClient; ?>"

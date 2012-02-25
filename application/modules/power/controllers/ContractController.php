@@ -154,7 +154,6 @@ class Power_ContractController extends Zend_Controller_Action
 
             $contract = $this->_model->getContractById($request->getPost('idContract'));
 
-
             $this->view->assign('contract', $contract);
 
             if ($request->getPost('type') == 'edit') {
@@ -198,6 +197,13 @@ class Power_ContractController extends Zend_Controller_Action
             $this->view->assign(array('contractSaveForm' => $form));
 
             $html = $this->view->render('contract/contract-form.phtml');
+            $returnJson['html'] = $html;
+        } else {
+            $this->view->assign(array(
+                'id'    => $saved,
+                'type'  => 'contract'
+            ));
+            $html = $this->view->render('confirm.phtml');
             $returnJson['html'] = $html;
         }
 

@@ -68,12 +68,14 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
         $this->setName('contract');
 
         $request = Zend_Controller_Front::getInstance()->getRequest();
-        if ($request->getParam('idContract')) {
+        if ($request->getParam('idContract') || $request->getParam('idClient')) {
             $contractId = $request->getParam('idContract');
-            $row = $this->getModel()->getDbTable('contract')->getContractById($contractId);
+            $row = ($contractId) ? 
+                $this->getModel()->getDbTable('contract')->getContractById($contractId) : null;
+            $clientId = ($row) ? $row->contract_idClient : $request->getParam('idClient');
         }
 
-        if ($request->getParam('type') == 'edit') {
+        if (isset($clientId)) {
 
             $this->addElement('TextBox', 'client', array(
                 'label'     => 'Client:',
@@ -82,7 +84,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
                 'filters'   => array('StripTags', 'StringTrim'),
                 'value'     => $row->getClient('client_name')
             ));
-            $this->addHiddenElement('contract_idClient', '');
+            $this->addHiddenElement('contract_idClient', $clientId);
         } else {
             $this->addElement('FilteringSelect', 'contract_idClient', array(
                 'label'         => 'Client:',

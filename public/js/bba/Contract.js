@@ -261,12 +261,12 @@ define("bba/Contract",
             }
         },
 
-        newContractButtonClick : function()
+        newContractButtonClick : function(contentVars)
         {
             if (!dom.byId('contractForm')) {
                 bba.openFormDialog({
                     url: '/contract/add-contract',
-                    content: {type :  'add'},
+                    content: dojo.mixin({type :  'add'}, contentVars),
                     dialog: 'contractForm'
                 });
             } else {
@@ -300,16 +300,19 @@ define("bba/Contract",
                 handleAs: 'json',
                 preventCache: true,
                 load: function(data) {
+                    dom.byId('dialog').innerHTML = data.html;
+                    parser.parse('dialog');
+                    
                     if (data.saved > 0) {
                         if (values.idContract) {
                             registry.byId('contract' + values.idContract).refresh();
                         } else {
-                            contractGrid._refresh();
+                            if (contractGrid) contractGrid._refresh();
                         }
-                        //bba.comfirmDialog();
+                        
+                        bba.setupDialog(confirm);
+                        confirm.show();
                     } else {
-                        dom.byId('dialog').innerHTML = data.html;
-                        parser.parse('dialog');
                         bba.setupDialog(contractForm);
                         contractForm.show();
                     }

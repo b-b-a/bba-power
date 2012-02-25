@@ -1,0 +1,14 @@
+<div data-dojo-type="dijit.Dialog"
+     id="confirm"
+     data-dojo-id="confirm"
+     data-dojo-props="
+        title:''">
+    <div class="dijitDialogPaneContentArea">
+        <div>
+            <p>Record id <?php echo $this->id; ?> has been successfully added/updated into the <?php echo $type; ?> table.</p>
+        </div>
+        <button data-dojo-type="dijit.form.Button"
+                data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('confirm'));}"
+                id="confrimCloseButton">Close</button>
+    </div>
+</div>
