@@ -53,6 +53,21 @@ class Power_Model_DbTable_Row_Meter_Usage extends ZendSF_Model_DbTable_Row_Abstr
     );
 
     protected $_dateFormat = 'dd/MM/yyyy';
+    
+    /**
+     * Calulates the sum total of usage readings
+     * for this usage entry.
+     * 
+     * @return int
+     */
+    public function getUsageTotal()
+    {
+        return array_sum(array(
+            $this->getRow()->usage_usageDay,
+            $this->getRow()->usage_usageNight,
+            $this->getRow()->usage_usageOther
+        )); 
+    }
 
     /**
      * Returns row as an array, with optional date formating.
@@ -73,6 +88,8 @@ class Power_Model_DbTable_Row_Meter_Usage extends ZendSF_Model_DbTable_Row_Abstr
 
             $array[$key] = $value;
         }
+        
+        $array['usage_usageTotal'] = $this->getUsageTotal();
 
         return $array;
     }

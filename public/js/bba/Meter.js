@@ -64,6 +64,7 @@ define("bba/Meter",
                 {field: 'usage_usageDay', width: '100px', name: 'Day'},
                 {field: 'usage_usageNight', width: '100px', name: 'Night'},
                 {field: 'usage_usageOther', width: '100px', name: 'Other'},
+                {field: 'usage_usageTotal', width: '100px', name: 'Total Usage'},
                 {field: 'usage_dateBill', width: '100px', name: 'Bill Date'},
                 {field: '', width: 'auto', name: ''}
             ],
