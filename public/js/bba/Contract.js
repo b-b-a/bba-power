@@ -33,6 +33,7 @@ define("bba/Contract",
     function(dom, ready, parser, xhr, array, registry, Dialog, dojo, bba) {
 
     ready(function () {
+        
         if (dom.byId('contract')) {
             dom.byId('contract').focus();
         }

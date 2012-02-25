@@ -31,7 +31,15 @@ define("bba/Client",
     function(dom, ready, parser, xhr, registry, bba) {
 
     ready(function () {
-        dom.byId('client').focus();
+        
+        if (dom.byId('client')) {
+            dom.byId('client').focus();
+        }
+
+        if (dom.byId('clientGrid')) {
+            var form = registry.byId('Search');
+            if (form) bba.gridSearch(form, clientGrid);
+        }
     });
 
     bba.Client = {

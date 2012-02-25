@@ -31,7 +31,15 @@ define("bba/Supplier",
     function(dom, ready, parser, xhr, registry, bba){
 
     ready(function () {
-        dom.byId('supplier').focus();
+        
+        if (dom.byId('supplier')) {
+            dom.byId('supplier').focus();
+        }
+
+        if (dom.byId('supplierGrid')) {
+            var form = registry.byId('Search');
+            if (form) bba.gridSearch(form, supplierGrid);
+        }
     });
 
     bba.Supplier = {

@@ -52,7 +52,7 @@ define("bba/Core",
         onRowClick: function(e){
             this.edit.rowClick(e);
         }
-    })
+    });
 
     bba = {
         gridMessage : '<span class="dojoxGridNoData">No records found matching query</span>',

@@ -32,7 +32,15 @@ define("bba/User",
     function(dom, ready, parser, xhr, registry, bba){
 
     ready(function () {
-        dom.byId('user').focus();
+        
+        if (dom.byId('user')) {
+            dom.byId('user').focus();
+        }
+
+        if (dom.byId('userGrid')) {
+            var form = registry.byId('Search');
+            if (form) bba.gridSearch(form, userGrid);
+        }
     });
 
     bba.User = {

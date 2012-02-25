@@ -43,7 +43,15 @@ define("bba/Site",
     function(dom, ready, parser, xhr, ItemFileReadStore, registry, bba) {
 
     ready(function(){
-        dom.byId('site').focus();
+        
+        if (dom.byId('site')) {
+            dom.byId('site').focus();
+        }
+
+        if (dom.byId('siteGrid')) {
+            var form = registry.byId('Search');
+            if (form) bba.gridSearch(form, siteGrid);
+        }
     });
 
     bba.Site = {

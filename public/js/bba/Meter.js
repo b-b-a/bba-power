@@ -32,8 +32,14 @@ define("bba/Meter",
     function(dom, ready, parser, xhr, registry, ItemFileReadStore, bba) {
 
     ready(function(){
+        
         if (dom.byId('meter')) {
             dom.byId('meter').focus();
+        }
+        
+        if (dom.byId('meterGrid')) {
+            var form = registry.byId('Search');
+            if (form) bba.gridSearch(form, meterGrid);
         }
     });
 
