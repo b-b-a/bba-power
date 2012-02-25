@@ -307,7 +307,7 @@ define("bba/Contract",
                         if (values.idContract) {
                             registry.byId('contract' + values.idContract).refresh();
                         }
-                        
+
                         if (dom.byId('contractGrid')) contractGrid._refresh();
 
                         bba.setupDialog(confirm);
