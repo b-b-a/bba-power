@@ -2,10 +2,10 @@
      id="confirm"
      data-dojo-id="confirm"
      data-dojo-props="
-        title:''">
+        title:'Comfirm Add/Update Record'">
     <div class="dijitDialogPaneContentArea">
         <div>
-            <p>Record id <?php echo $this->id; ?> has been successfully added/updated into the <?php echo $type; ?> table.</p>
+            <p>Record id <?php echo $this->id; ?> has been successfully added/updated into the <?php echo $this->type; ?> table.</p>
         </div>
         <button data-dojo-type="dijit.form.Button"
                 data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('confirm'));}"

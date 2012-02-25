@@ -70,19 +70,20 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
         $request = Zend_Controller_Front::getInstance()->getRequest();
         if ($request->getParam('idContract') || $request->getParam('idClient')) {
             $contractId = $request->getParam('idContract');
-            $row = ($contractId) ? 
-                $this->getModel()->getDbTable('contract')->getContractById($contractId) : null;
-            $clientId = ($row) ? $row->contract_idClient : $request->getParam('idClient');
+            $row = ($contractId) ?
+                $this->getModel()->getDbTable('contract')->getContractById($contractId) :
+                $this->getModel()->getDbTable('client')->getClientById($request->getParam('idClient'));
+            $clientId = ($contractId) ? $row->contract_idClient : $row->client_idClient;
         }
 
         if (isset($clientId)) {
 
-            $this->addElement('TextBox', 'client', array(
+            $this->addElement('TextBox', 'client_contract', array(
                 'label'     => 'Client:',
                 'required'  => false,
                 'attribs'   => array('disabled' => true),
                 'filters'   => array('StripTags', 'StringTrim'),
-                'value'     => $row->getClient('client_name')
+                'value'     => ($contractId) ? $row->getClient('client_name') : $row->client_name
             ));
             $this->addHiddenElement('contract_idClient', $clientId);
         } else {
@@ -112,7 +113,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
 
         $multiOptions = array();
 
-        if (isset($row)) {
+        if (isset($contractId)) {
             $list = $row->getAllTenders();
 
             $multiOptions = array(0 => ($list->count() > 0) ? 'Select Tender' : 'No tenders available');

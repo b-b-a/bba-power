@@ -13,8 +13,8 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
         <div class="form_wrap">
             <div id="contractForm" class="zend_form">
 
-                <?php if ($type == 'Edit'): ?>
-                    <?php echo $form->client; ?>
+                <?php if ($form->contract_idClient->getValue()): ?>
+                    <?php echo $form->client_contract; ?>
                     <input dojoType="dijit.form.TextBox"
                            type="hidden"
                            name="contract_idClient"

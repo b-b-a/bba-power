@@ -33,7 +33,7 @@ define("bba/Contract",
     function(dom, ready, parser, xhr, array, registry, Dialog, dojo, bba) {
 
     ready(function () {
-        
+
         if (dom.byId('contract')) {
             dom.byId('contract').focus();
         }
@@ -302,14 +302,14 @@ define("bba/Contract",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
-                    
+
                     if (data.saved > 0) {
                         if (values.idContract) {
                             registry.byId('contract' + values.idContract).refresh();
-                        } else {
-                            if (contractGrid) contractGrid._refresh();
                         }
                         
+                        if (dom.byId('contractGrid')) contractGrid._refresh();
+
                         bba.setupDialog(confirm);
                         confirm.show();
                     } else {

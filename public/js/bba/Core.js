@@ -122,8 +122,8 @@ define("bba/Core",
             ws.add(dialog);
             selects = registry.byClass("dijit.form.FilteringSelect");
             selects.forEach(function(widget){
-                //connect.connect(widget, 'onClick', widget._startSearchAll);
-                widget._startSearchAll();
+                connect.connect(widget, 'onClick', widget._startSearchAll);
+                //widget._startSearchAll();
                 //connect.connect(widget, 'onFocus', widget._startSearchAll);
             });
             connect.connect(dialog, 'onHide', function() {
