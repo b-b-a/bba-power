@@ -57,6 +57,7 @@ define("bba/Supplier",
                 {field: 'client_name', width: '300px', name: 'Client'},
                 {field: 'contract_type', width: '150px', name: 'Type'},
                 {field: 'contract_status', width: '100px', name: 'Status'},
+                {field: 'contract_dateStart', width: '100px', name: 'Start Date'},
                 {field: 'contract_dateEnd', width: '100px', name: 'End Date'},
                 {field: 'contract_reference', width: '200px', name: 'Reference'},
                 {field: '', width: 'auto', name: ''}
