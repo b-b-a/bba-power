@@ -86,6 +86,7 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
                 'contract_idContract',
                 'contract_type',
                 'contract_status',
+                'contract_dateStart',
                 'contract_dateEnd',
                 'contract_reference'
             ))
