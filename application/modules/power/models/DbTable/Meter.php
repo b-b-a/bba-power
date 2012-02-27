@@ -172,7 +172,7 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
         $data['meter_userCreate'] = $auth->getId();
 
         if ($data['meter_type'] == 'electric') {
-            $data['meter_numberMain'] = preg_replace('/\s+/', '', $data['meter_numberMain']);
+            $data['meter_numberMain'] = $this->_stripSpacesAndHyphens($data['meter_numberMain']);
         }
 
         $this->_log->info(Zend_Debug::dump($data, "\nINSERT: " . __CLASS__ . "\n", false));
@@ -187,11 +187,25 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
         $data['meter_userModify'] = $auth->getId();
 
         if ($data['meter_type'] == 'electric') {
-            $data['meter_numberMain'] = preg_replace('/\s+/', '', $data['meter_numberMain']);
+            $data['meter_numberMain'] = $this->_stripSpacesAndHyphens($data['meter_numberMain']);
         }
 
         $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
 
         return parent::update($data, $where);
+    }
+
+    private function _stripSpacesAndHyphens($subject)
+    {
+        $search = array(
+            '/\s+/' => '',
+            '/-+/'  => ''
+        );
+
+        return preg_replace(
+            array_keys($search),
+            array_values($search),
+            $subject
+        );
     }
 }
