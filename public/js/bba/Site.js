@@ -43,7 +43,7 @@ define("bba/Site",
     function(dom, ready, parser, xhr, ItemFileReadStore, registry, bba) {
 
     ready(function(){
-        
+
         if (dom.byId('site')) {
             dom.byId('site').focus();
         }
@@ -144,7 +144,7 @@ define("bba/Site",
                 tabId : 'site' + id,
                 title : this.store.getValue(selectedItem, 'clientAd_addressName'),
                 url : '/site/edit-site',
-                contentVars : {
+                content : {
                     type : 'details',
                     idSite : id
                 }

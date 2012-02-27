@@ -202,9 +202,9 @@ define("bba/Contract",
                 tabId : 'contract' + id,
                 title : this.store.getValue(selectedItem, 'client_name'),
                 url : '/contract/edit-contract',
-                contentVars : {
+                content : {
                     type : 'details',
-                    idContract : id
+                    contract_idContract : id
                 }
             });
         },
@@ -222,7 +222,7 @@ define("bba/Contract",
                 tabId : 'tender' + id,
                 title : this.store.getValue(selectedItem, 'supplier_name'),
                 url : '/contract/edit-tender',
-                contentVars : {
+                content : {
                     type : 'details',
                     idTender : id
                 }
@@ -236,7 +236,7 @@ define("bba/Contract",
                     url: '/contract/edit-contract',
                     content: {
                         type :  'edit',
-                        idContract : this.value
+                        contract_idContract : this.value
                     },
                     dialog: 'contractForm'
                 });
@@ -292,7 +292,6 @@ define("bba/Contract",
             bba.closeDialog(contractForm);
 
             values = arguments[0];
-            values.idContract = values.contract_idContract
 
             xhr.post({
                 url: '/contract/save-contract',
@@ -304,13 +303,12 @@ define("bba/Contract",
                     parser.parse('dialog');
 
                     if (data.saved > 0) {
-                        if (values.idContract) {
-                            registry.byId('contract' + values.idContract).refresh();
+                        if (values.contract_idContract) {
+                            registry.byId('contract' + values.contract_idContract).refresh();
                         }
 
                         if (dom.byId('contractGrid')) contractGrid._refresh();
 
-                        bba.setupDialog(confirm);
                         confirm.show();
                     } else {
                         bba.setupDialog(contractForm);

@@ -337,12 +337,12 @@ Form overrides.
     width: 120px;
 }
 
-#meter_type-label {
-    height: 25px;
+#contract_type-label .contract_type-add {
+    line-height: 65px;
 }
 
-#contract_type-label {
-    height: 50px;
+#meter_type-label {
+    height: 25px;
 }
 
 .align-right {
@@ -492,6 +492,19 @@ Form overrides.
     /* a  P  for the button */
     float: right;
     margin: 0px;
+}
+
+/*
+Messages
+*/
+#error-content {
+    width: 500px;
+}
+
+#error-content h3 {
+    padding-left: 34px;
+    line-height: 50px;
+    background: url('/images/ErrorShield.png') center left no-repeat;
 }
 
 /*

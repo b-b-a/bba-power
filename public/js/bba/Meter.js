@@ -32,11 +32,11 @@ define("bba/Meter",
     function(dom, ready, parser, xhr, registry, ItemFileReadStore, bba) {
 
     ready(function(){
-        
+
         if (dom.byId('meter')) {
             dom.byId('meter').focus();
         }
-        
+
         if (dom.byId('meterGrid')) {
             var form = registry.byId('Search');
             if (form) bba.gridSearch(form, meterGrid);
@@ -106,7 +106,7 @@ define("bba/Meter",
                 tabId : 'meter' + id,
                 title : this.store.getValue(selectedItem, 'meter_numberMain'),
                 url : '/meter/edit-meter',
-                contentVars : {
+                content : {
                     type : 'details',
                     idMeter : id
                 }

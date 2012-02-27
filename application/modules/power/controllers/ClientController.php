@@ -229,10 +229,10 @@ class Power_ClientController extends Zend_Controller_Action
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
 
-        if ($request->getPost('idAddress') && $request->isXmlHttpRequest()
+        if ($request->getPost('clientAd_idAddress') && $request->isXmlHttpRequest()
                 && $request->isPost()) {
 
-            $clientAd = $this->_model->getClientAddressById($request->getPost('idAddress'));
+            $clientAd = $this->_model->getClientAddressById($request->getPost('clientAd_idAddress'));
 
             $form = $this->_getForm('clientAddressSave', 'save-client-address');
             $form->populate($clientAd->toArray());
@@ -350,16 +350,37 @@ class Power_ClientController extends Zend_Controller_Action
             return $this->_helper->redirector('index', 'client');
         }
 
-        $saved = $this->_model->saveClientContact($request->getPost());
+        try {
+            $saved = $this->_model->saveClientContact($request->getPost());
 
-        $returnJson = array('saved' => $saved);
+            $returnJson = array('saved' => $saved);
 
-        if (false === $saved) {
-            $form = $this->_getForm('clientContactSave', 'save-client-contact');
-            $form->populate($request->getPost());
-            $this->view->assign(array('clientContactSaveForm' => $form));
-            $html = $this->view->render('client/contact-form.phtml');
-            $returnJson['html'] = $html;
+            if (false === $saved) {
+                $form = $this->_getForm('clientContactSave', 'save-client-contact');
+                $form->populate($request->getPost());
+                $this->view->assign(array('clientContactSaveForm' => $form));
+                $html = $this->view->render('client/contact-form.phtml');
+                $returnJson['html'] = $html;
+            }  else {
+                $this->view->assign(array(
+                    'id'    => $saved,
+                    'type'  => 'client contact'
+                ));
+                $html = $this->view->render('confirm.phtml');
+                $returnJson['html'] = $html;
+            }
+        } catch (Exception $e) {
+            $log = Zend_Registry::get('log');
+            $log->err($e->getMessage());
+            $this->view->assign(array(
+                'message' => $e->getMessage()
+            ));
+            $html = $this->view->render('error.phtml');
+            $returnJson = array(
+                'html'  => $html,
+                'saved' => false,
+                'error' => true
+            );
         }
 
         $this->getResponse()

@@ -31,14 +31,14 @@
                 <?php if ($this->isAllowed('User')): ?>
                 <tr>
                     <td class="footer" colspan="2">
-                        <div dojoType="dijit.form.Form"
-                             id="edit-clientAd-<?php echo $this->clientAd->clientAd_idAddress; ?>">
-                            <button data-dojo-type="dijit.form.Button"
-                                    data-dojo-props="onClick: bba.Client.editClientAdButtonClick"
-                                    type="button"
-                                    value="<?php echo $this->clientAd->clientAd_idAddress; ?>"
-                                    id="edit-clientAd-button-<?php echo $this->clientAd->clientAd_idAddress; ?>">Edit Details</button>
-                        </div>
+                        <button data-dojo-type="dijit.form.Button">
+                            Edit Details
+                            <script type="dojo/method" data-dojo-event="onClick">
+                                bba.Client.editClientAdButtonClick({
+                                    clientAd_idAddress : <?php echo $this->clientAd->clientAd_idAddress ?>
+                                });
+                            </script>
+                        </button>
                     </td>
                 </tr>
                 <?php endif; ?>
@@ -74,8 +74,15 @@
                             clientCo_idAddress: <?php echo $this->clientAd->clientAd_idAddress; ?>
                         },
                         sortInfo: '2',
-                        noDataMessage : bba.gridMessage,
-                        onRowClick: bba.Client.clientCoGridRowClick">
+                        noDataMessage : bba.gridMessage">
+                    <?php if ($this->isAllowed('User')): ?>
+                    <script type="dojo/method" data-dojo-event="onRowClick">
+                        bba.Client.clientCoGridRowClick(this, {
+                            clientCo_idClient : <?php echo $this->clientAd->clientAd_idClient ?>,
+                            clientCo_idAddress : <?php echo $this->clientAd->clientAd_idAddress ?>
+                        });
+                    </script>
+                    <?php endif; ?>
                 </table>
             </div>
         </div>
@@ -88,11 +95,15 @@
             <?php if ($this->isAllowed('User')): ?>
             <div class="tableHead">
                 <p class="tableHead-button">
-                     <button data-dojo-type="dijit.form.Button"
-                            data-dojo-props="onClick: bba.Client.newClientCoButtonClick"
-                            type="button"
-                            value="<?php echo $this->clientAd->clientAd_idClient ?>,<?php echo $this->clientAd->clientAd_idAddress; ?>"
-                            id="new-client-contact-button-<?php echo $this->clientAd->clientAd_idAddress; ?>">New Contact</button>
+                     <button data-dojo-type="dijit.form.Button">
+                         New Contact
+                         <script type="dojo/method" data-dojo-event="onClick">
+                            bba.Client.newClientCoButtonClick({
+                                clientCo_idClient : <?php echo $this->clientAd->clientAd_idClient ?>,
+                                clientCo_idAddress : <?php echo $this->clientAd->clientAd_idAddress ?>
+                            });
+                        </script>
+                     </button>
                 </p>
             </div>
             <?php endif; ?>

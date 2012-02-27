@@ -136,7 +136,7 @@ class Power_MeterController extends Zend_Controller_Action
 
             $this->render('meter-form');
         } else {
-            return $this->_helper->redirector('index', 'client');
+            return $this->_helper->redirector('index', 'meter');
         }
     }
 
@@ -165,7 +165,7 @@ class Power_MeterController extends Zend_Controller_Action
                 $this->render('meter-form');
             }
         } else {
-           return $this->_helper->redirector('index', 'site');
+           return $this->_helper->redirector('index', 'meter');
         }
     }
 
@@ -222,7 +222,7 @@ class Power_MeterController extends Zend_Controller_Action
             $this->view->assign(array('meterUsageSaveForm' => $form));
             $this->render('usage-form');
         } else {
-            return $this->_helper->redirector('index', 'client');
+            return $this->_helper->redirector('index', 'meter');
         }
     }
 
@@ -248,7 +248,7 @@ class Power_MeterController extends Zend_Controller_Action
 
             $this->render('usage-form');
         } else {
-           return $this->_helper->redirector('index', 'client');
+           return $this->_helper->redirector('index', 'meter');
         }
     }
 

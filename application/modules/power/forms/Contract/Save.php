@@ -68,20 +68,19 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
         $this->setName('contract');
 
         $request = Zend_Controller_Front::getInstance()->getRequest();
-        if ($request->getParam('idContract') || $request->getParam('idClient')) {
-            $contractId = $request->getParam('idContract');
+        if ($request->getParam('contract_idContract') || $request->getParam('contract_idClient')) {
+            $contractId = $request->getParam('contract_idContract');
             $row = ($contractId) ?
                 $this->getModel()->getDbTable('contract')->getContractById($contractId) :
-                $this->getModel()->getDbTable('client')->getClientById($request->getParam('idClient'));
+                $this->getModel()->getDbTable('client')->getClientById($request->getParam('contract_idClient'));
             $clientId = ($contractId) ? $row->contract_idClient : $row->client_idClient;
         }
 
         if (isset($clientId)) {
-
             $this->addElement('TextBox', 'client_contract', array(
                 'label'     => 'Client:',
                 'required'  => false,
-                'attribs'   => array('disabled' => true),
+                'attribs'   => array('readonly' => true),
                 'filters'   => array('StripTags', 'StringTrim'),
                 'value'     => ($contractId) ? $row->getClient('client_name') : $row->client_name
             ));
@@ -113,7 +112,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
 
         $multiOptions = array();
 
-        if (isset($contractId)) {
+        if ($contractId) {
             $list = $row->getAllTenders();
 
             $multiOptions = array(0 => ($list->count() > 0) ? 'Select Tender' : 'No tenders available');
@@ -165,23 +164,37 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             $multiOptions[$row->tables_key] = $row->tables_value;
         }
 
-        $this->addElement('RadioButton', 'contract_type', array(
-            'label'         => 'Type:',
-            'filters'       => array('StripTags', 'StringTrim'),
-            'autocomplete'  => false,
-            'multiOptions'  => $multiOptions,
-            'required'      => true,
-            'validators'    => array(
-                array('GreaterThan', true, array(
-                    'min'       => '0',
-                    'message'   => 'Please select a contract type.'
-                ))
-            ),
-            'ErrorMessages' => array('Please select a contract type.')
-        ));
+        if ($request->getParam('type') == 'add') {
+            $this->addElement('RadioButton', 'contract_type', array(
+                'label'         => 'Type:',
+                'filters'       => array('StripTags', 'StringTrim'),
+                'autocomplete'  => false,
+                'multiOptions'  => $multiOptions,
+                'required'      => true,
+                'validators'    => array(
+                    array('GreaterThan', true, array(
+                        'min'       => '0',
+                        'message'   => 'Please select a contract type.'
+                    ))
+                ),
+                'ErrorMessages' => array('Please select a contract type.')
+            ));
 
-        if ($request->getParam('type') == 'edit') {
-            $this->getElement('contract_type')->setAttrib('readonly', 'readonly');
+            $decors = $this->getElement('contract_type')->getDecorators();
+            
+            $decors['Zend_Form_Decorator_Label']->setOptions(array(
+                'tag' => 'p',
+                'class' => 'contract_type-add'
+            ));
+
+            $this->getElement('contract_type')->setDecorators($decors);
+        } else {
+            $this->addElement('TextBox', 'contract_type', array(
+                'label'     => 'Type:',
+                'required'  => true,
+                'attribs'   => array('readonly' => true),
+                'filters'   => array('StripTags', 'StringTrim')
+            ));
         }
 
         $multiOptions = array(0 => 'Select a status');

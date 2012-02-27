@@ -104,8 +104,12 @@
                         structure: bba.Client.gridLayouts.clientAddress,
                         query: { clientAd_idClient: <?php echo $this->client->client_idClient; ?> },
                         sortInfo: '2',
-                        noDataMessage : bba.gridMessage,
-                        onRowClick: bba.Client.clientAdGridRowClick">
+                        noDataMessage : bba.gridMessage">
+                    <script type="dojo/method" data-dojo-event="onRowClick">
+                        bba.Client.clientAdGridRowClick(this, {
+                            clientAd_idClient : <?php echo $this->client->client_idClient; ?>
+                        });
+                    </script>
                 </table>
             </div>
 
@@ -142,17 +146,30 @@
             <?php if ($this->isAllowed('User')): ?>
             <div class="tableHead">
                 <p class="tableHead-button">
-                    <button data-dojo-type="dijit.form.Button"
-                            data-dojo-props="onClick: function(){bba.Contract.newContractButtonClick({idClient : <?php echo $this->client->client_idClient; ?>});}"
-                            type="button"
-                            value="<?php echo $this->client->client_idClient; ?>"
-                            id="new-client-contract-button-<?php echo $this->client->client_idClient; ?>">New Contract</button>
-                    <button data-dojo-type="dijit.form.Button"
-                            data-dojo-props="onClick: bba.Client.newClientAdButtonClick"
-                            type="button"
-                            value="<?php echo $this->client->client_idClient; ?>"
-                            id="new-client-address-button-<?php echo $this->client->client_idClient; ?>">New Address</button>
-                    &nbsp; To add a Contact: display the required Address.
+                    <button data-dojo-type="dijit.form.Button">
+                        New Contract
+                        <script type="dojo/method" data-dojo-event="onClick">
+                            bba.Contract.newContractButtonClick({
+                                contract_idClient : <?php echo $this->client->client_idClient; ?>
+                            });
+                        </script>
+                    </button>
+                    <button data-dojo-type="dijit.form.Button">
+                        New Address
+                        <script type="dojo/method" data-dojo-event="onClick">
+                            bba.Client.newClientAdButtonClick({
+                                clientAd_idClient : <?php echo $this->client->client_idClient; ?>
+                            });
+                        </script>
+                    </button>
+                    <button data-dojo-type="dijit.form.Button" data-dojo-props="type:'button'">
+                        New Contact
+                        <script type="dojo/method" data-dojo-event="onClick">
+                            bba.Client.newClientCoButtonClick({
+                                clientCo_idClient : <?php echo $this->client->client_idClient; ?>
+                            });
+                        </script>
+                    </button>
                 </p>
             </div>
             <?php endif; ?>

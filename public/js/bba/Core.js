@@ -79,7 +79,7 @@ define("bba/Core",
                     title: options.title,
                     href: options.url,
                     ioMethod: xhr.post,
-                    ioArgs: {content : options.contentVars},
+                    ioArgs: {content : options.content},
                     closable: true,
                     refreshOnShow: true,
                     onLoad : function() {

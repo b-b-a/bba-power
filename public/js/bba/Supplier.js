@@ -31,7 +31,7 @@ define("bba/Supplier",
     function(dom, ready, parser, xhr, registry, bba){
 
     ready(function () {
-        
+
         if (dom.byId('supplier')) {
             dom.byId('supplier').focus();
         }
@@ -86,7 +86,7 @@ define("bba/Supplier",
                 tabId : 'supplier' + id,
                 title : this.store.getValue(selectedItem, 'supplier_name'),
                 url : '/supplier/edit-supplier',
-                contentVars : {
+                content : {
                     type : 'details',
                     idSupplier : id
                 }

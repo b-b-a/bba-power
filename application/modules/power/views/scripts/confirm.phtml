@@ -1,14 +1,16 @@
-<div data-dojo-type="dijit.Dialog"
-     id="confirm"
-     data-dojo-id="confirm"
-     data-dojo-props="
-        title:'Comfirm Add/Update Record'">
+<div data-dojo-type="dijit.Dialog" data-dojo-id="confirm" data-dojo-props="title:'Comfirm Add/Update Record'">
     <div class="dijitDialogPaneContentArea">
         <div>
-            <p>Record id <?php echo $this->id; ?> has been successfully added/updated into the <?php echo $this->type; ?> table.</p>
+            <p>
+                Record id <?php echo $this->id; ?> has been successfully 
+                added/updated into the <?php echo $this->type; ?> table.
+            </p>
         </div>
-        <button data-dojo-type="dijit.form.Button"
-                data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('confirm'));}"
-                id="confrimCloseButton">Close</button>
+        <button data-dojo-type="dijit.form.Button">
+            Close
+            <script type="dojo/method" data-dojo-event="onClick">
+                return bba.closeDialog(confirm);
+            </script>
+        </button>
     </div>
 </div>
