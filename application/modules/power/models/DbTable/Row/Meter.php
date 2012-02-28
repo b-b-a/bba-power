@@ -71,6 +71,23 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
 
     }
 
+    public function getMeter_numberTop()
+    {
+        if ($this->getRow()->meter_type == 'gas') {
+            return $this->getRow()->meter_numberTop;
+        }
+
+        $regex = '/^([0-9]{2})([0-9]{3})([0-9]{3})$/';
+        preg_match($regex, $this->getRow()->meter_numberTop, $matches);
+
+        if (count($matches) == 4) {
+            unset($matches[0]);
+            return implode(' ', $matches);
+        } else {
+            return $this->getRow()->meter_numberTop;
+        }
+    }
+
     public function getCurrentContract()
     {
         // find the most recent contract.
@@ -90,6 +107,20 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
         );
     }
 
+    public function getMeter_type() {
+        return $this->getRow()->findParentRow(
+            'Power_Model_DbTable_Tables',
+            'meterType'
+        )->tables_value;
+    }
+
+    public function getMeter_status() {
+        return $this->getRow()->findParentRow(
+            'Power_Model_DbTable_Tables',
+            'meterStatus'
+        )->tables_value;
+    }
+
     /**
      * Returns row as an array, with optional date formating.
      *
@@ -107,10 +138,16 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
                 $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
             }
 
-            if ($key == 'meter_numberMain') {
-                $array[$key] = $this->getMeter_numberMain();
-            } else {
-                $array[$key] = $value;
+            switch ($key) {
+                case 'meter_numberMain':
+                    $array[$key] = $this->getMeter_numberMain();
+                    break;
+                case 'meter_numberTop':
+                    $array[$key] = $this->getMeter_numberTop();
+                    break;
+                default:
+                    $array[$key] = $value;
+                    break;
             }
         }
 

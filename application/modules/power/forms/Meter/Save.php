@@ -134,7 +134,7 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             ),
             'validators'    => array(
                 //array('Digits', true),
-                array('StringLength', true, array('max' => 8))
+                array('StringLength', true, array('max' => 10))
             ),
             'attribs'       => array('style' => 'width: 150px;')
         ));

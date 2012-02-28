@@ -63,6 +63,16 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_Site',
             'refColumns'    => 'site_idSite'
         ),
+        'meterType' => array(
+            'columns'       => 'meter_type',
+            'refTableClass' => 'Power_Model_DbTable_Tables',
+            'refColumns'    => 'tables_key'
+        ),
+        'meterStatus' => array(
+            'columns'       => 'meter_status',
+            'refTableClass' => 'Power_Model_DbTable_Tables',
+            'refColumns'    => 'tables_key'
+        ),
         'user'      => array(
             'columns'       => array(
                 'meter_userCreate',
@@ -105,8 +115,8 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
        $select = $this->select(false)->setIntegrityCheck(false)
             ->from('meter', array(
                 'meter_idMeter',
-                'meter_type',
-                'meter_status',
+                'meter_type' => '(SELECT tables_value FROM tables WHERE tables_key = meter_type AND tables_name = "meter_type")',
+                'meter_status' => '(SELECT tables_value FROM tables WHERE tables_key = meter_status AND tables_name = "meter_status")',
                 'meter_numberTop',
                 'meter_numberMain'
             ))
@@ -123,8 +133,8 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
                 'meterContract_eac',
             ))
             ->joinLeft('contract', 'meterContract_idContract = contract_idContract', array(
-                'contract_type',
-                'contract_status',
+                'contract_type' => '(SELECT tables_value FROM tables WHERE tables_key = contract_type AND tables_name = "contract_type")',
+                'contract_status' => '(SELECT tables_value FROM tables WHERE tables_key = contract_status AND tables_name = "contract_status")',
                 'contract_dateStart' => 'MAX(contract.contract_dateStart)',
                 'contract_dateEnd'
             ))->group('meter_idMeter');
@@ -173,6 +183,7 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
 
         if ($data['meter_type'] == 'electric') {
             $data['meter_numberMain'] = $this->_stripSpacesAndHyphens($data['meter_numberMain']);
+            $data['meter_numberTop'] = $this->_stripSpacesAndHyphens($data['meter_numberTop']);
         }
 
         $this->_log->info(Zend_Debug::dump($data, "\nINSERT: " . __CLASS__ . "\n", false));
@@ -188,6 +199,7 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
 
         if ($data['meter_type'] == 'electric') {
             $data['meter_numberMain'] = $this->_stripSpacesAndHyphens($data['meter_numberMain']);
+            $data['meter_numberTop'] = $this->_stripSpacesAndHyphens($data['meter_numberTop']);
         }
 
         $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
@@ -197,15 +209,6 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
 
     private function _stripSpacesAndHyphens($subject)
     {
-        $search = array(
-            '/\s+/' => '',
-            '/-+/'  => ''
-        );
-
-        return preg_replace(
-            array_keys($search),
-            array_values($search),
-            $subject
-        );
+        return preg_replace('/\s+|-+/', '', $subject);
     }
 }

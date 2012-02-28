@@ -68,6 +68,23 @@ class Power_Model_DbTable_Row_Meter_Contract extends ZendSF_Model_DbTable_Row_Ab
 
     }
 
+    public function getMeter_numberTop()
+    {
+        if ($this->getRow()->meter_type == 'gas') {
+            return $this->getRow()->meter_numberTop;
+        }
+
+        $regex = '/^([0-9]{2})([0-9]{3})([0-9]{3})$/';
+        preg_match($regex, $this->getRow()->meter_numberTop, $matches);
+
+        if (count($matches) == 4) {
+            unset($matches[0]);
+            return implode(' ', $matches);
+        } else {
+            return $this->getRow()->meter_numberTop;
+        }
+    }
+
     /**
      * Returns row as an array, with optional date formating.
      *
@@ -79,10 +96,16 @@ class Power_Model_DbTable_Row_Meter_Contract extends ZendSF_Model_DbTable_Row_Ab
         $array = array();
 
         foreach ($this->getRow() as $key => $value) {
-            if ($key == 'meter_numberMain') {
-                $array[$key] = $this->getMeter_numberMain();
-            } else {
-                $array[$key] = $value;
+            switch ($key) {
+                case 'meter_numberMain':
+                    $array[$key] = $this->getMeter_numberMain();
+                    break;
+                case 'meter_numberTop':
+                    $array[$key] = $this->getMeter_numberTop();
+                    break;
+                default:
+                    $array[$key] = $value;
+                    break;
             }
         }
 

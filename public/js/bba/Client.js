@@ -262,11 +262,8 @@ define("bba/Client",
             bba.closeDialog(clientCoForm);
 
             values = arguments[0];
-            values.idClientContact = values.clientCo_idClientContact;
 
-            if (values.idClientContact) {
-                values.type = 'edit';
-            }
+            values.type = (values.clientCo_idClientContact) ? 'edit' : 'add';
 
             xhr.post({
                 url: '/client/save-client-contact',
