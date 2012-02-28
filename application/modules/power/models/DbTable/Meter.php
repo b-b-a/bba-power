@@ -140,17 +140,11 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
             ))->group('meter_idMeter');
 
         if (!$search['meter'] == '') {
-            $filter = new Zend_Filter_PregReplace(array(
-                    'match' => '/-/',
-                    'replace' => ''
-                )
-            );
-
             if (substr($search['meter'], 0, 1) == '=') {
                 $id = (int) substr($search['meter'], 1);
                 $select->where('meter_idMeter = ?', $id);
             } else {
-                $select->orWhere('meter_numberMain like ?', '%'. $filter->filter($search['meter']) . '%');
+                $select->orWhere('meter_numberMain like ?', '%'. $this->_stripSpacesAndHyphens($search['meter']) . '%');
             }
         }
 
@@ -209,6 +203,12 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
 
     private function _stripSpacesAndHyphens($subject)
     {
-        return preg_replace('/\s+|-+/', '', $subject);
+        $filter = new Zend_Filter_PregReplace(array(
+                'match' => '/\s+|-+/',
+                'replace' => ''
+            )
+        );
+
+        return $filter->filter($subject);
     }
 }
