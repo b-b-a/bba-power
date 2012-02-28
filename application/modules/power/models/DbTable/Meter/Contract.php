@@ -68,6 +68,16 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_Contract',
             'refColumns'    => 'contract_idContract'
         ),
+        'meterType' => array(
+            'columns'       => 'meter_type',
+            'refTableClass' => 'Power_Model_DbTable_Tables',
+            'refColumns'    => 'tables_key'
+        ),
+        'meterStatus' => array(
+            'columns'       => 'meter_status',
+            'refTableClass' => 'Power_Model_DbTable_Tables',
+            'refColumns'    => 'tables_key'
+        ),
         'user'      => array(
             'columns'       => array(
                 'meterContract_userCreate',

@@ -85,6 +85,20 @@ class Power_Model_DbTable_Row_Meter_Contract extends ZendSF_Model_DbTable_Row_Ab
         }
     }
 
+    public function getMeter_type() {
+        return $this->getRow()->findParentRow(
+            'Power_Model_DbTable_Tables',
+            'meterType'
+        )->tables_value;
+    }
+
+    public function getMeter_status() {
+        return $this->getRow()->findParentRow(
+            'Power_Model_DbTable_Tables',
+            'meterStatus'
+        )->tables_value;
+    }
+
     /**
      * Returns row as an array, with optional date formating.
      *
@@ -102,6 +116,12 @@ class Power_Model_DbTable_Row_Meter_Contract extends ZendSF_Model_DbTable_Row_Ab
                     break;
                 case 'meter_numberTop':
                     $array[$key] = $this->getMeter_numberTop();
+                    break;
+                case 'meter_type':
+                    $array[$key] = $this->getMeter_type();
+                    break;
+                case 'meter_status':
+                    $array[$key] = $this->getMeter_status();
                     break;
                 default:
                     $array[$key] = $value;

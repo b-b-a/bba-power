@@ -135,18 +135,6 @@ define("bba/Core",
         {
             dialog.hide();
             dialog.destroyRecursive();
-        },
-
-        comfirmDialog : function(html)
-        {
-            dialog = new Dialog({
-                content: html,
-                onHide: function() {
-                    this.destroyRecursive();
-                }
-            });
-
-            dialog.show();
         }
     };
 

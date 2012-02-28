@@ -19,14 +19,14 @@
                 <?php if ($this->isAllowed('User')): ?>
                 <tr>
                     <td class="footer" colspan="2">
-                        <div dojoType="dijit.form.Form"
-                             id="edit-client-<?php echo $this->client->client_idClient; ?>">
-                            <button data-dojo-type="dijit.form.Button"
-                                    data-dojo-props="onClick: bba.Client.editClientButtonClick"
-                                    type="button"
-                                    value="<?php echo $this->client->client_idClient; ?>"
-                                    id="edit-client-button-<?php echo $this->client->client_idClient; ?>">Edit Details</button>
-                        </div>
+                        <button data-dojo-type="dijit.form.Button">
+                            Edit Details
+                            <script type="dojo/method" data-dojo-event="onClick">
+                                bba.Client.editClientButtonClick({
+                                    client_idClient : <?php echo $this->client->client_idClient; ?>
+                                });
+                            </script>
+                        </button>
                     </td>
                 </tr>
                 <?php endif; ?>
@@ -128,11 +128,14 @@
                         structure: bba.Client.gridLayouts.clientContact,
                         query: { clientCo_idClient: <?php echo $this->client->client_idClient; ?> },
                         sortInfo: '2',
-                        noDataMessage : bba.gridMessage,
+                        noDataMessage : bba.gridMessage">
                         <?php if ($this->isAllowed('User')): ?>
-                        onRowClick: bba.Client.clientCoGridRowClick
+                        <script type="dojo/method" data-dojo-event="onRowClick">
+                            bba.Client.clientCoGridRowClick(this, {
+                                clientCo_idClient : <?php echo $this->client->client_idClient ?>
+                            });
+                        </script>
                         <?php endif; ?>
-                        ">
                 </table>
             </div>
 

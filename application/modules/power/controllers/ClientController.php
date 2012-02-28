@@ -142,10 +142,10 @@ class Power_ClientController extends Zend_Controller_Action
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
 
-        if ($request->getParam('idClient') && $request->isPost()
+        if ($request->getParam('client_idClient') && $request->isPost()
                 && $request->isXmlHttpRequest()) {
 
-            $client = $this->_model->getClientById($request->getPost('idClient'));
+            $client = $this->_model->getClientById($request->getPost('client_idClient'));
 
             $form = $this->_getForm('clientSave', 'save-client');
             $form->populate($client->toArray('dd/MM/yyyy'));
@@ -181,21 +181,42 @@ class Power_ClientController extends Zend_Controller_Action
             return $this->_helper->redirector('index', 'client');
         }
 
-        $saved = ($request->getPost('type') === 'add') ?
-            $this->_model->saveNewClient($request->getPost()) :
-            $this->_model->saveClient($request->getPost());
+        try {
+            $saved = ($request->getPost('type') === 'add') ?
+                $this->_model->saveNewClient($request->getPost()) :
+                $this->_model->saveClient($request->getPost());
 
-        $returnJson = array('saved' => $saved);
+            $returnJson = array('saved' => $saved);
 
-        if (false === $saved) {
-            $type = ($request->getPost('type') == 'add') ? 'Add' : 'Save';
+            if (false === $saved) {
+                $type = ($request->getPost('type') == 'add') ? 'Add' : 'Save';
 
-            $form = $this->_getForm('client' . $type, 'save-client');
-            $form->populate($request->getPost());
+                $form = $this->_getForm('client' . $type, 'save-client');
+                $form->populate($request->getPost());
 
-            $this->view->assign(array('client' . $type . 'Form' => $form));
-            $html = $this->view->render('client/'. $request->getPost('type') .'-client-form.phtml');
-            $returnJson['html'] = $html;
+                $this->view->assign(array('client' . $type . 'Form' => $form));
+                $html = $this->view->render('client/'. $request->getPost('type') .'-client-form.phtml');
+                $returnJson['html'] = $html;
+            } else {
+                $this->view->assign(array(
+                    'id'    => $saved,
+                    'type'  => 'client'
+                ));
+                $html = $this->view->render('confirm.phtml');
+                $returnJson['html'] = $html;
+            }
+        } catch (Exception $e) {
+            $log = Zend_Registry::get('log');
+            $log->err($e->getMessage());
+            $this->view->assign(array(
+                'message' => $e->getMessage()
+            ));
+            $html = $this->view->render('error.phtml');
+            $returnJson = array(
+                'html'  => $html,
+                'saved' => false,
+                'error' => true
+            );
         }
 
         $this->getResponse()
@@ -269,16 +290,37 @@ class Power_ClientController extends Zend_Controller_Action
             return $this->_helper->redirector('index', 'client');
         }
 
-        $saved = $this->_model->saveClientAddress($request->getPost());
+        try {
+            $saved = $this->_model->saveClientAddress($request->getPost());
 
-        $returnJson = array('saved' => $saved);
+            $returnJson = array('saved' => $saved);
 
-        if (false === $saved) {
-            $form = $this->_getForm('clientAddressSave', 'save-client-address');
-            $form->populate($request->getPost());
-            $this->view->assign(array('clientAddressSaveForm' => $form));
-            $html = $this->view->render('client/address-form.phtml');
-            $returnJson['html'] = $html;
+            if (false === $saved) {
+                $form = $this->_getForm('clientAddressSave', 'save-client-address');
+                $form->populate($request->getPost());
+                $this->view->assign(array('clientAddressSaveForm' => $form));
+                $html = $this->view->render('client/address-form.phtml');
+                $returnJson['html'] = $html;
+            } else {
+                $this->view->assign(array(
+                    'id'    => $saved,
+                    'type'  => 'client address'
+                ));
+                $html = $this->view->render('confirm.phtml');
+                $returnJson['html'] = $html;
+            }
+        } catch (Exception $e) {
+            $log = Zend_Registry::get('log');
+            $log->err($e->getMessage());
+            $this->view->assign(array(
+                'message' => $e->getMessage()
+            ));
+            $html = $this->view->render('error.phtml');
+            $returnJson = array(
+                'html'  => $html,
+                'saved' => false,
+                'error' => true
+            );
         }
 
         $this->getResponse()
@@ -318,10 +360,10 @@ class Power_ClientController extends Zend_Controller_Action
             throw new ZendSF_Acl_Exception('Access Denied');
         }
 
-        if ($request->getPost('idClientContact') && $request->isXmlHttpRequest()
+        if ($request->getPost('clientCo_idClientContact') && $request->isXmlHttpRequest()
                 && $request->isPost()) {
 
-            $clientCo = $this->_model->getClientContactById($request->getParam('idClientContact'));
+            $clientCo = $this->_model->getClientContactById($request->getParam('clientCo_idClientContact'));
 
             $form = $this->_getForm('clientContactSave', 'save-client-contact');
             $form->populate($clientCo->toArray());

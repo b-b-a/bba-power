@@ -141,7 +141,14 @@ class Power_Form_Client_Contact_Save extends ZendSF_Form_Abstract
                 'ErrorMessages' => array('Please select a client address.'),
                 'dijitParams'   => array(
                     'promptMessage' => 'Choose a address.'
-                )
+                ),
+                'validators'    => array(
+                    array('GreaterThan', true, array(
+                        'min'       => '0',
+                        'message'   => 'Please select an contact address.'
+                    ))
+                ),
+                'ErrorMessages' => array('Please select an contact address.'),
             ));
         } else {
             $this->addHiddenElement('clientCo_idAddress', '');

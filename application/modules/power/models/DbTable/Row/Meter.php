@@ -51,6 +51,11 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
         'meter_dateModify'
     );
 
+    /**
+     * Date format used in the toArray method.
+     *
+     * @var string
+     */
     protected $_dateFormat = 'dd/MM/yyyy';
 
     public function getMeter_numberMain()

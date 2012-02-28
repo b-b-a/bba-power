@@ -91,7 +91,7 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
         if ($request->getPost('type') === 'edit') {
 
             $list = $this->getModel()->getClientAddressesByClientId(
-                $request->getPost('idClient')
+                $request->getPost('client_idClient')
             );
 
             // reset options
@@ -120,7 +120,7 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             ));
 
             $list = $this->getModel()->getClientContactsByClientId(
-                $request->getPost('idClient')
+                $request->getPost('client_idClient')
             );
 
             // reset options

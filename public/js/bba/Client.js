@@ -73,23 +73,20 @@ define("bba/Client",
             ]
          },
 
-         clientGridRowClick : function(selectedIndex)
+         clientGridRowClick : function(grid)
          {
-            if (typeof(selectedIndex) != 'number') {
-                selectedIndex = this.focus.rowIndex;
-            }
-
-            selectedItem = this.getItem(selectedIndex);
-            id = this.store.getValue(selectedItem, 'client_idClient');
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            id = grid.store.getValue(selectedItem, 'client_idClient');
 
              bba.openTab({
                 tabId : 'client' + id,
-                title : this.store.getValue(selectedItem, 'client_name'),
+                title : grid.store.getValue(selectedItem, 'client_name'),
                 url : '/client/edit-client',
-                content : {
-                    type : 'details',
-                    idClient : id
-                }
+                content : dojo.mixin({
+                    type :  'details',
+                    client_idClient : id
+                })
             });
         },
 
@@ -121,7 +118,7 @@ define("bba/Client",
                     url: '/client/edit-client-contact',
                     content: dojo.mixin({
                         type :  'edit',
-                        idClientContact : id
+                        clientCo_idClientContact : id
                     }, contentVars),
                     dialog: 'clientCoForm'
                 });
@@ -169,15 +166,12 @@ define("bba/Client",
             }
         },
 
-        editClientButtonClick : function()
+        editClientButtonClick : function(contentVars)
         {
             if (!dom.byId('clientForm')) {
                 bba.openFormDialog({
                     url: '/client/edit-client',
-                    content: {
-                        type :  'edit',
-                        idClient : this.value
-                    },
+                    content: dojo.mixin({type :  'edit'}, contentVars),
                     dialog: 'clientForm'
                 });
             } else {
@@ -203,8 +197,7 @@ define("bba/Client",
             bba.closeDialog(clientForm);
 
             values = arguments[0];
-            values.idClient = values.client_idClient;
-            values.type = (values.idClient) ? 'edit' : 'add';
+            values.type = (values.client_idClient) ? 'edit' : 'add';
 
             xhr.post({
                 url: '/client/save-client',
@@ -212,15 +205,18 @@ define("bba/Client",
                 handleAs: 'json',
                 preventCache: true,
                 load: function(data) {
-                    if (data.saved > 0) {
-                        if (values.idClient) {
-                            registry.byId('client' + values.idClient).refresh();
+                    dom.byId('dialog').innerHTML = data.html;
+                    parser.parse('dialog');
+                    if (data.error) {
+                        error.show();
+                    } else if (data.saved > 0) {
+                        if (values.client_idClient) {
+                            registry.byId('client' + values.client_idClient).refresh();
                         } else {
                             registry.byId('clientGrid')._refresh();
                         }
+                        confirm.show();
                     } else {
-                        dom.byId('dialog').innerHTML = data.html;
-                        parser.parse('dialog');
                         bba.setupDialog(clientForm);
                         clientForm.show();
                     }
@@ -233,7 +229,7 @@ define("bba/Client",
             bba.closeDialog(clientAdForm);
 
             values = arguments[0];
-            values.idAddress = values.clientAd_idAddress;
+            values.type = (values.clientAd_idAddress) ? 'edit' : 'add';
 
             xhr.post({
                 url: '/client/save-client-address',
@@ -241,15 +237,19 @@ define("bba/Client",
                 handleAs: 'json',
                 preventCache: true,
                 load: function(data) {
-                    if (data.saved > 0) {
-                        if (values.idAddress) {
-                            registry.byId('clientAd' + values.idAddress).refresh();
+                    dom.byId('dialog').innerHTML = data.html;
+                    parser.parse('dialog');
+
+                     if (data.error) {
+                        error.show();
+                    } else if (data.saved > 0) {
+                        if (values.clientAd_idAddress) {
+                            registry.byId('clientAd' + values.clientAd_idAddress).refresh();
                         } else {
                             registry.byId('clientAdGrid' + values.clientAd_idClient)._refresh();
                         }
+                        confirm.show();
                     } else {
-                        dom.byId('dialog').innerHTML = data.html;
-                        parser.parse('dialog');
                         bba.setupDialog(clientAdForm);
                         clientAdForm.show();
                     }
@@ -262,7 +262,6 @@ define("bba/Client",
             bba.closeDialog(clientCoForm);
 
             values = arguments[0];
-
             values.type = (values.clientCo_idClientContact) ? 'edit' : 'add';
 
             xhr.post({

@@ -18,9 +18,12 @@
                 <h2 class="tableHead-heading">Clients:</h2>
                 <?php if ($this->isAllowed('User')): ?>
                 <p class="tableHead-button">
-                    <button data-dojo-type="dijit.form.Button"
-                            data-dojo-props="onClick: bba.Client.newClientButtonClick"
-                            id="new-client-button">New Client</button>
+                    <button data-dojo-type="dijit.form.Button">
+                        New Client
+                        <script type="dojo/method" data-dojo-event="onClick">
+                            bba.Client.newClientButtonClick();
+                        </script>
+                    </button>
                 </p>
                 <?php endif; ?>
             </div>
@@ -30,7 +33,7 @@
 
     <div data-dojo-type="dijit.layout.ContentPane"
          data-dojo-props="region: 'center'">
-        
+
         <span data-dojo-type="dojox.data.QueryReadStore"
               data-dojo-props="url: '/client/data-store/type/client', requestMethod: 'post'"
               data-dojo-id="clientStore"></span>
@@ -43,8 +46,10 @@
                 structure: bba.Client.gridLayouts.client,
                 query: <?php echo $this->search; ?>,
                 sortInfo: "2",
-                noDataMessage : bba.gridMessage,
-                onRowClick: bba.Client.clientGridRowClick'>
+                noDataMessage : bba.gridMessage'>
+            <script type="dojo/method" data-dojo-event="onRowClick">
+                bba.Client.clientGridRowClick(this);
+            </script>
         </table>
     </div>
 </div>
