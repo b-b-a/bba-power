@@ -130,7 +130,7 @@ class Power_MeterController extends Zend_Controller_Action
                 && $request->isPost()) {
 
             $form = $this->_getForm('meterSave', 'save-meter');
-            $form->populate(array('meter_idSite' => $request->getParam('idSite')));
+            $form->populate($request->getPost());
 
             $this->view->assign(array('meterSaveForm' => $form));
 
@@ -145,10 +145,10 @@ class Power_MeterController extends Zend_Controller_Action
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
 
-        if ($request->getParam('idMeter') && $request->isPost()
+        if ($request->getParam('meter_idMeter') && $request->isPost()
                 && $request->isXmlHttpRequest()) {
 
-            $meter = $this->_model->getMeterDetailsById($request->getPost('idMeter'));
+            $meter = $this->_model->getMeterDetailsById($request->getPost('meter_idMeter'));
 
             $form = $this->_getForm('meterSave', 'save-meter');
             $form->populate($meter->toArray());
@@ -184,18 +184,39 @@ class Power_MeterController extends Zend_Controller_Action
             return $this->_helper->redirector('index', 'meter');
         }
 
-        $saved = $this->_model->saveMeter($request->getPost());
+        try {
+            $saved = $this->_model->saveMeter($request->getPost());
 
-        $returnJson = array('saved' => $saved);
+            $returnJson = array('saved' => $saved);
 
-        if (false === $saved) {
-            $form = $this->_getForm('meterSave', 'save-meter');
-            $form->populate($request->getPost());
+            if (false === $saved) {
+                $form = $this->_getForm('meterSave', 'save-meter');
+                $form->populate($request->getPost());
 
-            $this->view->assign(array('meterSaveForm' => $form));
+                $this->view->assign(array('meterSaveForm' => $form));
 
-            $html = $this->view->render('meter/meter-form.phtml');
-            $returnJson['html'] = $html;
+                $html = $this->view->render('meter/meter-form.phtml');
+                $returnJson['html'] = $html;
+            } else {
+                $this->view->assign(array(
+                    'id'    => $saved,
+                    'type'  => 'meter'
+                ));
+                $html = $this->view->render('confirm.phtml');
+                $returnJson['html'] = $html;
+            }
+        } catch (Exception $e) {
+            $log = Zend_Registry::get('log');
+            $log->err($e);
+            $this->view->assign(array(
+                'message' => $e
+            ));
+            $html = $this->view->render('error/error.phtml');
+            $returnJson = array(
+                'html'  => $html,
+                'saved' => false,
+                'error' => true
+            );
         }
 
         $this->getResponse()
@@ -217,7 +238,7 @@ class Power_MeterController extends Zend_Controller_Action
                 && $request->isPost()) {
 
             $form = $this->_getForm('meterUsageSave', 'save-usage');
-            $form->populate(array('usage_idMeter' => $request->getParam('usage_idMeter')));
+            $form->populate($request->getPost());
 
             $this->view->assign(array('meterUsageSaveForm' => $form));
             $this->render('usage-form');
@@ -236,10 +257,10 @@ class Power_MeterController extends Zend_Controller_Action
             throw new ZendSF_Acl_Exception('Access Denied');
         }
 
-        if ($request->getParam('idUsage') && $request->isPost()
+        if ($request->getParam('usage_idUsage') && $request->isPost()
                 && $request->isXmlHttpRequest()) {
 
-            $usage = $this->_model->getUsageById($request->getParam('idUsage'));
+            $usage = $this->_model->getUsageById($request->getParam('usage_idUsage'));
 
             $form = $this->_getForm('meterUsageSave', 'save-usage');
             $form->populate($usage->toArray('dd/MM/yyyy'));
@@ -267,18 +288,39 @@ class Power_MeterController extends Zend_Controller_Action
             return $this->_helper->redirector('index', 'meter');
         }
 
-        $saved = $this->_model->saveUsage($request->getPost());
+        try {
+            $saved = $this->_model->saveUsage($request->getPost());
 
-        $returnJson = array('saved' => $saved);
+            $returnJson = array('saved' => $saved);
 
-        if (false === $saved) {
-            $form = $this->_getForm('meterUsageSave', 'save-usage');
-            $form->populate($request->getPost());
+            if (false === $saved) {
+                $form = $this->_getForm('meterUsageSave', 'save-usage');
+                $form->populate($request->getPost());
 
-            $this->view->assign(array('meterUsageSaveForm' => $form));
+                $this->view->assign(array('meterUsageSaveForm' => $form));
 
-            $html = $this->view->render('meter/usage-form.phtml');
-            $returnJson['html'] = $html;
+                $html = $this->view->render('meter/usage-form.phtml');
+                $returnJson['html'] = $html;
+            } else {
+                $this->view->assign(array(
+                    'id'    => $saved,
+                    'type'  => 'usage'
+                ));
+                $html = $this->view->render('confirm.phtml');
+                $returnJson['html'] = $html;
+            }
+        } catch (Exception $e) {
+            $log = Zend_Registry::get('log');
+            $log->err($e);
+            $this->view->assign(array(
+                'message' => $e
+            ));
+            $html = $this->view->render('error/error.phtml');
+            $returnJson = array(
+                'html'  => $html,
+                'saved' => false,
+                'error' => true
+            );
         }
 
         $this->getResponse()

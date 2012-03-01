@@ -44,14 +44,14 @@
                 <?php if ($this->isAllowed('User')): ?>
                 <tr>
                     <td class="footer" colspan="2">
-                        <div dojoType="dijit.form.Form"
-                             id="edit-site-<?php echo $this->site->site_idSite; ?>">
-                            <button data-dojo-type="dijit.form.Button"
-                                    data-dojo-props="onClick: bba.Site.editSiteButtonClick"
-                                    type="button"
-                                    value="<?php echo $this->site->site_idSite; ?>"
-                                    id="edit-site-button-<?php echo $this->site->site_idSite; ?>">Edit Details</button>
-                        </div>
+                        <button data-dojo-type="dijit.form.Button">
+                            Edit Details
+                            <script type="dojo/method" data-dojo-event="onClick">
+                                bba.Site.editSiteButtonClick({
+                                    site_idSite : <?php echo $this->site->site_idSite; ?>
+                                });
+                            </script>
+                        </button>
                     </td>
                 </tr>
                 <?php endif; ?>
@@ -159,8 +159,12 @@
                         structure: bba.Site.gridLayouts.meter,
                         query: { meter_idSite: <?php echo $this->site->site_idSite; ?> },
                         sortInfo: '-2',
-                        noDataMessage : bba.gridMessage,
-                        onRowClick: bba.Meter.meterGridRowClick">
+                        noDataMessage : bba.gridMessage">
+                    <script type="dojo/method" data-dojo-event="onRowClick">
+                        bba.Meter.meterGridRowClick(this, {
+                            meter_idSite : <?php echo $this->site->site_idSite; ?>
+                        });
+                    </script>
                 </table>
             </div>
         </div>
@@ -172,11 +176,14 @@
         <div class="tableHead">
             <?php if ($this->isAllowed('User')): ?>
             <p class="tableHead-button">
-                <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: bba.Meter.newMeterButtonClick"
-                        type="button"
-                        value="<?php echo $this->site->site_idSite; ?>"
-                        id="new-meter-button-<?php echo $this->site->site_idSite; ?>">New Meter</button>
+                <button data-dojo-type="dijit.form.Button">
+                    New Meter
+                    <script type="dojo/method" data-dojo-event="onClick">
+                        bba.Meter.newMeterButtonClick({
+                            meter_idSite : <?php echo $this->site->site_idSite; ?>
+                        });
+                    </script>
+                </button>
             </p>
             <?php endif; ?>
         </div>

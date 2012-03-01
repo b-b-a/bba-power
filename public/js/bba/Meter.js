@@ -93,41 +93,35 @@ define("bba/Meter",
             registry.byId('tender_idSupplierContact').set('value', 0);
         },
 
-        meterGridRowClick : function(selectedIndex)
+        meterGridRowClick : function(grid)
         {
-            if (typeof(selectedIndex) != 'number') {
-                selectedIndex = this.focus.rowIndex;
-            }
-
-            selectedItem = this.getItem(selectedIndex);
-            id = this.store.getValue(selectedItem, 'meter_idMeter');
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            id = grid.store.getValue(selectedItem, 'meter_idMeter');
 
              bba.openTab({
                 tabId : 'meter' + id,
-                title : this.store.getValue(selectedItem, 'meter_numberMain'),
+                title : grid.store.getValue(selectedItem, 'meter_numberMain'),
                 url : '/meter/edit-meter',
                 content : {
                     type : 'details',
-                    idMeter : id
+                    meter_idMeter : id
                 }
             });
         },
 
-        usageGridRowClick : function(selectedIndex)
+        usageGridRowClick : function(grid)
         {
-            if (typeof(selectedIndex) != 'number') {
-                selectedIndex = this.focus.rowIndex;
-            }
-
-            selectedItem = this.getItem(selectedIndex);
-            id = this.store.getValue(selectedItem, 'usage_idUsage');
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            id = grid.store.getValue(selectedItem, 'usage_idUsage');
 
             if (!dom.byId('usageForm')) {
                 bba.openFormDialog({
                     url: '/meter/edit-usage',
                     content: {
                         type :  'edit',
-                        idUsage : id
+                        usage_idUsage : id
                     },
                     dialog: 'usageForm'
                 });
@@ -136,15 +130,12 @@ define("bba/Meter",
             }
         },
 
-        editMeterButtonClick : function()
+        editMeterButtonClick : function(contentVars)
         {
             if (!dom.byId('meterForm')) {
                 bba.openFormDialog({
                     url: '/meter/edit-meter',
-                    content: {
-                        type :  'edit',
-                        idMeter : this.value
-                    },
+                    content: dojo.mixin({type :  'edit'}, contentVars),
                     dialog: 'meterForm'
                 });
             } else {
@@ -152,15 +143,12 @@ define("bba/Meter",
             }
         },
 
-        newMeterButtonClick : function()
+        newMeterButtonClick : function(contentVars)
         {
             if (!dom.byId('meterForm')) {
                 bba.openFormDialog({
                     url: '/meter/add-meter',
-                    content: {
-                        type :  'add',
-                        idSite : this.value
-                    },
+                    content: dojo.mixin({type :  'add'}, contentVars),
                     dialog: 'meterForm'
                 });
             } else {
@@ -168,15 +156,12 @@ define("bba/Meter",
             }
         },
 
-        newUsageButtonClick : function()
+        newUsageButtonClick : function(contentVars)
         {
             if (!dom.byId('usageForm')) {
                 bba.openFormDialog({
                     url: '/meter/add-usage',
-                    content: {
-                        type :  'add',
-                        usage_idMeter : this.value
-                    },
+                    content: dojo.mixin({type :  'add'}, contentVars),
                     dialog: 'usageForm'
                 });
             } else {
@@ -189,11 +174,7 @@ define("bba/Meter",
             bba.closeDialog(meterForm);
 
             values = arguments[0];
-            values.idMeter = values.meter_idMeter;
-            values.idSite = values.meter_idSite;
-            if (!values.idMeter) {
-                values.type = 'add';
-            }
+            values.type = (values.meter_idMeter) ? 'edit' : 'add';
 
             xhr.post({
                 url: '/meter/save-meter',
@@ -201,16 +182,19 @@ define("bba/Meter",
                 handleAs: 'json',
                 preventCache: true,
                 load: function(data) {
-                    if (data.saved > 0) {
-                        if (values.idMeter) {
-                            registry.byId('meter' + values.idMeter).refresh();
+                    dom.byId('dialog').innerHTML = data.html;
+                    parser.parse('dialog');
+
+                    if (data.error) {
+                        error.show();
+                    } else if (data.saved > 0) {
+                        if (values.meter_idMeter) {
+                            registry.byId('meter' + values.meter_idMeter).refresh();
                         } else {
-                            registry.byId('meterGrid' + values.idSite)._refresh();
+                            registry.byId('meterGrid' + values.meter_idSite)._refresh();
                         }
-                        //bba.comfirmDialog();
+                        confirm.show();
                     } else {
-                        dom.byId('dialog').innerHTML = data.html;
-                        parser.parse('dialog');
                         bba.setupDialog(meterForm);
                         meterForm.show();
                     }
@@ -223,7 +207,7 @@ define("bba/Meter",
             bba.closeDialog(usageForm);
 
             values = arguments[0];
-            values.idUsage = values.usage_idUsage;
+            values.type = (values.usage_idUsage) ? 'edit' : 'add';
 
             xhr.post({
                 url: '/meter/save-usage',
@@ -231,12 +215,15 @@ define("bba/Meter",
                 handleAs: 'json',
                 preventCache: true,
                 load: function(data) {
-                    if (data.saved > 0) {
+                    dom.byId('dialog').innerHTML = data.html;
+                    parser.parse('dialog');
+
+                    if (data.error) {
+                        error.show();
+                    } else if (data.saved > 0) {
                         registry.byId('usageGrid' + values.usage_idMeter)._refresh();
-                        //bba.comfirmDialog();
+                        confirm.show();
                     } else {
-                        dom.byId('dialog').innerHTML = data.html;
-                        parser.parse('dialog');
                         bba.setupDialog(usageForm);
                         usageForm.show();
                     }

@@ -155,20 +155,24 @@ define("bba/Contract",
                     handleAs: 'json',
                     preventCache: true,
                     load: function(data) {
-                        if (data.saved) {
+                        dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+
+                        if (data.error) {
+                            error.show();
+                        } else if (data.saved) {
                             registry.byId('meterContractGrid' + meterContract)._refresh();
                             registry.byId('addMeterContractDialog').hide();
-                        } else {
-                            alert('meters could not be saved');
+                            confirm.show();
                         }
                     }
                 });
-            }else {
+            } else {
                 alert('Please enter Peak kVA and EAC for all selected meters (enter zero if not known).');
             }
         },
 
-        addMeterButtonClick : function()
+        addMeterButtonClick : function(contentVars)
         {
             if (!dom.byId('addMeterContractDialog')) {
 
@@ -176,10 +180,7 @@ define("bba/Contract",
                     id: 'addMeterContractDialog',
                     title: 'Add/Edit Meters on Contract',
                     ioArgs: {
-                        content: {
-                            type :  'add',
-                            idContract : this.value
-                        }
+                        content: dojo.mixin({type : 'add'}, contentVars)
                     },
                     ioMethod: dojo.xhrPost,
                     href: '/contract/add-meter-contract'
@@ -189,18 +190,16 @@ define("bba/Contract",
             addMeterContractDialog.show();
         },
 
-        contractGridRowClick : function(selectedIndex)
+        contractGridRowClick : function(grid)
         {
-            if (typeof(selectedIndex) != 'number') {
-                selectedIndex = this.focus.rowIndex;
-            }
 
-            selectedItem = this.getItem(selectedIndex);
-            id = this.store.getValue(selectedItem, 'contract_idContract');
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            id = grid.store.getValue(selectedItem, 'contract_idContract');
 
             bba.openTab({
                 tabId : 'contract' + id,
-                title : this.store.getValue(selectedItem, 'client_name'),
+                title : grid.store.getValue(selectedItem, 'client_name'),
                 url : '/contract/edit-contract',
                 content : {
                     type : 'details',
@@ -209,35 +208,29 @@ define("bba/Contract",
             });
         },
 
-        tenderGridRowClick : function(selectedIndex)
+        tenderGridRowClick : function(grid, contentVars)
         {
-            if (typeof(selectedIndex) != 'number') {
-                selectedIndex = this.focus.rowIndex;
-            }
-
-            selectedItem = this.getItem(selectedIndex);
-            id = this.store.getValue(selectedItem, 'tender_idTender');
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            id = grid.store.getValue(selectedItem, 'tender_idTender');
 
             bba.openTab({
                 tabId : 'tender' + id,
-                title : this.store.getValue(selectedItem, 'supplier_name'),
+                title : grid.store.getValue(selectedItem, 'supplier_name'),
                 url : '/contract/edit-tender',
-                content : {
-                    type : 'details',
-                    idTender : id
-                }
+                content : dojo.mixin({
+                    type :  'details',
+                    tender_idTender : id
+                }, contentVars)
             });
         },
 
-        editContractButtonClick : function()
+        editContractButtonClick : function(contentVars)
         {
             if (!dom.byId('contractForm')) {
                 bba.openFormDialog({
                     url: '/contract/edit-contract',
-                    content: {
-                        type :  'edit',
-                        contract_idContract : this.value
-                    },
+                    content: dojo.mixin({type :  'edit'}, contentVars),
                     dialog: 'contractForm'
                 });
             } else {
@@ -245,15 +238,12 @@ define("bba/Contract",
             }
         },
 
-        editTenderButtonClick : function()
+        editTenderButtonClick : function(contentVars)
         {
             if (!dom.byId('tenderForm')) {
                 bba.openFormDialog({
                     url: '/contract/edit-tender',
-                    content: {
-                        type :  'edit',
-                        idTender : this.value
-                    },
+                    content: dojo.mixin({type :  'edit'}, contentVars),
                     dialog: 'tenderForm'
                 });
             } else {
@@ -274,12 +264,12 @@ define("bba/Contract",
             }
         },
 
-        newTenderButtonClick : function()
+        newTenderButtonClick : function(contentVars)
         {
             if (!dom.byId('tenderForm')) {
                 bba.openFormDialog({
                     url: '/contract/add-tender',
-                    content: {type :  'add'},
+                    content: dojo.mixin({type :  'add'}, contentVars),
                     dialog: 'tenderForm'
                 });
             } else {
@@ -292,6 +282,7 @@ define("bba/Contract",
             bba.closeDialog(contractForm);
 
             values = arguments[0];
+            values.type = (values.contract_idContract) ? 'edit' : 'add';
 
             xhr.post({
                 url: '/contract/save-contract',
@@ -302,7 +293,9 @@ define("bba/Contract",
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
 
-                    if (data.saved > 0) {
+                    if (data.error) {
+                        error.show();
+                    } else if (data.saved > 0) {
                         if (values.contract_idContract) {
                             registry.byId('contract' + values.contract_idContract).refresh();
                         }
@@ -323,7 +316,7 @@ define("bba/Contract",
             bba.closeDialog(tenderForm);
 
             values = arguments[0];
-            values.idTender = values.tender_idTender
+            values.type = (values.tender_idTender) ? 'edit' : 'add';
 
             xhr.post({
                 url: '/contract/save-tender',
@@ -331,14 +324,19 @@ define("bba/Contract",
                 handleAs: 'json',
                 preventCache: true,
                 load: function(data) {
-                    if (data.saved > 0) {
-                        if (values.idTender) {
-                            registry.byId('tender' + values.idTender).refresh();
+                    dom.byId('dialog').innerHTML = data.html;
+                    parser.parse('dialog');
+
+                    if (data.error) {
+                        error.show();
+                    } else if (data.saved > 0) {
+                        if (values.tender_idTender) {
+                            registry.byId('tender' + values.tender_idTender).refresh();
+                        } else if (registry.byId('tenderGrid' + values.tender_idContract)) {
+                            registry.byId('tenderGrid' + values.tender_idContract)._refresh();
                         }
-                        //bba.comfirmDialog();
+                        confirm.show();
                     } else {
-                        dom.byId('dialog').innerHTML = data.html;
-                        parser.parse('dialog');
                         bba.setupDialog(tenderForm);
                         tenderForm.show();
                     }

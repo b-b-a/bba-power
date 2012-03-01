@@ -19,9 +19,12 @@
                 <h2 class="tableHead-heading">Sites:</h2>
                 <?php if ($this->isAllowed('User')): ?>
                 <p class="tableHead-button">
-                    <button data-dojo-type="dijit.form.Button"
-                            data-dojo-props="onClick: bba.Site.newSiteButtonClick"
-                            id="new-site-button">New Site</button>
+                    <button data-dojo-type="dijit.form.Button">
+                        New Site
+                        <script type="dojo/method" data-dojo-event="onClick">
+                            bba.Site.newSiteButtonClick();
+                        </script>
+                    </button>
                 </p>
                 <?php endif; ?>
             </div>
@@ -44,8 +47,10 @@
                     structure: bba.Site.gridLayouts.site,
                     query: <?php echo $this->search; ?>,
                     sortInfo: "2",
-                    noDataMessage : bba.gridMessage,
-                    onRowClick: bba.Site.siteGridRowClick'>
+                    noDataMessage : bba.gridMessage'>
+                 <script type="dojo/method" data-dojo-event="onRowClick">
+                    bba.Site.siteGridRowClick(this);
+                </script>
             </table>
         </table>
     </div>

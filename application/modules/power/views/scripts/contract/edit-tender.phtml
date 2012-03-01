@@ -56,14 +56,14 @@
                 <?php if ($this->isAllowed('User')): ?>
                 <tr>
                     <td class="footer" colspan="2">
-                        <div dojoType="dijit.form.Form"
-                             id="edit-tender-<?php echo $this->tender->tender_idTender; ?>">
-                            <button data-dojo-type="dijit.form.Button"
-                                    data-dojo-props="onClick: bba.Contract.editTenderButtonClick"
-                                    type="button"
-                                    value="<?php echo $this->tender->tender_idTender; ?>"
-                                    id="edit-tender-button-<?php echo $this->tender->tender_idTender; ?>">Edit Details</button>
-                        </div>
+                        <button data-dojo-type="dijit.form.Button">
+                            Edit Details
+                            <script type="dojo/method" data-dojo-event="onClick">
+                                bba.Contract.editTenderButtonClick({
+                                    tender_idTender : <?php echo $this->tender->tender_idTender; ?>
+                                });
+                            </script>
+                        </button>
                     </td>
                 </tr>
                 <?php endif; ?>

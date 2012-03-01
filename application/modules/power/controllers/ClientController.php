@@ -207,11 +207,11 @@ class Power_ClientController extends Zend_Controller_Action
             }
         } catch (Exception $e) {
             $log = Zend_Registry::get('log');
-            $log->err($e->getMessage());
+            $log->err($e);
             $this->view->assign(array(
-                'message' => $e->getMessage()
+                'message' => $e
             ));
-            $html = $this->view->render('error.phtml');
+            $html = $this->view->render('error/error.phtml');
             $returnJson = array(
                 'html'  => $html,
                 'saved' => false,
@@ -311,11 +311,11 @@ class Power_ClientController extends Zend_Controller_Action
             }
         } catch (Exception $e) {
             $log = Zend_Registry::get('log');
-            $log->err($e->getMessage());
+            $log->err($e);
             $this->view->assign(array(
-                'message' => $e->getMessage()
+                'message' => $e
             ));
-            $html = $this->view->render('error.phtml');
+            $html = $this->view->render('error/error.phtml');
             $returnJson = array(
                 'html'  => $html,
                 'saved' => false,
@@ -403,7 +403,7 @@ class Power_ClientController extends Zend_Controller_Action
                 $this->view->assign(array('clientContactSaveForm' => $form));
                 $html = $this->view->render('client/contact-form.phtml');
                 $returnJson['html'] = $html;
-            }  else {
+            } else {
                 $this->view->assign(array(
                     'id'    => $saved,
                     'type'  => 'client contact'
@@ -413,11 +413,11 @@ class Power_ClientController extends Zend_Controller_Action
             }
         } catch (Exception $e) {
             $log = Zend_Registry::get('log');
-            $log->err($e->getMessage());
+            $log->err($e);
             $this->view->assign(array(
-                'message' => $e->getMessage()
+                'message' => $e
             ));
-            $html = $this->view->render('error.phtml');
+            $html = $this->view->render('error/error.phtml');
             $returnJson = array(
                 'html'  => $html,
                 'saved' => false,

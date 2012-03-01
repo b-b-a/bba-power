@@ -121,12 +121,12 @@ class Power_UserController extends Zend_Controller_Action
 
     public function editUserAction()
     {
-        if ($this->_request->getParam('idUser')
+        if ($this->_request->getParam('user_idUser')
                 && $this->_request->isPost()
                 && $this->_request->isXmlHttpRequest()) {
             $this->_helper->layout->disableLayout();
 
-            $user = $this->_model->getUserById($this->_request->getParam('idUser'));
+            $user = $this->_model->getUserById($this->_request->getParam('user_idUser'));
 
             $form = $this->_getUserForm();
             $form->populate($user->toArray())
@@ -151,14 +151,35 @@ class Power_UserController extends Zend_Controller_Action
             return $this->_helper->redirector('index', 'user');
         }
 
-        $saved = $this->_model->saveUser($this->_request->getPost());
+        try {
+            $saved = $this->_model->saveUser($this->_request->getPost());
 
-        $returnJson = array('saved' => $saved);
+            $returnJson = array('saved' => $saved);
 
-        if ($saved == 0) {
-            //$this->view->assign(array('userSaveForm' => $this->_getUserForm()));
-            $html = $this->view->render('user/user-form.phtml');
-            $returnJson['html'] = $html;
+            if ($saved == 0) {
+                //$this->view->assign(array('userSaveForm' => $this->_getUserForm()));
+                $html = $this->view->render('user/user-form.phtml');
+                $returnJson['html'] = $html;
+            } else {
+                $this->view->assign(array(
+                    'id'    => $saved,
+                    'type'  => 'user'
+                ));
+                $html = $this->view->render('confirm.phtml');
+                $returnJson['html'] = $html;
+            }
+        } catch (Exception $e) {
+            $log = Zend_Registry::get('log');
+            $log->err($e);
+            $this->view->assign(array(
+                'message' => $e
+            ));
+            $html = $this->view->render('error/error.phtml');
+            $returnJson = array(
+                'html'  => $html,
+                'saved' => false,
+                'error' => true
+            );
         }
 
         $this->getResponse()

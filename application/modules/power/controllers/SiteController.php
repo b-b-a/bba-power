@@ -150,10 +150,10 @@ class Power_SiteController extends Zend_Controller_Action
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
 
-        if ($request->getParam('idSite') && $request->isPost()
+        if ($request->getParam('site_idSite') && $request->isPost()
                 && $request->isXmlHttpRequest()) {
 
-            $site = $this->_model->getSiteDetailsById($request->getPost('idSite'));
+            $site = $this->_model->getSiteDetailsById($request->getPost('site_idSite'));
 
             $form = $this->_getForm('siteEdit', 'save-site');
             $form->populate($site->toArray());
@@ -193,22 +193,43 @@ class Power_SiteController extends Zend_Controller_Action
         $type = ($request->getPost('type') == 'add') ? 'Add' : 'Edit';
         $formName = 'site' . $type . 'Form';
 
-        $saved = $this->_model->saveSite($request->getPost(), 'site' . $type);
+        try {
+            $saved = $this->_model->saveSite($request->getPost(), 'site' . $type);
 
-        $returnJson = array('saved' => $saved);
+            $returnJson = array('saved' => $saved);
 
-        if (false === $saved) {
+            if (false === $saved) {
 
-            $form = $this->_getForm('site' . $type, 'save-site');
-            $form->populate($request->getPost());
+                $form = $this->_getForm('site' . $type, 'save-site');
+                $form->populate($request->getPost());
 
+                $this->view->assign(array(
+                    'formName'  => $formName,
+                    'site' . $type . 'Form'  => $form
+                ));
+
+                $html = $this->view->render('site/site-form.phtml');
+                $returnJson['html'] = $html;
+            } else {
+                $this->view->assign(array(
+                    'id'    => $saved,
+                    'type'  => 'site'
+                ));
+                $html = $this->view->render('confirm.phtml');
+                $returnJson['html'] = $html;
+            }
+        } catch (Exception $e) {
+            $log = Zend_Registry::get('log');
+            $log->err($e);
             $this->view->assign(array(
-                'formName'  => $formName,
-                'site' . $type . 'Form'  => $form
+                'message' => $e
             ));
-
-            $html = $this->view->render('site/site-form.phtml');
-            $returnJson['html'] = $html;
+            $html = $this->view->render('error/error.phtml');
+            $returnJson = array(
+                'html'  => $html,
+                'saved' => false,
+                'error' => true
+            );
         }
 
         $this->getResponse()

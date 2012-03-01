@@ -1,3 +1,33 @@
-<h3>BBA Error</h3>
-<p>There was an error processing your request:</p>
-<p><?php echo $this->message; ?></p>
+<?php $this->dojo()->requireModule('bba/Core', true); ?>
+<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'BBA System Error'" data-dojo-id="error" id="error">
+    <div class="dijitDialogPaneContentArea">
+        <div id="error-content">
+            <table>
+                <caption>There was an error processing your request, please report the following
+                         message to your administrator:</caption>
+                <tr>
+                    <th>Error Code:</th>
+                    <td><p class="errorMessage"><?php echo $this->message->getCode(); ?></p></td>
+                </tr>
+                <tr>
+                    <th>File:</th>
+                    <td><p class="errorMessage"><?php echo $this->message->getFile(); ?></p></td>
+                </tr>
+                <tr>
+                    <th>Line:</th>
+                    <td><p class="errorMessage"><?php echo $this->message->getLine(); ?></p></td>
+                </tr>
+                <tr>
+                    <th>Message:</th>
+                    <td><p class="errorMessage"><?php echo $this->message->getMessage(); ?></p></td>
+                </tr>
+            </table>
+        </div>
+        <button data-dojo-type="dijit.form.Button">
+            Close
+            <script type="dojo/method" data-dojo-event="onClick">
+                return bba.closeDialog(error);
+            </script>
+        </button>
+    </div>
+</div>

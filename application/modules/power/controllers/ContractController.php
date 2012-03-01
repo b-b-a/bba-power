@@ -108,7 +108,7 @@ class Power_ContractController extends Zend_Controller_Action
         $form->populate($this->getRequest()->getPost());
 
         $form->setAction($urlHelper->url(array(
-            'controller'    => 'cntract' ,
+            'controller'    => 'contract' ,
             'action'        => 'index',
             'module'        => 'power'
         ), 'default'));
@@ -186,25 +186,39 @@ class Power_ContractController extends Zend_Controller_Action
             return $this->_helper->redirector('index', 'contract');
         }
 
-        $saved = $this->_model->saveContract($request->getPost());
+        try {
+            $saved = $this->_model->saveContract($request->getPost());
 
-        $returnJson = array('saved' => $saved);
+            $returnJson = array('saved' => $saved);
 
-        if (false === $saved) {
-            $form = $this->_getForm('contractSave', 'save-contract');
-            $form->populate($request->getPost());
+            if (false === $saved) {
+                $form = $this->_getForm('contractSave', 'save-contract');
+                $form->populate($request->getPost());
 
-            $this->view->assign(array('contractSaveForm' => $form));
+                $this->view->assign(array('contractSaveForm' => $form));
 
-            $html = $this->view->render('contract/contract-form.phtml');
-            $returnJson['html'] = $html;
-        } else {
+                $html = $this->view->render('contract/contract-form.phtml');
+                $returnJson['html'] = $html;
+            } else {
+                $this->view->assign(array(
+                    'id'    => $saved,
+                    'type'  => 'contract'
+                ));
+                $html = $this->view->render('confirm.phtml');
+                $returnJson['html'] = $html;
+            }
+        } catch (Exception $e) {
+            $log = Zend_Registry::get('log');
+            $log->err($e);
             $this->view->assign(array(
-                'id'    => $saved,
-                'type'  => 'contract'
+                'message' => $e
             ));
-            $html = $this->view->render('confirm.phtml');
-            $returnJson['html'] = $html;
+            $html = $this->view->render('error/error.phtml');
+            $returnJson = array(
+                'html'  => $html,
+                'saved' => false,
+                'error' => true
+            );
         }
 
         $this->getResponse()
@@ -221,10 +235,10 @@ class Power_ContractController extends Zend_Controller_Action
             throw new ZendSF_Acl_Exception('Access Denied');
         }
 
-        if ($request->getParam('idContract') && $request->isPost()
+        if ($request->getParam('contract_idContract') && $request->isPost()
                 && $request->isXmlHttpRequest()) {
             $this->view->assign(array(
-                'contract' => $this->_model->getContractById($request->getParam('idContract'))
+                'contract' => $this->_model->getContractById($request->getParam('contract_idContract'))
             ));
         }
     }
@@ -244,9 +258,30 @@ class Power_ContractController extends Zend_Controller_Action
             return $this->_helper->redirector('index', 'contract');
         }
 
-        $saved = $this->_model->saveMetersToContract($request->getPost());
+        try {
+            $saved = $this->_model->saveMetersToContract($request->getPost());
+            $returnJson = array('saved' => $saved);
 
-        $returnJson = array('saved' => $saved);
+            $this->view->assign(array(
+                'id'    => $saved,
+                'type'  => 'contract'
+            ));
+            $html = $this->view->render('confirm.phtml');
+            $returnJson['html'] = $html;
+
+        } catch (Exception $e) {
+            $log = Zend_Registry::get('log');
+            $log->err($e);
+            $this->view->assign(array(
+                'message' => $e
+            ));
+            $html = $this->view->render('error/error.phtml');
+            $returnJson = array(
+                'html'  => $html,
+                'saved' => false,
+                'error' => true
+            );
+        }
 
         $this->getResponse()
             ->setHeader('Content-Type', 'application/json')
@@ -265,9 +300,7 @@ class Power_ContractController extends Zend_Controller_Action
         if ($request->isXmlHttpRequest() && $request->getParam('type') == 'add'
                 && $request->isPost()) {
             $form = $this->_getForm('tenderSave', 'save-tender');
-            $form->populate(array(
-                'tender_idContract' => $request->getParam('tender_idContract')
-            ));
+            $form->populate($request->getPost());
 
             $this->view->assign(array('tenderSaveForm' => $form));
 
@@ -282,9 +315,9 @@ class Power_ContractController extends Zend_Controller_Action
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
 
-        if ($request->getParam('idTender') && $request->isPost()
+        if ($request->getParam('tender_idTender') && $request->isPost()
                 && $request->isXmlHttpRequest()) {
-            $tender = $this->_model->getTenderById($request->getParam('idTender'));
+            $tender = $this->_model->getTenderById($request->getParam('tender_idTender'));
 
             $this->view->assign(array(
                 'tender' => $tender
@@ -319,18 +352,39 @@ class Power_ContractController extends Zend_Controller_Action
             return $this->_helper->redirector('index', 'contract');
         }
 
-        $saved = $this->_model->saveTender($request->getPost());
+        try {
+            $saved = $this->_model->saveTender($request->getPost());
 
-        $returnJson = array('saved' => $saved);
+            $returnJson = array('saved' => $saved);
 
-        if (false === $saved) {
-            $form = $this->_getForm('tenderSave', 'save-tender');
-            $form->populate($request->getPost());
+            if (false === $saved) {
+                $form = $this->_getForm('tenderSave', 'save-tender');
+                $form->populate($request->getPost());
 
-            $this->view->assign(array('tenderSaveForm' => $form));
+                $this->view->assign(array('tenderSaveForm' => $form));
 
-            $html = $this->view->render('contract/tender-form.phtml');
-            $returnJson['html'] = $html;
+                $html = $this->view->render('contract/tender-form.phtml');
+                $returnJson['html'] = $html;
+            } else {
+                $this->view->assign(array(
+                    'id'    => $saved,
+                    'type'  => 'tender'
+                ));
+                $html = $this->view->render('confirm.phtml');
+                $returnJson['html'] = $html;
+            }
+        } catch (Exception $e) {
+            $log = Zend_Registry::get('log');
+            $log->err($e);
+            $this->view->assign(array(
+                'message' => $e
+            ));
+            $html = $this->view->render('error/error.phtml');
+            $returnJson = array(
+                'html'  => $html,
+                'saved' => false,
+                'error' => true
+            );
         }
 
         $this->getResponse()

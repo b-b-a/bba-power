@@ -131,22 +131,19 @@ define("bba/Site",
             registry.byId("site_idClientContact").set('value', 0);
         },
 
-        siteGridRowClick : function(selectedIndex)
-         {
-            if (typeof(selectedIndex) != 'number') {
-                selectedIndex = this.focus.rowIndex;
-            }
-
-            selectedItem = this.getItem(selectedIndex);
-            id = this.store.getValue(selectedItem, 'site_idSite');
+        siteGridRowClick : function(grid)
+        {
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            id = grid.store.getValue(selectedItem, 'site_idSite');
 
              bba.openTab({
                 tabId : 'site' + id,
-                title : this.store.getValue(selectedItem, 'clientAd_addressName'),
+                title : grid.store.getValue(selectedItem, 'clientAd_addressName'),
                 url : '/site/edit-site',
                 content : {
                     type : 'details',
-                    idSite : id
+                    site_idSite : id
                 }
             });
         },
@@ -156,10 +153,7 @@ define("bba/Site",
             if (!dom.byId('siteForm')) {
                 bba.openFormDialog({
                     url: '/site/add-site',
-                    content: {
-                        type :  'add',
-                        idSite : this.value
-                    },
+                    content: dojo.mixin({type :  'add'}),
                     dialog: 'siteForm'
                 });
             } else {
@@ -167,15 +161,12 @@ define("bba/Site",
             }
         },
 
-        editSiteButtonClick : function()
+        editSiteButtonClick : function(contentVars)
         {
             if (!dom.byId('siteForm')) {
                 bba.openFormDialog({
                     url: '/site/edit-site',
-                    content: {
-                        type :  'edit',
-                        idSite : this.value
-                    },
+                    content: dojo.mixin({type :  'edit'}, contentVars),
                     dialog: 'siteForm'
                 });
             } else {
@@ -188,8 +179,7 @@ define("bba/Site",
             bba.closeDialog(siteForm);
 
             values = arguments[0];
-            values.idSite = values.site_idSite;
-            values.type = (values.idSite) ? 'edit' : 'add';
+            values.type = (values.site_idSite) ? 'edit' : 'add';
 
             xhr.post({
                 url: '/site/save-site',
@@ -197,15 +187,19 @@ define("bba/Site",
                 handleAs: 'json',
                 preventCache: true,
                 load: function(data) {
-                    if (data.saved > 0) {
-                        if (values.idSite) {
-                            registry.byId('site' + values.idSite).refresh();
+                    dom.byId('dialog').innerHTML = data.html;
+                    parser.parse('dialog');
+
+                    if (data.error) {
+                        error.show();
+                    } else if (data.saved > 0) {
+                        if (values.site_idSite) {
+                            registry.byId('site' + values.site_idSite).refresh();
                         } else {
                             registry.byId('siteGrid')._refresh();
                         }
+                        confirm.show();
                     } else {
-                        dom.byId('dialog').innerHTML = data.html;
-                        parser.parse('dialog');
                         bba.setupDialog(siteForm);
                         siteForm.show();
                     }

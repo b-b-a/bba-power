@@ -73,41 +73,35 @@ define("bba/Supplier",
             ]
         },
 
-        supplierGridRowClick : function(selectedIndex)
+        supplierGridRowClick : function(grid)
         {
-            if (typeof(selectedIndex) != 'number') {
-                selectedIndex = this.focus.rowIndex;
-            }
-
-            selectedItem = this.getItem(selectedIndex);
-            id = this.store.getValue(selectedItem, 'supplier_idSupplier');
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            id = grid.store.getValue(selectedItem, 'supplier_idSupplier');
 
              bba.openTab({
                 tabId : 'supplier' + id,
-                title : this.store.getValue(selectedItem, 'supplier_name'),
+                title : grid.store.getValue(selectedItem, 'supplier_name'),
                 url : '/supplier/edit-supplier',
                 content : {
                     type : 'details',
-                    idSupplier : id
+                    supplier_idSupplier : id
                 }
             });
         },
 
-        supplierCoGridRowClick : function(selectedIndex)
+        supplierCoGridRowClick : function(grid)
         {
-            if (typeof(selectedIndex) != 'number') {
-                selectedIndex = this.focus.rowIndex;
-            }
-
-            selectedItem = this.getItem(selectedIndex);
-            id = this.store.getValue(selectedItem, 'supplierCo_idSupplierContact');
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            id = grid.store.getValue(selectedItem, 'supplierCo_idSupplierContact');
 
              if (!dom.byId('supplierCoForm')) {
                 bba.openFormDialog({
                     url: '/supplier/edit-supplier-contact',
                     content: {
                         type :  'edit',
-                        idSupplierContact : id
+                        supplierCo_idSupplierContact : id
                     },
                     dialog: 'supplierCoForm'
                 });
@@ -129,15 +123,12 @@ define("bba/Supplier",
             }
         },
 
-        newSupplierCoButtonClick : function()
+        newSupplierCoButtonClick : function(contentVars)
         {
             if (!dom.byId('supplierCoForm')) {
                 bba.openFormDialog({
                     url: '/supplier/add-supplier-contact',
-                    content: {
-                        type :  'add',
-                        supplierCo_idSupplier : this.value
-                    },
+                    content: dojo.mixin({type :  'add'}, contentVars),
                     dialog: 'supplierCoForm'
                 });
             } else {
@@ -145,15 +136,12 @@ define("bba/Supplier",
             }
         },
 
-        editSupplierButtonClick : function()
+        editSupplierButtonClick : function(contentVars)
         {
             if (!dom.byId('supplierForm')) {
                 bba.openFormDialog({
                     url: '/supplier/edit-supplier',
-                    content: {
-                        type :  'edit',
-                        idSupplier : this.value
-                    },
+                    content: dojo.mixin({type :  'edit'}, contentVars),
                     dialog: 'supplierForm'
                 });
             } else {
@@ -166,7 +154,7 @@ define("bba/Supplier",
             bba.closeDialog(supplierForm);
 
             values = arguments[0];
-            values.idSupplier = values.supplier_idSupplier;
+            values.type = (values.supplier_idSupplier) ? 'edit' : 'add';
 
             xhr.post({
                 url: '/supplier/save-supplier',
@@ -174,15 +162,19 @@ define("bba/Supplier",
                 handleAs: 'json',
                 preventCache: true,
                 load: function(data) {
-                    if (data.saved > 0) {
-                        if (values.idSupplier) {
-                            registry.byId('supplier' + values.idSupplier).refresh();
+                    dom.byId('dialog').innerHTML = data.html;
+                    parser.parse('dialog');
+
+                    if (data.error) {
+                        error.show();
+                    } else if (data.saved > 0) {
+                        if (values.supplier_idSupplier) {
+                            registry.byId('supplier' + values.supplier_idSupplier).refresh();
                         } else {
                             registry.byId('supplierGrid')._refresh();
                         }
+                        confirm.show();
                     } else {
-                        dom.byId('dialog').innerHTML = data.html;
-                        parser.parse('dialog');
                         bba.setupDialog(supplierForm);
                         supplierForm.show();
                     }
@@ -195,11 +187,7 @@ define("bba/Supplier",
             bba.closeDialog(supplierCoForm);
 
             values = arguments[0];
-            values.idSupplierContact = values.supplierclientCo_idSupplierContact;
-
-            if (values.idSupplierContact) {
-                values.type = 'edit';
-            }
+            values.type = (values.supplierCo_idSupplierContact) ? 'edit' : 'add';
 
             xhr.post({
                 url: '/supplier/save-supplier-contact',
@@ -207,11 +195,15 @@ define("bba/Supplier",
                 handleAs: 'json',
                 preventCache: true,
                 load: function(data) {
-                    if (data.saved > 0) {
+                    dom.byId('dialog').innerHTML = data.html;
+                    parser.parse('dialog');
+
+                    if (data.error) {
+                        error.show();
+                    } else if (data.saved > 0) {
                         registry.byId('supplierCoGrid' + values.supplierCo_idSupplier)._refresh();
+                        confirm.show();
                     } else {
-                        dom.byId('dialog').innerHTML = data.html;
-                        parser.parse('dialog');
                         bba.setupDialog(supplierCoForm);
                         supplierCoForm.show();
                     }

@@ -28,32 +28,30 @@
                     <th>Serial Number:</th>
                     <td><?php echo $this->meter->meter_numberSerial; ?></td>
                 </tr>
-                 <tr>
+                <tr>
                     <th>Supply Capacity:</th>
                     <td><?php echo $this->meter->meter_capacity; ?>&nbsp;kWH</td>
+                </tr>
+
+                <tr>
+                    <th>Description:</th>
+                    <td class="description"><?php echo $this->meter->meter_desc; ?></td>
                 </tr>
 
                 <?php if ($this->isAllowed('User')): ?>
                 <tr>
                     <td class="footer" colspan="2">
-                        <div dojoType="dijit.form.Form"
-                             id="edit-meter-<?php echo $this->meter->meter_idMeter; ?>">
-                            <button data-dojo-type="dijit.form.Button"
-                                    data-dojo-props="onClick: bba.Meter.editMeterButtonClick"
-                                    type="button"
-                                    value="<?php echo $this->meter->meter_idMeter; ?>"
-                                    id="edit-meter-button-<?php echo $this->meter->meter_idMeter; ?>">Edit Details</button>
-                        </div>
+                        <button data-dojo-type="dijit.form.Button">
+                            Edit Details
+                            <script type="dojo/method" data-dojo-event="onClick">
+                                bba.Meter.editMeterButtonClick({
+                                    meter_idMeter : <?php echo $this->meter->meter_idMeter; ?>
+                                });
+                            </script>
+                        </button>
                     </td>
                 </tr>
                 <?php endif; ?>
-            </table>
-
-             <table class="info_wrap ident">
-                <caption>Description</caption>
-                <tr>
-                    <td class="description"><?php echo $this->meter->meter_desc; ?></td>
-                </tr>
             </table>
 
             <table class="info_wrap ident">
@@ -149,11 +147,12 @@
                         structure: bba.Meter.gridLayouts.meterUsage,
                         query: { usage_idMeter: <?php echo $this->meter->meter_idMeter; ?> },
                         sortInfo: "-3",
-                        noDataMessage : bba.gridMessage,
+                        noDataMessage : bba.gridMessage'>
                     <?php if ($this->isAllowed('MeterUsage')): ?>
-                        onRowClick: bba.Meter.usageGridRowClick
+                    <script type="dojo/method" data-dojo-event="onRowClick">
+                        bba.Meter.usageGridRowClick(this);
+                    </script>
                     <?php endif; ?>
-                        '>
                 </table>
             </div>
 
@@ -171,8 +170,10 @@
                         structure: bba.Meter.gridLayouts.contract,
                         query: { meter_idMeter: <?php echo $this->meter->meter_idMeter; ?> },
                         sortInfo: "2",
-                        noDataMessage : bba.gridMessage,
-                        onRowClick: bba.Contract.contractGridRowClick'>
+                        noDataMessage : bba.gridMessage'>
+                    <script type="dojo/method" data-dojo-event="onRowClick">
+                        bba.Contract.contractGridRowClick(this);
+                    </script>
                 </table>
             </div>
         </div>
@@ -188,7 +189,14 @@
                             data-dojo-props="onClick: bba.Meter.newUsageButtonClick"
                             type="button"
                             value="<?php echo $this->meter->meter_idMeter; ?>"
-                            id="new-usage-button-<?php echo $this->meter->meter_idMeter; ?>">New Usage</button>
+                            id="new-usage-button-<?php echo $this->meter->meter_idMeter; ?>">
+                    New Usage
+                    <script type="dojo/method" data-dojo-event="onClick">
+                        bba.Meter.newUsageButtonClick({
+                            usage_idMeter : <?php echo $this->meter->meter_idMeter; ?>
+                        });
+                    </script>
+                </button>
             </p>
             <?php endif; ?>
         </div>

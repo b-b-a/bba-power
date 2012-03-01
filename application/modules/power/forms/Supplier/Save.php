@@ -101,10 +101,10 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
 
         $request = Zend_Controller_Front::getInstance()->getRequest();
 
-        if ($request->getPost('idSupplier')) {
+        if ($request->getPost('supplier_idSupplier')) {
 
             $list = $this->getModel()->getSupplierById(
-                $request->getPost('idSupplier')
+                $request->getPost('supplier_idSupplier')
             )->getSupplierContacts();
 
             // reset options

@@ -18,9 +18,12 @@
                 <h2 class="tableHead-heading">Suppliers:</h2>
                 <?php if ($this->isAllowed('User')): ?>
                 <p class="tableHead-button">
-                    <button data-dojo-type="dijit.form.Button"
-                            data-dojo-props="onClick: bba.Supplier.newSupplierButtonClick"
-                            id="new-supplier-button">New Supplier</button>
+                    <button data-dojo-type="dijit.form.Button">
+                        New Supplier
+                        <script type="dojo/method" data-dojo-event="onClick">
+                            bba.Supplier.newSupplierButtonClick();
+                        </script>
+                    </button>
                 </p>
                 <?php endif; ?>
             </div>
@@ -43,8 +46,10 @@
                 structure: bba.Supplier.gridLayouts.supplier,
                 query: <?php echo $this->search; ?>,
                 sortInfo: "2",
-                noDataMessage : bba.gridMessage,
-                onRowClick: bba.Supplier.supplierGridRowClick'>
+                noDataMessage : bba.gridMessage'>
+            <script type="dojo/method" data-dojo-event="onRowClick">
+                bba.Supplier.supplierGridRowClick(this);
+            </script>
         </table>
     </div>
 </div>

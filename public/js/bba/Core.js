@@ -37,20 +37,32 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Core",
-    ["dojo/dom","dojo/ready", "dojo/parser", "dojo/_base/connect", "dojo/_base/xhr", "dijit/registry",
+    ["dojo/dom", "dojo/dom-construct","dojo/ready", "dojo/parser", "dojo/_base/connect", "dojo/_base/xhr", "dijit/registry",
     "dijit/WidgetSet", "dijit/layout/ContentPane", "dijit/Dialog", "dojox/grid/DataGrid", "dijit/layout/StackContainer",
     "dijit/layout/BorderContainer", "dijit/layout/TabContainer", "dojox/data/QueryReadStore",
     "dijit/form/Form", "dijit/form/Button"],
-    function(dom, ready, parser, connect, xhr, registry, WidgetSet, ContentPane, Dialog, DataGrid) {
+    function(dom, domConstruct, ready, parser, connect, xhr, registry, WidgetSet, ContentPane, Dialog, DataGrid) {
 
     ready(function(){
         loader = dom.byId("loader");
         loader.style.display = "none";
+        if (registry.byId('error')) error.show();
     });
 
     DataGrid.extend({
         onRowClick: function(e){
             this.edit.rowClick(e);
+        },
+        onFetchError: function(err, req) {
+            xhr.post({
+                url: req.store.url,
+                content: req.query,
+                handleAs: 'text',
+                preventCache: true,
+                error: function(error) {
+                    bba.showXhrError(error);
+                }
+            });
         }
     });
 
@@ -83,13 +95,21 @@ define("bba/Core",
                     closable: true,
                     refreshOnShow: true,
                     onLoad : function() {
-                        //this.tabs = pane;
+                        // tab setup.
                     },
                     onHide : function() {
                         //tc.prevTab = pane;
                     },
-                    onContentError : function(error) {
-                        console.log(error);
+                    onDownloadError : function(error) {
+                        xhr.post({
+                            url: options.url,
+                            content: options.content,
+                            handleAs: 'text',
+                            preventCache: true,
+                            error: function(error) {
+                                bba.showXhrError(error);
+                            }
+                        });
                     }
                 });
 
@@ -110,8 +130,22 @@ define("bba/Core",
                     dom.byId('dialog').innerHTML = data;
                     parser.parse('dialog');
                     dialog = registry.byId(options.dialog);
-                    bba.setupDialog(dialog);
+                    if (dialog) {
+                        bba.setupDialog(dialog);
+                    } else {
+                        data = domConstruct.create("pre", { innerHTML: data });
+                        dialog = new Dialog({
+                            title : 'BBA System Error',
+                            content : data,
+                            onHide : function() {
+                                bba.closeDialog(dialog);
+                            }
+                        });
+                    }
                     dialog.show();
+                },
+                error: function(error) {
+                    bba.showXhrError(error);
                 }
             });
         },
@@ -135,6 +169,13 @@ define("bba/Core",
         {
             dialog.hide();
             dialog.destroyRecursive();
+        },
+
+        showXhrError : function(data)
+        {
+            dom.byId('dialog').innerHTML = data.responseText;
+            parser.parse('dialog');
+            error.show();
         }
     };
 

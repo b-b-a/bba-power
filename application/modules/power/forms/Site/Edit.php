@@ -74,7 +74,7 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
 
         $multiOptions = array();
 
-        $siteId = $request->getPost('idSite');
+        $siteId = $request->getPost('site_idSite');
         $row = $this->_model->getSiteById($siteId);
         $clientId =$row->site_idClient;
 

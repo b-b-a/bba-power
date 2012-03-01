@@ -19,9 +19,12 @@
                 <h2 class="tableHead-heading">Contracts:</h2>
                 <?php if ($this->isAllowed('User')): ?>
                 <p class="tableHead-button">
-                    <button data-dojo-type="dijit.form.Button"
-                            data-dojo-props="onClick: function(){bba.Contract.newContractButtonClick({});}"
-                            id="new-contract-button">New Contract</button>
+                    <button data-dojo-type="dijit.form.Button">
+                        New Contract
+                        <script type="dojo/method" data-dojo-event="onClick">
+                            bba.Contract.newContractButtonClick({});
+                        </script>
+                    </button>
                 </p>
                 <?php endif; ?>
             </div>
@@ -44,8 +47,10 @@
                 structure: bba.Contract.gridLayouts.contract,
                 query: <?php echo $this->search; ?>,
                 sortInfo: "2",
-                noDataMessage : bba.gridMessage,
-                onRowClick: bba.Contract.contractGridRowClick'>
+                noDataMessage : bba.gridMessage'>
+            <script type="dojo/method" data-dojo-event="onRowClick">
+                bba.Contract.contractGridRowClick(this);
+            </script>
         </table>
     </div>
 </div>

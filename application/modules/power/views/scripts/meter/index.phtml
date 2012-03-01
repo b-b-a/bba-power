@@ -42,8 +42,10 @@
                 structure: bba.Meter.gridLayouts.meter,
                 query: <?php echo $this->search; ?>,
                 sortInfo: "2",
-                noDataMessage : bba.gridMessage,
-                onRowClick: bba.Meter.meterGridRowClick'>
+                noDataMessage : bba.gridMessage'>
+            <script type="dojo/method" data-dojo-event="onRowClick">
+                bba.Meter.meterGridRowClick(this);
+            </script>
         </table>
     </div>
 </div>

@@ -19,14 +19,14 @@
                 <?php if ($this->isAllowed('User')): ?>
                 <tr>
                     <td class="footer" colspan="2">
-                        <div dojoType="dijit.form.Form"
-                             id="edit-supplier-<?php echo $this->supplier->supplier_idSupplier; ?>">
-                            <button data-dojo-type="dijit.form.Button"
-                                    data-dojo-props="onClick: bba.Supplier.editSupplierButtonClick"
-                                    type="button"
-                                    value="<?php echo $this->supplier->supplier_idSupplier; ?>"
-                                    id="edit-supplier-button-<?php echo $this->supplier->supplier_idSupplier; ?>">Edit Details</button>
-                        </div>
+                        <button data-dojo-type="dijit.form.Button">
+                            Edit Details
+                            <script type="dojo/method" data-dojo-event="onClick">
+                                bba.Supplier.editSupplierButtonClick({
+                                    supplier_idSupplier : <?php echo $this->supplier->supplier_idSupplier; ?>
+                                });
+                            </script>
+                        </button>
                     </td>
                 </tr>
                 <?php endif; ?>
@@ -66,8 +66,10 @@
                         structure: bba.Supplier.gridLayouts.supplierContract,
                         query: { tender_idSupplier: <?php echo $this->supplier->supplier_idSupplier; ?> },
                         sortInfo: '2',
-                        noDataMessage : bba.gridMessage,
-                        onRowClick: bba.Contract.contractGridRowClick">
+                        noDataMessage : bba.gridMessage">
+                    <script type="dojo/method" data-dojo-event="onRowClick">
+                        bba.Contract.contractGridRowClick(this);
+                    </script>
                 </table>
             </div>
 
@@ -86,8 +88,10 @@
                         structure: bba.Supplier.gridLayouts.supplierContact,
                         query: { supplierCo_idSupplier: <?php echo $this->supplier->supplier_idSupplier; ?> },
                         sortInfo: '2',
-                        noDataMessage : bba.gridMessage,
-                        onRowClick: bba.Supplier.supplierCoGridRowClick">
+                        noDataMessage : bba.gridMessage">
+                    <script type="dojo/method" data-dojo-event="onRowClick">
+                        bba.Supplier.supplierCoGridRowClick(this);
+                    </script>
                 </table>
             </div>
         </div>
@@ -99,11 +103,14 @@
         <div class="tableHead">
             <?php if ($this->isAllowed('User')): ?>
             <p class="tableHead-button">
-                <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: bba.Supplier.newSupplierCoButtonClick"
-                        type="button"
-                        value="<?php echo $this->supplier->supplier_idSupplier; ?>"
-                        id="new-supplier-contact-button-<?php echo $this->supplier->supplier_idSupplier; ?>">New Contact</button>
+                <button data-dojo-type="dijit.form.Button">
+                    New Contact
+                    <script type="dojo/method" data-dojo-event="onClick">
+                        bba.Supplier.newSupplierCoButtonClick({
+                            supplierCo_idSupplier : <?php echo $this->supplier->supplier_idSupplier; ?>
+                        });
+                    </script>
+                </button>
             </p>
             <?php endif; ?>
         </div>

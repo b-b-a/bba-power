@@ -57,14 +57,14 @@
                 <?php if ($this->isAllowed('User')): ?>
                 <tr>
                     <td class="footer" colspan="2">
-                        <div dojoType="dijit.form.Form"
-                             id="edit-contract-<?php echo $this->contract->contract_idContract; ?>">
-                            <button data-dojo-type="dijit.form.Button"
-                                    data-dojo-props="onClick: bba.Contract.editContractButtonClick"
-                                    type="button"
-                                    value="<?php echo $this->contract->contract_idContract; ?>"
-                                    id="edit-contract-button-<?php echo $this->contract->contract_idContract; ?>">Edit Details</button>
-                        </div>
+                        <button data-dojo-type="dijit.form.Button">
+                            Edit Details
+                            <script type="dojo/method" data-dojo-event="onClick">
+                                bba.Contract.editContractButtonClick({
+                                    contract_idContract : <?php echo $this->contract->contract_idContract; ?>
+                                });
+                            </script>
+                        </button>
                     </td>
                 </tr>
                 <?php endif; ?>
@@ -128,8 +128,10 @@
                         structure: bba.Contract.gridLayouts.meter,
                         query: { meterContract_idContract: <?php echo $this->contract->contract_idContract; ?> },
                         sortInfo: '-3',
-                        noDataMessage : bba.gridMessage,
-                        onRowClick: bba.Meter.meterGridRowClick">
+                        noDataMessage : bba.gridMessage">
+                    <script type="dojo/method" data-dojo-event="onRowClick">
+                        bba.Meter.meterGridRowClick(this);
+                    </script>
                 </table>
             </div>
 
@@ -147,8 +149,10 @@
                         structure: bba.Contract.gridLayouts.tender,
                         query: { tender_idContract: <?php echo $this->contract->contract_idContract; ?> },
                         sortInfo: '-3',
-                        noDataMessage : bba.gridMessage,
-                        onRowClick: bba.Contract.tenderGridRowClick">
+                        noDataMessage : bba.gridMessage">
+                    <script type="dojo/method" data-dojo-event="onRowClick">
+                        bba.Contract.tenderGridRowClick(this);
+                    </script>
                 </table>
 
             </div>
@@ -162,19 +166,25 @@
         <div class="tableHead">
             <?php if ($this->isAllowed('User')): ?>
             <p class="tableHead-button">
-                <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: bba.Contract.addMeterButtonClick"
-                        type="button"
-                        value="<?php echo $this->contract->contract_idContract; ?>"
-                        id="add-meter-button-<?php echo $this->contract->contract_idContract; ?>">Add/Edit Meters</button>
+                <button data-dojo-type="dijit.form.Button">
+                    Add/Edit Meters
+                    <script type="dojo/method" data-dojo-event="onClick">
+                        bba.Contract.addMeterButtonClick({
+                            contract_idContract : <?php echo $this->contract->contract_idContract; ?>
+                        });
+                    </script>
+                </button>
 
             </p>
             <p class="tableHead-button">
-                <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: bba.Contract.newTenderButtonClick"
-                        type="button"
-                        value="<?php echo $this->contract->contract_idContract; ?>"
-                        id="new-tender-button-<?php echo $this->contract->contract_idContract; ?>">New Tender</button>
+                <button data-dojo-type="dijit.form.Button">
+                    New Tender
+                    <script type="dojo/method" data-dojo-event="onClick">
+                        bba.Contract.newTenderButtonClick({
+                            tender_idContract : <?php echo $this->contract->contract_idContract; ?>
+                        });
+                    </script>
+                </button>
             </p>
             <?php endif; ?>
         </div>

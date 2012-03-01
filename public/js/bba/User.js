@@ -32,7 +32,7 @@ define("bba/User",
     function(dom, ready, parser, xhr, registry, bba){
 
     ready(function () {
-        
+
         if (dom.byId('user')) {
             dom.byId('user').focus();
         }
@@ -55,21 +55,18 @@ define("bba/User",
             ]
         },
 
-        userGridRowClick : function(selectedIndex)
+        userGridRowClick : function(grid)
         {
-            if (typeof(selectedIndex) != 'number') {
-                selectedIndex = this.focus.rowIndex;
-            }
-
-            selectedItem = this.getItem(selectedIndex);
-            id = this.store.getValue(selectedItem, 'user_idUser');
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            id = grid.store.getValue(selectedItem, 'user_idUser');
 
             if (!dom.byId('userForm')) {
                 bba.openFormDialog({
                     url: '/user/edit-user',
                     content: {
                         type :  'edit',
-                        idUser : id
+                        user_idUser : id
                     },
                     dialog: 'userForm'
                 });
@@ -96,8 +93,8 @@ define("bba/User",
             bba.closeDialog(userForm);
 
             values = arguments[0];
-            values.idUser = values.user_idUser;
-            values.type = (values.idUser) ? 'edit' : 'add';
+            values.type = (values.user_idUser) ? 'edit' : 'add';
+
 
             xhr.post({
                 url: '/user/save-user',
@@ -105,12 +102,15 @@ define("bba/User",
                 handleAs: 'json',
                 preventCache: true,
                 load: function(data) {
-                    if (data.saved > 0) {
+                    dom.byId('dialog').innerHTML = data.html;
+                    parser.parse('dialog');
+
+                    if (data.error) {
+                        error.show();
+                    } else if (data.saved > 0) {
                         registry.byId('userGrid')._refresh();
-                        //bba.comfirmDialog();
+                        confirm.show();
                     } else {
-                        dom.byId('dialog').innerHTML = data.html;
-                        parser.parse('dialog');
                         bba.setupDialog(userForm);
                         userForm.show();
                     }

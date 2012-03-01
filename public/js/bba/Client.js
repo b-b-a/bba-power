@@ -83,10 +83,10 @@ define("bba/Client",
                 tabId : 'client' + id,
                 title : grid.store.getValue(selectedItem, 'client_name'),
                 url : '/client/edit-client',
-                content : dojo.mixin({
-                    type :  'details',
+                content : {
+                    type : 'details',
                     client_idClient : id
-                })
+                }
             });
         },
 
@@ -101,7 +101,7 @@ define("bba/Client",
                 title : grid.store.getValue(selectedItem, 'clientAd_addressName'),
                 url : '/client/edit-client-address',
                 content : dojo.mixin({
-                        type :  'details',
+                        type : 'details',
                         clientAd_idAddress : id
                     }, contentVars)
             });
@@ -117,7 +117,7 @@ define("bba/Client",
                 bba.openFormDialog({
                     url: '/client/edit-client-contact',
                     content: dojo.mixin({
-                        type :  'edit',
+                        type : 'edit',
                         clientCo_idClientContact : id
                     }, contentVars),
                     dialog: 'clientCoForm'
@@ -132,7 +132,7 @@ define("bba/Client",
             if (!dom.byId('clientForm')) {
                 bba.openFormDialog({
                     url: '/client/add-client',
-                    content: {type :  'add'},
+                    content: {type : 'add'},
                     dialog: 'clientForm'
                 });
             } else {
@@ -145,7 +145,7 @@ define("bba/Client",
             if (!dom.byId('clientAdForm')) {
                 bba.openFormDialog({
                     url: '/client/add-client-address',
-                    content: dojo.mixin({type :  'add'}, contentVars),
+                    content: dojo.mixin({type : 'add'}, contentVars),
                     dialog: 'clientAdForm'
                 });
             } else {
@@ -158,7 +158,7 @@ define("bba/Client",
             if (!dom.byId('clientCoForm')) {
                 bba.openFormDialog({
                     url: '/client/add-client-contact',
-                    content: dojo.mixin({type :  'add'}, contentVars),
+                    content: dojo.mixin({type : 'add'}, contentVars),
                     dialog: 'clientCoForm'
                 });
             } else {
@@ -171,7 +171,7 @@ define("bba/Client",
             if (!dom.byId('clientForm')) {
                 bba.openFormDialog({
                     url: '/client/edit-client',
-                    content: dojo.mixin({type :  'edit'}, contentVars),
+                    content: dojo.mixin({type : 'edit'}, contentVars),
                     dialog: 'clientForm'
                 });
             } else {
@@ -184,7 +184,7 @@ define("bba/Client",
             if (!dom.byId('clientAdForm')) {
                 bba.openFormDialog({
                     url: '/client/edit-client-address',
-                    content: dojo.mixin({type :  'edit'}, contentVars),
+                    content: dojo.mixin({type : 'edit'}, contentVars),
                     dialog: 'clientAdForm'
                 });
             } else {
@@ -207,6 +207,7 @@ define("bba/Client",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
+
                     if (data.error) {
                         error.show();
                     } else if (data.saved > 0) {
@@ -240,7 +241,7 @@ define("bba/Client",
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
 
-                     if (data.error) {
+                    if (data.error) {
                         error.show();
                     } else if (data.saved > 0) {
                         if (values.clientAd_idAddress) {
