@@ -1,5 +1,12 @@
 <?php $this->dojo()->requireModule('bba/Auth', true); ?>
-<div id="loginWrap">
-    <h1 style="text-align:center;">Please Login</h1>
-    <?php echo $this->authLoginForm; ?>
+<div id="login" data-dojo-type="dijit.Dialog" data-dojo-id="login" data-dojo-props="title:'BBA Power Database'">
+    <div class="dijitDialogPaneContentArea">
+        <div id="loginWrap">
+            <h3 style="text-align:center;">Please Login</h3>
+            <?php echo $this->authLoginForm; ?>
+        </div>
+    </div>
+    <script type="dojo/method" data-dojo-event="onHide">
+        return bba.closeDialog(login);
+    </script>
 </div>

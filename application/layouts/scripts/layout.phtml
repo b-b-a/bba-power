@@ -53,6 +53,14 @@
             data-dojo-type="dijit.layout.ContentPane"
             data-dojo-props="region: 'left', splitter: true">
             <div>
+                <p><button data-dojo-type="dijit.form.ToggleButton"
+                           data-dojo-props="iconClass:'dijitCheckBoxIcon'"
+                           id="tabRefreshButton">
+                    Tab Refresh
+                    <script type="dojo/method" data-dojo-event="onChange" args="val">
+                        bba.tabRefreshButton(val);
+                    </script>
+                </button></p>
                 <p>User Name: <?php echo $this->authInfo('name'); ?></p>
                 <p>Role: <?php echo $this->authInfo('role'); ?></p>
             </div>

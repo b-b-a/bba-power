@@ -89,6 +89,10 @@ html, body {
     width: auto;
 }
 
+#login .dijitDialogTitleBar .dijitDialogCloseIcon {
+    display: none;
+}
+
 /* pre-loader specific stuff to prevent unsightly flash of unstyled content */
 #loader {
 	padding:0;

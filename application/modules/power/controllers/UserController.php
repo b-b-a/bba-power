@@ -157,7 +157,7 @@ class Power_UserController extends Zend_Controller_Action
             $returnJson = array('saved' => $saved);
 
             if ($saved == 0) {
-                //$this->view->assign(array('userSaveForm' => $this->_getUserForm()));
+                $this->view->assign(array('userSaveForm' => $this->_getUserForm()));
                 $html = $this->view->render('user/user-form.phtml');
                 $returnJson['html'] = $html;
             } else {

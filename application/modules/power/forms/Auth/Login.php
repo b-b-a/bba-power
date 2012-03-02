@@ -55,7 +55,7 @@ class Power_Form_Auth_Login extends ZendSF_Form_Abstract
             'filters'   => array('StringTrim', 'StripTags')
         ));
 
-        $this->addSubmit('Login');
+        $this->addSubmit('Login', 'loginSubmitButton');
         $this->addHash('csrf');
     }
 }

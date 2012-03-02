@@ -94,7 +94,11 @@ define("bba/Site",
                 url:'/site/data-store/type/address/clientId/' + val
             });
 
-            this.addressStore.fetch();
+            this.addressStore.fetch({
+                onError: function(error, request) {
+                    console.log(request)
+                }
+            });
 
             registry.byId("site_idAddress").set('store', this.addressStore);
 
