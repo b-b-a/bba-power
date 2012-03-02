@@ -49,7 +49,10 @@ define("bba/Core",
         loader.style.display = "none";
         if (registry.byId('error')) error.show();
 
-        registry.byId('tabRefreshButton').set('checked', (cookie("tabRefresh") == 'false') ? false : true);
+        if (registry.byId('tabRefreshButton')) {
+            registry.byId('tabRefreshButton').set('checked', (cookie("tabRefresh") == 'false') ? false : true);
+        }
+
     });
 
     DataGrid.extend({
@@ -84,8 +87,8 @@ define("bba/Core",
         tabRefreshButton : function(val)
         {
             cookie("tabRefresh", val, {expires: 5});
-            c = registry.byId("ContentTabs").getChildren();
-            array.forEach(c, function(tab, i){
+            tabs = registry.byId("ContentTabs").getChildren();
+            array.forEach(tabs, function(tab){
                 tab.refreshOnShow = (val) ? true : false;
             });
         },
