@@ -67,29 +67,32 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
     {
         $request = Zend_Controller_Front::getInstance()->getRequest();
 
-        if ($request->getPost('idTender')) {
-            $tenderId = $request->getPost('idTender');
+        if ($request->getPost('tender_idTender')) {
+            $tenderId = $request->getPost('tender_idTender');
             $row = $this->_model->getTenderById($tenderId);
-            $supplier = '/supplierId/' . $row->tender_idSupplier;
+            $supplier = $row->getSupplier('supplier_name');
+
+            $multiOptions[$row->tender_idSupplier] = $supplier;
+            $options = array(
+                'dijitParams'   => array('hasDownArrow' => 'false'),
+                'multiOptions'  => $multiOptions,
+                'attribs'       => array('readonly' => true),
+            );
         } else {
-            $supplier = null;
+            $options = array(
+                'dijitParams'   => array(
+                    'searchAttr'    => 'supplier_name',
+                    'promptMessage' => 'Select a Supplier'
+                ),
+                'attribs'       => array(
+                    'onChange' => 'bba.Contract.changeSupplierContact(this.value);'
+                )
+            );
         }
 
-        $this->addElement('FilteringSelect', 'tender_idSupplier', array(
+        $this->addElement('FilteringSelect', 'tender_idSupplier', array_merge(array(
             'label'         => 'Supplier:',
             'filters'       => array('StripTags', 'StringTrim'),
-            'autoComplete'  => false,
-            'hasDownArrow'  => true,
-            'storeId'       => 'supplierStore',
-            'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/supplier/data-store/type/supplierList"),
-            'dijitParams'   => array(
-                'searchAttr'    => 'supplier_name',
-                'promptMessage' => 'Select a Supplier'
-            ),
-            'attribs'       => array(
-                'onChange' => 'bba.Meter.changeSupplierContact(this.value);'
-            ),
             'value'         => '0',
             'required'      => true,
             'validators'    => array(
@@ -99,26 +102,34 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
                 ))
             ),
             'ErrorMessages' => array('Please select a supplier.'),
-        ));
+        ), $options));
 
+        if ($request->getPost('tender_idTender')) {
+            $list = $this->getModel()->getDbTable('supplierContact')->searchContacts($row->tender_idSupplier);
 
-        $this->addElement('FilteringSelect', 'tender_idSupplierContact', array(
+            // reset options
+            $multiOptions = array(0 => ($list->count() > 0) ? 'Please select a supplier contact' : 'No supplier contacts available');
+            foreach($list as $row) {
+                $multiOptions[$row->tender_idSupplierContact] = $row->supplierCo_name;
+            }
+            $options = array(
+                'multiOptions'  => $multiOptions,
+            );
+        } else {
+             $options = array(
+                'dijitParams'   => array(
+                    'searchAttr' => 'supplierCo_name',
+                    'promptMessage' => 'Select a Supplier Contact'
+                )
+            );
+        }
+
+        $this->addElement('FilteringSelect', 'tender_idSupplierContact', array_merge(array(
             'label'         => 'Supplier Contact:',
             'filters'       => array('StripTags', 'StringTrim'),
-            'autoComplete'  => false,
-            'hasDownArrow'  => true,
-            'storeId'       => 'supplierContactStore',
-            'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array(
-                'url' => "/supplier/data-store/type/supplierContacts" . $supplier
-            ),
-            'dijitParams'   => array(
-                'searchAttr' => 'supplierCo_name',
-                'promptMessage' => 'Select a Supplier Contact'
-            ),
             'required'      => true,
             'value'         => '0',
-        ));
+        ), $options));
 
         $this->addElement('NumberTextBox', 'tender_periodContract', array(
             'label'     => 'Contract Period:',

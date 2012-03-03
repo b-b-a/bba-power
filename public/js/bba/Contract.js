@@ -27,10 +27,10 @@
  */
 define("bba/Contract",
     ["dojo/dom","dojo/ready", "dojo/parser", "dojo/_base/xhr", "dojo/_base/array", "dijit/registry",
-     "dijit/Dialog", "dojo", "bba/Core", "bba/Meter", "dijit/form/ValidationTextBox",
+     "dijit/Dialog", "dojo/data/ItemFileReadStore", "dojo", "bba/Core", "bba/Meter", "dijit/form/ValidationTextBox",
      "dojo/data/ItemFileReadStore", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea",
      "dojo/data/ItemFileWriteStore", "dojox/grid/_CheckBoxSelector"],
-    function(dom, ready, parser, xhr, array, registry, Dialog, dojo, bba) {
+    function(dom, ready, parser, xhr, array, registry, Dialog, ItemFileReadStore, dojo, bba) {
 
     ready(function () {
 
@@ -270,11 +270,44 @@ define("bba/Contract",
                 bba.openFormDialog({
                     url: '/contract/add-tender',
                     content: dojo.mixin({type :  'add'}, contentVars),
-                    dialog: 'tenderForm'
+                    dialog: 'tenderForm',
+                    deferredFunction: function() {
+                        bba.Contract.tenderStore = new ItemFileReadStore({
+                            url:'/supplier/data-store/type/supplierList'
+                        });
+
+                        bba.Contract.tenderStore.fetch({
+                            onError: function(error, request) {
+                                bba.dataStoreError(request.store.url, null);
+                            }
+                        });
+
+                        registry.byId("tender_idSupplier").set('store', bba.Contract.tenderStore);
+                        registry.byId("tender_idSupplier").set('value', '0');
+                        bba.Contract.changeSupplierContact('');
+                    }
                 });
             } else {
                 tenderForm.show();
             }
+        },
+
+        changeSupplierContact : function(val)
+        {
+            registry.byId('tender_idSupplierContact').set('value', '');
+
+            this.supplierContactStore = new ItemFileReadStore({
+                url:'/supplier/data-store/type/supplierContacts/supplierId/' + val
+            });
+
+            this.supplierContactStore.fetch({
+                onError: function(error, request) {
+                    bba.dataStoreError(request.store.url, null);
+                }
+            });
+
+            registry.byId("tender_idSupplierContact").set('store', this.supplierContactStore);
+            registry.byId('tender_idSupplierContact').set('value', 0);
         },
 
         processContractForm : function()

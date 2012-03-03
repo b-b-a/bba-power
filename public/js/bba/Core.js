@@ -38,8 +38,8 @@
  */
 define("bba/Core",
     ["dojo/dom", "dojo/dom-construct","dojo/ready", "dojo/parser", "dojo/_base/connect",
-        "dojo/_base/xhr", "dojo/_base/array", "dijit/registry", "dojo/cookie",
-    "dijit/WidgetSet", "dijit/layout/ContentPane", "dijit/Dialog", "dojox/grid/DataGrid", "dijit/layout/StackContainer",
+    "dojo/_base/xhr", "dojo/_base/array", "dijit/registry", "dojo/cookie", "dijit/WidgetSet",
+    "dijit/layout/ContentPane", "dijit/Dialog", "dojox/grid/DataGrid", "dijit/layout/StackContainer",
     "dijit/layout/BorderContainer", "dijit/layout/TabContainer", "dojox/data/QueryReadStore",
     "dijit/form/Form", "dijit/form/Button"],
     function(dom, domConstruct, ready, parser, connect, xhr, array, registry, cookie, WidgetSet, ContentPane, Dialog, DataGrid) {
@@ -53,32 +53,6 @@ define("bba/Core",
             registry.byId('tabRefreshButton').set('checked', (cookie("tabRefresh") == 'false') ? false : true);
         }
 
-    });
-
-    DataGrid.extend({
-        onRowClick: function(e){
-            this.edit.rowClick(e);
-        },
-        onFetchError: function(err, req) {
-            xhr.post({
-                url: req.store.url,
-                content: req.query,
-                handleAs: 'text',
-                preventCache: true,
-                load: function(data) {
-                    dom.byId('dialog').innerHTML = data;
-                    parser.parse('dialog');
-                    dialog = registry.byClass("dijit.Dialog").toArray()[0];
-
-                    dialog = (!dialog) ? bba.errorDialog(data) : dialog;
-
-                    dialog.show();
-                },
-                error: function(error) {
-                    bba.showXhrError(error);
-                }
-            });
-        }
     });
 
     bba = {
@@ -169,7 +143,7 @@ define("bba/Core",
 
         openFormDialog : function(options)
         {
-            xhr.post({
+            def = xhr.post({
                 url: options.url,
                 content: options.content,
                 handleAs: 'text',
@@ -188,11 +162,17 @@ define("bba/Core",
                     }
 
                     dialog.show();
+
+                    if (options.deferredFunction) {
+                        options.deferredFunction;
+                    }
                 },
                 error: function(error) {
                     bba.showXhrError(error);
                 }
             });
+
+            def.then(options.deferredFunction);
         },
 
         setupDialog : function(dialog)
@@ -226,13 +206,49 @@ define("bba/Core",
             });
         },
 
+        dataStoreError : function(requestUrl, query)
+        {
+            xhr.post({
+                url: requestUrl,
+                content: query,
+                handleAs: 'text',
+                preventCache: true,
+                load: function(data) {
+                    dom.byId('errorDialog').innerHTML = data;
+                    parser.parse('errorDialog');
+
+                    pattern = /Fatal error/;
+                    if (pattern.test(data)) {
+                        dialog = bba.errorDialog(data);
+                    } else {
+                        dialog = (registry.byId("login")) ? registry.byId("login") : registry.byId("error");
+                    }
+
+                    dialog.show();
+                },
+                error: function(error) {
+                    bba.showXhrError(error);
+                }
+            });
+        },
+
         showXhrError : function(data)
         {
-            dom.byId('dialog').innerHTML = data.responseText;
-            parser.parse('dialog');
+            dom.byId('errorDialog').innerHTML = data.responseText;
+            parser.parse('errorDialog');
             error.show();
         }
     };
+
+    DataGrid.extend({
+        onRowClick: function(e){
+            this.edit.rowClick(e);
+        },
+        onFetchError: function(){
+            req = arguments[1];
+            bba.dataStoreError(req.store.url, req.query);
+        }
+    });
 
     return bba;
 

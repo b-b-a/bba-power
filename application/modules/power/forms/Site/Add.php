@@ -70,17 +70,12 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
         $this->addElement('FilteringSelect', 'site_idClient', array(
             'label'         => 'Client:',
             'filters'       => array('StripTags', 'StringTrim'),
-            'autoComplete'  => false,
-            'hasDownArrow'  => true,
-            'storeId'       => 'clientStore',
-            'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array('url' => "/site/data-store/type/clients"),
             'dijitParams'   => array(
-                'searchAttr' => 'client_name',
+                'searchAttr'    => 'client_name',
                 'promptMessage' => 'Select a Client'
             ),
             'attribs'       => array(
-                'onChange' => 'bba.Site.changeAddress(this.value);'
+                'onChange' => 'bba.Site.changeAddress(this.value);',
             ),
             'required'      => true,
             'value'         => '0',
@@ -96,9 +91,6 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
         $this->addElement('FilteringSelect', 'site_idAddress', array(
             'label'         => 'Address:',
             'filters'       => array('StripTags', 'StringTrim'),
-            'autoComplete'  => false,
-            'hasDownArrow'  => true,
-            'storeId'       => 'addressStore',
             'dijitParams'   => array('searchAttr' => 'address1AndPostcode'),
             'attribs'       => array(
                 'disabled' => true,
@@ -118,9 +110,6 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
         $this->addElement('FilteringSelect', 'site_idAddressBill', array(
             'label'         => 'Billing Address:',
             'filters'       => array('StripTags', 'StringTrim'),
-            'autoComplete'  => false,
-            'hasDownArrow'  => true,
-            'storeId'       => 'addressStore',
             'dijitParams'   => array('searchAttr' => 'address1AndPostcode'),
             'attribs'         => array('disabled' => true),
             'required'      => false,
@@ -130,9 +119,6 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
         $this->addElement('FilteringSelect', 'site_idClientContact', array(
             'label'         => 'Client Contact:',
             'filters'       => array('StripTags', 'StringTrim'),
-            'autoComplete'  => false,
-            'hasDownArrow'  => true,
-            'storeId'       => 'contactStore',
             'dijitParams'   => array('searchAttr' => 'clientCo_name'),
             'attribs'       => array('disabled' => true),
             'required'      => false,

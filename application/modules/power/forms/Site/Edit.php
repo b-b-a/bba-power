@@ -85,7 +85,7 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
         $this->addElement('FilteringSelect', 'site_idClient', array(
             'label'         => 'Client:',
             'filters'       => array('StripTags', 'StringTrim'),
-            'autoComplete'  => false,
+            'dijitParams'   => array('hasDownArrow' => 'false'),
             'multiOptions'  => $multiOptions,
             'attribs'       => array('readonly' => true),
             'required'      => true
@@ -96,40 +96,41 @@ class Power_Form_Site_Edit extends ZendSF_Form_Abstract
         $this->addElement('FilteringSelect', 'site_idAddress', array(
             'label'         => 'Address:',
             'filters'       => array('StripTags', 'StringTrim'),
-            'autoComplete'  => false,
+            'dijitParams'   => array('hasDownArrow' => 'false'),
             'multiOptions'  => $multiOptions,
             'attribs'         => array('readonly' => true),
             'required'      => true
         ));
 
+        $list = $this->getModel()->getDbTable('clientAddress')->getClientAddressesByClientId($clientId);
+
+        // reset options
+        $multiOptions = array(0 => ($list->count() > 0) ? 'Please select a client address' : 'No client addresses available');
+        foreach($list as $row) {
+            $multiOptions[$row->clientAd_idAddress] = $row->address1AndPostcode;
+        }
+
         $this->addElement('FilteringSelect', 'site_idAddressBill', array(
             'label'         => 'Billing Address:',
             'filters'       => array('StripTags', 'StringTrim'),
-            'autoComplete'  => false,
-            'hasDownArrow'  => true,
-            'storeId'       => 'addressStore',
-            'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array(
-                'url' => "/site/data-store/type/billAddress/clientId/" . $row->site_idClient
-            ),
-            'dijitParams'   => array('searchAttr' => 'address1AndPostcode'),
+            'multiOptions'  => $multiOptions,
             'value'         => '0',
             'required'      => false
         ));
 
+        $list = $this->getModel()->getDbTable('clientContact')->getClientContactsByClientId($clientId);
+
+        // reset options
+        $multiOptions = array(0 => ($list->count() > 0) ? 'Please select a client contact' : 'No client contacts available');
+        foreach($list as $row) {
+            $multiOptions[$row->clientCo_idClientContact] = $row->clientCo_name;
+        }
+
         $this->addElement('FilteringSelect', 'site_idClientContact', array(
             'label'         => 'Client Contact:',
             'filters'       => array('StripTags', 'StringTrim'),
-            'autoComplete'  => false,
-            'hasDownArrow'  => true,
-            'storeId'       => 'contactStore',
-            'storeType'     => 'dojo.data.ItemFileReadStore',
-            'storeParams'   => array(
-                'url' => "/site/data-store/type/contact/clientId/" . $row->site_idClient
-            ),
-            'dijitParams'   => array('searchAttr' => 'clientCo_name'),
+            'multiOptions'  => $multiOptions,
             'value'         => '0',
-            //'attribs'         => array('disabled' => true),
             'required'      => false
         ));
 

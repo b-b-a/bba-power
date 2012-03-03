@@ -55,7 +55,10 @@ define("bba/Site",
     });
 
     bba.Site = {
+        clientStore : null,
         addressStore : null,
+        billAddressStore : null,
+        contactStore : null,
 
         gridLayouts : {
             site : [
@@ -76,7 +79,7 @@ define("bba/Site",
                 {field: 'meter_numberTop', width: '100px', name: 'Number Top'},
                 {field: 'meter_numberMain', width: '200px', name: 'Number Main'},
                 {field: '', width: 'auto', name: ''}
-            ],
+            ]
         },
 
         changeAddress : function(val)
@@ -92,11 +95,11 @@ define("bba/Site",
 
             this.addressStore = new ItemFileReadStore({
                 url:'/site/data-store/type/address/clientId/' + val
-            });
+            })
 
             this.addressStore.fetch({
                 onError: function(error, request) {
-                    console.log(request)
+                    bba.dataStoreError(request.store.url, null);
                 }
             });
 
@@ -104,15 +107,23 @@ define("bba/Site",
 
             this.billAddressStore = new ItemFileReadStore({
                 url:'/site/data-store/type/billAddress/clientId/' + val
-            });
+            })
 
-            this.billAddressStore.fetch();
+            this.billAddressStore.fetch({
+                onError: function(error, request) {
+                    bba.dataStoreError(request.store.url, null);
+                }
+            });
 
             this.contactStore = new ItemFileReadStore({
                 url:'/site/data-store/type/contact/clientId/' + val
-            });
+            })
 
-            this.contactStore.fetch();
+            this.contactStore.fetch({
+                onError: function(error, request) {
+                    bba.dataStoreError(request.store.url, null);
+                }
+            });
 
             registry.byId("site_idClientContact").set('store', this.contactStore);
 
@@ -158,7 +169,21 @@ define("bba/Site",
                 bba.openFormDialog({
                     url: '/site/add-site',
                     content: dojo.mixin({type :  'add'}),
-                    dialog: 'siteForm'
+                    dialog: 'siteForm',
+                    deferredFunction: function() {
+                        bba.Site.clientStore = new ItemFileReadStore({
+                            url:'/site/data-store/type/clients'
+                        });
+
+                        bba.Site.clientStore.fetch({
+                            onError: function(error, request) {
+                                bba.dataStoreError(request.store.url, null);
+                            }
+                        });
+
+                        registry.byId("site_idClient").set('store', bba.Site.clientStore);
+                        registry.byId("site_idClient").set('value', '0');
+                    }
                 });
             } else {
                 siteForm.show();
