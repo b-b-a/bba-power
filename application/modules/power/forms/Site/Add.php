@@ -68,68 +68,82 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
         $this->setName('site');
 
         $this->addElement('FilteringSelect', 'site_idClient', array(
-            'label'         => 'Client:',
-            'filters'       => array('StripTags', 'StringTrim'),
-            'dijitParams'   => array(
-                'searchAttr'    => 'client_name',
+            'label' => 'Client:',
+            'filters' => array('StripTags', 'StringTrim'),
+            'autoComplete' => false,
+            'hasDownArrow' => true,
+            'storeId' => 'clientStore',
+            'storeType' => 'dojo.data.ItemFileReadStore',
+            'storeParams' => array('url' => "/site/data-store/type/clients"),
+            'dijitParams' => array(
+                'searchAttr' => 'client_name',
                 'promptMessage' => 'Select a Client'
             ),
-            'attribs'       => array(
-                'onChange' => 'bba.Site.changeAddress(this.value);',
+            'attribs' => array(
+                'onChange' => 'bba.Site.changeAddress(this.value);'
             ),
-            'required'      => true,
-            'value'         => '0',
-            'validators'    => array(
+            'required' => true,
+            'value' => '0',
+            'validators' => array(
                 array('GreaterThan', true, array(
-                    'min'       => '0',
-                    'message'   => 'Please select a client.'
+                    'min' => '0',
+                    'message' => 'Please select a client.'
                 ))
             ),
             'ErrorMessages' => array('Please select a client.'),
         ));
 
         $this->addElement('FilteringSelect', 'site_idAddress', array(
-            'label'         => 'Address:',
-            'filters'       => array('StripTags', 'StringTrim'),
-            'dijitParams'   => array('searchAttr' => 'address1AndPostcode'),
-            'attribs'       => array(
+            'label' => 'Address:',
+            'filters' => array('StripTags', 'StringTrim'),
+            'autoComplete' => false,
+            'hasDownArrow' => true,
+            'storeId' => 'addressStore',
+            'dijitParams' => array('searchAttr' => 'address1AndPostcode'),
+            'attribs' => array(
                 'disabled' => true,
                 'onChange' => 'bba.Site.changeBillAddress(this);'
             ),
-            'required'      => true,
-            'value'         => '0',
-            'validators'    => array(
+            'required' => true,
+            'value' => '0',
+            'validators' => array(
                 array('GreaterThan', true, array(
-                    'min'       => '0',
-                    'message'   => 'Please select an address.'
+                    'min' => '0',
+                    'message' => 'Please select an address.'
                 ))
             ),
             'ErrorMessages' => array('Please select an address.'),
         ));
 
         $this->addElement('FilteringSelect', 'site_idAddressBill', array(
-            'label'         => 'Billing Address:',
-            'filters'       => array('StripTags', 'StringTrim'),
-            'dijitParams'   => array('searchAttr' => 'address1AndPostcode'),
-            'attribs'         => array('disabled' => true),
-            'required'      => false,
-            'value'         => '0'
+            'label' => 'Billing Address:',
+            'filters' => array('StripTags', 'StringTrim'),
+            'autoComplete' => false,
+            'hasDownArrow' => true,
+            'storeId' => 'addressStore',
+            'dijitParams' => array('searchAttr' => 'address1AndPostcode'),
+            'attribs' => array('disabled' => true),
+            'required' => false,
+            'value' => '0'
         ));
 
         $this->addElement('FilteringSelect', 'site_idClientContact', array(
-            'label'         => 'Client Contact:',
-            'filters'       => array('StripTags', 'StringTrim'),
-            'dijitParams'   => array('searchAttr' => 'clientCo_name'),
-            'attribs'       => array('disabled' => true),
-            'required'      => false,
-            'value'         => '0'
+            'label' => 'Client Contact:',
+            'filters' => array('StripTags', 'StringTrim'),
+            'autoComplete' => false,
+            'hasDownArrow' => true,
+            'storeId' => 'contactStore',
+            'dijitParams' => array('searchAttr' => 'clientCo_name'),
+            'attribs' => array('disabled' => true),
+            'required' => false,
+            'value' => '0'
         ));
 
         $this->addElement('SimpleTextarea', 'site_desc', array(
-            'label'         => 'Description:',
-            'required'      => false,
-            'filters'       => array('StripTags', 'StringTrim'),
-            'decorators'    => $this->_simpleTextareaDecorators
+            'label' => 'Description:',
+            'required' => false,
+            'filters' => array('StripTags', 'StringTrim'),
+            'decorators' => $this->_simpleTextareaDecorators
         ));
 
         $this->addHiddenElement('site_idSite', '');

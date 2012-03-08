@@ -82,6 +82,24 @@ define("bba/Site",
             ]
         },
 
+        setupClientSore : function()
+        {
+            id = registry.byId("site_idClient").get('value');
+
+            bba.Site.clientStore = new ItemFileReadStore({
+                url:'/site/data-store/type/clients'
+            });
+
+            bba.Site.clientStore.fetch({
+                onError: function(error, request) {
+                    bba.dataStoreError(request.store.url, null);
+                }
+            });
+
+            registry.byId("site_idClient").set('store', bba.Site.clientStore);
+            registry.byId("site_idClient").set('value', id);
+        },
+
         changeAddress : function(val)
         {
             if (registry.byId("site_idAddress").get('disabled') == true) {
@@ -171,18 +189,7 @@ define("bba/Site",
                     content: dojo.mixin({type :  'add'}),
                     dialog: 'siteForm',
                     deferredFunction: function() {
-                        bba.Site.clientStore = new ItemFileReadStore({
-                            url:'/site/data-store/type/clients'
-                        });
-
-                        bba.Site.clientStore.fetch({
-                            onError: function(error, request) {
-                                bba.dataStoreError(request.store.url, null);
-                            }
-                        });
-
-                        registry.byId("site_idClient").set('store', bba.Site.clientStore);
-                        registry.byId("site_idClient").set('value', '0');
+                        //bba.Site.setupClientSore();
                     }
                 });
             } else {
@@ -231,6 +238,7 @@ define("bba/Site",
                     } else {
                         bba.setupDialog(siteForm);
                         siteForm.show();
+                        bba.Site.changeAddress(values.site_idClient);
                     }
                 }
             });

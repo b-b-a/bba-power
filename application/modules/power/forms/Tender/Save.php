@@ -70,223 +70,212 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
         if ($request->getPost('tender_idTender')) {
             $tenderId = $request->getPost('tender_idTender');
             $row = $this->_model->getTenderById($tenderId);
-            $supplier = $row->getSupplier('supplier_name');
-
-            $multiOptions[$row->tender_idSupplier] = $supplier;
-            $options = array(
-                'dijitParams'   => array('hasDownArrow' => 'false'),
-                'multiOptions'  => $multiOptions,
-                'attribs'       => array('readonly' => true),
-            );
+            $supplier = '/supplierId/' . $row->tender_idSupplier;
         } else {
-            $options = array(
-                'dijitParams'   => array(
-                    'searchAttr'    => 'supplier_name',
-                    'promptMessage' => 'Select a Supplier'
-                ),
-                'attribs'       => array(
-                    'onChange' => 'bba.Contract.changeSupplierContact(this.value);'
-                )
-            );
+            $supplier = null;
         }
 
-        $this->addElement('FilteringSelect', 'tender_idSupplier', array_merge(array(
-            'label'         => 'Supplier:',
-            'filters'       => array('StripTags', 'StringTrim'),
-            'value'         => '0',
-            'required'      => true,
-            'validators'    => array(
+        $this->addElement('FilteringSelect', 'tender_idSupplier', array(
+            'label' => 'Supplier:',
+            'filters' => array('StripTags', 'StringTrim'),
+            'autoComplete' => false,
+            'hasDownArrow' => true,
+            'storeId' => 'supplierStore',
+            'storeType' => 'dojo.data.ItemFileReadStore',
+            'storeParams' => array('url' => "/supplier/data-store/type/supplierList"),
+            'dijitParams' => array(
+                'searchAttr' => 'supplier_name',
+                'promptMessage' => 'Select a Supplier'
+            ),
+            'attribs' => array(
+                'onChange' => 'bba.Contract.changeSupplierContact(this.value);'
+            ),
+            'value' => '0',
+            'required' => true,
+            'validators' => array(
                 array('GreaterThan', true, array(
-                    'min'       => '0',
-                    'message'   => 'Please select a supplier.'
+                    'min' => '0',
+                    'message' => 'Please select a supplier.'
                 ))
             ),
             'ErrorMessages' => array('Please select a supplier.'),
-        ), $options));
+        ));
 
-        if ($request->getPost('tender_idTender')) {
-            $list = $this->getModel()->getDbTable('supplierContact')->searchContacts($row->tender_idSupplier);
 
-            // reset options
-            $multiOptions = array(0 => ($list->count() > 0) ? 'Please select a supplier contact' : 'No supplier contacts available');
-            foreach($list as $row) {
-                $multiOptions[$row->tender_idSupplierContact] = $row->supplierCo_name;
-            }
-            $options = array(
-                'multiOptions'  => $multiOptions,
-            );
-        } else {
-             $options = array(
-                'dijitParams'   => array(
-                    'searchAttr' => 'supplierCo_name',
-                    'promptMessage' => 'Select a Supplier Contact'
-                )
-            );
-        }
-
-        $this->addElement('FilteringSelect', 'tender_idSupplierContact', array_merge(array(
-            'label'         => 'Supplier Contact:',
-            'filters'       => array('StripTags', 'StringTrim'),
-            'required'      => true,
-            'value'         => '0',
-        ), $options));
+        $this->addElement('FilteringSelect', 'tender_idSupplierContact', array(
+            'label' => 'Supplier Contact:',
+            'filters' => array('StripTags', 'StringTrim'),
+            'autoComplete' => false,
+            'hasDownArrow' => true,
+            'storeId' => 'supplierContactStore',
+            'storeType' => 'dojo.data.ItemFileReadStore',
+            'storeParams' => array(
+                'url' => "/supplier/data-store/type/supplierContacts" . $supplier
+            ),
+            'dijitParams' => array(
+                'searchAttr' => 'supplierCo_name',
+                'promptMessage' => 'Select a Supplier Contact'
+            ),
+            'required' => false,
+            'value' => '0',
+        ));
 
         $this->addElement('NumberTextBox', 'tender_periodContract', array(
-            'label'     => 'Contract Period:',
-            'constraints'   => array(
-                'min'       => 0
+            'label' => 'Contract Period:',
+            'constraints' => array(
+                'min' => 0
             ),
-            'required'  => true,
-            'filters'   => array('StripTags', 'StringTrim'),
-            'dijitParams'   => array(
+            'required' => true,
+            'filters' => array('StripTags', 'StringTrim'),
+            'dijitParams' => array(
                 'promptMessage' => 'Enter contract period (Months)',
-                'style'         => 'width:50px'
+                'style' => 'width:50px'
             ),
-            'Description'   => '(Months)'
+            'Description' => '(Months)'
         ));
 
         /*
-        $this->addElement('ValidationTextBox', 'tender_dateExpiresQuote', array(
-            'label'         => 'Expiry Date:',
-            'formatLength'  => 'short',
-            'filters'       => array('StripTags', 'StringTrim'),
-            'validators'    => array(
-                array('Date', true, array(
-                    'format' => 'dd/MM/yyyy'
-                ))
-            ),
-            'required'      => true,
-            'dijitParams'   => array(
-                'promptMessage' => 'Enter expiry date for this tender.'
-            )
-        ));
-        */
+$this->addElement('ValidationTextBox', 'tender_dateExpiresQuote', array(
+'label' => 'Expiry Date:',
+'formatLength' => 'short',
+'filters' => array('StripTags', 'StringTrim'),
+'validators' => array(
+array('Date', true, array(
+'format' => 'dd/MM/yyyy'
+))
+),
+'required' => true,
+'dijitParams' => array(
+'promptMessage' => 'Enter expiry date for this tender.'
+)
+));
+*/
 
         $this->addElement('NumberTextBox', 'tender_chargeStanding', array(
-            'label'         => 'Standing Charge:',
-            'constraints'   => array(
-                'min'       => 0
+            'label' => 'Standing Charge:',
+            'constraints' => array(
+                'min' => 0
             ),
-            'required'  => true,
-            'value'     => 0,
-            'filters'   => array('StripTags', 'StringTrim'),
-            'dijitParams'   => array(
+            'required' => true,
+            'value' => 0,
+            'filters' => array('StripTags', 'StringTrim'),
+            'dijitParams' => array(
                 'promptMessage' => 'Enter Standing charge (£ / Months)',
-                'style'         => 'width:50px'
+                'style' => 'width:50px'
             ),
-            'Description'   => '(£ / Months)'
+            'Description' => '(£ / Months)'
         ));
 
         $this->addElement('NumberTextBox', 'tender_priceUnitDay', array(
-            'label'         => 'Unit Price - Day:',
-            'constraints'   => array(
-                'min'       => 0
+            'label' => 'Unit Price - Day:',
+            'constraints' => array(
+                'min' => 0
             ),
-            'required'  => true,
-            'value'     => 0,
-            'filters'   => array('StripTags', 'StringTrim'),
-            'dijitParams'   => array(
+            'required' => true,
+            'value' => 0,
+            'filters' => array('StripTags', 'StringTrim'),
+            'dijitParams' => array(
                 'promptMessage' => 'Enter unit price for day rate (Pence / Unit)',
-                'style'         => 'width:50px'
+                'style' => 'width:50px'
             ),
-            'Description'   => '(Pence / Unit)'
+            'Description' => '(Pence / Unit)'
         ));
 
         $this->addElement('NumberTextBox', 'tender_priceUnitNight', array(
-            'label'         => 'Unit Price - Night:',
-            'constraints'   => array(
-                'min'       => 0
+            'label' => 'Unit Price - Night:',
+            'constraints' => array(
+                'min' => 0
             ),
-            'required'  => true,
-            'value'     => 0,
-            'filters'   => array('StripTags', 'StringTrim'),
-            'dijitParams'   => array(
+            'required' => true,
+            'value' => 0,
+            'filters' => array('StripTags', 'StringTrim'),
+            'dijitParams' => array(
                 'promptMessage' => 'Enter unit price for night rate (Pence / Unit)',
-                'style'         => 'width:50px'
+                'style' => 'width:50px'
             ),
-            'Description'   => '(Pence / Unit)'
+            'Description' => '(Pence / Unit)'
         ));
 
         $this->addElement('NumberTextBox', 'tender_priceUnitOther', array(
-            'label'         => 'Unit Price - Other & Gas:',
-            'constraints'   => array(
-                'min'       => 0
+            'label' => 'Unit Price - Other & Gas:',
+            'constraints' => array(
+                'min' => 0
             ),
-            'required'  => true,
-            'value'     => 0,
-            'filters'   => array('StripTags', 'StringTrim'),
-            'dijitParams'   => array(
+            'required' => true,
+            'value' => 0,
+            'filters' => array('StripTags', 'StringTrim'),
+            'dijitParams' => array(
                 'promptMessage' => 'Enter unit price for other rate (Pence / Unit)',
-                'style'         => 'width:50px'
+                'style' => 'width:50px'
             ),
-            'Description'   => '(Pence / Unit)'
+            'Description' => '(Pence / Unit)'
         ));
 
         $this->addElement('NumberTextBox', 'tender_chargeCapacity', array(
-            'label'         => 'Capacity Charge:',
-            'constraints'   => array(
-                'min'       => 0
+            'label' => 'Capacity Charge:',
+            'constraints' => array(
+                'min' => 0
             ),
-            'required'  => true,
-            'value'     => 0,
-            'filters'   => array('StripTags', 'StringTrim'),
-            'dijitParams'   => array(
+            'required' => true,
+            'value' => 0,
+            'filters' => array('StripTags', 'StringTrim'),
+            'dijitParams' => array(
                 'promptMessage' => 'Enter capacity charge (£ / kVA)',
-                'style'         => 'width:50px'
+                'style' => 'width:50px'
             ),
-            'Description'   => '(£ / kVA)'
+            'Description' => '(£ / kVA)'
         ));
 
         $this->addElement('NumberTextBox', 'tender_chargeSettlement', array(
-            'label'         => 'Settlement Charge:',
-            'constraints'   => array(
-                'min'       => 0
+            'label' => 'Settlement Charge:',
+            'constraints' => array(
+                'min' => 0
             ),
-            'required'  => true,
-            'value'     => 0,
-            'filters'   => array('StripTags', 'StringTrim'),
-            'dijitParams'   => array(
+            'required' => true,
+            'value' => 0,
+            'filters' => array('StripTags', 'StringTrim'),
+            'dijitParams' => array(
                 'promptMessage' => 'Enter settlement charge (£ / Month)',
-                'style'        => 'width:50px'
+                'style' => 'width:50px'
             ),
-            'Description'   => '(£ / Month)'
+            'Description' => '(£ / Month)'
         ));
 
         $this->addElement('NumberTextBox', 'tender_commission', array(
-            'label'         => 'Commission Rate:',
-            'constraints'   => array(
-                'min'       => 0
+            'label' => 'Commission Rate:',
+            'constraints' => array(
+                'min' => 0
             ),
-            'required'  => true,
-            'value'     => 0,
-            'filters'   => array('StripTags', 'StringTrim'),
-            'dijitParams'   => array(
+            'required' => true,
+            'value' => 0,
+            'filters' => array('StripTags', 'StringTrim'),
+            'dijitParams' => array(
                 'promptMessage' => 'Enter commission rate (Pence / Unit)',
-                'style'         => 'width:50px'
+                'style' => 'width:50px'
             ),
-            'Description'   => '(Pence / Unit)'
+            'Description' => '(Pence / Unit)'
         ));
 
         $this->addElement('NumberTextBox', 'tender_fee', array(
-            'label'         => 'Commission Fee:',
-            'constraints'   => array(
-                'min'       => 0
+            'label' => 'Commission Fee:',
+            'constraints' => array(
+                'min' => 0
             ),
-            'required'  => true,
-            'value'     => 0,
-            'filters'   => array('StripTags', 'StringTrim'),
-            'dijitParams'   => array(
+            'required' => true,
+            'value' => 0,
+            'filters' => array('StripTags', 'StringTrim'),
+            'dijitParams' => array(
                 'promptMessage' => 'Enter commission fee (£ / Year)',
-                'style'        => 'width:50px'
+                'style' => 'width:50px'
             ),
-            'Description'   => '(£ / Year)'
+            'Description' => '(£ / Year)'
         ));
 
         $this->addElement('SimpleTextarea', 'tender_desc', array(
-            'label'         => 'Description:',
-            'required'      => false,
-            'filters'       => array('StripTags', 'StringTrim'),
-            'decorators'    => $this->_simpleTextareaDecorators
+            'label' => 'Description:',
+            'required' => false,
+            'filters' => array('StripTags', 'StringTrim'),
+            'decorators' => $this->_simpleTextareaDecorators
         ));
 
         $this->addHiddenElement('tender_idTender', '');
