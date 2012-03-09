@@ -138,7 +138,18 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
      */
     public function getMeterContractDataStore(array $post)
     {
-        $dataObj = $this->getDbTable('meter')->getMeterById($post['meter_idMeter'])->getAllContracts();
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $select = $this->getDbTable('meter')->select();
+
+        $select = $this->getDbTable('meter')->getLimit($select, $count, $start);
+        $select = $this->getDbTable('meter')->getSortOrder($select, $sort);
+
+        $dataObj = $this->getDbTable('meter')
+            ->getMeterById($post['meter_idMeter'])
+            ->getAllContracts($select);
 
         $store = $this->_getDojoData($dataObj, 'contract_idContract');
 
