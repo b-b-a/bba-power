@@ -279,7 +279,10 @@ define("bba/Contract",
             if (!dom.byId('tenderForm')) {
                 bba.openFormDialog({
                     url: '/contract/add-tender',
-                    content: {type :  'add'},
+                    content: {
+                        type :  'add',
+                        tender_idContract : this.value
+                    },
                     dialog: 'tenderForm'
                 });
             } else {
@@ -337,6 +340,7 @@ define("bba/Contract",
                         if (values.idTender) {
                             registry.byId('tender' + values.idTender).refresh();
                         }
+                        registry.byId('tenderGrid' + values.tender_idContract)._refresh();
                         //bba.comfirmDialog();
                     } else {
                         dom.byId('dialog').innerHTML = data.html;

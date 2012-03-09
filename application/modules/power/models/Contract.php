@@ -350,6 +350,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         // get filtered values
         $data = $form->getValues();
 
+        //if ($data['tender_idSupplierContact'] == 0) $data['tender_idSupplierContact'] = '';
+
         $dateKeys = array(
             'tender_dateExpiresQuote'
         );

@@ -116,7 +116,7 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
                 'searchAttr' => 'supplierCo_name',
                 'promptMessage' => 'Select a Supplier Contact'
             ),
-            'required'      => true,
+            'required'      => false,
             'value'         => '0',
         ));
 
