@@ -80,7 +80,12 @@ class Power_Model_DbTable_Meter_Usage extends ZendSF_Model_DbTable_Abstract
 
     public function searchUsage(array $search, $sort = '', $count = null, $offset = null)
     {
-        $select = $this->select()->where('usage_idMeter = ?', $search['usage_idMeter']);
+        $select = $this->select()
+                ->from('pusage')
+                ->columns(array(
+                    'usage_usageTotal' => '(usage_usageDay + usage_usageNight + usage_usageOther)'
+                ))
+                ->where('usage_idMeter = ?', $search['usage_idMeter']);
 
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
