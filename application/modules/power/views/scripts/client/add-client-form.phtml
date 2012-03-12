@@ -45,6 +45,8 @@
 
                     <script type="dojo/method" data-dojo-event="onShow">
                         clientForm.attr('title', 'Main (HQ) Address');
+                        
+                        dijit.byId('clientAd_addressName').attr('value', dijit.byId('client_name').attr('value'));                    
                     </script>
                 </div>
 
