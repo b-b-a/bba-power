@@ -249,6 +249,16 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $post['client_idAddress'] = $clientAdSave;
             $post['client_idClientContact'] = $clientCoSave;
             $clientSave = $this->saveClient($post);
+            
+            $newSite = array(
+                'site_idClient' => $clientSave,
+                'site_idAddress' => $clientAdSave,
+                'site_idAddressBill' => $clientAdSave,
+                'site_idClientContact' => $clientCoSave
+            );
+            
+            // now save the new client as a new site.
+            $this->getDbTable('site')->saveRow($newSite, null);
 
         } catch (Exception $e) {
             $log->info($e);
