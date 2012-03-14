@@ -218,7 +218,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
              * TODO: must add checking on each stage.
              */
             // save client first.
-            $clientSave = $this->saveClient($post);
+            $clientSave = $this->_saveClient($post);
 
             // then save client address.
             $post['clientAd_idClient'] = $clientSave;
@@ -227,38 +227,24 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
                 $post['clientAd_addressName'] = $post['client_name'];
             }
             
-            $clientAdSave = $this->saveClientAddress($post);
+            $clientAdSave = $this->_saveClientAddress($post);
 
             // now save client contact
             $post['clientCo_idClient'] = $clientSave;
             $post['clientCo_idAddress'] = $clientAdSave;
             $clientCoSave = $this->_saveClientContact($post);
-            
-            if ($clientCoSave == 0) {
-                throw new ZendSF_Model_Exception('client contact not saved');
-            }
 
             // now update client with address and contact ids.
-            $form = $this->getForm('clientSave');
-
-            $form->addElement('hidden', 'client_idAddress', array(
-                'value' => $clientAdSave
-            ));
-
-            $form->addElement('hidden', 'client_idClientContact', array(
-                'value' => $clientCoSave
-            ));
-
             $post['client_idClient'] = $clientSave;
             $post['client_idAddress'] = $clientAdSave;
             $post['client_idClientContact'] = $clientCoSave;
-            $clientSave = $this->saveClient($post);
+            $clientSave = $this->_saveClient($post);
             
             $newSite = array(
-                'site_idClient' => $clientSave,
-                'site_idAddress' => $clientAdSave,
-                'site_idAddressBill' => $clientAdSave,
-                'site_idClientContact' => $clientCoSave
+                'site_idClient'         => $clientSave,
+                'site_idAddress'        => $clientAdSave,
+                'site_idAddressBill'    => $clientAdSave,
+                'site_idClientContact'  => $clientCoSave
             );
             
             // now save the new client as a new site.
@@ -308,22 +294,30 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             return false;
         }
 
-        // get filtered values
-        $data = $form->getValues();
-
+        // get filtered values and return results.
+        return $this->_saveClient($form->getValues());
+    }
+    
+    /**
+     * saves client row.
+     *
+     * @param array $data
+     * @return false|int
+     */
+    protected function _saveClient($data)
+    {
         // format date for database.
         $dateValue =  ($data['client_dateExpiryLoa'] === '') ? '01-01-1970' : $data['client_dateExpiryLoa'];
         $date = new Zend_Date($dateValue);
         $date->set($date->toString('yy'), Zend_Date::YEAR_SHORT);
         $data['client_dateExpiryLoa'] = $date->toString('yyyy-MM-dd');
-
-
+        
         $client = array_key_exists('client_idClient', $data) ?
             $this->getClientById($data['client_idClient']) : null;
 
         return $this->getDbTable('client')->saveRow($data, $client);
     }
-
+    
     /**
      * Updates a client address.
      *
@@ -342,15 +336,24 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             return false;
         }
 
-        // get filtered values
-        $data = $form->getValues();
-
+        // get filtered values and return results.
+        return $this->_saveClientAddress($form->getValues());
+    }
+    
+    /**
+     * saves client address row.
+     *
+     * @param array $data
+     * @return false|int
+     */
+    protected function _saveClientAddress($data)
+    {
         $clientAd = array_key_exists('clientAd_idAddress', $data) ?
             $this->getClientAddressById($data['clientAd_idAddress']) : null;
 
         return $this->getDbTable('clientAddress')->saveRow($data, $clientAd);
     }
-
+    
     /**
      * Updates a client contact.
      *
@@ -381,7 +384,13 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         return $this->_saveClientContact($form->getValues());
     }
     
-    private function _saveClientContact($data)
+    /**
+     * saves client contact row.
+     *
+     * @param array $data
+     * @return false|int
+     */
+    protected function _saveClientContact($data)
     {
         $clientCo = array_key_exists('clientCo_idClientContact', $data) ?
             $this->getClientContactById($data['clientCo_idClientContact']) : null;
