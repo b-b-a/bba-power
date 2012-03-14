@@ -185,6 +185,11 @@ class Power_ClientController extends Zend_Controller_Action
             $saved = ($request->getPost('type') === 'add') ?
                 $this->_model->saveNewClient($request->getPost()) :
                 $this->_model->saveClient($request->getPost());
+                
+            if (is_array($saved)) {
+                $site = $saved[1];
+                $saved = $saved[0];
+            }
 
             $returnJson = array('saved' => $saved);
 
@@ -200,9 +205,10 @@ class Power_ClientController extends Zend_Controller_Action
             } else {
                 $this->view->assign(array(
                     'id'    => $saved,
-                    'type'  => 'client'
+                    'type'  => 'client',
+                    'site'  => (isset($site)) ? $site : null
                 ));
-                $html = $this->view->render('confirm.phtml');
+                $html = $this->view->render('client/confirm.phtml');
                 $returnJson['html'] = $html;
             }
         } catch (Exception $e) {

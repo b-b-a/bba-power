@@ -1,0 +1,22 @@
+<div data-dojo-type="dijit.Dialog" data-dojo-id="confirm" data-dojo-props="title:'Comfirm Add/Update Record'">
+    <div class="dijitDialogPaneContentArea">
+        <div>
+            <p>
+                Record id <?php echo $this->id; ?> has been successfully 
+                added/updated into the <?php echo $this->type; ?> table.
+            </p>
+            <?php if($this->site): ?>
+            <p>
+                Record id <?php echo $this->site; ?> has been successfully
+                added into the site table.
+            </p>
+            <?php endif; ?>
+        </div>
+        <button data-dojo-type="dijit.form.Button">
+            Close
+            <script type="dojo/method" data-dojo-event="onClick">
+                return bba.closeDialog(confirm);
+            </script>
+        </button>
+    </div>
+</div>
