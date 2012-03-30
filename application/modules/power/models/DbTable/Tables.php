@@ -73,4 +73,15 @@ class Power_Model_DbTable_Tables extends ZendSF_Model_DbTable_Abstract
 
         return $this->fetchAll($select);
     }
+    
+    public function getTableItemByNameKey($name, $key)
+    {
+        $select = $this->select(true)
+            ->columns(array('tables_key', 'tables_value'))
+            ->where('tables_name = ?', $name)
+            ->where('tables_key = ?', $key)
+            ->order('tables_sort ASC');
+
+        return $this->fetchAll($select);
+    }
 }
