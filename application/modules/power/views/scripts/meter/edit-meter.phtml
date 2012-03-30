@@ -30,7 +30,7 @@
                 </tr>
                 <tr>
                     <th>Supply Capacity:</th>
-                    <td><?php echo $this->meter->meter_capacity; ?>&nbsp;kWH</td>
+                    <td><?php echo $this->meter->meter_capacity; ?>&nbsp;kVA</td>
                 </tr>
 
                 <tr>
@@ -59,6 +59,7 @@
                 <tr>
                     <td><?php
                         echo $this->formatAddress(array(
+                            $this->escape("(".$this->meter->clientAd_addressName.")"),
                             $this->escape($this->meter->client_name),
                             $this->escape($this->meter->clientAd_address1),
                             $this->escape($this->meter->clientAd_address2),
@@ -133,7 +134,7 @@
              class="innerTabs">
 
             <div data-dojo-type="dijit.layout.ContentPane"
-                 data-dojo-props="title: 'Meter Usage'">
+                 data-dojo-props="title: 'Consumption'">
 
                 <span data-dojo-type="dojox.data.QueryReadStore"
                     data-dojo-props="url: '/meter/data-store/type/usage', requestMethod: 'post'"
@@ -146,7 +147,7 @@
                         store: usageStore<?php echo $this->meter->meter_idMeter; ?>,
                         structure: bba.Meter.gridLayouts.meterUsage,
                         query: { usage_idMeter: <?php echo $this->meter->meter_idMeter; ?> },
-                        sortInfo: "-3",
+                        sortInfo: "-2",
                         noDataMessage : bba.gridMessage'>
                     <?php if ($this->isAllowed('MeterUsage')): ?>
                     <script type="dojo/method" data-dojo-event="onRowClick">
@@ -157,7 +158,7 @@
             </div>
 
             <div data-dojo-type="dijit.layout.ContentPane"
-                 data-dojo-props="title: 'Meter Contracts'">
+                 data-dojo-props="title: 'Contracts'">
 
                 <span data-dojo-type="dojox.data.QueryReadStore"
                     data-dojo-props="url: '/meter/data-store/type/contract', requestMethod: 'post'"
@@ -169,7 +170,7 @@
                         store: contractStore,
                         structure: bba.Meter.gridLayouts.contract,
                         query: { meter_idMeter: <?php echo $this->meter->meter_idMeter; ?> },
-                        sortInfo: "2",
+                        sortInfo: "-3",
                         noDataMessage : bba.gridMessage'>
                     <script type="dojo/method" data-dojo-event="onRowClick">
                         bba.Contract.contractGridRowClick(this);

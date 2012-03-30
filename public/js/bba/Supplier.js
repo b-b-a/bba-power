@@ -64,6 +64,7 @@ define("bba/Supplier",
             ],
             supplierContact : [
                 {field: 'supplierCo_idSupplierContact', width: '50px', name: 'Id'},
+                {field: 'supplierCo_type', width: '100px', name: 'Type'},
                 {field: 'supplierCo_name', width: '150px', name: 'Name'},
                 {field: 'supplierCo_phone', width: '100px', name: 'Phone'},
                 {field: 'supplierCo_email', width: '300px', name: 'Email'},

@@ -99,10 +99,11 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
             ->from('contract', array(
                 'contract_idContract' => 'contract_idContract',
                 'contract_reference',
-                'contract_status',
+                'contract_type' => '(SELECT tables_value FROM tables WHERE tables_key = contract_type AND tables_name = "contract_type")',
+                'contract_status' => '(SELECT tables_value FROM tables WHERE tables_key = contract_status AND tables_name = "contract_status")',
                 'contract_dateStart',
                 'contract_dateEnd',
-                'contract_desc' => 'SUBSTR(contract_desc, 1, 15)'
+                'contract_desc' => 'SUBSTR(contract_desc, 1, 40)'
             ))->join(
                 'client',
                 'client_idClient = contract_idClient ',
@@ -119,6 +120,14 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
                 'meter',
                 'meter_idMeter = meterContract_idMeter',
                 null
+            )->joinLeft(
+                'tender',
+                'tender_idTender = contract_idTenderSelected',
+                null
+            )->joinLeft(
+                'supplier',
+                'supplier_idSupplier = tender_idSupplier',
+                array('supplier_nameShort')
            )->group('contract_idContract');
 
         if (!$search['contract'] == '') {

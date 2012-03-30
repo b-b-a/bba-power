@@ -64,7 +64,7 @@ define("bba/Client",
             ],
             clientContact : [
                 {field: 'clientCo_idClientContact', width: '50px', name: 'Id'},
-                {field: 'clientCo_type', width: '100px', name: 'Type'},
+                {field: 'tables_value', width: '100px', name: 'Type'},
                 {field: 'clientCo_name', width: '200px', name: 'Name'},
                 {field: 'clientCo_phone', width: '300px', name: 'Phone'},
                 {field: 'clientCo_email', width: '200px', name: 'Email'},

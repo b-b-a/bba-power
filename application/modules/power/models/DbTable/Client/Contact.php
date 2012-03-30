@@ -85,7 +85,7 @@ class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
 
     public function getClientContactsByClientId($id)
     {
-        $select = $this->select()->where('clientCo_idClient = ?', $id);
+        $select = $this->select()->where('clientCo_idClient = ?', $id); 
         return $this->fetchAll($select);
     }
 
@@ -93,6 +93,7 @@ class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
     {
         $select = $this->select(false)->setIntegrityCheck(false)
             ->from('client_contact')
+            ->join('tables', 'tables_name = "clientCo_type" AND tables_key = clientCo_type')
             ->join('client_address', 'clientCo_idAddress = clientAd_idAddress')
             ->where('clientCo_idClient = ?', $search['clientCo_idClient']);
 
