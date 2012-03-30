@@ -197,9 +197,13 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             ));
         }
 
-        $multiOptions = array(0 => 'Select a status');
-
-        $list = $table->getSelectListByName('contract_status');
+        if ($request->getParam('type') == 'add') {
+            $multiOptions = array();
+            $list = $table->getTableItemByNameKey('contract_status', 'new');
+        } else {
+            $multiOptions = array(0 => 'Select a status');
+            $list = $table->getSelectListByName('contract_status');
+        }
         foreach($list as $row) {
             $multiOptions[$row->tables_key] = $row->tables_value;
         }
