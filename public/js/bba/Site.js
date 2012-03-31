@@ -87,7 +87,7 @@ define("bba/Site",
             id = registry.byId("site_idClient").get('value');
 
             bba.Site.clientStore = new ItemFileReadStore({
-                url:'/site/data-store/type/clients'
+                url:'./site/data-store/type/clients'
             });
 
             bba.Site.clientStore.fetch({
@@ -112,7 +112,7 @@ define("bba/Site",
             registry.byId('site_idClientContact').set('value', '');
 
             this.addressStore = new ItemFileReadStore({
-                url:'/site/data-store/type/address/clientId/' + val
+                url:'./site/data-store/type/address/clientId/' + val
             })
 
             this.addressStore.fetch({
@@ -124,7 +124,7 @@ define("bba/Site",
             registry.byId("site_idAddress").set('store', this.addressStore);
 
             this.billAddressStore = new ItemFileReadStore({
-                url:'/site/data-store/type/billAddress/clientId/' + val
+                url:'./site/data-store/type/billAddress/clientId/' + val
             })
 
             this.billAddressStore.fetch({
@@ -134,7 +134,7 @@ define("bba/Site",
             });
 
             this.contactStore = new ItemFileReadStore({
-                url:'/site/data-store/type/contact/clientId/' + val
+                url:'./site/data-store/type/contact/clientId/' + val
             })
 
             this.contactStore.fetch({
@@ -173,7 +173,7 @@ define("bba/Site",
              bba.openTab({
                 tabId : 'site' + id,
                 title : grid.store.getValue(selectedItem, 'clientAd_addressName'),
-                url : '/site/edit-site',
+                url : './site/edit-site',
                 content : {
                     type : 'details',
                     site_idSite : id
@@ -185,7 +185,7 @@ define("bba/Site",
         {
             if (!dom.byId('siteForm')) {
                 bba.openFormDialog({
-                    url: '/site/add-site',
+                    url: './site/add-site',
                     content: dojo.mixin({type :  'add'}),
                     dialog: 'siteForm',
                     deferredFunction: function() {
@@ -201,7 +201,7 @@ define("bba/Site",
         {
             if (!dom.byId('siteForm')) {
                 bba.openFormDialog({
-                    url: '/site/edit-site',
+                    url: './site/edit-site',
                     content: dojo.mixin({type :  'edit'}, contentVars),
                     dialog: 'siteForm'
                 });
@@ -218,7 +218,7 @@ define("bba/Site",
             values.type = (values.site_idSite) ? 'edit' : 'add';
 
             xhr.post({
-                url: '/site/save-site',
+                url: './site/save-site',
                 content: values,
                 handleAs: 'json',
                 preventCache: true,

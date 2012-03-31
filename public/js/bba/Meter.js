@@ -88,7 +88,7 @@ define("bba/Meter",
              bba.openTab({
                 tabId : 'meter' + id,
                 title : grid.store.getValue(selectedItem, 'meter_numberMain'),
-                url : '/meter/edit-meter',
+                url : './meter/edit-meter',
                 content : {
                     type : 'details',
                     meter_idMeter : id
@@ -104,7 +104,7 @@ define("bba/Meter",
 
             if (!dom.byId('usageForm')) {
                 bba.openFormDialog({
-                    url: '/meter/edit-usage',
+                    url: './meter/edit-usage',
                     content: {
                         type :  'edit',
                         usage_idUsage : id
@@ -120,7 +120,7 @@ define("bba/Meter",
         {
             if (!dom.byId('meterForm')) {
                 bba.openFormDialog({
-                    url: '/meter/edit-meter',
+                    url: './meter/edit-meter',
                     content: dojo.mixin({type :  'edit'}, contentVars),
                     dialog: 'meterForm'
                 });
@@ -133,7 +133,7 @@ define("bba/Meter",
         {
             if (!dom.byId('meterForm')) {
                 bba.openFormDialog({
-                    url: '/meter/add-meter',
+                    url: './meter/add-meter',
                     content: dojo.mixin({type :  'add'}, contentVars),
                     dialog: 'meterForm'
                 });
@@ -146,7 +146,7 @@ define("bba/Meter",
         {
             if (!dom.byId('usageForm')) {
                 bba.openFormDialog({
-                    url: '/meter/add-usage',
+                    url: './meter/add-usage',
                     content: dojo.mixin({type :  'add'}, contentVars),
                     dialog: 'usageForm'
                 });
@@ -163,7 +163,7 @@ define("bba/Meter",
             values.type = (values.meter_idMeter) ? 'edit' : 'add';
 
             xhr.post({
-                url: '/meter/save-meter',
+                url: './meter/save-meter',
                 content: values,
                 handleAs: 'json',
                 preventCache: true,
@@ -196,7 +196,7 @@ define("bba/Meter",
             values.type = (values.usage_idUsage) ? 'edit' : 'add';
 
             xhr.post({
-                url: '/meter/save-usage',
+                url: './meter/save-usage',
                 content: values,
                 handleAs: 'json',
                 preventCache: true,

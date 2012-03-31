@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Contract_Save extends ZendSF_Form_Abstract
+class Power_Form_Contract_Save extends ZendSF_Dojo_Form_Abstract
 {
     protected $_simpleTextareaDecorators = array(
         'DijitElement',
@@ -93,7 +93,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
                 'hasDownArrow'  => true,
                 'storeId'       => 'clientStore',
                 'storeType'     => 'dojo.data.ItemFileReadStore',
-                'storeParams'   => array('url' => "/site/data-store/type/clients"),
+                'storeParams'   => array('url' => "site/data-store/type/clients"),
                 'dijitParams'   => array(
                     'searchAttr'    => 'client_name',
                     'promptMessage' => 'Select a Client'
@@ -181,7 +181,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             ));
 
             $decors = $this->getElement('contract_type')->getDecorators();
-            
+
             $decors['Zend_Form_Decorator_Label']->setOptions(array(
                 'tag' => 'p',
                 'class' => 'contract_type-add'

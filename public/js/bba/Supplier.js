@@ -82,7 +82,7 @@ define("bba/Supplier",
              bba.openTab({
                 tabId : 'supplier' + id,
                 title : grid.store.getValue(selectedItem, 'supplier_name'),
-                url : '/supplier/edit-supplier',
+                url : './supplier/edit-supplier',
                 content : {
                     type : 'details',
                     supplier_idSupplier : id
@@ -98,7 +98,7 @@ define("bba/Supplier",
 
              if (!dom.byId('supplierCoForm')) {
                 bba.openFormDialog({
-                    url: '/supplier/edit-supplier-contact',
+                    url: './supplier/edit-supplier-contact',
                     content: {
                         type :  'edit',
                         supplierCo_idSupplierContact : id
@@ -114,7 +114,7 @@ define("bba/Supplier",
         {
             if (!dom.byId('supplierForm')) {
                 bba.openFormDialog({
-                    url: '/supplier/add-supplier',
+                    url: './supplier/add-supplier',
                     content: {type :  'add'},
                     dialog: 'supplierForm'
                 });
@@ -127,7 +127,7 @@ define("bba/Supplier",
         {
             if (!dom.byId('supplierCoForm')) {
                 bba.openFormDialog({
-                    url: '/supplier/add-supplier-contact',
+                    url: './supplier/add-supplier-contact',
                     content: dojo.mixin({type :  'add'}, contentVars),
                     dialog: 'supplierCoForm'
                 });
@@ -140,7 +140,7 @@ define("bba/Supplier",
         {
             if (!dom.byId('supplierForm')) {
                 bba.openFormDialog({
-                    url: '/supplier/edit-supplier',
+                    url: './supplier/edit-supplier',
                     content: dojo.mixin({type :  'edit'}, contentVars),
                     dialog: 'supplierForm'
                 });
@@ -157,7 +157,7 @@ define("bba/Supplier",
             values.type = (values.supplier_idSupplier) ? 'edit' : 'add';
 
             xhr.post({
-                url: '/supplier/save-supplier',
+                url: './supplier/save-supplier',
                 content: values,
                 handleAs: 'json',
                 preventCache: true,
@@ -190,7 +190,7 @@ define("bba/Supplier",
             values.type = (values.supplierCo_idSupplierContact) ? 'edit' : 'add';
 
             xhr.post({
-                url: '/supplier/save-supplier-contact',
+                url: './supplier/save-supplier-contact',
                 content: values,
                 handleAs: 'json',
                 preventCache: true,

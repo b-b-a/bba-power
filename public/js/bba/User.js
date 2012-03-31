@@ -63,7 +63,7 @@ define("bba/User",
 
             if (!dom.byId('userForm')) {
                 bba.openFormDialog({
-                    url: '/user/edit-user',
+                    url: './user/edit-user',
                     content: {
                         type :  'edit',
                         user_idUser : id
@@ -79,7 +79,7 @@ define("bba/User",
         {
             if (!dom.byId('userForm')) {
                 bba.openFormDialog({
-                    url: '/user/add-user',
+                    url: './user/add-user',
                     content: { type :  'add'},
                     dialog: 'userForm'
                 });
@@ -97,7 +97,7 @@ define("bba/User",
 
 
             xhr.post({
-                url: '/user/save-user',
+                url: './user/save-user',
                 content: values,
                 handleAs: 'json',
                 preventCache: true,

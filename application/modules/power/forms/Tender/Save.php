@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Tender_Save extends ZendSF_Form_Abstract
+class Power_Form_Tender_Save extends ZendSF_Dojo_Form_Abstract
 {
     protected $_simpleTextareaDecorators = array(
         'DijitElement',
@@ -82,7 +82,7 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
             'hasDownArrow' => true,
             'storeId' => 'supplierStore',
             'storeType' => 'dojo.data.ItemFileReadStore',
-            'storeParams' => array('url' => "/supplier/data-store/type/supplierList"),
+            'storeParams' => array('url' => "supplier/data-store/type/supplierList"),
             'dijitParams' => array(
                 'searchAttr' => 'supplier_name',
                 'promptMessage' => 'Select a Supplier'
@@ -110,7 +110,7 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
             'storeId' => 'supplierContactStore',
             'storeType' => 'dojo.data.ItemFileReadStore',
             'storeParams' => array(
-                'url' => "/supplier/data-store/type/supplierContacts" . $supplier
+                'url' => "supplier/data-store/type/supplierContacts" . $supplier
             ),
             'dijitParams' => array(
                 'searchAttr' => 'supplierCo_name',

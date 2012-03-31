@@ -136,7 +136,7 @@
                  data-dojo-props="title: 'Meter Usage'">
 
                 <span data-dojo-type="dojox.data.QueryReadStore"
-                    data-dojo-props="url: '/meter/data-store/type/usage', requestMethod: 'post'"
+                    data-dojo-props="url: 'meter/data-store/type/usage', requestMethod: 'post'"
                     data-dojo-id="usageStore<?php echo $this->meter->meter_idMeter; ?>"></span>
 
                 <table data-dojo-type="dojox.grid.DataGrid"
@@ -160,7 +160,7 @@
                  data-dojo-props="title: 'Meter Contracts'">
 
                 <span data-dojo-type="dojox.data.QueryReadStore"
-                    data-dojo-props="url: '/meter/data-store/type/contract', requestMethod: 'post'"
+                    data-dojo-props="url: 'meter/data-store/type/contract', requestMethod: 'post'"
                     data-dojo-id="contractStore"></span>
 
                 <table data-dojo-type="dojox.grid.DataGrid"

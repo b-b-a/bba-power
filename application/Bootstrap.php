@@ -278,7 +278,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         if ('development' !== $this->getEnvironment()) {
             $this->_view->dojo()
-                ->setLocalPath('/js/release/bba/dojo/dojo.js')
+                ->setLocalPath('js/release/bba/dojo/dojo.js')
                 ->setDjConfigOption('packages', array(
                     array(
                         'location'  => "../../../bba",
@@ -286,16 +286,16 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                     )
                 ));
             $this->_view->headLink()
-                ->appendStylesheet('/js/release/bba/dojox/grid/resources/Grid.css')
-                ->appendStylesheet('/js/release/bba/dojox/grid/resources/claroGrid.css')
-                ->appendStylesheet('/js/release/bba/dojox/widget/Wizard/Wizard.css');
+                ->appendStylesheet('js/release/bba/dojox/grid/resources/Grid.css')
+                ->appendStylesheet('js/release/bba/dojox/grid/resources/claroGrid.css')
+                ->appendStylesheet('js/release/bba/dojox/widget/Wizard/Wizard.css');
         } else {
             $this->_view->dojo()
-                ->setLocalPath('/js/dojo/dojo.js');
+                ->setLocalPath('js/dojo/dojo.js');
             $this->_view->headLink()
-                ->appendStylesheet('/js/dojox/grid/resources/Grid.css')
-                ->appendStylesheet('/js/dojox/grid/resources/claroGrid.css')
-                ->appendStylesheet('/js/dojox/widget/Wizard/Wizard.css');
+                ->appendStylesheet('js/dojox/grid/resources/Grid.css')
+                ->appendStylesheet('js/dojox/grid/resources/claroGrid.css')
+                ->appendStylesheet('js/dojox/widget/Wizard/Wizard.css');
         }
 
         $this->_view->headTitle('BBA Power')->setSeparator(' - ');

@@ -16,7 +16,7 @@
         data-dojo-props="onClick: bba.Contract.closeDialog, type: 'button'"
         id="cancelButton">Cancel</button>
 
-<img id="contractMeterHelp" src="/images/help.png" />
+<img id="contractMeterHelp" src="images/help.png" />
 
 <div dojoType="dijit.Tooltip" connectId="contractMeterHelp">
     <p>
@@ -30,7 +30,7 @@
 <div>&nbsp;</div>
 
 <span data-dojo-type="dojo.data.ItemFileWriteStore"
-        data-dojo-props="url: '/contract/data-store/type/availableMeters/meterContract_idContract/<?php echo $this->contract->contract_idContract; ?>', requestMethod: 'post'"
+        data-dojo-props="url: 'contract/data-store/type/availableMeters/meterContract_idContract/<?php echo $this->contract->contract_idContract; ?>', requestMethod: 'post'"
         data-dojo-id="contractMeterStore"></span>
 
 <div data-dojo-type="dojox.grid.DataGrid"
@@ -55,7 +55,7 @@
 
 <div dojoType="dijit.Dialog" id="tenderWarningDialog" title="Tender Warning">
     <div class="dijitDialogPaneContentArea" style="text-align: center;">
-        <img src="/images/Warning.png" />
+        <img src="images/Warning.png" />
         <p>
             <b>After editing meters the tenders<br />
             will need re-submitting.</b>

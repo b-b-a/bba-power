@@ -55,7 +55,7 @@
                  data-dojo-props="region: 'center', title: 'Contracts'">
 
                 <span data-dojo-type="dojox.data.QueryReadStore"
-                    data-dojo-props="url: '/supplier/data-store/type/contract', requestMethod: 'post'"
+                    data-dojo-props="url: 'supplier/data-store/type/contract', requestMethod: 'post'"
                     data-dojo-id="contractStore<?php echo $this->supplier->supplier_idSupplier; ?>"></span>
 
                 <table data-dojo-type="dojox.grid.DataGrid"
@@ -77,7 +77,7 @@
                  data-dojo-props="region: 'center', title: 'Supplier Contacts'">
 
                 <span data-dojo-type="dojox.data.QueryReadStore"
-                    data-dojo-props="url: '/supplier/data-store/type/contacts', requestMethod: 'post'"
+                    data-dojo-props="url: 'supplier/data-store/type/contacts', requestMethod: 'post'"
                     data-dojo-id="supplierCoStore<?php echo $this->supplier->supplier_idSupplier; ?>"></span>
 
                 <table data-dojo-type="dojox.grid.DataGrid"

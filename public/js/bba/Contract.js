@@ -150,7 +150,7 @@ define("bba/Contract",
 
             if (!kvaError) {
                 xhr.post({
-                    url: '/contract/save-meter-contract',
+                    url: './contract/save-meter-contract',
                     content: {jsonData : dojo.toJson(data)},
                     handleAs: 'json',
                     preventCache: true,
@@ -183,7 +183,7 @@ define("bba/Contract",
                         content: dojo.mixin({type : 'add'}, contentVars)
                     },
                     ioMethod: dojo.xhrPost,
-                    href: '/contract/add-meter-contract'
+                    href: './contract/add-meter-contract'
                 });
             }
 
@@ -200,7 +200,7 @@ define("bba/Contract",
             bba.openTab({
                 tabId : 'contract' + id,
                 title : grid.store.getValue(selectedItem, 'client_name'),
-                url : '/contract/edit-contract',
+                url : './contract/edit-contract',
                 content : {
                     type : 'details',
                     contract_idContract : id
@@ -217,7 +217,7 @@ define("bba/Contract",
             bba.openTab({
                 tabId : 'tender' + id,
                 title : grid.store.getValue(selectedItem, 'supplier_name'),
-                url : '/contract/edit-tender',
+                url : './contract/edit-tender',
                 content : dojo.mixin({
                     type :  'details',
                     tender_idTender : id
@@ -229,7 +229,7 @@ define("bba/Contract",
         {
             if (!dom.byId('contractForm')) {
                 bba.openFormDialog({
-                    url: '/contract/edit-contract',
+                    url: './contract/edit-contract',
                     content: dojo.mixin({type :  'edit'}, contentVars),
                     dialog: 'contractForm'
                 });
@@ -242,7 +242,7 @@ define("bba/Contract",
         {
             if (!dom.byId('tenderForm')) {
                 bba.openFormDialog({
-                    url: '/contract/edit-tender',
+                    url: './contract/edit-tender',
                     content: dojo.mixin({type :  'edit'}, contentVars),
                     dialog: 'tenderForm'
                 });
@@ -255,7 +255,7 @@ define("bba/Contract",
         {
             if (!dom.byId('contractForm')) {
                 bba.openFormDialog({
-                    url: '/contract/add-contract',
+                    url: './contract/add-contract',
                     content: dojo.mixin({type :  'add'}, contentVars),
                     dialog: 'contractForm'
                 });
@@ -268,12 +268,12 @@ define("bba/Contract",
         {
             if (!dom.byId('tenderForm')) {
                 bba.openFormDialog({
-                    url: '/contract/add-tender',
+                    url: './contract/add-tender',
                     content: dojo.mixin({type :  'add'}, contentVars),
                     dialog: 'tenderForm',
                     deferredFunction: function() {
                         bba.Contract.tenderStore = new ItemFileReadStore({
-                            url:'/supplier/data-store/type/supplierList'
+                            url:'./supplier/data-store/type/supplierList'
                         });
 
                         bba.Contract.tenderStore.fetch({
@@ -297,7 +297,7 @@ define("bba/Contract",
             registry.byId('tender_idSupplierContact').set('value', '');
 
             this.supplierContactStore = new ItemFileReadStore({
-                url:'/supplier/data-store/type/supplierContacts/supplierId/' + val
+                url:'./supplier/data-store/type/supplierContacts/supplierId/' + val
             });
 
             this.supplierContactStore.fetch({
@@ -318,7 +318,7 @@ define("bba/Contract",
             values.type = (values.contract_idContract) ? 'edit' : 'add';
 
             xhr.post({
-                url: '/contract/save-contract',
+                url: './contract/save-contract',
                 content: values,
                 handleAs: 'json',
                 preventCache: true,
@@ -352,7 +352,7 @@ define("bba/Contract",
             values.type = (values.tender_idTender) ? 'edit' : 'add';
 
             xhr.post({
-                url: '/contract/save-tender',
+                url: './contract/save-tender',
                 content: values,
                 handleAs: 'json',
                 preventCache: true,

@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Site_Add extends ZendSF_Form_Abstract
+class Power_Form_Site_Add extends ZendSF_Dojo_Form_Abstract
 {
     protected $_simpleTextareaDecorators = array(
         'DijitElement',
@@ -74,7 +74,7 @@ class Power_Form_Site_Add extends ZendSF_Form_Abstract
             'hasDownArrow' => true,
             'storeId' => 'clientStore',
             'storeType' => 'dojo.data.ItemFileReadStore',
-            'storeParams' => array('url' => "/site/data-store/type/clients"),
+            'storeParams' => array('url' => "site/data-store/type/clients"),
             'dijitParams' => array(
                 'searchAttr' => 'client_name',
                 'promptMessage' => 'Select a Client'

@@ -82,7 +82,7 @@ define("bba/Client",
              bba.openTab({
                 tabId : 'client' + id,
                 title : grid.store.getValue(selectedItem, 'client_name'),
-                url : '/client/edit-client',
+                url : './client/edit-client',
                 content : {
                     type : 'details',
                     client_idClient : id
@@ -99,7 +99,7 @@ define("bba/Client",
             bba.openTab({
                 tabId : 'clientAd' + id,
                 title : grid.store.getValue(selectedItem, 'clientAd_addressName'),
-                url : '/client/edit-client-address',
+                url : './client/edit-client-address',
                 content : dojo.mixin({
                         type : 'details',
                         clientAd_idAddress : id
@@ -115,7 +115,7 @@ define("bba/Client",
 
              if (!dom.byId('clientCoForm')) {
                 bba.openFormDialog({
-                    url: '/client/edit-client-contact',
+                    url: './client/edit-client-contact',
                     content: dojo.mixin({
                         type : 'edit',
                         clientCo_idClientContact : id
@@ -131,7 +131,7 @@ define("bba/Client",
         {
             if (!dom.byId('clientForm')) {
                 bba.openFormDialog({
-                    url: '/client/add-client',
+                    url: './client/add-client',
                     content: {type : 'add'},
                     dialog: 'clientForm'
                 });
@@ -144,7 +144,7 @@ define("bba/Client",
         {
             if (!dom.byId('clientAdForm')) {
                 bba.openFormDialog({
-                    url: '/client/add-client-address',
+                    url: './client/add-client-address',
                     content: dojo.mixin({type : 'add'}, contentVars),
                     dialog: 'clientAdForm'
                 });
@@ -157,7 +157,7 @@ define("bba/Client",
         {
             if (!dom.byId('clientCoForm')) {
                 bba.openFormDialog({
-                    url: '/client/add-client-contact',
+                    url: './client/add-client-contact',
                     content: dojo.mixin({type : 'add'}, contentVars),
                     dialog: 'clientCoForm'
                 });
@@ -170,7 +170,7 @@ define("bba/Client",
         {
             if (!dom.byId('clientForm')) {
                 bba.openFormDialog({
-                    url: '/client/edit-client',
+                    url: './client/edit-client',
                     content: dojo.mixin({type : 'edit'}, contentVars),
                     dialog: 'clientForm'
                 });
@@ -183,7 +183,7 @@ define("bba/Client",
         {
             if (!dom.byId('clientAdForm')) {
                 bba.openFormDialog({
-                    url: '/client/edit-client-address',
+                    url: './client/edit-client-address',
                     content: dojo.mixin({type : 'edit'}, contentVars),
                     dialog: 'clientAdForm'
                 });
@@ -200,7 +200,7 @@ define("bba/Client",
             values.type = (values.client_idClient) ? 'edit' : 'add';
 
             xhr.post({
-                url: '/client/save-client',
+                url: './client/save-client',
                 content: values,
                 handleAs: 'json',
                 preventCache: true,
@@ -233,7 +233,7 @@ define("bba/Client",
             values.type = (values.clientAd_idAddress) ? 'edit' : 'add';
 
             xhr.post({
-                url: '/client/save-client-address',
+                url: './client/save-client-address',
                 content: values,
                 handleAs: 'json',
                 preventCache: true,
@@ -266,7 +266,7 @@ define("bba/Client",
             values.type = (values.clientCo_idClientContact) ? 'edit' : 'add';
 
             xhr.post({
-                url: '/client/save-client-contact',
+                url: './client/save-client-contact',
                 content: values,
                 handleAs: 'json',
                 preventCache: true,

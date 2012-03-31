@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_User_Save extends ZendSF_Form_Abstract
+class Power_Form_User_Save extends ZendSF_Dojo_Form_Abstract
 {
     public function init()
     {
@@ -66,7 +66,7 @@ class Power_Form_User_Save extends ZendSF_Form_Abstract
             'decline'       => 'Decline',
             'agent'         => 'Agent',
             'read'          => 'Read',
-            'meterUsage'    => 'Meter Reading',
+            'meterUsage'    => 'Meter Usage',
             'user'          => 'User',
             'admin'         => 'Admin'
         );

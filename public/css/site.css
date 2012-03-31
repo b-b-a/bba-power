@@ -1,5 +1,5 @@
 body {
-    background: #fff url("/images/bodyBg.gif") repeat-x top left;
+    background: #fff url("../images/bodyBg.gif") repeat-x top left;
     font-family: "Times New Roman", serif;
     font-size: 90%;
 }
@@ -114,7 +114,7 @@ html, body {
 	height: 32px;
 	margin-top: -16px;
 	margin-left: -16px;
-	background-image: url('/images/loader_lg.gif');
+	background-image: url('../images/loader_lg.gif');
 	background-repeat: no-repeat;
 }
 
@@ -197,7 +197,7 @@ p {
 {
     display: block;
     border: 1px solid #769dc0;
-	background-image: url("/images/button.png");
+	background-image: url("../images/button.png");
 	background-position: center top;
 	background-repeat: repeat-x;
 	background-color: #e4f2ff;
@@ -286,7 +286,7 @@ p {
     margin: auto 10px;
     float: left;
     border: 1px solid #769dc0;
-    background-image: url("/images/button.png");
+    background-image: url("../images/button.png");
 	background-position: center top;
 	background-repeat: repeat-x;
 	background-color: #e4f2ff;
@@ -460,7 +460,7 @@ Form overrides.
 
 .claro .dojoxGridHeader .dojoxGridCell  {
 	padding-left: 5px;
-    background: url("/js/release/bba/dojox/grid/resources/images/header_shadow.png") #e5edf4 repeat-x bottom;
+    background: url("../js/release/bba/dojox/grid/resources/images/header_shadow.png") #e5edf4 repeat-x bottom;
 }
 
 .claro .dojoxGridHeader .dojoxGridCell:hover {
@@ -507,7 +507,7 @@ Messages
 
 #error-content caption {
     padding-left: 34px;
-    background: url('/images/ErrorShield.png') center left no-repeat;
+    background: url('../images/ErrorShield.png') center left no-repeat;
 }
 
 #error-content p {
@@ -552,12 +552,12 @@ Flash Messenger
 
 .pass {
     color: green;
-    background: url('/images/OKShield.png') center left no-repeat
+    background: url('../images/OKShield.png') center left no-repeat
 }
 
 .fail {
     color: red;
-    background: url('/images/ErrorShield.png') center left no-repeat;
+    background: url('../images/ErrorShield.png') center left no-repeat;
 }
 
 .current-eidt, .current-eidt:hover {
