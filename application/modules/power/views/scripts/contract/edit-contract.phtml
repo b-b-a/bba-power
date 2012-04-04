@@ -89,8 +89,8 @@
                     <td><?php echo $this->contract->contract_numberCustomer; ?></td>
                 </tr>
                 <tr>
-                    <th>Bill Period:</th>
-                    <td><?php echo $this->contract->contract_periodBill; ?></td>
+                    <th>Billing Period:</th>
+                    <td><?php echo $this->contract->contract_periodBill; ?> (months)</td>
                 </tr>
             </table>
 
@@ -127,7 +127,7 @@
                         store: meterContractStore<?php echo $this->contract->contract_idContract; ?>,
                         structure: bba.Contract.gridLayouts.meter,
                         query: { meterContract_idContract: <?php echo $this->contract->contract_idContract; ?> },
-                        sortInfo: '-3',
+                        sortInfo: '3',
                         noDataMessage : bba.gridMessage">
                     <script type="dojo/method" data-dojo-event="onRowClick">
                         bba.Meter.meterGridRowClick(this);
@@ -148,7 +148,7 @@
                         store: tenderStore<?php echo $this->contract->contract_idContract; ?>,
                         structure: bba.Contract.gridLayouts.tender,
                         query: { tender_idContract: <?php echo $this->contract->contract_idContract; ?> },
-                        sortInfo: '-3',
+                        sortInfo: '-6',
                         noDataMessage : bba.gridMessage">
                     <script type="dojo/method" data-dojo-event="onRowClick">
                         bba.Contract.tenderGridRowClick(this);
