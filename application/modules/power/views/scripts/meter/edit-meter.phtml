@@ -187,10 +187,10 @@
             <?php if ($this->isAllowed('MeterUsage')): ?>
             <p class="tableHead-button">
                 <button data-dojo-type="dijit.form.Button"
-                            data-dojo-props="onClick: bba.Meter.newUsageButtonClick"
-                            type="button"
-                            value="<?php echo $this->meter->meter_idMeter; ?>"
-                            id="new-usage-button-<?php echo $this->meter->meter_idMeter; ?>">
+                        data-dojo-props="onClick: bba.Meter.newUsageButtonClick"
+                        type="button"
+                        value="<?php echo $this->meter->meter_idMeter; ?>"
+                        id="new-usage-button-<?php echo $this->meter->meter_idMeter; ?>">
                     New Usage
                     <script type="dojo/method" data-dojo-event="onClick">
                         bba.Meter.newUsageButtonClick({
