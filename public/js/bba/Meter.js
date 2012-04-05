@@ -71,13 +71,13 @@ define("bba/Meter",
             contract : [
                 {field: 'contract_idContract', width: '50px', name: 'Id'},
                 {field: 'contract_status', width: '110px', name: 'Status'},
-                {field: 'contract_type', width: '110px', name: 'Status'},
+                {field: 'contract_type', width: '110px', name: 'Type'},
                 {field: 'contract_dateStart', width: '90px', name: 'Start Date'},
                 {field: 'contract_dateEnd', width: '90px', name: 'End Date'},
+                {field: 'meterContract_kvaNominated', width: '70px', name: 'Peak kVA'},
+                {field: 'meterContract_eac', width: '70px', name: 'EAC'},
                 {field: 'contract_reference', width: '200px', name: 'Reference'},
                 {field: 'contract_desc', width: '300px', name: 'Description'},
-                {field: 'meterContract_kvaNominated', width: '100px', name: 'Peak kVA'},
-                {field: 'meterContract_eac', width: '100px', name: 'EAC'},
                 {field: '', width: 'auto', name: ''}
             ]
         },
