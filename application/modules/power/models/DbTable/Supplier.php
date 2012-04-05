@@ -93,6 +93,7 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
             ->join('client', 'client_idClient = contract_idClient', array(
                 'client_name'
             ))
+            ->group('contract_idContract')
             ->where('supplier_idSupplier = ?', $id);
 
         $select = $this->getLimit($select, $count, $offset);
