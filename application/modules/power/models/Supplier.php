@@ -201,7 +201,7 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
             $form->excludeEmailFromValidation('supplierCo_email', array(
                 'field' => 'supplierCo_email',
                 'value' => $this->getSupplierContactById($post['supplierCo_idSupplierContact'])
-                    ->clientCo_email
+                    ->supplierCo_email
             ));
         }
 

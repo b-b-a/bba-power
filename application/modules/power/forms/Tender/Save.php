@@ -134,22 +134,22 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
             'Description' => '(Months)'
         ));
 
-        /*
-$this->addElement('ValidationTextBox', 'tender_dateExpiresQuote', array(
-'label' => 'Expiry Date:',
-'formatLength' => 'short',
-'filters' => array('StripTags', 'StringTrim'),
-'validators' => array(
-array('Date', true, array(
-'format' => 'dd/MM/yyyy'
-))
-),
-'required' => true,
-'dijitParams' => array(
-'promptMessage' => 'Enter expiry date for this tender.'
-)
-));
-*/
+        $this->addElement('ValidationTextBox', 'tender_dateExpiresQuote', array(
+            'label' => 'Quote Expiry Date:',
+            'formatLength' => 'short',
+            'filters' => array('StripTags', 'StringTrim'),
+            'validators' => array(
+                array('Date', true, array(
+                    'format' => 'dd/MM/yyyy'
+                ))
+            ),
+            'required' => false,
+            'value' => date("j/n/Y"),
+            'dijitParams' => array(
+                'promptMessage' => 'Enter expiry date for this tender.',
+                'style' => 'width:80px'
+            )
+        ));
 
         $this->addElement('NumberTextBox', 'tender_chargeStanding', array(
             'label' => 'Standing Charge:',

@@ -103,6 +103,12 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
 
     public function getAllContracts($select = null)
     {
+        $select->joinCross(
+            'meter_contract'
+        )
+        ->where('meter_contract.meterContract_idContract = m.contract_idContract')
+        ->where('meter_contract.meterContract_idMeter = ?', $this->getRow()->meter_idMeter);
+
         return $this->getRow()->findManyToManyRowset(
             'Power_Model_DbTable_Contract',
             'Power_Model_DbTable_Meter_Contract',
@@ -112,14 +118,16 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
         );
     }
 
-    public function getMeter_type() {
+    public function getMeter_type()
+    {
         return $this->getRow()->findParentRow(
             'Power_Model_DbTable_Tables',
             'meterType'
         )->tables_value;
     }
 
-    public function getMeter_status() {
+    public function getMeter_status()
+    {
         return $this->getRow()->findParentRow(
             'Power_Model_DbTable_Tables',
             'meterStatus'

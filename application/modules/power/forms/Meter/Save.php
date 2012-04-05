@@ -163,12 +163,12 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim'),
             'dijitParams'   => array(
-                'promptMessage' => 'Enter the meter capcity (kWH).'
+                'promptMessage' => 'Enter the meter capcity (kVA).'
             ),
             'validators'    => array(
                 array('StringLength', true, array('max' => 11))
             ),
-            'Description'   => '(kWH)',
+            'Description'   => '(kVA)',
             'attribs'       => array('style' => 'width: 100px;')
         ));
 

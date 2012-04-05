@@ -217,7 +217,7 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
 //            return false;
 //        }
 //  EP - Apparently they need to be able to have zeros in all values
-        
+
         $dateKeys = array(
             'usage_dateBill',
             'usage_dateReading',
