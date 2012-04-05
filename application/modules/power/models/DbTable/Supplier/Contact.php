@@ -80,7 +80,13 @@ class Power_Model_DbTable_Supplier_Contact extends ZendSF_Model_DbTable_Abstract
 
     public function searchContacts($id, $sort = '', $count = null, $offset = null)
     {
-        $select = $this->select()->where('supplierCo_idSupplier = ?', $id);
+        $select = $this->select(false)->setIntegrityCheck(false)
+            ->from('supplier_contact')
+            ->join('tables', 
+                    'tables_name = "supplierCo_type" AND tables_key = supplierCo_type',
+                    array('supplierCo_type_tables' => 'tables_value')
+                    )
+            ->where('supplierCo_idSupplier = ?', $id);
 
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
