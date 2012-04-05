@@ -84,8 +84,8 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
             ->join('tender', 'tender_idSupplier = supplier_idSupplier', null)
             ->join('contract', 'contract_idContract = tender_idContract', array(
                 'contract_idContract',
-                'contract_type',
-                'contract_status',
+                'contract_type' => '(SELECT tables_value FROM tables WHERE tables_key = contract_type AND tables_name = "contract_type")',
+                'contract_status' => '(SELECT tables_value FROM tables WHERE tables_key = contract_status AND tables_name = "contract_status")',
                 'contract_dateStart',
                 'contract_dateEnd',
                 'contract_reference'
