@@ -146,7 +146,7 @@
                         store: usageStore<?php echo $this->meter->meter_idMeter; ?>,
                         structure: bba.Meter.gridLayouts.meterUsage,
                         query: { usage_idMeter: <?php echo $this->meter->meter_idMeter; ?> },
-                        sortInfo: "-3",
+                        sortInfo: "-2",
                         noDataMessage : bba.gridMessage'>
                     <?php if ($this->isAllowed('MeterUsage')): ?>
                     <script type="dojo/method" data-dojo-event="onRowClick">
@@ -169,7 +169,7 @@
                         store: contractStore,
                         structure: bba.Meter.gridLayouts.contract,
                         query: { meter_idMeter: <?php echo $this->meter->meter_idMeter; ?> },
-                        sortInfo: "2",
+                        sortInfo: "3",
                         noDataMessage : bba.gridMessage'>
                     <script type="dojo/method" data-dojo-event="onRowClick">
                         bba.Contract.contractGridRowClick(this);
