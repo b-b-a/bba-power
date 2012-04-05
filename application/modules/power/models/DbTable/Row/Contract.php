@@ -76,6 +76,24 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
 
     protected $_dateFormat = 'dd/MM/yyyy';
 
+    public function getContract_status()
+    {
+        return $this->getRow()->findParentRow(
+            'Power_Model_DbTable_Tables',
+            'contractStatus',
+            $this->getRow()->select()->where('tables_name = ?', 'contract_status')
+        )->tables_value;
+    }
+
+    public function getContract_type()
+    {
+        return $this->getRow()->findParentRow(
+            'Power_Model_DbTable_Tables',
+            'contractType',
+            $this->getRow()->select()->where('tables_name = ?', 'contract_type')
+        )->tables_value;
+    }
+
     public function getContractPrevious($row = null)
     {
         if (!$this->_contractPrevious instanceof Power_Model_DbTable_Row_Contract) {
@@ -140,7 +158,17 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
                 $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
             }
 
-            $array[$key] = $value;
+            switch ($key) {
+                case 'contract_status':
+                    $array[$key] = $this->getContract_status();
+                    break;
+                case 'contract_type':
+                    $array[$key] = $this->getContract_type();
+                    break;
+                default:
+                    $array[$key] = $value;
+                    break;
+            }
         }
 
         return $array;

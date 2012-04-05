@@ -78,6 +78,16 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_SupplierContact',
             'refColumns'    => 'supplierCo_idSupplierContact'
         ),
+        'contractStatus' => array(
+            'columns'       => 'contract_status',
+            'refTableClass' => 'Power_Model_DbTable_Tables',
+            'refColumns'    => 'tables_key'
+        ),
+        'contractType' => array(
+            'columns'       => 'contract_type',
+            'refTableClass' => 'Power_Model_DbTable_Tables',
+            'refColumns'    => 'tables_key'
+        ),
         'user'                      => array(
             'columns'       => array(
                 'contract_userCreate',
