@@ -68,12 +68,16 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
         $sort = $post['sort'];
         $count = $post['count'];
         $start = $post['start'];
+        $search = array();
 
         $form = $this->getForm('siteSearch');
-        $search = array();
 
         if ($form->isValid($post)) {
             $search = $form->getValues();
+        }
+
+        if (isset($post['site_idClient'])) {
+            $search['client'] = $post['site_idClient'];
         }
 
         $dataObj = $this->getDbTable('site')->searchSites($search, $sort, $count, $start);
@@ -152,7 +156,7 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
                 if ($params['type'] == 'address') {
                     $items[] = array($identifier => -1, $searchItems[1] => 'Add New Address ...');
                 }
-                
+
                 break;
             case 'contact':
                 $identifier = 'clientCo_idClientContact';

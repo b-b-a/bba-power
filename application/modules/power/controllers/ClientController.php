@@ -185,7 +185,7 @@ class Power_ClientController extends Zend_Controller_Action
             $saved = ($request->getPost('type') === 'add') ?
                 $this->_model->saveNewClient($request->getPost()) :
                 $this->_model->saveClient($request->getPost());
-                
+
             if (is_array($saved)) {
                 $site = $saved[1];
                 $saved = $saved[0];

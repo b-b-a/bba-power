@@ -26,8 +26,10 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Client",
-    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core", "bba/Contract",
-    "dojox/widget/Wizard", "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea"],
+    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core",
+    "bba/Site", "bba/Contract",
+    "dojox/widget/Wizard", "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect",
+    "dijit/form/SimpleTextarea"],
     function(dom, ready, parser, xhr, registry, bba) {
 
     ready(function () {

@@ -148,8 +148,12 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
         }
 
         if (!$search['client'] == '') {
-            $select->orWhere('client_name like ?', '%' . $search['client'] . '%')
-                ->orWhere('client_desc like ?', '%' . $search['client'] . '%');
+            if (is_numeric($search['client'])) {
+                $select->where('site_idClient = ?', $search['client']);
+            } else {
+                $select->orWhere('client_name like ?', '%' . $search['client'] . '%')
+                    ->orWhere('client_desc like ?', '%' . $search['client'] . '%');
+            }
         }
 
         $select = $this->getLimit($select, $count, $offset);
