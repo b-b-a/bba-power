@@ -122,12 +122,16 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
     public function getFileringSelectData($params)
     {
         if (!isset($params['clientId'])) $params['clientId'] = 0;
+
+        $items = array();
+
         switch ($params['type']) {
             case 'clients':
                 $result = $this->getDbTable('client')->fetchAll(null, 'client_name ASC');
                 $identifier = 'client_idClient';
                 $searchItems = array('client_idClient', 'client_name');
                 $selectMessage = ($result->count()) ? 'Please select a client' : 'No clients available';
+                $items[] = array($identifier => 0, $searchItems[1] => $selectMessage);
                 break;
             case 'address':
             case 'billAddress':
@@ -141,7 +145,14 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
                     $result = $this->getDbTable('clientAddress')
                         ->getClientAddressesByClientId($params['clientId']);
                 }
+
                 $selectMessage = ($result->count()) ? 'Please select a client address' : 'No client addresses available';
+                $items[] = array($identifier => 0, $searchItems[1] => $selectMessage);
+
+                if ($params['type'] == 'address') {
+                    $items[] = array($identifier => -1, $searchItems[1] => 'Add New Address ...');
+                }
+                
                 break;
             case 'contact':
                 $identifier = 'clientCo_idClientContact';
@@ -149,10 +160,9 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
                 $result = $this->getDbTable('clientContact')
                     ->getClientContactsByClientId($params['clientId']);
                 $selectMessage = ($result->count()) ? 'Please select a client contact' : 'No client contacts available';
+                $items[] = array($identifier => 0, $searchItems[1] => $selectMessage);
                 break;
         }
-
-        $items = array(array($identifier => 0, $searchItems[1] => $selectMessage));
 
         foreach ($result as $row) {
             $items[] = array(

@@ -246,10 +246,11 @@ define("bba/Client",
                     } else if (data.saved > 0) {
                         if (values.clientAd_idAddress) {
                             registry.byId('clientAd' + values.clientAd_idAddress).refresh();
-                        } else {
+                        } else if (registry.byId('clientAdGrid' + values.clientAd_idClient)) {
                             registry.byId('clientAdGrid' + values.clientAd_idClient)._refresh();
                         }
                         confirm.show();
+                        bba.deferredFunction();
                     } else {
                         bba.setupDialog(clientAdForm);
                         clientAdForm.show();

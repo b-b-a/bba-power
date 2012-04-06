@@ -122,7 +122,8 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
     {
         return $this->getRow()->findParentRow(
             'Power_Model_DbTable_Tables',
-            'meterType'
+            'meterType',
+            $this->getRow()->select()->where('tables_name = ?', 'meter_type')
         )->tables_value;
     }
 
@@ -130,7 +131,8 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
     {
         return $this->getRow()->findParentRow(
             'Power_Model_DbTable_Tables',
-            'meterStatus'
+            'meterStatus',
+            $this->getRow()->select()->where('tables_name = ?', 'meter_status')
         )->tables_value;
     }
 

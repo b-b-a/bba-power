@@ -88,14 +88,16 @@ class Power_Model_DbTable_Row_Meter_Contract extends ZendSF_Model_DbTable_Row_Ab
     public function getMeter_type() {
         return $this->getRow()->findParentRow(
             'Power_Model_DbTable_Tables',
-            'meterType'
+            'meterType',
+            $this->getRow()->select()->where('tables_name = ?', 'meter_type')
         )->tables_value;
     }
 
     public function getMeter_status() {
         return $this->getRow()->findParentRow(
             'Power_Model_DbTable_Tables',
-            'meterStatus'
+            'meterStatus',
+            $this->getRow()->select()->where('tables_name = ?', 'meter_status')
         )->tables_value;
     }
 

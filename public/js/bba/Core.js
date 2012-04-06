@@ -58,6 +58,8 @@ define("bba/Core",
     bba = {
         gridMessage : '<span class="dojoxGridNoData">No records found matching query</span>',
 
+        deferredFunction : function() {},
+
         tabRefreshButton : function(val)
         {
             cookie("tabRefresh", val, {expires: 5});
