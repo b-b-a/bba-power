@@ -158,6 +158,12 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
                 case 'meter_numberTop':
                     $array[$key] = $this->getMeter_numberTop();
                     break;
+                case 'meter_type':
+                    $array[$key] = $this->getMeter_type();
+                    break;
+                case 'meter_status':
+                    $array[$key] = $this->getMeter_status();
+                    break;
                 default:
                     $array[$key] = $value;
                     break;
