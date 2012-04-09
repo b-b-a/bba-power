@@ -76,8 +76,8 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
             $search = $form->getValues();
         }
 
-        if (isset($post['site_idClient'])) {
-            $search['client'] = $post['site_idClient'];
+        if (isset($post['idClient'])) {
+            $search['idClient'] = (int) $post['idClient'];
         }
 
         $dataObj = $this->getDbTable('site')->searchSites($search, $sort, $count, $start);

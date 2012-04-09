@@ -157,6 +157,10 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
                 ->orWhere('clientAd_postcode like ?', '%' . $search['site'] . '%');
         }
 
+        if (is_numeric($search['idClient'])) {
+            $select->where('site_idClient = ?', $search['idClient']);
+        }
+
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 
