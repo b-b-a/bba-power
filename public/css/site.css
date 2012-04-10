@@ -588,3 +588,9 @@ Meter Styles
 .meterContract p {
     margin: 2px;
 }
+
+#version {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+}
