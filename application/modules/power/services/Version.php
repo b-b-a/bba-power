@@ -47,6 +47,33 @@ final class Power_Service_Version
 	 */
 	public static function getVersion()
 	{
-		return 'dev';
+		return 'v3.2' . self::getEnvironment();
 	}
+
+    /**
+     * Gets the current environment.
+     *
+     * $_SERVER['BBA_POWER_ENVIRONMENT'] is set in the apache2.conf
+     * /etc/apache2/apache2.conf
+     *
+     * <code>
+     * <IfModule env_module>
+     *      SetEnv BBA_POWER_ENVIRONMENT "EP-Virtual-Machine-192"
+     * </IfModule>
+     * </code>
+     *
+     * @param none
+     * @return string
+     */
+    public static function getEnvironment()
+    {
+        $string = '';
+
+        if (isset($_SERVER['BBA_POWER_ENVIRONMENT'])) {
+            $string = " (".$_SERVER['BBA_POWER_ENVIRONMENT'].")";
+            $string .= "-(".ucwords($_ENV['APPLICATION_ENV']).")";
+        }
+
+        return $string;
+    }
 }
