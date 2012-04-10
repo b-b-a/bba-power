@@ -47,7 +47,7 @@ final class Power_Service_Version
 	 */
 	public static function getVersion()
 	{
-		return 'v3.2' . self::getEnvironment();
+		return 'dev' . self::getEnvironment();
 	}
 
     /**
