@@ -108,11 +108,6 @@ define("bba/Contract",
             ]
         },
 
-        closeDialog : function()
-        {
-            return registry.byId('addMeterContractDialog').hide();
-        },
-
         preselectMeters : function(grid, id, items)
         {
             array.forEach(items, function(item){
@@ -188,7 +183,10 @@ define("bba/Contract",
                         content: dojo.mixin({type : 'add'}, contentVars)
                     },
                     ioMethod: dojo.xhrPost,
-                    href: '/contract/add-meter-contract'
+                    href: '/contract/add-meter-contract',
+                    onHide: function() {
+                        bba.closeDialog(this);
+                    }
                 });
             }
 

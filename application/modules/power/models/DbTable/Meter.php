@@ -115,8 +115,8 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
        $select = $this->select(false)->setIntegrityCheck(false)
             ->from('meter', array(
                 'meter_idMeter',
-                'meter_type' => '(SELECT tables_value FROM tables WHERE tables_key = meter_type AND tables_name = "meter_type")',
-                'meter_status' => '(SELECT tables_value FROM tables WHERE tables_key = meter_status AND tables_name = "meter_status")',
+                'meter_type',
+                'meter_status',
                 'meter_numberTop',
                 'meter_numberMain'
             ))
