@@ -47,6 +47,6 @@ final class Power_Service_Version
 	 */
 	public static function getVersion()
 	{
-		return 'dev';
+		return 'V3.2';
 	}
 }
