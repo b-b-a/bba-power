@@ -109,8 +109,8 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
             ->from('contract', array(
                 'contract_idContract' => 'contract_idContract',
                 'contract_reference',
-                'contract_type' => '(SELECT tables_value FROM tables WHERE tables_key = contract_type AND tables_name = "contract_type")',
-                'contract_status' => '(SELECT tables_value FROM tables WHERE tables_key = contract_status AND tables_name = "contract_status")',
+                'contract_type',
+                'contract_status',
                 'contract_dateStart',
                 'contract_dateEnd',
                 'contract_desc' => 'SUBSTR(contract_desc, 1, 40)'
@@ -156,11 +156,11 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
                 ->orWhere('meter_type like ?', '%' . $search['meter'] . '%');
         }
 
-        if (is_numeric($search['idClient'])) {
+        if (isset($search['idClient'])) {
             $select->where('contract_idClient = ?', $search['idClient']);
         }
 
-        if (is_numeric($search['idSite'])) {
+        if (isset($search['idSite'])) {
             $select->where('meter_idSite = ?', $search['idSite']);
         }
 

@@ -151,8 +151,8 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
             $select->orWhere('client_name like ?', '%' . $search['client'] . '%')
                 ->orWhere('client_desc like ?', '%' . $search['client'] . '%');
         }
-        
-        if (is_numeric($search['idClient'])) {
+
+        if (isset($search['idClient'])) {
             $select->where('site_idClient = ?', $search['idClient']);
         }
 
