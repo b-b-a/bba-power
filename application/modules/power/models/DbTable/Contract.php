@@ -156,6 +156,14 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
                 ->orWhere('meter_type like ?', '%' . $search['meter'] . '%');
         }
 
+        if (is_numeric($search['idClient'])) {
+            $select->where('contract_idClient = ?', $search['idClient']);
+        }
+
+        if (is_numeric($search['idSite'])) {
+            $select->where('meter_idSite = ?', $search['idSite']);
+        }
+
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 
