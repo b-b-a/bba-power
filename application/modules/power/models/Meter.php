@@ -94,6 +94,10 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
             $search = $form->getValues();
         }
 
+        if (isset($post['idClient'])) {
+            $search['idClient'] = (int) $post['idClient'];
+        }
+
         $dataObj = $this->getDbTable('meter')->searchMeters($search, $sort, $count, $start);
 
         $store = $this->_getDojoData($dataObj, 'meter_idMeter');

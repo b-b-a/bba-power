@@ -96,6 +96,14 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             $search = $form->getValues();
         }
 
+        if (isset($post['idClient'])) {
+            $search['idClient'] = (int) $post['idClient'];
+        }
+
+        if (isset($post['idSite'])) {
+            $search['idSite'] = (int) $post['idSite'];
+        }
+
         $dataObj = $this->getDbTable('contract')->searchContracts($search, $sort, $count, $start);
 
         $store = $this->_getDojoData($dataObj, 'contract_idContract');

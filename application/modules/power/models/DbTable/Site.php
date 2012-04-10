@@ -152,6 +152,10 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
                 ->orWhere('client_desc like ?', '%' . $search['client'] . '%');
         }
 
+        if (isset($search['idClient'])) {
+            $select->where('site_idClient = ?', $search['idClient']);
+        }
+
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 

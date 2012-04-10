@@ -13,8 +13,13 @@
 </button>
 
 <button data-dojo-type="dijit.form.Button"
-        data-dojo-props="onClick: bba.Contract.closeDialog, type: 'button'"
-        id="cancelButton">Cancel</button>
+        data-dojo-props="type: 'button'"
+        id="cancelButton">
+    Cancel
+    <script type="dojo/method" data-dojo-event="onClick">
+        bba.closeDialog(addMeterContractDialog);
+    </script>
+</button>
 
 <img id="contractMeterHelp" src="images/help.png" />
 

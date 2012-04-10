@@ -148,6 +148,7 @@
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Meters'">
 
+                <!-- start site meter list -->
                 <span data-dojo-type="dojox.data.QueryReadStore"
                       data-dojo-id="meterStore<?php echo $this->site->site_idSite; ?>"
                       data-dojo-props="url:'site/data-store/type/siteMeters',requestMethod:'post'"></span>
@@ -167,6 +168,33 @@
                     </script>
                 </table>
             </div>
+            <!-- end site meter list -->
+
+            <!-- start site contract list -->
+            <div data-dojo-type="dijit.layout.ContentPane"
+                 data-dojo-props="region: 'center', title: 'Contracts'">
+
+                <span data-dojo-type="dojox.data.QueryReadStore"
+                      data-dojo-props="url: '/contract/data-store/type/contract', requestMethod: 'post'"
+                      data-dojo-id="siteContractStore<?php echo $this->site->site_idSite; ?>"></span>
+
+                <table data-dojo-type="dojox.grid.DataGrid"
+                       data-dojo-id="siteContractGrid<?php echo $this->site->site_idSite; ?>"
+                       id="siteContractGrid<?php echo $this->site->site_idSite; ?>"
+                       data-dojo-props="
+                        store: siteContractStore<?php echo $this->site->site_idSite; ?>,
+                        structure: bba.Contract.gridLayouts.contract,
+                        query: { idSite: <?php echo $this->site->site_idSite; ?> },
+                        sortInfo: '2',
+                        noDataMessage : bba.gridMessage">
+                        <?php if ($this->isAllowed('User')): ?>
+                        <script type="dojo/method" data-dojo-event="onRowClick">
+                            bba.Contract.contractGridRowClick(this);
+                        </script>
+                        <?php endif; ?>
+                </table>
+            </div>
+            <!-- end site contract list -->
         </div>
     </div>
 

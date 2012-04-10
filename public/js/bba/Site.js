@@ -38,7 +38,7 @@
  */
 define("bba/Site",
     ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dojo/data/ItemFileReadStore",
-    "dijit/registry", "bba/Core", "bba/Meter", "dijit/form/RadioButton", "dijit/form/NumberTextBox",
+    "dijit/registry", "bba/Core", "bba/Meter", "bba/Client", "dijit/form/RadioButton", "dijit/form/NumberTextBox",
     "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea"],
     function(dom, ready, parser, xhr, ItemFileReadStore, registry, bba) {
 
@@ -100,17 +100,8 @@ define("bba/Site",
             registry.byId("site_idClient").set('value', id);
         },
 
-        changeAddress : function(val)
+        getAddressStore : function(val)
         {
-            if (registry.byId("site_idAddress").get('disabled') == true) {
-                registry.byId("site_idAddress").set('disabled', false);
-                registry.byId("site_idClientContact").set('disabled', false);
-            }
-
-            registry.byId('site_idAddress').set('value', '');
-            registry.byId('site_idAddressBill').set('value', '');
-            registry.byId('site_idClientContact').set('value', '');
-
             this.addressStore = new ItemFileReadStore({
                 url:'./site/data-store/type/address/clientId/' + val
             })
@@ -122,6 +113,20 @@ define("bba/Site",
             });
 
             registry.byId("site_idAddress").set('store', this.addressStore);
+        },
+
+        changeAddress : function(val)
+        {
+            if (registry.byId("site_idAddress").get('disabled') == true) {
+                registry.byId("site_idAddress").set('disabled', false);
+                registry.byId("site_idClientContact").set('disabled', false);
+            }
+
+            registry.byId('site_idAddress').set('value', '');
+            registry.byId('site_idAddressBill').set('value', '');
+            registry.byId('site_idClientContact').set('value', '');
+
+            this.getAddressStore(val);
 
             this.billAddressStore = new ItemFileReadStore({
                 url:'./site/data-store/type/billAddress/clientId/' + val
@@ -150,8 +155,18 @@ define("bba/Site",
             registry.byId("site_idClientContact").set('value', 0);
         },
 
-        changeBillAddress : function()
+        changeBillAddress : function(obj)
         {
+            if (obj.value === -1) {
+                bba.Client.newClientAdButtonClick({
+                    clientAd_idClient : registry.byId("site_idClient").get('value')
+                });
+
+                bba.deferredFunction = function() {
+                    bba.Site.getAddressStore(registry.byId("site_idClient").get('value'));
+                }
+            }
+
             registry.byId("site_idAddressBill").set('disabled', false);
             registry.byId("site_idAddressBill").set('store', this.billAddressStore);
             registry.byId("site_idAddressBill").set('value', 0);

@@ -26,8 +26,10 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Client",
-    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core", "bba/Contract",
-    "dojox/widget/Wizard", "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea"],
+    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core",
+    "bba/Site", "bba/Contract",
+    "dojox/widget/Wizard", "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect",
+    "dijit/form/SimpleTextarea"],
     function(dom, ready, parser, xhr, registry, bba) {
 
     ready(function () {
@@ -246,10 +248,11 @@ define("bba/Client",
                     } else if (data.saved > 0) {
                         if (values.clientAd_idAddress) {
                             registry.byId('clientAd' + values.clientAd_idAddress).refresh();
-                        } else {
+                        } else if (registry.byId('clientAdGrid' + values.clientAd_idClient)) {
                             registry.byId('clientAdGrid' + values.clientAd_idClient)._refresh();
                         }
                         confirm.show();
+                        bba.deferredFunction();
                     } else {
                         bba.setupDialog(clientAdForm);
                         clientAdForm.show();
