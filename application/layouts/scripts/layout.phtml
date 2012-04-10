@@ -46,7 +46,18 @@
         <div id="topPanel" class="edgePanel"
              data-dojo-type="dijit.layout.ContentPane"
              data-dojo-props="region: 'top'">
-             <h1>BBA Power Data Base System </h1>
+             <h1>BBA Power Data Base System 
+                 <?php if ($_SERVER['BBA_POWER_ENVIRONMENT']) {
+                     echo " (".$_SERVER['BBA_POWER_ENVIRONMENT'].")"; 
+                     echo "-(".ucwords($_ENV['APPLICATION_ENV']).")";
+                    }
+                  // $_SERVER['BBA_POWER_ENVIRONMENT'] is set in the apache2.conf
+                  //    /etc/apache2/apache2.conf
+                  //        <IfModule env_module>
+                  //            SetEnv BBA_POWER_ENVIRONMENT "EP-Virtual-Machine-192"
+                  //        </IfModule>
+                 ?></h1>
+    
              <span id="version"><?php echo $this->version(); ?><span>
         </div>
 
