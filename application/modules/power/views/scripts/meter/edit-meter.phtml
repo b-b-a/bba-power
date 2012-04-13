@@ -198,6 +198,15 @@
                         });
                     </script>
                 </button>
+
+                <form action="meter/print-meter" method="post" target="_blank">
+
+                    <input type="hidden" name="meter_idMeter" value="<?php echo $this->meter->meter_idMeter; ?>" />
+                    <button data-dojo-type="dijit.form.Button" type="submit">
+                        Print Meter Details
+                    </button>
+                </form>
+
             </p>
             <?php endif; ?>
         </div>
