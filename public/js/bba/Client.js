@@ -80,10 +80,11 @@ define("bba/Client",
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'client_idClient');
+            tabTitle = grid.store.getValue(selectedItem, 'client_name');
 
              bba.openTab({
                 tabId : 'client' + id,
-                title : grid.store.getValue(selectedItem, 'client_name'),
+                title : (tabTitle) ? tabTitle : 'Client',
                 url : '/client/edit-client',
                 content : {
                     type : 'details',
@@ -97,10 +98,11 @@ define("bba/Client",
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'clientAd_idAddress');
+            tabTitle = grid.store.getValue(selectedItem, 'clientAd_addressName');
 
             bba.openTab({
                 tabId : 'clientAd' + id,
-                title : grid.store.getValue(selectedItem, 'clientAd_addressName'),
+                title : (tabTitle) ? tabTitle : 'Client Address',
                 url : '/client/edit-client-address',
                 content : dojo.mixin({
                         type : 'details',
@@ -252,7 +254,7 @@ define("bba/Client",
                             registry.byId('clientAdGrid' + values.clientAd_idClient)._refresh();
                         }
                         confirm.show();
-                        bba.deferredFunction();
+                        bba.deferredFunction(data.saved);
                     } else {
                         bba.setupDialog(clientAdForm);
                         clientAdForm.show();

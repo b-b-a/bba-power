@@ -199,10 +199,11 @@ define("bba/Contract",
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'contract_idContract');
+            tabTitle = grid.store.getValue(selectedItem, 'client_name');
 
             bba.openTab({
                 tabId : 'contract' + id,
-                title : (grid.store.getValue(selectedItem, 'client_name')) ? grid.store.getValue(selectedItem, 'client_name') : 'Contract',
+                title : (tabTitle) ? tabTitle : 'Contract',
                 url : '/contract/edit-contract',
                 content : {
                     type : 'details',
@@ -216,10 +217,11 @@ define("bba/Contract",
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'tender_idTender');
+            tabTitle = grid.store.getValue(selectedItem, 'supplier_name');
 
             bba.openTab({
                 tabId : 'tender' + id,
-                title : grid.store.getValue(selectedItem, 'supplier_name'),
+                title : (tabTitle) ? tabTitle : 'Tender',
                 url : '/contract/edit-tender',
                 content : dojo.mixin({
                     type :  'details',

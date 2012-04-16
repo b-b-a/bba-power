@@ -87,10 +87,11 @@ define("bba/Meter",
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'meter_idMeter');
+            tabTitle = grid.store.getValue(selectedItem, 'meter_numberMain');
 
              bba.openTab({
                 tabId : 'meter' + id,
-                title : (grid.store.getValue(selectedItem, 'meter_numberMain')) ? grid.store.getValue(selectedItem, 'meter_numberMain') : 'Meter',
+                title :  (tabTitle) ? tabTitle : 'Meter',
                 url : '/meter/edit-meter',
                 content : {
                     type : 'details',
@@ -131,7 +132,6 @@ define("bba/Meter",
                 load: function(data) {
                     //dom.byId('dialog').innerHTML = data.html;
                     newWin.document.write(data);
-                    console.log(data.html);
                 }
             });
         },
