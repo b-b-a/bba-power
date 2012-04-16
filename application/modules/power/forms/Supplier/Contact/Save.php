@@ -100,7 +100,7 @@ class Power_Form_Supplier_Contact_Save extends ZendSF_Form_Abstract
         ));
 
         $this->addElement('TextBox', 'supplierCo_address3', array(
-            'label'     => 'Address 3:',
+            'label'     => 'Town/City:',
             'filters'   => array('StripTags', 'StringTrim')
         ));
 

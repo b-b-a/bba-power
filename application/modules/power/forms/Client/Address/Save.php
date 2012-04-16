@@ -80,7 +80,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Form_Abstract
         ));
 
         $this->addElement('TextBox', 'clientAd_address3', array(
-            'label'     => 'Address 3:',
+            'label'     => 'Town/City:',
             'filters'   => array('StripTags', 'StringTrim'),
             'dijitParams'   => array(
                 'promptMessage' => 'Enter the third line of clients address.'

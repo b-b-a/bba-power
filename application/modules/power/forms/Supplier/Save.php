@@ -68,7 +68,7 @@ class Power_Form_Supplier_Save extends ZendSF_Form_Abstract
         ));
 
         $this->addElement('ValidationTextBox', 'supplier_address3', array(
-            'label'     => 'Address 3:',
+            'label'     => 'Town/City:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim')
         ));
