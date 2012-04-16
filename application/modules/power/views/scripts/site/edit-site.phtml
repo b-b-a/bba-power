@@ -6,8 +6,7 @@
          data-dojo-props="region: 'center'">
         <div class="tabHeading">
 
-            <?php $mainContact = $this->siteHelper($this->site->site_idSite)
-                    ->getParentRow('siteAddress'); ?>
+            <?php $mainContact = $this->site->getSiteAddress(); ?>
 
             <table class="info_wrap">
                 <caption>Site Details <span class="id_number">(<?php echo $this->site->site_idSite; ?>)</span></caption>
@@ -15,31 +14,31 @@
                     <th>Client:</th>
                     <td><?php echo $this->site->client_name; ?></td>
                 </tr>
-                <?php if($mainContact->get('clientAd_addressName')): ?>
+                <?php if($mainContact->clientAd_addressName): ?>
                 <tr>
                     <th>Address Name:</th>
-                    <td><?php echo $mainContact->get('clientAd_addressName'); ?></td>
+                    <td><?php echo $mainContact->clientAd_addressName; ?></td>
                 </tr>
                 <?php endif; ?>
                 <tr>
                     <th>Address 1:</th>
-                    <td><?php echo $mainContact->get('clientAd_address1'); ?></td>
+                    <td><?php echo $mainContact->clientAd_address1; ?></td>
                 </tr>
-                <?php if($mainContact->get('clientAd_address2')): ?>
+                <?php if($mainContact->clientAd_address2): ?>
                 <tr>
                     <th>Address 2:</th>
-                    <td><?php echo $mainContact->get('clientAd_address2'); ?></td>
+                    <td><?php echo $mainContact->clientAd_address2; ?></td>
                 </tr>
                 <?php endif; ?>
-                <?php if($mainContact->get('clientAd_address3')): ?>
+                <?php if($mainContact->clientAd_address3): ?>
                 <tr>
                     <th>Town/City:</th>
-                    <td><?php echo $mainContact->get('clientAd_address3'); ?></td>
+                    <td><?php echo $mainContact->clientAd_address3; ?></td>
                 </tr>
                 <?php endif; ?>
                 <tr>
                     <th>Postcode:</th>
-                    <td><?php echo $mainContact->get('clientAd_postcode'); ?></td>
+                    <td><?php echo $mainContact->clientAd_postcode; ?></td>
                 </tr>
                 <?php if ($this->isAllowed('User')): ?>
                 <tr>
@@ -64,65 +63,63 @@
                 </tr>
             </table>
 
-            <?php $mainContact = $this->siteHelper($this->site->site_idSite)
-                    ->getParentRow('siteAddressBill'); ?>
+            <?php $mainContact = $this->site->getBillingAddress(); ?>
 
             <table class="info_wrap ident">
-                <caption>Billing Address <span class="id_number">(<?php echo $mainContact->get('clientAd_idAddress'); ?>)</span></caption>
-                <?php if($mainContact->get('clientAd_addressName')): ?>
+                <caption>Billing Address <span class="id_number">(<?php echo $mainContact->clientAd_idAddress; ?>)</span></caption>
+                <?php if($mainContact->clientAd_addressName): ?>
                 <tr>
                     <th>Address Name:</th>
-                    <td><?php echo $mainContact->get('clientAd_addressName'); ?></td>
+                    <td><?php echo $mainContact->clientAd_addressName; ?></td>
                 </tr>
                 <?php endif; ?>
                 <tr>
                     <th>Address 1:</th>
-                    <td><?php echo $mainContact->get('clientAd_address1'); ?></td>
+                    <td><?php echo $mainContact->clientAd_address1; ?></td>
                 </tr>
-                <?php if($mainContact->get('clientAd_address2')): ?>
+                <?php if($mainContact->clientAd_address2): ?>
                 <tr>
                     <th>Address 2:</th>
-                    <td><?php echo $mainContact->get('clientAd_address2'); ?></td>
+                    <td><?php echo $mainContact->clientAd_address2; ?></td>
                 </tr>
                 <?php endif; ?>
-                <?php if($mainContact->get('clientAd_address3')): ?>
+                <?php if($mainContact->clientAd_address3): ?>
                 <tr>
                     <th>Town/City:</th>
-                    <td><?php echo $mainContact->get('clientAd_address3'); ?></td>
+                    <td><?php echo $mainContact->clientAd_address3; ?></td>
                 </tr>
                 <?php endif; ?>
                 <tr>
                     <th>Postcode:</th>
-                    <td><?php echo $mainContact->get('clientAd_postcode'); ?></td>
+                    <td><?php echo $mainContact->clientAd_postcode; ?></td>
                 </tr>
             </table>
 
-            <?php $mainContact = $this->siteHelper($this->site->site_idSite)
-                    ->getParentRow('siteClientContact'); ?>
+            <?php $mainContact = $this->site->getClientContact(); ?>
 
             <table class="info_wrap ident">
-                <caption>Contact <span class="id_number">(<?php echo $mainContact->get('clientCo_idClientContact'); ?>)</span></caption>
-                <?php if($mainContact->get('clientCo_idClientContact')): ?>
+                <caption>Contact <span class="id_number">(<?php echo $mainContact->clientCo_idClientContact; ?>)</span></caption>
+                <?php if($mainContact->clientCo_idClientContact): ?>
                 <tr>
                     <th>Name:</th>
-                    <td><?php echo $mainContact->get('clientCo_name'); ?></td>
+                    <td><?php echo $mainContact->clientCo_name; ?></td>
                 </tr>
-                <?php if($mainContact->get('clientCo_position')): ?>
+                <?php if($mainContact->clientCo_position): ?>
                 <tr>
                     <th>Position:</th>
-                    <td><?php echo $mainContact->get('clientCo_position'); ?></td>
+                    <td><?php echo $mainContact->clientCo_position; ?></td>
                 </tr>
                 <?php endif; ?>
-                <?php if($mainContact->get('clientCo_phone')): ?>
+                <?php if($mainContact->clientCo_phone): ?>
                 <tr>
                     <th>Phone No:</th>
-                    <td><?php echo $mainContact->get('clientCo_phone'); ?></td>
+                    <td><?php echo $mainContact->clientCo_phone; ?></td>
                 </tr>
                 <?php endif; ?>
-                <?php if($mainContact->get('clientCo_email')): ?>
+                <?php if($mainContact->clientCo_email): ?>
                 <tr>
                     <th>Email:</th>
-                    <td><?php echo $mainContact->get('clientCo_email'); ?></td>
+                    <td><?php echo $mainContact->getMailto(); ?></td>
                 </tr>
                 <?php endif; ?>
                 <?php else: ?>

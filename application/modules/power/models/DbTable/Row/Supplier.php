@@ -75,7 +75,7 @@ class Power_Model_DbTable_Row_Supplier extends ZendSF_Model_DbTable_Row_Abstract
                 . $row->supplierCo_address3 . '<br />'
                 . $row->supplierCo_postcode . '<br />'
                 . $row->supplierCo_phone . '<br />'
-                . $row->supplierCo_email . '<br />';
+                . $row->getMailto() . '<br />';
         } else {
             $address = 'No main contact found';
         }
