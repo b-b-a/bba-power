@@ -50,6 +50,12 @@ class Power_Model_DbTable_Row_Client_Contact extends ZendSF_Model_DbTable_Row_Ab
         'clientCo_dateModify'
     );
 
+    public function getMailto()
+    {
+        $email = $this->getRow()->clientCo_email;
+        return '<a href="mailto:' . $email . '">' . $email . '</a>';
+    }
+
     /**
      * Returns row as an array, with optional date formating.
      *

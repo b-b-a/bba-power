@@ -89,10 +89,11 @@ define("bba/Meter",
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'meter_idMeter');
+            tabTitle = grid.store.getValue(selectedItem, 'meter_numberMain');
 
              bba.openTab({
                 tabId : 'meter' + id,
-                title : grid.store.getValue(selectedItem, 'meter_numberMain'),
+                title :  (tabTitle) ? tabTitle : 'Meter',
                 url : './meter/edit-meter',
                 content : {
                     type : 'details',
@@ -119,6 +120,22 @@ define("bba/Meter",
             } else {
                 usageForm.show();
             }
+        },
+
+        printMeterButtonClick : function(contentVars)
+        {
+           newWin = window.open('', 'print meter', "height=200,width=200,modal=yes,alwaysRaised=yes,scrollbars=yes");
+
+           xhr.post({
+                url: '/meter/print-meter',
+                content: dojo.mixin({type : 'print'}, contentVars),
+                handleAs: 'text',
+                preventCache: true,
+                load: function(data) {
+                    //dom.byId('dialog').innerHTML = data.html;
+                    newWin.document.write(data);
+                }
+            });
         },
 
         editMeterButtonClick : function(contentVars)

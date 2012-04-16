@@ -51,7 +51,7 @@ define("bba/Client",
                 {field: 'client_name', width: '200px', name: 'Client'},
                 {field: 'clientAd_address1', width: '200px', name: 'Address 1'},
                 {field: 'clientAd_address2', width: '200px', name: 'Address 2'},
-                {field: 'clientAd_address3', width: '200px', name: 'Address 3'},
+                {field: 'clientAd_address3', width: '200px', name: 'Town/City'},
                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
                 {field: '', width: 'auto', name: ''}
             ],
@@ -60,7 +60,7 @@ define("bba/Client",
                 {field: 'clientAd_addressName', width: '250px', name: 'Address Name'},
                 {field: 'clientAd_address1', width: '300px', name: 'Address 1'},
                 {field: 'clientAd_address2', width: '200px', name: 'Address 2'},
-                {field: 'clientAd_address3', width: '100px', name: 'Address 3'},
+                {field: 'clientAd_address3', width: '100px', name: 'Town/City'},
                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
                 {field: '', width: 'auto', name: ''}
             ],
@@ -80,11 +80,13 @@ define("bba/Client",
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'client_idClient');
+            tabTitle = grid.store.getValue(selectedItem, 'client_name');
 
              bba.openTab({
                 tabId : 'client' + id,
-                title : grid.store.getValue(selectedItem, 'client_name'),
+                title : (tabTitle) ? tabTitle : 'Client',
                 url : './client/edit-client',
+
                 content : {
                     type : 'details',
                     client_idClient : id
@@ -97,10 +99,11 @@ define("bba/Client",
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'clientAd_idAddress');
+            tabTitle = grid.store.getValue(selectedItem, 'clientAd_addressName');
 
             bba.openTab({
                 tabId : 'clientAd' + id,
-                title : grid.store.getValue(selectedItem, 'clientAd_addressName'),
+                title : (tabTitle) ? tabTitle : 'Client Address',
                 url : './client/edit-client-address',
                 content : dojo.mixin({
                         type : 'details',
@@ -252,7 +255,7 @@ define("bba/Client",
                             registry.byId('clientAdGrid' + values.clientAd_idClient)._refresh();
                         }
                         confirm.show();
-                        bba.deferredFunction();
+                        bba.deferredFunction(data.saved);
                     } else {
                         bba.setupDialog(clientAdForm);
                         clientAdForm.show();

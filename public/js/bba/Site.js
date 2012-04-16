@@ -66,7 +66,7 @@ define("bba/Site",
                 {field: 'clientAd_addressName', width: '200px', name: 'Address Name'},
                 {field: 'clientAd_address1', width: '200px', name: 'Address 1'},
                 {field: 'clientAd_address2', width: '200px', name: 'Address 2'},
-                {field: 'clientAd_address3', width: '200px', name: 'Address 3'},
+                {field: 'clientAd_address3', width: '200px', name: 'Town/City'},
                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
                 {field: 'clientCo_name', width: '100px', name: 'Contact'},
                 {field: '', width: 'auto', name: ''}
@@ -100,10 +100,10 @@ define("bba/Site",
             registry.byId("site_idClient").set('value', id);
         },
 
-        getAddressStore : function(val)
+        getAddressStore : function(val, id)
         {
             this.addressStore = new ItemFileReadStore({
-                url:'./site/data-store/type/address/clientId/' + val
+                url:'./site/data-store/type/address/clientId/' + id
             })
 
             this.addressStore.fetch({
@@ -113,6 +113,7 @@ define("bba/Site",
             });
 
             registry.byId("site_idAddress").set('store', this.addressStore);
+            if (val) registry.byId('site_idAddress').set('value', val);
         },
 
         changeAddress : function(val)
@@ -126,7 +127,7 @@ define("bba/Site",
             registry.byId('site_idAddressBill').set('value', '');
             registry.byId('site_idClientContact').set('value', '');
 
-            this.getAddressStore(val);
+            this.getAddressStore(null, val);
 
             this.billAddressStore = new ItemFileReadStore({
                 url:'./site/data-store/type/billAddress/clientId/' + val
@@ -162,8 +163,8 @@ define("bba/Site",
                     clientAd_idClient : registry.byId("site_idClient").get('value')
                 });
 
-                bba.deferredFunction = function() {
-                    bba.Site.getAddressStore(registry.byId("site_idClient").get('value'));
+                bba.deferredFunction = function(val) {
+                    bba.Site.getAddressStore(val, registry.byId("site_idClient").get('value'));
                 }
             }
 
@@ -184,10 +185,11 @@ define("bba/Site",
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'site_idSite');
+            tabTitle = grid.store.getValue(selectedItem, 'clientAd_addressName');
 
              bba.openTab({
                 tabId : 'site' + id,
-                title : grid.store.getValue(selectedItem, 'clientAd_addressName'),
+                title : (tabTitle) ? tabTitle : 'Site',
                 url : './site/edit-site',
                 content : {
                     type : 'details',

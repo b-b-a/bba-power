@@ -43,4 +43,10 @@ class Power_Model_DbTable_Row_Supplier_Contact extends ZendSF_Model_DbTable_Row_
     {
         return $this->getRow()->supplierCo_address1 . ', ' . $this->getRow()->supplierCo_postcode;
     }
+    
+    public function getMailto()
+    {
+        $email = $this->getRow()->supplierCo_email;
+        return '<a href="mailto:' . $email . '">' . $email . '</a>';
+    }
 }

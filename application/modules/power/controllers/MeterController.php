@@ -169,6 +169,23 @@ class Power_MeterController extends Zend_Controller_Action
         }
     }
 
+    public function printMeterAction()
+    {
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
+
+        if ($request->getParam('meter_idMeter') && $request->isPost()) {
+
+            $meter = $this->_model->getMeterDetailsById($request->getPost('meter_idMeter'));
+
+            $this->view->assign(array(
+                'meter' => $meter
+            ));
+        } else {
+           return $this->_helper->redirector('index', 'meter');
+        }
+    }
+
     public function saveMeterAction()
     {
         $request = $this->getRequest();

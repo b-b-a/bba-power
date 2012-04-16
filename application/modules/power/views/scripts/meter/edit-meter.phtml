@@ -59,12 +59,12 @@
                 <tr>
                     <td><?php
                         echo $this->formatAddress(array(
-                            $this->escape("(".$this->meter->clientAd_addressName.")"),
-                            $this->escape($this->meter->client_name),
-                            $this->escape($this->meter->clientAd_address1),
-                            $this->escape($this->meter->clientAd_address2),
-                            $this->escape($this->meter->clientAd_address3),
-                            $this->escape($this->meter->clientAd_postcode)
+                            '(' . $this->meter->clientAd_addressName . ')',
+                            $this->meter->client_name,
+                            $this->meter->clientAd_address1,
+                            $this->meter->clientAd_address2,
+                            $this->meter->clientAd_address3,
+                            $this->meter->clientAd_postcode
                         ));
                     ?></td>
                 </tr>
@@ -198,6 +198,15 @@
                         });
                     </script>
                 </button>
+
+                <form action="meter/print-meter" method="post" target="_blank">
+
+                    <input type="hidden" name="meter_idMeter" value="<?php echo $this->meter->meter_idMeter; ?>" />
+                    <button data-dojo-type="dijit.form.Button" type="submit">
+                        Print Meter Details
+                    </button>
+                </form>
+
             </p>
             <?php endif; ?>
         </div>

@@ -17,10 +17,7 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                 <?php echo $form->site_idClient; ?>
 
                 <?php echo $form->site_idAddress; ?>
-                <div style="text-align:right; width:450px;">
-                    <p>Note: If there are no client addresses available 
-                        <br>please create a new address for the client.</div>
-      <!-- 3 lines above are temp fix until Issue #105 is implemented. -->
+                
                 <?php echo $form->site_idAddressBill; ?>
 
                 <?php echo $form->site_idClientContact; ?>
