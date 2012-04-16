@@ -90,7 +90,7 @@ define("bba/Meter",
 
              bba.openTab({
                 tabId : 'meter' + id,
-                title : grid.store.getValue(selectedItem, 'meter_numberMain'),
+                title : (grid.store.getValue(selectedItem, 'meter_numberMain')) ? grid.store.getValue(selectedItem, 'meter_numberMain') : 'Meter',
                 url : '/meter/edit-meter',
                 content : {
                     type : 'details',

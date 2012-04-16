@@ -202,7 +202,7 @@ define("bba/Contract",
 
             bba.openTab({
                 tabId : 'contract' + id,
-                title : grid.store.getValue(selectedItem, 'client_name'),
+                title : (grid.store.getValue(selectedItem, 'client_name')) ? grid.store.getValue(selectedItem, 'client_name') : 'Contract',
                 url : '/contract/edit-contract',
                 content : {
                     type : 'details',
