@@ -71,7 +71,8 @@ final class Power_Service_Version
 
         if (isset($_SERVER['BBA_POWER_ENVIRONMENT'])) {
             $string = " (".$_SERVER['BBA_POWER_ENVIRONMENT'].")";
-            $string .= "-(".ucwords($_ENV['APPLICATION_ENV']).")";
+        //    $string .= "-(".ucwords($_ENV['APPLICATION_ENV']).")";
+        //  This will confuse folk - if we start using the option it can be reinstated.
         }
 
         return $string;
