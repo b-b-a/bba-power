@@ -161,7 +161,7 @@ class Power_ContractController extends Zend_Controller_Action
                     throw new ZendSF_Acl_Exception('Access Denied');
                 }
                 $form = $this->_getForm('contractSave', 'save-contract');
-                $form->populate($contract->toArray('dd/MM/yyyy'));
+                $form->populate($contract->toArray('dd/MM/yyyy', true));
                 $this->view->assign('contractSaveForm', $form);
                 $this->render('contract-form');
             }

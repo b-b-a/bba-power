@@ -181,21 +181,21 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             ));
 
             $decors = $this->getElement('contract_type')->getDecorators();
-            
+
             $decors['Zend_Form_Decorator_Label']->setOptions(array(
                 'tag' => 'p',
                 'class' => 'contract_type-add'
             ));
 
             $this->getElement('contract_type')->setDecorators($decors);
-        } else {
+        } /*else {
             $this->addElement('TextBox', 'contract_type', array(
                 'label'     => 'Type:',
                 'required'  => true,
                 'attribs'   => array('readonly' => true),
                 'filters'   => array('StripTags', 'StringTrim')
             ));
-        }
+        }*/
 
         if ($request->getParam('type') == 'add') {
             $multiOptions = array();
@@ -204,6 +204,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             $multiOptions = array(0 => 'Select a status');
             $list = $table->getSelectListByName('contract_status');
         }
+        
         foreach($list as $row) {
             $multiOptions[$row->tables_key] = $row->tables_value;
         }
