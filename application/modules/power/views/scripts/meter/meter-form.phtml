@@ -14,7 +14,7 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
         <div class="form_wrap meter-add">
             <div class="zend_form">
 
-                <?php  if ($this->request()->getParam('type') == 'add'): ?>
+                <?php  if ($type == 'New'): ?>
                     <?php echo $form->meter_type; ?>
                 <?php else: ?>
                     <div class="form_row">
@@ -22,7 +22,7 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                             <label class="required" for="meter_type">Meter Type:</label>
                         </p>
                         <p class="element">
-                            <?php echo $form->meter_type->getValue(); ?>
+                            <?php echo $form->meter_type->options[$form->meter_type->getValue()]; ?>
                             <input data-dojo-type="dijit.form.TextBox"
                                    type="hidden"
                                    name="meter_type"

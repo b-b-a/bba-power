@@ -164,38 +164,29 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             $multiOptions[$row->tables_key] = $row->tables_value;
         }
 
-        if ($request->getParam('type') == 'add') {
-            $this->addElement('RadioButton', 'contract_type', array(
-                'label'         => 'Type:',
-                'filters'       => array('StripTags', 'StringTrim'),
-                'autocomplete'  => false,
-                'multiOptions'  => $multiOptions,
-                'required'      => true,
-                'validators'    => array(
-                    array('GreaterThan', true, array(
-                        'min'       => '0',
-                        'message'   => 'Please select a contract type.'
-                    ))
-                ),
-                'ErrorMessages' => array('Please select a contract type.')
-            ));
+        $this->addElement('RadioButton', 'contract_type', array(
+            'label'         => 'Type:',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autocomplete'  => false,
+            'multiOptions'  => $multiOptions,
+            'required'      => true,
+            'validators'    => array(
+                array('GreaterThan', true, array(
+                    'min'       => '0',
+                    'message'   => 'Please select a contract type.'
+                ))
+            ),
+            'ErrorMessages' => array('Please select a contract type.')
+        ));
 
-            $decors = $this->getElement('contract_type')->getDecorators();
+        $decors = $this->getElement('contract_type')->getDecorators();
 
-            $decors['Zend_Form_Decorator_Label']->setOptions(array(
-                'tag' => 'p',
-                'class' => 'contract_type-add'
-            ));
+        $decors['Zend_Form_Decorator_Label']->setOptions(array(
+            'tag' => 'p',
+            'class' => 'contract_type-add'
+        ));
 
-            $this->getElement('contract_type')->setDecorators($decors);
-        } /*else {
-            $this->addElement('TextBox', 'contract_type', array(
-                'label'     => 'Type:',
-                'required'  => true,
-                'attribs'   => array('readonly' => true),
-                'filters'   => array('StripTags', 'StringTrim')
-            ));
-        }*/
+        $this->getElement('contract_type')->setDecorators($decors);
 
         if ($request->getParam('type') == 'add') {
             $multiOptions = array();
@@ -204,7 +195,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
             $multiOptions = array(0 => 'Select a status');
             $list = $table->getSelectListByName('contract_status');
         }
-        
+
         foreach($list as $row) {
             $multiOptions[$row->tables_key] = $row->tables_value;
         }
