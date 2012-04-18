@@ -26,7 +26,9 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
 
                 <?php echo $form->contract_idTenderSelected ?>
 
-                <?php echo $form->contract_type; ?>
+                <?php if ($type === 'New'): ?>
+                    <?php echo $form->contract_type; ?>
+                <?php endif; ?>
 
                 <?php echo $form->contract_status; ?>
 

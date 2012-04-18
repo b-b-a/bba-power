@@ -151,7 +151,7 @@ class Power_MeterController extends Zend_Controller_Action
             $meter = $this->_model->getMeterDetailsById($request->getPost('meter_idMeter'));
 
             $form = $this->_getForm('meterSave', 'save-meter');
-            $form->populate($meter->toArray());
+            $form->populate($meter->toArray(null, true));
 
             $this->view->assign(array(
                 'meter'         => $meter,
