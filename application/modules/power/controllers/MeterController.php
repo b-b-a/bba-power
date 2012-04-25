@@ -172,7 +172,7 @@ class Power_MeterController extends Zend_Controller_Action
     public function printMeterAction()
     {
         $request = $this->getRequest();
-        $this->_helper->layout->disableLayout();
+        $this->_helper->layout->setLayout('print');
 
         if ($request->getParam('meter_idMeter') && $request->isPost()) {
 

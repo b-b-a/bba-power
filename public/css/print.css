@@ -1,0 +1,47 @@
+body {
+    font-size: 14pt;
+}
+
+#user_info span,
+caption,
+th {
+    font-weight: bold;
+}
+
+#user {
+    position: absolute;
+    left: 0px;
+}
+
+#time {
+    position: absolute;
+    right: 0px;
+}
+
+#content {
+    position: absolute;
+    top: 30px;
+    margin-top: 10px;
+}
+
+table {
+    margin-left: 5%;
+    margin-right: 5%;
+    width: 40%;
+    float: left;
+}
+
+#meter_contract {
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
+}
+
+td {
+    padding-left: 10px;
+}
+
+caption,
+tr {
+    border-bottom: 1px dashed #000;
+}
