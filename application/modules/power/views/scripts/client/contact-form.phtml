@@ -12,8 +12,9 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
         execute: bba.Client.processClientCoForm">
     <div class="dijitDialogPaneContentArea">
 
-        <div>
+        <div class="dialog_info">
             <p class="required"> = required field</p>
+            <p class="warn">Cancel exits without saving</p>
         </div>
 
         <div class="form_wrap">

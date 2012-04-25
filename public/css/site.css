@@ -529,6 +529,15 @@ Messages
     width: 100px;
 }
 
+.warn {
+    padding-left: 16px;
+    background: url('/images/WarningShield.png') center left no-repeat;
+}
+
+.dialog_info p {
+    margin: 0px;
+}
+
 /*
 Pagination
 */
