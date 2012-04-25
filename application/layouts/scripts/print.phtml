@@ -10,7 +10,7 @@
     </head>
     <body>
         <div id="user_info">
-            <p id="user"><span>User: </span><?php echo $this->escape($this->authInfo('user_name')); ?></p>
+            <p id="user"><span>User: </span><?php echo $this->escape($this->authInfo('user_fullName')); ?></p>
             <p id="time"><span>Date: </span><?php echo Zend_Date::now(); ?></p>
         </div>
 
