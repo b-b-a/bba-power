@@ -115,7 +115,7 @@ class Power_Form_Contract_Save extends ZendSF_Form_Abstract
         if ($contractId) {
             $list = $row->getAllTenders();
 
-            $multiOptions = array(0 => ($list->count() > 0) ? 'Select Tender' : 'No tenders available');
+            $multiOptions = array(0 => ($list->count() > 0) ? 'Select A Tender' : 'No Tenders Available');
 
             foreach($list as $row) {
                 $supplier = $row->getSupplier();

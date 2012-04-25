@@ -305,7 +305,7 @@ p {
  	-webkit-transition-duration:.2s;
 }
 
-.zend_form .required:before {
+.required:before {
     content: '*';
     color: #f00;
 }

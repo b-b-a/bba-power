@@ -8,6 +8,10 @@
         execute: bba.Client.processClientForm">
     <div class="dijitDialogPaneContentArea">
 
+        <div>
+            <p class="required"> = required field</p>
+        </div>
+
         <div id="addClientWidget"
              data-dojo-type="dojox.widget.Wizard"
              data-dojo-props="doneButtonLabel: 'Save'">
@@ -70,7 +74,7 @@
                             value="add" />
 
                     <script type="dojo/method" data-dojo-event="onShow">
-                        clientForm.attr('title', 'Main Contact for BBA');
+                        clientForm.attr('title', 'Main Liaison for BBA');
                         dijit.byId('clientAd_addressName').set('value', dijit.byId('client_name').get('value'));
                     </script>
 

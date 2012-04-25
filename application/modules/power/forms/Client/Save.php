@@ -95,7 +95,7 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             );
 
             // reset options
-            $multiOptions = array(0 => ($list->count() > 0) ? 'Please select an address' : 'No addresses Available');
+            $multiOptions = array(0 => ($list->count() > 0) ? 'Please Select An Address' : 'No Addresses Available');
 
             foreach($list as $row) {
                 $multiOptions[$row->clientAd_idAddress] = $row->getAddress1AndPostcode();
@@ -124,13 +124,13 @@ class Power_Form_Client_Save extends ZendSF_Form_Abstract
             );
 
             // reset options
-            $multiOptions = array(0 => ($list->count() > 0) ? 'Please select contact' : 'No contacts available');
+            $multiOptions = array(0 => ($list->count() > 0) ? 'Please Select Someone' : 'No Client Personnel Available');
             foreach($list as $row) {
                 $multiOptions[$row->clientCo_idClientContact] = $row->clientCo_name;
             }
 
             $this->addElement('FilteringSelect', 'client_idClientContact', array(
-                'label'         => 'Main Contact:',
+                'label'         => 'Main Liaison:',
                 'filters'       => array('StripTags', 'StringTrim'),
                 'atuocomplete'  => false,
                 'multiOptions'  => $multiOptions,

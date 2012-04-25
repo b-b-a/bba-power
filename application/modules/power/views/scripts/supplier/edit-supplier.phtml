@@ -33,7 +33,7 @@
             </table>
 
             <table class="info_wrap ident">
-                <caption>Main Contact</caption>
+                <caption>Main Liaison</caption>
                 <tr>
                     <td><?php echo $this->supplier->getFullContactAddress(); ?></td>
                 </tr>
@@ -74,7 +74,7 @@
             </div>
 
             <div data-dojo-type="dijit.layout.ContentPane"
-                 data-dojo-props="region: 'center', title: 'Supplier Contacts'">
+                 data-dojo-props="region: 'center', title: 'Supplier Pesonnel'">
 
                 <span data-dojo-type="dojox.data.QueryReadStore"
                     data-dojo-props="url: '/supplier/data-store/type/contacts', requestMethod: 'post'"
@@ -104,7 +104,7 @@
             <?php if ($this->isAllowed('User')): ?>
             <p class="tableHead-button">
                 <button data-dojo-type="dijit.form.Button">
-                    New Contact
+                    New Supplier Personnel
                     <script type="dojo/method" data-dojo-event="onClick">
                         bba.Supplier.newSupplierCoButtonClick({
                             supplierCo_idSupplier : <?php echo $this->supplier->supplier_idSupplier; ?>

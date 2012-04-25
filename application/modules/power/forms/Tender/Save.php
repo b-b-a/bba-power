@@ -103,7 +103,7 @@ class Power_Form_Tender_Save extends ZendSF_Form_Abstract
 
 
         $this->addElement('FilteringSelect', 'tender_idSupplierContact', array(
-            'label' => 'Supplier Contact:',
+            'label' => 'Supplier Liaison:',
             'filters' => array('StripTags', 'StringTrim'),
             'autoComplete' => false,
             'hasDownArrow' => true,

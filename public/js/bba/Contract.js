@@ -95,7 +95,7 @@ define("bba/Contract",
             tender : [
                 {field: 'tender_idTender', width: '50px', name: 'Id'},
                 {field: 'supplier_nameShort', width : '80px', name: 'Supplier'},
-                {field: 'supplierCo_name', width : '150px', name: 'Supplier Contact'},
+                {field: 'supplierCo_name', width : '150px', name: 'Supplier Liaison'},
                 {field: 'supplierCo_phone', width: '100px', name: 'Phone'},
                 {field: 'tender_periodContract', width: '100px', name: 'Contract Period'},
                 {field: 'tender_dateExpiresQuote', width: '100px', name: 'Quote Expires'},

@@ -68,7 +68,7 @@ define("bba/Site",
                 {field: 'clientAd_address2', width: '200px', name: 'Address 2'},
                 {field: 'clientAd_address3', width: '200px', name: 'Town/City'},
                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
-                {field: 'clientCo_name', width: '100px', name: 'Contact'},
+                {field: 'clientCo_name', width: '100px', name: 'Liaison'},
                 {field: '', width: 'auto', name: ''}
             ],
             meter : [
