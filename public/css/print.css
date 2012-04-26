@@ -1,3 +1,4 @@
+
 body {
     font-size: 14pt;
 }
@@ -44,4 +45,8 @@ td {
 caption,
 tr {
     border-bottom: 1px dashed #000;
+}
+
+@page {
+    size: landscape;
 }

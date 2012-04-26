@@ -11,9 +11,8 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
         execute: bba.User.processUserForm">
     <div class="dijitDialogPaneContentArea">
 
-        <div class="dialog_info">
-            <p class="required"> = required field</p>
-            <p class="warn">Cancel exits without saving</p>
+        <div class="dialog_title">
+            
         </div>
 
         <div class="form_wrap">
@@ -28,6 +27,12 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                 <?php echo $form->user_role; ?>
 
                 <?php echo $form->user_accessClient; ?>
+                
+                <div class="dialog_footer_info">
+                    <p class="required"> = required field</p>
+                    <p class="warn">Cancel exits without saving</p>
+                </div>
+                <div class="clear"></div>
 
                 <input data-dojo-type="dijit.form.TextBox"
                     type="hidden"

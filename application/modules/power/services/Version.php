@@ -54,7 +54,8 @@ final class Power_Service_Version
      * Gets the current environment.
      *
      * $_SERVER['BBA_POWER_ENVIRONMENT'] is set in the apache2.conf
-     * /etc/apache2/apache2.conf
+     * /etc/apache2/apache2.conf.
+     * Also can be set in the .htaccess file.
      *
      * <code>
      * <IfModule env_module>

@@ -16,9 +16,8 @@ if ($this->request['action'] == 'edit') {
         execute: bba.Contract.processTenderForm">
     <div class="dijitDialogPaneContentArea">
 
-        <div class="dialog_info">
-            <p class="required"> = required field</p>
-            <p class="warn">Cancel exits without saving</p>
+        <div class="dialog_title">
+            
         </div>
 
         <div class="form_wrap">
@@ -49,6 +48,12 @@ if ($this->request['action'] == 'edit') {
                 <?php echo $form->tender_fee; ?>
 
                 <?php echo $form->tender_desc; ?>
+                
+                <div class="dialog_footer_info">
+                    <p class="required"> = required field</p>
+                    <p class="warn">Cancel exits without saving</p>
+                </div>
+                <div class="clear"></div>
 
                 <input dojoType="dijit.form.TextBox"
                        type="hidden"

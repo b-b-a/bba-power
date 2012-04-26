@@ -8,9 +8,8 @@
         execute: bba.Client.processClientForm">
     <div class="dijitDialogPaneContentArea">
 
-        <div class="dialog_info">
-            <p class="required"> = required field</p>
-            <p class="warn">Cancel exits without saving</p>
+        <div class="dialog_title">
+            
         </div>
 
         <div id="addClientWidget"
@@ -90,6 +89,12 @@
                         //clientGrid._refresh();
                     </script>
                 </div>
+                
+                <div class="dialog_footer_info">
+                    <p class="required"> = required field</p>
+                    <p class="warn">Cancel exits without saving</p>
+                </div>
+                
             </div>
             <script type="dojo/method" data-dojo-event="cancelFunction">
                 bba.closeDialog(dijit.byId('clientForm'));

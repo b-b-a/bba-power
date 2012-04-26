@@ -8,9 +8,8 @@
         execute: bba.Client.processClientForm">
     <div class="dijitDialogPaneContentArea">
 
-        <div class="dialog_info">
-            <p class="required"> = required field</p>
-            <p class="warn">Cancel exits without saving</p>
+        <div class="dialog_title">
+            
         </div>
 
         <div class="form_wrap">
@@ -27,6 +26,12 @@
                 <?php echo $form->client_dateExpiryLoa; ?>
 
                 <?php echo $form->client_desc; ?>
+                
+                <div class="dialog_footer_info">
+                    <p class="required"> = required field</p>
+                    <p class="warn">Cancel exits without saving</p>
+                </div>
+                <div class="clear"></div>
 
                 <input data-dojo-type="dijit.form.TextBox"
                        type="hidden"

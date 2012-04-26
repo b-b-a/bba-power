@@ -12,9 +12,8 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
         execute: bba.Contract.processContractForm">
     <div class="dijitDialogPaneContentArea">
 
-        <div class="dialog_info">
-            <p class="required"> = required field</p>
-            <p class="warn">Cancel exits without saving</p>
+        <div class="dialog_title">
+            
         </div>
 
         <div class="form_wrap">
@@ -72,6 +71,12 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                 <?php echo $form->contract_docAnalysis; ?>
 
                 <?php echo $form->contract_docTermination; ?>
+                
+                <div class="dialog_footer_info">
+                    <p class="required"> = required field</p>
+                    <p class="warn">Cancel exits without saving</p>
+                </div>
+                <div class="clear"></div>
 
                 <input dojoType="dijit.form.TextBox"
                        type="hidden"

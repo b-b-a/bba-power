@@ -75,6 +75,30 @@ html, body {
     margin: auto;
 }
 
+#addClientWidget .dialog_title p {
+    margin: 0px;
+}
+
+#addClientWidget .dialog_footer_info {
+    position: relative;
+    bottom: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#addClientWidget .dialog_footer_info p {
+    margin: 0px;
+    padding: 0px;
+    float: left;
+    text-align: left;
+}
+
+#addClientWidget .dialog_footer_info .warn {
+    margin-left: 30px;
+    padding-left: 16px;
+    background: url('/images/WarningShield.png') no-repeat left center;
+}
+
 .tabHeading {
     padding: 5px 5px 0px 5px;
     height:50%;
@@ -323,6 +347,19 @@ p {
     height: 80px;
 }
 
+.zend_form .dialog_footer_info p {
+    margin: 0px;
+    padding: 0px;
+    text-align: left;
+    float: left;
+}
+
+.zend_form .dialog_footer_info .warn {
+    margin-left: 30px;
+    padding-left: 16px;
+    background: url('/images/WarningShield.png') no-repeat left center;
+}
+
 /*
 Form overrides.
 */
@@ -527,15 +564,6 @@ Messages
 #error-content th {
     font-weight: bold;
     width: 100px;
-}
-
-.warn {
-    padding-left: 16px;
-    background: url('/images/WarningShield.png') center left no-repeat;
-}
-
-.dialog_info p {
-    margin: 0px;
 }
 
 /*
