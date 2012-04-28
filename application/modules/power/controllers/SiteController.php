@@ -217,6 +217,12 @@ class Power_SiteController extends Zend_Controller_Action
                 ));
                 $html = $this->view->render('confirm.phtml');
                 $returnJson['html'] = $html;
+
+                if ($request->getParam('type') === 'add') {
+                    $client = $this->_model->getSiteById($saved)
+                        ->getSiteAddress();
+                    $returnJson['clientAd_addressName'] = $client->clientAd_addressName;
+                }
             }
         } catch (Exception $e) {
             $log = Zend_Registry::get('log');

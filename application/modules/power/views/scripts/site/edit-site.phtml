@@ -66,7 +66,8 @@
             <?php $mainContact = $this->site->getBillingAddress(); ?>
 
             <table class="info_wrap ident">
-                <caption>Billing Address <span class="id_number">(<?php echo $mainContact->clientAd_idAddress; ?>)</span></caption>
+                <caption>Billing Address <span class="id_number">(<?php echo (isset($mainContact->clientAd_idAddress)) ? $mainContact->clientAd_idAddress : ''; ?>)</span></caption>
+                <?php if (isset($mainContact->clientAd_idAddress)): ?>
                 <?php if($mainContact->clientAd_addressName): ?>
                 <tr>
                     <th>Address Name:</th>
@@ -93,13 +94,18 @@
                     <th>Postcode:</th>
                     <td><?php echo $mainContact->clientAd_postcode; ?></td>
                 </tr>
+                <?php else: ?>
+                <tr>
+                    <td>No Billing address set.</td>
+                </tr>
+                <?php endif; ?>
             </table>
 
             <?php $mainContact = $this->site->getClientContact(); ?>
 
             <table class="info_wrap ident">
-                <caption>Main Liaison <span class="id_number">(<?php echo $mainContact->clientCo_idClientContact; ?>)</span></caption>
-                <?php if($mainContact->clientCo_idClientContact): ?>
+                <caption>Main Liaison <span class="id_number">(<?php echo (isset($mainContact->clientCo_idClientContact)) ? $mainContact->clientCo_idClientContact : ''; ?>)</span></caption>
+                <?php if(isset($mainContact->clientCo_idClientContact)): ?>
                 <tr>
                     <th>Name:</th>
                     <td><?php echo $mainContact->clientCo_name; ?></td>

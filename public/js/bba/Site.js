@@ -187,6 +187,11 @@ define("bba/Site",
             id = grid.store.getValue(selectedItem, 'site_idSite');
             tabTitle = grid.store.getValue(selectedItem, 'clientAd_addressName');
 
+            this.showSiteTab(id, tabTitle);
+        },
+
+        showSiteTab : function(id, tabTitle)
+        {
              bba.openTab({
                 tabId : 'site' + id,
                 title : (tabTitle) ? tabTitle : 'Site',
@@ -252,6 +257,10 @@ define("bba/Site",
                             registry.byId('siteGrid')._refresh();
                         }
                         confirm.show();
+
+                        if (values.type === 'add') {
+                            bba.Site.showSiteTab(data.saved, data.clientAd_addressName);
+                        }
                     } else {
                         bba.setupDialog(siteForm);
                         siteForm.show();
