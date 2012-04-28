@@ -204,8 +204,15 @@ class Power_ContractController extends Zend_Controller_Action
                     'id'    => $saved,
                     'type'  => 'contract'
                 ));
+                
                 $html = $this->view->render('confirm.phtml');
                 $returnJson['html'] = $html;
+                
+                if ($request->getParam('type') === 'add') {
+                    $client = $this->_model->getContractById($saved)
+                        ->getClient('client_name');
+                    $returnJson['client_name'] = $client;
+                }
             }
         } catch (Exception $e) {
             $log = Zend_Registry::get('log');
