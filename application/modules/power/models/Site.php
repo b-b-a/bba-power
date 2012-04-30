@@ -201,6 +201,14 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
         // get filtered values
         $data = $form->getValues();
 
+        if ($data['site_idClientContact'] == 0) {
+            $data['site_idClientContact'] = null;
+        }
+
+        if ($data['site_idAddressBill'] == 0) {
+            $data['site_idAddressBill'] = null;
+        }
+
         $site = array_key_exists('site_idSite', $data) ?
             $this->getSiteById($data['site_idSite']) : null;
 

@@ -116,6 +116,22 @@ define("bba/Site",
             if (val) registry.byId('site_idAddress').set('value', val);
         },
 
+        getBillAddressStore : function(val, id)
+        {
+            this.billAddressStore = new ItemFileReadStore({
+                url:'/site/data-store/type/billAddress/clientId/' + id
+            })
+
+            this.billAddressStore.fetch({
+                onError: function(error, request) {
+                    bba.dataStoreError(request.store.url, null);
+                }
+            });
+
+            registry.byId("site_idAddressBill").set('store', this.billAddressStore);
+            if (val) registry.byId('site_idAddressBill').set('value', val);
+        },
+
         changeAddress : function(val)
         {
             if (registry.byId("site_idAddress").get('disabled') == true) {
@@ -129,15 +145,7 @@ define("bba/Site",
 
             this.getAddressStore(null, val);
 
-            this.billAddressStore = new ItemFileReadStore({
-                url:'/site/data-store/type/billAddress/clientId/' + val
-            })
-
-            this.billAddressStore.fetch({
-                onError: function(error, request) {
-                    bba.dataStoreError(request.store.url, null);
-                }
-            });
+            this.getBillAddressStore(null, val);
 
             this.contactStore = new ItemFileReadStore({
                 url:'/site/data-store/type/contact/clientId/' + val
@@ -165,6 +173,7 @@ define("bba/Site",
 
                 bba.deferredFunction = function(val) {
                     bba.Site.getAddressStore(val, registry.byId("site_idClient").get('value'));
+                    bba.Site.getBillAddressStore(val, registry.byId("site_idClient").get('value'));
                 }
             }
 
