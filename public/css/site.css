@@ -382,8 +382,8 @@ Form overrides.
     line-height: 65px;
 }
 
-#meter_type-label {
-    height: 25px;
+#meter_type-label .meter_type-add {
+    line-height: 65px;
 }
 
 .align-right {

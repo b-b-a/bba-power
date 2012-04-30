@@ -85,6 +85,15 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
             'ErrorMessages' => array('Please select a meter type.'),
         ));
 
+        $decors = $this->getElement('meter_type')->getDecorators();
+
+        $decors['Zend_Form_Decorator_Label']->setOptions(array(
+            'tag' => 'p',
+            'class' => 'meter_type-add'
+        ));
+
+        $this->getElement('meter_type')->setDecorators($decors);
+
         $multiOptions = array();
 
         $list = $table->getSelectListByName('meter_status');
