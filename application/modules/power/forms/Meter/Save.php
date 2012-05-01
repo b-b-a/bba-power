@@ -89,7 +89,7 @@ class Power_Form_Meter_Save extends ZendSF_Form_Abstract
 
         $decors['Zend_Form_Decorator_Label']->setOptions(array(
             'tag' => 'p',
-            'class' => 'meter_type-add'
+            'style' => 'line-height: ' . count($multiOptions) * 22 . 'px;'
         ));
 
         $this->getElement('meter_type')->setDecorators($decors);

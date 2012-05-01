@@ -76,7 +76,8 @@ html, body {
 }
 
 #addClientWidget .dialog_title p {
-    margin: 0px;
+    text-align: left;
+    margin-bottom: 10px;
 }
 
 #addClientWidget .dialog_footer_info {
@@ -376,14 +377,6 @@ Form overrides.
 
 .contract_edit .label {
     width: 120px;
-}
-
-#contract_type-label .contract_type-add {
-    line-height: 65px;
-}
-
-#meter_type-label .meter_type-add {
-    line-height: 65px;
 }
 
 .align-right {

@@ -75,7 +75,7 @@ class Power_Form_Meter_Usage_Save extends ZendSF_Form_Abstract
 
         $list = $this->getModel()->getDbTable('tables')->getSelectListByName('usage_type');
         $multiOptions = array();
-        
+
         foreach($list as $row) {
             $multiOptions[$row->tables_key] = $row->tables_value;
         }
@@ -86,8 +86,17 @@ class Power_Form_Meter_Usage_Save extends ZendSF_Form_Abstract
             'autocomplete'  => false,
             'multiOptions'  => $multiOptions,
             'required'      => true,
-            'separator'       => '&nbsp;'
+            //'separator'       => '&nbsp;'
         ));
+
+        $decors = $this->getElement('usage_type')->getDecorators();
+
+        $decors['Zend_Form_Decorator_Label']->setOptions(array(
+            'tag' => 'p',
+            'style' => 'line-height: ' . count($multiOptions) * 22 . 'px;'
+        ));
+
+        $this->getElement('usage_type')->setDecorators($decors);
 
         $this->addElement('NumberTextBox', 'usage_usageDay', array(
             'label'     => 'Consumption - Day:',
