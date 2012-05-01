@@ -95,7 +95,7 @@ define("bba/Contract",
             tender : [
                 {field: 'tender_idTender', width: '50px', name: 'Id'},
                 {field: 'supplier_nameShort', width : '80px', name: 'Supplier'},
-                {field: 'supplierCo_name', width : '150px', name: 'Supplier Contact'},
+                {field: 'supplierCo_name', width : '150px', name: 'Supplier Liaison'},
                 {field: 'supplierCo_phone', width: '100px', name: 'Phone'},
                 {field: 'tender_periodContract', width: '100px', name: 'Contract Period'},
                 {field: 'tender_dateExpiresQuote', width: '100px', name: 'Quote Expires'},
@@ -201,6 +201,11 @@ define("bba/Contract",
             id = grid.store.getValue(selectedItem, 'contract_idContract');
             tabTitle = grid.store.getValue(selectedItem, 'client_name');
 
+            this.showContractTab(id, tabTitle);
+        },
+
+        showContractTab : function(id, tabTitle)
+        {
             bba.openTab({
                 tabId : 'contract' + id,
                 title : (tabTitle) ? tabTitle : 'Contract',
@@ -341,6 +346,10 @@ define("bba/Contract",
                         if (dom.byId('contractGrid')) contractGrid._refresh();
 
                         confirm.show();
+
+                        if (values.type === 'add') {
+                            bba.Contract.showContractTab(data.saved, data.client_name);
+                        }
                     } else {
                         bba.setupDialog(contractForm);
                         contractForm.show();

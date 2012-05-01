@@ -105,7 +105,7 @@ class Power_Form_Site_Edit extends ZendSF_Dojo_Form_Abstract
         $list = $this->getModel()->getDbTable('clientAddress')->getClientAddressesByClientId($clientId);
 
         // reset options
-        $multiOptions = array(0 => ($list->count() > 0) ? 'Please select a client address' : 'No client addresses available');
+        $multiOptions = array(0 => ($list->count() > 0) ? 'Please Select A Client Address' : 'No Client Addresses Available');
         foreach($list as $row) {
             $multiOptions[$row->clientAd_idAddress] = $row->address1AndPostcode;
         }
@@ -121,13 +121,13 @@ class Power_Form_Site_Edit extends ZendSF_Dojo_Form_Abstract
         $list = $this->getModel()->getDbTable('clientContact')->getClientContactsByClientId($clientId);
 
         // reset options
-        $multiOptions = array(0 => ($list->count() > 0) ? 'Please select a client contact' : 'No client contacts available');
+        $multiOptions = array(0 => ($list->count() > 0) ? 'Please Select Someone' : 'No Client Personnel Available');
         foreach($list as $row) {
             $multiOptions[$row->clientCo_idClientContact] = $row->clientCo_name;
         }
 
         $this->addElement('FilteringSelect', 'site_idClientContact', array(
-            'label'         => 'Client Contact:',
+            'label'         => 'Client Liaison:',
             'filters'       => array('StripTags', 'StringTrim'),
             'multiOptions'  => $multiOptions,
             'value'         => '0',

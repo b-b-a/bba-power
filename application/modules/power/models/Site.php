@@ -134,7 +134,7 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
                 $result = $this->getDbTable('client')->fetchAll(null, 'client_name ASC');
                 $identifier = 'client_idClient';
                 $searchItems = array('client_idClient', 'client_name');
-                $selectMessage = ($result->count()) ? 'Please select a client' : 'No clients available';
+                $selectMessage = ($result->count()) ? 'Please Select A Client' : 'No Clients Available';
                 $items[] = array($identifier => 0, $searchItems[1] => $selectMessage);
                 break;
             case 'address':
@@ -150,7 +150,7 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
                         ->getClientAddressesByClientId($params['clientId']);
                 }
 
-                $selectMessage = ($result->count()) ? 'Please select a client address' : 'No client addresses available';
+                $selectMessage = ($result->count()) ? 'Please Select A Client Address' : 'No Client Addresses Available';
                 $items[] = array($identifier => 0, $searchItems[1] => $selectMessage);
 
                 if ($params['type'] == 'address') {
@@ -163,7 +163,7 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
                 $searchItems = array('clientCo_idClientContact', 'clientCo_name');
                 $result = $this->getDbTable('clientContact')
                     ->getClientContactsByClientId($params['clientId']);
-                $selectMessage = ($result->count()) ? 'Please select a client contact' : 'No client contacts available';
+                $selectMessage = ($result->count()) ? 'Please Select Someone' : 'No Client Personnel Available';
                 $items[] = array($identifier => 0, $searchItems[1] => $selectMessage);
                 break;
         }
@@ -200,6 +200,14 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
 
         // get filtered values
         $data = $form->getValues();
+
+        if ($data['site_idClientContact'] == 0) {
+            $data['site_idClientContact'] = null;
+        }
+
+        if ($data['site_idAddressBill'] == 0) {
+            $data['site_idAddressBill'] = null;
+        }
 
         $site = array_key_exists('site_idSite', $data) ?
             $this->getSiteById($data['site_idSite']) : null;

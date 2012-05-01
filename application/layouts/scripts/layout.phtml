@@ -1,17 +1,18 @@
 <?php echo $this->docType(); ?>
 <html lang="en">
     <head>
+        <base href="<?php echo $this->baseUrl(); ?>/" />
         <?php echo $this->headTitle(); ?>
         <?php echo $this->headMeta(); ?>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <link rel="stylesheet" href="css/reset.css" type="text/css" />
-        <link rel="stylesheet" href="css/text.css" type="text/css" />
+        <link rel="stylesheet" href="<?php echo $this->baseUrl('css/reset.css'); ?>" type="text/css" />
+        <link rel="stylesheet" href="<?php echo $this->baseUrl('css/text.css'); ?>" type="text/css" />
 
         <?php echo $this->headLink() ?>
 
         <?php echo $this->dojo(); ?>
 
-        <link rel="stylesheet" href="css/site.css" type="text/css" />
+        <link rel="stylesheet" href="<?php echo $this->baseUrl('css/site.css'); ?>" type="text/css" />
 
         <?php echo $this->headScript() ?>
     </head>
@@ -62,7 +63,7 @@
                         bba.tabRefreshButton(val);
                     </script>
                 </button></p>
-                <p>User Name: <?php echo $this->authInfo('name'); ?></p>
+                <p>User: <?php echo $this->authInfo('user_fullName'); ?></p>
                 <p>Role: <?php echo $this->authInfo('role'); ?></p>
             </div>
 

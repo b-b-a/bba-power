@@ -8,9 +8,13 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
      id="clientCoForm"
      data-dojo-id="clientCoForm"
      data-dojo-props="
-        title:'<?php echo $type; ?> Client Contact',
+        title:'<?php echo $type; ?> Client Personnel Details',
         execute: bba.Client.processClientCoForm">
     <div class="dijitDialogPaneContentArea">
+
+        <div class="dialog_title">
+            
+        </div>
 
         <div class="form_wrap">
             <div class="zend_form">
@@ -35,6 +39,12 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                 <?php echo $form->clientCo_email; ?>
 
                 <?php echo $form->clientCo_position; ?>
+                
+                <div class="dialog_footer_info">
+                    <p class="required"> = required field</p>
+                    <p class="warn">Cancel exits without saving</p>
+                </div>
+                <div class="clear"></div>
 
                 <input data-dojo-type="dijit.form.TextBox"
                        type="hidden"

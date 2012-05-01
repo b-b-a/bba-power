@@ -1,0 +1,24 @@
+<?php echo $this->docType(); ?>
+<html>
+    <head>
+        <base href="<?php echo $this->baseUrl(); ?>/" />
+        <?php echo $this->headTitle(); ?>
+        <?php echo $this->headMeta(); ?>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <link rel="stylesheet" href="<?php echo $this->baseUrl('css/reset.css'); ?>" type="text/css" />
+        <link rel="stylesheet" href="<?php echo $this->baseUrl('css/text.css'); ?>" type="text/css" />
+        <link rel="stylesheet" href="<?php echo $this->baseUrl('css/print.css'); ?>" type="text/css" />
+    </head>
+    <body>
+        <div id="user_info">
+            <p id="user"><span>User: </span><?php echo $this->escape($this->authInfo('user_fullName')); ?></p>
+            <p id="time"><span>Date: </span><?php echo Zend_Date::now(); ?></p>
+        </div>
+
+        <div id="content">
+            <?php echo $this->Layout()->content; ?>
+
+            <div class="clear"></div>
+        </div>
+    </body>
+</html>

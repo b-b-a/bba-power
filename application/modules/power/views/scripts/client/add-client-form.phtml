@@ -8,6 +8,10 @@
         execute: bba.Client.processClientForm">
     <div class="dijitDialogPaneContentArea">
 
+        <div class="dialog_title">
+            
+        </div>
+
         <div id="addClientWidget"
              data-dojo-type="dojox.widget.Wizard"
              data-dojo-props="doneButtonLabel: 'Save'">
@@ -45,8 +49,8 @@
 
                     <script type="dojo/method" data-dojo-event="onShow">
                         clientForm.attr('title', 'Main (HQ) Address');
-                        
-                        dijit.byId('clientAd_addressName').attr('value', dijit.byId('client_name').attr('value'));                    
+
+                        dijit.byId('clientAd_addressName').attr('value', dijit.byId('client_name').attr('value'));
                     </script>
                 </div>
 
@@ -70,7 +74,7 @@
                             value="add" />
 
                     <script type="dojo/method" data-dojo-event="onShow">
-                        clientForm.attr('title', 'Main Contact for BBA');
+                        clientForm.attr('title', 'Main Liaison for BBA');
                         dijit.byId('clientAd_addressName').set('value', dijit.byId('client_name').get('value'));
                     </script>
 
@@ -85,6 +89,12 @@
                         //clientGrid._refresh();
                     </script>
                 </div>
+                
+                <div class="dialog_footer_info">
+                    <p class="required"> = required field</p>
+                    <p class="warn">Cancel exits without saving</p>
+                </div>
+                
             </div>
             <script type="dojo/method" data-dojo-event="cancelFunction">
                 bba.closeDialog(dijit.byId('clientForm'));

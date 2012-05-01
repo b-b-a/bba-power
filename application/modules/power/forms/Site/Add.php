@@ -128,7 +128,7 @@ class Power_Form_Site_Add extends ZendSF_Dojo_Form_Abstract
         ));
 
         $this->addElement('FilteringSelect', 'site_idClientContact', array(
-            'label' => 'Client Contact:',
+            'label' => 'Client Liaison:',
             'filters' => array('StripTags', 'StringTrim'),
             'autoComplete' => false,
             'hasDownArrow' => true,

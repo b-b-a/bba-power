@@ -147,7 +147,7 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
      * @param string $dateFormat
      * @return array
      */
-    public function toArray($dateFormat = null)
+    public function toArray($dateFormat = null, $raw = false)
     {
         $array = array();
 
@@ -158,16 +158,20 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
                 $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
             }
 
-            switch ($key) {
-                case 'contract_status':
-                    $array[$key] = $this->getContract_status();
-                    break;
-                case 'contract_type':
-                    $array[$key] = $this->getContract_type();
-                    break;
-                default:
-                    $array[$key] = $value;
-                    break;
+            if (true === $raw) {
+                $array[$key] = $value;
+            } else {
+                switch ($key) {
+                    case 'contract_status':
+                        $array[$key] = $this->getContract_status();
+                        break;
+                    case 'contract_type':
+                        $array[$key] = $this->getContract_type();
+                        break;
+                    default:
+                        $array[$key] = $value;
+                        break;
+                }
             }
         }
 

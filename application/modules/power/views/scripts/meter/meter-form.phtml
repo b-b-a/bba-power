@@ -11,10 +11,14 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
         execute: bba.Meter.processMeterForm">
     <div class="dijitDialogPaneContentArea">
 
+        <div class="dialog_title">
+            
+        </div>
+
         <div class="form_wrap meter-add">
             <div class="zend_form">
 
-                <?php  if ($this->request()->getParam('type') == 'add'): ?>
+                <?php  if ($type == 'New'): ?>
                     <?php echo $form->meter_type; ?>
                 <?php else: ?>
                     <div class="form_row">
@@ -22,7 +26,7 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                             <label class="required" for="meter_type">Meter Type:</label>
                         </p>
                         <p class="element">
-                            <?php echo $form->meter_type->getValue(); ?>
+                            <?php echo $form->meter_type->options[$form->meter_type->getValue()]; ?>
                             <input data-dojo-type="dijit.form.TextBox"
                                    type="hidden"
                                    name="meter_type"
@@ -44,6 +48,12 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                 <?php echo $form->meter_capacity; ?>
 
                 <?php echo $form->meter_desc; ?>
+                
+                <div class="dialog_footer_info">
+                    <p class="required"> = required field</p>
+                    <p class="warn">Cancel exits without saving</p>
+                </div>
+                <div class="clear"></div>
 
                 <input data-dojo-type="dijit.form.TextBox"
                        type="hidden"

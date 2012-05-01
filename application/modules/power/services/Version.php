@@ -54,7 +54,8 @@ final class Power_Service_Version
      * Gets the current environment.
      *
      * $_SERVER['BBA_POWER_ENVIRONMENT'] is set in the apache2.conf
-     * /etc/apache2/apache2.conf
+     * /etc/apache2/apache2.conf.
+     * Also can be set in the .htaccess file.
      *
      * <code>
      * <IfModule env_module>
@@ -71,7 +72,8 @@ final class Power_Service_Version
 
         if (isset($_SERVER['BBA_POWER_ENVIRONMENT'])) {
             $string = " (".$_SERVER['BBA_POWER_ENVIRONMENT'].")";
-            $string .= "-(".ucwords($_ENV['APPLICATION_ENV']).")";
+        //    $string .= "-(".ucwords($_ENV['APPLICATION_ENV']).")";
+        //  This will confuse folk - if we start using the option it can be reinstated.
         }
 
         return $string;

@@ -108,13 +108,13 @@ class Power_Form_Supplier_Save extends ZendSF_Dojo_Form_Abstract
             )->getSupplierContacts();
 
             // reset options
-            $multiOptions = array(0 => ($list->count() > 0) ? 'Select a Contact' : 'No Contacts available');
+            $multiOptions = array(0 => ($list->count() > 0) ? 'Please Select Someone' : 'No Supplier Personnel available');
             foreach($list as $row) {
                 $multiOptions[$row->supplierCo_idSupplierContact] = $row->supplierCo_name;
             }
 
             $this->addElement('FilteringSelect', 'supplier_idSupplierContact', array(
-                'label'     => 'Main Contact:',
+                'label'     => 'Main Liaison:',
                 'filters'   => array('StripTags', 'StringTrim'),
                 'atuocomplete' => false,
                 'multiOptions'  => $multiOptions

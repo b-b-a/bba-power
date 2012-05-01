@@ -161,7 +161,7 @@ class Power_ContractController extends Zend_Controller_Action
                     throw new ZendSF_Acl_Exception('Access Denied');
                 }
                 $form = $this->_getForm('contractSave', 'save-contract');
-                $form->populate($contract->toArray('dd/MM/yyyy'));
+                $form->populate($contract->toArray('dd/MM/yyyy', true));
                 $this->view->assign('contractSaveForm', $form);
                 $this->render('contract-form');
             }
@@ -204,8 +204,15 @@ class Power_ContractController extends Zend_Controller_Action
                     'id'    => $saved,
                     'type'  => 'contract'
                 ));
+                
                 $html = $this->view->render('confirm.phtml');
                 $returnJson['html'] = $html;
+                
+                if ($request->getParam('type') === 'add') {
+                    $client = $this->_model->getContractById($saved)
+                        ->getClient('client_name');
+                    $returnJson['client_name'] = $client;
+                }
             }
         } catch (Exception $e) {
             $log = Zend_Registry::get('log');
