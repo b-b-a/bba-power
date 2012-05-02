@@ -1,4 +1,8 @@
-<?php $this->dojo()->requireModule('bba/Core', true); ?>
+<?php
+$this->dojo()->requireModule('bba/Core', true);
+/* @var $error Exception */
+$error = $this->message;
+?>
 <div data-dojo-type="dijit.Dialog" data-dojo-props="title:'BBA System Error'" data-dojo-id="error" id="error">
     <div class="dijitDialogPaneContentArea">
         <div id="error-content">
@@ -7,19 +11,27 @@
                          message to your administrator:</caption>
                 <tr>
                     <th>Error Code:</th>
-                    <td><p class="errorMessage"><?php echo $this->message->getCode(); ?></p></td>
+                    <td><p class="errorMessage"><?php echo $error->getCode(); ?></p></td>
                 </tr>
                 <tr>
                     <th>File:</th>
-                    <td><p class="errorMessage"><?php echo $this->message->getFile(); ?></p></td>
+                    <td><p class="errorMessage"><?php echo $error->getFile(); ?></p></td>
                 </tr>
                 <tr>
                     <th>Line:</th>
-                    <td><p class="errorMessage"><?php echo $this->message->getLine(); ?></p></td>
+                    <td><p class="errorMessage"><?php echo $error->getLine(); ?></p></td>
                 </tr>
                 <tr>
                     <th>Message:</th>
-                    <td><p class="errorMessage"><?php echo $this->message->getMessage(); ?></p></td>
+                    <td><p class="errorMessage"><?php echo $error->getMessage(); ?></p></td>
+                </tr>
+                <tr>
+                    <th>Trace:</th>
+                    <td>
+                        <p class="errorMessage">
+                            <pre><?php echo $error->getTraceAsString(); ?></pre>
+                        </p>
+                    </td>
                 </tr>
             </table>
         </div>

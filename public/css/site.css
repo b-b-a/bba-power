@@ -532,16 +532,23 @@ Form overrides.
 Messages
 */
 #error-content {
-    width: 500px;
+    width: 800px;
 }
 
 #error-content caption {
+    line-height: 34px;
     padding-left: 34px;
     background: url('../images/ErrorShield.png') center left no-repeat;
 }
 
 #error-content p {
     margin: 0px 5px;
+}
+
+#error-content pre {
+    white-space: pre-wrap;
+    word-break: break-all;
+    word-wrap: break-word;
 }
 
 #error-content table,
