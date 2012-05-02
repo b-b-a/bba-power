@@ -55,52 +55,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected $_view;
 
     /**
-     * @var Zend_Db
-     */
-    protected $_db;
-
-    /**
      * @var Zend_Controller_Front
      */
     public $frontController;
-
-    private $_errorType = array (
-		E_ERROR				=> 'ERROR',
-		E_WARNING			=> 'WARNING',
-		E_PARSE				=> 'PARSING ERROR',
-		E_NOTICE			=> 'NOTICE',
-		E_CORE_ERROR		=> 'CORE ERROR',
-		E_CORE_WARNING		=> 'CORE WARNING',
-		E_COMPILE_ERROR		=> 'COMPILE ERROR',
-		E_COMPILE_WARNING	=> 'COMPILE WARNING',
-		E_USER_ERROR		=> 'USER ERROR',
-		E_USER_WARNING		=> 'USER WARNING',
-		E_USER_NOTICE		=> 'USER NOTICE',
-		E_STRICT			=> 'STRICT NOTICE',
-		E_RECOVERABLE_ERROR	=> 'RECOVERABLE ERROR',
-		E_DEPRECATED		=> 'DEPRECATED',
-		E_USER_DEPRECATED	=> 'USER DEPRECATED'
-	);
-
-    private $_errorHandlerMap = array (
-		E_NOTICE            => Zend_Log::NOTICE,
-        E_USER_NOTICE       => Zend_Log::NOTICE,
-        E_WARNING           => Zend_Log::WARN,
-        E_CORE_WARNING      => Zend_Log::WARN,
-        E_USER_WARNING      => Zend_Log::WARN,
-        E_ERROR             => Zend_Log::ERR,
-        E_USER_ERROR        => Zend_Log::ERR,
-        E_CORE_ERROR        => Zend_Log::ERR,
-        E_RECOVERABLE_ERROR => Zend_Log::ERR,
-        E_STRICT            => Zend_Log::DEBUG,
-        E_DEPRECATED        => Zend_Log::DEBUG,
-        E_USER_DEPRECATED   => Zend_Log::DEBUG
-	);
-
-    /**
-     * EOL character
-     */
-    const EOL = "\n";
 
     /**
      * Adds a cache to production environment for plugin loader.
@@ -123,68 +80,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
 
     /**
-     * Sets the logging for the application.
-     */
-    protected function _initLogging()
-    {
-        $this->bootstrap('frontController');
-        $bbaErrorHandler = set_error_handler(array($this,'errorHandler'));
-        $logger = new Zend_Log();
-        $dbLog = new Zend_Log();
-
-        if ('production' == $this->getEnvironment()) {
-            $writer = new Zend_Log_Writer_Stream(APPLICATION_PATH.'/../data/logs/bba-power.log');
-            $dbWriter = new Zend_Log_Writer_Stream(APPLICATION_PATH.'/../data/logs/bba-power-db.log');
-            $filter = new Zend_Log_Filter_Priority(Zend_Log::INFO);
-            $logger->addFilter($filter);
-            //$dbLog->addFilter($filter);
-        } else {
-            $writer = new Zend_Log_Writer_Firebug();
-            $dbWriter = new Zend_Log_Writer_Firebug();
-            $writer->setPriorityStyle(8, 'TABLE');
-            $logger->addPriority('TABLE', 8);
-        }
-
-        $logger->addWriter($writer);
-        $dbLog->addWriter($dbWriter);
-
-        $this->_logger = $logger;
-        Zend_Registry::set('log', $logger);
-        Zend_Registry::set('dblog', $dbLog);
-    }
-
-    public function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
-    {
-        if ('production' == $this->getEnvironment()) {
-            if (isset($this->_errorHandlerMap[$errno])) {
-                $priority = $this->_errorHandlerMap[$errno];
-            } else {
-                $priority = Zend_Log::INFO;
-            }
-            $errorMessage = self::EOL . 'Error ' . $this->_errorType[$errno] . self::EOL;
-            $errorMessage .= 'ERROR NO : ' . $errno . self::EOL;
-            $errorMessage .= 'TEXT : ' . $errstr . self::EOL;
-            $errorMessage .= 'LOCATION : ' . $errfile . ' ' . $errline . self::EOL;
-            $errorMessage .= 'DATE : ' . date('F j, Y, g:i a') . self::EOL;
-            $errorMessage .= '------------------------------------' . self::EOL;
-            $this->_logger->log($errorMessage, $priority);
-        } else {
-            $errorMessage = array('Error : ' . $this->_errorType[$errno], array(
-                array('', ''),
-                array('Error No', $errno),
-                array('Message', $errstr),
-                array('File Name', $errfile),
-                array('Line No', $errline),
-                //array('Context', $errcontext)
-            ));
-
-            $this->_logger->table($errorMessage);
-        }
-
-        return true;
-    }
-
-    /**
      * Set up Default DataBase Adapter.
      */
     protected function _initDb()
@@ -196,21 +91,17 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         );
         Zend_Db_Table::setDefaultAdapter($db);
 
-        $this->_db = $db;
+        Zend_Registry::set('db', $db);
     }
 
-
     /**
-     * Sets the Database profiler for the application.
+     * Sets the logging for the application.
      */
-    protected function _initDbProfiler()
+    protected function _initLogging()
     {
-        if ('production' !== $this->getEnvironment()) {
-            //$this->bootstrap('db');
-            $profiler = new Zend_Db_Profiler_Firebug('All DB Queries');
-            $profiler->setEnabled(true);
-            $this->_db->setProfiler($profiler);
-        }
+        $log = new ZendSF_Log($this);
+        $this->_logger = Zend_Registry::get('log');
+        return $log;
     }
 
     /**
