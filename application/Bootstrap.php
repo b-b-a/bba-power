@@ -55,6 +55,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected $_view;
 
     /**
+     * @var Zend_Db
+     */
+    protected $_db;
+
+    /**
      * @var Zend_Controller_Front
      */
     public $frontController;
@@ -180,17 +185,31 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
 
     /**
+     * Set up Default DataBase Adapter.
+     */
+    protected function _initDb()
+    {
+        $dbOptions =  new Zend_Config_Ini(APPLICATION_PATH . '/configs/db.ini');
+
+        $db = Zend_Db::factory(
+            $dbOptions->resources->db
+        );
+        Zend_Db_Table::setDefaultAdapter($db);
+
+        $this->_db = $db;
+    }
+
+
+    /**
      * Sets the Database profiler for the application.
      */
     protected function _initDbProfiler()
     {
         if ('production' !== $this->getEnvironment()) {
-            $this->bootstrap('db');
+            //$this->bootstrap('db');
             $profiler = new Zend_Db_Profiler_Firebug('All DB Queries');
             $profiler->setEnabled(true);
-            $this->getPluginResource('db')
-                 ->getDbAdapter()
-                 ->setProfiler($profiler);
+            $this->_db->setProfiler($profiler);
         }
     }
 
@@ -220,17 +239,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             'namespace' => 'Power',
             'basePath'  => APPLICATION_PATH . '/modules/power',
         ));
-    }
-
-    /**
-     * Start session
-     */
-    public function _initCoreSession()
-    {
-        $this->bootstrap('db');
-        $this->bootstrap('session');
-
-        Zend_Session::start();
     }
 
     /**
