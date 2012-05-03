@@ -102,8 +102,8 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
     {
         return $this->find($id)->current();
     }
-
-    public function searchContracts(array $search, $sort = '', $count = null, $offset = null)
+    
+    protected function _getSearchContractsSelect(array $search)
     {
         $select = $this->select(false)->setIntegrityCheck(false)
             ->from('contract', array(
@@ -163,7 +163,13 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
         if (isset($search['idSite'])) {
             $select->where('meter_idSite = ?', $search['idSite']);
         }
+        
+        return $select;
+    }
 
+    public function searchContracts(array $search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->_getSearchContractsSelect($search);
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 
@@ -172,8 +178,12 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
 
     public function numRows($search)
     {
-        $result = $this->searchContracts($search);
-        return $result->count();
+        $select = $this->_getSearchContractsSelect($search);
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->columns(array('numRows' => 'COUNT(contract_idContract)'));
+        $result = $this->fetchRow($select);
+
+        return $result->numRows;
     }
 
     public function insert(array $data)

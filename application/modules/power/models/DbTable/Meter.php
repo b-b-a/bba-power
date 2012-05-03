@@ -117,10 +117,10 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
             ->where('meter_idMeter = ?', $id);
        return $this->fetchRow($select);
     }
-
-    public function searchMeters(array $search, $sort = '', $count = null, $offset = null)
+    
+    protected function _getSearchMetersSelect(array $search)
     {
-       $select = $this->select(false)->setIntegrityCheck(false)
+        $select = $this->select(false)->setIntegrityCheck(false)
             ->from('meter', array(
                 'meter_idMeter',
                 'meter_type',
@@ -168,7 +168,13 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
         if (isset($search['idClient'])) {
             $select->where('site_idClient = ?', $search['idClient']);
         }
+        
+        return $select;
+    }
 
+    public function searchMeters(array $search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->_getSearchMetersSelect($search);
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 
@@ -177,8 +183,12 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
 
     public function numRows($search)
     {
-        $result = $this->searchMeters($search);
-        return $result->count();
+        $select = $this->_getSearchMetersSelect($search);
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->columns(array('numRows' => 'COUNT(meter_idMeter)'));
+        $result = $this->fetchRow($select);
+
+        return $result->numRows;
     }
 
     public function insert(array $data)
