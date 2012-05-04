@@ -117,7 +117,7 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
             ->where('meter_idMeter = ?', $id);
        return $this->fetchRow($select);
     }
-    
+
     protected function _getSearchMetersSelect(array $search)
     {
         $select = $this->select(false)->setIntegrityCheck(false)
@@ -132,20 +132,7 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
             ->join('client_address', 'clientAd_idAddress = site_idAddress', array(
                 'clientAd_addressName',
                 'clientAd_postcode'
-            ))
-            ->join('client', 'client_idClient = site_idClient', array(
-                'client_name'
-            ))
-            ->joinLeft('meter_contract', 'meter_idMeter = meterContract_idMeter', array(
-                'meterContract_kvaNominated',
-                'meterContract_eac',
-            ))
-            ->joinLeft('contract', 'meterContract_idContract = contract_idContract', array(
-                'contract_type' => '(SELECT tables_value FROM tables WHERE tables_key = contract_type AND tables_name = "contract_type")',
-                'contract_status' => '(SELECT tables_value FROM tables WHERE tables_key = contract_status AND tables_name = "contract_status")',
-                'contract_dateStart' => 'MAX(contract.contract_dateStart)',
-                'contract_dateEnd'
-            ))->group('meter_idMeter');
+            ));
 
         if (!$search['meter'] == '') {
             if (substr($search['meter'], 0, 1) == '=') {
@@ -168,13 +155,26 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
         if (isset($search['idClient'])) {
             $select->where('site_idClient = ?', $search['idClient']);
         }
-        
+
         return $select;
     }
 
     public function searchMeters(array $search, $sort = '', $count = null, $offset = null)
     {
-        $select = $this->_getSearchMetersSelect($search);
+        $select = $this->_getSearchMetersSelect($search)
+            ->join('client', 'client_idClient = site_idClient', array(
+                'client_name'
+            ))
+            ->joinLeft('meter_contract', 'meter_idMeter = meterContract_idMeter', array(
+                'meterContract_kvaNominated',
+                'meterContract_eac',
+            ))
+            ->joinLeft('contract', 'meterContract_idContract = contract_idContract', array(
+                'contract_type' => '(SELECT tables_value FROM tables WHERE tables_key = contract_type AND tables_name = "contract_type")',
+                'contract_status' => '(SELECT tables_value FROM tables WHERE tables_key = contract_status AND tables_name = "contract_status")',
+                'contract_dateStart' => 'MAX(contract.contract_dateStart)',
+                'contract_dateEnd'
+            ))->group('meter_idMeter');
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 

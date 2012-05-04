@@ -102,7 +102,7 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
     {
         return $this->find($id)->current();
     }
-    
+
     protected function _getSearchContractsSelect(array $search)
     {
         $select = $this->select(false)->setIntegrityCheck(false)
@@ -130,15 +130,7 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
                 'meter',
                 'meter_idMeter = meterContract_idMeter',
                 null
-            )->joinLeft(
-                'tender',
-                'tender_idTender = contract_idTenderSelected',
-                null
-            )->joinLeft(
-                'supplier',
-                'supplier_idSupplier = tender_idSupplier',
-                array('supplier_nameShort')
-           )->group('contract_idContract');
+            );
 
         if (!$search['contract'] == '') {
             if (substr($search['contract'], 0, 1) == '=') {
@@ -163,13 +155,22 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
         if (isset($search['idSite'])) {
             $select->where('meter_idSite = ?', $search['idSite']);
         }
-        
+
         return $select;
     }
 
     public function searchContracts(array $search, $sort = '', $count = null, $offset = null)
     {
-        $select = $this->_getSearchContractsSelect($search);
+        $select = $this->_getSearchContractsSelect($search)
+            ->joinLeft(
+                'tender',
+                'tender_idTender = contract_idTenderSelected',
+                null
+            )->joinLeft(
+                'supplier',
+                'supplier_idSupplier = tender_idSupplier',
+                array('supplier_nameShort')
+           )->group('contract_idContract');
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 
