@@ -107,8 +107,14 @@ class Power_Model_DbTable_Tender extends ZendSF_Model_DbTable_Abstract
 
     public function numRows($search)
     {
-        $result = $this->searchTenders($search);
-        return $result->count();
+        $select = $this->select()
+            ->from('tender')
+            ->columns(array('numRows' => 'COUNT(tender_idContract)'))
+            ->where('tender_idContract = ?', $search['tender_idContract']);
+
+        $result = $this->fetchRow($select);
+
+        return $result->numRows;
     }
 
     public function insert(array $data)

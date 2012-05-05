@@ -83,15 +83,21 @@ class Power_Model_DbTable_Meter_Usage extends ZendSF_Model_DbTable_Abstract
         return $this->find($id)->current();
     }
 
-    public function searchUsage(array $search, $sort = '', $count = null, $offset = null)
+    protected function _getSearchUsageSelect(array $search)
     {
         $select = $this->select()
-                ->from('pusage')
-                ->columns(array(
-                    'usage_usageTotal' => '(usage_usageDay + usage_usageNight + usage_usageOther)'
-                ))
-                ->where('usage_idMeter = ?', $search['usage_idMeter']);
+            ->from('pusage')
+            ->columns(array(
+                'usage_usageTotal' => '(usage_usageDay + usage_usageNight + usage_usageOther)'
+            ))
+            ->where('usage_idMeter = ?', $search['usage_idMeter']);
 
+        return $select;
+    }
+
+    public function searchUsage(array $search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->_getSearchUsageSelect($search);
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 
@@ -100,8 +106,12 @@ class Power_Model_DbTable_Meter_Usage extends ZendSF_Model_DbTable_Abstract
 
     public function numRows($search)
     {
-        $result = $this->searchUsage($search);
-        return $result->count();
+        $select = $this->_getSearchUsageSelect($search);
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->columns(array('numRows' => 'COUNT(usage_idUsage)'));
+        $result = $this->fetchRow($select);
+
+        return $result->numRows;
     }
 
     public function insert(array $data)

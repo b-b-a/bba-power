@@ -85,11 +85,11 @@ class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
 
     public function getClientContactsByClientId($id)
     {
-        $select = $this->select()->where('clientCo_idClient = ?', $id); 
+        $select = $this->select()->where('clientCo_idClient = ?', $id);
         return $this->fetchAll($select);
     }
 
-    public function searchContact(array $search, $sort = '', $count = null, $offset = null)
+    protected function _getSearchContactSelect(array $search)
     {
         $select = $this->select(false)->setIntegrityCheck(false)
             ->from('client_contact')
@@ -101,6 +101,12 @@ class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
             $select->where('clientCo_idAddress = ? ', $search['clientCo_idAddress']);
         }
 
+        return $select;
+    }
+
+    public function searchContact(array $search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->_getSearchContactSelect($search);
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 
@@ -109,8 +115,12 @@ class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
 
     public function numRows($search)
     {
-        $result = $this->searchContact($search);
-        return $result->count();
+        $select = $this->_getSearchContactSelect($search);
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->columns(array('numRows' => 'COUNT(clientCo_idAddress)'));
+        $result = $this->fetchRow($select);
+
+        return $result->numRows;
     }
 
     public function insert(array $data)

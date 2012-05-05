@@ -102,10 +102,18 @@ class Power_Model_DbTable_Client_Address extends ZendSF_Model_DbTable_Abstract
         return $this->fetchAll($select);
     }
 
+    protected function _getSearchAddressSelect(array $search)
+    {
+        $select = $this->select(false)
+            ->from('client_address')
+            ->where('clientAd_idClient = ?', $search['clientAd_idClient']);
+
+        return $select;
+    }
+
     public function searchAddress(array $search, $sort = '', $count = null, $offset = null)
     {
-        $select = $this->select()->where('clientAd_idClient = ?', $search['clientAd_idClient']);
-
+        $select = $this->_getSearchAddressSelect($search);
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 
@@ -114,8 +122,12 @@ class Power_Model_DbTable_Client_Address extends ZendSF_Model_DbTable_Abstract
 
     public function numRows($search)
     {
-        $result = $this->searchAddress($search);
-        return $result->count();
+        $select = $this->_getSearchAddressSelect($search);
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->columns(array('numRows' => 'COUNT(clientAd_idClient)'));
+        $result = $this->fetchRow($select);
+
+        return $result->numRows;
     }
 
     public function insert(array $data)

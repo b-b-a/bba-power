@@ -117,7 +117,7 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
         return $this->fetchRow($select);
     }
 
-    public function searchSites(array $search, $sort = '', $count = null, $offset = null)
+    protected function _getSearchSitesSelect(array $search)
     {
         $select = $this->select(false)->setIntegrityCheck(false)
             ->from('site', array('site_idSite'))
@@ -156,6 +156,12 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
             $select->where('site_idClient = ?', $search['idClient']);
         }
 
+        return $select;
+    }
+
+    public function searchSites(array $search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->_getSearchSitesSelect($search);
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 
@@ -164,8 +170,12 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
 
     public function numRows($search)
     {
-        $result = $this->searchSites($search);
-        return $result->count();
+        $select = $this->_getSearchSitesSelect($search);
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->columns(array('numRows' => 'COUNT(site_idSite)'));
+        $result = $this->fetchRow($select);
+
+        return $result->numRows;
     }
 
     public function insert(array $data)

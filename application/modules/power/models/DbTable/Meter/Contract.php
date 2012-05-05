@@ -99,10 +99,19 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
         return $this->fetchAll($select);
     }
 
-    public function searchMeterContracts($search, $sort = '', $count = null, $offset = null)
+    protected function _getSearchMeterContractsSelect(array $search)
     {
         $select = $this->select(false)->setIntegrityCheck(false)
             ->from('meter')
+            ->join('meter_contract', 'meter_idMeter = meterContract_idMeter')
+            ->where('meterContract_idContract = ?', $search['meterContract_idContract']);
+
+        return $select;
+    }
+
+    public function searchMeterContracts($search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->_getSearchMeterContractsSelect($search)
             ->join('site', 'site_idSite = meter_idSite', null)
             ->join('client_address', 'clientAd_idAddress = site_idAddress', array(
                 'clientAd_addressName','clientAd_address1','clientAd_address2','clientAd_address3','clientAd_postcode'
@@ -110,10 +119,7 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
             ->join('client', 'client_idClient = site_idClient', null)
             ->joinLeft('client_contact', 'client_idClientContact = clientCo_idClientContact', array(
                 'clientCo_name'
-            ))
-            ->join('meter_contract', 'meter_idMeter = meterContract_idMeter')
-            ->where('meterContract_idContract = ?', $search['meterContract_idContract']);
-
+            ));
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 
@@ -122,8 +128,12 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
 
     public function numRows($search)
     {
-        $result = $this->searchMeterContracts($search);
-        return $result->count();
+        $select = $this->_getSearchMeterContractsSelect($search);
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->columns(array('numRows' => 'COUNT(meter_idMeter)'));
+        $result = $this->fetchRow($select);
+
+        return $result->numRows;
     }
 
     /**

@@ -102,7 +102,7 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
         return $this->fetchAll($select);
     }
 
-    public function searchSuppliers(array $search, $sort = '', $count = null, $offset = null)
+    protected function _getSearchSuppliersSelect(array $search)
     {
         $select = $this->select(false)->setIntegrityCheck(false)
             ->from('supplier', array(
@@ -140,6 +140,12 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
                 ->orWhere('supplierCo_postcode like ?', '%' . $search['contact'] . '%');
         }
 
+        return $select;
+    }
+
+    public function searchSuppliers(array $search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->_getSearchSuppliersSelect($search);
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 
@@ -148,8 +154,12 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
 
     public function numRows($search)
     {
-        $result = $this->searchSuppliers($search);
-        return $result->count();
+        $select = $this->_getSearchSuppliersSelect($search);
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->columns(array('numRows' => 'COUNT(supplier_idSupplier)'));
+        $result = $this->fetchRow($select);
+
+        return $result->numRows;
     }
 
     public function insert(array $data)

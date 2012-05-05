@@ -76,9 +76,9 @@ class Power_Model_DbTable_User extends ZendSF_Model_DbTable_Abstract
         return $this->fetchRow($select);
     }
 
-    public function searchUsers(array $search, $sort = '', $count = null, $offset = null)
+    protected function _getSearchUsersSelect(array $search)
     {
-        $select = $this->select();
+        $select = $this->select(false)->from('user');
 
         if (!$search['user'] == '') {
             if (substr($search['user'], 0, 1) == '=') {
@@ -95,6 +95,12 @@ class Power_Model_DbTable_User extends ZendSF_Model_DbTable_Abstract
                 ->orWhere('user_accessClient like ?', '%' . $search['role'] . '%');
         }
 
+        return $select;
+    }
+
+    public function searchUsers(array $search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->_getSearchUsersSelect($search);
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 
@@ -103,7 +109,11 @@ class Power_Model_DbTable_User extends ZendSF_Model_DbTable_Abstract
 
     public function numRows($search)
     {
-        $result = $this->searchUsers($search);
-        return $result->count();
+        $select = $this->_getSearchUsersSelect($search);
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->columns(array('numRows' => 'COUNT(user_idUser)'));
+        $result = $this->fetchRow($select);
+
+        return $result->numRows;
     }
 }

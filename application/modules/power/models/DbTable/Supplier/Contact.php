@@ -78,16 +78,22 @@ class Power_Model_DbTable_Supplier_Contact extends ZendSF_Model_DbTable_Abstract
         return $this->find($id)->current();
     }
 
+    protected function _getSearchContactsSelect($search)
+    {
+         $select = $this->select(false)->setIntegrityCheck(false)
+            ->from('supplier_contact')
+            ->where('supplierCo_idSupplier = ?', $search);
+
+         return $select;
+    }
+
     public function searchContacts($id, $sort = '', $count = null, $offset = null)
     {
-        $select = $this->select(false)->setIntegrityCheck(false)
-            ->from('supplier_contact')
-            ->join('tables', 
-                    'tables_name = "supplierCo_type" AND tables_key = supplierCo_type',
-                    array('supplierCo_type_tables' => 'tables_value')
-                    )
-            ->where('supplierCo_idSupplier = ?', $id);
-
+        $select = $this->_getSearchContactsSelect($id)
+            ->join('tables',
+                'tables_name = "supplierCo_type" AND tables_key = supplierCo_type',
+                array('supplierCo_type_tables' => 'tables_value')
+            );
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 
@@ -96,8 +102,12 @@ class Power_Model_DbTable_Supplier_Contact extends ZendSF_Model_DbTable_Abstract
 
     public function numRows($search)
     {
-        $result = $this->searchContacts($search);
-        return $result->count();
+        $select = $this->_getSearchContactsSelect($search);
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->columns(array('numRows' => 'COUNT(supplierCo_idSupplierContact)'));
+        $result = $this->fetchRow($select);
+
+        return $result->numRows;
     }
 
     public function insert(array $data)
