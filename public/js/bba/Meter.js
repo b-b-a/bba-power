@@ -78,8 +78,6 @@ define("bba/Meter",
                 {field: 'meterContract_eac', width: '70px', name: 'EAC'},
                 {field: 'contract_reference', width: '200px', name: 'Reference'},
                 {field: 'contract_desc', width: '300px', name: 'Description'},
-                {field: 'meterContract_kvaNominated', width: '100px', name: 'Peak kVA'},
-                {field: 'meterContract_eac', width: '100px', name: 'EAC'},
                 {field: '', width: 'auto', name: ''}
             ]
         },

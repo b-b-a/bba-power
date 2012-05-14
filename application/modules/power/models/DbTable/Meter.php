@@ -88,36 +88,6 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
         return $this->find($id)->current();
     }
 
-    /**
-     * Aggregates the site, client and client_address tables
-     * into the meter details.
-     *
-     * @return Zend_Db_Table_Select
-     */
-    public function getMeterDetails($id)
-    {
-       $select = $this->select(false)->setIntegrityCheck(false)
-            ->from('meter')
-            ->join('site', 'site_idSite = meter_idSite', null)
-            ->join('client_address', 'clientAd_idAddress = site_idAddress')
-            ->join('client', 'client_idClient = site_idClient')
-            ->joinLeft('client_contact', 'client_idClientContact = clientCo_idClientContact')
-            ->joinLeft('meter_contract', 'meter_idMeter = meterContract_idMeter')
-            ->joinLeft('contract', 'meterContract_idContract = contract_idContract', array(
-                'contract_idContract',
-                'contract_reference',
-                'contract_desc',
-                'contract_type' => '(SELECT tables_value FROM tables WHERE tables_key = contract_type AND tables_name = "contract_type")',
-                'contract_status' => '(SELECT tables_value FROM tables WHERE tables_key = contract_status AND tables_name = "contract_status")',
-                'contract_dateStart',
-                'contract_dateEnd'
-            ))
-            ->joinLeft('tender', 'contract_idTenderSelected = tender_idTender')
-            ->joinLeft('supplier', 'tender_idSupplier = supplier_idSupplier')
-            ->where('meter_idMeter = ?', $id);
-       return $this->fetchRow($select);
-    }
-
     protected function _getSearchMetersSelect(array $search)
     {
         $select = $this->select(false)->setIntegrityCheck(false)

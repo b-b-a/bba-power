@@ -51,12 +51,6 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
         return $this->getDbTable('site')->getSiteById($id);
     }
 
-    public function getSiteDetailsById($id)
-    {
-        $id = (int) $id;
-        return $this->getDbTable('site')->getSiteDetailsById($id);
-    }
-
     /**
      * Gets the site data store list, using search parameters.
      *

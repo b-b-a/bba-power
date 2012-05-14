@@ -55,10 +55,13 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
     protected $_tenderSelected;
 
     /**
-     * @var Zend_Db_Table_Rowset
+     * @var Power_Model_DbTable_Row_Tender
      */
     protected $_tenders;
 
+    /**
+     * @var Power_Model_DbTable_Row_Meter_Contract
+     */
     protected $_meterContract;
 
     /**
@@ -120,24 +123,27 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
             $this->_tenderSelected = $this->getRow()
                 ->findParentRow('Power_Model_DbTable_Tender', 'tenderSelected');
         }
+
         return (null === $row) ? $this->_tenderSelected : $this->_tenderSelected->$row;
     }
 
     public function getAllTenders()
     {
-         if (!$this->_tenders instanceof Zend_Db_Table_Rowset_Abstract) {
+         if (!$this->_tenders instanceof Power_Model_DbTable_Row_Tender) {
             $this->_tenders = $this->getRow()
                 ->findDependentRowset('Power_Model_DbTable_Tender', 'contract');
         }
+
         return $this->_tenders;
     }
 
     public function getAllMetersOnContract()
     {
-        if (!$this->_meterContract instanceof Zend_Db_Table_Rowset_Abstract) {
+        if (!$this->_meterContract instanceof Power_Model_DbTable_Row_Meter_Contract) {
             $this->_meterContract = $this->getRow()
                 ->findDependentRowset('Power_Model_DbTable_Meter_Contract', 'contract');
         }
+        
         return $this->_meterContract;
     }
 

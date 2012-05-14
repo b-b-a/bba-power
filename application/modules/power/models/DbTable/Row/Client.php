@@ -58,7 +58,7 @@ class Power_Model_DbTable_Row_Client extends ZendSF_Model_DbTable_Row_Abstract
             'clientCo'
         );
     }
-    
+
     public function getClientAddress()
     {
         return $this->getRow()->findParentRow(

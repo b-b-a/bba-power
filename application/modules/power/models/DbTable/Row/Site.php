@@ -40,36 +40,64 @@
  */
 class Power_Model_DbTable_Row_Site extends ZendSF_Model_DbTable_Row_Abstract
 {
-    public function getClient()
+    /**
+     * @var Power_Model_DbTable_Row_Client
+     */
+    protected $_client;
+
+    /**
+     * @var Power_Model_DbTable_Row_Client_Address
+     */
+    protected $_siteAddress;
+
+    /**
+     * @var Power_Model_DbTable_Row_Client_Address
+     */
+    protected $_billingAddress;
+
+    /**
+     * @var Power_Model_DbTable_Row_Client_Contact
+     */
+    protected $_clientContact;
+
+    public function getClient($row=null)
     {
-        return $this->getRow()->findParentRow(
-            'Power_Model_DbTable_Client',
-            'siteClient'
-        );
+        if (!$this->_client instanceof Power_Model_DbTable_Row_Client) {
+            $this->_client = $this->getRow()
+                ->findParentRow( 'Power_Model_DbTable_Client', 'siteClient');
+        }
+
+        return (null === $row) ? $this->_client : $this->_client->$row;
     }
 
-    public function getSiteAddress()
+    public function getSiteAddress($row=null)
     {
-        return $this->getRow()->findParentRow(
-            'Power_Model_DbTable_Client_Address',
-            'siteAddress'
-        );
+         if (!$this->_siteAddress instanceof Power_Model_DbTable_Row_Client_Address) {
+            $this->_siteAddress = $this->getRow()
+                ->findParentRow( 'Power_Model_DbTable_Client_Address', 'siteAddress');
+        }
+
+        return (null === $row) ? $this->_siteAddress : $this->_siteAddress->$row;
     }
 
-    public function getBillingAddress()
+    public function getBillingAddress($row=null)
     {
-        return $this->getRow()->findParentRow(
-            'Power_Model_DbTable_Client_Address',
-            'siteAddressBill'
-        );
+        if (!$this->_billingAddress instanceof Power_Model_DbTable_Row_Client_Address) {
+            $this->_billingAddress = $this->getRow()
+                ->findParentRow( 'Power_Model_DbTable_Client_Address', 'siteAddressBill');
+        }
+
+        return (null === $row) ? $this->_billingAddress : $this->_billingAddress->$row;
     }
 
-    public function getClientContact()
+    public function getClientContact($row=null)
     {
-        return $this->getRow()->findParentRow(
-            'Power_Model_DbTable_Client_Contact',
-            'siteClientContact'
-        );
+        if (!$this->_clientContact instanceof Power_Model_DbTable_Row_Client_Contact) {
+            $this->_clientContact = $this->getRow()
+                ->findParentRow( 'Power_Model_DbTable_Client_Contact', 'siteClientContact');
+        }
+
+        return (null === $row) ? $this->_clientContact : $this->_clientContact->$row;
     }
 
     public function getMeters($sort = null, $count = null, $offset = null)
@@ -88,7 +116,7 @@ class Power_Model_DbTable_Row_Site extends ZendSF_Model_DbTable_Row_Abstract
     public function getMetersByType($type)
     {
         $select = $this->getRow()->select()->where('meter_type = ?', $type);
-        
+
         return $this->getRow()->findDependentRowset(
             'Power_Model_DbTable_Meter',
             'site',

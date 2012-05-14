@@ -52,6 +52,10 @@
                     <th>Contract Period:</th>
                     <td><?php echo $this->contract->getTenderSelected('tender_periodContract'); ?> Months</td>
                 </tr>
+                <?php else: ?>
+                <tr>
+                    <td colspan="2">No Tender Has Been Selected</td>
+                </tr>
                 <?php endif; ?>
 
                 <?php if ($this->isAllowed('User')): ?>

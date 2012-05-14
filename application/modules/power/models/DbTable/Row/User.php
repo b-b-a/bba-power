@@ -39,6 +39,15 @@
  */
 class Power_Model_DbTable_Row_User extends ZendSF_Model_DbTable_Row_Abstract
 {
+    protected $_roles = array(
+        'decline'       => 'Decline',
+        'agent'         => 'Agent',
+        'read'          => 'Read',
+        'meterUsage'    => 'Meter Usage',
+        'user'          => 'User',
+        'admin'         => 'Admin'
+    );
+
     public function getId()
     {
         return $this->getRow()->user_idUser;
@@ -52,5 +61,33 @@ class Power_Model_DbTable_Row_User extends ZendSF_Model_DbTable_Row_Abstract
     public function getName()
     {
         return $this->getRow()->user_name;
+    }
+
+    public function getUser_role()
+    {
+        return $this->_roles[$this->getRow()->user_role];
+    }
+
+    /**
+     * Returns row as an array.
+     *
+     * @return array
+     */
+    public function toArray()
+    {
+        $array = array();
+
+        foreach ($this->getRow() as $key => $value) {
+            switch ($key) {
+                case 'user_role':
+                    $array[$key] = $this->getUser_role();
+                    break;
+                default:
+                    $array[$key] = $value;
+                    break;
+            }
+        }
+
+        return $array;
     }
 }

@@ -148,7 +148,7 @@ class Power_MeterController extends Zend_Controller_Action
         if ($request->getParam('meter_idMeter') && $request->isPost()
                 && $request->isXmlHttpRequest()) {
 
-            $meter = $this->_model->getMeterDetailsById($request->getPost('meter_idMeter'));
+            $meter = $this->_model->getMeterById($request->getPost('meter_idMeter'));
 
             $form = $this->_getForm('meterSave', 'save-meter');
             $form->populate($meter->toArray(null, true));
@@ -176,7 +176,7 @@ class Power_MeterController extends Zend_Controller_Action
 
         if ($request->getParam('meter_idMeter') && $request->isPost()) {
 
-            $meter = $this->_model->getMeterDetailsById($request->getPost('meter_idMeter'));
+            $meter = $this->_model->getMeterById($request->getPost('meter_idMeter'));
 
             $this->view->assign(array(
                 'meter' => $meter

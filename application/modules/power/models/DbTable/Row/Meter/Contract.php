@@ -52,7 +52,7 @@ class Power_Model_DbTable_Row_Meter_Contract extends ZendSF_Model_DbTable_Row_Ab
 
     public function getMeter_numberMain()
     {
-        if ($this->getRow()->meter_type == 'gas') {
+        if (!ZendSF_Utility_String::startsWith('electric', $this->getRow()->meter_type)) {
             return $this->getRow()->meter_numberMain;
         }
 
@@ -70,7 +70,7 @@ class Power_Model_DbTable_Row_Meter_Contract extends ZendSF_Model_DbTable_Row_Ab
 
     public function getMeter_numberTop()
     {
-        if ($this->getRow()->meter_type == 'gas') {
+        if (!ZendSF_Utility_String::startsWith('electric', $this->getRow()->meter_type)) {
             return $this->getRow()->meter_numberTop;
         }
 

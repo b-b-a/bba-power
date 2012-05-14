@@ -98,25 +98,6 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
         return $this->find($id)->current();
     }
 
-    public function getSiteDetailsById($id)
-    {
-        $select = $this->select(false)
-            ->setIntegrityCheck(false)
-            ->from('site')
-            ->join('client', 'client_idClient = site_idClient ', array(
-                'client_name'
-            ))
-            ->join('client_address','clientAd_idAddress = client_idAddress', array(
-                'clientAd_addressName',
-                'clientAd_address1',
-                'clientAd_address2',
-                'clientAd_address3',
-                'clientAd_postcode'
-            ))
-            ->where('site_idSite = ?', $id);
-        return $this->fetchRow($select);
-    }
-
     protected function _getSearchSitesSelect(array $search)
     {
         $select = $this->select(false)->setIntegrityCheck(false)
