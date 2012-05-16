@@ -37,7 +37,9 @@
 .claro .dijitSpinner .dijitArrowButton {
 	width:auto;
 	background-color: @arrowbutton-background-color;
-	.standard-gradient("../");
+	background-image: url("../@{image-form-highlight}");
+	background-position:0 0;
+	background-repeat:repeat-x;
 	overflow: hidden;
 }
 .dj_iequirks .claro .dijitSpinner .dijitArrowButton {
@@ -110,7 +112,7 @@
 .claro .dijitSpinner .dijitDownArrowButtonActive,
 .claro .dijitSpinner .dijitUpArrowButtonActive {
 	background-color: #7dbefa;		// TODO.  Mailed Jason about inconsistent ComboBox/Spinner behavior.
-	.active-gradient("../");
+	background-position:0 -177px;
 }
 .claro .dijitSpinner .dijitUpArrowButtonActive .dijitArrowButtonInner,
 .claro .dijitSpinner .dijitDownArrowButtonActive .dijitArrowButtonInner {

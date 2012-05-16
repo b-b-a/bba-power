@@ -287,12 +287,18 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         }
 
         if (!$form->isValid($post)) {
+            $log = Zend_Registry::get('log');
+            $log->info($post);
+
             if (isset($client_dateExpiryLoaValidateRules)) {
                 $form->getElement('client_dateExpiryLoa')
                     ->addValidator($client_dateExpiryLoaValidateRules);
             }
             return false;
         }
+
+        $log = Zend_Registry::get('log');
+        $log->info($post);
 
         // get filtered values and return results.
         return $this->_saveClient($form->getValues());

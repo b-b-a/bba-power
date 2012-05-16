@@ -141,18 +141,16 @@ class Power_Form_Client_Save extends ZendSF_Dojo_Form_Abstract
             ));
         }
 
-/*        $this->addElement('file','client_docLoa', array(
-            'label' => 'Upload Letter of Authority:',
-            'destination' => realpath(APPLICATION_PATH . '/../data/loa'),
-            'validators' => array(
+        /*$this->addElement('file','client_docLoa', array(
+            'label'         => 'Upload Letter of Authority:',
+            'destination'   => realpath(APPLICATION_PATH . '/../bba-power-docs/client_docLoa'),
+            'validators'    => array(
                 array('Count', false, array(1)),
                 array('Size', false, array(1048576*5)),
                 array('Extension', false, array('pdf')),
             ),
-            'decorators' => $this->_fileDecorators
-        ));
-*/
-
+            'decorators'    => $this->_fileDecorators
+        ));*/
 
         $this->addElement('ValidationTextBox', 'client_dateExpiryLoa', array(
             'label'         => 'LoA Expiry Date:',

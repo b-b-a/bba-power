@@ -12,7 +12,7 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
     <div class="dijitDialogPaneContentArea">
 
         <div class="dialog_title">
-            
+
         </div>
 
         <div class="form_wrap">
@@ -30,7 +30,7 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                 <?php echo $form->site_idClientContact; ?>
 
                 <?php echo $form->site_desc; ?>
-                
+
                 <div class="dialog_footer_info">
                     <p class="required"> = required field</p>
                     <p class="warn">Cancel exits without saving</p>
@@ -56,3 +56,6 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
         </div>
     </div>
 </div>
+<div data-dojo-id="siteFormStandby"
+     data-dojo-type="dojox.widget.Standby"
+     data-dojo-props="target:'siteForm'"></div>

@@ -29,6 +29,10 @@
 	background-color: @textbox-background-color;
 	border-collapse: separate;
 }
+.dj_ie6 .claro .dijitSelect,
+.dj_ie6 .claro .dijitSelect .dijitButtonNode {
+	background-image:none;
+}
 
 .claro .dijitSelect .dijitButtonContents {
 	border: 0 solid @border-color;
@@ -40,7 +44,8 @@
 	border: 1px solid @arrowbutton-inner-border-color;
 	border-top:none;
 	background-color: @arrowbutton-background-color;
-	.standard-gradient("../");
+	background-image: url("../@{image-form-highlight}");
+	background-repeat:repeat-x;
 }
 
 .claro .dijitSelect .dijitArrowButton .dijitArrowButtonInner {
@@ -55,7 +60,7 @@
 .claro .dijitSelectHover {
 	border: 1px solid @hovered-border-color;
 	background-color: @textbox-hovered-background-color;
-	.textbox-background-image;
+	background-image: url("../@{image-form-textbox-background}");
 	background-repeat: repeat-x;
 }
 
@@ -79,7 +84,7 @@
 }
 .claro .dijitSelectFocused .dijitArrowButton {
 	background-color:#7dbefa;		// TODO.  Mailed Jason about inconsistent ComboBox/Spinner behavior.
-	.active-gradient("../");
+	background-position:0 -177px;
 	border: none;
 	padding: 0 1px;
 }

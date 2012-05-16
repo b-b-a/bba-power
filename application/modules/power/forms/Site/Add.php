@@ -73,14 +73,14 @@ class Power_Form_Site_Add extends ZendSF_Dojo_Form_Abstract
             'autoComplete' => false,
             'hasDownArrow' => true,
             'storeId' => 'clientStore',
-            'storeType' => 'dojo.data.ItemFileReadStore',
-            'storeParams' => array('url' => "site/data-store/type/clients"),
+            //'storeType' => 'dojo.data.ItemFileReadStore',
+            //'storeParams' => array('url' => "site/data-store/type/clients"),
             'dijitParams' => array(
                 'searchAttr' => 'client_name',
                 'promptMessage' => 'Select a Client'
             ),
             'attribs' => array(
-                'onChange' => 'bba.Site.changeAddress(this.value);'
+                //'onChange' => 'bba.Site.changeAddress(this.value);'
             ),
             'required' => true,
             'value' => '0',

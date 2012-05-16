@@ -102,7 +102,7 @@ html, body {
 
 .tabHeading {
     padding: 5px 5px 0px 5px;
-    height:50%;
+    height: 50%;
 }
 
 /* Dialogs */
@@ -359,6 +359,16 @@ p {
     margin-left: 30px;
     padding-left: 16px;
     background: url('../images/WarningShield.png') no-repeat left center;
+}
+
+.dojoxBusyButtonIcon {
+    position: absolute;
+	width: 10px;
+	height: 10px;
+	vertical-align: middle;
+	margin-left: 4px;
+	background-image: url('../images/loading_wheel.gif');
+	background-repeat: no-repeat;
 }
 
 /*

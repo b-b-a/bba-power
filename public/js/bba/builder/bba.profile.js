@@ -43,7 +43,8 @@ dependencies = {
                 "dojox/data/QueryReadStore",
                 "dojox/grid/DataGrid",
                 "dojox/grid/_CheckBoxSelector",
-                "dojox/widget/Wizard"
+                "dojox/widget/Wizard",
+                "dojox/widget/Standby"
 			]
         }
     ],
