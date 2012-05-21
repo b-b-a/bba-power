@@ -5,15 +5,20 @@
      data-dojo-id="clientForm"
      data-dojo-props="
         title:'Edit Client',
-        execute: bba.Client.processClientForm">
+        execute: bba.Client.processClientAdForm">
     <div class="dijitDialogPaneContentArea">
 
         <div class="dialog_title">
-            
+
         </div>
 
         <div class="form_wrap">
             <div class="zend_form">
+                <form method="post" action="<?php echo $this->url(array(
+                    'controller'    => 'client',
+                    'action'        => 'save-client',
+                    'module'        => 'power'
+                ), 'default'); ?>" enctype="multipart/form-data">
 
                 <?php echo $form->client_name; ?>
 
@@ -26,7 +31,7 @@
                 <?php echo $form->client_dateExpiryLoa; ?>
 
                 <?php echo $form->client_desc; ?>
-                
+
                 <div class="dialog_footer_info">
                     <p class="required"> = required field</p>
                     <p class="warn">Cancel exits without saving</p>
@@ -40,6 +45,12 @@
                        required="true"
                        value="<?php echo $form->client_idClient->getValue(); ?>" />
 
+                <input data-dojo-type="dijit.form.TextBox"
+                       type="hidden"
+                       name="type"
+                       id="type"
+                       value="edit" />
+
                 <button data-dojo-type="dijit.form.Button"
                         data-dojo-props="onClick: function(){return dijit.byId('clientForm').validate();}"
                         type="submit"
@@ -48,6 +59,7 @@
                 <button data-dojo-type="dijit.form.Button"
                         data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('clientForm'));}"
                         id="clientFormCancelButton">Cancel</button>
+                </form>
             </div>
         </div>
     </div>

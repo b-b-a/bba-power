@@ -187,6 +187,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $this->_view->headLink()
                 ->appendStylesheet('js/release/bba/dojox/grid/resources/Grid.css')
                 ->appendStylesheet('js/release/bba/dojox/grid/resources/claroGrid.css')
+                //->appendStylesheet('js/release/bba/dojox/form/resources/UploaderFileList.css')
                 ->appendStylesheet('js/release/bba/dojox/widget/Wizard/Wizard.css');
         } else {
             $this->_view->dojo()
@@ -194,6 +195,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             $this->_view->headLink()
                 ->appendStylesheet('js/dojox/grid/resources/Grid.css')
                 ->appendStylesheet('js/dojox/grid/resources/claroGrid.css')
+                //->appendStylesheet('js/dojox/form/resources/UploaderFileList.css')
                 ->appendStylesheet('js/dojox/widget/Wizard/Wizard.css');
         }
 

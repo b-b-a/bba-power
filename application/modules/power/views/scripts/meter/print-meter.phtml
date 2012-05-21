@@ -34,7 +34,7 @@
 
 <?php $site = $this->meter->getSite(); ?>
 <table id="client_address">
-    <caption>Site Address <span class="id_number">(?php echo $site->getSiteAddress('clientAd_idAddress'); ?>)</span></caption>
+    <caption>Site Address <span class="id_number">(<?php echo $site->getSiteAddress('clientAd_idAddress'); ?>)</span></caption>
     <tr>
         <th>Address Name:</th>
         <td><?php echo $this->escape("(".$site->getSiteAddress('clientAd_addressName').")"); ?></td>

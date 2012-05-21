@@ -1,4 +1,4 @@
-Build started: Wed May 16 2012 09:56:50 GMT+0100 (BST)
+Build started: Mon May 21 2012 13:21:53 GMT+0100 (BST)
 Build application version: 1.7.0dev (23930)
 Messages:
 info(100) Assumed module uses legacy loader API.
@@ -1696,6 +1696,7 @@ dojo/dojo:
 	dijit/form/_ComboBoxMenuMixin
 	dojo/parser
 	dojox/grid/_RowSelector
+	dojox/form/Uploader
 	dojox/widget/Wizard/Wizard.html
 	dojo/dnd/Manager
 	dijit/form/ToggleButton
@@ -1786,6 +1787,7 @@ dojo/dojo:
 	dojox/grid/_Grid
 	dojo/_base/config
 	dojo/_base/browser
+	dojox/form/uploader/plugins/HTML5
 	dojo/_base/kernel
 	dojox/grid/resources/_Grid.html
 	dijit/layout/StackContainer
@@ -1838,8 +1840,11 @@ dojo/dojo:
 	dijit/form/_FormWidget
 	dojo/_base/Color
 	dojo/dnd/common
+	dojox/form/nls/Uploader
 	dojox/grid/_Events
 	dijit/CheckedMenuItem
+	dojo/io/iframe
+	dojox/form/uploader/plugins/IFrame
 	dojo/topic
 	dojox/grid/util
 	dijit/form/_ComboBoxMenu
@@ -1858,7 +1863,9 @@ dojo/dojo:
 	dojox/grid/DataSelection
 	dijit/form/nls/ComboBox
 	dojo/fx
+	dojox/form/uploader/Base
 	dojox/grid/_SelectionPreserver
+	dojox/form/resources/Uploader.html
 	dojo/dom-form
 	dijit/_DialogMixin
 	dijit/nls/common
@@ -1869,4 +1876,4 @@ dojo/dojo:
 Process finished normally
 	errors: 0
 	warnings: 3
-	build time: 61.061 seconds
+	build time: 64.299 seconds

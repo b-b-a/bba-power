@@ -39,6 +39,11 @@
  */
 class Power_Model_DbTable_Row_User extends ZendSF_Model_DbTable_Row_Abstract
 {
+    /**
+     * An array of user roles.
+     *
+     * @var array 
+     */
     protected static $_roles = array(
         'decline'       => 'Decline',
         'agent'         => 'Agent',

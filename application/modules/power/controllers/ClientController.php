@@ -166,9 +166,34 @@ class Power_ClientController extends Zend_Controller_Action
         }
     }
 
+    public function docAction()
+    {
+        $request = $this->getRequest();
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+
+        if ($request->getParam('view')) {
+
+            $pdf = file_get_contents(
+                APPLICATION_PATH . '/../bba-power-docs/client_docLoa/'
+                . $request->getParam('view')
+            );
+
+            return $this->getResponse()
+                //->setHeader('Content-disposition: attachment; filename=' . $request->getParam('view'))
+                ->setHeader('Content-Type', 'application/pdf')
+                ->setBody($pdf);
+        }
+
+        return $this->_helper->redirector('index', 'client');
+    }
+
     public function saveClientAction()
     {
         $request = $this->getRequest();
+
+        $log = Zend_Registry::get('log');
+        $log->info($request->isXmlHttpRequest());
 
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
@@ -177,7 +202,7 @@ class Power_ClientController extends Zend_Controller_Action
             throw new ZendSF_Acl_Exception('Access Denied');
         }
 
-        if (!$request->isPost()&& !$request->isXmlHttpRequest()) {
+        if (!$request->isPost()) {
             return $this->_helper->redirector('index', 'client');
         }
 
@@ -200,7 +225,7 @@ class Power_ClientController extends Zend_Controller_Action
                 $form->populate($request->getPost());
 
                 $this->view->assign(array('client' . $type . 'Form' => $form));
-                $html = $this->view->render('client/'. $request->getPost('type') .'-client-form.phtml');
+                $html = $this->view->render('client/'. $request->getPost('type') .'edit-client-form.phtml');
                 $returnJson['html'] = $html;
             } else {
                 $this->view->assign(array(
@@ -210,6 +235,9 @@ class Power_ClientController extends Zend_Controller_Action
                 ));
                 $html = $this->view->render('client/confirm.phtml');
                 $returnJson['html'] = $html;
+                if ($request->getParam('client_idClient')) {
+                    $returnJson['client_idClient'] = $request->getParam('client_idClient');
+                }
             }
         } catch (Exception $e) {
             $log = Zend_Registry::get('log');
@@ -226,8 +254,8 @@ class Power_ClientController extends Zend_Controller_Action
         }
 
         $this->getResponse()
-            ->setHeader('Content-Type', 'application/json')
-            ->setBody(json_encode($returnJson));
+            ->setHeader('Content-Type', 'text/html')
+            ->setBody('<textarea>' . json_encode($returnJson) . '</textarea>');
     }
 
     public function addClientAddressAction()

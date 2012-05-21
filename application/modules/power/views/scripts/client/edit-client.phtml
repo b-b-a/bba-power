@@ -16,6 +16,12 @@
                     <th>LoA Expiry Date:</th>
                     <td><?php echo $this->formatDate($this->client->client_dateExpiryLoa); ?></td>
                 </tr>
+                 <tr>
+                    <th>LoA Doc:</th>
+                    <td>
+                        <?php echo $this->DocLoa($this->client)->getCurrentFile(); ?>
+                    </td>
+                </tr>
                 <?php if ($this->isAllowed('User')): ?>
                 <tr>
                     <td class="footer" colspan="2">

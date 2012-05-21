@@ -375,6 +375,10 @@ p {
 Form overrides.
 */
 
+#clientForm .form_wrap {
+    width: 600px;
+}
+
 .client_edit .label,
 .client_edit p[id$=label] {
     width: 110px;

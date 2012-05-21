@@ -29,7 +29,8 @@ define("bba/Client",
     ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core",
     "bba/Site", "bba/Contract",
     "dojox/widget/Wizard", "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect",
-    "dijit/form/SimpleTextarea"],
+    "dijit/form/SimpleTextarea",
+    "dojox/form/Uploader", "dojox/form/uploader/plugins/IFrame"],
     function(dom, ready, parser, xhr, registry, bba) {
 
     ready(function () {
@@ -177,7 +178,10 @@ define("bba/Client",
                 bba.openFormDialog({
                     url: './client/edit-client',
                     content: dojo.mixin({type : 'edit'}, contentVars),
-                    dialog: 'clientForm'
+                    dialog: 'clientForm',
+                    deferredFunction: function() {
+                        dojo.connect(client_docLoa, "onComplete", bba.Client.processClientForm);
+                    }
                 });
             } else {
                 clientForm.show();
@@ -200,34 +204,26 @@ define("bba/Client",
         processClientForm : function()
         {
             bba.closeDialog(clientForm);
+            data = arguments[0];
+            console.log(data);
 
-            values = arguments[0];
-            values.type = (values.client_idClient) ? 'edit' : 'add';
+            dom.byId('dialog').innerHTML = data.html;
+            parser.parse('dialog');
 
-            xhr.post({
-                url: './client/save-client',
-                content: values,
-                handleAs: 'json',
-                preventCache: true,
-                load: function(data) {
-                    dom.byId('dialog').innerHTML = data.html;
-                    parser.parse('dialog');
-
-                    if (data.error) {
-                        error.show();
-                    } else if (data.saved > 0) {
-                        if (values.client_idClient) {
-                            registry.byId('client' + values.client_idClient).refresh();
-                        } else {
-                            registry.byId('clientGrid')._refresh();
-                        }
-                        confirm.show();
-                    } else {
-                        bba.setupDialog(clientForm);
-                        clientForm.show();
-                    }
+            if (data.error) {
+                error.show();
+            } else if (data.saved > 0) {
+                if (data.client_idClient) {
+                    registry.byId('client' + data.client_idClient).refresh();
+                } else {
+                    registry.byId('clientGrid')._refresh();
                 }
-            });
+                confirm.show();
+            } else {
+                bba.setupDialog(clientForm);
+                dojo.connect(client_docLoa, "onComplete", bba.Client.processClientForm);
+                clientForm.show();
+            }
         },
 
         processClientAdForm : function()
