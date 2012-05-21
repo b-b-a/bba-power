@@ -175,7 +175,7 @@ class Power_Form_Client_Save extends ZendSF_Dojo_Form_Abstract
             'attribs'       => array('style' => 'width: 80px;')
         ));
 
-        $this->addElement('SimpleTextarea', 'client_desc', array(
+        $this->addElement('ZendSFDojoSimpleTextarea', 'client_desc', array(
             'label'         => 'Description:',
             'required'      => false,
             'filters'       => array('StripTags', 'StringTrim'),
