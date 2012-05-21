@@ -124,7 +124,7 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
             return 'No Documents Have Been Uploaded';
         }
 
-        return $this->_htmlify(
+        return $this->htmlify(
             $this->getFilePieces($this->_currentFile)
         );
     }
@@ -134,7 +134,7 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
 
     }
 
-    protected function _htmlify($file)
+    public function htmlify($file)
     {
         if ($this->_attribs) {
             $attribs = $this->_attribs;

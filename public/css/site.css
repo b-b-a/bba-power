@@ -481,6 +481,17 @@ Form overrides.
  * Table Styles
  */
 
+.filelistTable,
+.filelistTable th,
+.filelistTable td {
+     border: 1px dotted #000;
+     padding: 5px;
+}
+
+.filelistTable tr:nth-child(odd) {
+    background-color: #eee;
+}
+
 .dojoxGrid table {
     width: 100%;
     margin: 0px;
