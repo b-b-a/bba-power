@@ -12,7 +12,7 @@
                 <caption>Site Details <span class="id_number">(<?php echo $this->site->site_idSite; ?>)</span></caption>
                 <tr>
                     <th>Client:</th>
-                    <td><?php echo $this->site->client_name; ?></td>
+                    <td><?php echo $this->site->getClient('client_name'); ?></td>
                 </tr>
                 <?php if($mainContact->clientAd_addressName): ?>
                 <tr>

@@ -43,12 +43,16 @@
 }
 .claro .dijitAccordionTitle {
 	background-color: transparent;	/* pick up color from dijitAccordionInnerContainer */
-	.standard-gradient("../");
+	background-image: url("../@{image-layout-accordion}");
+	background-position:0 0;
+	background-repeat:repeat-x;
 	padding: 5px 7px 2px 7px;
 	min-height:17px;
 	color:@unselected-text-color;
 }
-
+.dj_ie6 .claro .dijitAccordionTitle {
+	background-image: none;
+}
 .claro .dijitAccordionContainer .dijitAccordionChildWrapper {
 	/* this extends the blue trim styling of the title bar to wrapping around the node.
 	 * done by setting margin
@@ -71,7 +75,7 @@
 	.transition-duration(.1s);
 }
 .claro .dijitAccordionInnerContainerActive .dijitAccordionTitle {
-	.active-gradient("../");
+	background-position:0 -136px;
 	color:@selected-text-color;
 }
 
@@ -83,7 +87,7 @@
 }
 .claro .dijitAccordionInnerContainerSelected .dijitAccordionTitle {
 	color:@selected-text-color;
-	.standard-gradient("../");	/* avoid effect when clicking the title of the open pane */
+	background-position: 0 0;	/* avoid effect when clicking the title of the open pane */
 }
 
 /* Hovering open or closed pane */

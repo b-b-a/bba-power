@@ -211,6 +211,9 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             return false;
         }
 
+        // get filtered values.
+        $post = $form->getValues();
+
         $this->getDbTable('client')->getAdapter()->beginTransaction();
 
         try {
@@ -235,6 +238,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $clientCoSave = $this->_saveClientContact($post);
 
             // now update client with address and contact ids.
+            // we will have to update docLoa here too.
             $post['client_idClient'] = $clientSave;
             $post['client_idAddress'] = $clientAdSave;
             $post['client_idClientContact'] = $clientCoSave;
@@ -276,6 +280,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             throw new ZendSF_Acl_Exception('Insufficient rights');
         }
 
+        /* @var $form Power_Form_Client_Save */
         $form = $this->getForm('clientSave');
 
         if ($post['client_dateExpiryLoa'] === '') {
@@ -286,7 +291,26 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
                 ->removeValidator('Date');
         }
 
+        /**
+         * Add a rename filter to client_docLoa
+         * using row <id>_<timestamp>_<original filename>.
+         */
+        $docLoa = $form->getElement('client_docLoa');
+        $ts = Zend_Date::now();
+
+        $newLoaFileName = join('_', array(
+            $post['client_idClient'],
+            $ts->toString('yyyyMMdd_HHmmss'),
+            str_replace(' ', '_', $_FILES['client_docLoa']['name'])
+        ));
+
+        $docLoa->addFilter('Rename', $newLoaFileName);
+
+        // Check if form is valid.
         if (!$form->isValid($post)) {
+            $log = Zend_Registry::get('log');
+            $log->info($post);
+
             if (isset($client_dateExpiryLoaValidateRules)) {
                 $form->getElement('client_dateExpiryLoa')
                     ->addValidator($client_dateExpiryLoaValidateRules);
@@ -311,6 +335,10 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         $date = new Zend_Date($dateValue);
         $date->set($date->toString('yy'), Zend_Date::YEAR_SHORT);
         $data['client_dateExpiryLoa'] = $date->toString('yyyy-MM-dd');
+
+        if (null === $data['client_docLoa']) {
+            unset($data['client_docLoa']);
+        }
 
         $client = array_key_exists('client_idClient', $data) ?
             $this->getClientById($data['client_idClient']) : null;

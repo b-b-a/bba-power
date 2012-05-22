@@ -1,9 +1,9 @@
 dependencies = {
 	action: "clean,release",
-	version: "bba-3.0",
+	version: "bba-4.0",
 	releaseName: "bba-temp",
 	stripConsole: "normal",
-	selectorEngine:"acme",
+	selectorEngine: "acme",
 	optimize: "shrinksafe",
 	layerOptimize: "shrinksafe",
 	copyTests: "false",
@@ -41,9 +41,12 @@ dependencies = {
                 "dijit/form/SimpleTextarea",
 
                 "dojox/data/QueryReadStore",
+                "dojox/form/Uploader",
+                "dojox/form/uploader/plugins/IFrame",
                 "dojox/grid/DataGrid",
                 "dojox/grid/_CheckBoxSelector",
-                "dojox/widget/Wizard"
+                "dojox/widget/Wizard",
+                "dojox/widget/Standby"
 			]
         }
     ],

@@ -16,6 +16,21 @@
                     <th>LoA Expiry Date:</th>
                     <td><?php echo $this->formatDate($this->client->client_dateExpiryLoa); ?></td>
                 </tr>
+                 <tr>
+                    <th>LoA Doc:</th>
+                    <td>
+                        <?php echo $this->DocLoa($this->client)->getCurrentFile(); ?>
+                        <?php if ($files = $this->DocLoa($this->client)->getFileList()): ?>
+                        <button dojoType="dijit.form.Button"
+                                type="button"
+                                onClick="dijit.byId('fileList').show();">
+                            Show More ...
+                        </button>
+                        <?php endif; ?>
+                        <div>&nbsp;</div>
+                    </td>
+                </tr>
+
                 <?php if ($this->isAllowed('User')): ?>
                 <tr>
                     <td class="footer" colspan="2">
@@ -31,6 +46,15 @@
                 </tr>
                 <?php endif; ?>
             </table>
+
+            <?php
+                if ($files):
+                    echo $this->partial('filelist.phtml', array(
+                        'row' => $this->client,
+                        'files' => $files
+                    ));
+                endif;
+            ?>
 
             <table class="info_wrap ident">
                 <caption>Description</caption>

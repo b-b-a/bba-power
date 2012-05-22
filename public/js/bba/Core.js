@@ -164,10 +164,6 @@ define("bba/Core",
                     }
 
                     dialog.show();
-
-                    if (options.deferredFunction) {
-                        options.deferredFunction;
-                    }
                 },
                 error: function(error) {
                     bba.showXhrError(error);
@@ -190,10 +186,12 @@ define("bba/Core",
             });
         },
 
-        closeDialog : function(dialog)
+        closeDialog : function(dialog, funct)
         {
             dialog.hide();
             dialog.destroyRecursive();
+
+            if (funct) funct;
         },
 
         errorDialog : function(data)

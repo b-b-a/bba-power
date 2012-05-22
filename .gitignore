@@ -1,9 +1,13 @@
+/*.log
 application/configs/db.ini
 assets/*
 !assets/htaccess
-scripts/*
-nbproject/*
-/*.log
+bba-power-docs/client_docLoa/*
+!bba-power-docs/client_docLoa/donotremove
+bba-power-docs/contract_docAnalysis/*
+!bba-power-docs/contract_docAnalysis/donotremove
+bba-power-docs/contract_docTermination/*
+!bba-power-docs/contract_docTermination/donotremove
 data/cache/*
 !data/cache/donotremove
 !data/cache/db
@@ -11,6 +15,8 @@ data/cache/db/*
 !data/cache/db/donotremove
 data/logs/*
 !data/logs/donotremove
+nbproject/*
 public/.htaccess
+scripts/*
 tests/tmp/db/*
 tests/tmp/session/*

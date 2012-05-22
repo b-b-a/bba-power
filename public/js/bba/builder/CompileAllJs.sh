@@ -22,6 +22,9 @@ echo "Copy new files accross..."
 
 mkdir -v --parents bba/dojox/grid/resources/images/
 mkdir -v --parents bba/dojox/widget/Wizard/
+mkdir -v --parents bba/dojox/widget/Standby/images/
+
+cp -vr bba-temp/dojox/widget/Standby/images/ bba/dojox/widget/Standby
 
 cp -vr bba-temp/dojox/widget/Wizard/Wizard.css bba/dojox/widget/Wizard/Wizard.css
 

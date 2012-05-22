@@ -664,9 +664,6 @@ div.dijitArrowButton {
 		dijit.ProgressBar
  ****/
 
-.dijitProgressBar {
-    z-index: 0; /* so z-index settings below have no effect outside of the ProgressBar */
-}
 .dijitProgressBarEmpty {
 	/* outer container and background of the bar that's not finished yet*/
 	position:relative;overflow:hidden;
@@ -807,7 +804,6 @@ body .dijitAlignClient { position: absolute; }
 .dijitBorderContainer, .dijitBorderContainerNoGutter {
 	position:relative;
 	overflow: hidden;
-    z-index: 0; /* so z-index settings below have no effect outside of the BorderContainer */
 }
 
 .dijitBorderContainerPane,
@@ -978,12 +974,6 @@ body .dijitAlignClient { position: absolute; }
 	/* TitlePane that cannot be toggled */
 	cursor: default;
 }
-.dijitFixedOpen .dijitArrowNode, .dijitFixedOpen .dijitArrowNodeInner,
-.dijitFixedClosed .dijitArrowNode, .dijitFixedClosed .dijitArrowNodeInner{
-	/* don't show the open close icon, it makes the user think the pane is closable*/
-	display: none;
-}
-
 .dijitTitlePaneTitle * {
 	vertical-align: middle;
 }
@@ -1297,27 +1287,8 @@ body .dijitAlignClient { position: absolute; }
 	cursor: default;	/* because pressing it has no effect */
 }
 
-/***
-TabContainer
+/* TabContainer */
 
-Main class hierarchy:
-
-.dijitTabContainer - the whole TabContainer
-   .dijitTabController / .dijitTabListContainer-top - wrapper for tab buttons, scroll buttons
-      .dijitTabListWrapper / .dijitTabContainerTopStrip - outer wrapper for tab buttons (normal width)
-          .nowrapTabStrip / .dijitTabContainerTop-tabs - inner wrapper for tab buttons (50K width)
-   .dijitTabPaneWrapper - wrapper for content panes, has all borders except the one between content and tabs
-***/
-
-.dijitTabContainer {
-    z-index: 0; /* so z-index settings below have no effect outside of the TabContainer */
-    overflow-y: visible; /* prevent off-by-one-pixel errors from hiding bottom border (opposite tab labels) */
-}
-.dj_ie6 .dijitTabContainer {
-    /* workaround IE6 problem when tall content overflows TabContainer, see editor/test_FullScreen.html */
-   overflow: hidden;
-
-}
 .dijitTabContainerNoLayout {
 	width: 100%;	/* otherwise ScrollingTabController goes to 50K pixels wide */
 }
@@ -1326,13 +1297,9 @@ Main class hierarchy:
 .dijitTabContainerTop-tabs,
 .dijitTabContainerLeft-tabs,
 .dijitTabContainerRight-tabs {
-    z-index: 1;
 	overflow: visible !important;  /* so tabs can cover up border adjacent to container */
 }
 
-.dijitTabController {
-    z-index: 1;
-}
 .dijitTabContainerBottom-container,
 .dijitTabContainerTop-container,
 .dijitTabContainerLeft-container,
@@ -1346,11 +1313,9 @@ Main class hierarchy:
 	display: block;
 	position: relative;
     text-align: left;  /* just in case ancestor has non-standard setting */
-    z-index: 1;
 }
 .dijitTabListWrapper {
 	overflow: hidden;
-    z-index: 1;
 }
 
 .dijit_a11y .tabStripButton img {

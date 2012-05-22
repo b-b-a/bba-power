@@ -108,8 +108,24 @@ define("bba/Contract",
             ]
         },
 
+        numberComparison : function (a, b) {
+            a = Number(a);
+            b = Number(b);
+            if (a < b){
+                return -1
+            } else if (a > b) {
+                return 1;
+            } else {
+                return 0;
+            }
+        },
+
         preselectMeters : function(grid, id, items)
         {
+            contractMeterStore.comparatorMap = {};
+            contractMeterStore.comparatorMap["meter_idMeter"] = bba.Contract.numberComparison;
+            contractMeterStore.comparatorMap["contract_idContract"] = bba.Contract.numberComparison;
+            
             array.forEach(items, function(item){
                 if (item.contract_idContract == id) {
                     grid.selection.addToSelection(item)

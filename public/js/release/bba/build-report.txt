@@ -1,4 +1,4 @@
-Build started: Tue Feb 14 2012 19:42:21 GMT-0000 (GMT)
+Build started: Mon May 21 2012 13:21:53 GMT+0100 (BST)
 Build application version: 1.7.0dev (23930)
 Messages:
 info(100) Assumed module uses legacy loader API.
@@ -189,6 +189,7 @@ info(100) Assumed module uses legacy loader API.
 	module: dojox/lang/aspect/timer
 	module: dojox/layout/ext-dijit/layout/StackContainer-touch
 	module: dojox/mobile/app/List
+	module: dojox/widget/UpgradeBar
 	module: dojox/layout/dnd/Avatar
 	module: dojox/data/demos/widgets/FileView
 	module: dojox/drawing/annotations/Arrow
@@ -227,7 +228,6 @@ info(101) Using dojo/loadInit plugin for module.
 	module: dojox/cometd/RestChannels
 info(102) Optimizing module
 	module: dijit/MenuBar
-	module: dijit/Viewport
 	module: dijit/_editor/range
 	module: dijit/Dialog
 	module: dijit/form/Slider
@@ -245,7 +245,6 @@ info(102) Optimizing module
 	module: dijit/form/SimpleTextarea
 	module: dijit/form/MultiSelect
 	module: dijit/tree/model
-	module: dijit/tree/ObjectStoreModel
 	module: dijit/tree/ForestStoreModel
 	module: dijit/_Calendar
 	module: dijit/layout/SplitContainer
@@ -460,7 +459,6 @@ info(102) Optimizing module
 	module: dojox/form/RangeSlider
 	module: dojox/grid/enhanced/plugins/_SelectionPreserver
 	module: dojox/grid/enhanced/plugins/Search
-	module: dojox/color/SimpleColorModel
 	module: dojox/cometd/HttpChannels
 	module: dojox/grid/enhanced/plugins/exporter/_ExportWriter
 	module: dojox/form/FileInputAuto
@@ -500,7 +498,6 @@ info(102) Optimizing module
 	module: dojox/dtl/_DomTemplated
 	module: dojox/widget/CalendarViews
 	module: dojox/data/PicasaStore
-	module: dojox/mobile/dh/SuffixFileTypeMap
 	module: dojox/data/QueryReadStore
 	module: dojox/mobile/app/SceneController
 	module: dojox/store/LightstreamerStore
@@ -589,7 +586,6 @@ info(102) Optimizing module
 	module: dojox/lang/aspect/cflow
 	module: dojox/timing/Streamer
 	module: dojox/atom/widget/FeedEntryEditor
-	module: dojox/mobile/dh/StringDataSource
 	module: dojox/gauges/AnalogIndicatorBase
 	module: dojox/encoding/crypto/_base
 	module: dojox/dtl/render/dom
@@ -636,7 +632,6 @@ info(102) Optimizing module
 	module: dojox/dtl/filter/misc
 	module: dojox/geo/charting/_base
 	module: dojox/validate/us
-	module: dojox/mobile/dh/HtmlContentHandler
 	module: dojox/mobile/_ListTouchMixin
 	module: dojox/lang/functional/listcomp
 	module: dojox/charting/scaler/common
@@ -649,7 +644,6 @@ info(102) Optimizing module
 	module: dojox/grid/_RowManager
 	module: dojox/grid/Selection
 	module: dojox/date/hebrew
-	module: dojox/color/NeutralColorModel
 	module: dojox/editor/plugins/SpellCheck
 	module: dojox/data/StoreExplorer
 	module: dojox/widget/AutoRotator
@@ -727,7 +721,6 @@ info(102) Optimizing module
 	module: dojox/gauges/GlossyCircularGaugeBase
 	module: dojox/grid/_EditManager
 	module: dojox/data/ServiceStore
-	module: dojox/widget/_Invalidating
 	module: dojox/wire/demos/TableContainer
 	module: dojox/gantt/GanttTaskItem
 	module: dojox/charting/plot2d/Default
@@ -744,7 +737,6 @@ info(102) Optimizing module
 	module: dojox/xml/widgetParser
 	module: dojox/charting/action2d/ChartAction
 	module: dojox/charting/DataChart
-	module: dojox/widget/Selection
 	module: dojox/charting/themes/BlueDusk
 	module: dojox/mobile/common
 	module: dojox/wire/ml/Action
@@ -817,7 +809,6 @@ info(102) Optimizing module
 	module: dojox/grid/cells/_base
 	module: dojox/gfx/path
 	module: dojox/encoding/crypto/Blowfish
-	module: dojox/mobile/ScreenSizeAware
 	module: dojox/wire/ml/JsonHandler
 	module: dojox/gesture/Base
 	module: dojox/analytics/plugins/mouseClick
@@ -828,7 +819,6 @@ info(102) Optimizing module
 	module: dojox/data/AndOrReadStore
 	module: dojox/xmpp/xmppSession
 	module: dojox/fx/Shadow
-	module: dojox/mobile/Badge
 	module: dojox/dtl/tag/loop
 	module: dojox/form/manager/_DisplayMixin
 	module: dojox/encoding/base64
@@ -865,7 +855,6 @@ info(102) Optimizing module
 	module: dojox/charting/Chart2D
 	module: dojox/editor/plugins/PrettyPrint
 	module: dojox/geo/charting/Map
-	module: dojox/mobile/dh/PatternFileTypeMap
 	module: dojox/drawing/stencil/_Base
 	module: dojox/drawing/stencil/Rect
 	module: dojox/charting/themes/Minty
@@ -907,7 +896,6 @@ info(102) Optimizing module
 	module: dojox/dtl/filter/strings
 	module: dojox/grid/_Scroller
 	module: dojox/lang/functional/multirec
-	module: dojox/treemap/TreeMap
 	module: dojox/fx/text
 	module: dojox/lang/aspect/memoizer
 	module: dojox/widget/rotator/Slide
@@ -933,7 +921,6 @@ info(102) Optimizing module
 	module: dojox/mobile/sniff
 	module: dojox/data/RailsStore
 	module: dojox/grid/TreeSelection
-	module: dojox/mobile/Pane
 	module: dojox/mobile/RoundRectCategory
 	module: dojox/charting/plot2d/Lines
 	module: dojox/drawing/plugins/tools/Iconize
@@ -951,7 +938,6 @@ info(102) Optimizing module
 	module: dojox/form/DropDownSelect
 	module: dojox/charting/scaler/primitive
 	module: dojox/mobile/app/SceneAssistant
-	module: dojox/mobile/dh/UrlDataSource
 	module: dojox/grid/enhanced/plugins/Exporter
 	module: dojox/help/console
 	module: dojox/charting/themes/PrimaryColors
@@ -960,7 +946,6 @@ info(102) Optimizing module
 	module: dojox/sketch/LeadAnnotation
 	module: dojox/editor/plugins/InsertAnchor
 	module: dojox/data/XmlItem
-	module: dojox/mobile/Container
 	module: dojox/html/styles
 	module: dojox/mvc/Bind
 	module: dojox/encoding/crypto/SimpleAES
@@ -970,10 +955,8 @@ info(102) Optimizing module
 	module: dojox/mdnd/Moveable
 	module: dojox/charting/plot2d/StackedColumns
 	module: dojox/drawing/plugins/_Plugin
-	module: dojox/treemap/ScaledLabel
 	module: dojox/html/metrics
 	module: dojox/io/xhrScriptPlugin
-	module: dojox/analytics/plugins/touchPress
 	module: dojox/sql/_base
 	module: dojox/charting/plot2d/Stacked
 	module: dojox/grid/enhanced/plugins/GridSource
@@ -1006,7 +989,6 @@ info(102) Optimizing module
 	module: dojox/dtl/_base
 	module: dojox/charting/axis2d/Default
 	module: dojox/charting/plot2d/ClusteredBars
-	module: dojox/analytics/plugins/gestureEvents
 	module: dojox/gfx/canvas
 	module: dojox/editor/plugins/Smiley
 	module: dojox/rpc/Service
@@ -1014,9 +996,7 @@ info(102) Optimizing module
 	module: dojox/gfx/vml
 	module: dojox/editor/plugins/_SpellCheckParser
 	module: dojox/wire/TableAdapter
-	module: dojox/mobile/_ExecScriptMixin
 	module: dojox/gfx/canvas_attach
-	module: dojox/color/api/ColorModel
 	module: dojox/drawing/stencil/Line
 	module: dojox/gfx/Mover
 	module: dojox/charting/themes/common
@@ -1024,7 +1004,6 @@ info(102) Optimizing module
 	module: dojox/date/posix
 	module: dojox/charting/Chart
 	module: dojox/date/hebrew/Date
-	module: dojox/mobile/dh/JsonContentHandler
 	module: dojox/editor/plugins/TextColor
 	module: dojox/geo/charting/widget/Legend
 	module: dojox/charting/action2d/MouseIndicator
@@ -1041,7 +1020,6 @@ info(102) Optimizing module
 	module: dojox/charting/themes/Shrooms
 	module: dojox/charting/plot2d/StackedLines
 	module: dojox/lang/typed
-	module: dojox/treemap/GroupLabel
 	module: dojox/editor/plugins/PasteFromWord
 	module: dojox/geo/openlayers/Patch
 	module: dojox/drawing/tools/custom/Equation
@@ -1053,7 +1031,6 @@ info(102) Optimizing module
 	module: dojox/collections/SortedList
 	module: dojox/charting/plot2d/Pie
 	module: dojox/geo/openlayers/Geometry
-	module: dojox/color/MeanColorModel
 	module: dojox/drawing/library/greek
 	module: dojox/data/css
 	module: dojox/widget/Rotator
@@ -1093,7 +1070,6 @@ info(102) Optimizing module
 	module: dojox/grid/enhanced/plugins/exporter/CSVWriter
 	module: dojox/widget/Calendar
 	module: dojox/mobile/SpinWheelDatePicker
-	module: dojox/mobile/dh/DataHandler
 	module: dojox/form/manager/_ValueMixin
 	module: dojox/gfx/move
 	module: dojox/drawing/manager/Canvas
@@ -1125,7 +1101,6 @@ info(102) Optimizing module
 	module: dojox/charting/themes/Bahamation
 	module: dojox/layout/TableContainer
 	module: dojox/mobile/Slider
-	module: dojox/treemap/DrillDownUp
 	module: dojox/validate/check
 	module: dojox/html/entities
 	module: dojox/widget/Roller
@@ -1145,7 +1120,6 @@ info(102) Optimizing module
 	module: dojox/mobile/EdgeToEdgeCategory
 	module: dojox/geo/charting/_Marker
 	module: dojox/lang/utils
-	module: dojox/treemap/_utils
 	module: dojox/sketch/UndoStack
 	module: dojox/jq
 	module: dojox/mvc/_base
@@ -1182,7 +1156,6 @@ info(102) Optimizing module
 	module: dojox/widget/UpgradeBar
 	module: dojox/gauges/GlossyHorizontalGauge
 	module: dojox/mdnd/PureSource
-	module: dojox/analytics/plugins/touchMove
 	module: dojox/charting/plot2d/Grid
 	module: dojox/layout/ToggleSplitter
 	module: dojox/highlight/languages/sql
@@ -1205,7 +1178,6 @@ info(102) Optimizing module
 	module: dojox/drawing/annotations/Arrow
 	module: dojox/highlight/languages/css
 	module: dojox/grid/EnhancedGrid
-	module: dojox/mobile/lazyLoadUtils
 	module: dojox/charting/themes/Wetland
 	module: dojox/data/JsonQueryRestStore
 	module: dojox/drawing/manager/Anchors
@@ -1223,12 +1195,9 @@ info(102) Optimizing module
 	module: dojox/grid/enhanced/plugins/AutoScroll
 	module: dojox/grid/enhanced/plugins/filter/_DataExprs
 	module: dojox/drawing/plugins/drawing/Grid
-	module: dojox/mobile/dh/ContentTypeMap
 	module: dojox/charting/action2d/PlotAction
 	module: dojox/grid/util
 	module: dojox/grid/enhanced/plugins/Filter
-	module: dojox/mobile/dh/HtmlScriptContentHandler
-	module: dojox/treemap/Keyboard
 	module: dojox/xmpp/RosterService
 	module: dojox/robot/recorder
 	module: dojox/encoding/digests/MD5
@@ -1281,7 +1250,6 @@ info(102) Optimizing module
 	module: dojox/form/manager/_FormMixin
 	module: dojox/drawing/manager/_registry
 	module: dojox/collections/ArrayList
-	module: dojox/mobile/iconUtils
 	module: dojox/grid/enhanced/plugins/Dialog
 	module: dojox/highlight/languages/pygments/css
 	module: dojox/drawing/ui/Tooltip
@@ -1404,7 +1372,6 @@ info(102) Optimizing module
 	module: dojo/store/DataStore
 	module: dojo/_base/lang
 	module: dojo/DeferredList
-	module: dojo/sniff
 	module: dojo/io-query
 	module: dojo/cldr/monetary
 	module: dojo/dom-geometry
@@ -1468,9 +1435,9 @@ info(102) Optimizing module
 	module: dojo/parser
 	module: dojox/cometd/RestChannels-loadInit
 info(107) Package Version:
-	package: dijit; version: 1.8.0dev
-	package: dojox; version: 1.8.0dev
-	package: dojo; version: 1.8.0dev
+	package: dijit; version: 1.7.1
+	package: dojox; version: 1.7.1
+	package: dojo; version: 1.7.1
 info(108) Interning strings.
 	module: dojox/secure/DOM
 	module: dojox/storage
@@ -1694,10 +1661,7 @@ info(108) Interning strings.
 	module: dojox/drawing/Drawing
 	module: dojox/drawing/ui/dom/Zoom
 	module: dojox/wire/ml/Data
-warn(205) Module not tagged as pure AMD yet it contains AMD API applications.
-	module: dojox/widget/UpgradeBar
 warn(216) dojo/has plugin resource could not be resolved during build-time.
-	plugin resource id: touch?dojox/gesture/tap; reference module id: dojox/treemap/DrillDownUp
 	plugin resource id: dojo-firebug?./_firebug/firebug; reference module id: dojo/main
 	plugin resource id: dom-addeventlistener?:./aspect; reference module id: dojo/on
 warn(217) the clean action has been removed; use rm (*nix) or rmdir (Windows)
@@ -1706,7 +1670,6 @@ Layer Contents:
 dojo/dojo:
 	dijit/form/nls/validate
 	dijit/templates/CheckedMenuItem.html
-	dojo/sniff
 	dijit/form/TextBox
 	dojo/dom-geometry
 	dojox/grid/DataGrid
@@ -1733,6 +1696,7 @@ dojo/dojo:
 	dijit/form/_ComboBoxMenuMixin
 	dojo/parser
 	dojox/grid/_RowSelector
+	dojox/form/Uploader
 	dojox/widget/Wizard/Wizard.html
 	dojo/dnd/Manager
 	dijit/form/ToggleButton
@@ -1823,6 +1787,7 @@ dojo/dojo:
 	dojox/grid/_Grid
 	dojo/_base/config
 	dojo/_base/browser
+	dojox/form/uploader/plugins/HTML5
 	dojo/_base/kernel
 	dojox/grid/resources/_Grid.html
 	dijit/layout/StackContainer
@@ -1841,6 +1806,7 @@ dojo/dojo:
 	dijit/_KeyNavContainer
 	dijit/layout/utils
 	dijit/_Contained
+	dojox/widget/Standby
 	dijit/form/DataList
 	dijit/templates/Dialog.html
 	dijit/form/CheckBox
@@ -1874,9 +1840,11 @@ dojo/dojo:
 	dijit/form/_FormWidget
 	dojo/_base/Color
 	dojo/dnd/common
+	dojox/form/nls/Uploader
 	dojox/grid/_Events
 	dijit/CheckedMenuItem
-	dijit/Viewport
+	dojo/io/iframe
+	dojox/form/uploader/plugins/IFrame
 	dojo/topic
 	dojox/grid/util
 	dijit/form/_ComboBoxMenu
@@ -1894,7 +1862,10 @@ dojo/dojo:
 	dojo/touch
 	dojox/grid/DataSelection
 	dijit/form/nls/ComboBox
+	dojo/fx
+	dojox/form/uploader/Base
 	dojox/grid/_SelectionPreserver
+	dojox/form/resources/Uploader.html
 	dojo/dom-form
 	dijit/_DialogMixin
 	dijit/nls/common
@@ -1904,5 +1875,5 @@ dojo/dojo:
 
 Process finished normally
 	errors: 0
-	warnings: 5
-	build time: 71.49 seconds
+	warnings: 3
+	build time: 64.299 seconds

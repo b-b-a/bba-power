@@ -1,0 +1,30 @@
+
+<div dojoType="dijit.Dialog" id="fileList" title="File List">
+    <div class="dijitDialogPaneContentArea" style="text-align: center;">
+        <table class="filelistTable">
+
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>File</th>
+            </tr>
+
+            <?php foreach ($this->files as $file): ?>
+            <tr>
+                <td><?php echo $file['date']; ?></td>
+                <td><?php echo $file['time']; ?></td>
+                <td>
+                    <?php echo $file['normalise']; ?>
+                    <?php echo $this->DocLoa($this->row)->makeButton($file); ?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+
+        </table>
+    </div>
+    <div class="dijitDialogPaneActionBar">
+        <button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('fileList').hide();">
+            Close
+        </button>
+    </div>
+</div>

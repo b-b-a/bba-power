@@ -66,7 +66,7 @@ class Power_Form_Client_Save extends ZendSF_Dojo_Form_Abstract
 
     public function init()
     {
-        //$this->setName('client');
+        $this->setName('client');
 
         $this->setAttrib('enctype', 'multipart/form-data');
 
@@ -141,18 +141,23 @@ class Power_Form_Client_Save extends ZendSF_Dojo_Form_Abstract
             ));
         }
 
-/*        $this->addElement('file','client_docLoa', array(
-            'label' => 'Upload Letter of Authority:',
-            'destination' => realpath(APPLICATION_PATH . '/../data/loa'),
-            'validators' => array(
+        $this->addElement('file','client_docLoa', array(
+            'label'         => 'Upload LoA:',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'validators'    => array(
                 array('Count', false, array(1)),
-                array('Size', false, array(1048576*5)),
                 array('Extension', false, array('pdf')),
             ),
-            'decorators' => $this->_fileDecorators
+            'destination'   => realpath(APPLICATION_PATH . '/../bba-power-docs/client_docLoa'),
+            'decorators'    => $this->_fileDecorators,
+            'required'      => false,
+            'attribs'       => array(
+                'data-dojo-type'    => 'dojox.form.Uploader',
+                'data-dojo-id'      => 'client_docLoa',
+                'data-dojo-props'   => "isDebug:true, label: 'Choose LoA File', showInput: 'before'",
+                'force'             => "iframe"
+            )
         ));
-*/
-
 
         $this->addElement('ValidationTextBox', 'client_dateExpiryLoa', array(
             'label'         => 'LoA Expiry Date:',
@@ -170,7 +175,7 @@ class Power_Form_Client_Save extends ZendSF_Dojo_Form_Abstract
             'attribs'       => array('style' => 'width: 80px;')
         ));
 
-        $this->addElement('SimpleTextarea', 'client_desc', array(
+        $this->addElement('ZendSFDojoSimpleTextarea', 'client_desc', array(
             'label'         => 'Description:',
             'required'      => false,
             'filters'       => array('StripTags', 'StringTrim'),

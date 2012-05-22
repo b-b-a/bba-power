@@ -129,7 +129,7 @@ class Power_UserController extends Zend_Controller_Action
             $user = $this->_model->getUserById($this->_request->getParam('user_idUser'));
 
             $form = $this->_getUserForm();
-            $form->populate($user->toArray())
+            $form->populate($user->toArray(true))
                 ->getElement('user_password')
                 ->setValue('')
                 ->setRequired(false);

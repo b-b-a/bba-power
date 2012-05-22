@@ -153,7 +153,7 @@ class Power_SiteController extends Zend_Controller_Action
         if ($request->getParam('site_idSite') && $request->isPost()
                 && $request->isXmlHttpRequest()) {
 
-            $site = $this->_model->getSiteDetailsById($request->getPost('site_idSite'));
+            $site = $this->_model->getSiteById($request->getPost('site_idSite'));
 
             $form = $this->_getForm('siteEdit', 'save-site');
             $form->populate($site->toArray());

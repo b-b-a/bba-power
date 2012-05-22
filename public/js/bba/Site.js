@@ -37,10 +37,10 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Site",
-    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dojo/data/ItemFileReadStore",
+    ["dojo/dom", "dojo/_base/connect", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dojo/data/ItemFileReadStore",
     "dijit/registry", "bba/Core", "bba/Meter", "bba/Client", "dijit/form/RadioButton", "dijit/form/NumberTextBox",
-    "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea"],
-    function(dom, ready, parser, xhr, ItemFileReadStore, registry, bba) {
+    "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea", "dojox/widget/Standby"],
+    function(dom, connect, ready, parser, xhr, ItemFileReadStore, registry, bba) {
 
     ready(function(){
 
@@ -84,6 +84,7 @@ define("bba/Site",
 
         setupClientSore : function()
         {
+            siteFormStandby.show();
             id = registry.byId("site_idClient").get('value');
 
             bba.Site.clientStore = new ItemFileReadStore({
@@ -91,22 +92,33 @@ define("bba/Site",
             });
 
             bba.Site.clientStore.fetch({
+                onComplete: function() {
+                    siteFormStandby.hide();
+                },
                 onError: function(error, request) {
                     bba.dataStoreError(request.store.url, null);
                 }
             });
 
             registry.byId("site_idClient").set('store', bba.Site.clientStore);
-            registry.byId("site_idClient").set('value', id);
+            registry.byId("site_idClient").set('value', 0);
+
+            connect.connect(registry.byId("site_idClient"), 'onChange', function() {
+                    bba.Site.changeAddress(registry.byId("site_idClient").get('value'));
+            });
         },
 
         getAddressStore : function(val, id)
         {
+            siteFormStandby.show();
             this.addressStore = new ItemFileReadStore({
                 url:'./site/data-store/type/address/clientId/' + id
             })
 
             this.addressStore.fetch({
+                onComplete: function() {
+                    siteFormStandby.hide();
+                },
                 onError: function(error, request) {
                     bba.dataStoreError(request.store.url, null);
                 }
@@ -118,11 +130,15 @@ define("bba/Site",
 
         getBillAddressStore : function(val, id)
         {
+            siteFormStandby.show();
             this.billAddressStore = new ItemFileReadStore({
                 url:'./site/data-store/type/billAddress/clientId/' + id
             })
 
             this.billAddressStore.fetch({
+                onComplete: function() {
+                    siteFormStandby.hide();
+                },
                 onError: function(error, request) {
                     bba.dataStoreError(request.store.url, null);
                 }
@@ -134,6 +150,7 @@ define("bba/Site",
 
         changeAddress : function(val)
         {
+            siteFormStandby.show();
             if (registry.byId("site_idAddress").get('disabled') == true) {
                 registry.byId("site_idAddress").set('disabled', false);
                 registry.byId("site_idClientContact").set('disabled', false);
@@ -152,6 +169,9 @@ define("bba/Site",
             })
 
             this.contactStore.fetch({
+                onComplete: function() {
+                    siteFormStandby.hide();
+                },
                 onError: function(error, request) {
                     bba.dataStoreError(request.store.url, null);
                 }
@@ -220,7 +240,7 @@ define("bba/Site",
                     content: dojo.mixin({type :  'add'}),
                     dialog: 'siteForm',
                     deferredFunction: function() {
-                        //bba.Site.setupClientSore();
+                        bba.Site.setupClientSore();
                     }
                 });
             } else {

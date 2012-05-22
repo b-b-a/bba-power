@@ -61,15 +61,9 @@ class Power_Form_User_Save extends ZendSF_Dojo_Form_Abstract
             'required'  => true
         ));
 
-        $multiOptions = array(
-            0               => 'Select Role',
-            'decline'       => 'Decline',
-            'agent'         => 'Agent',
-            'read'          => 'Read',
-            'meterUsage'    => 'Meter Usage',
-            'user'          => 'User',
-            'admin'         => 'Admin'
-        );
+        $multiOptions = array_merge(array(
+            0 => 'Select Role'
+        ), Power_Model_DbTable_Row_User::getRoles());
 
         $this->addElement('FilteringSelect', 'user_role', array(
             'label'         => 'Role:',

@@ -64,18 +64,6 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
     }
 
     /**
-     * Gets an aggregate of rows connected to this meter.
-     *
-     * @param int $id
-     * @return null|Power_Model_DbTable_Row_Meter
-     */
-    public function getMeterDetailsById($id)
-    {
-        $id = (int) $id;
-        return $this->getDbTable('meter')->getMeterDetails($id);
-    }
-
-    /**
      * Gets the meter data store list, using search parameters.
      *
      * @param array $post

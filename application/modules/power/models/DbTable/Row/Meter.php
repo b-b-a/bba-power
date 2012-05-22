@@ -40,6 +40,11 @@
 class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
 {
     /**
+     * @var Power_Model_DbTable_Row_Site
+     */
+    protected $_site;
+    
+    /**
      * Array of all columns with need date format applied
      * to it when outputting row as an array.
      *
@@ -60,7 +65,7 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
 
     public function getMeter_numberMain()
     {
-        if ($this->getRow()->meter_type == 'gas') {
+        if (!ZendSF_Utility_String::startsWith('electric', $this->getRow()->meter_type)) {
             return $this->getRow()->meter_numberMain;
         }
 
@@ -78,7 +83,7 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
 
     public function getMeter_numberTop()
     {
-        if ($this->getRow()->meter_type == 'gas') {
+        if (!ZendSF_Utility_String::startsWith('electric', $this->getRow()->meter_type)) {
             return $this->getRow()->meter_numberTop;
         }
 
@@ -93,21 +98,32 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
         }
     }
 
+    public function getSite($row=null)
+    {
+        if (!$this->_site instanceof Power_Model_DbTable_Row_Site) {
+            $this->_site = $this->getRow()
+                ->findParentRow( 'Power_Model_DbTable_Site', 'site');
+        }
+
+        return (null === $row) ? $this->_site : $this->_site->$row;
+    }
+
     public function getCurrentContract()
     {
         // find the most recent contract.
-        $select = $this->getRow()->select()->order('contract_dateStart DESC')->limit(1);
+        $select = $this->getRow()->select()
+            ->where('contract_dateStart <= ?', new Zend_Db_Expr('NOW()'))
+            ->order('contract_dateStart DESC')
+            ->limit(1);
 
         return $this->getAllContracts($select)->current();
     }
 
     public function getAllContracts($select = null)
     {
-        $select->joinCross(
-            'meter_contract'
-        )
-        ->where('meter_contract.meterContract_idContract = m.contract_idContract')
-        ->where('meter_contract.meterContract_idMeter = ?', $this->getRow()->meter_idMeter);
+        $select->joinCross('meter_contract')
+            ->where('meter_contract.meterContract_idContract = m.contract_idContract')
+            ->where('meter_contract.meterContract_idMeter = ?', $this->getRow()->meter_idMeter);
 
         return $this->getRow()->findManyToManyRowset(
             'Power_Model_DbTable_Contract',
@@ -140,6 +156,7 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
      * Returns row as an array, with optional date formating.
      *
      * @param string $dateFormat
+     * @param bool $raw
      * @return array
      */
     public function toArray($dateFormat = null, $raw = false)
