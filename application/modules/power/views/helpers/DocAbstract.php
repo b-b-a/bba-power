@@ -124,17 +124,14 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
             return 'No Documents Have Been Uploaded';
         }
 
-        return $this->htmlify(
-            $this->getFilePieces($this->_currentFile)
-        );
+        $file = $this->getFilePieces($this->_currentFile);
+        $link = $this->makeButton($file);
+        return '<p>' . $file['datetime']['date'] . ' ' . $file['datetime']['time']
+            . '<br />' . $file['normalise']
+            . $link . '</p>' . self::EOL;
     }
 
-    public function renderFileList()
-    {
-
-    }
-
-    public function htmlify($file)
+    public function makeButton($file)
     {
         if ($this->_attribs) {
             $attribs = $this->_attribs;
@@ -150,9 +147,12 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
             'view'          => $file['filename']
         ));
         $attribs['target'] = '_blank';
+        $attribs['class'] = 'button';
+        $attribs['style'] = 'display: inline; padding: 3px;';
 
         return '<' . $element . $this->_htmlAttribs($attribs) . '>'
-             . $file['normalise']
-             . '</' . $element . '>' . self::EOL;
+             . 'View'
+             . '</' . $element . '>'
+             . self::EOL;
     }
 }

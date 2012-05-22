@@ -13,7 +13,10 @@
             <tr>
                 <td><?php echo $file['date']; ?></td>
                 <td><?php echo $file['time']; ?></td>
-                <td><?php echo $this->DocLoa($this->row)->htmlify($file); ?></td>
+                <td>
+                    <?php echo $file['normalise']; ?>
+                    <?php echo $this->DocLoa($this->row)->makeButton($file); ?>
+                </td>
             </tr>
             <?php endforeach; ?>
 
