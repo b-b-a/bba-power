@@ -156,12 +156,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         );
     }
 
+    /**
+     * Sets up and adds options config file to the registry. 
+     */
     protected function _initConfig()
     {
         $options = new Zend_Config_Ini(APPLICATION_PATH . '/configs/options.ini');
         Zend_Registry::set('config', $options);
     }
 
+    /**
+     * sets up the View with dojo enabled. 
+     */
     protected function _initViewSettings()
     {
         Zend_Dojo::enableView($this->_view);
@@ -200,6 +206,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $this->_view->headTitle('BBA Power')->setSeparator(' - ');
     }
 
+    /**
+     * Sets up the main menu and adds it to the view navigation container. 
+     */
     protected function _initMenu()
     {
         $menu = new Zend_Config_Xml(APPLICATION_PATH . '/configs/navigation.xml', 'nav');
