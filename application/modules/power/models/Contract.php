@@ -65,12 +65,24 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         return $this->getDbTable('meterContract')->getMeterContractById($meterId, $contractId);
     }
 
+    /**
+     * Get a meter contract by the contract id.
+     * 
+     * @param int $id
+     * @return null|Power_Model_DbTable_Row_Meter_Contract 
+     */
     public function getMeterContractByContractId($id)
     {
         $id = (int) $id;
         return $this->getDbTable('meterContract')->getMeterContractByContractId($id);
     }
 
+    /**
+     * Gets a tender by it's id.
+     * 
+     * @param int $id
+     * @return null|Power_Model_DbTable_Row_Tender
+     */
     public function getTenderById($id)
     {
         $id = (int) $id;
@@ -116,6 +128,12 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         return $store->toJson();
     }
 
+    /**
+     * Gets the meter contract data store list, using search parameters.
+     *
+     * @param array $post
+     * @return string
+     */
     public function getMeterContractDataStore(array $post)
     {
         $sort = $post['sort'];
@@ -134,6 +152,12 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         return $store->toJson();
     }
 
+    /**
+     * Gets the tender data store list, using search parameters.
+     *
+     * @param array $post
+     * @return string
+     */
     public function getTenderDataStore(array $post)
     {
         $sort = $post['sort'];
@@ -152,6 +176,12 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         return $store->toJson();
     }
 
+    /**
+     * Gets the available meters data store list, using contract id.
+     *
+     * @param int $id
+     * @return string
+     */
     public function getAvailableMetersDataStore($id)
     {
         $id = (int) $id;
@@ -258,6 +288,13 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         return $store->toJson();
     }
 
+    /**
+     * Save a contract.
+     * 
+     * @param array $post
+     * @return boolean
+     * @throws ZendSF_Acl_Exception 
+     */
     public function saveContract(array $post)
     {
         if (!$this->checkAcl('saveContract')) {
