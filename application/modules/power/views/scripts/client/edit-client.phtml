@@ -85,7 +85,7 @@
                 <tr>
                     <td>
                         <?php $mainContact = $this->client->getClientContact(); ?>
-                        <?php if ($mainContact->clientCo_idClientContact): ?>
+                        <?php if (isset($mainContact->clientCo_idClientContact)): ?>
                             <?php echo $this->formatAddress(array(
                                 $mainContact->clientCo_name,
                                 $mainContact->clientCo_position,
