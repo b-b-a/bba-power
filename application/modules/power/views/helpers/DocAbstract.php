@@ -126,9 +126,9 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
 
         $file = $this->getFilePieces($this->_currentFile);
         $link = $this->makeButton($file);
-        return '<p>' . $file['datetime']['date'] . ' ' . $file['datetime']['time']
+        return '<span>' . $file['datetime']['date'] . ' ' . $file['datetime']['time']
             . '<br />' . $file['normalise']
-            . $link . '</p>' . self::EOL;
+            . $link . '</span>' . self::EOL;
     }
 
     public function makeButton($file)

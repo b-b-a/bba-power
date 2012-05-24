@@ -308,8 +308,6 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
         // Check if form is valid.
         if (!$form->isValid($post)) {
-            $log = Zend_Registry::get('log');
-            $log->info($post);
 
             if (isset($client_dateExpiryLoaValidateRules)) {
                 $form->getElement('client_dateExpiryLoa')
@@ -333,7 +331,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         // format date for database.
         $dateValue =  ($data['client_dateExpiryLoa'] === '') ? '01-01-1970' : $data['client_dateExpiryLoa'];
         $date = new Zend_Date($dateValue);
-        $date->set($date->toString('yy'), Zend_Date::YEAR_SHORT);
+        $date->set($date, Zend_Date::DATE_SHORT);
         $data['client_dateExpiryLoa'] = $date->toString('yyyy-MM-dd');
 
         if (null === $data['client_docLoa']) {

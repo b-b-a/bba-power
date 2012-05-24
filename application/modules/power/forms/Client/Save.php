@@ -142,7 +142,7 @@ class Power_Form_Client_Save extends ZendSF_Dojo_Form_Abstract
         }
 
         $this->addElement('file','client_docLoa', array(
-            'label'         => 'Upload LoA:',
+            'label'         => 'New LoA Document (pdf):',
             'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Count', false, array(1)),

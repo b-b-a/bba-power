@@ -21,11 +21,9 @@
                     <td>
                         <?php echo $this->DocLoa($this->client)->getCurrentFile(); ?>
                         <?php if ($files = $this->DocLoa($this->client)->getFileList()): ?>
-                        <button dojoType="dijit.form.Button"
-                                type="button"
-                                onClick="dijit.byId('fileList').show();">
+                        <a href="#" onClick="dijit.byId('client<?php echo $this->client->client_idClient; ?>FileList').show(); return false;">
                             Show More ...
-                        </button>
+                        </a>
                         <?php endif; ?>
                         <div>&nbsp;</div>
                     </td>
@@ -51,7 +49,9 @@
                 if ($files):
                     echo $this->partial('filelist.phtml', array(
                         'row' => $this->client,
-                        'files' => $files
+                        'files' => $files,
+                        'id' => $this->client->client_idClient,
+                        'controller' => 'client'
                     ));
                 endif;
             ?>
