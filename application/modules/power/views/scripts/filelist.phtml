@@ -1,5 +1,8 @@
 
-<div dojoType="dijit.Dialog" id="<?php echo $this->controller . $this->id;?>FileList" title="File List">
+<div dojoType="dijit.Dialog"
+     id="<?php echo $this->controller . $this->id;?>FileList"
+     data-dojo-id="<?php echo $this->controller . $this->id;?>FileList"
+     title="File List">
     <div class="dijitDialogPaneContentArea" style="text-align: center;">
         <table class="filelistTable">
 
@@ -23,7 +26,7 @@
         </table>
     </div>
     <div class="dijitDialogPaneActionBar">
-        <button dojoType="dijit.form.Button" type="button" onClick="dijit.byId('fileList').hide();">
+        <button dojoType="dijit.form.Button" type="button" onClick="dijit.byId(<?php echo $this->controller . $this->id;?>FileList).hide();">
             Close
         </button>
     </div>
