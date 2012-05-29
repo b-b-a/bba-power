@@ -232,7 +232,6 @@ p {
 	box-shadow:0px 1px 1px rgba(0,0,0,0.15);
 	-webkit-box-shadow:0px 1px 1px rgba(0,0,0,0.15);
 	-moz-box-shadow: 0px 1px 1px rgba(0,0,0,0.15);
-
     margin: 0px 10px;
     color: #000;
     text-decoration: none;
@@ -240,18 +239,23 @@ p {
     font-family: sans-serif;
 }
 
-#nav a:hover, .button:hover
-{
+#nav a:hover, .button:hover {
     background-color: #afd9ff;
 	color:#000;
  	-webkit-transition-duration:.2s;
 }
 
-#nav a.active
-{
+#nav a.active {
     background-color: #afd9ff;
 	color:#000;
  	-webkit-transition-duration:.2s;
+}
+
+a.view_button {
+    display: inline;
+    margin: 0px 5px;
+    padding: 0px 2px;
+    font-size: 12px;
 }
 
 /**

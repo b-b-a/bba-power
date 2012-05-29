@@ -83,9 +83,9 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
         return $fileArray;
     }
 
-    public function setDocDir($id)
+    public function setDocDir(int $id)
     {
-        $id = (int) fprintf("%06d", $id);
+        $id = sprintf("%06d", $id);
         $this->_docDir = $this->_docDir . '/' . $id;
 
         return $this;
@@ -135,7 +135,7 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
         if (is_file(APPLICATION_PATH . $this->_docDir . '/' . $this->_currentFile)) {
             $file = $this->getFilePieces($this->_currentFile);
             $link = $this->makeButton($file);
-            return '<span>' . $file['datetime']['date'] . ' ' . $file['datetime']['time']
+            return '<span>Stored on:&nbsp;' . $file['datetime']['date'] . ' ' . $file['datetime']['time']
                 . '<br />' . $file['normalise']
                 . $link . '</span>' . self::EOL;
         } else {
@@ -159,8 +159,7 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
             'view'          => $file['filename']
         ));
         $attribs['target'] = '_blank';
-        $attribs['class'] = 'button';
-        $attribs['style'] = 'display: inline; padding: 3px;';
+        $attribs['class'] = 'button view_button';
 
         return '<' . $element . $this->_htmlAttribs($attribs) . '>'
              . 'View'
