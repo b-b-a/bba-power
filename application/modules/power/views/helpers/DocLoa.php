@@ -51,6 +51,7 @@ class Power_View_Helper_DocLoa extends Power_View_Helper_DocAbstract
         );
 
         $this->_id = $row->client_idClient;
+        //$this->setDocDir($this->_id);
 
         return $this;
     }

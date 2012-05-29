@@ -299,7 +299,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         $ts = Zend_Date::now();
 
         $newLoaFileName = join('_', array(
-            $post['client_idClient'],
+            sprintf("%06d", $post['client_idClient']),
             $ts->toString('yyyyMMdd_HHmmss'),
             str_replace(' ', '_', $_FILES['client_docLoa']['name'])
         ));

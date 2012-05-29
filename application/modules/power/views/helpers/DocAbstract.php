@@ -83,6 +83,14 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
         return $fileArray;
     }
 
+    public function setDocDir($id)
+    {
+        $id = (string) $id;
+        $this->_docDir = $this->_docDir . '/' . $id;
+
+        return $this;
+    }
+
     public function getFilePieces($filename)
     {
         $filePieces = explode('_', $filename);

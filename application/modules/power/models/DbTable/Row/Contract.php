@@ -143,7 +143,7 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
             $this->_meterContract = $this->getRow()
                 ->findDependentRowset('Power_Model_DbTable_Meter_Contract', 'contract');
         }
-        
+
         return $this->_meterContract;
     }
 
@@ -153,7 +153,7 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
      * @param string $dateFormat
      * @return array
      */
-    public function toArray($dateFormat = null, $raw = false)
+    public function toArray($dateFormat=null, $raw=false)
     {
         $array = array();
 
