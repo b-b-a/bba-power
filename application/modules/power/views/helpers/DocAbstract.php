@@ -65,7 +65,7 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
             $filename = $file->getFilename();
 
             if ($file->isDot()
-                    || !ZendSF_Utility_String::startsWith($this->_id, $filename)
+                    || !ZendSF_Utility_String::startsWith(sprintf("%06d", $this->_id), $filename)
                     || $filename === $this->_currentFile) {
                 continue;
             }
@@ -74,7 +74,7 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
 
             $fileArray[] = ZendSF_Utility_Array::mergeMultiArray($filePieces);
 
-           $sort[] = $filePieces['datetime']['timestamp'];
+            $sort[] = $filePieces['datetime']['timestamp'];
         }
 
         array_multisort($sort, SORT_DESC, $fileArray);
@@ -85,7 +85,7 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
 
     public function setDocDir($id)
     {
-        $id = (string) $id;
+        $id = (int) fprintf("%06d", $id);
         $this->_docDir = $this->_docDir . '/' . $id;
 
         return $this;
@@ -132,11 +132,15 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
             return 'No Documents Have Been Uploaded';
         }
 
-        $file = $this->getFilePieces($this->_currentFile);
-        $link = $this->makeButton($file);
-        return '<span>' . $file['datetime']['date'] . ' ' . $file['datetime']['time']
-            . '<br />' . $file['normalise']
-            . $link . '</span>' . self::EOL;
+        if (is_file(APPLICATION_PATH . $this->_docDir . '/' . $this->_currentFile)) {
+            $file = $this->getFilePieces($this->_currentFile);
+            $link = $this->makeButton($file);
+            return '<span>' . $file['datetime']['date'] . ' ' . $file['datetime']['time']
+                . '<br />' . $file['normalise']
+                . $link . '</span>' . self::EOL;
+        } else {
+            return '<span class="warning">File Is Missing.</span>' . self::EOL;
+        }
     }
 
     public function makeButton($file)

@@ -622,6 +622,12 @@ Flash Messenger
     background: url('../images/ErrorShield.png') center left no-repeat;
 }
 
+.warning {
+    color: red;
+    padding-left: 16px;
+    background: url('../images/WarningShield.png') center left no-repeat;
+}
+
 .current-eidt, .current-eidt:hover {
     background-color: #bbb;
     color: #eed;
