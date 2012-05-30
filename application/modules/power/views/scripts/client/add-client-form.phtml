@@ -4,17 +4,22 @@
      id="clientForm"
      data-dojo-id="clientForm"
      data-dojo-props="
-        title:'New Client',
-        execute: bba.Client.processClientForm">
+        title:'New Client'">
     <div class="dijitDialogPaneContentArea">
 
         <div class="dialog_title">
-            
+
         </div>
 
         <div id="addClientWidget"
              data-dojo-type="dojox.widget.Wizard"
              data-dojo-props="doneButtonLabel: 'Save'">
+
+            <form method="post" action="<?php echo $this->url(array(
+                'controller'    => 'client',
+                'action'        => 'save-client',
+                'module'        => 'power'
+            ), 'default'); ?>" enctype="multipart/form-data">
 
             <div class="form_wrap wizard">
                 <div data-dojo-type="dojox.widget.WizardPane"
@@ -30,6 +35,7 @@
 
                     <script type="dojo/method" data-dojo-event="onShow">
                         clientForm.attr('title', 'Client Information');
+                        dojo.connect(client_docLoa, "onComplete", bba.Client.processClientForm);
                     </script>
                 </div>
 
@@ -83,22 +89,24 @@
                             alert('Please recheck all form entries for mistakes.');
                             return false;
                         }
-                        var vals = clientForm.get('value');
 
-                        clientForm.execute(vals);
+                        var vals = clientForm.get('value');
+                        client_docLoa.submit(vals);
+                        //clientForm.execute(vals);
                         //clientGrid._refresh();
                     </script>
                 </div>
-                
+
                 <div class="dialog_footer_info">
                     <p class="required"> = required field</p>
                     <p class="warn">Cancel exits without saving</p>
                 </div>
-                
+
             </div>
             <script type="dojo/method" data-dojo-event="cancelFunction">
                 bba.closeDialog(dijit.byId('clientForm'));
             </script>
+            </form>
         </div>
     </div>
 </div>

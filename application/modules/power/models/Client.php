@@ -214,6 +214,9 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         // get filtered values.
         $post = $form->getValues();
 
+        $log = Zend_Registry::get('log');
+        $log->info($post);
+
         $this->getDbTable('client')->getAdapter()->beginTransaction();
 
         try {
@@ -239,6 +242,26 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
             // now update client with address and contact ids.
             // we will have to update docLoa here too.
+            // now we have to rename the docLoa.
+            if ($post['client_docLoa']) {
+                $ts = Zend_Date::now();
+
+                $newLoaFileName = join('_', array(
+                    sprintf("%06d", $clientSave),
+                    $ts->toString('yyyyMMdd_HHmmss'),
+                    str_replace(' ', '_', $_FILES['client_docLoa']['name'])
+                ));
+
+                $baseDir = realpath(APPLICATION_PATH . '/../bba-power-docs/client_docLoa');
+
+                rename(
+                    $baseDir . '/' . $post['client_docLoa'],
+                    $baseDir . '/' . $newLoaFileName
+                );
+
+                $post['client_docLoa'] = $newLoaFileName;
+            }
+
             $post['client_idClient'] = $clientSave;
             $post['client_idAddress'] = $clientAdSave;
             $post['client_idClientContact'] = $clientCoSave;

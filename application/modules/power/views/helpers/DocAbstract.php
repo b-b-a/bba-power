@@ -77,7 +77,10 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
 
         array_multisort($sort, SORT_DESC, $fileArray);
 
-
+        if (count($fileArray) == 1) {
+            $fileArray = array();
+        }
+        
         return $fileArray;
     }
 

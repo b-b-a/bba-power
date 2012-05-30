@@ -70,7 +70,7 @@ html, body {
 }
 
 #addClientWidget {
-    width: 400px;
+    width: 600px;
     height: auto;
     margin: auto;
 }
@@ -258,6 +258,10 @@ a.view_button {
     font-size: 12px;
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 /**
  * Forms
  */
@@ -385,7 +389,7 @@ Form overrides.
 
 .client_edit .label,
 .client_edit p[id$=label] {
-    width: 110px;
+    width: 175px;
 }
 
 .site_edit .label,

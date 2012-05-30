@@ -49,7 +49,7 @@ class Power_Form_Client_Add extends ZendSF_Dojo_Form_Abstract
          * Add Client form elements
          */
         $this->addElement($clientForm->getElement('client_name'));
-        //$this->addElement($clientForm->getElement('client_docLoa'));
+        $this->addElement($clientForm->getElement('client_docLoa'));
         $this->addElement($clientForm->getElement('client_dateExpiryLoa'));
         $this->addElement($clientForm->getElement('client_desc'));
 

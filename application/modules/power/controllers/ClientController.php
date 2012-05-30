@@ -192,9 +192,6 @@ class Power_ClientController extends Zend_Controller_Action
     {
         $request = $this->getRequest();
 
-        $log = Zend_Registry::get('log');
-        $log->info($request->isXmlHttpRequest());
-
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
 
