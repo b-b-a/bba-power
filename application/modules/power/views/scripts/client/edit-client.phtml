@@ -20,9 +20,9 @@
                     <th>LoA Doc:</th>
                     <td>
                         <?php echo $this->DocLoa($this->client)->getCurrentFile(); ?>
-                        <?php if ($files = $this->DocLoa($this->client)->getFileList()): ?>
+                        <?php if ($files = $this->DocLoa($this->client)->getFileList()): ?><br />
                         <a href="#" onClick="dijit.byId('client<?php echo $this->client->client_idClient; ?>FileList').show(); return false;">
-                            Show More ...
+                            Show All ...
                         </a>
                         <?php endif; ?>
                         <div>&nbsp;</div>

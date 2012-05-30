@@ -64,9 +64,7 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
 
             $filename = $file->getFilename();
 
-            if ($file->isDot()
-                    || !ZendSF_Utility_String::startsWith(sprintf("%06d", $this->_id), $filename)
-                    || $filename === $this->_currentFile) {
+            if ($file->isDot() || !ZendSF_Utility_String::startsWith(sprintf("%06d", $this->_id), $filename)) {
                 continue;
             }
 
