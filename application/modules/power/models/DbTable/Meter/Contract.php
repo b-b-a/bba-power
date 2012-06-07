@@ -45,7 +45,7 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
     protected $_name = 'meter_contract';
 
     /**
-     * @var string primary key
+     * @var array compound primary key
      */
     protected $_primary = array('meterContract_idMeter', 'meterContract_idContract');
 

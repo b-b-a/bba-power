@@ -39,14 +39,31 @@
  */
 abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElement
 {
+    /**
+     * @var string
+     */
     protected $_docDir;
 
+    /**
+     * @var string
+     */
     protected $_currentFile;
 
+    /**
+     * @var int
+     */
     protected $_id;
 
+    /**
+     * @var array
+     */
     protected $_attribs;
 
+    /**
+     * Returns all the files associated with a database record.
+     *
+     * @return array
+     */
     public function getFileList()
     {
         $fileArray = array();
@@ -84,6 +101,13 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
         return $fileArray;
     }
 
+    /**
+     * Sets the inner directory to the id of the database record.
+     * Not sure if we want to keep this.
+     *
+     * @param int $id
+     * @return Power_View_Helper_DocAbstract
+     */
     public function setDocDir(int $id)
     {
         $id = sprintf("%06d", $id);
@@ -92,6 +116,13 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
         return $this;
     }
 
+    /**
+     * Split the filename into it's four elements
+     * <id>, <datetime>, <orginal name>, <filename>
+     *
+     * @param type $filename
+     * @return type
+     */
     public function getFilePieces($filename)
     {
         $filePieces = explode('_', $filename);
@@ -106,6 +137,12 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
         );
     }
 
+    /**
+     * Normalises the file name by returning the orginal file name.
+     *
+     * @param array $filePieces
+     * @return string
+     */
     public function normaliseFilename(array $filePieces)
     {
         $file = array_splice($filePieces, 3);
@@ -127,6 +164,12 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
         );
     }
 
+    /**
+     * Get the current file status and contruct an HTML link
+     * to view it.
+     *
+     * @return string
+     */
     public function getCurrentFile()
     {
         if (!$this->_currentFile) {
@@ -144,6 +187,12 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
         }
     }
 
+    /**
+     * Contructs a link button to view pdf view.
+     *
+     * @param array $file
+     * @return string
+     */
     public function makeButton($file)
     {
         if ($this->_attribs) {
@@ -152,13 +201,15 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
             $attribs = array();
         }
 
+        $className = $this->_getNamespace();
+
         $element = 'a';
         $attribs['href'] = $this->view->url(array(
             'module'        => 'power',
             'controller'    => $this->view->request()->getControllerName(),
             'action'        => 'doc',
             'view'          => $file['filename'],
-            'doc'           => lcfirst(end($this->_getNamespace()))
+            'doc'           => lcfirst(end($className))
         ));
         $attribs['target'] = '_blank';
         $attribs['class'] = 'button view_button';
@@ -169,6 +220,11 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
              . self::EOL;
     }
 
+    /**
+     * Gets the class namespace.
+     *
+     * @return array
+     */
     protected function _getNamespace()
     {
         $ns = explode('_', get_class($this));

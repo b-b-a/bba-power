@@ -288,7 +288,15 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         return $store->toJson();
     }
 
-    protected function _addUploadFilter($element, $id)
+    /**
+     * Adds a filter to the doc upload form.
+     * Renames file to row <id>_<timestamp>_<original filename>.
+     *
+     * @param Zend_Form_Element_File $element
+     * @param int $id
+     * @return Power_Model_Contract
+     */
+    protected function _addUploadFilter(Zend_Form_Element_File $element, $id)
     {
         $ts = Zend_Date::now();
 
@@ -319,11 +327,13 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         $form = $this->getForm('contractSave');
         $docForm = $this->getForm('contractDoc');
 
+        // validate all forms.
         if (!$form->isValid($post) || !$docForm->isValid($post)) {
             return false;
         }
 
-        // get filtered values
+        // get filtered values from main form,
+        // we will want to save the docForm till later.
         $data = $form->getValues();
 
         $dateKeys = array(
@@ -331,6 +341,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             'contract_dateEnd'
         );
 
+        // run through all values formatting them to database schema.
         foreach ($data as $key => $value) {
             if (in_array($key, $dateKeys)) {
                 if ($value === '') $value = '01-01-1970';
@@ -357,6 +368,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             return $id;
         }
 
+        // add filters to the docForm.
         $this->_addUploadFilter(
             $docForm->getElement('contract_docAnalysis'),
             $id
@@ -365,8 +377,11 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             $id
         );
 
+        // get filtered values.
         $data = $docForm->getValues();
 
+        // remove any field that didn't get an uploaded file
+        // as we don't want to overwrite current files with an empty string.
         foreach ($data as $key => $value) {
             if (null === $data[$key]) {
                 unset($data[$key]);
@@ -377,6 +392,13 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             ->saveRow($data, $this->getContractById($id)) : $id;
     }
 
+    /**
+     * Saves meters to a contract.
+     *
+     * @param array $post
+     * @return mixed false|int
+     * @throws ZendSF_Acl_Exception
+     */
     public function saveMetersToContract(array $post)
     {
         if (!$this->checkAcl('saveMetersToContract')) {
@@ -428,6 +450,13 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         return $result;
     }
 
+    /**
+     * Saves a contract tender.
+     *
+     * @param array $post
+     * @return boolean
+     * @throws ZendSF_Acl_Exception
+     */
     public function saveTender(array $post)
     {
         if (!$this->checkAcl('saveTender')) {

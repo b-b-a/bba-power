@@ -352,7 +352,6 @@ define("bba/Contract",
             bba.closeDialog(contractForm);
 
             data = arguments[0];
-            console.log(data);
 
             dom.byId('dialog').innerHTML = data.html;
             parser.parse('dialog');

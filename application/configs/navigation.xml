@@ -31,6 +31,12 @@
             <controller>supplier</controller>
             <resource>Read</resource>
         </supplier>
+        <invoice>
+            <label>Invoicing</label>
+            <action>index</action>
+            <controller>invoice</controller>
+            <resource>Admin</resource>
+        </invoice>
         <users>
             <label>Users</label>
             <action>index</action>
