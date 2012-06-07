@@ -153,7 +153,7 @@ class Power_Form_Client_Save extends ZendSF_Dojo_Form_Abstract
             'attribs'       => array(
                 'data-dojo-type'    => 'dojox.form.Uploader',
                 'data-dojo-id'      => 'client_docLoa',
-                'data-dojo-props'   => "isDebug:true, label: 'Choose LoA File', showInput: 'before'",
+                'data-dojo-props'   => "label: 'Choose LoA File', showInput: 'before'",
                 'force'             => "iframe"
             )
         ));

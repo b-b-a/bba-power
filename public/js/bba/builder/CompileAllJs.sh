@@ -7,13 +7,13 @@ echo "remove old bba folder"
 
 rm -fr bba
 
-cd ../util/buildscripts
+#cd ../util/buildscripts
 
 echo $PWD
 
-./build.sh profile=../../bba/builder/bba.profile.js
+../util/buildscripts/build.sh profile=../bba/builder/bba.profile.js
 
-cd ../../release
+#cd ../../release
 
 echo $PWD
 echo "Cleaning up..."

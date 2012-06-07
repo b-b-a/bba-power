@@ -90,7 +90,7 @@ define("bba/User",
 
         processUserForm : function()
         {
-            bba.closeDialog(userForm);
+            //bba.closeDialog(userForm);
 
             values = arguments[0];
             values.type = (values.user_idUser) ? 'edit' : 'add';

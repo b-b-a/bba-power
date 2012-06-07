@@ -80,7 +80,7 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
         if (count($fileArray) == 1) {
             $fileArray = array();
         }
-        
+
         return $fileArray;
     }
 
@@ -157,7 +157,8 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
             'module'        => 'power',
             'controller'    => $this->view->request()->getControllerName(),
             'action'        => 'doc',
-            'view'          => $file['filename']
+            'view'          => $file['filename'],
+            'doc'           => lcfirst(end($this->_getNamespace()))
         ));
         $attribs['target'] = '_blank';
         $attribs['class'] = 'button view_button';
@@ -166,5 +167,11 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
              . 'View'
              . '</' . $element . '>'
              . self::EOL;
+    }
+
+    protected function _getNamespace()
+    {
+        $ns = explode('_', get_class($this));
+        return $ns;
     }
 }

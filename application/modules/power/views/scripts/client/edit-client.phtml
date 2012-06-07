@@ -16,7 +16,7 @@
                     <th>LoA Expiry Date:</th>
                     <td><?php echo $this->formatDate($this->client->client_dateExpiryLoa); ?></td>
                 </tr>
-                 <tr>
+                <tr>
                     <th>LoA Doc:</th>
                     <td>
                         <?php echo $this->DocLoa($this->client)->getCurrentFile(); ?>
@@ -24,8 +24,18 @@
                         <a href="#" onClick="dijit.byId('client<?php echo $this->client->client_idClient; ?>FileList').show(); return false;">
                             Show All ...
                         </a>
-                        <?php endif; ?>
+
                         <div>&nbsp;</div>
+                        <?php
+                            echo $this->partial('filelist.phtml', array(
+                                'row' => $this->client,
+                                'files' => $files,
+                                'id' => $this->client->client_idClient,
+                                'controller' => 'client',
+                                'docClass'   => 'DocLoa'
+                            ));
+                        ?>
+                        <?php endif; ?>
                     </td>
                 </tr>
 
@@ -44,17 +54,6 @@
                 </tr>
                 <?php endif; ?>
             </table>
-
-            <?php
-                if ($files):
-                    echo $this->partial('filelist.phtml', array(
-                        'row' => $this->client,
-                        'files' => $files,
-                        'id' => $this->client->client_idClient,
-                        'controller' => 'client'
-                    ));
-                endif;
-            ?>
 
             <table class="info_wrap ident">
                 <caption>Description</caption>

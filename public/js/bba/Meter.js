@@ -177,7 +177,7 @@ define("bba/Meter",
 
         processMeterForm : function()
         {
-            bba.closeDialog(meterForm);
+            //bba.closeDialog(meterForm);
 
             values = arguments[0];
             values.type = (values.meter_idMeter) ? 'edit' : 'add';
@@ -210,7 +210,7 @@ define("bba/Meter",
 
         processUsageForm : function()
         {
-            bba.closeDialog(usageForm);
+            //bba.closeDialog(usageForm);
 
             values = arguments[0];
             values.type = (values.usage_idUsage) ? 'edit' : 'add';

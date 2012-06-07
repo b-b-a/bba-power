@@ -112,7 +112,7 @@ class Power_Form_Contract_Save extends ZendSF_Dojo_Form_Abstract
 
         $multiOptions = array();
 
-        if (isset($contractId)) {
+        if ($contractId > 0) {
             $list = $row->getAllTenders();
 
             $multiOptions = array(0 => ($list->count() > 0) ? 'Select A Tender' : 'No Tenders Available');
@@ -139,19 +139,8 @@ class Power_Form_Contract_Save extends ZendSF_Dojo_Form_Abstract
         $this->addElement('TextBox', 'contract_idSupplierContactSelected', array(
             'label'     => 'Supplier Contact Selected:',
             'required'  => false,
+            'value'     => 0,
             'attribs'   => array('disabled' => true),
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
-
-        $this->addElement('TextBox', 'contract_reference', array(
-            'label'     => 'Contract Ref:',
-            'required'  => false,
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
-
-        $this->addElement('TextBox', 'contract_numberCustomer', array(
-            'label'     => 'Customer No:',
-            'required'  => false,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
@@ -227,7 +216,7 @@ class Power_Form_Contract_Save extends ZendSF_Dojo_Form_Abstract
             'required'      => true
         ));
 
-        $this->addElement('TextBox', 'contract_dateEnd', array(
+        $this->addElement('ZendSFDojoTextBox', 'contract_dateEnd', array(
             'label'         => 'End Date:',
             'formatLength'  => 'short',
             'filters'       => array('StripTags', 'StringTrim'),
@@ -239,54 +228,50 @@ class Power_Form_Contract_Save extends ZendSF_Dojo_Form_Abstract
             'required'      => false
         ));
 
-        $this->addElement('NumberTextBox', 'contract_periodBill', array(
-            'label'     => 'Billing Period:',
-            'constraints'   => array(
-                'min'       => 0
-            ),
+        $this->addElement('ZendSFDojoTextBox', 'contract_reference', array(
+            'label'     => 'Contract Ref:',
             'required'  => false,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('ZendSFDojoTextBox', 'contract_numberCustomer', array(
+            'label'     => 'Customer No:',
+            'required'  => false,
+            'filters'   => array('StripTags', 'StringTrim')
+        ));
+
+        $this->addElement('NumberTextBox', 'contract_periodBill', array(
+            'label'         => 'Billing Period:',
+            'constraints'   => array(
+                'min'   => 0
+            ),
+            'required'      => false,
             'dijitParams'   => array(
                 'promptMessage' => 'Enter contract billing period (Months)',
                 'style'         => 'width:50px'
             ),
             'Description'   => '(Months)',
-            'filters'   => array('StripTags', 'StringTrim')
+            'filters'       => array('StripTags', 'StringTrim'),
+            'value'         => 0
         ));
 
-        $this->addElement('SimpleTextarea', 'contract_desc', array(
+        $this->addElement('ZendSFDojoSimpleTextarea', 'contract_desc', array(
             'label'     => 'Description:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim'),
             'decorators'    => $this->_simpleTextareaDecorators
         ));
+
         /*
-        $this->addElement('SimpleTextarea', 'contract_txtTenderRequest', array(
-            'label'     => 'Temder Request:',
-            'required'  => false,
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
-
-        $this->addElement('TextBox', 'contract_docAnalysis', array(
-            'label'     => 'Analysis Doc:',
-            'required'  => false,
-            'filters'   => array('StripTags', 'StringTrim')
-        ));
-
-        $this->addElement('TextBox', 'contract_docTermination', array(
-            'label'     => 'Termination Doc:',
+        $this->addElement('TextBox', 'contract_idUserAgent', array(
+            'label'     => 'User Agent:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim')
         ));
         */
 
-        /*$this->addElement('TextBox', 'contract_idUserAgent', array(
-            'label'     => 'User Agent:',
-            'required'  => false,
-            'filters'   => array('StripTags', 'StringTrim')
-        ));*/
-
         $this->addHiddenElement('contract_idContract', '');
-        $this->addHiddenElement('contract_idContractPrevious', '');
+        $this->addHiddenElement('contract_idContractPrevious', '0');
     }
 
 }

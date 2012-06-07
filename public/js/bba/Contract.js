@@ -29,7 +29,8 @@ define("bba/Contract",
     ["dojo/dom","dojo/ready", "dojo/parser", "dojo/_base/xhr", "dojo/_base/array", "dijit/registry",
      "dijit/Dialog", "dojo/data/ItemFileReadStore", "dojo", "bba/Core", "bba/Meter", "dijit/form/ValidationTextBox",
      "dojo/data/ItemFileReadStore", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea",
-     "dojo/data/ItemFileWriteStore", "dojox/grid/_CheckBoxSelector"],
+     "dojo/data/ItemFileWriteStore", "dojox/grid/_CheckBoxSelector",
+     "dojox/form/Uploader", "dojox/form/uploader/plugins/IFrame"],
     function(dom, ready, parser, xhr, array, registry, Dialog, ItemFileReadStore, dojo, bba) {
 
     ready(function () {
@@ -125,7 +126,7 @@ define("bba/Contract",
             contractMeterStore.comparatorMap = {};
             contractMeterStore.comparatorMap["meter_idMeter"] = bba.Contract.numberComparison;
             contractMeterStore.comparatorMap["contract_idContract"] = bba.Contract.numberComparison;
-            
+
             array.forEach(items, function(item){
                 if (item.contract_idContract == id) {
                     grid.selection.addToSelection(item)
@@ -257,7 +258,12 @@ define("bba/Contract",
                 bba.openFormDialog({
                     url: './contract/edit-contract',
                     content: dojo.mixin({type :  'edit'}, contentVars),
-                    dialog: 'contractForm'
+                    dialog: 'contractForm',
+                    deferredFunction: function() {
+                        contract_docAnalysis.submit = function(){return false;}
+                        dojo.connect(contract_docTermination, "onComplete", bba.Contract.processContractForm);
+                        dojo.connect(contract_docTermination, "onError", bba.Contract.processContractForm);
+                    }
                 });
             } else {
                 contractForm.show();
@@ -283,7 +289,12 @@ define("bba/Contract",
                 bba.openFormDialog({
                     url: './contract/add-contract',
                     content: dojo.mixin({type :  'add'}, contentVars),
-                    dialog: 'contractForm'
+                    dialog: 'contractForm',
+                    deferredFunction: function() {
+                        contract_docAnalysis.submit = function(){return false;}
+                        dojo.connect(contract_docTermination, "onComplete", bba.Contract.processContractForm);
+                        dojo.connect(contract_docTermination, "onError", bba.Contract.processContractForm);
+                    }
                 });
             } else {
                 contractForm.show();
@@ -340,43 +351,38 @@ define("bba/Contract",
         {
             bba.closeDialog(contractForm);
 
-            values = arguments[0];
-            values.type = (values.contract_idContract) ? 'edit' : 'add';
+            data = arguments[0];
+            console.log(data);
 
-            xhr.post({
-                url: './contract/save-contract',
-                content: values,
-                handleAs: 'json',
-                preventCache: true,
-                load: function(data) {
-                    dom.byId('dialog').innerHTML = data.html;
-                    parser.parse('dialog');
+            dom.byId('dialog').innerHTML = data.html;
+            parser.parse('dialog');
 
-                    if (data.error) {
-                        error.show();
-                    } else if (data.saved > 0) {
-                        if (values.contract_idContract) {
-                            registry.byId('contract' + values.contract_idContract).refresh();
-                        }
-
-                        if (dom.byId('contractGrid')) contractGrid._refresh();
-
-                        confirm.show();
-
-                        if (values.type === 'add') {
-                            bba.Contract.showContractTab(data.saved, data.client_name);
-                        }
-                    } else {
-                        bba.setupDialog(contractForm);
-                        contractForm.show();
-                    }
+            if (data.error) {
+                error.show();
+            } else if (data.saved > 0) {
+                if (data.contract_idContract) {
+                    registry.byId('contract' + data.contract_idContract).refresh();
                 }
-            });
+
+                if (dom.byId('contractGrid')) contractGrid._refresh();
+
+                confirm.show();
+
+                if (data.client_name) {
+                    bba.Contract.showContractTab(data.saved, data.client_name);
+                }
+            } else {
+                bba.setupDialog(contractForm);
+                contract_docAnalysis.submit = function(){return false;}
+                dojo.connect(contract_docTermination, "onComplete", bba.Contract.processContractForm);
+                dojo.connect(contract_docTermination, "onError", bba.Contract.processContractForm);
+                contractForm.show();
+            }
         },
 
         processTenderForm : function()
         {
-            bba.closeDialog(tenderForm);
+            //bba.closeDialog(tenderForm);
 
             values = arguments[0];
             values.type = (values.tender_idTender) ? 'edit' : 'add';

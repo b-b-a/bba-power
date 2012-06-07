@@ -397,6 +397,10 @@ Form overrides.
     width: 100px;
 }
 
+#contractForm .form_wrap {
+    width: 650px;
+}
+
 .contract_edit .label {
     width: 120px;
 }

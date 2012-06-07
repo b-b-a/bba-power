@@ -1,6 +1,10 @@
 <?php
 /* @var $form Zend_Form */
 $form = $this->contractSaveForm;
+
+/* @var $docForm Zend_Form */
+$docForm = $this->docForm;
+
 $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
 ?>
 
@@ -13,11 +17,17 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
     <div class="dijitDialogPaneContentArea">
 
         <div class="dialog_title">
-            
+
         </div>
 
         <div class="form_wrap">
-            <div id="contractForm" class="zend_form">
+            <div class="zend_form">
+                <form method="post" action="<?php echo $this->url(array(
+                    'controller'    => 'contract',
+                    'action'        => 'save-contract',
+                    'module'        => 'power'
+                ), 'default'); ?>" enctype="multipart/form-data">
+
                 <?php if ($form->contract_idClient->getValue()): ?>
                     <?php echo $form->client_contract; ?>
                     <input dojoType="dijit.form.TextBox"
@@ -66,12 +76,10 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
 
                 <?php echo $form->contract_desc; ?>
 
-                <?php echo $form->contract_txtTenderRequest; ?>
+                <?php echo $docForm->contract_docAnalysis; ?>
 
-                <?php echo $form->contract_docAnalysis; ?>
+                <?php echo $docForm->contract_docTermination; ?>
 
-                <?php echo $form->contract_docTermination; ?>
-                
                 <div class="dialog_footer_info">
                     <p class="required"> = required field</p>
                     <p class="warn">Cancel exits without saving</p>
@@ -107,6 +115,7 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                 <button data-dojo-type="dijit.form.Button"
                         data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('contractForm'));}"
                         id="contractFormCancelButton">Cancel</button>
+                </form>
             </div>
         </div>
     </div>

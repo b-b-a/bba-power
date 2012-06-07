@@ -1,4 +1,4 @@
-Build started: Mon May 21 2012 13:21:53 GMT+0100 (BST)
+Build started: Thu Jun 07 2012 07:37:28 GMT+0100 (BST)
 Build application version: 1.7.0dev (23930)
 Messages:
 info(100) Assumed module uses legacy loader API.
@@ -397,6 +397,7 @@ info(102) Optimizing module
 	module: dojox/jsonPath
 	module: dojox/charting/themes/Julie
 	module: dojox/editor/plugins/TablePlugins
+	module: dojox/app/module/env
 	module: dojox/grid/enhanced/plugins/Printer
 	module: dojox/gauges/AnalogLineIndicator
 	module: dojox/wire/TreeAdapter
@@ -481,6 +482,7 @@ info(102) Optimizing module
 	module: dojox/drawing/tools/custom/Vector
 	module: dojox/charting/plot2d/Base
 	module: dojox/mvc/_Container
+	module: dojox/app/transition
 	module: dojox/charting/plot3d/Bars
 	module: dojox/mvc/StatefulModel
 	module: dojox/dtl/DomInline
@@ -594,6 +596,7 @@ info(102) Optimizing module
 	module: dojox/drawing/defaults
 	module: dojox/drawing/tools/Pencil
 	module: dojox/drawing/plugins/tools/Pan
+	module: dojox/app/view
 	module: dojox/gfx3d/object
 	module: dojox/form/Rating
 	module: dojox/mobile/_ComboBoxMenu
@@ -601,9 +604,11 @@ info(102) Optimizing module
 	module: dojox/help/_base
 	module: dojox/color/Palette
 	module: dojox/av/widget/VolumeButton
+	module: dojox/app/model
 	module: dojox/charting/themes/PlotKit/blue
 	module: dojox/charting/widget/Chart
 	module: dojox/grid/enhanced/plugins/IndirectSelection
+	module: dojox/app/animation
 	module: dojox/mobile
 	module: dojox/charting/plot2d/Scatter
 	module: dojox/sql
@@ -649,6 +654,7 @@ info(102) Optimizing module
 	module: dojox/widget/AutoRotator
 	module: dojox/grid/enhanced/plugins/Cookie
 	module: dojox/lang/functional
+	module: dojox/app/bind
 	module: dojox/string/BidiComplex
 	module: dojox/lang/async/event
 	module: dojox/gauges/AnalogArcIndicator
@@ -806,6 +812,7 @@ info(102) Optimizing module
 	module: dojox/gauges/Range
 	module: dojox/rpc/JsonRPC
 	module: dojox/storage/BehaviorStorageProvider
+	module: dojox/app/main
 	module: dojox/grid/cells/_base
 	module: dojox/gfx/path
 	module: dojox/encoding/crypto/Blowfish
@@ -892,6 +899,7 @@ info(102) Optimizing module
 	module: dojox/mobile/app/_FormWidget
 	module: dojox/gantt/GanttProjectItem
 	module: dojox/timing
+	module: dojox/app/scene
 	module: dojox/lang/functional/sequence
 	module: dojox/dtl/filter/strings
 	module: dojox/grid/_Scroller
@@ -978,6 +986,7 @@ info(102) Optimizing module
 	module: dojox/data/FileStore
 	module: dojox/json/query
 	module: dojox/gfx/silverlight_attach
+	module: dojox/app/module/history
 	module: dojox/grid/_Grid
 	module: dojox/mdnd/dropMode/DefaultDropMode
 	module: dojox/gauges/AnalogNeedleIndicator
@@ -1164,6 +1173,7 @@ info(102) Optimizing module
 	module: dojox/grid/_RadioSelector
 	module: dojox/analytics
 	module: dojox/encoding/digests/SHA1
+	module: dojox/app/module/lifecycle
 	module: dojox/charting/plot2d/Candlesticks
 	module: dojox/charting/plot2d/_PlotEvents
 	module: dojox/layout/dnd/Avatar
@@ -1435,9 +1445,9 @@ info(102) Optimizing module
 	module: dojo/parser
 	module: dojox/cometd/RestChannels-loadInit
 info(107) Package Version:
-	package: dijit; version: 1.7.1
-	package: dojox; version: 1.7.1
-	package: dojo; version: 1.7.1
+	package: dijit; version: 1.7.2
+	package: dojox; version: 1.7.2
+	package: dojo; version: 1.7.2
 info(108) Interning strings.
 	module: dojox/secure/DOM
 	module: dojox/storage
@@ -1876,4 +1886,4 @@ dojo/dojo:
 Process finished normally
 	errors: 0
 	warnings: 3
-	build time: 64.299 seconds
+	build time: 54.049 seconds

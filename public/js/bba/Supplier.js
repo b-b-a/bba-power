@@ -153,7 +153,7 @@ define("bba/Supplier",
 
         processSupplierForm : function()
         {
-            bba.closeDialog(supplierForm);
+            //bba.closeDialog(supplierForm);
 
             values = arguments[0];
             values.type = (values.supplier_idSupplier) ? 'edit' : 'add';
@@ -186,7 +186,7 @@ define("bba/Supplier",
 
         processSupplierCoForm : function()
         {
-            bba.closeDialog(supplierCoForm);
+            //bba.closeDialog(supplierCoForm);
 
             values = arguments[0];
             values.type = (values.supplierCo_idSupplierContact) ? 'edit' : 'add';

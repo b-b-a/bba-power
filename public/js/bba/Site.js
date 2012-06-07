@@ -263,7 +263,7 @@ define("bba/Site",
 
         processSiteForm : function()
         {
-            bba.closeDialog(siteForm);
+            //bba.closeDialog(siteForm);
 
             values = arguments[0];
             values.type = (values.site_idSite) ? 'edit' : 'add';

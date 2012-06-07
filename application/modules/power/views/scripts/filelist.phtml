@@ -17,7 +17,7 @@
                 <td><?php echo $file['time']; ?></td>
                 <td>
                     <?php echo $file['normalise']; ?>
-                    <?php echo $this->DocLoa($this->row)->makeButton($file); ?>
+                    <?php echo $this->{$this->docClass}($this->row)->makeButton($file); ?>
                 </td>
             </tr>
             <?php endforeach; ?>

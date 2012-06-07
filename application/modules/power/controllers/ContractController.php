@@ -135,8 +135,12 @@ class Power_ContractController extends Zend_Controller_Action
                 && $request->isPost()) {
 
             $form = $this->_getForm('contractSave', 'save-contract');
+            $docForm = $this->_getForm('contractDoc', 'save-contract');
 
-            $this->view->assign(array('contractSaveForm' => $form));
+            $this->view->assign(array(
+                'contractSaveForm'  => $form,
+                'docForm'           => $docForm
+            ));
 
             $this->render('contract-form');
         } else {
@@ -161,14 +165,41 @@ class Power_ContractController extends Zend_Controller_Action
                     throw new ZendSF_Acl_Exception('Access Denied');
                 }
                 $form = $this->_getForm('contractSave', 'save-contract');
+                $docForm = $this->_getForm('contractDoc', 'save-contract');
                 $form->populate($contract->toArray('dd/MM/yyyy', true));
-                $this->view->assign('contractSaveForm', $form);
+                $docForm->populate($contract->toArray('dd/MM/yyyy', true));
+                $this->view->assign(array(
+                    'contractSaveForm'  => $form,
+                    'docForm'           => $docForm
+                ));
                 $this->render('contract-form');
             }
 
         } else {
            return $this->_helper->redirector('index', 'contract');
         }
+    }
+
+    public function docAction()
+    {
+        $request = $this->getRequest();
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+
+        if ($request->getParam('view')) {
+
+            $pdf = file_get_contents(
+                APPLICATION_PATH . '/../bba-power-docs/contract_' . $request->getParam('doc') . '/'
+                . $request->getParam('view')
+            );
+
+            return $this->getResponse()
+                //->setHeader('Content-disposition: attachment; filename=' . $request->getParam('view'))
+                ->setHeader('Content-Type', 'application/pdf')
+                ->setBody($pdf);
+        }
+
+        return $this->_helper->redirector('index', 'client');
     }
 
     public function saveContractAction()
@@ -193,9 +224,14 @@ class Power_ContractController extends Zend_Controller_Action
 
             if (false === $saved) {
                 $form = $this->_getForm('contractSave', 'save-contract');
+                $docForm = $this->_getForm('contractDoc', 'save-contract');
                 $form->populate($request->getPost());
+                $docForm->populate($request->getPost());
 
-                $this->view->assign(array('contractSaveForm' => $form));
+                $this->view->assign(array(
+                    'contractSaveForm'  => $form,
+                    'docForm'           => $docForm
+                ));
 
                 $html = $this->view->render('contract/contract-form.phtml');
                 $returnJson['html'] = $html;
@@ -204,14 +240,18 @@ class Power_ContractController extends Zend_Controller_Action
                     'id'    => $saved,
                     'type'  => 'contract'
                 ));
-                
+
                 $html = $this->view->render('confirm.phtml');
                 $returnJson['html'] = $html;
-                
+
                 if ($request->getParam('type') === 'add') {
                     $client = $this->_model->getContractById($saved)
                         ->getClient('client_name');
                     $returnJson['client_name'] = $client;
+                }
+
+                if ($request->getParam('contract_idContract')) {
+                    $returnJson['contract_idContract'] = $request->getParam('contract_idContract');
                 }
             }
         } catch (Exception $e) {
@@ -229,8 +269,8 @@ class Power_ContractController extends Zend_Controller_Action
         }
 
         $this->getResponse()
-            ->setHeader('Content-Type', 'application/json')
-            ->setBody(json_encode($returnJson));
+            ->setHeader('Content-Type', 'text/html')
+            ->setBody('<textarea>' . json_encode($returnJson) . '</textarea>');
     }
 
     public function addMeterContractAction()

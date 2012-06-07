@@ -17,6 +17,10 @@ data/logs/*
 !data/logs/donotremove
 nbproject/*
 public/.htaccess
+public/js/dojo
+public/js/dijit
+public/js/dojox
+public/js/util
 scripts/*
 tests/tmp/db/*
 tests/tmp/session/*

@@ -181,6 +181,7 @@ define("bba/Client",
                     dialog: 'clientForm',
                     deferredFunction: function() {
                         dojo.connect(client_docLoa, "onComplete", bba.Client.processClientForm);
+                        dojo.connect(client_docLoa, "onError", bba.Client.processClientForm);
                     }
                 });
             } else {
@@ -222,13 +223,14 @@ define("bba/Client",
             } else {
                 bba.setupDialog(clientForm);
                 dojo.connect(client_docLoa, "onComplete", bba.Client.processClientForm);
+                dojo.connect(client_docLoa, "onError", bba.Client.processClientForm);
                 clientForm.show();
             }
         },
 
         processClientAdForm : function()
         {
-            bba.closeDialog(clientAdForm);
+            //bba.closeDialog(clientAdForm);
 
             values = arguments[0];
             values.type = (values.clientAd_idAddress) ? 'edit' : 'add';
@@ -262,7 +264,7 @@ define("bba/Client",
 
         processClientCoForm : function()
         {
-            bba.closeDialog(clientCoForm);
+            //bba.closeDialog(clientCoForm);
 
             values = arguments[0];
             values.type = (values.clientCo_idClientContact) ? 'edit' : 'add';
