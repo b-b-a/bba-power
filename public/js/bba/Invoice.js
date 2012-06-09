@@ -45,7 +45,32 @@ define("bba/Invoice",
 
     bba.Invoice = {
         gridLayouts : {
+            invoice : [
+                {field: 'invoice_idInvoice', width: '50px', name: 'Id'},
+                {field: 'invoice_nameSupplier', width: '200px', name: 'Supplier Name'},
+                {field: 'invoice_numberInvoice', width: '100px', name: 'Invoice No.'},
+                {field: 'invoice_dateInvoice', width: '150px', name: 'Invoice Date'},
+                {field: '', width: 'auto', name: ''}
+            ]
+        },
 
+        invoiceGridRowClick : function(grid)
+         {
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            id = grid.store.getValue(selectedItem, 'invoice_idInvoice');
+            tabTitle = grid.store.getValue(selectedItem, 'invoice_numberInvoice');
+
+             bba.openTab({
+                tabId : 'client' + id,
+                title : (tabTitle) ? tabTitle : 'Invoice',
+                url : './invoice/view-invoice',
+
+                content : {
+                    type : 'details',
+                    invoice_idInvoice : id
+                }
+            });
         }
     }
 

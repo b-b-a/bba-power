@@ -12,12 +12,29 @@
                 $this->headTitle($this->title);
 
                 echo $this->invoiceSearchForm;
-                /* @var $client Power_Model_Client */
             ?>
-
-            <h2>Welcome to Invoicing</h2>
         </div>
     </div>
 
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'center'">
 
+        <span data-dojo-type="dojox.data.QueryReadStore"
+              data-dojo-props="url: 'invoice/data-store/type/invoice', requestMethod: 'post'"
+              data-dojo-id="invoiceStore"></span>
+
+        <table data-dojo-type="dojox.grid.DataGrid"
+            data-dojo-id="invoiceGrid"
+            id="invoiceGrid"
+            data-dojo-props='
+                store: invoiceStore,
+                structure: bba.Invoice.gridLayouts.invoice,
+                query: <?php echo $this->search; ?>,
+                sortInfo: "1",
+                noDataMessage : bba.gridMessage'>
+            <script type="dojo/method" data-dojo-event="onRowClick">
+                bba.Invoice.invoiceGridRowClick(this);
+            </script>
+        </table>
+    </div>
 </div>

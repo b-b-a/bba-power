@@ -40,6 +40,57 @@
 class Power_Model_Invoice extends ZendSF_Model_Acl_Abstract
 {
     /**
+     * Get Invoice by their id
+     *
+     * @param  int $id
+     * @return null|Power_Model_DbTable_Row_Invoice
+     */
+    public function getInvoiceById($id)
+    {
+        if (!$this->checkAcl('getInvoiceById')) {
+            throw new ZendSF_Acl_Exception('Insufficient rights');
+        }
+
+        $id = (int) $id;
+        return $this->getDbTable('invoice')->getInvoiceById($id);
+    }
+
+    /**
+     * Gets the invoice data store list, using search parameters.
+     *
+     * @param array $post
+     * @return string JSON string
+     */
+    public function getInvoiceDataStore(array $post)
+    {
+        if (!$this->checkAcl('getInvoiceById')) {
+            throw new ZendSF_Acl_Exception('Insufficient rights');
+        }
+        
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $form = $this->getForm('invoiceSearch');
+        $search = array();
+
+        if ($form->isValid($post)) {
+            $search = $form->getValues();
+        }
+
+        $dataObj = $this->getDbTable('invoice')->searchInvoice($search, $sort, $count, $start);
+
+        $store = $this->_getDojoData($dataObj, 'invoice_idInvoice');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('invoice')->numRows($search)
+        );
+
+        return $store->toJson();
+    }
+
+    /**
      * Injector for the acl, the acl can be injected directly
      * via this method.
      *

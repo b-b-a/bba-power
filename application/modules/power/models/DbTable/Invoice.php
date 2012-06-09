@@ -64,4 +64,50 @@ class Power_Model_DbTable_Invoice extends ZendSF_Model_DbTable_Abstract
             'refColumns'    => 'supplier_idSupplier'
         )
     );
+
+    public function getInvoiceById($id)
+    {
+        return $this->find($id)->current();
+    }
+
+    protected function _getSearchInvoiceSelect(array $search)
+    {
+        $select = $this->select(false)->setIntegrityCheck(false)
+            ->from('invoice', '*')
+            ->joinLeft('supplier', 'invoice_idSupplier = supplier_idSupplier');
+
+        if (!$search['invoice'] == '') {
+            if (substr($search['invoice'], 0, 1) == '=') {
+                $id = (int) substr($search['invoice'], 1);
+                $select->where('invoice_idInvoice = ?', $id);
+            } else {
+                $select->orWhere('invoice_numberInvoice like ?', '%' . $search['invoice'] . '%');
+            }
+        }
+
+        if (!$search['supplier'] == '') {
+            $select->orWhere('supplier_name like ?', '%' . $search['supplier'] . '%');
+        }
+
+        return $select;
+    }
+
+    public function searchInvoice(array $search, $sort='', $count=null, $offset=null)
+    {
+        $select = $this->_getSearchInvoiceSelect($search);
+        $select = $this->getLimit($select, $count, $offset);
+        $select = $this->getSortOrder($select, $sort);
+
+        return $this->fetchAll($select);
+    }
+
+    public function numRows($search)
+    {
+        $select = $this->_getSearchInvoiceSelect($search);
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->columns(array('numRows' => 'COUNT(invoice_idInvoice)'));
+        $result = $this->fetchRow($select);
+
+        return $result->numRows;
+    }
 }

@@ -91,4 +91,46 @@ class Power_InvoiceController extends Zend_Controller_Action
             'invoiceSearchForm'  => $form
         ));
     }
+
+    public function viewInvoiceAction()
+    {
+
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
+
+        if ($request->getParam('invoice_idInvoice') && $request->isPost()
+                && $request->isXmlHttpRequest()) {
+
+            $inv = $this->_model->getInvoiceById($request->getPost('invoice_idInvoice'));
+
+            $this->view->assign(array(
+                'invoice'            => $inv
+            ));
+        } else {
+           return $this->_helper->redirector('index', 'invoice');
+        }
+    }
+
+    public function dataStoreAction()
+    {
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
+        $request = $this->getRequest();
+
+        if ($request->isXmlHttpRequest()) {
+
+            switch ($request->getParam('type')) {
+                case 'invoice':
+                    $data = $this->_model->getInvoiceDataStore($request->getPost());
+                    break;
+                default :
+                    $data = '{}';
+                    break;
+            }
+
+            $this->getResponse()
+                ->setHeader('Content-Type', 'application/json')
+                ->setBody($data);
+        }
+    }
 }
