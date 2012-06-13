@@ -1,4 +1,9 @@
-<?php $form = $this->clientAddForm; ?>
+<?php
+$form = $this->clientAddForm;
+
+/* @var $docForm Zend_Form */
+$docForm = $this->docForm;
+?>
 
 <div data-dojo-type="dijit.Dialog"
      id="clientForm"
@@ -27,7 +32,11 @@
 
                     <?php echo $form->client_name; ?>
 
-                    <?php echo $form->client_docLoa; ?>
+                    <?php echo $docForm->client_docLoa; ?>
+
+                    <div id="files"
+                         dojoType="dojox.form.uploader.FileList"
+                         uploaderId="client_docLoa"></div>
 
                     <?php echo $form->client_dateExpiryLoa; ?>
 

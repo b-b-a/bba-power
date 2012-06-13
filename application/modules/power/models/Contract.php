@@ -380,16 +380,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         // get filtered values.
         $data = $docForm->getValues();
 
-        // remove any field that didn't get an uploaded file
-        // as we don't want to overwrite current files with an empty string.
-        foreach ($data as $key => $value) {
-            if (null === $data[$key]) {
-                unset($data[$key]);
-            }
-        }
-
-        return ($data) ? $this->getDbTable('contract')
-            ->saveRow($data, $this->getContractById($id)) : $id;
+        return $id;
     }
 
     /**

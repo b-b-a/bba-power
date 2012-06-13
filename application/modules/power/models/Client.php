@@ -179,6 +179,32 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     }
 
     /**
+     * Adds a filter to the doc upload form.
+     * Renames file to row <id>_<timestamp>_<original filename>.
+     *
+     * @param Zend_Form_Element_File $element
+     * @param int $id
+     * @return Power_Model_Contract
+     */
+    protected function _addUploadFilter(Zend_Form_Element_File $element, $id)
+    {
+        $ts = Zend_Date::now();
+
+        $newDocFileName = join('_', array(
+            sprintf("%06d", $id),
+            $ts->toString('yyyyMMdd_HHmmss'),
+            str_replace(' ', '_', $_FILES[$element->getId()]['name'])
+        ));
+
+        $element->addFilter('Rename', $newDocFileName);
+
+        $log = Zend_Registry::get('log');
+        $log->info($newDocFileName);
+
+        return $this;
+    }
+
+    /**
      * Add new Client.
      *
      * @param array $post
@@ -194,6 +220,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
         // validate form.
         $form = $this->getForm('clientAdd');
+        /* @var $form Power_Form_Client_Doc */
+        $docForm = $this->getForm('clientDoc');
 
         if ($post['client_dateExpiryLoa'] === '') {
             $client_dateExpiryLoaValidateRules = $form->getElement('client_dateExpiryLoa')
@@ -203,7 +231,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
                 ->removeValidator('Date');
         }
 
-        if (!$form->isValid($post)) {
+        if (!$form->isValid($post) || !$docForm->isValid($post)) {
             if (isset($client_dateExpiryLoaValidateRules)) {
                 $form->getElement('client_dateExpiryLoa')
                     ->addValidator($client_dateExpiryLoaValidateRules);
@@ -243,24 +271,14 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             // now update client with address and contact ids.
             // we will have to update docLoa here too.
             // now we have to rename the docLoa.
-            if ($post['client_docLoa']) {
-                $ts = Zend_Date::now();
+            // add filters to the docForm.
+            $this->_addUploadFilter(
+                $docForm->getElement('client_docLoa'),
+                $clientSave
+            );
 
-                $newLoaFileName = join('_', array(
-                    sprintf("%06d", $clientSave),
-                    $ts->toString('yyyyMMdd_HHmmss'),
-                    str_replace(' ', '_', $_FILES['client_docLoa']['name'])
-                ));
-
-                $baseDir = realpath(APPLICATION_PATH . '/../bba-power-docs/client_docLoa');
-
-                rename(
-                    $baseDir . '/' . $post['client_docLoa'],
-                    $baseDir . '/' . $newLoaFileName
-                );
-
-                $post['client_docLoa'] = $newLoaFileName;
-            }
+            // upload file.
+            $upload = $docForm->getValues();
 
             $post['client_idClient'] = $clientSave;
             $post['client_idAddress'] = $clientAdSave;
@@ -305,6 +323,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
         /* @var $form Power_Form_Client_Save */
         $form = $this->getForm('clientSave');
+        /* @var $form Power_Form_Client_Doc */
+        $docForm = $this->getForm('clientDoc');
 
         if ($post['client_dateExpiryLoa'] === '') {
             $client_dateExpiryLoaValidateRules = $form->getElement('client_dateExpiryLoa')
@@ -314,23 +334,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
                 ->removeValidator('Date');
         }
 
-        /**
-         * Add a rename filter to client_docLoa
-         * using row <id>_<timestamp>_<original filename>.
-         */
-        $docLoa = $form->getElement('client_docLoa');
-        $ts = Zend_Date::now();
-
-        $newLoaFileName = join('_', array(
-            sprintf("%06d", $post['client_idClient']),
-            $ts->toString('yyyyMMdd_HHmmss'),
-            str_replace(' ', '_', $_FILES['client_docLoa']['name'])
-        ));
-
-        $docLoa->addFilter('Rename', $newLoaFileName);
-
         // Check if form is valid.
-        if (!$form->isValid($post)) {
+        if (!$form->isValid($post) || !$docForm->isValid($post)) {
 
             if (isset($client_dateExpiryLoaValidateRules)) {
                 $form->getElement('client_dateExpiryLoa')
@@ -339,8 +344,19 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             return false;
         }
 
+        $data = $form->getValues();
+
+        // add filters to the docForm.
+        $this->_addUploadFilter(
+            $docForm->getElement('client_docLoa'),
+            $data['client_idClient']
+        );
+
+        // upload file.
+        $upload = $docForm->getValues();
+
         // get filtered values and return results.
-        return $this->_saveClient($form->getValues());
+        return $this->_saveClient($data);
     }
 
     /**
@@ -356,10 +372,6 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         $date = new Zend_Date($dateValue);
         $date->set($date, Zend_Date::DATE_SHORT);
         $data['client_dateExpiryLoa'] = $date->toString('yyyy-MM-dd');
-
-        if (null === $data['client_docLoa']) {
-            unset($data['client_docLoa']);
-        }
 
         $client = array_key_exists('client_idClient', $data) ?
             $this->getClientById($data['client_idClient']) : null;

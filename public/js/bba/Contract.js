@@ -30,7 +30,7 @@ define("bba/Contract",
      "dijit/Dialog", "dojo/data/ItemFileReadStore", "dojo", "bba/Core", "bba/Meter", "dijit/form/ValidationTextBox",
      "dojo/data/ItemFileReadStore", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea",
      "dojo/data/ItemFileWriteStore", "dojox/grid/_CheckBoxSelector",
-     "dojox/form/Uploader", "dojox/form/uploader/plugins/IFrame"],
+     "dojox/form/Uploader", "dojox/form/uploader/plugins/IFrame", "dojox/form/uploader/FileList"],
     function(dom, ready, parser, xhr, array, registry, Dialog, ItemFileReadStore, dojo, bba) {
 
     ready(function () {

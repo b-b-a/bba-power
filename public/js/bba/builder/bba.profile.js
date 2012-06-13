@@ -42,6 +42,7 @@ dependencies = {
 
                 "dojox/data/QueryReadStore",
                 "dojox/form/Uploader",
+                "dojox/form/uploader/FileList",
                 "dojox/form/uploader/plugins/IFrame",
                 "dojox/grid/DataGrid",
                 "dojox/grid/_CheckBoxSelector",

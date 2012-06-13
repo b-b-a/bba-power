@@ -46,12 +46,11 @@ class Power_View_Helper_DocAnalysis extends Power_View_Helper_DocAbstract
 
     public function docAnalysis(Power_Model_DbTable_Row_Contract $row)
     {
-        $this->_currentFile = $this->view->escape(
-            $row->contract_docAnalysis
-        );
-
         $this->_id = $row->contract_idContract;
-        //$this->setDocDir($this->_id);
+
+        if (!$this->_currentFile) {
+            $this->setCurrentFile();
+        }
 
         return $this;
     }

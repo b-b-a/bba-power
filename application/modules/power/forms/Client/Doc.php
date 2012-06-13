@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Contract_Doc extends ZendSF_Form_Abstract
+class Power_Form_Client_Doc extends ZendSF_Form_Abstract
 {
     protected $_fileDecorators = array(
         'File',
@@ -65,40 +65,22 @@ class Power_Form_Contract_Doc extends ZendSF_Form_Abstract
 
     public function init()
     {
-        $this->setName('contractDocs');
+        $this->setName('clientDocs');
 
-        $this->addElement('file','contract_docAnalysis', array(
-            'label'         => 'New Analysis Document (pdf):',
+        $this->addElement('file','client_docLoa', array(
+            'label'         => 'New LoA Document (pdf):',
             'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Count', false, array(1)),
                 array('Extension', false, array('pdf')),
             ),
-            'destination'   => realpath(APPLICATION_PATH . '/../bba-power-docs/contract_docAnalysis'),
+            'destination'   => realpath(APPLICATION_PATH . '/../bba-power-docs/client_docLoa'),
             'decorators'    => $this->_fileDecorators,
             'required'      => false,
             'attribs'       => array(
                 'data-dojo-type'    => 'dojox.form.Uploader',
-                'data-dojo-id'      => 'contract_docAnalysis',
-                'data-dojo-props'   => "label: 'Choose Analysis File'",
-                'force'             => "iframe"
-            )
-        ));
-
-        $this->addElement('file','contract_docTermination', array(
-            'label'         => 'New Termination Document (pdf):',
-            'filters'       => array('StripTags', 'StringTrim'),
-            'validators'    => array(
-                array('Count', false, array(1)),
-                array('Extension', false, array('pdf')),
-            ),
-            'destination'   => realpath(APPLICATION_PATH . '/../bba-power-docs/contract_docTermination'),
-            'decorators'    => $this->_fileDecorators,
-            'required'      => false,
-            'attribs'       => array(
-                'data-dojo-type'    => 'dojox.form.Uploader',
-                'data-dojo-id'      => 'contract_docTermination',
-                'data-dojo-props'   => "label: 'Choose Termination File'",
+                'data-dojo-id'      => 'client_docLoa',
+                'data-dojo-props'   => "label: 'Choose LoA File'",
                 'force'             => "iframe"
             )
         ));

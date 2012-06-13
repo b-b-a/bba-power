@@ -39,5 +39,56 @@
  */
 class Power_Model_DbTable_Row_Invoice extends ZendSF_Model_DbTable_Row_Abstract
 {
+    /**
+     * @var Power_Model_DbTable_Row_Supplier
+     */
+    protected $_supplier;
 
+    /**
+     * Array of all columns with need date format applied
+     * to it when outputting row as an array.
+     *
+     * @var array
+     */
+    protected $_dateKeys = array(
+        'invoice_dateInvoice',
+        'invoice_dateStart',
+        'invoice_dateEnd',
+        'invoice_dateCreated'
+    );
+
+    protected $_dateFormat = 'dd/MM/yyyy';
+
+    public function getSupplier($row = null)
+    {
+        if (!$this->_supplier instanceof Power_Model_DbTable_Row_Supplier) {
+            $this->_supplier = $this->getRow()
+                ->findParentRow('Power_Model_DbTable_Supplier', 'supplier');
+        }
+
+        return (null === $row) ? $this->_supplier : $this->_supplier->$row;
+    }
+
+    /**
+     * Returns row as an array, with optional date formating.
+     *
+     * @param string $dateFormat
+     * @return array
+     */
+    public function toArray($dateFormat = null)
+    {
+        $array = array();
+
+        foreach ($this->getRow() as $key => $value) {
+
+            if (in_array($key, $this->_dateKeys)) {
+                $date = new Zend_Date($value);
+                $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
+            }
+
+            $array[$key] = $value;
+        }
+
+        return $array;
+    }
 }

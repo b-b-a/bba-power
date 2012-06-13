@@ -46,12 +46,11 @@ class Power_View_Helper_DocLoa extends Power_View_Helper_DocAbstract
 
     public function docLoa(Power_Model_DbTable_Row_Client $row)
     {
-        $this->_currentFile = $this->view->escape(
-            $row->client_docLoa
-        );
-
         $this->_id = $row->client_idClient;
-        //$this->setDocDir($this->_id);
+
+        if (!$this->_currentFile) {
+            $this->setCurrentFile();
+        }
 
         return $this;
     }

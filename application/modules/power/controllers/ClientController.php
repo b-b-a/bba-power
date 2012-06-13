@@ -128,8 +128,12 @@ class Power_ClientController extends Zend_Controller_Action
                 && $request->isPost()) {
 
             $form = $this->_getForm('clientAdd', 'save-client');
+            $docForm = $this->_getForm('clientDoc', 'save-contract');
 
-            $this->view->assign(array('clientAddForm' => $form));
+            $this->view->assign(array(
+                'clientAddForm' => $form,
+                'docForm'       => $docForm
+            ));
 
             $this->render('add-client-form');
         } else {
@@ -148,11 +152,15 @@ class Power_ClientController extends Zend_Controller_Action
             $client = $this->_model->getClientById($request->getPost('client_idClient'));
 
             $form = $this->_getForm('clientSave', 'save-client');
+            $docForm = $this->_getForm('clientDoc', 'save-contract');
+
             $form->populate($client->toArray('dd/MM/yyyy'));
+            $docForm->populate($client->toArray('dd/MM/yyyy', true));
 
             $this->view->assign(array(
                 'client'            => $client,
-                'clientSaveForm'    => $form
+                'clientSaveForm'    => $form,
+                'docForm'           => $docForm
             ));
 
             if ($this->_request->getParam('type') == 'edit') {
@@ -219,9 +227,14 @@ class Power_ClientController extends Zend_Controller_Action
                 $type = ($request->getPost('type') == 'add') ? 'Add' : 'Save';
 
                 $form = $this->_getForm('client' . $type, 'save-client');
+                $docForm = $this->_getForm('contractDoc', 'save-contract');
                 $form->populate($request->getPost());
+                $docForm->populate($request->getPost());
 
-                $this->view->assign(array('client' . $type . 'Form' => $form));
+                $this->view->assign(array(
+                    'client' . $type . 'Form'   => $form,
+                    'docForm'                   => $docForm
+                ));
                 $html = $this->view->render('client/'. $request->getPost('type') .'edit-client-form.phtml');
                 $returnJson['html'] = $html;
             } else {

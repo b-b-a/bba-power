@@ -140,24 +140,6 @@ class Power_Form_Client_Save extends ZendSF_Dojo_Form_Abstract
             ));
         }
 
-        $this->addElement('file','client_docLoa', array(
-            'label'         => 'New LoA Document (pdf):',
-            'filters'       => array('StripTags', 'StringTrim'),
-            'validators'    => array(
-                array('Count', false, array(1)),
-                array('Extension', false, array('pdf')),
-            ),
-            'destination'   => realpath(APPLICATION_PATH . '/../bba-power-docs/client_docLoa'),
-            'decorators'    => $this->_fileDecorators,
-            'required'      => false,
-            'attribs'       => array(
-                'data-dojo-type'    => 'dojox.form.Uploader',
-                'data-dojo-id'      => 'client_docLoa',
-                'data-dojo-props'   => "label: 'Choose LoA File', showInput: 'before'",
-                'force'             => "iframe"
-            )
-        ));
-
         $this->addElement('ValidationTextBox', 'client_dateExpiryLoa', array(
             'label'         => 'LoA Expiry Date:',
             'formatLength'  => 'short',

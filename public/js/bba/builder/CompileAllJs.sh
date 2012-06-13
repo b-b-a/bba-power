@@ -20,6 +20,7 @@ echo "Cleaning up..."
 
 echo "Copy new files accross..."
 
+mkdir -v --parents bba/dojox/form/resources/images/
 mkdir -v --parents bba/dojox/grid/resources/images/
 mkdir -v --parents bba/dojox/widget/Wizard/
 mkdir -v --parents bba/dojox/widget/Standby/images/
@@ -31,6 +32,8 @@ cp -vr bba-temp/dojox/widget/Wizard/Wizard.css bba/dojox/widget/Wizard/Wizard.cs
 cp -vr bba-temp/dojox/grid/resources/claroGrid.css bba/dojox/grid/resources/claroGrid.css
 cp -vr bba-temp/dojox/grid/resources/Grid.css bba/dojox/grid/resources/Grid.css
 cp -vr bba-temp/dojox/grid/resources/images/ bba/dojox/grid/resources
+
+cp -vr bba-temp/dojox/form/resources/UploaderFileList.css bba/dojox/form/resources/UploaderFileList.css
 
 mkdir -v --parents bba/dijit/icons/
 mkdir -v --parents bba/dijit/themes/claro/

@@ -60,18 +60,29 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
     protected $_attribs;
 
     /**
-     * Returns all the files associated with a database record.
+     * @var array
+     */
+    protected $_files = array();
+
+    /**
+     * Gets all the files associated with a database record.
      *
      * @return array
      */
     public function getFileList()
     {
+        return $this->_files;
+    }
+
+    /**
+     * Sets all the files associated with a database record.
+     *
+     * @return array
+     */
+    public function setFileList()
+    {
         $fileArray = array();
         $sort = array();
-
-        if (!$this->_currentFile) {
-            return $fileArray;
-        }
 
         $dir = new DirectoryIterator(realpath(
             APPLICATION_PATH . $this->_docDir
@@ -94,11 +105,9 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
 
         array_multisort($sort, SORT_DESC, $fileArray);
 
-        if (count($fileArray) == 1) {
-            $fileArray = array();
-        }
+        $this->_files = $fileArray;
 
-        return $fileArray;
+        return $this;
     }
 
     /**
@@ -164,6 +173,17 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
         );
     }
 
+    public function setCurrentFile()
+    {
+        $this->setFileList();
+
+        if (count($this->_files) > 0) {
+            $this->_currentFile = $this->_files[0];
+        }
+        
+        return $this;
+    }
+
     /**
      * Get the current file status and contruct an HTML link
      * to view it.
@@ -176,14 +196,13 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
             return 'No Documents Have Been Uploaded';
         }
 
-        if (is_file(APPLICATION_PATH . $this->_docDir . '/' . $this->_currentFile)) {
-            $file = $this->getFilePieces($this->_currentFile);
-            $link = $this->makeButton($file);
-            return '<span>Stored on:&nbsp;' . $file['datetime']['date'] . ' ' . $file['datetime']['time']
-                . '<br />' . $file['normalise']
+        if (is_file(APPLICATION_PATH . $this->_docDir . '/' . $this->_currentFile['filename'])) {
+            $link = $this->makeButton($this->_currentFile);
+            return '<span>Stored on:&nbsp;' . $this->_currentFile['date'] . ' ' . $this->_currentFile['time']
+                . '<br />' . $this->_currentFile['normalise']
                 . $link . '</span>' . self::EOL;
         } else {
-            return '<span class="warning">File Is Missing.</span>' . self::EOL;
+            return 'No Documents Have Been Uploaded' . self::EOL;
         }
     }
 

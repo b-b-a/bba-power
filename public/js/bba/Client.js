@@ -30,7 +30,7 @@ define("bba/Client",
     "bba/Site", "bba/Contract",
     "dojox/widget/Wizard", "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect",
     "dijit/form/SimpleTextarea",
-    "dojox/form/Uploader", "dojox/form/uploader/plugins/IFrame"],
+    "dojox/form/Uploader", "dojox/form/uploader/plugins/IFrame", "dojox/form/uploader/FileList"],
     function(dom, ready, parser, xhr, registry, bba) {
 
     ready(function () {

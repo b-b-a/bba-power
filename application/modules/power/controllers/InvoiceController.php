@@ -104,7 +104,7 @@ class Power_InvoiceController extends Zend_Controller_Action
             $inv = $this->_model->getInvoiceById($request->getPost('invoice_idInvoice'));
 
             $this->view->assign(array(
-                'invoice'            => $inv
+                'invoice' => $inv
             ));
         } else {
            return $this->_helper->redirector('index', 'invoice');

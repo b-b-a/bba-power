@@ -1,4 +1,4 @@
-Build started: Thu Jun 07 2012 07:37:28 GMT+0100 (BST)
+Build started: Wed Jun 13 2012 19:34:48 GMT+0100 (BST)
 Build application version: 1.7.0dev (23930)
 Messages:
 info(100) Assumed module uses legacy loader API.
@@ -1817,6 +1817,7 @@ dojo/dojo:
 	dijit/layout/utils
 	dijit/_Contained
 	dojox/widget/Standby
+	dojox/form/uploader/FileList
 	dijit/form/DataList
 	dijit/templates/Dialog.html
 	dijit/form/CheckBox
@@ -1886,4 +1887,4 @@ dojo/dojo:
 Process finished normally
 	errors: 0
 	warnings: 3
-	build time: 54.049 seconds
+	build time: 58.224 seconds
