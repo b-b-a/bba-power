@@ -47,9 +47,12 @@ define("bba/Invoice",
         gridLayouts : {
             invoice : [
                 {field: 'invoice_idInvoice', width: '50px', name: 'Id'},
-                {field: 'invoice_nameSupplier', width: '200px', name: 'Supplier Name'},
-                {field: 'invoice_numberInvoice', width: '100px', name: 'Invoice No.'},
+                {field: 'invoice_type', width: '100px', name: 'Type'},
+                {field: 'invoice_nameSupplier', width: '200px', name: 'Supplier'},
                 {field: 'invoice_dateInvoice', width: '150px', name: 'Invoice Date'},
+                {field: 'invoice_amountTotal', width: '100px', name: 'Total'},
+                {field: 'invoice_refSupplier', width: '150px', name: 'Supplier Ref'},
+                {field: 'invoice_numberInvoice', width: '100px', name: 'Invoice No.'},
                 {field: '', width: 'auto', name: ''}
             ]
         },

@@ -180,7 +180,7 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
         if (count($this->_files) > 0) {
             $this->_currentFile = $this->_files[0];
         }
-        
+
         return $this;
     }
 
@@ -196,14 +196,10 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
             return 'No Documents Have Been Uploaded';
         }
 
-        if (is_file(APPLICATION_PATH . $this->_docDir . '/' . $this->_currentFile['filename'])) {
-            $link = $this->makeButton($this->_currentFile);
-            return '<span>Stored on:&nbsp;' . $this->_currentFile['date'] . ' ' . $this->_currentFile['time']
-                . '<br />' . $this->_currentFile['normalise']
-                . $link . '</span>' . self::EOL;
-        } else {
-            return 'No Documents Have Been Uploaded' . self::EOL;
-        }
+        $link = $this->makeButton($this->_currentFile);
+        return '<span>Stored on:&nbsp;' . $this->_currentFile['date'] . ' ' . $this->_currentFile['time']
+            . '<br />' . $this->_currentFile['normalise']
+            . $link . '</span>' . self::EOL;
     }
 
     /**

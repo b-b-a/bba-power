@@ -57,8 +57,17 @@ class Power_Model_DbTable_Row_Invoice extends ZendSF_Model_DbTable_Row_Abstract
         'invoice_dateCreated'
     );
 
+    /**
+     * @var string
+     */
     protected $_dateFormat = 'dd/MM/yyyy';
 
+    /**
+     * Gets supplier parent row.
+     *
+     * @param string $row
+     * @return string|Power_Model_DbTable_Row_Supplier
+     */
     public function getSupplier($row = null)
     {
         if (!$this->_supplier instanceof Power_Model_DbTable_Row_Supplier) {
@@ -75,7 +84,7 @@ class Power_Model_DbTable_Row_Invoice extends ZendSF_Model_DbTable_Row_Abstract
      * @param string $dateFormat
      * @return array
      */
-    public function toArray($dateFormat = null)
+    public function toArray($dateFormat = null, $raw = false)
     {
         $array = array();
 
@@ -86,7 +95,24 @@ class Power_Model_DbTable_Row_Invoice extends ZendSF_Model_DbTable_Row_Abstract
                 $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
             }
 
-            $array[$key] = $value;
+            if (true === $raw) {
+                $array[$key] = $value;
+            } else {
+                switch($key) {
+                    case 'invoice_nameSupplier':
+                        $supplier = $this->getSupplier();
+
+                        if (strtolower($supplier->supplier_name) === 'unknown') {
+                            $array[$key] = $this->invoice_nameSupplier;
+                        } else {
+                            $array[$key] = $supplier->supplier_nameShort;
+                        }
+                        break;
+                    default:
+                        $array[$key] = $value;
+                        break;
+                }
+            }
         }
 
         return $array;

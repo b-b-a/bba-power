@@ -59,7 +59,7 @@ class Power_Model_DbTable_Invoice extends ZendSF_Model_DbTable_Abstract
      */
     protected $_referenceMap = array(
         'supplier'  => array(
-            'columns'       => 'invoice_idInvoice',
+            'columns'       => 'invoice_idSupplier',
             'refTableClass' => 'Power_Model_DbTable_Supplier',
             'refColumns'    => 'supplier_idSupplier'
         )

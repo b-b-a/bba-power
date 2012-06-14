@@ -30,7 +30,7 @@
                 store: invoiceStore,
                 structure: bba.Invoice.gridLayouts.invoice,
                 query: <?php echo $this->search; ?>,
-                sortInfo: "1",
+                sortInfo: "-1",
                 noDataMessage : bba.gridMessage'>
             <script type="dojo/method" data-dojo-event="onRowClick">
                 bba.Invoice.invoiceGridRowClick(this);
