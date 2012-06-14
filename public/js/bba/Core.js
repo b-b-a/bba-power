@@ -237,6 +237,11 @@ define("bba/Core",
             dom.byId('errorDialog').innerHTML = data.responseText;
             parser.parse('errorDialog');
             error.show();
+        },
+
+        docFileList : function(fileArray, id)
+        {
+            dom.byId(id).innerHTML = fileArray[0].name;
         }
     };
 

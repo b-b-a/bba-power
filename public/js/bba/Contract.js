@@ -26,12 +26,12 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Contract",
-    ["dojo/dom","dojo/ready", "dojo/parser", "dojo/_base/xhr", "dojo/_base/array", "dijit/registry",
+    ["dojo/dom","dojo/ready", "dojo/parser", "dojo/_base/connect", "dojo/_base/xhr", "dojo/_base/array", "dijit/registry",
      "dijit/Dialog", "dojo/data/ItemFileReadStore", "dojo", "bba/Core", "bba/Meter", "dijit/form/ValidationTextBox",
      "dojo/data/ItemFileReadStore", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea",
      "dojo/data/ItemFileWriteStore", "dojox/grid/_CheckBoxSelector",
-     "dojox/form/Uploader", "dojox/form/uploader/plugins/IFrame", "dojox/form/uploader/FileList"],
-    function(dom, ready, parser, xhr, array, registry, Dialog, ItemFileReadStore, dojo, bba) {
+     "dojox/form/Uploader", "dojox/form/uploader/plugins/IFrame"],
+    function(dom, ready, parser, connect, xhr, array, registry, Dialog, ItemFileReadStore, dojo, bba) {
 
     ready(function () {
 
@@ -260,9 +260,7 @@ define("bba/Contract",
                     content: dojo.mixin({type :  'edit'}, contentVars),
                     dialog: 'contractForm',
                     deferredFunction: function() {
-                        contract_docAnalysis.submit = function(){return false;}
-                        dojo.connect(contract_docTermination, "onComplete", bba.Contract.processContractForm);
-                        dojo.connect(contract_docTermination, "onError", bba.Contract.processContractForm);
+                        bba.Contract.setupDocEvents();
                     }
                 });
             } else {
@@ -291,9 +289,7 @@ define("bba/Contract",
                     content: dojo.mixin({type :  'add'}, contentVars),
                     dialog: 'contractForm',
                     deferredFunction: function() {
-                        contract_docAnalysis.submit = function(){return false;}
-                        dojo.connect(contract_docTermination, "onComplete", bba.Contract.processContractForm);
-                        dojo.connect(contract_docTermination, "onError", bba.Contract.processContractForm);
+                        bba.Contract.setupDocEvents();
                     }
                 });
             } else {
@@ -372,9 +368,7 @@ define("bba/Contract",
                 }
             } else {
                 bba.setupDialog(contractForm);
-                contract_docAnalysis.submit = function(){return false;}
-                dojo.connect(contract_docTermination, "onComplete", bba.Contract.processContractForm);
-                dojo.connect(contract_docTermination, "onError", bba.Contract.processContractForm);
+                bba.Contract.setupDocEvents();
                 contractForm.show();
             }
         },
@@ -410,6 +404,19 @@ define("bba/Contract",
                     }
                 }
             });
+        },
+
+        setupDocEvents : function()
+        {
+            contract_docAnalysis.submit = function(){return false;}
+            connect.connect(contract_docAnalysis, "onChange", function(fileArray){
+                bba.docFileList(fileArray, 'contract_docAnalysis_file');
+            });
+            connect.connect(contract_docTermination, "onChange", function(fileArray){
+                bba.docFileList(fileArray, 'contract_docTermination_file');
+            });
+            connect.connect(contract_docTermination, "onComplete", bba.Contract.processContractForm);
+            connect.connect(contract_docTermination, "onError", bba.Contract.processContractForm);
         }
     }
 

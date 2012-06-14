@@ -40,28 +40,6 @@
                     <td><?php echo $this->contract->contract_status; ?></td>
                 </tr>
                 <tr>
-                    <th>Termination Doc:</th>
-                    <td>
-                        <?php echo $this->DocTermination($this->contract)->getCurrentFile(); ?>
-                        <?php if ($files = $this->DocTermination($this->contract)->getFileList()): ?><br />
-                        <a href="#" onClick="dijit.byId('contractDocTermination<?php echo $this->contract->contract_idContract; ?>FileList').show(); return false;">
-                            Show All ...
-                        </a>
-
-                        <div>&nbsp;</div>
-                        <?php
-                            echo $this->partial('filelist.phtml', array(
-                                'row' => $this->contract,
-                                'files' => $files,
-                                'id' => 'DocTermination' . $this->contract->contract_idContract,
-                                'controller' => 'contract',
-                                'docClass'   => 'DocTermination'
-                            ));
-                        ?>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-                <tr>
                     <th>Analysis Doc:</th>
                     <td>
                         <?php echo $this->DocAnalysis($this->contract)->getCurrentFile(); ?>
@@ -78,6 +56,28 @@
                                 'id' => 'DocAnalysis' . $this->contract->contract_idContract,
                                 'controller' => 'contract',
                                 'docClass'   => 'DocAnalysis'
+                            ));
+                        ?>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Termination Doc:</th>
+                    <td>
+                        <?php echo $this->DocTermination($this->contract)->getCurrentFile(); ?>
+                        <?php if ($files = $this->DocTermination($this->contract)->getFileList()): ?><br />
+                        <a href="#" onClick="dijit.byId('contractDocTermination<?php echo $this->contract->contract_idContract; ?>FileList').show(); return false;">
+                            Show All ...
+                        </a>
+
+                        <div>&nbsp;</div>
+                        <?php
+                            echo $this->partial('filelist.phtml', array(
+                                'row' => $this->contract,
+                                'files' => $files,
+                                'id' => 'DocTermination' . $this->contract->contract_idContract,
+                                'controller' => 'contract',
+                                'docClass'   => 'DocTermination'
                             ));
                         ?>
                         <?php endif; ?>

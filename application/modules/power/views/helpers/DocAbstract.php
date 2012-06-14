@@ -71,7 +71,7 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
      */
     public function getFileList()
     {
-        return $this->_files;
+        return (count($this->_files) > 1) ? $this->_files : null;
     }
 
     /**

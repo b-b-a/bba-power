@@ -31,11 +31,13 @@ $docForm = $this->docForm;
 
                 <?php echo $form->client_idClientContact; ?>
 
+                <div class="form_row" docFile>
+                    <p class="label">
+                        <label>&nbsp;</label>
+                    </p>
+                    <p id="client_docLoa_file" class="element">&nbsp</p>
+                </div>
                 <?php echo $docForm->client_docLoa; ?>
-
-                <div id="files"
-                     dojoType="dojox.form.uploader.FileList"
-                     uploaderId="client_docLoa"></div>
 
                 <?php echo $form->client_dateExpiryLoa; ?>
 

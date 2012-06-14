@@ -32,11 +32,13 @@ $docForm = $this->docForm;
 
                     <?php echo $form->client_name; ?>
 
+                    <div class="form_row docFile">
+                        <p class="label">
+                            <label>&nbsp;</label>
+                        </p>
+                        <p id="client_docLoa_file" class="element">&nbsp</p>
+                    </div>
                     <?php echo $docForm->client_docLoa; ?>
-
-                    <div id="files"
-                         dojoType="dojox.form.uploader.FileList"
-                         uploaderId="client_docLoa"></div>
 
                     <?php echo $form->client_dateExpiryLoa; ?>
 
@@ -44,7 +46,7 @@ $docForm = $this->docForm;
 
                     <script type="dojo/method" data-dojo-event="onShow">
                         clientForm.attr('title', 'Client Information');
-                        dojo.connect(client_docLoa, "onComplete", bba.Client.processClientForm);
+                        bba.Client.setupDocEvents();
                     </script>
                 </div>
 
