@@ -91,8 +91,12 @@ class Power_Model_DbTable_Row_Invoice extends ZendSF_Model_DbTable_Row_Abstract
         foreach ($this->getRow() as $key => $value) {
 
             if (in_array($key, $this->_dateKeys)) {
-                $date = new Zend_Date($value);
-                $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
+                if ('0000-00-00' === $value || !$value) {
+                    $value = '';
+                } else {
+                    $date = new Zend_Date($value);
+                    $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
+                }
             }
 
             if (true === $raw) {

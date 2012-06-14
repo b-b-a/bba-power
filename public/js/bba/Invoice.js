@@ -28,7 +28,7 @@
 
 define("bba/Invoice",
     ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core",
-    "dijit/form/ValidationTextBox"],
+    "dijit/form/ValidationTextBox", "bba/Meter"],
     function(dom, ready, parser, xhr, registry, bba){
 
     ready(function () {
@@ -53,6 +53,25 @@ define("bba/Invoice",
                 {field: 'invoice_amountTotal', width: '100px', name: 'Total'},
                 {field: 'invoice_refSupplier', width: '150px', name: 'Supplier Ref'},
                 {field: 'invoice_numberInvoice', width: '100px', name: 'Invoice No.'},
+                {field: '', width: 'auto', name: ''}
+            ],
+            invoiceLines : [
+                {field: 'invoiceLine_idInvoiceLine', width: '50px', name: 'Id'},
+                bba.Meter.gridLayouts.meter[5],
+                {field: 'contract_idContract', width: '100px', name: 'Contract Id'},
+                {field: 'invoiceLine_dateStart', width: '150px', name: 'Start Date'},
+                {field: 'invoiceLine_dateEnd', width: '150px', name: 'End Date'},
+                {field: 'invoiceLine_fee', width: '50px', name: 'Fee'},
+                {field: 'invoiceLine_commission', width: '100px', name: 'Commission'},
+                {field: 'invoiceLine_consumption', width: '110px', name: 'Consumption'},
+                {field: 'invoiceLine_amount', width: '100px', name: 'Amount'},
+                {field: 'invoiceLine_proportionInvoiced', width: '50px', name: 'Claim'},
+                {field: 'invoiceLine_reference', width: '100px', name: 'Invoice Line Ref'},
+                {field: 'invoiceLine_dateCreated', width: '150px', name: 'Date Created'},
+                bba.Meter.gridLayouts.meterUsage[1],
+                bba.Meter.gridLayouts.meterUsage[6],
+                {field: 'invoiceUsage_idUsage', width: '75px', name: 'Usage Id'},
+                {field: 'invoiceLine_code', width: '50px', name: 'Code'},
                 {field: '', width: 'auto', name: ''}
             ]
         },

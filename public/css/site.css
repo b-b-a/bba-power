@@ -398,11 +398,11 @@ Form overrides.
 }
 
 #contractForm .form_wrap {
-    width: 650px;
+    width: 700px;
 }
 
-.contract_edit .label {
-    width: 120px;
+#contractForm p[id$=label] {
+    width: 250px;
 }
 
 .align-right {
