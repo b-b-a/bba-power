@@ -68,16 +68,12 @@ define("bba/Invoice",
                 {field: 'invoiceLine_proportionInvoiced', width: '50px', name: 'Claim'},
                 {field: 'invoiceLine_reference', width: '100px', name: 'Invoice Line Ref'},
                 {field: 'invoiceLine_dateCreated', width: '150px', name: 'Date Created'},
-                bba.Meter.gridLayouts.meterUsage[1],
-                bba.Meter.gridLayouts.meterUsage[6],
-                {field: 'invoiceUsage_idUsage', width: '75px', name: 'Usage Id'},
-                {field: 'invoiceLine_code', width: '50px', name: 'Code'},
                 {field: '', width: 'auto', name: ''}
             ]
         },
 
         invoiceGridRowClick : function(grid)
-         {
+        {
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'invoice_idInvoice');
@@ -93,6 +89,11 @@ define("bba/Invoice",
                     invoice_idInvoice : id
                 }
             });
+        },
+
+        invoiceLinesGridRowClick : function(grid)
+        {
+
         }
     }
 

@@ -297,9 +297,14 @@ define("bba/Client",
 
         setupDocEvents : function()
         {
+            dojo.connect(dom.byId('client_docLoa_file'), "onclick", function(){
+                dojo.query('input[name=client_docLoa]')[0].click();
+            });
+
             connect.connect(client_docLoa, "onChange", function(fileArray){
                 bba.docFileList(fileArray, 'client_docLoa_file');
             });
+
             connect.connect(client_docLoa, "onComplete", bba.Client.processClientForm);
             connect.connect(client_docLoa, "onError", bba.Client.processClientForm);
         }

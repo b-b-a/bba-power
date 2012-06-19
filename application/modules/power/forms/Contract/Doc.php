@@ -39,30 +39,6 @@
  */
 class Power_Form_Contract_Doc extends ZendSF_Form_Abstract
 {
-    protected $_fileDecorators = array(
-        'File',
-        'Errors',
-        'Description',
-        array(
-            array('data' => 'HtmlTag'),
-            array(
-                'tag' => 'p',
-                'class' => 'element'
-            )
-        ),
-        array(
-            'Label',
-            array('tag' => 'p')
-        ),
-        array(
-            array('row' => 'HtmlTag'),
-            array(
-                'tag' => 'div',
-                'class' => 'form_row'
-            )
-        )
-    );
-
     public function init()
     {
         $this->setName('contractDocs');
@@ -75,13 +51,43 @@ class Power_Form_Contract_Doc extends ZendSF_Form_Abstract
                 array('Extension', false, array('pdf')),
             ),
             'destination'   => realpath(APPLICATION_PATH . '/../bba-power-docs/contract_docAnalysis'),
-            'decorators'    => $this->_fileDecorators,
             'required'      => false,
             'attribs'       => array(
                 'data-dojo-type'    => 'dojox.form.Uploader',
                 'data-dojo-id'      => 'contract_docAnalysis',
-                'data-dojo-props'   => "label: 'Choose Analysis File'",
+                'data-dojo-props'   => "label: 'Choose Analysis File', isDebug: 'true'",
                 'force'             => "iframe"
+            ),
+            'decorators'    => array(
+                'File',
+                'Errors',
+                'Description',
+                array(
+                    array('data' => 'HtmlTag'),
+                    array(
+                        'tag'   => 'p',
+                        'class' => 'file-element'
+                    )
+                ),
+                array(
+                    array('filename' => 'HtmlTag'),
+                    array(
+                        'tag'   => 'p',
+                        'id'    => 'contract_docAnalysis_file',
+                        'class' => 'file-element'
+                    )
+                ),
+                array(
+                    'Label',
+                    array('tag' => 'p')
+                ),
+                array(
+                    array('row' => 'HtmlTag'),
+                    array(
+                        'tag'   => 'div',
+                        'class' => 'file-form_row'
+                    )
+                )
             )
         ));
 
@@ -93,13 +99,43 @@ class Power_Form_Contract_Doc extends ZendSF_Form_Abstract
                 array('Extension', false, array('pdf')),
             ),
             'destination'   => realpath(APPLICATION_PATH . '/../bba-power-docs/contract_docTermination'),
-            'decorators'    => $this->_fileDecorators,
             'required'      => false,
             'attribs'       => array(
                 'data-dojo-type'    => 'dojox.form.Uploader',
                 'data-dojo-id'      => 'contract_docTermination',
                 'data-dojo-props'   => "label: 'Choose Termination File'",
                 'force'             => "iframe"
+            ),
+            'decorators'    => array(
+                'File',
+                'Errors',
+                'Description',
+                array(
+                    array('data' => 'HtmlTag'),
+                    array(
+                        'tag'   => 'p',
+                        'class' => 'file-element'
+                    )
+                ),
+                array(
+                    array('filename' => 'HtmlTag'),
+                    array(
+                        'tag'   => 'p',
+                        'id'    => 'contract_docTermination_file',
+                        'class' => 'file-element'
+                    )
+                ),
+                array(
+                    'Label',
+                    array('tag' => 'p')
+                ),
+                array(
+                    array('row' => 'HtmlTag'),
+                    array(
+                        'tag'   => 'div',
+                        'class' => 'file-form_row'
+                    )
+                )
             )
         ));
     }

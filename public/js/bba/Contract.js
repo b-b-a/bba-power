@@ -409,12 +409,21 @@ define("bba/Contract",
         setupDocEvents : function()
         {
             contract_docAnalysis.submit = function(){return false;}
+
+            dojo.connect(dom.byId('contract_docAnalysis_file'), "onclick", function(){
+                dojo.query('input[name=contract_docAnalysis]')[0].click();
+            });
+            dojo.connect(dom.byId('contract_docTermination_file'), "onclick", function(){
+                dojo.query('input[name=contract_docTermination]')[0].click();
+            });
+
             connect.connect(contract_docAnalysis, "onChange", function(fileArray){
                 bba.docFileList(fileArray, 'contract_docAnalysis_file');
             });
             connect.connect(contract_docTermination, "onChange", function(fileArray){
                 bba.docFileList(fileArray, 'contract_docTermination_file');
             });
+
             connect.connect(contract_docTermination, "onComplete", bba.Contract.processContractForm);
             connect.connect(contract_docTermination, "onError", bba.Contract.processContractForm);
         }

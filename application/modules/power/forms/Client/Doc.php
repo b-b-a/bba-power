@@ -39,30 +39,6 @@
  */
 class Power_Form_Client_Doc extends ZendSF_Form_Abstract
 {
-    protected $_fileDecorators = array(
-        'File',
-        'Errors',
-        'Description',
-        array(
-            array('data' => 'HtmlTag'),
-            array(
-                'tag' => 'p',
-                'class' => 'element'
-            )
-        ),
-        array(
-            'Label',
-            array('tag' => 'p')
-        ),
-        array(
-            array('row' => 'HtmlTag'),
-            array(
-                'tag' => 'div',
-                'class' => 'form_row'
-            )
-        )
-    );
-
     public function init()
     {
         $this->setName('clientDocs');
@@ -75,13 +51,43 @@ class Power_Form_Client_Doc extends ZendSF_Form_Abstract
                 array('Extension', false, array('pdf')),
             ),
             'destination'   => realpath(APPLICATION_PATH . '/../bba-power-docs/client_docLoa'),
-            'decorators'    => $this->_fileDecorators,
             'required'      => false,
             'attribs'       => array(
                 'data-dojo-type'    => 'dojox.form.Uploader',
                 'data-dojo-id'      => 'client_docLoa',
                 'data-dojo-props'   => "label: 'Choose LoA File'",
                 'force'             => "iframe"
+            ),
+            'decorators'    => array(
+                'File',
+                'Errors',
+                'Description',
+                array(
+                    array('data' => 'HtmlTag'),
+                    array(
+                        'tag'   => 'p',
+                        'class' => 'file-element'
+                    )
+                ),
+                array(
+                    array('filename' => 'HtmlTag'),
+                    array(
+                        'tag'   => 'p',
+                        'id'    => 'client_docLoa_file',
+                        'class' => 'file-element'
+                    )
+                ),
+                array(
+                    'Label',
+                    array('tag' => 'p')
+                ),
+                array(
+                    array('row' => 'HtmlTag'),
+                    array(
+                        'tag'   => 'div',
+                        'class' => 'file-form_row'
+                    )
+                )
             )
         ));
     }

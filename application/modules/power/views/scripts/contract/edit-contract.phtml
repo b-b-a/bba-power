@@ -6,8 +6,26 @@
          data-dojo-props="region: 'center'">
 
         <div class="tabHeading">
-             <table class="info_wrap">
-                 <caption>Contract Details <span class="id_number">(<?php echo $this->contract->contract_idContract; ?>)</span></caption>
+            <table class="info_wrap">
+                <tr>
+                    <td colspan="2">
+                        <span class="caption">Contract Details&nbsp;
+                            <span class="id_number">
+                                (<?php echo $this->contract->contract_idContract; ?>)
+                            </span>
+                        </span>
+                        <?php if ($this->isAllowed('User')): ?>
+                        <button data-dojo-type="dijit.form.Button">
+                            Edit Details
+                            <script type="dojo/method" data-dojo-event="onClick">
+                                bba.Contract.editContractButtonClick({
+                                    contract_idContract : <?php echo $this->contract->contract_idContract; ?>
+                                });
+                            </script>
+                        </button>
+                        <?php endif; ?>
+                    </td>
+                </tr>
                 <tr>
                     <th>Client:</th>
                     <td><?php echo $this->contract->getClient('client_name'); ?></td>
@@ -47,8 +65,6 @@
                         <a href="#" onClick="dijit.byId('contractDocAnalysis<?php echo $this->contract->contract_idContract; ?>FileList').show(); return false;">
                             Show All ...
                         </a>
-
-                        <div>&nbsp;</div>
                         <?php
                             echo $this->partial('filelist.phtml', array(
                                 'row' => $this->contract,
@@ -69,8 +85,6 @@
                         <a href="#" onClick="dijit.byId('contractDocTermination<?php echo $this->contract->contract_idContract; ?>FileList').show(); return false;">
                             Show All ...
                         </a>
-
-                        <div>&nbsp;</div>
                         <?php
                             echo $this->partial('filelist.phtml', array(
                                 'row' => $this->contract,
@@ -99,21 +113,6 @@
                 <?php else: ?>
                 <tr>
                     <td colspan="2">No Tender Has Been Selected</td>
-                </tr>
-                <?php endif; ?>
-
-                <?php if ($this->isAllowed('User')): ?>
-                <tr>
-                    <td class="footer" colspan="2">
-                        <button data-dojo-type="dijit.form.Button">
-                            Edit Details
-                            <script type="dojo/method" data-dojo-event="onClick">
-                                bba.Contract.editContractButtonClick({
-                                    contract_idContract : <?php echo $this->contract->contract_idContract; ?>
-                                });
-                            </script>
-                        </button>
-                    </td>
                 </tr>
                 <?php endif; ?>
             </table>

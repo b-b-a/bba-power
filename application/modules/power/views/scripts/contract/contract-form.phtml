@@ -74,20 +74,8 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
 
                 <?php echo $form->contract_periodBill; ?>
 
-                <div class="form_row">
-                    <p class="label">
-                        <label>&nbsp;</label>
-                    </p>
-                    <p id="contract_docAnalysis_file" class="element">&nbsp</p>
-                </div>
                 <?php echo $docForm->contract_docAnalysis; ?>
 
-                <div class="form_row">
-                    <p class="label">
-                        <label>&nbsp;</label>
-                    </p>
-                    <p id="contract_docTermination_file" class="element">&nbsp</p>
-                </div>
                 <?php echo $docForm->contract_docTermination; ?>
 
                 <?php echo $form->contract_desc; ?>

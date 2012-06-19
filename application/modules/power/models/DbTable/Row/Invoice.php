@@ -62,6 +62,17 @@ class Power_Model_DbTable_Row_Invoice extends ZendSF_Model_DbTable_Row_Abstract
      */
     protected $_dateFormat = 'dd/MM/yyyy';
 
+    public function getInvoice_nameSupplier()
+    {
+        $supplier = $this->getSupplier();
+
+        if (strtolower($supplier->supplier_name) === 'unknown') {
+            return $this->getRow()->invoice_nameSupplier;
+        } else {
+            return $supplier->supplier_nameShort;
+        }
+    }
+
     /**
      * Gets supplier parent row.
      *
@@ -104,13 +115,7 @@ class Power_Model_DbTable_Row_Invoice extends ZendSF_Model_DbTable_Row_Abstract
             } else {
                 switch($key) {
                     case 'invoice_nameSupplier':
-                        $supplier = $this->getSupplier();
-
-                        if (strtolower($supplier->supplier_name) === 'unknown') {
-                            $array[$key] = $this->invoice_nameSupplier;
-                        } else {
-                            $array[$key] = $supplier->supplier_nameShort;
-                        }
+                        $array[$key] = $this->getInvoice_nameSupplier();
                         break;
                     default:
                         $array[$key] = $value;

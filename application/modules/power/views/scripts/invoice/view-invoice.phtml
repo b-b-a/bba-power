@@ -5,7 +5,30 @@
     <div data-dojo-type="dijit.layout.ContentPane"
          data-dojo-props="region: 'top'">
         <div class="tabHeading">
+            <h2>Invoice Details</h2>
 
+            <div>
+                <p>
+                    <b>Invoice Id:&nbsp;</b>
+                    <?php echo $this->invoice->invoice_idInvoice; ?>
+                </p>
+                <p>
+                    <b>Invoice No:&nbsp;</b>
+                    <?php echo $this->invoice->invoice_numberInvoice; ?>
+                </p>
+                <p>
+                    <b>Supplier:&nbsp;</b>
+                    <?php echo $this->invoice->invoice_nameSupplier; ?>
+                </p>
+                <p>
+                    <b>Invoice Date:&nbsp;</b>
+                    <?php echo $this->invoice->invoice_dateInvoice; ?>
+                </p>
+            </div>
+
+            <div class="tableHead">
+                <h2 class="tableHead-heading">Invoice Lines:</h2>
+            </div>
         </div>
     </div>
 
