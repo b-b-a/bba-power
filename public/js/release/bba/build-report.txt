@@ -1,4 +1,4 @@
-Build started: Thu Jun 14 2012 10:36:36 GMT+0100 (BST)
+Build started: Wed Jun 20 2012 17:28:33 GMT+0100 (BST)
 Build application version: 1.7.0dev (23930)
 Messages:
 info(100) Assumed module uses legacy loader API.
@@ -1761,6 +1761,7 @@ dojo/dojo:
 	dijit/form/_FormValueMixin
 	dijit/form/_FormWidgetMixin
 	dojox/grid/cells
+	dojo/date
 	dojox/grid/_Layout
 	dijit/layout/_ContentPaneResizeMixin
 	dijit/WidgetSet
@@ -1886,4 +1887,4 @@ dojo/dojo:
 Process finished normally
 	errors: 0
 	warnings: 3
-	build time: 65.584 seconds
+	build time: 61.601 seconds

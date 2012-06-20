@@ -44,11 +44,11 @@ class Power_Form_Contract_Doc extends ZendSF_Form_Abstract
         $this->setName('contractDocs');
 
         $this->addElement('file','contract_docAnalysis', array(
-            'label'         => 'New Analysis Document (pdf):',
+            'label'         => 'New Analysis Document:',
             'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Count', false, array(1)),
-                array('Extension', false, array('pdf')),
+                array('Extension', false, array_keys(Power_Model_Doc::$mimeMap)),
             ),
             'destination'   => realpath(APPLICATION_PATH . '/../bba-power-docs/contract_docAnalysis'),
             'required'      => false,
@@ -92,11 +92,11 @@ class Power_Form_Contract_Doc extends ZendSF_Form_Abstract
         ));
 
         $this->addElement('file','contract_docTermination', array(
-            'label'         => 'New Termination Document (pdf):',
+            'label'         => 'New Termination Document:',
             'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Count', false, array(1)),
-                array('Extension', false, array('pdf')),
+                array('Extension', false, array_keys(Power_Model_Doc::$mimeMap)),
             ),
             'destination'   => realpath(APPLICATION_PATH . '/../bba-power-docs/contract_docTermination'),
             'required'      => false,

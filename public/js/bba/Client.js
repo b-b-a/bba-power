@@ -26,12 +26,13 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Client",
-    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/connect", "dojo/_base/xhr", "dijit/registry", "bba/Core",
-    "bba/Site", "bba/Contract",
+    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/connect", "dojo/_base/xhr",
+    "dijit/registry", "dojo/date", "dijit/Dialog", "dojo/text!./html/LoaEmptyMessage.html",
+    "dojo/text!./html/LoaDateMessage.html", "bba/Core", "bba/Site", "bba/Contract",
     "dojox/widget/Wizard", "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect",
     "dijit/form/SimpleTextarea",
     "dojox/form/Uploader", "dojox/form/uploader/plugins/IFrame"],
-    function(dom, ready, parser, connect, xhr, registry, bba) {
+    function(dom, ready, parser, connect, xhr, registry, date, Dialog, LoaEmpty, LoaDate, bba) {
 
     ready(function () {
 
@@ -46,7 +47,9 @@ define("bba/Client",
     });
 
     bba.Client = {
-         gridLayouts : {
+        dateExpiryLoa : null,
+
+        gridLayouts : {
             client : [
                 {field: 'client_idClient', width: '50px', name: 'Id'},
                 {field: 'client_name', width: '200px', name: 'Client'},
@@ -181,7 +184,8 @@ define("bba/Client",
                     dialog: 'clientForm',
                     deferredFunction: function() {
                         bba.Client.setupDocEvents();
-                    }
+                        this.dateExpiryLoa = clientForm.getValues().client_dateExpiryLoa;
+                    }.bind(this)
                 });
             } else {
                 clientForm.show();
@@ -199,6 +203,69 @@ define("bba/Client",
             } else {
                 clientAdForm.show();
             }
+        },
+
+        clientLoaEmptyDialog : function()
+        {
+            clientFormLoaEmpty = new Dialog({
+                    title: "Client Form Warning",
+                    content: LoaEmpty,
+                    style: "width: 300px",
+                    onShow : function(){
+                        connect.connect(clientOKButton, 'onClick', function(){
+                            clientFormLoaEmpty.hide();
+                        });
+                    },
+                    onHide : function() {
+                        bba.closeDialog(clientFormLoaEmpty);
+                    }
+                });
+                clientFormLoaEmpty.show();
+        },
+
+        clientFormValidate : function()
+        {
+            formValues = clientForm.getValues();
+
+            if (!formValues.client_docLoa[0]) {
+                return clientForm.validate();
+            }
+
+            if (formValues.client_dateExpiryLoa === '') {
+                bba.Client.clientLoaEmptyDialog();
+                return false;
+            }
+
+            oldDate = (this.dateExpiryLoa) ? new Date(this.dateExpiryLoa) : new Date('01/01/1970');
+            newDate = new Date(formValues.client_dateExpiryLoa.replace(/\./g, '/'));
+
+            // if newDate is newer than oldDate validate form.
+            if (date.compare(newDate, oldDate)) {
+                return clientForm.validate();
+            }
+
+            clientFormLoaDate = new Dialog({
+                title: "Client Form Warning",
+                content: LoaDate,
+                style: "width: 300px",
+                onShow : function(){
+                    connect.connect(clientYesButton, 'onClick', function(){
+                        if (clientForm.validate()) {
+                            client_docLoa.submit();
+                        }
+                        clientFormLoaDate.hide();
+                    });
+                    connect.connect(clientNoButton, 'onClick', function(){
+                        clientFormLoaDate.hide();
+                    });
+                },
+                onHide : function() {
+                    bba.closeDialog(clientFormLoaDate);
+                }
+            });
+            clientFormLoaDate.show();
+
+            return false;
         },
 
         processClientForm : function()

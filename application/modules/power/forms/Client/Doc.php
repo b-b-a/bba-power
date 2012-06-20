@@ -44,11 +44,11 @@ class Power_Form_Client_Doc extends ZendSF_Form_Abstract
         $this->setName('clientDocs');
 
         $this->addElement('file','client_docLoa', array(
-            'label'         => 'New LoA Document (pdf):',
+            'label'         => 'New LoA Document:',
             'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Count', false, array(1)),
-                array('Extension', false, array('pdf')),
+                array('Extension', false, array_keys(Power_Model_Doc::$mimeMap)),
             ),
             'destination'   => realpath(APPLICATION_PATH . '/../bba-power-docs/client_docLoa'),
             'required'      => false,

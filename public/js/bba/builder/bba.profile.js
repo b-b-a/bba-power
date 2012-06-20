@@ -22,6 +22,7 @@ dependencies = {
                 "dojo/_base/xhr",
                 "dojo/data/ItemFileReadStore",
                 "dojo/data/ItemFileWriteStore",
+                "dojo/date",
 
                 "dijit/registry",
                 "dijit/Dialog",

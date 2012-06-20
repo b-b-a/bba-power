@@ -90,6 +90,11 @@ $docForm = $this->docForm;
                     </script>
 
                     <script type='dojo/method' data-dojo-event="doneFunction">
+                        if (clientForm.getValues().client_dateExpiryLoa === '') {
+                            bba.Client.clientLoaEmptyDialog();
+                            return false;
+                        }
+
                         if (!clientForm.validate()) {
                             alert('Please recheck all form entries for mistakes.');
                             return false;
@@ -97,8 +102,6 @@ $docForm = $this->docForm;
 
                         var vals = clientForm.get('value');
                         client_docLoa.submit(vals);
-                        //clientForm.execute(vals);
-                        //clientGrid._refresh();
                     </script>
                 </div>
 
