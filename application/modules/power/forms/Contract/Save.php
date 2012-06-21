@@ -69,7 +69,7 @@ class Power_Form_Contract_Save extends ZendSF_Dojo_Form_Abstract
 
         $request = Zend_Controller_Front::getInstance()->getRequest();
         $contractId = $request->getParam('contract_idContract', 0);
-        
+
         if ($request->getParam('contract_idContract') || $request->getParam('contract_idClient')) {
 
             $row = ($contractId) ?

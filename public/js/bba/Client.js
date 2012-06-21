@@ -208,19 +208,19 @@ define("bba/Client",
         clientLoaEmptyDialog : function()
         {
             clientFormLoaEmpty = new Dialog({
-                    title: "Client Form Warning",
-                    content: LoaEmpty,
-                    style: "width: 300px",
-                    onShow : function(){
-                        connect.connect(clientOKButton, 'onClick', function(){
-                            clientFormLoaEmpty.hide();
-                        });
-                    },
-                    onHide : function() {
-                        bba.closeDialog(clientFormLoaEmpty);
-                    }
-                });
-                clientFormLoaEmpty.show();
+                title: "Client Form Warning",
+                content: LoaEmpty,
+                style: "width: 300px",
+                onShow : function(){
+                    connect.connect(clientOKButton, 'onClick', function(){
+                        clientFormLoaEmpty.hide();
+                    });
+                },
+                onHide : function() {
+                    bba.closeDialog(clientFormLoaEmpty);
+                }
+            });
+            clientFormLoaEmpty.show();
         },
 
         clientFormValidate : function()

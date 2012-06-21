@@ -30,25 +30,7 @@
                     <th>Client:</th>
                     <td><?php echo $this->contract->getClient('client_name'); ?></td>
                 </tr>
-                <?php if ($this->contract->getContractPrevious()): ?>
-                <tr>
-                    <th>Previous Contract Ref:</th>
-                    <td><?php echo $this->escape(
-                        $this->previousContract->reference
-                    ); ?></td>
-                </tr>
-                <tr>
-                    <th>Previous End Date:</th>
-                    <td><?php echo $this->escape(
-                        $this->previousContract->dateEnd->toString('dd/MM/yyyy')
-                    ); ?></td>
-                </tr>
-                <?php else: ?>
-                <tr>
-                    <th>Previous Contract:</th>
-                    <td>No Previous Contract</td>
-                </tr>
-                <?php endif; ?>
+                
                 <tr>
                     <th>Type:</th>
                     <td><?php echo $this->contract->contract_type; ?></td>
