@@ -242,9 +242,6 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         // get filtered values.
         $post = $form->getValues();
 
-        $log = Zend_Registry::get('log');
-        $log->info($post);
-
         $this->getDbTable('client')->getAdapter()->beginTransaction();
 
         try {
@@ -379,13 +376,34 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         return $this->getDbTable('client')->saveRow($data, $client);
     }
 
+    public function checkClientAddress($post)
+    {
+        $form = $this->getForm('clientAddressSave');
+
+        if (!$form->isValid($post)) {
+            return false;
+        }
+
+        $post = $form->getValues();
+
+        $client = $this->getClientById($post['clientAd_idClient']);
+        // search clients address for possible duplicates.
+        $select = $client->getRow()->select()
+            ->where('clientAd_address1 like ?', '%' . $post['clientAd_address1'] . '%')
+            ->where('clientAd_postcode = ?', $post['clientAd_postcode']);
+        $addresses = $client->getAllClientAddresses($select);
+
+        $log = Zend_Registry::get('log');
+        $log->info($addresses);
+    }
+
     /**
      * Updates a client address.
      *
      * @param array $post
      * @return false|int
      */
-    public function saveClientAddress($post)
+    public function saveClientAddress($post, $doCheck = true)
     {
         if (!$this->checkAcl('saveClientAddress')) {
             throw new ZendSF_Acl_Exception('Insufficient rights');
@@ -395,6 +413,10 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
         if (!$form->isValid($post)) {
             return false;
+        }
+
+        if ('add' === $post['type'] && true === $doCheck) {
+            $dupilcates = $this->checkClientAddress($form->getValues());
         }
 
         // get filtered values and return results.

@@ -67,6 +67,15 @@ class Power_Model_DbTable_Row_Client extends ZendSF_Model_DbTable_Row_Abstract
         );
     }
 
+    public function getAllClientAddresses($select = null)
+    {
+        return $this->getRow()->findDependentRowset(
+            'Power_Model_DbTable_Client_Address',
+            'client',
+            $select
+        );
+    }
+
     /**
      * Returns row as an array, with optional date formating.
      *

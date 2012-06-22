@@ -65,6 +65,13 @@ class Power_Form_Meter_Save extends ZendSF_Dojo_Form_Abstract
 
     public function init()
     {
+        // add path to custom validators.
+        $this->addElementPrefixPath(
+            'Power_Validate',
+            APPLICATION_PATH . '/modules/power/models/validate/',
+            'validate'
+        );
+
         $this->setName('meter');
 
         $multiOptions = array();
@@ -154,7 +161,7 @@ class Power_Form_Meter_Save extends ZendSF_Dojo_Form_Abstract
             'filters'   => array(
                 'StripTags',
                 'StringTrim',
-                //array('PregReplace', array('match' => '/\s+/', 'replace' => ''))
+                array('PregReplace', array('match' => '/\s+/', 'replace' => ''))
             ),
             'dijitParams'   => array(
                 'promptMessage' => 'Enter the meter main number.',
@@ -162,7 +169,10 @@ class Power_Form_Meter_Save extends ZendSF_Dojo_Form_Abstract
             ),
             'validators'    => array(
                 //array('Regex', true, array('pattern' => '/^[0-9 ]{8,16}$/')),
-                array('StringLength', true, array('max' => 16))
+                array('StringLength', true, array('max' => 16)),
+                array('UniqueMPAN', false, array(
+                    $this->getModel()
+                ))
             ),
             'attribs'       => array('style' => 'width: 150px;')
         ));

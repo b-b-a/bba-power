@@ -48,7 +48,19 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
     public function getMeterById($id)
     {
         $id = (int) $id;
-        return $this->getDbTable('Meter')->getMeterById($id);
+        return $this->getDbTable('meter')->getMeterById($id);
+    }
+
+    /**
+     * Get Meter by meter_numberMain
+     *
+     * @param  string $mpan The meter number to search for
+     * @param  Power_Model_DbTable_Row_Meter $ignoreMeter Meter to ignore from the search
+     * @return null|Power_Model_DbTable_Row_Meter
+     */
+    public function getMeterByMpan($mpan, $ignoreMeter=null)
+    {
+        return $this->getDbTable('meter')->getMeterByMpan($mpan, $ignoreMeter);
     }
 
     /**

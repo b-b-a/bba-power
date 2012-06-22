@@ -88,6 +88,18 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
         return $this->find($id)->current();
     }
 
+    public function getMeterByMpan($mpan, $ignoreMeter)
+    {
+        $select = $this->select();
+        $select->where('meter_numberMain = ?', $mpan);
+
+        if (null !== $ignoreMeter) {
+            $select->where('meter_idMeter != ?', $ignoreMeter->meter_idMeter);
+        }
+
+        return $this->fetchRow($select);
+    }
+
     protected function _getSearchMetersSelect(array $search)
     {
         $select = $this->select(false)->setIntegrityCheck(false)
