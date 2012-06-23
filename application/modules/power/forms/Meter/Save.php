@@ -161,7 +161,7 @@ class Power_Form_Meter_Save extends ZendSF_Dojo_Form_Abstract
             'filters'   => array(
                 'StripTags',
                 'StringTrim',
-                array('PregReplace', array('match' => '/\s+/', 'replace' => ''))
+                //array('PregReplace', array('match' => '/\s+/', 'replace' => ''))
             ),
             'dijitParams'   => array(
                 'promptMessage' => 'Enter the meter main number.',

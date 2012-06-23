@@ -58,26 +58,28 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
-        'site'      => array(
+        'site'          => array(
             'columns'       => 'meter_idSite',
             'refTableClass' => 'Power_Model_DbTable_Site',
             'refColumns'    => 'site_idSite'
         ),
-        'meterType' => array(
+        'meterType'     => array(
             'columns'       => 'meter_type',
             'refTableClass' => 'Power_Model_DbTable_Tables',
             'refColumns'    => 'tables_key'
         ),
-        'meterStatus' => array(
+        'meterStatus'   => array(
             'columns'       => 'meter_status',
             'refTableClass' => 'Power_Model_DbTable_Tables',
             'refColumns'    => 'tables_key'
         ),
-        'user'      => array(
-            'columns'       => array(
-                'meter_userCreate',
-                'meter_userModify'
-            ),
+        'userCreate'    => array(
+            'columns'       => 'meter_userCreate',
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        ),
+        'userModify'    => array(
+            'columns'       => 'meter_userModify',
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
@@ -90,10 +92,14 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
 
     public function getMeterByMpan($mpan, $ignoreMeter)
     {
+        $mpan = $this->_stripSpacesAndHyphens($mpan);
+        
         $select = $this->select();
         $select->where('meter_numberMain = ?', $mpan);
 
-        if (null !== $ignoreMeter) {
+        // if the ignoreMeter is set and the new mpan number is equal to the meter mpan
+        // being edited then filter out this meter mpan number.
+        if (null !== $ignoreMeter && $mpan === $ignoreMeter->getRow()->meter_numberMain) {
             $select->where('meter_numberMain != ?', $ignoreMeter->getRow()->meter_numberMain);
         }
 
