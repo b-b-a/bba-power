@@ -93,11 +93,11 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
     public function getMeterByMpan($mpan, $ignoreMeter)
     {
         $mpan = $this->_stripSpacesAndHyphens($mpan);
-        
+
         $select = $this->select();
         $select->where('meter_numberMain = ?', $mpan);
 
-        // if the ignoreMeter is set and the new mpan number is equal to the meter mpan
+        // if the ignoreMeter is set and the mpan number is equal to the meter mpan
         // being edited then filter out this meter mpan number.
         if (null !== $ignoreMeter && $mpan === $ignoreMeter->getRow()->meter_numberMain) {
             $select->where('meter_numberMain != ?', $ignoreMeter->getRow()->meter_numberMain);

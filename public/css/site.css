@@ -411,14 +411,15 @@ Form overrides.
 }
 
 .zend_form .file-form_row {
+    padding: 0px;
     text-align: left;
     margin: 5px 0px;
-    height: 50px;
 }
 
 #contract_docAnalysis-label,
 #contract_docTermination-label,
 #client_docLoa-label {
+    margin: 0px;
     height: 48px;
 }
 
@@ -443,6 +444,7 @@ Form overrides.
 #contract_docAnalysis_file:hover,
 #contract_docTermination_file:hover,
 #client_docLoa_file:hover {
+    margin: 0px;
     border-color: #759dc0;
     -webkit-transition-duration: 0.25s;
     -moz-transition-duration: 0.25s;
