@@ -68,7 +68,7 @@ class Power_Form_Meter_Save extends ZendSF_Dojo_Form_Abstract
         // add path to custom validators.
         $this->addElementPrefixPath(
             'Power_Validate',
-            APPLICATION_PATH . '/modules/power/models/validate/',
+            APPLICATION_PATH . '/modules/power/models/Validate/',
             'validate'
         );
 
@@ -170,9 +170,7 @@ class Power_Form_Meter_Save extends ZendSF_Dojo_Form_Abstract
             'validators'    => array(
                 //array('Regex', true, array('pattern' => '/^[0-9 ]{8,16}$/')),
                 array('StringLength', true, array('max' => 16)),
-                array('UniqueMPAN', false, array(
-                    $this->getModel()
-                ))
+                array('UniqueMPAN', false, array($this->getModel()))
             ),
             'attribs'       => array('style' => 'width: 150px;')
         ));

@@ -94,7 +94,7 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
         $select->where('meter_numberMain = ?', $mpan);
 
         if (null !== $ignoreMeter) {
-            $select->where('meter_idMeter != ?', $ignoreMeter->meter_idMeter);
+            $select->where('meter_numberMain != ?', $ignoreMeter->getRow()->meter_numberMain);
         }
 
         return $this->fetchRow($select);
