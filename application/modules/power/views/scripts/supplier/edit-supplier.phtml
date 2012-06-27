@@ -7,18 +7,14 @@
 
         <div class="tabHeading">
             <table class="info_wrap">
-                <caption>Supplier Details</caption>
                 <tr>
-                    <th>Supplier Name:</th>
-                    <td><?php echo $this->supplier->supplier_name; ?></td>
-                </tr>
-                <tr>
-                    <th>Address:</th>
-                    <td><?php echo $this->supplier->getFullAddress(); ?></td>
-                </tr>
-                <?php if ($this->isAllowed('User')): ?>
-                <tr>
-                    <td class="footer" colspan="2">
+                    <td colspan="2">
+                        <span class="caption">Supplier Details&nbsp;
+                            <span class="id_number">
+                                (<?php echo $this->supplier->supplier_idSupplier; ?>)
+                            </span>
+                        </span>
+                        <?php if ($this->isAllowed('User')): ?>
                         <button data-dojo-type="dijit.form.Button">
                             Edit Details
                             <script type="dojo/method" data-dojo-event="onClick">
@@ -27,9 +23,17 @@
                                 });
                             </script>
                         </button>
+                        <?php endif; ?>
                     </td>
                 </tr>
-                <?php endif; ?>
+                <tr>
+                    <th>Supplier Name:</th>
+                    <td><?php echo $this->supplier->supplier_name; ?></td>
+                </tr>
+                <tr>
+                    <th>Address:</th>
+                    <td><?php echo $this->supplier->getFullAddress(); ?></td>
+                </tr>
             </table>
 
             <table class="info_wrap ident">

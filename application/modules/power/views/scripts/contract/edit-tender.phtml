@@ -7,7 +7,25 @@
         <div class="tabHeading">
 
             <table class="info_wrap">
-                <caption>Tender Details</caption>
+                <tr>
+                    <td colspan="2">
+                        <span class="caption">Tender Details&nbsp;
+                            <span class="id_number">
+                                (<?php echo $this->tender->tender_idTender; ?>)
+                            </span>
+                        </span>
+                        <?php if ($this->isAllowed('User')): ?>
+                        <button data-dojo-type="dijit.form.Button">
+                            Edit Details
+                            <script type="dojo/method" data-dojo-event="onClick">
+                                bba.Contract.editTenderButtonClick({
+                                    tender_idTender : <?php echo $this->tender->tender_idTender; ?>
+                                });
+                            </script>
+                        </button>
+                        <?php endif; ?>
+                    </td>
+                </tr>
                 <tr>
                     <th>Supplier:</th>
                     <td><?php echo $this->tender->getSupplier('supplier_name'); ?></td>
@@ -52,21 +70,6 @@
                     <th>Commission:</th>
                     <td><?php echo $this->tender->tender_commission; ?></td>
                 </tr>
-
-                <?php if ($this->isAllowed('User')): ?>
-                <tr>
-                    <td class="footer" colspan="2">
-                        <button data-dojo-type="dijit.form.Button">
-                            Edit Details
-                            <script type="dojo/method" data-dojo-event="onClick">
-                                bba.Contract.editTenderButtonClick({
-                                    tender_idTender : <?php echo $this->tender->tender_idTender; ?>
-                                });
-                            </script>
-                        </button>
-                    </td>
-                </tr>
-                <?php endif; ?>
             </table>
 
             <table class="info_wrap ident">

@@ -9,7 +9,25 @@
             <?php $mainContact = $this->site->getSiteAddress(); ?>
 
             <table class="info_wrap">
-                <caption>Site Details <span class="id_number">(<?php echo $this->site->site_idSite; ?>)</span></caption>
+                <tr>
+                    <td colspan="2">
+                        <span class="caption">Site Details&nbsp;
+                            <span class="id_number">
+                                (<?php echo $this->site->site_idSite; ?>)
+                            </span>
+                        </span>
+                        <?php if ($this->isAllowed('User')): ?>
+                        <button data-dojo-type="dijit.form.Button">
+                            Edit Details
+                            <script type="dojo/method" data-dojo-event="onClick">
+                                bba.Site.editSiteButtonClick({
+                                    site_idSite : <?php echo $this->site->site_idSite; ?>
+                                });
+                            </script>
+                        </button>
+                        <?php endif; ?>
+                    </td>
+                </tr>
                 <tr>
                     <th>Client:</th>
                     <td><?php echo $this->site->getClient('client_name'); ?></td>
@@ -40,20 +58,6 @@
                     <th>Postcode:</th>
                     <td><?php echo $mainContact->clientAd_postcode; ?></td>
                 </tr>
-                <?php if ($this->isAllowed('User')): ?>
-                <tr>
-                    <td class="footer" colspan="2">
-                        <button data-dojo-type="dijit.form.Button">
-                            Edit Details
-                            <script type="dojo/method" data-dojo-event="onClick">
-                                bba.Site.editSiteButtonClick({
-                                    site_idSite : <?php echo $this->site->site_idSite; ?>
-                                });
-                            </script>
-                        </button>
-                    </td>
-                </tr>
-                <?php endif; ?>
             </table>
 
              <table class="info_wrap ident">

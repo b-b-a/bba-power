@@ -7,7 +7,25 @@
         <div class="tabHeading">
 
             <table class="info_wrap">
-                <caption>Client Details</caption>
+                <tr>
+                    <td colspan="2">
+                        <span class="caption">Client Details&nbsp;
+                            <span class="id_number">
+                                (<?php echo $this->client->client_idClient; ?>)
+                            </span>
+                        </span>
+                        <?php if ($this->isAllowed('User')): ?>
+                        <button data-dojo-type="dijit.form.Button">
+                            Edit Details
+                            <script type="dojo/method" data-dojo-event="onClick">
+                                bba.Client.editClientButtonClick({
+                                    client_idClient : <?php echo $this->client->client_idClient; ?>
+                                });
+                            </script>
+                        </button>
+                        <?php endif; ?>
+                    </td>
+                </tr>
                 <tr>
                     <th>Client Name:</th>
                     <td><?php echo $this->client->client_name; ?></td>
@@ -36,21 +54,6 @@
                         <?php endif; ?>
                     </td>
                 </tr>
-
-                <?php if ($this->isAllowed('User')): ?>
-                <tr>
-                    <td class="footer" colspan="2">
-                        <button data-dojo-type="dijit.form.Button">
-                            Edit Details
-                            <script type="dojo/method" data-dojo-event="onClick">
-                                bba.Client.editClientButtonClick({
-                                    client_idClient : <?php echo $this->client->client_idClient; ?>
-                                });
-                            </script>
-                        </button>
-                    </td>
-                </tr>
-                <?php endif; ?>
             </table>
 
             <table class="info_wrap ident">

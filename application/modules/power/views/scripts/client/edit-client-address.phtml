@@ -6,7 +6,25 @@
          data-dojo-props="region: 'center'">
         <div class="tabHeading">
             <table class="info_wrap">
-                <caption>Client Address Details</caption>
+                <tr>
+                    <td colspan="2">
+                        <span class="caption">Client Address Details&nbsp;
+                            <span class="id_number">
+                                (<?php echo $this->clientAd->clientAd_idAddress; ?>)
+                            </span>
+                        </span>
+                        <?php if ($this->isAllowed('User')): ?>
+                        <button data-dojo-type="dijit.form.Button">
+                            Edit Details
+                            <script type="dojo/method" data-dojo-event="onClick">
+                                bba.Client.editClientAdButtonClick({
+                                    clientAd_idAddress : <?php echo $this->clientAd->clientAd_idAddress ?>
+                                });
+                            </script>
+                        </button>
+                        <?php endif; ?>
+                    </td>
+                </tr>
                 <tr>
                     <th>Address Name:</th>
                     <td><?php echo $this->clientAd->clientAd_addressName; ?></td>
@@ -27,21 +45,6 @@
                     <th>Postcode:</th>
                     <td><?php echo $this->clientAd->clientAd_postcode; ?></td>
                 </tr>
-
-                <?php if ($this->isAllowed('User')): ?>
-                <tr>
-                    <td class="footer" colspan="2">
-                        <button data-dojo-type="dijit.form.Button">
-                            Edit Details
-                            <script type="dojo/method" data-dojo-event="onClick">
-                                bba.Client.editClientAdButtonClick({
-                                    clientAd_idAddress : <?php echo $this->clientAd->clientAd_idAddress ?>
-                                });
-                            </script>
-                        </button>
-                    </td>
-                </tr>
-                <?php endif; ?>
             </table>
             <div class="clear"></div>
         </div>
