@@ -444,7 +444,6 @@ Form overrides.
 #contract_docAnalysis_file:hover,
 #contract_docTermination_file:hover,
 #client_docLoa_file:hover {
-    margin: 0px;
     border-color: #759dc0;
     -webkit-transition-duration: 0.25s;
     -moz-transition-duration: 0.25s;
