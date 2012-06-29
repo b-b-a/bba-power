@@ -88,7 +88,7 @@ class Power_Form_Tender_Save extends ZendSF_Dojo_Form_Abstract
                 'promptMessage' => 'Select a Supplier'
             ),
             'attribs' => array(
-                'onChange' => 'bba.Contract.changeSupplierContact(this.value);'
+                'onChange' => 'bba.Contract.changeSupplierPersonnel(this.value);'
             ),
             'value' => '0',
             'required' => true,
@@ -102,18 +102,18 @@ class Power_Form_Tender_Save extends ZendSF_Dojo_Form_Abstract
         ));
 
 
-        $this->addElement('FilteringSelect', 'tender_idSupplierContact', array(
+        $this->addElement('FilteringSelect', 'tender_idSupplierPersonnel', array(
             'label' => 'Supplier Liaison:',
             'filters' => array('StripTags', 'StringTrim'),
             'autoComplete' => false,
             'hasDownArrow' => true,
-            'storeId' => 'supplierContactStore',
+            'storeId' => 'supplierPersonnelStore',
             'storeType' => 'dojo.data.ItemFileReadStore',
             'storeParams' => array(
-                'url' => "supplier/data-store/type/supplierContacts" . $supplier
+                'url' => "supplier/data-store/type/supplierPersonnel" . $supplier
             ),
             'dijitParams' => array(
-                'searchAttr' => 'supplierCo_name',
+                'searchAttr' => 'supplierPers_name',
                 'promptMessage' => 'Select a Supplier Contact'
             ),
             'required' => false,

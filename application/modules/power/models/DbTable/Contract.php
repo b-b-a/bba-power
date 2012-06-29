@@ -73,10 +73,10 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_Tender',
             'refColumns'    => 'tender_idTender'
         ),
-        'supplierContactSelected'   => array(
-            'columns'       => 'contract_idSupplierContactSelected',
-            'refTableClass' => 'Power_Model_DbTable_SupplierContact',
-            'refColumns'    => 'supplierCo_idSupplierContact'
+        'supplierPersonnelSelected'   => array(
+            'columns'       => 'contract_idSupplierPersonnelSelected',
+            'refTableClass' => 'Power_Model_DbTable_Supplier_Personnel',
+            'refColumns'    => 'supplierPers_idSupplierPersonnel'
         ),
         'contractStatus' => array(
             'columns'       => 'contract_status',
@@ -88,11 +88,13 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_Tables',
             'refColumns'    => 'tables_key'
         ),
-        'user'                      => array(
-            'columns'       => array(
-                'contract_userCreate',
-                'contract_userModify'
-            ),
+        'userCreate'    => array(
+            'columns'       => 'contract_userCreate',
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        ),
+        'userModify'    => array(
+            'columns'       => 'contract_userModify',
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )

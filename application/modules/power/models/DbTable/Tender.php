@@ -68,16 +68,18 @@ class Power_Model_DbTable_Tender extends ZendSF_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_Supplier',
             'refColumns'    => 'supplier_idSupplier'
         ),
-        'supplierContact'   => array(
-            'columns'       => 'tender_idSupplierContact',
-            'refTableClass' => 'Power_Model_DbTable_Supplier_Contact',
-            'refColumns'    => 'supplierCo_idSupplierContact'
+        'supplierPers'   => array(
+            'columns'       => 'tender_idSupplierPersonnel',
+            'refTableClass' => 'Power_Model_DbTable_Supplier_Personnel',
+            'refColumns'    => 'supplierPers_idSupplierPersonnel'
         ),
-        'user'              => array(
-            'columns'       => array(
-                'tender_userCreate',
-                'tender_userModify'
-            ),
+        'userCreate'    => array(
+            'columns'       => 'tender_userCreate',
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        ),
+        'userModify'    => array(
+            'columns'       => 'tender_userModify',
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
@@ -95,7 +97,7 @@ class Power_Model_DbTable_Tender extends ZendSF_Model_DbTable_Abstract
             ->join('contract', 'contract_idContract = tender_idContract')
             ->join('client', 'client_idClient = contract_idClient')
             ->join('supplier', 'tender_idSupplier = supplier_idSupplier')
-            ->joinLeft('supplier_contact', 'tender_idSupplierContact = SupplierCo_idSuppliercontact')
+            ->joinLeft('supplier_personnel', 'tender_idSupplierPersonnel = SupplierPers_idSupplierPersonnel')
             ->where('tender_idContract = ?', $search['tender_idContract']);
 
         $select = $this->getLimit($select, $count, $offset);

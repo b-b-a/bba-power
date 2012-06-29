@@ -43,7 +43,7 @@ class Power_Form_Client_Add extends ZendSF_Dojo_Form_Abstract
     {
         $clientForm = new Power_Form_Client_Save(array('model' => $this->_model));
         $clientAdForm = new Power_Form_Client_Address_Save(array('model' => $this->_model));
-        $clientCoForm = new Power_Form_Client_Contact_Save(array('model' => $this->_model));
+        $clientPersForm = new Power_Form_Client_Personnel_Save(array('model' => $this->_model));
 
         /**
          * Add Client form elements
@@ -64,10 +64,10 @@ class Power_Form_Client_Add extends ZendSF_Dojo_Form_Abstract
         /**
          * Add Client Contact form Elements
          */
-        $this->addElement($clientCoForm->getElement('clientCo_type')->setValue('liaison'));
-        $this->addElement($clientCoForm->getElement('clientCo_name'));
-        $this->addElement($clientCoForm->getElement('clientCo_position'));
-        $this->addElement($clientCoForm->getElement('clientCo_phone'));
-        $this->addElement($clientCoForm->getElement('clientCo_email'));
+        $this->addElement($clientPersForm->getElement('clientPers_type')->setValue('liaison'));
+        $this->addElement($clientPersForm->getElement('clientPers_name'));
+        $this->addElement($clientPersForm->getElement('clientPers_position'));
+        $this->addElement($clientPersForm->getElement('clientPers_phone'));
+        $this->addElement($clientPersForm->getElement('clientPers_email'));
     }
 }

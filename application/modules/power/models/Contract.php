@@ -349,7 +349,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
                 $data[$key] = $date->toString('yyyy-MM-dd');
             }
 
-            if ($key == 'contract_idSupplierContactSelected'
+            if ($key == 'contract_idSupplierPersonnelSelected'
                     || $key == 'contract_idTenderSelected'
                     || $key == 'contract_idContractPrevious') {
                 if ($value == '0' || $value == '') {

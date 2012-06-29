@@ -81,10 +81,10 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
      * @param  int $id
      * @return null|Power_Model_DbTable_Row_Client_Contact
      */
-    public function getClientContactById($id)
+    public function getClientPersonnelById($id)
     {
         $id = (int) $id;
-        return $this->getDbTable('clientContact')->getClientContactById($id);
+        return $this->getDbTable('clientPersonnel')->getClientPersonnelById($id);
     }
 
     /**
@@ -93,10 +93,10 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
      * @param int $id
      * @return null|array
      */
-    public function getClientContactsByClientId($id)
+    public function getClientPersonnelByClientId($id)
     {
         $id = (int) $id;
-        return $this->getDbTable('clientContact')->getClientContactsByClientId($id);
+        return $this->getDbTable('clientPersonnel')->getClientPersonnelByClientId($id);
     }
 
     /**
@@ -160,19 +160,19 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
      * @param array $post
      * @return string JSON string
      */
-    public function getClientContactDataStore(array $post)
+    public function getClientPersonnelDataStore(array $post)
     {
         $sort = $post['sort'];
         $count = $post['count'];
         $start = $post['start'];
 
-        $dataObj = $this->getDbTable('clientContact')->searchContact($post, $sort, $count, $start);
+        $dataObj = $this->getDbTable('clientPersonnel')->searchContact($post, $sort, $count, $start);
 
-        $store = $this->_getDojoData($dataObj, 'clientCo_idClientContact');
+        $store = $this->_getDojoData($dataObj, 'clientPers_idClientPersonnel');
 
         $store->setMetadata(
             'numRows',
-            $this->getDbTable('clientContact')->numRows($post)
+            $this->getDbTable('clientPersonnel')->numRows($post)
         );
 
         return $store->toJson();
@@ -261,9 +261,9 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $clientAdSave = $this->_saveClientAddress($post);
 
             // now save client contact
-            $post['clientCo_idClient'] = $clientSave;
-            $post['clientCo_idAddress'] = $clientAdSave;
-            $clientCoSave = $this->_saveClientContact($post);
+            $post['clientPers_idClient'] = $clientSave;
+            $post['clientPers_idAddress'] = $clientAdSave;
+            $clientPersSave = $this->_saveClientPersonnel($post);
 
             // now update client with address and contact ids.
             // we will have to update docLoa here too.
@@ -279,14 +279,14 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
             $post['client_idClient'] = $clientSave;
             $post['client_idAddress'] = $clientAdSave;
-            $post['client_idClientContact'] = $clientCoSave;
+            $post['client_idClientPersonnel'] = $clientCoSave;
             $clientSave = $this->_saveClient($post);
 
             $newSite = array(
                 'site_idClient'         => $clientSave,
                 'site_idAddress'        => $clientAdSave,
                 'site_idAddressBill'    => $clientAdSave,
-                'site_idClientContact'  => $clientCoSave
+                'site_idClientContact'  => $clientPersSave
             );
 
             // now save the new client as a new site.
@@ -370,6 +370,10 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         $date->set($date, Zend_Date::DATE_SHORT);
         $data['client_dateExpiryLoa'] = $date->toString('yyyy-MM-dd');
 
+        if ($data['client_idClientPersonnel'] == '0' || $data['client_idClientPersonnel'] == '') {
+                    $data['client_idClientPersonnel'] = null;
+                }
+
         $client = array_key_exists('client_idClient', $data) ?
             $this->getClientById($data['client_idClient']) : null;
 
@@ -443,19 +447,19 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
      * @param array $post
      * @return false|int
      */
-    public function saveClientContact($post)
+    public function saveClientPersonnel($post)
     {
-        if (!$this->checkAcl('saveClientContact')) {
+        if (!$this->checkAcl('saveClientPersonnel')) {
             throw new ZendSF_Acl_Exception('Insufficient rights');
         }
 
-        $form = $this->getForm('clientContactSave');
+        $form = $this->getForm('clientPersonnelSave');
 
         if ($post['type'] == 'edit') {
-            $form->excludeEmailFromValidation('clientCo_email', array(
-                'field' => 'clientCo_email',
-                'value' => $this->getClientContactById($post['clientCo_idClientContact'])
-                    ->clientCo_email
+            $form->excludeEmailFromValidation('clientPers_email', array(
+                'field' => 'clientPers_email',
+                'value' => $this->getClientPersonnelById($post['clientPers_idClientPersonnel'])
+                    ->clientPers_email
             ));
         }
 
@@ -464,7 +468,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         }
 
         // get filtered values and return results.
-        return $this->_saveClientContact($form->getValues());
+        return $this->_saveClientPersonnel($form->getValues());
     }
 
     /**
@@ -473,12 +477,12 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
      * @param array $data
      * @return false|int
      */
-    protected function _saveClientContact($data)
+    protected function _saveClientPersonnel($data)
     {
-        $clientCo = array_key_exists('clientCo_idClientContact', $data) ?
-            $this->getClientContactById($data['clientCo_idClientContact']) : null;
+        $clientPers = array_key_exists('clientPers_idClientPersonnel', $data) ?
+            $this->getClientPersonnelById($data['clientPers_idClientPersonnel']) : null;
 
-        return $this->getDbTable('clientContact')->saveRow($data, $clientCo);
+        return $this->getDbTable('clientPersonnel')->saveRow($data, $clientPers);
     }
 
     /**

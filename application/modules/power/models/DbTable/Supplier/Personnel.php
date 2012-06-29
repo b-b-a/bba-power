@@ -1,6 +1,6 @@
 <?php
 /**
- * ClientContact.php
+ * SupplierPersonnel.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Database adapter class for the ClientContact table.
+ * Database adapter class for the SupplierPersonnel table.
  *
  * @category   BBA
  * @package    Power
@@ -37,76 +37,65 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
+class Power_Model_DbTable_Supplier_Personnel extends ZendSF_Model_DbTable_Abstract
 {
     /**
      * @var string database table
      */
-    protected $_name = 'client_contact';
+    protected $_name = 'supplier_personnel';
 
     /**
      * @var string primary key
      */
-    protected $_primary = 'clientCo_idClientContact';
+    protected $_primary = 'supplierPers_idSupplierPersonnel';
 
     /**
      * @var string row class
      */
-    protected $_rowClass = 'Power_Model_DbTable_Row_Client_Contact';
+    protected $_rowClass = 'Power_Model_DbTable_Row_Supplier_Personnel';
 
     /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
-        'client'        => array(
-            'columns'       => 'clientCo_idClient',
-            'refTableClass' => 'Power_Model_DbTable_Client',
-            'refColumns'    => 'client_idClient'
+        'supplier'  => array(
+            'columns'       => 'supplierPers_idSupplier',
+            'refTableClass' => 'Power_Model_DbTable_Supplier',
+            'refColumns'    => 'supplier_idSupplier'
         ),
-        'clientAddress' => array(
-            'columns'       => 'clientCo_idAddress',
-            'refTableClass' => 'Power_Model_DbTable_ClientAddress',
-            'refColumns'    => 'clientAd_idAddress'
+        'userCreate'    => array(
+            'columns'       => 'supplierPers_userCreate',
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
         ),
-        'user'          => array(
-            'columns'       => array(
-                'clientCo_userCreate',
-                'clientCo_userModify'
-            ),
+        'userModify'    => array(
+            'columns'       => 'supplierPers_userModify',
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
     );
 
-    public function getClientContactById($id)
+    public function getSupplierPersonnelById($id)
     {
         return $this->find($id)->current();
     }
 
-    public function getClientContactsByClientId($id)
+    protected function _getSearchPersonnelSelect($search)
     {
-        $select = $this->select()->where('clientCo_idClient = ?', $id);
-        return $this->fetchAll($select);
+         $select = $this->select(false)->setIntegrityCheck(false)
+            ->from('supplier_personnel')
+            ->where('supplierPers_idSupplier = ?', $search);
+
+         return $select;
     }
 
-    protected function _getSearchContactSelect(array $search)
+    public function searchPersonnel($id, $sort = '', $count = null, $offset = null)
     {
-        $select = $this->select(false)->setIntegrityCheck(false)
-            ->from('client_contact')
-            ->join('tables', 'tables_name = "clientCo_type" AND tables_key = clientCo_type')
-            ->join('client_address', 'clientCo_idAddress = clientAd_idAddress')
-            ->where('clientCo_idClient = ?', $search['clientCo_idClient']);
-
-        if (isset($search['clientCo_idAddress'])) {
-            $select->where('clientCo_idAddress = ? ', $search['clientCo_idAddress']);
-        }
-
-        return $select;
-    }
-
-    public function searchContact(array $search, $sort = '', $count = null, $offset = null)
-    {
-        $select = $this->_getSearchContactSelect($search);
+        $select = $this->_getSearchPersonnelSelect($id)
+            ->join('tables',
+                'tables_name = "supplierPers_type" AND tables_key = supplierPers_type',
+                array('supplierPers_type_tables' => 'tables_value')
+            );
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 
@@ -115,9 +104,9 @@ class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
 
     public function numRows($search)
     {
-        $select = $this->_getSearchContactSelect($search);
+        $select = $this->_getSearchPersonnelSelect($search);
         $select->reset(Zend_Db_Select::COLUMNS);
-        $select->columns(array('numRows' => 'COUNT(clientCo_idAddress)'));
+        $select->columns(array('numRows' => 'COUNT(supplierPers_idSupplierPersonnel)'));
         $result = $this->fetchRow($select);
 
         return $result->numRows;
@@ -126,8 +115,8 @@ class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
     public function insert(array $data)
     {
         $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['clientCo_dateCreate'] = new Zend_Db_Expr('CURDATE()');
-        $data['clientCo_userCreate'] = $auth->getId();
+        $data['supplierPers_dateCreate'] = new Zend_Db_Expr('CURDATE()');
+        $data['supplierPers_userCreate'] = $auth->getId();
 
         $this->_log->info(Zend_Debug::dump($data, "\nINSERT: " . __CLASS__ . "\n", false));
 
@@ -137,8 +126,8 @@ class Power_Model_DbTable_Client_Contact extends ZendSF_Model_DbTable_Abstract
     public function update(array $data, $where)
     {
         $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['clientCo_dateModify'] = new Zend_Db_Expr('CURDATE()');
-        $data['clientCo_userModify'] = $auth->getId();
+        $data['supplierPers_dateModify'] = new Zend_Db_Expr('CURDATE()');
+        $data['supplierPers_userModify'] = $auth->getId();
 
         $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
 

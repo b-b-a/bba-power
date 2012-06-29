@@ -51,11 +51,11 @@ class Power_Model_DbTable_Row_Client extends ZendSF_Model_DbTable_Row_Abstract
         'client_dateModify'
     );
 
-    public function getClientContact()
+    public function getClientPersonnel()
     {
         return $this->getRow()->findParentRow(
-            'Power_Model_DbTable_Client_Contact',
-            'clientCo'
+            'Power_Model_DbTable_Client_Personnel',
+            'clientPers'
         );
     }
 

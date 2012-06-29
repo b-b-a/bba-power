@@ -1,6 +1,6 @@
 <?php
 /**
- * Contact.php
+ * Personnel.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Database class for the Contact table row.
+ * Database class for the Peronnel table row.
  *
  * @category   BBA
  * @package    Power
@@ -37,45 +37,16 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Row_Client_Contact extends ZendSF_Model_DbTable_Row_Abstract
+class Power_Model_DbTable_Row_Supplier_Personnel extends ZendSF_Model_DbTable_Row_Abstract
 {
-    /**
-     * Array of all columns with need date format applied
-     * to it when outputting row as an array.
-     *
-     * @var array
-     */
-    protected $_dateKeys = array(
-        'clientCo_dateCreate',
-        'clientCo_dateModify'
-    );
+    public function getAddress1AndPostcode()
+    {
+        return $this->getRow()->supplierPers_address1 . ', ' . $this->getRow()->supplierPers_postcode;
+    }
 
     public function getMailto()
     {
-        $email = $this->getRow()->clientCo_email;
+        $email = $this->getRow()->supplierPers_email;
         return '<a href="mailto:' . $email . '">' . $email . '</a>';
-    }
-
-    /**
-     * Returns row as an array, with optional date formating.
-     *
-     * @param string $dateFormat
-     * @return array
-     */
-    public function toArray($dateFormat = null)
-    {
-        $array = array();
-
-        foreach ($this->getRow() as $key => $value) {
-
-            if (in_array($key, $this->_dateKeys)) {
-                $date = new Zend_Date($value);
-                $value = $date->toString($dateFormat);
-            }
-
-            $array[$key] = $value;
-        }
-
-        return $array;
     }
 }

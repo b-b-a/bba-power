@@ -57,16 +57,18 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
-        'supplierContact'   => array(
-            'columns'       => 'supplier_idSupplierContact',
-            'refTableClass' => 'Power_Model_DbTable_Supplier_Contact',
-            'refColumns'    => 'supplierCo_idSupplierContact'
+        'supplierPers'   => array(
+            'columns'       => 'supplier_idSupplierPersonnel',
+            'refTableClass' => 'Power_Model_DbTable_Supplier_Personnel',
+            'refColumns'    => 'supplierPers_idSupplierPersonnel'
         ),
-        'user'              => array(
-            'columns'       => array(
-                'supplier_userCreate',
-                'supplier_userModify'
-            ),
+        'userCreate'    => array(
+            'columns'       => 'supplier_userCreate',
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        ),
+        'userModify'    => array(
+            'columns'       => 'supplier_userModify',
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
@@ -113,8 +115,8 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
                 'supplier_postcode'
             ))
             ->joinLeft(
-                'supplier_contact',
-                'supplier_idSupplierContact = supplierCo_idSupplierContact',
+                'supplier_personnel',
+                'supplier_idSupplierPersonnel = supplierPers_idSupplierPersonnel',
                 null
             );
 
@@ -131,13 +133,13 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
             }
         }
 
-        if (!$search['contact'] == '') {
-            $select->orWhere('supplierCo_name like ?', '%' . $search['contact'] . '%')
-                ->orWhere('supplierCo_email like ?', '%' . $search['contact'] . '%')
-                ->orWhere('supplierCo_address1 like ?', '%' . $search['contact'] . '%')
-                ->orWhere('supplierCo_address2 like ?', '%' . $search['contact'] . '%')
-                ->orWhere('supplierCo_address3 like ?', '%' . $search['contact'] . '%')
-                ->orWhere('supplierCo_postcode like ?', '%' . $search['contact'] . '%');
+        if (!$search['personnel'] == '') {
+            $select->orWhere('supplierPers_name like ?', '%' . $search['personnel'] . '%')
+                ->orWhere('supplierPers_email like ?', '%' . $search['personnel'] . '%')
+                ->orWhere('supplierPers_address1 like ?', '%' . $search['personnel'] . '%')
+                ->orWhere('supplierPers_address2 like ?', '%' . $search['personnel'] . '%')
+                ->orWhere('supplierPers_address3 like ?', '%' . $search['personnel'] . '%')
+                ->orWhere('supplierPers_postcode like ?', '%' . $search['personnel'] . '%');
         }
 
         return $select;

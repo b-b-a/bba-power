@@ -68,11 +68,13 @@ class Power_Model_DbTable_Meter_Usage extends ZendSF_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_Tables',
             'refColumns'    => 'tables_key'
         ),
-        'user'  => array(
-            'columns'       => array(
-                'usage_userCreate',
-                'usage_userModify'
-            ),
+        'userCreate'    => array(
+            'columns'       => 'usage_userCreate',
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        ),
+        'userModify'    => array(
+            'columns'       => 'usage_userModify',
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )

@@ -84,12 +84,12 @@
                 <caption>Main Liaison</caption>
                 <tr>
                     <td>
-                        <?php $mainContact = $this->client->getClientContact(); ?>
-                        <?php if (isset($mainContact->clientCo_idClientContact)): ?>
+                        <?php $mainContact = $this->client->getClientPersonnel(); ?>
+                        <?php if (isset($mainContact->clientPers_idClientPersonnel)): ?>
                             <?php echo $this->formatAddress(array(
-                                $mainContact->clientCo_name,
-                                $mainContact->clientCo_position,
-                                $mainContact->clientCo_phone,
+                                $mainContact->clientPers_name,
+                                $mainContact->clientPers_position,
+                                $mainContact->clientPers_phone,
                                 $mainContact->getMailto()
                             )); ?>
                         <?php else: ?>
@@ -142,22 +142,22 @@
                  data-dojo-props="region: 'center', title: 'Client Personnel'">
 
                 <span data-dojo-type="dojox.data.QueryReadStore"
-                      data-dojo-props="url: 'client/data-store/type/contact', requestMethod: 'post'"
-                      data-dojo-id="clientCoStore<?php echo $this->client->client_idClient; ?>"></span>
+                      data-dojo-props="url: 'client/data-store/type/personnel', requestMethod: 'post'"
+                      data-dojo-id="clientPersStore<?php echo $this->client->client_idClient; ?>"></span>
 
                 <table data-dojo-type="dojox.grid.DataGrid"
-                       data-dojo-id="clientCoGrid<?php echo $this->client->client_idClient; ?>"
-                       id="clientCoGrid<?php echo $this->client->client_idClient; ?>"
+                       data-dojo-id="clientPersGrid<?php echo $this->client->client_idClient; ?>"
+                       id="clientPersGrid<?php echo $this->client->client_idClient; ?>"
                        data-dojo-props="
-                        store: clientCoStore<?php echo $this->client->client_idClient; ?>,
-                        structure: bba.Client.gridLayouts.clientContact,
-                        query: { clientCo_idClient: <?php echo $this->client->client_idClient; ?> },
+                        store: clientPersStore<?php echo $this->client->client_idClient; ?>,
+                        structure: bba.Client.gridLayouts.clientPersonnel,
+                        query: { clientPers_idClient: <?php echo $this->client->client_idClient; ?> },
                         sortInfo: '2',
                         noDataMessage : bba.gridMessage">
                         <?php if ($this->isAllowed('User')): ?>
                         <script type="dojo/method" data-dojo-event="onRowClick">
-                            bba.Client.clientCoGridRowClick(this, {
-                                clientCo_idClient : <?php echo $this->client->client_idClient ?>
+                            bba.Client.clientPersGridRowClick(this, {
+                                clientPers_idClient : <?php echo $this->client->client_idClient ?>
                             });
                         </script>
                         <?php endif; ?>
@@ -271,8 +271,8 @@
                     <button data-dojo-type="dijit.form.Button" data-dojo-props="type:'button'">
                         New Client Personnel
                         <script type="dojo/method" data-dojo-event="onClick">
-                            bba.Client.newClientCoButtonClick({
-                                clientCo_idClient : <?php echo $this->client->client_idClient; ?>
+                            bba.Client.newClientPersButtonClick({
+                                clientPers_idClient : <?php echo $this->client->client_idClient; ?>
                             });
                         </script>
                     </button>

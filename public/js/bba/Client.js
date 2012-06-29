@@ -68,12 +68,12 @@ define("bba/Client",
                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
                 {field: '', width: 'auto', name: ''}
             ],
-            clientContact : [
-                {field: 'clientCo_idClientContact', width: '50px', name: 'Id'},
+            clientPersonnel : [
+                {field: 'clientPers_idClientPersonnel', width: '50px', name: 'Id'},
                 {field: 'tables_value', width: '100px', name: 'Type'},
-                {field: 'clientCo_name', width: '200px', name: 'Name'},
-                {field: 'clientCo_phone', width: '300px', name: 'Phone'},
-                {field: 'clientCo_email', width: '200px', name: 'Email'},
+                {field: 'clientPers_name', width: '200px', name: 'Name'},
+                {field: 'clientPers_phone', width: '300px', name: 'Phone'},
+                {field: 'clientPers_email', width: '200px', name: 'Email'},
                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
                 {field: '', width: 'auto', name: ''}
             ]
@@ -116,23 +116,23 @@ define("bba/Client",
             });
         },
 
-        clientCoGridRowClick : function(grid, contentVars)
+        clientPersGridRowClick : function(grid, contentVars)
         {
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
-            id = grid.store.getValue(selectedItem, 'clientCo_idClientContact');
+            id = grid.store.getValue(selectedItem, 'clientPers_idClientPersonnel');
 
-             if (!dom.byId('clientCoForm')) {
+             if (!dom.byId('clientPersForm')) {
                 bba.openFormDialog({
-                    url: './client/edit-client-contact',
+                    url: './client/edit-client-personnel',
                     content: dojo.mixin({
                         type : 'edit',
-                        clientCo_idClientContact : id
+                        clientPers_idClientPersonnel : id
                     }, contentVars),
-                    dialog: 'clientCoForm'
+                    dialog: 'clientPersForm'
                 });
             } else {
-                clientCoForm.show();
+                clientPersForm.show();
             }
         },
 
@@ -162,16 +162,16 @@ define("bba/Client",
             }
         },
 
-        newClientCoButtonClick : function(contentVars)
+        newClientPersButtonClick : function(contentVars)
         {
-            if (!dom.byId('clientCoForm')) {
+            if (!dom.byId('clientPersForm')) {
                 bba.openFormDialog({
-                    url: './client/add-client-contact',
+                    url: './client/add-client-personnel',
                     content: dojo.mixin({type : 'add'}, contentVars),
-                    dialog: 'clientCoForm'
+                    dialog: 'clientPersForm'
                 });
             } else {
-                clientCoForm.show();
+                clientPersForm.show();
             }
         },
 
@@ -326,15 +326,15 @@ define("bba/Client",
             });
         },
 
-        processClientCoForm : function()
+        processClientPersForm : function()
         {
             //bba.closeDialog(clientCoForm);
 
             values = arguments[0];
-            values.type = (values.clientCo_idClientContact) ? 'edit' : 'add';
+            values.type = (values.clientPers_idClientPersonnel) ? 'edit' : 'add';
 
             xhr.post({
-                url: './client/save-client-contact',
+                url: './client/save-client-personnel',
                 content: values,
                 handleAs: 'json',
                 preventCache: true,
@@ -345,18 +345,18 @@ define("bba/Client",
                     if (data.error) {
                         error.show();
                     } else if (data.saved > 0) {
-                        if (registry.byId('clientCoGrid' + values.clientCo_idClient)) {
-                            registry.byId('clientCoGrid' + values.clientCo_idClient)._refresh();
+                        if (registry.byId('clientPersGrid' + values.clientPers_idClient)) {
+                            registry.byId('clientPersGrid' + values.clientPers_idClient)._refresh();
                         }
 
-                        if (registry.byId('clientAdCoGrid' + values.clientCo_idAddress)) {
-                            registry.byId('clientAdCoGrid' + values.clientCo_idAddress)._refresh();
+                        if (registry.byId('clientAdPersGrid' + values.clientPers_idAddress)) {
+                            registry.byId('clientAdPersGrid' + values.clientPers_idAddress)._refresh();
                         }
 
                         confirm.show();
                     } else {
-                        bba.setupDialog(clientCoForm);
-                        clientCoForm.show();
+                        bba.setupDialog(clientPersForm);
+                        clientPersForm.show();
                     }
                 }
             });

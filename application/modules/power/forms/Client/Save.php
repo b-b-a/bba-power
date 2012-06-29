@@ -118,17 +118,17 @@ class Power_Form_Client_Save extends ZendSF_Dojo_Form_Abstract
                 )
             ));
 
-            $list = $this->getModel()->getClientContactsByClientId(
+            $list = $this->getModel()->getClientPersonnelByClientId(
                 $request->getPost('client_idClient')
             );
 
             // reset options
             $multiOptions = array(0 => ($list->count() > 0) ? 'Please Select Someone' : 'No Client Personnel Available');
             foreach($list as $row) {
-                $multiOptions[$row->clientCo_idClientContact] = $row->clientCo_name;
+                $multiOptions[$row->clientPers_idClientPersonnel] = $row->clientPers_name;
             }
 
-            $this->addElement('FilteringSelect', 'client_idClientContact', array(
+            $this->addElement('FilteringSelect', 'client_idClientPersonnel', array(
                 'label'         => 'Main Liaison:',
                 'filters'       => array('StripTags', 'StringTrim'),
                 'atuocomplete'  => false,

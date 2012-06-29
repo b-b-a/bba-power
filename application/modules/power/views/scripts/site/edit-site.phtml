@@ -105,28 +105,28 @@
                 <?php endif; ?>
             </table>
 
-            <?php $mainContact = $this->site->getClientContact(); ?>
+            <?php $mainContact = $this->site->getClientPersonnel(); ?>
 
             <table class="info_wrap ident">
-                <caption>Main Liaison <span class="id_number">(<?php echo (isset($mainContact->clientCo_idClientContact)) ? $mainContact->clientCo_idClientContact : ''; ?>)</span></caption>
-                <?php if(isset($mainContact->clientCo_idClientContact)): ?>
+                <caption>Main Liaison <span class="id_number">(<?php echo (isset($mainContact->clientPers_idClientPersonnel)) ? $mainContact->clientPers_idClientPersonnel : ''; ?>)</span></caption>
+                <?php if(isset($mainContact->clientPers_idClientPersonnel)): ?>
                 <tr>
                     <th>Name:</th>
-                    <td><?php echo $mainContact->clientCo_name; ?></td>
+                    <td><?php echo $mainContact->clientPers_name; ?></td>
                 </tr>
-                <?php if($mainContact->clientCo_position): ?>
+                <?php if($mainContact->clientPers_position): ?>
                 <tr>
                     <th>Position:</th>
-                    <td><?php echo $mainContact->clientCo_position; ?></td>
+                    <td><?php echo $mainContact->clientPers_position; ?></td>
                 </tr>
                 <?php endif; ?>
-                <?php if($mainContact->clientCo_phone): ?>
+                <?php if($mainContact->clientPers_phone): ?>
                 <tr>
                     <th>Phone No:</th>
-                    <td><?php echo $mainContact->clientCo_phone; ?></td>
+                    <td><?php echo $mainContact->clientPers_phone; ?></td>
                 </tr>
                 <?php endif; ?>
-                <?php if($mainContact->clientCo_email): ?>
+                <?php if($mainContact->clientPers_email): ?>
                 <tr>
                     <th>Email:</th>
                     <td><?php echo $mainContact->getMailto(); ?></td>

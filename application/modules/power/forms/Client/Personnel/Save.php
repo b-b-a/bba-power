@@ -37,21 +37,21 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Client_Contact_Save extends ZendSF_Dojo_Form_Abstract
+class Power_Form_Client_Personnel_Save extends ZendSF_Dojo_Form_Abstract
 {
     public function init()
     {
-        $this->setName('client-contact');
+        $this->setName('client-personnel');
 
         $table = $this->getModel()->getDbTable('tables');
 
-        $list = $table->getSelectListByName('ClientCo_type');
+        $list = $table->getSelectListByName('ClientPers_type');
         $multiOptions[0] = 'Select a type';
         foreach($list as $row) {
             $multiOptions[$row->tables_key] = $row->tables_value;
         }
 
-        $this->addElement('FilteringSelect', 'clientCo_type', array(
+        $this->addElement('FilteringSelect', 'clientPers_type', array(
             'label'         => 'Type:',
             'filters'       => array('StripTags', 'StringTrim'),
             'autocomplete'  => false,
@@ -69,7 +69,7 @@ class Power_Form_Client_Contact_Save extends ZendSF_Dojo_Form_Abstract
             )
         ));
 
-        $this->addElement('ValidationTextBox', 'clientCo_name', array(
+        $this->addElement('ValidationTextBox', 'clientPers_name', array(
             'label'         => 'Name:',
             'required'      => true,
             'filters'       => array('StripTags', 'StringTrim'),
@@ -81,7 +81,7 @@ class Power_Form_Client_Contact_Save extends ZendSF_Dojo_Form_Abstract
             )
         ));
 
-        $this->addElement('TextBox', 'clientCo_position', array(
+        $this->addElement('TextBox', 'clientPers_position', array(
             'label'         => 'Position:',
             'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
@@ -92,7 +92,7 @@ class Power_Form_Client_Contact_Save extends ZendSF_Dojo_Form_Abstract
             )
         ));
 
-        $this->addElement('TextBox', 'clientCo_phone', array(
+        $this->addElement('TextBox', 'clientPers_phone', array(
             'label'         => 'Phone:',
             'filters'       => array('StripTags', 'StringTrim'),
             'dijitParams'   => array(
@@ -100,14 +100,14 @@ class Power_Form_Client_Contact_Save extends ZendSF_Dojo_Form_Abstract
             )
         ));
 
-        $this->addElement('TextBox', 'clientCo_email', array(
+        $this->addElement('TextBox', 'clientPers_email', array(
             'label'         => 'email:',
             'filters'       => array('StripTags', 'StringTrim', 'StringToLower'),
             'validators'    => array(
                 array('EmailAddress', true),
                 array('Db_NoRecordExists', false, array(
-                    'table' => 'client_contact',
-                    'field' => 'clientCo_email'
+                    'table' => 'client_personnel',
+                    'field' => 'clientPers_email'
                 ))
             ),
             'dijitParams'   => array(
@@ -115,14 +115,14 @@ class Power_Form_Client_Contact_Save extends ZendSF_Dojo_Form_Abstract
             )
         ));
 
-        $this->addHiddenElement('clientCo_idAddress', '');
+        $this->addHiddenElement('clientPers_idAddress', '');
 
         $request = Zend_Controller_Front::getInstance()->getRequest();
 
-        if (!$request->getPost('clientCo_idAddress')) {
+        if (!$request->getPost('clientPers_idAddress')) {
 
             $list = $this->getModel()->getClientAddressesByClientId(
-                $request->getPost('clientCo_idClient')
+                $request->getPost('clientPers_idClient')
             );
 
             // reset options
@@ -132,7 +132,7 @@ class Power_Form_Client_Contact_Save extends ZendSF_Dojo_Form_Abstract
                 $multiOptions[$row->clientAd_idAddress] = $row->getAddress1AndPostcode();
             }
 
-            $this->addElement('FilteringSelect', 'clientCo_idAddress', array(
+            $this->addElement('FilteringSelect', 'clientPers_idAddress', array(
                 'label'         => 'Address:',
                 'filters'       => array('StripTags', 'StringTrim'),
                 'atuocomplete'  => false,
@@ -151,10 +151,10 @@ class Power_Form_Client_Contact_Save extends ZendSF_Dojo_Form_Abstract
                 'ErrorMessages' => array('Please select an contact address.'),
             ));
         } else {
-            $this->addHiddenElement('clientCo_idAddress', '');
+            $this->addHiddenElement('clientPers_idAddress', '');
         }
 
-        $this->addHiddenElement('clientCo_idClientContact', '');
-        $this->addHiddenElement('clientCo_idClient', '');
+        $this->addHiddenElement('clientPers_idClientPersonnel', '');
+        $this->addHiddenElement('clientPers_idClient', '');
     }
 }

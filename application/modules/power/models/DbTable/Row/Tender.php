@@ -44,7 +44,10 @@ class Power_Model_DbTable_Row_Tender extends ZendSF_Model_DbTable_Row_Abstract
      */
     protected $_supplier;
 
-    protected $_supplierContact;
+    /**
+     * @var Power_Model_DbTable_Row_Supplier_Personnel
+     */
+    protected $_supplierPers;
 
     /**
      * @var Power_Model_DbTable_Row_Contract
@@ -69,14 +72,14 @@ class Power_Model_DbTable_Row_Tender extends ZendSF_Model_DbTable_Row_Abstract
         return (null === $col) ? $this->_supplier : $this->_supplier->$col;
     }
 
-    public function getSupplierContact($col = null)
+    public function getSupplierPersonnel($col = null)
     {
-        if (!$this->_supplierContact instanceof Power_Model_DbTable_Row_Supplier_Contact) {
-            $this->_supplierContact = $this->getRow()
-                ->findParentRow('Power_Model_DbTable_Supplier_Contact', 'supplierContact');
+        if (!$this->_supplierPers instanceof Power_Model_DbTable_Row_Supplier_Personnel) {
+            $this->_supplierPers = $this->getRow()
+                ->findParentRow('Power_Model_DbTable_Supplier_Personnel', 'supplierPers');
         }
 
-        return (null === $col) ? $this->_supplierContact : $this->_supplierContact->$col;
+        return (null === $col) ? $this->_supplierPers : $this->_supplierPers->$col;
     }
 
     public function getContract($col = null)

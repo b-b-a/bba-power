@@ -127,13 +127,13 @@ class Power_Form_Site_Add extends ZendSF_Dojo_Form_Abstract
             'value' => '0'
         ));
 
-        $this->addElement('FilteringSelect', 'site_idClientContact', array(
+        $this->addElement('FilteringSelect', 'site_idClientPersonnel', array(
             'label' => 'Client Liaison:',
             'filters' => array('StripTags', 'StringTrim'),
             'autoComplete' => false,
             'hasDownArrow' => true,
-            'storeId' => 'contactStore',
-            'dijitParams' => array('searchAttr' => 'clientCo_name'),
+            'storeId' => 'personnelStore',
+            'dijitParams' => array('searchAttr' => 'clientPers_name'),
             'attribs' => array('disabled' => true),
             'required' => false,
             'value' => '0'

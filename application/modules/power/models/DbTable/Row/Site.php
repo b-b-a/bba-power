@@ -48,17 +48,17 @@ class Power_Model_DbTable_Row_Site extends ZendSF_Model_DbTable_Row_Abstract
     /**
      * @var Power_Model_DbTable_Row_Client_Address
      */
-    protected $_siteAddress;
+    protected $_siteAd;
 
     /**
      * @var Power_Model_DbTable_Row_Client_Address
      */
-    protected $_billingAddress;
+    protected $_billingAd;
 
     /**
-     * @var Power_Model_DbTable_Row_Client_Contact
+     * @var Power_Model_DbTable_Row_Client_Personnel
      */
-    protected $_clientContact;
+    protected $_clientPers;
 
     public function getClient($row=null)
     {
@@ -72,32 +72,32 @@ class Power_Model_DbTable_Row_Site extends ZendSF_Model_DbTable_Row_Abstract
 
     public function getSiteAddress($row=null)
     {
-         if (!$this->_siteAddress instanceof Power_Model_DbTable_Row_Client_Address) {
-            $this->_siteAddress = $this->getRow()
-                ->findParentRow( 'Power_Model_DbTable_Client_Address', 'siteAddress');
+         if (!$this->_siteAd instanceof Power_Model_DbTable_Row_Client_Address) {
+            $this->_siteAd = $this->getRow()
+                ->findParentRow( 'Power_Model_DbTable_Client_Address', 'siteAd');
         }
 
-        return (null === $row) ? $this->_siteAddress : $this->_siteAddress->$row;
+        return (null === $row) ? $this->_siteAd : $this->_siteAd->$row;
     }
 
     public function getBillingAddress($row=null)
     {
-        if (!$this->_billingAddress instanceof Power_Model_DbTable_Row_Client_Address) {
-            $this->_billingAddress = $this->getRow()
+        if (!$this->_billingAd instanceof Power_Model_DbTable_Row_Client_Address) {
+            $this->_billingAd = $this->getRow()
                 ->findParentRow( 'Power_Model_DbTable_Client_Address', 'siteAddressBill');
         }
 
-        return (null === $row) ? $this->_billingAddress : $this->_billingAddress->$row;
+        return (null === $row) ? $this->_billingAd : $this->_billingAd->$row;
     }
 
-    public function getClientContact($row=null)
+    public function getClientPersonnel($row=null)
     {
-        if (!$this->_clientContact instanceof Power_Model_DbTable_Row_Client_Contact) {
-            $this->_clientContact = $this->getRow()
-                ->findParentRow( 'Power_Model_DbTable_Client_Contact', 'siteClientContact');
+        if (!$this->_clientPers instanceof Power_Model_DbTable_Row_Client_Personnel) {
+            $this->_clientPers = $this->getRow()
+                ->findParentRow( 'Power_Model_DbTable_Client_Personnel', 'siteClientPers');
         }
 
-        return (null === $row) ? $this->_clientContact : $this->_clientContact->$row;
+        return (null === $row) ? $this->_clientPers : $this->_clientPers->$row;
     }
 
     public function getMeters($sort = null, $count = null, $offset = null)

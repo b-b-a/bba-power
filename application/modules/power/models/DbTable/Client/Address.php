@@ -63,11 +63,13 @@ class Power_Model_DbTable_Client_Address extends ZendSF_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_Client',
             'refColumns'    => 'client_idClient'
         ),
-        'user'      => array(
-            'columns'       => array(
-                'clientAd_userCreate',
-                'clientAd_userModify'
-            ),
+        'userCreate'    => array(
+            'columns'       => 'clientAd_userCreate',
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        ),
+        'userModify'    => array(
+            'columns'       => 'clientAd_userModify',
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )

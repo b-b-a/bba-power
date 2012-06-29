@@ -96,8 +96,8 @@ define("bba/Contract",
             tender : [
                 {field: 'tender_idTender', width: '50px', name: 'Id'},
                 {field: 'supplier_nameShort', width : '80px', name: 'Supplier'},
-                {field: 'supplierCo_name', width : '150px', name: 'Supplier Liaison'},
-                {field: 'supplierCo_phone', width: '100px', name: 'Phone'},
+                {field: 'supplierPers_name', width : '150px', name: 'Supplier Liaison'},
+                {field: 'supplierPers_phone', width: '100px', name: 'Phone'},
                 {field: 'tender_periodContract', width: '100px', name: 'Contract Period'},
                 {field: 'tender_dateExpiresQuote', width: '100px', name: 'Quote Expires'},
                 {field: 'tender_chargeStanding', width: '100px', name: 'Standing Charge'},
@@ -325,22 +325,22 @@ define("bba/Contract",
             }
         },
 
-        changeSupplierContact : function(val)
+        changeSupplierPersonnel : function(val)
         {
-            registry.byId('tender_idSupplierContact').set('value', '');
+            registry.byId('tender_idSupplierPersonnel').set('value', '');
 
-            this.supplierContactStore = new ItemFileReadStore({
-                url:'./supplier/data-store/type/supplierContacts/supplierId/' + val
+            this.supplierPersonnelStore = new ItemFileReadStore({
+                url:'./supplier/data-store/type/supplierPersonnel/supplierId/' + val
             });
 
-            this.supplierContactStore.fetch({
+            this.supplierPersonnelStore.fetch({
                 onError: function(error, request) {
                     bba.dataStoreError(request.store.url, null);
                 }
             });
 
-            registry.byId("tender_idSupplierContact").set('store', this.supplierContactStore);
-            registry.byId('tender_idSupplierContact').set('value', 0);
+            registry.byId("tender_idSupplierPersonnel").set('store', this.supplierPersonnelStore);
+            registry.byId('tender_idSupplierPersonnel').set('value', 0);
         },
 
         processContractForm : function()

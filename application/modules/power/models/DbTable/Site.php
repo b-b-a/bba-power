@@ -68,7 +68,7 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
             'refTableClass'     => 'Power_Model_DbTable_Client',
             'refColumns'        => 'client_idClient'
 		),
-        'siteAddress' => array(
+        'siteAd' => array(
             'columns'           => 'site_idAddress',
             'refTableClass'     => 'Power_Model_DbTable_Client_Address',
             'refColumns'        => 'clientAd_idAddress'
@@ -78,16 +78,18 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
             'refTableClass'     => 'Power_Model_DbTable_Client_Address',
             'refColumns'        => 'clientAd_idAddress'
 		),
-        'siteClientContact' => array(
-            'columns'           => 'site_idClientContact',
-            'refTableClass'     => 'Power_Model_DbTable_Client_Contact',
-            'refColumns'        => 'clientCo_idClientContact'
+        'siteClientPers' => array(
+            'columns'           => 'site_idClientPersonnel',
+            'refTableClass'     => 'Power_Model_DbTable_Client_Personnel',
+            'refColumns'        => 'clientPers_idClientPersonnel'
 		),
-        'user'      => array(
-            'columns'       => array(
-                'site_userCreate',
-                'site_userModify'
-            ),
+        'userCreate'    => array(
+            'columns'       => 'site_userCreate',
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        ),
+        'userModify'    => array(
+            'columns'       => 'site_userModify',
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
@@ -111,8 +113,8 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
             ))
             ->join('client', 'client_idClient = site_idClient', array('client_name'))
             ->joinLeft(
-                'client_contact', 'clientCo_idClientContact = site_idClientContact', array(
-				'clientCo_name'
+                'client_personnel', 'clientPers_idClientPersonnel = site_idClientPersonnel', array(
+				'clientPers_name'
             ));
 
         if (!$search['site'] == '') {

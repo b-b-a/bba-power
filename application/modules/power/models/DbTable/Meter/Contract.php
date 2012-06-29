@@ -78,11 +78,13 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_Tables',
             'refColumns'    => 'tables_key'
         ),
-        'user'      => array(
-            'columns'       => array(
-                'meterContract_userCreate',
-                'meterContract_userModify'
-            ),
+        'userCreate'    => array(
+            'columns'       => 'meterContract_userCreate',
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        ),
+        'userModify'    => array(
+            'columns'       => 'meterContract_userModify',
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
@@ -117,8 +119,8 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
                 'clientAd_addressName','clientAd_address1','clientAd_address2','clientAd_address3','clientAd_postcode'
             ))
             ->join('client', 'client_idClient = site_idClient', null)
-            ->joinLeft('client_contact', 'client_idClientContact = clientCo_idClientContact', array(
-                'clientCo_name'
+            ->joinLeft('client_personnel', 'client_idClientPersonnel = clientPers_idClientPersonnel', array(
+                'clientPers_name'
             ));
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);

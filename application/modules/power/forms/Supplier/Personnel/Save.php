@@ -37,22 +37,22 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Supplier_Contact_Save extends ZendSF_Dojo_Form_Abstract
+class Power_Form_Supplier_Personnel_Save extends ZendSF_Dojo_Form_Abstract
 {
     public function init()
     {
-        $this->setName('supplier-contact');
+        $this->setName('supplier-personnel');
 
         // supplier contact to do.
 
         $table = $this->getModel()->getDbTable('tables');
-        $list = $table->getSelectListByName('SupplierCo_type');
+        $list = $table->getSelectListByName('SupplierPers_type');
         $multiOptions[0] = 'Select a type';
         foreach($list as $row) {
             $multiOptions[$row->tables_key] = $row->tables_value;
         }
 
-        $this->addElement('FilteringSelect', 'supplierCo_type', array(
+        $this->addElement('FilteringSelect', 'supplierPers_type', array(
             'label'     => 'Type:',
             'filters'   => array('StripTags', 'StringTrim'),
             'autocomplete' => false,
@@ -60,51 +60,51 @@ class Power_Form_Supplier_Contact_Save extends ZendSF_Dojo_Form_Abstract
             'required'  => true,
         ));
 
-        $this->addElement('ValidationTextBox', 'supplierCo_name', array(
+        $this->addElement('ValidationTextBox', 'supplierPers_name', array(
             'label'     => 'Name:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('ValidationTextBox', 'supplierCo_position', array(
+        $this->addElement('ValidationTextBox', 'supplierPers_position', array(
             'label'     => 'Position:',
             'required'  => true,
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('TextBox', 'supplierCo_phone', array(
+        $this->addElement('TextBox', 'supplierPers_phone', array(
             'label'     => 'Phone:',
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('TextBox', 'supplierCo_email', array(
+        $this->addElement('TextBox', 'supplierPers_email', array(
             'label'         => 'Email:',
             'filters'       => array('StripTags', 'StringTrim', 'StringToLower'),
             'validators'    => array(
                 array('EmailAddress', true),
                 array('Db_NoRecordExists', false, array(
-                    'table' => 'supplier_contact',
-                    'field' => 'supplierCo_email'
+                    'table' => 'supplier_personnel',
+                    'field' => 'supplierPers_email'
                 ))
             )
         ));
 
-        $this->addElement('TextBox', 'supplierCo_address1', array(
+        $this->addElement('TextBox', 'supplierPers_address1', array(
             'label'     => 'Address 1:',
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('TextBox', 'supplierCo_address2', array(
+        $this->addElement('TextBox', 'supplierPers_address2', array(
             'label'     => 'Address 2:',
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('TextBox', 'supplierCo_address3', array(
+        $this->addElement('TextBox', 'supplierPers_address3', array(
             'label'     => 'Town/City:',
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('TextBox', 'supplierCo_postcode', array(
+        $this->addElement('TextBox', 'supplierPers_postcode', array(
             'label'         => 'Postcode:',
             'filters'       => array('StripTags', 'StringTrim', 'StringToUpper'),
             'validators'    => array(
@@ -114,7 +114,7 @@ class Power_Form_Supplier_Contact_Save extends ZendSF_Dojo_Form_Abstract
             )
         ));
 
-        $this->addHiddenElement('supplierCo_idSupplierContact', '');
-        $this->addHiddenElement('supplierCo_idSupplier', '');
+        $this->addHiddenElement('supplierPers_idSupplierPersonnel', '');
+        $this->addHiddenElement('supplierPers_idSupplier', '');
     }
 }

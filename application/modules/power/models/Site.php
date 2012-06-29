@@ -152,11 +152,11 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
                 }
 
                 break;
-            case 'contact':
-                $identifier = 'clientCo_idClientContact';
-                $searchItems = array('clientCo_idClientContact', 'clientCo_name');
-                $result = $this->getDbTable('clientContact')
-                    ->getClientContactsByClientId($params['clientId']);
+            case 'personnel':
+                $identifier = 'clientPers_idClientPersonnel';
+                $searchItems = array('clientPers_idClientPersonnel', 'clientPers_name');
+                $result = $this->getDbTable('clientPersonnel')
+                    ->getClientPersonnelByClientId($params['clientId']);
                 $selectMessage = ($result->count()) ? 'Please Select Someone' : 'No Client Personnel Available';
                 $items[] = array($identifier => 0, $searchItems[1] => $selectMessage);
                 break;
@@ -195,8 +195,8 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
         // get filtered values
         $data = $form->getValues();
 
-        if ($data['site_idClientContact'] == 0) {
-            $data['site_idClientContact'] = null;
+        if ($data['site_idClientPersonnel'] == 0) {
+            $data['site_idClientPersonnel'] = null;
         }
 
         if ($data['site_idAddressBill'] == 0) {
