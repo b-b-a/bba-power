@@ -143,12 +143,11 @@ class Power_Form_Client_Personnel_Save extends ZendSF_Dojo_Form_Abstract
                     'promptMessage' => 'Choose a address.'
                 ),
                 'validators'    => array(
-                    /*array('GreaterThan', true, array(
+                    array('GreaterThan', true, array(
                         'min'       => '0',
                         'message'   => 'Please select an contact address.'
-                    ))*/
-                ),
-                'ErrorMessages' => array('Please select an contact address.'),
+                    ))
+                )
             ));
         } else {
             $this->addHiddenElement('clientPers_idAddress', '');

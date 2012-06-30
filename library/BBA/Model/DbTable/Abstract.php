@@ -57,15 +57,9 @@ abstract class BBA_Model_DbTable_Abstract extends ZendSF_Model_DbTable_Abstract
 
     protected function _checkConstraints($data)
     {
-        if (empty($this->_nullAllowed)) {
-            return $data;
-        }
-
         foreach ($data as $key => $value) {
-            if (in_array($key, $this->_nullAllowed)) {
-                if ('0' == $value || '' == $value) {
-                    $data[$key] = null;
-                }
+            if (in_array($key, $this->_nullAllowed) && ('0' == $value || '' == $value)) {
+                $data[$key] = null;
             }
         }
 
