@@ -348,14 +348,6 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
                 $date = new Zend_Date($value, Zend_Date::DATE_SHORT);
                 $data[$key] = $date->toString('yyyy-MM-dd');
             }
-
-            if ($key == 'contract_idSupplierPersonnelSelected'
-                    || $key == 'contract_idTenderSelected'
-                    || $key == 'contract_idContractPrevious') {
-                if ($value == '0' || $value == '') {
-                    $data[$key] = null;
-                }
-            }
         }
 
         $contract = array_key_exists('contract_idContract', $data) ?

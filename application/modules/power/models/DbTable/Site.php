@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
+class Power_Model_DbTable_Site extends BBA_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -93,6 +93,12 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
+    );
+
+    protected $_nullAllowed = array(
+        'site_idAddressBill',
+        'site_idClienPersonnel',
+        'site_userModify'
     );
 
     public function getSiteById($id)
@@ -159,27 +165,5 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
         $result = $this->fetchRow($select);
 
         return $result->numRows;
-    }
-
-    public function insert(array $data)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['site_dateCreate'] = new Zend_Db_Expr('CURDATE()');
-        $data['site_userCreate'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "\nINSERT: " . __CLASS__ . "\n", false));
-
-        return parent::insert($data);
-    }
-
-    public function update(array $data, $where)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['site_dateModify'] = new Zend_Db_Expr('CURDATE()');
-        $data['site_userModify'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
-
-        return parent::update($data, $where);
     }
 }

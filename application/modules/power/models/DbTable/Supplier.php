@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
+class Power_Model_DbTable_Supplier extends BBA_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -72,6 +72,11 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
+    );
+
+    protected $_nullAllowed = array(
+        'supplier_idSupplierPersonnel',
+        'supplier_userModify'
     );
 
     public function getSupplierById($id)
@@ -162,27 +167,5 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
         $result = $this->fetchRow($select);
 
         return $result->numRows;
-    }
-
-    public function insert(array $data)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['supplier_dateCreate'] = new Zend_Db_Expr('CURDATE()');
-        $data['supplier_userCreate'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "\nINSERT: " . __CLASS__ . "\n", false));
-
-        return parent::insert($data);
-    }
-
-    public function update(array $data, $where)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['supplier_dateModify'] = new Zend_Db_Expr('CURDATE()');
-        $data['supplier_userModify'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
-
-        return parent::update($data, $where);
     }
 }

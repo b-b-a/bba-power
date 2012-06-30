@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
+class Power_Model_DbTable_Meter_Contract extends BBA_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -88,6 +88,10 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
+    );
+
+    protected $_nullAllowed = array(
+        'meterContract_userModify'
     );
 
     public function getMeterContractById($idMeter, $idContract)
@@ -153,34 +157,5 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
 
         $row = $this->find($idMeter, $idContract)->current();
         return $row->delete();
-    }
-
-    public function insert(array $data)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['meterContract_dateCreate'] = new Zend_Db_Expr('CURDATE()');
-        $data['meterContract_userCreate'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "INSERT: " . __CLASS__, false));
-
-        return parent::insert($data);
-    }
-
-    public function update(array $data, $where)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['meterContract_dateModify'] = new Zend_Db_Expr('CURDATE()');
-        $data['meterContract_userModify'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
-
-        return parent::update($data, $where);
-    }
-
-    public function delete($where)
-    {
-        $this->_log->info(Zend_Debug::dump($where, "DELETE: " . __CLASS__, false));
-
-        return parent::delete($where);
     }
 }

@@ -79,7 +79,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
      * Get Client Contact by their id
      *
      * @param  int $id
-     * @return null|Power_Model_DbTable_Row_Client_Contact
+     * @return null|Power_Model_DbTable_Row_Client_Personnel
      */
     public function getClientPersonnelById($id)
     {
@@ -369,10 +369,6 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         $date = new Zend_Date($dateValue);
         $date->set($date, Zend_Date::DATE_SHORT);
         $data['client_dateExpiryLoa'] = $date->toString('yyyy-MM-dd');
-
-        if ($data['client_idClientPersonnel'] == '0' || $data['client_idClientPersonnel'] == '') {
-                    $data['client_idClientPersonnel'] = null;
-                }
 
         $client = array_key_exists('client_idClient', $data) ?
             $this->getClientById($data['client_idClient']) : null;
