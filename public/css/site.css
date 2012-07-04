@@ -54,7 +54,7 @@ html, body {
 .claro .tabContainer .meterEditTabs-BorderContainter,
 .claro .tabContainer .contractEditTabs-BorderContainter,
 .claro .tabContainer .supplierEditTabs-BorderContainter {
-    height: 50%;
+    min-height: 150px;
 }
 
 .claro .tabContainer .info-panels {
@@ -731,5 +731,11 @@ Meter Styles
 #version {
     position: absolute;
     top: 0px;
+    right: 5px;
+}
+
+#dojoVersion {
+    position: absolute;
+    top: 18px;
     right: 5px;
 }

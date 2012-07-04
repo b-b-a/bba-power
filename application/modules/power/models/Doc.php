@@ -42,7 +42,10 @@ class Power_Model_Doc extends ZendSF_Model_Abstract
     public static $mimeMap = array(
         'doc'   => 'application/msword',
         'docx'  => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'jpeg'  => 'image/jpeg',
+        'jpg'   => 'image/jpeg',
         'pdf'   => 'application/pdf',
+        'png'   => 'image/png',
         'xls'   => 'application/vnd.ms-excel',
         'xlsx'  => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     );

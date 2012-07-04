@@ -57,6 +57,7 @@ define("bba/Core",
             registry.byId('confirmBoxButton').set('checked', (cookie("confirmBox") == 'false') ? false : true);
         }
 
+        dom.byId("dojoVersion").innerHTML = 'dojo ' + dojo.version.toString();
     });
 
     bba = {

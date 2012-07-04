@@ -3,7 +3,7 @@
      class="tabContainer">
 
     <div data-dojo-type="dijit.layout.ContentPane"
-         data-dojo-props="region: 'center'">
+         data-dojo-props="region: 'top', splitter: 'true'">
         <div class="tabHeading">
 
             <table class="info_wrap">
@@ -103,7 +103,7 @@
     </div>
 
     <div data-dojo-type="dijit.layout.BorderContainer"
-         data-dojo-props="design: 'headline', region: 'bottom', splitter: 'true'"
+         data-dojo-props="design: 'headline', region: 'center'"
          class="clientEditTabs-BorderContainter">
 
         <!-- start client address list -->
@@ -246,7 +246,7 @@
     </div>
 
     <div data-dojo-type="dijit.layout.ContentPane"
-         data-dojo-props="region: 'bottom'"
+         data-dojo-props="region: 'top'"
          class="tableHeadPane">
         <div class="tableHead">
             <?php if ($this->isAllowed('User')): ?>

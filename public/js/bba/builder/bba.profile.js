@@ -1,6 +1,5 @@
 dependencies = {
 	action: "clean,release",
-	version: "bba-4.0",
 	releaseName: "bba-temp",
 	stripConsole: "normal",
 	selectorEngine: "acme",

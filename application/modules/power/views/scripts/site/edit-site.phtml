@@ -3,7 +3,7 @@
      class="tabContainer">
 
     <div data-dojo-type="dijit.layout.ContentPane"
-         data-dojo-props="region: 'center'">
+         data-dojo-props="region: 'top', splitter: 'true'">
         <div class="tabHeading">
 
             <?php $mainContact = $this->site->getSiteAddress(); ?>
@@ -144,7 +144,7 @@
     </div>
 
     <div data-dojo-type="dijit.layout.BorderContainer"
-         data-dojo-props="design: 'headline', region: 'bottom', splitter: 'true'"
+         data-dojo-props="design: 'headline', region: 'center'"
          class="siteEditTabs-BorderContainter">
 
         <div id="SiteTabs<?php echo $this->site->site_idSite; ?>"
@@ -206,7 +206,7 @@
     </div>
 
     <div data-dojo-type="dijit.layout.ContentPane"
-         data-dojo-props="region: 'bottom'"
+         data-dojo-props="region: 'top'"
          class="tableHeadPane">
         <div class="tableHead">
             <?php if ($this->isAllowed('User')): ?>
