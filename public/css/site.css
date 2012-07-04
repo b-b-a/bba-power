@@ -22,7 +22,7 @@ html, body {
 }
 
 #leftPanel {
-    width: 10em;
+    width: 150px;
     overflow: auto;
 }
 
@@ -103,6 +103,17 @@ html, body {
 .tabHeading {
     padding: 5px 5px 0px 5px;
     height: 50%;
+}
+
+#leftPanelTop,
+#nav {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+#leftPanelBottom p {
+    text-align: center;
+    margin: 0px;
 }
 
 /* Dialogs */

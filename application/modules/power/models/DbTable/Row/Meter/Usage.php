@@ -84,7 +84,7 @@ class Power_Model_DbTable_Row_Meter_Usage extends ZendSF_Model_DbTable_Row_Abstr
      * @param string $dateFormat
      * @return array
      */
-    public function toArray($dateFormat = null)
+    public function toArray($dateFormat = null, $raw = false)
     {
         $array = array();
 
@@ -95,13 +95,17 @@ class Power_Model_DbTable_Row_Meter_Usage extends ZendSF_Model_DbTable_Row_Abstr
                 $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
             }
 
-            switch ($key) {
-                case 'usage_type':
-                    $array[$key] = $this->getUsage_type();
-                    break;
-                default:
-                    $array[$key] = $value;
-                    break;
+            if (true === $raw) {
+                $array[$key] = $value;
+            } else {
+                switch ($key) {
+                    case 'usage_type':
+                        $array[$key] = $this->getUsage_type();
+                        break;
+                    default:
+                        $array[$key] = $value;
+                        break;
+                }
             }
         }
 

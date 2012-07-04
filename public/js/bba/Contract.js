@@ -361,7 +361,9 @@ define("bba/Contract",
 
                 if (dom.byId('contractGrid')) contractGrid._refresh();
 
-                confirm.show();
+                if (bba.confrimBox) {
+                    confirm.show();
+                }
 
                 if (data.client_name) {
                     bba.Contract.showContractTab(data.saved, data.client_name);
@@ -397,7 +399,10 @@ define("bba/Contract",
                         } else if (registry.byId('tenderGrid' + values.tender_idContract)) {
                             registry.byId('tenderGrid' + values.tender_idContract)._refresh();
                         }
-                        confirm.show();
+
+                        if (bba.confrimBox) {
+                            confirm.show();
+                        }
                     } else {
                         bba.setupDialog(tenderForm);
                         tenderForm.show();

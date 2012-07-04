@@ -53,10 +53,16 @@ define("bba/Core",
             registry.byId('tabRefreshButton').set('checked', (cookie("tabRefresh") == 'false') ? false : true);
         }
 
+        if (registry.byId('confirmBoxButton')) {
+            registry.byId('confirmBoxButton').set('checked', (cookie("confirmBox") == 'false') ? false : true);
+        }
+
     });
 
     bba = {
         gridMessage : '<span class="dojoxGridNoData">No records found matching query</span>',
+
+        confrimBox : true,
 
         deferredFunction : function() {},
 
@@ -67,6 +73,12 @@ define("bba/Core",
             array.forEach(tabs, function(tab){
                 tab.refreshOnShow = (val) ? true : false;
             });
+        },
+
+        confirmBoxButton: function(val)
+        {
+            cookie("confirmBox", val, {expires: 5});
+            bba.confrimBox = val;
         },
 
         gridSearch : function(form, grid)

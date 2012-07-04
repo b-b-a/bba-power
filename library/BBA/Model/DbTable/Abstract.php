@@ -52,7 +52,7 @@ abstract class BBA_Model_DbTable_Abstract extends ZendSF_Model_DbTable_Abstract
     public function init() {
         parent::init();
 
-        $this->_rowPrefix = strstr($this->_primary, '_', true) . '_';
+        $this->_rowPrefix = strstr($this->_primary, '_', true);
     }
 
     protected function _checkConstraints($data)
@@ -69,8 +69,8 @@ abstract class BBA_Model_DbTable_Abstract extends ZendSF_Model_DbTable_Abstract
     public function insert(array $data)
     {
         $auth = Zend_Auth::getInstance()->getIdentity();
-        $data[$this->_rowPrefix . 'dateCreate'] = new Zend_Db_Expr('CURDATE()');
-        $data[$this->_rowPrefix . 'userCreate'] = $auth->getId();
+        $data[$this->_rowPrefix . '_dateCreate'] = new Zend_Db_Expr('CURDATE()');
+        $data[$this->_rowPrefix . '_userCreate'] = $auth->getId();
 
         $data = $this->_checkConstraints($data);
 
@@ -82,8 +82,8 @@ abstract class BBA_Model_DbTable_Abstract extends ZendSF_Model_DbTable_Abstract
     public function update(array $data, $where)
     {
         $auth = Zend_Auth::getInstance()->getIdentity();
-        $data[$this->_rowPrefix . 'dateModify'] = new Zend_Db_Expr('CURDATE()');
-        $data[$this->_rowPrefix . 'userModify'] = $auth->getId();
+        $data[$this->_rowPrefix . '_dateModify'] = new Zend_Db_Expr('CURDATE()');
+        $data[$this->_rowPrefix . '_userModify'] = $auth->getId();
 
         $data = $this->_checkConstraints($data);
 

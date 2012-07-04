@@ -284,7 +284,10 @@ define("bba/Client",
                 } else {
                     registry.byId('clientGrid')._refresh();
                 }
-                confirm.show();
+
+                if (bba.confrimBox) {
+                    confirm.show();
+                }
             } else {
                 bba.setupDialog(clientForm);
                 bba.Client.setupDocEvents();
@@ -316,7 +319,11 @@ define("bba/Client",
                         } else if (registry.byId('clientAdGrid' + values.clientAd_idClient)) {
                             registry.byId('clientAdGrid' + values.clientAd_idClient)._refresh();
                         }
-                        confirm.show();
+
+                        if (bba.confrimBox) {
+                            confirm.show();
+                        }
+
                         bba.deferredFunction(data.saved);
                     } else {
                         bba.setupDialog(clientAdForm);
@@ -353,7 +360,9 @@ define("bba/Client",
                             registry.byId('clientAdPersGrid' + values.clientPers_idAddress)._refresh();
                         }
 
-                        confirm.show();
+                        if (bba.confrimBox) {
+                            confirm.show();
+                        }
                     } else {
                         bba.setupDialog(clientPersForm);
                         clientPersForm.show();

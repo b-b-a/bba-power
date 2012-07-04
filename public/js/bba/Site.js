@@ -285,7 +285,10 @@ define("bba/Site",
                         } else {
                             registry.byId('siteGrid')._refresh();
                         }
-                        confirm.show();
+
+                        if (bba.confrimBox) {
+                            confirm.show();
+                        }
 
                         if (values.type === 'add') {
                             bba.Site.showSiteTab(data.saved, data.clientAd_addressName);

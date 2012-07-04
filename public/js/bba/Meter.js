@@ -199,7 +199,10 @@ define("bba/Meter",
                         } else {
                             registry.byId('meterGrid' + values.meter_idSite)._refresh();
                         }
-                        confirm.show();
+
+                        if (bba.confrimBox) {
+                            confirm.show();
+                        }
                     } else {
                         bba.setupDialog(meterForm);
                         meterForm.show();
@@ -228,7 +231,10 @@ define("bba/Meter",
                         error.show();
                     } else if (data.saved > 0) {
                         registry.byId('usageGrid' + values.usage_idMeter)._refresh();
-                        confirm.show();
+
+                        if (bba.confrimBox) {
+                            confirm.show();
+                        }
                     } else {
                         bba.setupDialog(usageForm);
                         usageForm.show();

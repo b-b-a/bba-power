@@ -175,7 +175,10 @@ define("bba/Supplier",
                         } else {
                             registry.byId('supplierGrid')._refresh();
                         }
-                        confirm.show();
+
+                        if (bba.confrimBox) {
+                            confirm.show();
+                        }
                     } else {
                         bba.setupDialog(supplierForm);
                         supplierForm.show();
@@ -204,7 +207,11 @@ define("bba/Supplier",
                         error.show();
                     } else if (data.saved > 0) {
                         registry.byId('supplierPersGrid' + values.supplierPers_idSupplier)._refresh();
-                        confirm.show();
+
+                        if (bba.confrimBox) {
+                            confirm.show();
+                        }
+                        
                     } else {
                         bba.setupDialog(supplierPersForm);
                         supplierPersForm.show();
