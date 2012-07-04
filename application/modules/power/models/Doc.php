@@ -50,11 +50,23 @@ class Power_Model_Doc extends ZendSF_Model_Abstract
         'xlsx'  => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     );
 
+    public static $docClient = array(
+        'contract_docLoa'   => 'Loa'
+    );
+
+    public static $docContract = array(
+        'contract_docAnalysis'              => 'Analysis',
+        'contract_docTermination'           => 'Termination',
+        'contract_docContractSearchable'    => 'Contract (Searchable)',
+        'contract_docContractSignedClient'  => 'Contract (Client Signed)',
+        'contract_docContractSignedBoth'    => 'Contract (Both Signed)'
+    );
+
     public $docDir = '';
 
     public function init()
     {
-        $this->docDir = APPLICATION_PATH . '/../bba-power-docs';
+        $this->docDir = realpath(APPLICATION_PATH . '/../bba-power-docs');
     }
 
     public function getDocFile()
@@ -62,5 +74,38 @@ class Power_Model_Doc extends ZendSF_Model_Abstract
         $file = new SplFileInfo($this->docDir . '/client_docLoa/'
             . $request->getParam('view'));
 
+    }
+
+    public static function addUploadFilter($docs, $form, $id)
+    {
+        foreach ($docs as $key => $vaule) {
+            self::createUploadFilter(
+                $form->getElement($key),
+                $id
+            );
+        }
+    }
+
+    /**
+     * Adds a filter to the doc upload form.
+     * Renames file to row <id>_<timestamp>_<original filename>.
+     *
+     * @param Zend_Form_Element_File $element
+     * @param int $id
+     * @return Power_Model_Contract
+     */
+    public static function createUploadFilter(Zend_Form_Element_File $element, $id)
+    {
+        $ts = Zend_Date::now();
+
+        $newDocFileName = join('_', array(
+            sprintf("%06d", $id),
+            $ts->toString('yyyyMMdd_HHmmss'),
+            str_replace(' ', '_', $_FILES[$element->getId()]['name'])
+        ));
+
+        $element->addFilter('Rename', $newDocFileName);
+
+        return $element;
     }
 }

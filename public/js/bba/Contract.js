@@ -413,20 +413,26 @@ define("bba/Contract",
 
         setupDocEvents : function()
         {
-            contract_docAnalysis.submit = function(){return false;}
+            var docs = [
+              'contract_docAnalysis',
+              'contract_docContractSearchable',
+              'contract_docContractSignedClient',
+              'contract_docContractSignedBoth',
+              'contract_docTermination'
+            ];
 
-            dojo.connect(dom.byId('contract_docAnalysis_file'), "onclick", function(){
-                dojo.query('input[name=contract_docAnalysis]')[0].click();
-            });
-            dojo.connect(dom.byId('contract_docTermination_file'), "onclick", function(){
-                dojo.query('input[name=contract_docTermination]')[0].click();
-            });
+            array.forEach(docs, function(item, idx){
+                if (idx < 4) {
+                    registry.byId(item).submit = function(){return false;}
+                }
 
-            connect.connect(contract_docAnalysis, "onChange", function(fileArray){
-                bba.docFileList(fileArray, 'contract_docAnalysis_file');
-            });
-            connect.connect(contract_docTermination, "onChange", function(fileArray){
-                bba.docFileList(fileArray, 'contract_docTermination_file');
+                dojo.connect(dom.byId(item + '_file'), "onclick", function(){
+                    dojo.query('input[name=' + item + ']')[0].click();
+                });
+
+                 connect.connect(registry.byId(item), "onChange", function(fileArray){
+                    bba.docFileList(fileArray, item + '_file');
+                });
             });
 
             connect.connect(contract_docTermination, "onComplete", bba.Contract.processContractForm);

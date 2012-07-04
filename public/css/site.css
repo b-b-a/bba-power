@@ -428,6 +428,9 @@ Form overrides.
 }
 
 #contract_docAnalysis-label,
+#contract_docContractSearchable-label,
+#contract_docContractSignedClient-label,
+#contract_docContractSignedBoth-label,
 #contract_docTermination-label,
 #client_docLoa-label {
     margin: 0px;
@@ -435,6 +438,9 @@ Form overrides.
 }
 
 #contract_docAnalysis_file,
+#contract_docContractSearchable_file,
+#contract_docContractSignedClient_file,
+#contract_docContractSignedBoth_file,
 #contract_docTermination_file,
 #client_docLoa_file {
     height: 19px;
@@ -453,6 +459,9 @@ Form overrides.
 }
 
 #contract_docAnalysis_file:hover,
+#contract_docContractSearchable_file:hover,
+#contract_docContractSignedClient_file:hover,
+#contract_docContractSignedBoth_file:hover,
 #contract_docTermination_file:hover,
 #client_docLoa_file:hover {
     border-color: #759dc0;

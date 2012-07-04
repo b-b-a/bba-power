@@ -289,29 +289,6 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     }
 
     /**
-     * Adds a filter to the doc upload form.
-     * Renames file to row <id>_<timestamp>_<original filename>.
-     *
-     * @param Zend_Form_Element_File $element
-     * @param int $id
-     * @return Power_Model_Contract
-     */
-    protected function _addUploadFilter(Zend_Form_Element_File $element, $id)
-    {
-        $ts = Zend_Date::now();
-
-        $newDocFileName = join('_', array(
-            sprintf("%06d", $id),
-            $ts->toString('yyyyMMdd_HHmmss'),
-            str_replace(' ', '_', $_FILES[$element->getId()]['name'])
-        ));
-
-        $element->addFilter('Rename', $newDocFileName);
-
-        return $this;
-    }
-
-    /**
      * Save a contract.
      *
      * @param array $post
@@ -325,7 +302,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         }
 
         $form = $this->getForm('contractSave');
-        $docForm = $this->getForm('contractDoc');
+        $docForm = $this->getForm('docContract');
 
         // validate all forms.
         if (!$form->isValid($post) || !$docForm->isValid($post)) {
@@ -361,15 +338,9 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         }
 
         // add filters to the docForm.
-        $this->_addUploadFilter(
-            $docForm->getElement('contract_docAnalysis'),
-            $id
-        )->_addUploadFilter(
-            $docForm->getElement('contract_docTermination'),
-            $id
-        );
+        Power_Model_Doc::addUploadFilter(Power_Model_Doc::$docContract, $docForm, $id);
 
-        // get filtered values.
+        // get filtered values, this also uploads the files.
         $data = $docForm->getValues();
 
         return $id;

@@ -135,7 +135,7 @@ class Power_ContractController extends Zend_Controller_Action
                 && $request->isPost()) {
 
             $form = $this->_getForm('contractSave', 'save-contract');
-            $docForm = $this->_getForm('contractDoc', 'save-contract');
+            $docForm = $this->_getForm('docContract', 'save-contract');
 
             $this->view->assign(array(
                 'contractSaveForm'  => $form,
@@ -165,7 +165,7 @@ class Power_ContractController extends Zend_Controller_Action
                     throw new ZendSF_Acl_Exception('Access Denied');
                 }
                 $form = $this->_getForm('contractSave', 'save-contract');
-                $docForm = $this->_getForm('contractDoc', 'save-contract');
+                $docForm = $this->_getForm('docContract', 'save-contract');
                 $form->populate($contract->toArray('dd/MM/yyyy', true));
                 $docForm->populate($contract->toArray('dd/MM/yyyy', true));
                 $this->view->assign(array(
@@ -224,7 +224,7 @@ class Power_ContractController extends Zend_Controller_Action
 
             if (false === $saved) {
                 $form = $this->_getForm('contractSave', 'save-contract');
-                $docForm = $this->_getForm('contractDoc', 'save-contract');
+                $docForm = $this->_getForm('docContract', 'save-contract');
                 $form->populate($request->getPost());
                 $docForm->populate($request->getPost());
 

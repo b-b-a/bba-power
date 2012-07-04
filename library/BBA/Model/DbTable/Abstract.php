@@ -51,7 +51,7 @@ abstract class BBA_Model_DbTable_Abstract extends ZendSF_Model_DbTable_Abstract
 
     public function init() {
         parent::init();
-
+        
         $this->_rowPrefix = strstr($this->_primary, '_', true);
     }
 
