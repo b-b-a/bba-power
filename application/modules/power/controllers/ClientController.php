@@ -128,7 +128,7 @@ class Power_ClientController extends Zend_Controller_Action
                 && $request->isPost()) {
 
             $form = $this->_getForm('clientAdd', 'save-client');
-            $docForm = $this->_getForm('clientDoc', 'save-contract');
+            $docForm = $this->_getForm('docClient', 'save-contract');
 
             $this->view->assign(array(
                 'clientAddForm' => $form,
@@ -152,7 +152,7 @@ class Power_ClientController extends Zend_Controller_Action
             $client = $this->_model->getClientById($request->getPost('client_idClient'));
 
             $form = $this->_getForm('clientSave', 'save-client');
-            $docForm = $this->_getForm('clientDoc', 'save-contract');
+            $docForm = $this->_getForm('docClient', 'save-contract');
 
             $form->populate($client->toArray('dd/MM/yyyy'));
             $docForm->populate($client->toArray('dd/MM/yyyy', true));
@@ -172,28 +172,6 @@ class Power_ClientController extends Zend_Controller_Action
         } else {
            return $this->_helper->redirector('index', 'client');
         }
-    }
-
-    public function docAction()
-    {
-        $request = $this->getRequest();
-        $this->getHelper('viewRenderer')->setNoRender(true);
-        $this->_helper->layout->disableLayout();
-
-        if ($request->getParam('view')) {
-
-            $pdf = file_get_contents(
-                APPLICATION_PATH . '/../bba-power-docs/client_docLoa/'
-                . $request->getParam('view')
-            );
-
-            return $this->getResponse()
-                //->setHeader('Content-disposition: attachment; filename=' . $request->getParam('view'))
-                ->setHeader('Content-Type', 'application/pdf')
-                ->setBody($pdf);
-        }
-
-        return $this->_helper->redirector('index', 'client');
     }
 
     public function saveClientAction()
@@ -227,7 +205,7 @@ class Power_ClientController extends Zend_Controller_Action
                 $type = ($request->getPost('type') == 'add') ? 'Add' : 'Save';
 
                 $form = $this->_getForm('client' . $type, 'save-client');
-                $docForm = $this->_getForm('clientDoc', 'save-contract');
+                $docForm = $this->_getForm('docClient', 'save-contract');
                 $form->populate($request->getPost());
                 $docForm->populate($request->getPost());
 

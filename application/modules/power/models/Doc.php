@@ -51,7 +51,7 @@ class Power_Model_Doc extends ZendSF_Model_Abstract
     );
 
     public static $docClient = array(
-        'contract_docLoa'   => 'Loa'
+        'client_docLoa'   => 'Loa'
     );
 
     public static $docContract = array(
@@ -62,18 +62,18 @@ class Power_Model_Doc extends ZendSF_Model_Abstract
         'contract_docContractSignedBoth'    => 'Contract (Both Signed)'
     );
 
-    public $docDir = '';
+    public $docDir = '/../bba-power-docs/';
 
-    public function init()
+    public function getDocFile($dir, $file)
     {
-        $this->docDir = realpath(APPLICATION_PATH . '/../bba-power-docs');
-    }
+        $file = realpath(
+            APPLICATION_PATH . $this->docDir . $dir . '/' . $file
+        );
 
-    public function getDocFile()
-    {
-        $file = new SplFileInfo($this->docDir . '/client_docLoa/'
-            . $request->getParam('view'));
-
+        return array(
+            file_get_contents($file),
+            self::$mimeMap[pathinfo($file, PATHINFO_EXTENSION)]
+        );
     }
 
     public static function addUploadFilter($docs, $form, $id)

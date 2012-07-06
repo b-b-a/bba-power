@@ -179,32 +179,6 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     }
 
     /**
-     * Adds a filter to the doc upload form.
-     * Renames file to row <id>_<timestamp>_<original filename>.
-     *
-     * @param Zend_Form_Element_File $element
-     * @param int $id
-     * @return Power_Model_Contract
-     */
-    protected function _addUploadFilter(Zend_Form_Element_File $element, $id)
-    {
-        $ts = Zend_Date::now();
-
-        $newDocFileName = join('_', array(
-            sprintf("%06d", $id),
-            $ts->toString('yyyyMMdd_HHmmss'),
-            str_replace(' ', '_', $_FILES[$element->getId()]['name'])
-        ));
-
-        $element->addFilter('Rename', $newDocFileName);
-
-        $log = Zend_Registry::get('log');
-        $log->info($newDocFileName);
-
-        return $this;
-    }
-
-    /**
      * Add new Client.
      *
      * @param array $post
@@ -220,8 +194,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
         // validate form.
         $form = $this->getForm('clientAdd');
-        /* @var $form Power_Form_Client_Doc */
-        $docForm = $this->getForm('clientDoc');
+        /* @var $form Power_Form_Doc_Client */
+        $docForm = $this->getForm('docClient');
 
         if ($post['client_dateExpiryLoa'] === '') {
             $client_dateExpiryLoaValidateRules = $form->getElement('client_dateExpiryLoa')
@@ -269,10 +243,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             // we will have to update docLoa here too.
             // now we have to rename the docLoa.
             // add filters to the docForm.
-            $this->_addUploadFilter(
-                $docForm->getElement('client_docLoa'),
-                $clientSave
-            );
+            // add filters to the docForm.
+            Power_Model_Doc::addUploadFilter(Power_Model_Doc::$docClient, $docForm, $clientSave);
 
             // upload file.
             $upload = $docForm->getValues();
@@ -320,8 +292,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
         /* @var $form Power_Form_Client_Save */
         $form = $this->getForm('clientSave');
-        /* @var $form Power_Form_Client_Doc */
-        $docForm = $this->getForm('clientDoc');
+        /* @var $form Power_Form_Doc_Client */
+        $docForm = $this->getForm('docClient');
 
         if ($post['client_dateExpiryLoa'] === '') {
             $client_dateExpiryLoaValidateRules = $form->getElement('client_dateExpiryLoa')
@@ -344,9 +316,9 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         $data = $form->getValues();
 
         // add filters to the docForm.
-        $this->_addUploadFilter(
-            $docForm->getElement('client_docLoa'),
-            $data['client_idClient']
+        // add filters to the docForm.
+        Power_Model_Doc::addUploadFilter(
+            Power_Model_Doc::$docClient, $docForm, $data['client_idClient']
         );
 
         // upload file.

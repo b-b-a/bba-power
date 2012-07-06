@@ -42,7 +42,7 @@ include_once 'DocAbstract.php';
 
 class Power_View_Helper_DocLoa extends Power_View_Helper_DocAbstract
 {
-    protected $_docDir = '/../bba-power-docs/client_docLoa';
+    protected $_docDir = 'client_docLoa';
 
     public function docLoa(Power_Model_DbTable_Row_Client $row)
     {

@@ -1,8 +1,8 @@
 <?php
 /**
- * DocAnalysis.php
+ * Client.php
  *
- * Copyright (c) 2012 Shaun Freeman <shaun@shaunfreeman.co.uk>.
+ * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
  * This file is part of BBA.
  *
@@ -21,37 +21,31 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage View_Helper
+ * @subpackage Form_Doc
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Client DocAnalysis View Helper.
+ * Form Class Client Doc.
  *
  * @category   BBA
  * @package    Power
- * @subpackage View_Helper
+ * @subpackage Form_Doc
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-
-include_once 'DocAbstract.php';
-
-class Power_View_Helper_DocAnalysis extends Power_View_Helper_DocAbstract
+class Power_Form_Doc_Client extends Power_Form_Doc_Abstract
 {
-    protected $_docDir = 'contract_docAnalysis';
-
-    public function docAnalysis(Power_Model_DbTable_Row_Contract $row)
+    public function init()
     {
-        $this->_id = $row->contract_idContract;
+        $this->setName('clientDocs');
 
-        if (!$this->_currentFile) {
-            $this->setCurrentFile();
+        foreach (Power_Model_Doc::$docClient as $key => $value) {
+            $this->createFormElement($key, $value);
         }
-
-        return $this;
     }
+
 }

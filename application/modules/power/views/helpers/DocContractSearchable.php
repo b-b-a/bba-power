@@ -1,6 +1,6 @@
 <?php
 /**
- * DocAnalysis.php
+ * DocContractSearchable.php
  *
  * Copyright (c) 2012 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Client DocAnalysis View Helper.
+ * Client DocContractSearchable View Helper.
  *
  * @category   BBA
  * @package    Power
@@ -40,11 +40,11 @@
 
 include_once 'DocAbstract.php';
 
-class Power_View_Helper_DocAnalysis extends Power_View_Helper_DocAbstract
+class Power_View_Helper_DocContractSearchable extends Power_View_Helper_DocAbstract
 {
-    protected $_docDir = 'contract_docAnalysis';
+    protected $_docDir = 'contract_docContractSearchable';
 
-    public function docAnalysis(Power_Model_DbTable_Row_Contract $row)
+    public function docContractSearchable(Power_Model_DbTable_Row_Contract $row)
     {
         $this->_id = $row->contract_idContract;
 

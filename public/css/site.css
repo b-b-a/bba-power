@@ -102,7 +102,6 @@ html, body {
 
 .tabHeading {
     padding: 5px 5px 0px 5px;
-    height: 50%;
 }
 
 #leftPanelTop,
@@ -533,7 +532,7 @@ Form overrides.
 .info_wrap th {
      font-weight: bold;
      text-align: right;
-     width: 120px;
+     width: auto;
  }
 
 .info_wrap td {

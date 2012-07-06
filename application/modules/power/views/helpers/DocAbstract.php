@@ -42,6 +42,10 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
     /**
      * @var string
      */
+    protected $_baseDir = '/../bba-power-docs/';
+    /**
+     * @var string
+     */
     protected $_docDir;
 
     /**
@@ -85,7 +89,7 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
         $sort = array();
 
         $dir = new DirectoryIterator(realpath(
-            APPLICATION_PATH . $this->_docDir
+            APPLICATION_PATH . $this->_baseDir . $this->_docDir
         ));
 
         foreach ($dir as $file) {
@@ -106,21 +110,6 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
         array_multisort($sort, SORT_DESC, $fileArray);
 
         $this->_files = $fileArray;
-
-        return $this;
-    }
-
-    /**
-     * Sets the inner directory to the id of the database record.
-     * Not sure if we want to keep this.
-     *
-     * @param int $id
-     * @return Power_View_Helper_DocAbstract
-     */
-    public function setDocDir(int $id)
-    {
-        $id = sprintf("%06d", $id);
-        $this->_docDir = $this->_docDir . '/' . $id;
 
         return $this;
     }
@@ -216,16 +205,11 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
             $attribs = array();
         }
 
-        $className = $this->_getNamespace();
-
         $element = 'a';
         $attribs['href'] = $this->view->url(array(
-            'module'        => 'power',
-            'controller'    => $this->view->request()->getControllerName(),
-            'action'        => 'doc',
-            'view'          => $file['filename'],
-            'doc'           => lcfirst(end($className))
-        ));
+            'file'  => $file['filename'],
+            'dir'   => $this->_docDir
+        ),'doc', true);
         $attribs['target'] = '_blank';
         $attribs['class'] = 'button view_button';
 
@@ -233,16 +217,5 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
              . 'View'
              . '</' . $element . '>'
              . self::EOL;
-    }
-
-    /**
-     * Gets the class namespace.
-     *
-     * @return array
-     */
-    protected function _getNamespace()
-    {
-        $ns = explode('_', get_class($this));
-        return $ns;
     }
 }

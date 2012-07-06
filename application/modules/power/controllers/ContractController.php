@@ -180,28 +180,6 @@ class Power_ContractController extends Zend_Controller_Action
         }
     }
 
-    public function docAction()
-    {
-        $request = $this->getRequest();
-        $this->getHelper('viewRenderer')->setNoRender(true);
-        $this->_helper->layout->disableLayout();
-
-        if ($request->getParam('view')) {
-
-            $pdf = file_get_contents(
-                APPLICATION_PATH . '/../bba-power-docs/contract_' . $request->getParam('doc') . '/'
-                . $request->getParam('view')
-            );
-
-            return $this->getResponse()
-                //->setHeader('Content-disposition: attachment; filename=' . $request->getParam('view'))
-                ->setHeader('Content-Type', 'application/pdf')
-                ->setBody($pdf);
-        }
-
-        return $this->_helper->redirector('index', 'client');
-    }
-
     public function saveContractAction()
     {
         $request = $this->getRequest();
