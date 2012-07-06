@@ -159,6 +159,7 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
                     ->getClientPersonnelByClientId($params['clientId']);
                 $selectMessage = ($result->count()) ? 'Please Select Someone' : 'No Client Personnel Available';
                 $items[] = array($identifier => 0, $searchItems[1] => $selectMessage);
+                $items[] = array($identifier => -1, $searchItems[1] => 'Add New Personnel ...');
                 break;
         }
 

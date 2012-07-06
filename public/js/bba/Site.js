@@ -82,7 +82,7 @@ define("bba/Site",
             ]
         },
 
-        setupClientSore : function()
+        setupClientStore : function()
         {
             siteFormStandby.show();
             id = registry.byId("site_idClient").get('value');
@@ -148,6 +148,26 @@ define("bba/Site",
             if (val) registry.byId('site_idAddressBill').set('value', val);
         },
 
+        getPersonnelStore : function(val, id)
+        {
+            siteFormStandby.show();
+            this.personnelStore = new ItemFileReadStore({
+                url:'./site/data-store/type/personnel/clientId/' + id
+            })
+
+            this.personnelStore.fetch({
+                onComplete: function() {
+                    siteFormStandby.hide();
+                },
+                onError: function(error, request) {
+                    bba.dataStoreError(request.store.url, null);
+                }
+            });
+
+            registry.byId("site_idClientPersonnel").set('store', this.personnelStore);
+            if (val) registry.byId('site_idClientPersonnel').set('value', val);
+        },
+
         changeAddress : function(val)
         {
             siteFormStandby.show();
@@ -164,20 +184,7 @@ define("bba/Site",
 
             this.getBillAddressStore(null, val);
 
-            this.personnelStore = new ItemFileReadStore({
-                url:'./site/data-store/type/personnel/clientId/' + val
-            })
-
-            this.personnelStore.fetch({
-                onComplete: function() {
-                    siteFormStandby.hide();
-                },
-                onError: function(error, request) {
-                    bba.dataStoreError(request.store.url, null);
-                }
-            });
-
-            registry.byId("site_idClientPersonnel").set('store', this.personnelStore);
+            this.getPersonnelStore(null, val);
 
             registry.byId("site_idAddress").set('value', 0);
             registry.byId("site_idAddressBill").set('value', 0);
@@ -200,6 +207,19 @@ define("bba/Site",
             registry.byId("site_idAddressBill").set('disabled', false);
             registry.byId("site_idAddressBill").set('store', this.billAddressStore);
             registry.byId("site_idAddressBill").set('value', 0);
+        },
+
+        addPersonnel : function(obj)
+        {
+            if (obj.value === -1) {
+                bba.Client.newClientPersButtonClick({
+                    clientPers_idClient : registry.byId("site_idClient").get('value')
+                });
+
+                bba.deferredFunction = function(val) {
+                    bba.Site.getPersonnelStore(val, registry.byId("site_idClient").get('value'));
+                }
+            }
         },
 
         changePersonnel : function()
@@ -240,7 +260,7 @@ define("bba/Site",
                     content: dojo.mixin({type :  'add'}),
                     dialog: 'siteForm',
                     deferredFunction: function() {
-                        bba.Site.setupClientSore();
+                        bba.Site.setupClientStore();
                     }
                 });
             } else {

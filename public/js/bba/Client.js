@@ -363,6 +363,7 @@ define("bba/Client",
                         if (bba.confrimBox) {
                             confirm.show();
                         }
+                        bba.deferredFunction(data.saved);
                     } else {
                         bba.setupDialog(clientPersForm);
                         clientPersForm.show();

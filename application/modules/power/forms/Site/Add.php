@@ -134,7 +134,10 @@ class Power_Form_Site_Add extends ZendSF_Dojo_Form_Abstract
             'hasDownArrow' => true,
             'storeId' => 'personnelStore',
             'dijitParams' => array('searchAttr' => 'clientPers_name'),
-            'attribs' => array('disabled' => true),
+            'attribs' => array(
+                'disabled' => true,
+                 'onChange' => 'bba.Site.addPersonnel(this);'
+            ),
             'required' => false,
             'value' => '0'
         ));
