@@ -131,7 +131,8 @@ class Power_Model_DbTable_Meter extends BBA_Model_DbTable_Abstract
                 $id = (int) substr($search['meter'], 1);
                 $select->where('meter_idMeter = ?', $id);
             } else {
-                $select->orWhere('meter_numberMain like ?', '%'. $this->_stripSpacesAndHyphens($search['meter']) . '%');
+                $select->orWhere('meter_numberMain like ?', '%'. $this->_stripSpacesAndHyphens($search['meter']) . '%')
+                    ->orWhere('meter_numberSerial like ?', '%'. $this->_stripSpacesAndHyphens($search['meter']) . '%');
             }
         }
 
