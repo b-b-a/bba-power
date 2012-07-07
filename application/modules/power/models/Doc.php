@@ -51,7 +51,7 @@ class Power_Model_Doc extends ZendSF_Model_Abstract
     );
 
     public static $docClient = array(
-        'client_docLoa'   => 'Loa'
+        'client_docLoa'   => 'Letter of Authority'
     );
 
     public static $docContract = array(

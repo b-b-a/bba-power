@@ -571,6 +571,10 @@ Form overrides.
     background-color: #eee;
 }
 
+.filelistTable caption {
+    font-weight: bold;
+}
+
 .dojoxGrid table {
     width: 100%;
     margin: 0px;

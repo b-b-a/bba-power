@@ -41,12 +41,19 @@ abstract class Power_Form_Doc_Abstract extends ZendSF_Form_Abstract
 {
     public function createFormElement($name, $label)
     {
+        $fileTypeString = '.' . implode(', .', array_keys(Power_Model_Doc::$mimeMap));
+
         $this->addElement('file', $name, array(
             'label'         => 'New ' . $label . ' Doc:',
             'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Count', false, array(1)),
-                array('Extension', false, array_keys(Power_Model_Doc::$mimeMap)),
+                array('Extension', false, array(
+                    array_keys(Power_Model_Doc::$mimeMap),
+                    'messages' => array(
+                        Zend_Validate_File_Extension::FALSE_EXTENSION => "File type '%value%' is not allowed. Only " . $fileTypeString . " types can be stored."
+                    )
+                ))
             ),
             'destination'   => realpath(APPLICATION_PATH . '/../bba-power-docs/' . $name),
             'required'      => false,

@@ -1,11 +1,15 @@
-
+<?php
+$doc = $this->controller . '_' . lcfirst($this->docClass);
+$docArray = 'doc' . ucfirst($this->controller);
+$caption = Power_Model_Doc::${$docArray}[$doc];
+?>
 <div dojoType="dijit.Dialog"
      id="<?php echo $this->controller . $this->id;?>FileList"
      data-dojo-id="<?php echo $this->controller . $this->id;?>FileList"
      title="File List">
     <div class="dijitDialogPaneContentArea" style="text-align: center;">
         <table class="filelistTable">
-
+            <caption><?php echo $caption . ' Documents:'; ?></caption>
             <tr>
                 <th colspan="2">Stored On:</th>
                 <th>File</th>

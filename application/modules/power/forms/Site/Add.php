@@ -136,7 +136,7 @@ class Power_Form_Site_Add extends ZendSF_Dojo_Form_Abstract
             'dijitParams' => array('searchAttr' => 'clientPers_name'),
             'attribs' => array(
                 'disabled' => true,
-                 'onChange' => 'bba.Site.addPersonnel(this);'
+                'onChange' => 'bba.Site.addPersonnel(this);'
             ),
             'required' => false,
             'value' => '0'
