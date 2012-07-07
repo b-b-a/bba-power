@@ -98,9 +98,6 @@ class Power_Model_Doc extends ZendSF_Model_Abstract
     {
         $ts = Zend_Date::now();
 
-        $log = Zend_Registry::get('log');
-        $log->info($element);
-
         $newDocFileName = join('_', array(
             sprintf("%06d", $id),
             $ts->toString('yyyyMMdd_HHmmss'),

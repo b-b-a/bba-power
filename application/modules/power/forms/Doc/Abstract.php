@@ -51,7 +51,7 @@ abstract class Power_Form_Doc_Abstract extends ZendSF_Form_Abstract
                 array('Extension', false, array(
                     implode(',', array_keys(Power_Model_Doc::$mimeMap)),
                     'messages' => array(
-                        Zend_Validate_File_Extension::FALSE_EXTENSION => "File type '%value%' is not allowed. Only " . $fileTypeString . " types can be stored."
+                        Zend_Validate_File_Extension::FALSE_EXTENSION => "File '%value%' is not allowed. Only " . $fileTypeString . " types can be stored."
                     )
                 ))
             ),
