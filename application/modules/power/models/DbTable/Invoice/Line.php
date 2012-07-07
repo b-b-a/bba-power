@@ -74,4 +74,44 @@ class Power_Model_DbTable_Invoice_Line extends ZendSF_Model_DbTable_Abstract
             'refColumns'    => 'contract_idContract'
         )
     );
+
+    public function getInvoiceLineById($id)
+    {
+        return $this->find($id)->current();
+    }
+
+    protected function _getSearchInvoiceLinesSelect(array $search)
+    {
+        $select = $this->select()->setIntegrityCheck(false)
+            ->from('invoice_line')
+            ->join('meter', 'invoiceLine_idMeter = meter_idMeter', array(
+                'meter_idMeter',
+                'meter_numberMain'
+            ))
+            ->join('contract', 'invoiceLine_idContract = contract_idContract', array(
+                'contract_idContract'
+            ))
+            ->where('invoiceLine_idInvoice = ?', $search['invoiceLine_idInvoice']);
+
+        return $select;
+    }
+
+    public function searchInvoiceLines(array $search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->_getSearchInvoiceLinesSelect($search);
+        $select = $this->getLimit($select, $count, $offset);
+        $select = $this->getSortOrder($select, $sort);
+
+        return $this->fetchAll($select);
+    }
+
+    public function numRows($search)
+    {
+        $select = $this->_getSearchInvoiceLinesSelect($search);
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->columns(array('numRows' => 'COUNT(invoiceLine_idInvoiceLine)'));
+        $result = $this->fetchRow($select);
+
+        return $result->numRows;
+    }
 }
