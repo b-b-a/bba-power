@@ -43,9 +43,16 @@ class Power_Form_Doc_Contract extends Power_Form_Doc_Abstract
     {
         $this->setName('contractDocs');
 
-        foreach (Power_Model_Doc::$docContract as $key => $value) {
-            $this->createFormElement($key, $value);
+        $request = Zend_Controller_Front::getInstance()->getRequest();
+
+        if ($request->getParam('type') === 'add') {
+            $this->createFormElement('contract_docTermination', Power_Model_Doc::$docContract['contract_docTermination']);
+        } else {
+            foreach (Power_Model_Doc::$docContract as $key => $value) {
+                $this->createFormElement($key, $value);
+            }
         }
+
     }
 
 }

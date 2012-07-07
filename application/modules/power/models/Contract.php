@@ -338,7 +338,18 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         }
 
         // add filters to the docForm.
-        Power_Model_Doc::addUploadFilter(Power_Model_Doc::$docContract, $docForm, $id);
+        if ('add' === $post['type']) {
+            Power_Model_Doc::createUploadFilter(
+                $docForm->getElement('contract_docTermination'),
+                $id
+            );
+        } else {
+            Power_Model_Doc::addUploadFilter(
+                Power_Model_Doc::$docContract,
+                $docForm,
+                $id
+            );
+        }
 
         // get filtered values, this also uploads the files.
         $data = $docForm->getValues();

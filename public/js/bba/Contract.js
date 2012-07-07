@@ -422,17 +422,19 @@ define("bba/Contract",
             ];
 
             array.forEach(docs, function(item, idx){
-                if (idx < 4) {
-                    registry.byId(item).submit = function(){return false;}
+                if (registry.byId(item)) {
+                    if (idx < 4) {
+                        registry.byId(item).submit = function(){return false;}
+                    }
+
+                    dojo.connect(dom.byId(item + '_file'), "onclick", function(){
+                        dojo.query('input[name=' + item + ']')[0].click();
+                    });
+
+                    connect.connect(registry.byId(item), "onChange", function(fileArray){
+                        bba.docFileList(fileArray, item + '_file');
+                    });
                 }
-
-                dojo.connect(dom.byId(item + '_file'), "onclick", function(){
-                    dojo.query('input[name=' + item + ']')[0].click();
-                });
-
-                 connect.connect(registry.byId(item), "onChange", function(fileArray){
-                    bba.docFileList(fileArray, item + '_file');
-                });
             });
 
             connect.connect(contract_docTermination, "onComplete", bba.Contract.processContractForm);

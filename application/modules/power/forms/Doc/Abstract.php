@@ -49,7 +49,7 @@ abstract class Power_Form_Doc_Abstract extends ZendSF_Form_Abstract
             'validators'    => array(
                 array('Count', false, array(1)),
                 array('Extension', false, array(
-                    array_keys(Power_Model_Doc::$mimeMap),
+                    implode(',', array_keys(Power_Model_Doc::$mimeMap)),
                     'messages' => array(
                         Zend_Validate_File_Extension::FALSE_EXTENSION => "File type '%value%' is not allowed. Only " . $fileTypeString . " types can be stored."
                     )
