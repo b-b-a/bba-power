@@ -230,6 +230,18 @@ class Power_Form_Contract_Save extends ZendSF_Dojo_Form_Abstract
             'required'      => false
         ));
 
+        $this->addElement('ZendSFDojoTextBox', 'contract_dateDecision', array(
+            'label'         => 'Tender Decision Date:',
+            'formatLength'  => 'short',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'validators'    => array(
+                array('Date', true, array(
+                    'format' => 'dd/MM/yyyy'
+                ))
+            ),
+            'required'      => false
+        ));
+
         $this->addElement('ZendSFDojoTextBox', 'contract_reference', array(
             'label'     => 'Contract Ref:',
             'required'  => false,

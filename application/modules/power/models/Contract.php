@@ -314,6 +314,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         $data = $form->getValues();
 
         $dateKeys = array(
+            'contract_dateDecision',
             'contract_dateStart',
             'contract_dateEnd'
         );
