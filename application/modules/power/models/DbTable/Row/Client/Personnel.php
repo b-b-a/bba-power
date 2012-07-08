@@ -1,6 +1,6 @@
 <?php
 /**
- * Contact.php
+ * Personnel.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Database class for the Contact table row.
+ * Database class for the Client Personnel table row.
  *
  * @category   BBA
  * @package    Power
@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Row_Client_Contact extends ZendSF_Model_DbTable_Row_Abstract
+class Power_Model_DbTable_Row_Client_Personnel extends ZendSF_Model_DbTable_Row_Abstract
 {
     /**
      * Array of all columns with need date format applied
@@ -52,7 +52,7 @@ class Power_Model_DbTable_Row_Client_Contact extends ZendSF_Model_DbTable_Row_Ab
 
     public function getMailto()
     {
-        $email = $this->getRow()->clientCo_email;
+        $email = $this->getRow()->clientPers_email;
         return '<a href="mailto:' . $email . '">' . $email . '</a>';
     }
 

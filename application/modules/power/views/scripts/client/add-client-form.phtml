@@ -68,15 +68,15 @@ $docForm = $this->docForm;
                 <div data-dojo-type="dojox.widget.WizardPane"
                      class="zend_form client_edit">
 
-                    <?php echo $form->clientCo_type; ?>
+                    <?php echo $form->clientPers_type; ?>
 
-                    <?php echo $form->clientCo_name; ?>
+                    <?php echo $form->clientPers_name; ?>
 
-                    <?php echo $form->clientCo_position; ?>
+                    <?php echo $form->clientPers_position; ?>
 
-                    <?php echo $form->clientCo_phone; ?>
+                    <?php echo $form->clientPers_phone; ?>
 
-                    <?php echo $form->clientCo_email; ?>
+                    <?php echo $form->clientPers_email; ?>
 
                     <input dojoType="dijit.form.TextBox"
                             type="hidden"
@@ -90,7 +90,7 @@ $docForm = $this->docForm;
                     </script>
 
                     <script type='dojo/method' data-dojo-event="doneFunction">
-                        if (clientForm.getValues().client_dateExpiryLoa === '') {
+                        if (clientForm.getValues().client_docLoa[0] && clientForm.getValues().client_dateExpiryLoa === '') {
                             bba.Client.clientLoaEmptyDialog();
                             return false;
                         }

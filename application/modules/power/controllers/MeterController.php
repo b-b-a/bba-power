@@ -280,7 +280,7 @@ class Power_MeterController extends Zend_Controller_Action
             $usage = $this->_model->getUsageById($request->getParam('usage_idUsage'));
 
             $form = $this->_getForm('meterUsageSave', 'save-usage');
-            $form->populate($usage->toArray('dd/MM/yyyy'));
+            $form->populate($usage->toArray('dd/MM/yyyy', true));
 
             $this->view->assign(array('meterUsageSaveForm' => $form));
 

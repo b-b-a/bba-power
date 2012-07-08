@@ -82,7 +82,7 @@ class Power_SiteController extends Zend_Controller_Action
                 case 'clients':
                 case 'address':
                 case 'billAddress':
-                case 'contact':
+                case 'personnel':
                     $data = $this->_model->getFileringSelectData($request->getParams());
                     break;
                 default :

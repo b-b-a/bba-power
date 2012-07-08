@@ -78,14 +78,20 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_Tables',
             'refColumns'    => 'tables_key'
         ),
-        'user'      => array(
-            'columns'       => array(
-                'meterContract_userCreate',
-                'meterContract_userModify'
-            ),
+        'userCreate'    => array(
+            'columns'       => 'meterContract_userCreate',
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        ),
+        'userModify'    => array(
+            'columns'       => 'meterContract_userModify',
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
+    );
+
+    protected $_nullAllowed = array(
+        'meterContract_userModify'
     );
 
     public function getMeterContractById($idMeter, $idContract)
@@ -117,8 +123,8 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
                 'clientAd_addressName','clientAd_address1','clientAd_address2','clientAd_address3','clientAd_postcode'
             ))
             ->join('client', 'client_idClient = site_idClient', null)
-            ->joinLeft('client_contact', 'client_idClientContact = clientCo_idClientContact', array(
-                'clientCo_name'
+            ->joinLeft('client_personnel', 'client_idClientPersonnel = clientPers_idClientPersonnel', array(
+                'clientPers_name'
             ));
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
@@ -151,34 +157,5 @@ class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
 
         $row = $this->find($idMeter, $idContract)->current();
         return $row->delete();
-    }
-
-    public function insert(array $data)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['meterContract_dateCreate'] = new Zend_Db_Expr('CURDATE()');
-        $data['meterContract_userCreate'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "INSERT: " . __CLASS__, false));
-
-        return parent::insert($data);
-    }
-
-    public function update(array $data, $where)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['meterContract_dateModify'] = new Zend_Db_Expr('CURDATE()');
-        $data['meterContract_userModify'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
-
-        return parent::update($data, $where);
-    }
-
-    public function delete($where)
-    {
-        $this->_log->info(Zend_Debug::dump($where, "DELETE: " . __CLASS__, false));
-
-        return parent::delete($where);
     }
 }

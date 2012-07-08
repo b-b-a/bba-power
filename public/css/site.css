@@ -22,7 +22,7 @@ html, body {
 }
 
 #leftPanel {
-    width: 10em;
+    width: 150px;
     overflow: auto;
 }
 
@@ -54,7 +54,7 @@ html, body {
 .claro .tabContainer .meterEditTabs-BorderContainter,
 .claro .tabContainer .contractEditTabs-BorderContainter,
 .claro .tabContainer .supplierEditTabs-BorderContainter {
-    height: 50%;
+    min-height: 150px;
 }
 
 .claro .tabContainer .info-panels {
@@ -102,7 +102,17 @@ html, body {
 
 .tabHeading {
     padding: 5px 5px 0px 5px;
-    height: 50%;
+}
+
+#leftPanelTop,
+#nav {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+#leftPanelBottom p {
+    text-align: center;
+    margin: 0px;
 }
 
 /* Dialogs */
@@ -417,6 +427,9 @@ Form overrides.
 }
 
 #contract_docAnalysis-label,
+#contract_docContractSearchable-label,
+#contract_docContractSignedClient-label,
+#contract_docContractSignedBoth-label,
 #contract_docTermination-label,
 #client_docLoa-label {
     margin: 0px;
@@ -424,6 +437,9 @@ Form overrides.
 }
 
 #contract_docAnalysis_file,
+#contract_docContractSearchable_file,
+#contract_docContractSignedClient_file,
+#contract_docContractSignedBoth_file,
 #contract_docTermination_file,
 #client_docLoa_file {
     height: 19px;
@@ -442,6 +458,9 @@ Form overrides.
 }
 
 #contract_docAnalysis_file:hover,
+#contract_docContractSearchable_file:hover,
+#contract_docContractSignedClient_file:hover,
+#contract_docContractSignedBoth_file:hover,
 #contract_docTermination_file:hover,
 #client_docLoa_file:hover {
     border-color: #759dc0;
@@ -513,7 +532,7 @@ Form overrides.
 .info_wrap th {
      font-weight: bold;
      text-align: right;
-     width: 120px;
+     width: auto;
  }
 
 .info_wrap td {
@@ -550,6 +569,10 @@ Form overrides.
 
 .filelistTable tr:nth-child(odd) {
     background-color: #eee;
+}
+
+.filelistTable caption {
+    font-weight: bold;
 }
 
 .dojoxGrid table {
@@ -720,5 +743,11 @@ Meter Styles
 #version {
     position: absolute;
     top: 0px;
+    right: 5px;
+}
+
+#dojoVersion {
+    position: absolute;
+    top: 18px;
     right: 5px;
 }

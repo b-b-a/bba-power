@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_DonController extends Zend_Controller_Action
+class Power_DocController extends Zend_Controller_Action
 {
     /**
      * @var Power_Model_Doc
@@ -64,28 +64,27 @@ class Power_DonController extends Zend_Controller_Action
         }
     }
 
+    public function indexAction()
+    {}
+
     /**
      * Default action
      */
-    public function indexAction()
+    public function viewAction()
     {
         $request = $this->getRequest();
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
 
-        if ($request->getParam('view')) {
-
-            $pdf = file_get_contents(
-                APPLICATION_PATH . '/../bba-power-docs/client_docLoa/'
-                . $request->getParam('view')
-            );
+        if ($request->getParam('dir') && $request->getParam('file')) {
+            $doc = $this->_model->getDocFile($request->getParam('dir'), $request->getParam('file'));
 
             return $this->getResponse()
-                //->setHeader('Content-disposition: attachment; filename=' . $request->getParam('view'))
-                ->setHeader('Content-Type', 'application/pdf')
-                ->setBody($pdf);
+                ->setHeader('Content-disposition: attachment; filename=' . $request->getParam('file'))
+                ->setHeader('Content-Type', $doc[1])
+                ->setBody($doc[0]);
         }
 
-        return $this->_helper->redirector('index', 'client');
+        return $this->_helper->redirector('index', 'doc');
     }
 }

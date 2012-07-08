@@ -3,7 +3,7 @@
      class="tabContainer">
 
     <div data-dojo-type="dijit.layout.ContentPane"
-         data-dojo-props="region: 'center'">
+         data-dojo-props="region: 'top', splitter: 'true'">
 
         <div class="tabHeading">
             <table class="info_wrap">
@@ -30,7 +30,7 @@
                     <th>Client:</th>
                     <td><?php echo $this->contract->getClient('client_name'); ?></td>
                 </tr>
-                
+
                 <tr>
                     <th>Type:</th>
                     <td><?php echo $this->contract->contract_type; ?></td>
@@ -60,6 +60,66 @@
                     </td>
                 </tr>
                 <tr>
+                    <th>Contract (Searchable) Doc:</th>
+                    <td>
+                        <?php echo $this->DocContractSearchable($this->contract)->getCurrentFile(); ?>
+                        <?php if ($files = $this->DocContractSearchable($this->contract)->getFileList()): ?><br />
+                        <a href="#" onClick="dijit.byId('contractDocContractSearchable<?php echo $this->contract->contract_idContract; ?>FileList').show(); return false;">
+                            Show All ...
+                        </a>
+                        <?php
+                            echo $this->partial('filelist.phtml', array(
+                                'row' => $this->contract,
+                                'files' => $files,
+                                'id' => 'DocContractSearchable' . $this->contract->contract_idContract,
+                                'controller' => 'contract',
+                                'docClass'   => 'DocContractSearchable'
+                            ));
+                        ?>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Contract (Client Signed) Doc:</th>
+                    <td>
+                        <?php echo $this->DocContractSignedClient($this->contract)->getCurrentFile(); ?>
+                        <?php if ($files = $this->DocContractSignedClient($this->contract)->getFileList()): ?><br />
+                        <a href="#" onClick="dijit.byId('contractDocContractSignedClient<?php echo $this->contract->contract_idContract; ?>FileList').show(); return false;">
+                            Show All ...
+                        </a>
+                        <?php
+                            echo $this->partial('filelist.phtml', array(
+                                'row' => $this->contract,
+                                'files' => $files,
+                                'id' => 'DocContractSignedClient' . $this->contract->contract_idContract,
+                                'controller' => 'contract',
+                                'docClass'   => 'DocContractSignedClient'
+                            ));
+                        ?>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Contract (Both Signed) Doc:</th>
+                    <td>
+                        <?php echo $this->DocContractSignedBoth($this->contract)->getCurrentFile(); ?>
+                        <?php if ($files = $this->DocContractSignedBoth($this->contract)->getFileList()): ?><br />
+                        <a href="#" onClick="dijit.byId('contractDocContractSignedBoth<?php echo $this->contract->contract_idContract; ?>FileList').show(); return false;">
+                            Show All ...
+                        </a>
+                        <?php
+                            echo $this->partial('filelist.phtml', array(
+                                'row' => $this->contract,
+                                'files' => $files,
+                                'id' => 'DocContractSignedBoth' . $this->contract->contract_idContract,
+                                'controller' => 'contract',
+                                'docClass'   => 'DocContractSignedBoth'
+                            ));
+                        ?>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+                <tr>
                     <th>Termination Doc:</th>
                     <td>
                         <?php echo $this->DocTermination($this->contract)->getCurrentFile(); ?>
@@ -78,6 +138,10 @@
                         ?>
                         <?php endif; ?>
                     </td>
+                </tr>
+                <tr>
+                    <th>Tender Decision Date:</th>
+                    <td><?php echo $this->formatDate($this->contract->contract_dateDecision); ?></td>
                 </tr>
                 <?php if ($this->contract->contract_idTenderSelected): ?>
                 <tr>
@@ -135,7 +199,7 @@
     </div>
 
     <div data-dojo-type="dijit.layout.BorderContainer"
-         data-dojo-props="design: 'headline', region: 'bottom', splitter: 'true'"
+         data-dojo-props="design: 'headline', region: 'center'"
          class="contractEditTabs-BorderContainter">
 
         <div id="ContractTabs<?php echo $this->contract->contract_idContract; ?>"
@@ -189,7 +253,7 @@
     </div>
 
     <div data-dojo-type="dijit.layout.ContentPane"
-         data-dojo-props="region: 'bottom'"
+         data-dojo-props="region: 'top'"
          class="tableHeadPane">
 
         <div class="tableHead">

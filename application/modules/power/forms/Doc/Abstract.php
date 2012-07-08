@@ -1,61 +1,66 @@
 <?php
 /**
- * Doc.php
+ * Abstract.php
  *
- * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
+ * Copyright (c) 2012 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
- * This file is part of BBA.
+ * This file is part of BBA Power.
  *
- * BBA is free software: you can redistribute it and/or modify
+ * BBA Power is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * BBA is distributed in the hope that it will be useful,
+ * BBA Power is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with BBA.  If not, see <http://www.gnu.org/licenses/>.
+ * along with BBA Power.  If not, see <http://www.gnu.org/licenses/>.
  *
- * @category   BBA
- * @package    Power
- * @subpackage Form_Client
+ * @category   BBA_Power
+ * @package
+ * @subpackage Form
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Form Class Doc.
+ * Form Class Abstract.
  *
- * @category   BBA
- * @package    Power
- * @subpackage Form_Client
+ * @category   BBA_Power
+ * @package
+ * @subpackage Form
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Client_Doc extends ZendSF_Form_Abstract
+abstract class Power_Form_Doc_Abstract extends ZendSF_Form_Abstract
 {
-    public function init()
+    public function createFormElement($name, $label)
     {
-        $this->setName('clientDocs');
+        $fileTypeString = '.' . implode(', .', array_keys(Power_Model_Doc::$mimeMap));
 
-        $this->addElement('file','client_docLoa', array(
-            'label'         => 'New LoA Document:',
+        $this->addElement('file', $name, array(
+            'label'         => 'New ' . $label . ' Doc:',
             'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
                 array('Count', false, array(1)),
-                array('Extension', false, array_keys(Power_Model_Doc::$mimeMap)),
+                array('Extension', false, array(
+                    implode(',', array_keys(Power_Model_Doc::$mimeMap)),
+                    'messages' => array(
+                        Zend_Validate_File_Extension::FALSE_EXTENSION => "File '%value%' is not allowed. Only " . $fileTypeString . " types can be stored."
+                    )
+                ))
             ),
-            'destination'   => realpath(APPLICATION_PATH . '/../bba-power-docs/client_docLoa'),
+            'destination'   => realpath(APPLICATION_PATH . '/../bba-power-docs/' . $name),
             'required'      => false,
             'attribs'       => array(
                 'data-dojo-type'    => 'dojox.form.Uploader',
-                'data-dojo-id'      => 'client_docLoa',
-                'data-dojo-props'   => "label: 'Choose LoA File'",
+                'data-dojo-id'      => $name,
+                'data-dojo-props'   => "label: 'Choose " . $label . " File'",
                 'force'             => "iframe"
             ),
             'decorators'    => array(
@@ -73,7 +78,7 @@ class Power_Form_Client_Doc extends ZendSF_Form_Abstract
                     array('filename' => 'HtmlTag'),
                     array(
                         'tag'   => 'p',
-                        'id'    => 'client_docLoa_file',
+                        'id'    => $name . '_file',
                         'class' => 'file-element'
                     )
                 ),
@@ -91,5 +96,4 @@ class Power_Form_Client_Doc extends ZendSF_Form_Abstract
             )
         ));
     }
-
 }

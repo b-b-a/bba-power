@@ -49,12 +49,22 @@
              data-dojo-props="region: 'top'">
              <h1>BBA Power Data Base System </h1>
              <span id="version"><?php echo $this->version(); ?><span>
+             <span id="dojoVersion"><span>
         </div>
 
         <div id="leftPanel" class="edgePanel"
             data-dojo-type="dijit.layout.ContentPane"
-            data-dojo-props="region: 'left', splitter: true">
-            <div>
+            data-dojo-props="region: 'left', splitter: false">
+            <div id="leftPanelTop">
+                <p>User: <?php echo $this->authInfo('user_fullName'); ?></p>
+                <p>Role: <?php echo $this->authInfo('user_role'); ?></p>
+            </div>
+
+            <div id="nav">
+                <?php echo $this->navigation()->sfMenu(); ?>
+            </div>
+
+            <div id="leftPanelBottom">
                 <p><button data-dojo-type="dijit.form.ToggleButton"
                            data-dojo-props="iconClass:'dijitCheckBoxIcon'"
                            id="tabRefreshButton">
@@ -63,12 +73,14 @@
                         bba.tabRefreshButton(val);
                     </script>
                 </button></p>
-                <p>User: <?php echo $this->authInfo('user_fullName'); ?></p>
-                <p>Role: <?php echo $this->authInfo('user_role'); ?></p>
-            </div>
-
-            <div id="nav">
-                <?php echo $this->navigation()->sfMenu(); ?>
+                <p><button data-dojo-type="dijit.form.ToggleButton"
+                           data-dojo-props="iconClass:'dijitCheckBoxIcon', checked: true"
+                           id="confirmBoxButton">
+                    Confirmation
+                    <script type="dojo/method" data-dojo-event="onChange" args="val">
+                        bba.confirmBoxButton(val);
+                    </script>
+                </button></p>
             </div>
         </div>
         <?php endif; ?>

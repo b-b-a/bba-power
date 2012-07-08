@@ -42,7 +42,7 @@ include_once 'DocAbstract.php';
 
 class Power_View_Helper_DocAnalysis extends Power_View_Helper_DocAbstract
 {
-    protected $_docDir = '/../bba-power-docs/contract_docAnalysis';
+    protected $_docDir = 'contract_docAnalysis';
 
     public function docAnalysis(Power_Model_DbTable_Row_Contract $row)
     {

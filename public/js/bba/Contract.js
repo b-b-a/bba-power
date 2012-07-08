@@ -96,8 +96,8 @@ define("bba/Contract",
             tender : [
                 {field: 'tender_idTender', width: '50px', name: 'Id'},
                 {field: 'supplier_nameShort', width : '80px', name: 'Supplier'},
-                {field: 'supplierCo_name', width : '150px', name: 'Supplier Liaison'},
-                {field: 'supplierCo_phone', width: '100px', name: 'Phone'},
+                {field: 'supplierPers_name', width : '150px', name: 'Supplier Liaison'},
+                {field: 'supplierPers_phone', width: '100px', name: 'Phone'},
                 {field: 'tender_periodContract', width: '100px', name: 'Contract Period'},
                 {field: 'tender_dateExpiresQuote', width: '100px', name: 'Quote Expires'},
                 {field: 'tender_chargeStanding', width: '100px', name: 'Standing Charge'},
@@ -325,22 +325,22 @@ define("bba/Contract",
             }
         },
 
-        changeSupplierContact : function(val)
+        changeSupplierPersonnel : function(val)
         {
-            registry.byId('tender_idSupplierContact').set('value', '');
+            registry.byId('tender_idSupplierPersonnel').set('value', '');
 
-            this.supplierContactStore = new ItemFileReadStore({
-                url:'./supplier/data-store/type/supplierContacts/supplierId/' + val
+            this.supplierPersonnelStore = new ItemFileReadStore({
+                url:'./supplier/data-store/type/supplierPersonnel/supplierId/' + val
             });
 
-            this.supplierContactStore.fetch({
+            this.supplierPersonnelStore.fetch({
                 onError: function(error, request) {
                     bba.dataStoreError(request.store.url, null);
                 }
             });
 
-            registry.byId("tender_idSupplierContact").set('store', this.supplierContactStore);
-            registry.byId('tender_idSupplierContact').set('value', 0);
+            registry.byId("tender_idSupplierPersonnel").set('store', this.supplierPersonnelStore);
+            registry.byId('tender_idSupplierPersonnel').set('value', 0);
         },
 
         processContractForm : function()
@@ -361,7 +361,9 @@ define("bba/Contract",
 
                 if (dom.byId('contractGrid')) contractGrid._refresh();
 
-                confirm.show();
+                if (bba.confrimBox) {
+                    confirm.show();
+                }
 
                 if (data.client_name) {
                     bba.Contract.showContractTab(data.saved, data.client_name);
@@ -397,7 +399,10 @@ define("bba/Contract",
                         } else if (registry.byId('tenderGrid' + values.tender_idContract)) {
                             registry.byId('tenderGrid' + values.tender_idContract)._refresh();
                         }
-                        confirm.show();
+
+                        if (bba.confrimBox) {
+                            confirm.show();
+                        }
                     } else {
                         bba.setupDialog(tenderForm);
                         tenderForm.show();
@@ -408,20 +413,28 @@ define("bba/Contract",
 
         setupDocEvents : function()
         {
-            contract_docAnalysis.submit = function(){return false;}
+            var docs = [
+              'contract_docAnalysis',
+              'contract_docContractSearchable',
+              'contract_docContractSignedClient',
+              'contract_docContractSignedBoth',
+              'contract_docTermination'
+            ];
 
-            dojo.connect(dom.byId('contract_docAnalysis_file'), "onclick", function(){
-                dojo.query('input[name=contract_docAnalysis]')[0].click();
-            });
-            dojo.connect(dom.byId('contract_docTermination_file'), "onclick", function(){
-                dojo.query('input[name=contract_docTermination]')[0].click();
-            });
+            array.forEach(docs, function(item, idx){
+                if (registry.byId(item)) {
+                    if (idx < 4) {
+                        registry.byId(item).submit = function(){return false;}
+                    }
 
-            connect.connect(contract_docAnalysis, "onChange", function(fileArray){
-                bba.docFileList(fileArray, 'contract_docAnalysis_file');
-            });
-            connect.connect(contract_docTermination, "onChange", function(fileArray){
-                bba.docFileList(fileArray, 'contract_docTermination_file');
+                    dojo.connect(dom.byId(item + '_file'), "onclick", function(){
+                        dojo.query('input[name=' + item + ']')[0].click();
+                    });
+
+                    connect.connect(registry.byId(item), "onChange", function(fileArray){
+                        bba.docFileList(fileArray, item + '_file');
+                    });
+                }
             });
 
             connect.connect(contract_docTermination, "onComplete", bba.Contract.processContractForm);

@@ -48,33 +48,33 @@ class Power_Model_DbTable_Row_Supplier extends ZendSF_Model_DbTable_Row_Abstract
              . $this->supplier_postcode . '<br />';
     }
 
-    public function getSupplierContact()
+    public function getSupplierPersonnel()
     {
         return $this->getRow()->findParentRow(
-            'Power_Model_DbTable_Supplier_Contact',
-            'supplierContact'
+            'Power_Model_DbTable_Supplier_Personnel',
+            'supplierPers'
         );
     }
 
-    public function getSupplierContacts()
+    public function getAllSupplierPersonnel()
     {
         return $this->getRow()->findDependentRowset(
-            'Power_Model_DbTable_Supplier_Contact',
+            'Power_Model_DbTable_Supplier_Personnel',
             'supplier'
         );
     }
 
-    public function getFullContactAddress()
+    public function getFullPersonnelAddress()
     {
-        $row = $this->getSupplierContact();
+        $row = $this->getSupplierPersonnel();
 
         if ($row) {
-            $address = $row->supplierCo_name . '<br />'
-                . $row->supplierCo_address1 . '<br />'
-                . $row->supplierCo_address2 . '<br />'
-                . $row->supplierCo_address3 . '<br />'
-                . $row->supplierCo_postcode . '<br />'
-                . $row->supplierCo_phone . '<br />'
+            $address = $row->supplierPers_name . '<br />'
+                . $row->supplierPers_address1 . '<br />'
+                . $row->supplierPers_address2 . '<br />'
+                . $row->supplierPers_address3 . '<br />'
+                . $row->supplierPers_postcode . '<br />'
+                . $row->supplierPers_phone . '<br />'
                 . $row->getMailto() . '<br />';
         } else {
             $address = 'No main contact found';

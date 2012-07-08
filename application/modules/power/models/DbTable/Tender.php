@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Tender extends ZendSF_Model_DbTable_Abstract
+class Power_Model_DbTable_Tender extends BBA_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -68,19 +68,26 @@ class Power_Model_DbTable_Tender extends ZendSF_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_Supplier',
             'refColumns'    => 'supplier_idSupplier'
         ),
-        'supplierContact'   => array(
-            'columns'       => 'tender_idSupplierContact',
-            'refTableClass' => 'Power_Model_DbTable_Supplier_Contact',
-            'refColumns'    => 'supplierCo_idSupplierContact'
+        'supplierPers'   => array(
+            'columns'       => 'tender_idSupplierPersonnel',
+            'refTableClass' => 'Power_Model_DbTable_Supplier_Personnel',
+            'refColumns'    => 'supplierPers_idSupplierPersonnel'
         ),
-        'user'              => array(
-            'columns'       => array(
-                'tender_userCreate',
-                'tender_userModify'
-            ),
+        'userCreate'    => array(
+            'columns'       => 'tender_userCreate',
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        ),
+        'userModify'    => array(
+            'columns'       => 'tender_userModify',
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
+    );
+
+    protected $_nullAllowed = array(
+        'tender_idSupplierPersonnel',
+        'tender_userModify'
     );
 
     public function getTenderById($id)
@@ -95,7 +102,7 @@ class Power_Model_DbTable_Tender extends ZendSF_Model_DbTable_Abstract
             ->join('contract', 'contract_idContract = tender_idContract')
             ->join('client', 'client_idClient = contract_idClient')
             ->join('supplier', 'tender_idSupplier = supplier_idSupplier')
-            ->joinLeft('supplier_contact', 'tender_idSupplierContact = SupplierCo_idSuppliercontact')
+            ->joinLeft('supplier_personnel', 'tender_idSupplierPersonnel = SupplierPers_idSupplierPersonnel')
             ->where('tender_idContract = ?', $search['tender_idContract']);
 
         $select = $this->getLimit($select, $count, $offset);
@@ -116,27 +123,4 @@ class Power_Model_DbTable_Tender extends ZendSF_Model_DbTable_Abstract
 
         return $result->numRows;
     }
-
-    public function insert(array $data)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['tender_dateCreate'] = new Zend_Db_Expr('CURDATE()');
-        $data['tender_userCreate'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "\nINSERT: " . __CLASS__ . "\n", false));
-
-        return parent::insert($data);
-    }
-
-    public function update(array $data, $where)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['tender_dateModify'] = new Zend_Db_Expr('CURDATE()');
-        $data['tender_userModify'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
-
-        return parent::update($data, $where);
-    }
-
 }

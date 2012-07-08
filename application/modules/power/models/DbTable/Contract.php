@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
+class Power_Model_DbTable_Contract extends BBA_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -73,10 +73,10 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_Tender',
             'refColumns'    => 'tender_idTender'
         ),
-        'supplierContactSelected'   => array(
-            'columns'       => 'contract_idSupplierContactSelected',
-            'refTableClass' => 'Power_Model_DbTable_SupplierContact',
-            'refColumns'    => 'supplierCo_idSupplierContact'
+        'supplierPersonnelSelected'   => array(
+            'columns'       => 'contract_idSupplierPersonnelSelected',
+            'refTableClass' => 'Power_Model_DbTable_Supplier_Personnel',
+            'refColumns'    => 'supplierPers_idSupplierPersonnel'
         ),
         'contractStatus' => array(
             'columns'       => 'contract_status',
@@ -88,14 +88,23 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_Tables',
             'refColumns'    => 'tables_key'
         ),
-        'user'                      => array(
-            'columns'       => array(
-                'contract_userCreate',
-                'contract_userModify'
-            ),
+        'userCreate'    => array(
+            'columns'       => 'contract_userCreate',
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        ),
+        'userModify'    => array(
+            'columns'       => 'contract_userModify',
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
+    );
+
+    protected $_nullAllowed = array(
+        'contract_idTenderSelected',
+        'contract_idSupplierPersonnelSelected',
+        'contract_idUserAgent',
+        'contract_userModify'
     );
 
     public function getContractById($id)
@@ -185,27 +194,5 @@ class Power_Model_DbTable_Contract extends ZendSF_Model_DbTable_Abstract
         $result = $this->fetchRow($select);
 
         return $result->numRows;
-    }
-
-    public function insert(array $data)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['contract_dateCreate'] = new Zend_Db_Expr('CURDATE()');
-        $data['contract_userCreate'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "\nINSERT: " . __CLASS__ . "\n", false));
-
-        return parent::insert($data);
-    }
-
-    public function update(array $data, $where)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['contract_dateModify'] = new Zend_Db_Expr('CURDATE()');
-        $data['contract_userModify'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
-
-        return parent::update($data, $where);
     }
 }

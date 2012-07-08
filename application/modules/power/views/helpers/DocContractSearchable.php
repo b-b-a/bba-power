@@ -1,8 +1,8 @@
 <?php
 /**
- * Contact.php
+ * DocContractSearchable.php
  *
- * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
+ * Copyright (c) 2012 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
  * This file is part of BBA.
  *
@@ -21,32 +21,37 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_DbTable_Row
+ * @subpackage View_Helper
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Database class for the Contact table row.
+ * Client DocContractSearchable View Helper.
  *
  * @category   BBA
  * @package    Power
- * @subpackage Model_DbTable_Row
+ * @subpackage View_Helper
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Row_Supplier_Contact extends ZendSF_Model_DbTable_Row_Abstract
+
+include_once 'DocAbstract.php';
+
+class Power_View_Helper_DocContractSearchable extends Power_View_Helper_DocAbstract
 {
-    public function getAddress1AndPostcode()
+    protected $_docDir = 'contract_docContractSearchable';
+
+    public function docContractSearchable(Power_Model_DbTable_Row_Contract $row)
     {
-        return $this->getRow()->supplierCo_address1 . ', ' . $this->getRow()->supplierCo_postcode;
-    }
-    
-    public function getMailto()
-    {
-        $email = $this->getRow()->supplierCo_email;
-        return '<a href="mailto:' . $email . '">' . $email . '</a>';
+        $this->_id = $row->contract_idContract;
+
+        if (!$this->_currentFile) {
+            $this->setCurrentFile();
+        }
+
+        return $this;
     }
 }

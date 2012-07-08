@@ -62,14 +62,14 @@ define("bba/Supplier",
                 {field: 'contract_reference', width: '200px', name: 'Reference'},
                 {field: '', width: 'auto', name: ''}
             ],
-            supplierContact : [
-                {field: 'supplierCo_idSupplierContact', width: '50px', name: 'Id'},
-                {field: 'supplierCo_type_tables', width: '120px', name: 'Type'},
-                {field: 'supplierCo_name', width: '200px', name: 'Name'},
-                {field: 'supplierCo_phone', width: '100px', name: 'Phone'},
-                {field: 'supplierCo_email', width: '300px', name: 'Email'},
-                {field: 'supplierCo_address1', width: '200px', name: 'Address 1'},
-                {field: 'supplierCo_postcode', width: '100px', name: 'Postcode'},
+            supplierPersonnel : [
+                {field: 'supplierPers_idSupplierPersonnel', width: '50px', name: 'Id'},
+                {field: 'supplierPers_type_tables', width: '120px', name: 'Type'},
+                {field: 'supplierPers_name', width: '200px', name: 'Name'},
+                {field: 'supplierPers_phone', width: '100px', name: 'Phone'},
+                {field: 'supplierPers_email', width: '300px', name: 'Email'},
+                {field: 'supplierPers_address1', width: '200px', name: 'Address 1'},
+                {field: 'supplierPers_postcode', width: '100px', name: 'Postcode'},
                 {field: '', width: 'auto', name: ''}
             ]
         },
@@ -92,23 +92,23 @@ define("bba/Supplier",
             });
         },
 
-        supplierCoGridRowClick : function(grid)
+        supplierPersGridRowClick : function(grid)
         {
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
-            id = grid.store.getValue(selectedItem, 'supplierCo_idSupplierContact');
+            id = grid.store.getValue(selectedItem, 'supplierPers_idSupplierPersonnel');
 
-             if (!dom.byId('supplierCoForm')) {
+             if (!dom.byId('supplierPersForm')) {
                 bba.openFormDialog({
-                    url: './supplier/edit-supplier-contact',
+                    url: './supplier/edit-supplier-personnel',
                     content: {
                         type :  'edit',
-                        supplierCo_idSupplierContact : id
+                        supplierPers_idSupplierPersonnel : id
                     },
-                    dialog: 'supplierCoForm'
+                    dialog: 'supplierPersForm'
                 });
             } else {
-                supplierCoForm.show();
+                supplierPersForm.show();
             }
         },
 
@@ -125,16 +125,16 @@ define("bba/Supplier",
             }
         },
 
-        newSupplierCoButtonClick : function(contentVars)
+        newSupplierPersButtonClick : function(contentVars)
         {
-            if (!dom.byId('supplierCoForm')) {
+            if (!dom.byId('supplierPersForm')) {
                 bba.openFormDialog({
-                    url: './supplier/add-supplier-contact',
+                    url: './supplier/add-supplier-personnel',
                     content: dojo.mixin({type :  'add'}, contentVars),
-                    dialog: 'supplierCoForm'
+                    dialog: 'supplierPersForm'
                 });
             } else {
-                supplierCoForm.show();
+                supplierPersForm.show();
             }
         },
 
@@ -175,7 +175,10 @@ define("bba/Supplier",
                         } else {
                             registry.byId('supplierGrid')._refresh();
                         }
-                        confirm.show();
+
+                        if (bba.confrimBox) {
+                            confirm.show();
+                        }
                     } else {
                         bba.setupDialog(supplierForm);
                         supplierForm.show();
@@ -184,15 +187,15 @@ define("bba/Supplier",
             });
         },
 
-        processSupplierCoForm : function()
+        processSupplierPersForm : function()
         {
             //bba.closeDialog(supplierCoForm);
 
             values = arguments[0];
-            values.type = (values.supplierCo_idSupplierContact) ? 'edit' : 'add';
+            values.type = (values.supplierPers_idSupplierPersonnel) ? 'edit' : 'add';
 
             xhr.post({
-                url: './supplier/save-supplier-contact',
+                url: './supplier/save-supplier-personnel',
                 content: values,
                 handleAs: 'json',
                 preventCache: true,
@@ -203,11 +206,15 @@ define("bba/Supplier",
                     if (data.error) {
                         error.show();
                     } else if (data.saved > 0) {
-                        registry.byId('supplierCoGrid' + values.supplierCo_idSupplier)._refresh();
-                        confirm.show();
+                        registry.byId('supplierPersGrid' + values.supplierPers_idSupplier)._refresh();
+
+                        if (bba.confrimBox) {
+                            confirm.show();
+                        }
+                        
                     } else {
-                        bba.setupDialog(supplierCoForm);
-                        supplierCoForm.show();
+                        bba.setupDialog(supplierPersForm);
+                        supplierPersForm.show();
                     }
                 }
             });

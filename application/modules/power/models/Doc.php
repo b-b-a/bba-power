@@ -42,22 +42,70 @@ class Power_Model_Doc extends ZendSF_Model_Abstract
     public static $mimeMap = array(
         'doc'   => 'application/msword',
         'docx'  => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'jpeg'  => 'image/jpeg',
+        'jpg'   => 'image/jpeg',
         'pdf'   => 'application/pdf',
+        'png'   => 'image/png',
         'xls'   => 'application/vnd.ms-excel',
         'xlsx'  => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     );
 
-    public $docDir = '';
+    public static $docClient = array(
+        'client_docLoa'   => 'Letter of Authority'
+    );
 
-    public function init()
+    public static $docContract = array(
+        'contract_docAnalysis'              => 'Analysis',
+        'contract_docTermination'           => 'Termination',
+        'contract_docContractSearchable'    => 'Contract (Searchable)',
+        'contract_docContractSignedClient'  => 'Contract (Client Signed)',
+        'contract_docContractSignedBoth'    => 'Contract (Both Signed)'
+    );
+
+    public $docDir = '/../bba-power-docs/';
+
+    public function getDocFile($dir, $file)
     {
-        $this->docDir = APPLICATION_PATH . '/../bba-power-docs';
+        $file = realpath(
+            APPLICATION_PATH . $this->docDir . $dir . '/' . $file
+        );
+
+        return array(
+            file_get_contents($file),
+            self::$mimeMap[pathinfo($file, PATHINFO_EXTENSION)]
+        );
     }
 
-    public function getDocFile()
+    public static function addUploadFilter($docs, $form, $id)
     {
-        $file = new SplFileInfo($this->docDir . '/client_docLoa/'
-            . $request->getParam('view'));
+        foreach ($docs as $key => $vaule) {
+            self::createUploadFilter(
+                $form->getElement($key),
+                $id
+            );
+        }
+    }
 
+    /**
+     * Adds a filter to the doc upload form.
+     * Renames file to row <id>_<timestamp>_<original filename>.
+     *
+     * @param Zend_Form_Element_File $element
+     * @param int $id
+     * @return Power_Model_Contract
+     */
+    public static function createUploadFilter(Zend_Form_Element_File $element, $id)
+    {
+        $ts = Zend_Date::now();
+
+        $newDocFileName = join('_', array(
+            sprintf("%06d", $id),
+            $ts->toString('yyyyMMdd_HHmmss'),
+            str_replace(' ', '_', $_FILES[$element->getId()]['name'])
+        ));
+
+        $element->addFilter('Rename', $newDocFileName);
+
+        return $element;
     }
 }

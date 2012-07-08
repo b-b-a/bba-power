@@ -124,7 +124,7 @@ class Power_InvoiceController extends Zend_Controller_Action
                     $data = $this->_model->getInvoiceDataStore($request->getPost());
                     break;
                 case 'invoice-lines':
-                    $data = '{}';
+                    $data = $this->_model->getInvoiceLinesDataStore($request->getPost());
                     break;
                 default :
                     $data = '{}';

@@ -20,7 +20,7 @@
  * along with BBA.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category   BBA
- * @package    Power
+ * @package    BBA
  * @subpackage Bootstrap
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
@@ -31,7 +31,7 @@
  * Bootstrap.
  *
  * @category   BBA
- * @package    Power
+ * @package    BBA
  * @subpackage Bootstrap
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
@@ -119,17 +119,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
             );
             Zend_Db_Table_Abstract::setDefaultMetadataCache($cache);
         }
-    }
-
-    /**
-     * Setup default module, autoloader and resource loader.
-     */
-    protected function _initDefaultModuleAutoloader()
-    {
-        $this->_resourceLoader = new Zend_Application_Module_Autoloader(array(
-            'namespace' => 'Power',
-            'basePath'  => APPLICATION_PATH . '/modules/power',
-        ));
     }
 
     /**

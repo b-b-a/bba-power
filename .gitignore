@@ -6,6 +6,12 @@ bba-power-docs/client_docLoa/*
 !bba-power-docs/client_docLoa/donotremove
 bba-power-docs/contract_docAnalysis/*
 !bba-power-docs/contract_docAnalysis/donotremove
+bba-power-docs/contract_docContractSearchable/*
+!bba-power-docs/contract_docContractSearchable/donotremove
+bba-power-docs/contract_docContractSignedBoth/*
+!bba-power-docs/contract_docContractSignedBoth/donotremove
+bba-power-docs/contract_docContractSignedClient/*
+!bba-power-docs/contract_docContractSignedClient/donotremove
 bba-power-docs/contract_docTermination/*
 !bba-power-docs/contract_docTermination/donotremove
 data/cache/*

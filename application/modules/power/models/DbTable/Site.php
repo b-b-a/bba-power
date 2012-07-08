@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
+class Power_Model_DbTable_Site extends BBA_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -68,7 +68,7 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
             'refTableClass'     => 'Power_Model_DbTable_Client',
             'refColumns'        => 'client_idClient'
 		),
-        'siteAddress' => array(
+        'siteAd' => array(
             'columns'           => 'site_idAddress',
             'refTableClass'     => 'Power_Model_DbTable_Client_Address',
             'refColumns'        => 'clientAd_idAddress'
@@ -78,19 +78,27 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
             'refTableClass'     => 'Power_Model_DbTable_Client_Address',
             'refColumns'        => 'clientAd_idAddress'
 		),
-        'siteClientContact' => array(
-            'columns'           => 'site_idClientContact',
-            'refTableClass'     => 'Power_Model_DbTable_Client_Contact',
-            'refColumns'        => 'clientCo_idClientContact'
+        'siteClientPers' => array(
+            'columns'           => 'site_idClientPersonnel',
+            'refTableClass'     => 'Power_Model_DbTable_Client_Personnel',
+            'refColumns'        => 'clientPers_idClientPersonnel'
 		),
-        'user'      => array(
-            'columns'       => array(
-                'site_userCreate',
-                'site_userModify'
-            ),
+        'userCreate'    => array(
+            'columns'       => 'site_userCreate',
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        ),
+        'userModify'    => array(
+            'columns'       => 'site_userModify',
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
+    );
+
+    protected $_nullAllowed = array(
+        'site_idAddressBill',
+        'site_idClienPersonnel',
+        'site_userModify'
     );
 
     public function getSiteById($id)
@@ -111,8 +119,8 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
             ))
             ->join('client', 'client_idClient = site_idClient', array('client_name'))
             ->joinLeft(
-                'client_contact', 'clientCo_idClientContact = site_idClientContact', array(
-				'clientCo_name'
+                'client_personnel', 'clientPers_idClientPersonnel = site_idClientPersonnel', array(
+				'clientPers_name'
             ));
 
         if (!$search['site'] == '') {
@@ -157,27 +165,5 @@ class Power_Model_DbTable_Site extends ZendSF_Model_DbTable_Abstract
         $result = $this->fetchRow($select);
 
         return $result->numRows;
-    }
-
-    public function insert(array $data)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['site_dateCreate'] = new Zend_Db_Expr('CURDATE()');
-        $data['site_userCreate'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "\nINSERT: " . __CLASS__ . "\n", false));
-
-        return parent::insert($data);
-    }
-
-    public function update(array $data, $where)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['site_dateModify'] = new Zend_Db_Expr('CURDATE()');
-        $data['site_userModify'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
-
-        return parent::update($data, $where);
     }
 }

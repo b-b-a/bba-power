@@ -69,6 +69,9 @@ define("bba/Invoice",
                 {field: 'invoiceLine_reference', width: '100px', name: 'Invoice Line Ref'},
                 {field: 'invoiceLine_dateCreated', width: '150px', name: 'Date Created'},
                 {field: '', width: 'auto', name: ''}
+            ],
+            invoiceUsage : [
+                
             ]
         },
 
@@ -80,7 +83,7 @@ define("bba/Invoice",
             tabTitle = grid.store.getValue(selectedItem, 'invoice_numberInvoice');
 
              bba.openTab({
-                tabId : 'client' + id,
+                tabId : 'invoice' + id,
                 title : (tabTitle) ? tabTitle : 'Invoice',
                 url : './invoice/view-invoice',
 
@@ -89,11 +92,6 @@ define("bba/Invoice",
                     invoice_idInvoice : id
                 }
             });
-        },
-
-        invoiceLinesGridRowClick : function(grid)
-        {
-
         }
     }
 

@@ -109,7 +109,10 @@ define("bba/User",
                         error.show();
                     } else if (data.saved > 0) {
                         registry.byId('userGrid')._refresh();
-                        confirm.show();
+
+                        if (bba.confrimBox) {
+                            confirm.show();
+                        }
                     } else {
                         bba.setupDialog(userForm);
                         userForm.show();

@@ -54,11 +54,6 @@ class Power_Model_DbTable_User extends ZendSF_Model_DbTable_Abstract
      */
     protected $_rowClass = 'Power_Model_DbTable_Row_User';
 
-    /**
-     * @var array Reference map for parent tables
-     */
-    protected $_referenceMap = array();
-
     public function getUserById($id)
     {
         return $this->find($id)->current();

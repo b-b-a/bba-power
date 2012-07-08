@@ -80,8 +80,8 @@ class Power_ClientController extends Zend_Controller_Action
                 case 'address':
                     $data = $this->_model->getClientAddressDataStore($request->getPost());
                     break;
-                case 'contact':
-                    $data = $this->_model->getClientContactDataStore($request->getPost());
+                case 'personnel':
+                    $data = $this->_model->getClientPersonnelDataStore($request->getPost());
                     break;
                 default :
                     $data = '{}';
@@ -128,7 +128,7 @@ class Power_ClientController extends Zend_Controller_Action
                 && $request->isPost()) {
 
             $form = $this->_getForm('clientAdd', 'save-client');
-            $docForm = $this->_getForm('clientDoc', 'save-contract');
+            $docForm = $this->_getForm('docClient', 'save-contract');
 
             $this->view->assign(array(
                 'clientAddForm' => $form,
@@ -152,7 +152,7 @@ class Power_ClientController extends Zend_Controller_Action
             $client = $this->_model->getClientById($request->getPost('client_idClient'));
 
             $form = $this->_getForm('clientSave', 'save-client');
-            $docForm = $this->_getForm('clientDoc', 'save-contract');
+            $docForm = $this->_getForm('docClient', 'save-contract');
 
             $form->populate($client->toArray('dd/MM/yyyy'));
             $docForm->populate($client->toArray('dd/MM/yyyy', true));
@@ -172,28 +172,6 @@ class Power_ClientController extends Zend_Controller_Action
         } else {
            return $this->_helper->redirector('index', 'client');
         }
-    }
-
-    public function docAction()
-    {
-        $request = $this->getRequest();
-        $this->getHelper('viewRenderer')->setNoRender(true);
-        $this->_helper->layout->disableLayout();
-
-        if ($request->getParam('view')) {
-
-            $pdf = file_get_contents(
-                APPLICATION_PATH . '/../bba-power-docs/client_docLoa/'
-                . $request->getParam('view')
-            );
-
-            return $this->getResponse()
-                //->setHeader('Content-disposition: attachment; filename=' . $request->getParam('view'))
-                ->setHeader('Content-Type', 'application/pdf')
-                ->setBody($pdf);
-        }
-
-        return $this->_helper->redirector('index', 'client');
     }
 
     public function saveClientAction()
@@ -227,7 +205,7 @@ class Power_ClientController extends Zend_Controller_Action
                 $type = ($request->getPost('type') == 'add') ? 'Add' : 'Save';
 
                 $form = $this->_getForm('client' . $type, 'save-client');
-                $docForm = $this->_getForm('clientDoc', 'save-contract');
+                $docForm = $this->_getForm('docClient', 'save-contract');
                 $form->populate($request->getPost());
                 $docForm->populate($request->getPost());
 
@@ -372,7 +350,7 @@ class Power_ClientController extends Zend_Controller_Action
             ->setBody(json_encode($returnJson));
     }
 
-    public function addClientContactAction()
+    public function addClientPersonnelAction()
     {
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
@@ -382,19 +360,19 @@ class Power_ClientController extends Zend_Controller_Action
             throw new ZendSF_Acl_Exception('Access Denied');
         }
 
-        if ($request->getPost('clientCo_idClient') && $request->isXmlHttpRequest()
+        if ($request->getPost('clientPers_idClient') && $request->isXmlHttpRequest()
                 && $request->getPost('type') == 'add' && $request->isPost()) {
 
-            $form = $this->_getForm('clientContactSave', 'save-client-contact');
+            $form = $this->_getForm('clientPersonnelSave', 'save-client-personnel');
             $form->populate($request->getPost());
 
-            $this->view->assign(array('clientContactSaveForm' => $form));
+            $this->view->assign(array('clientPersonnelSaveForm' => $form));
 
-            $this->render('contact-form');
+            $this->render('personnel-form');
         }
     }
 
-    public function editClientContactAction()
+    public function editClientPersonnelAction()
     {
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
@@ -404,24 +382,24 @@ class Power_ClientController extends Zend_Controller_Action
             throw new ZendSF_Acl_Exception('Access Denied');
         }
 
-        if ($request->getPost('clientCo_idClientContact') && $request->isXmlHttpRequest()
+        if ($request->getPost('clientPers_idClientPersonnel') && $request->isXmlHttpRequest()
                 && $request->isPost()) {
 
-            $clientCo = $this->_model->getClientContactById($request->getParam('clientCo_idClientContact'));
+            $clientPers = $this->_model->getClientPersonnelById($request->getParam('clientPers_idClientPersonnel'));
 
-            $form = $this->_getForm('clientContactSave', 'save-client-contact');
-            $form->populate($clientCo->toArray());
+            $form = $this->_getForm('clientPersonnelSave', 'save-client-personnel');
+            $form->populate($clientPers->toArray());
 
-            $this->view->assign(array('clientContactSaveForm' => $form));
+            $this->view->assign(array('clientPersonnelSaveForm' => $form));
 
-            $this->render('contact-form');
+            $this->render('Personnel-form');
 
         } else {
            return $this->_helper->redirector('index', 'client');
         }
     }
 
-    public function saveClientContactAction()
+    public function saveClientPersonnelAction()
     {
         $request = $this->getRequest();
 
@@ -437,20 +415,20 @@ class Power_ClientController extends Zend_Controller_Action
         }
 
         try {
-            $saved = $this->_model->saveClientContact($request->getPost());
+            $saved = $this->_model->saveClientPersonnel($request->getPost());
 
             $returnJson = array('saved' => $saved);
 
             if (false === $saved) {
-                $form = $this->_getForm('clientContactSave', 'save-client-contact');
+                $form = $this->_getForm('clientPersonnelSave', 'save-client-personnel');
                 $form->populate($request->getPost());
-                $this->view->assign(array('clientContactSaveForm' => $form));
-                $html = $this->view->render('client/contact-form.phtml');
+                $this->view->assign(array('clientPersonnelSaveForm' => $form));
+                $html = $this->view->render('client/personnel-form.phtml');
                 $returnJson['html'] = $html;
             } else {
                 $this->view->assign(array(
                     'id'    => $saved,
-                    'type'  => 'client contact'
+                    'type'  => 'client personnel'
                 ));
                 $html = $this->view->render('confirm.phtml');
                 $returnJson['html'] = $html;

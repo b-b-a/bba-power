@@ -48,8 +48,8 @@ class Power_Form_Supplier_Search extends Power_Form_SearchBase
             'required'  => false
         ));
 
-        $this->addElement('ZendSFDojoTextBox', 'contact', array(
-            'label'     => 'Contact:',
+        $this->addElement('ZendSFDojoTextBox', 'personnel', array(
+            'label'     => 'Liason:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim'),
             'required'  => false

@@ -71,6 +71,7 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
      * @var array
      */
     protected $_dateKeys = array(
+        'contract_dateDecision',
         'contract_dateStart',
         'contract_dateEnd',
         'contract_dateCreate',

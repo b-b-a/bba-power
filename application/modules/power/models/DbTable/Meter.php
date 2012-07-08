@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
+class Power_Model_DbTable_Meter extends BBA_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -85,6 +85,10 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
         )
     );
 
+    protected $_nullAllowed = array(
+        'meter_userModify'
+    );
+
     public function getMeterById($id)
     {
         return $this->find($id)->current();
@@ -127,7 +131,8 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
                 $id = (int) substr($search['meter'], 1);
                 $select->where('meter_idMeter = ?', $id);
             } else {
-                $select->orWhere('meter_numberMain like ?', '%'. $this->_stripSpacesAndHyphens($search['meter']) . '%');
+                $select->orWhere('meter_numberMain like ?', '%'. $this->_stripSpacesAndHyphens($search['meter']) . '%')
+                    ->orWhere('meter_numberSerial like ?', '%'. $this->_stripSpacesAndHyphens($search['meter']) . '%');
             }
         }
 
@@ -181,44 +186,21 @@ class Power_Model_DbTable_Meter extends ZendSF_Model_DbTable_Abstract
 
     public function insert(array $data)
     {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['meter_dateCreate'] = new Zend_Db_Expr('CURDATE()');
-        $data['meter_userCreate'] = $auth->getId();
-
         if ($data['meter_type'] == 'electric') {
             $data['meter_numberMain'] = $this->_stripSpacesAndHyphens($data['meter_numberMain']);
             $data['meter_numberTop'] = $this->_stripSpacesAndHyphens($data['meter_numberTop']);
         }
-
-        $this->_log->info(Zend_Debug::dump($data, "\nINSERT: " . __CLASS__ . "\n", false));
 
         return parent::insert($data);
     }
 
     public function update(array $data, $where)
     {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['meter_dateModify'] = new Zend_Db_Expr('CURDATE()');
-        $data['meter_userModify'] = $auth->getId();
-
         if ($data['meter_type'] == 'electric') {
             $data['meter_numberMain'] = $this->_stripSpacesAndHyphens($data['meter_numberMain']);
             $data['meter_numberTop'] = $this->_stripSpacesAndHyphens($data['meter_numberTop']);
         }
 
-        $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
-
         return parent::update($data, $where);
-    }
-
-    private function _stripSpacesAndHyphens($subject)
-    {
-        $filter = new Zend_Filter_PregReplace(array(
-                'match' => '/\s+|-+/',
-                'replace' => ''
-            )
-        );
-
-        return $filter->filter($subject);
     }
 }

@@ -66,7 +66,7 @@ class Power_Model_Invoice extends ZendSF_Model_Acl_Abstract
         if (!$this->checkAcl('getInvoiceById')) {
             throw new ZendSF_Acl_Exception('Insufficient rights');
         }
-        
+
         $sort = $post['sort'];
         $count = $post['count'];
         $start = $post['start'];
@@ -85,6 +85,24 @@ class Power_Model_Invoice extends ZendSF_Model_Acl_Abstract
         $store->setMetadata(
             'numRows',
             $this->getDbTable('invoice')->numRows($search)
+        );
+
+        return $store->toJson();
+    }
+
+    public function getInvoiceLinesDataStore(array $post)
+    {
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $dataObj = $this->getDbTable('invoiceLine')->searchInvoiceLines($post, $sort, $count, $start);
+
+        $store = $this->_getDojoData($dataObj, 'invoiceLine_idInvoiceLine');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('invoiceLine')->numRows($post)
         );
 
         return $store->toJson();

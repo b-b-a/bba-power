@@ -68,6 +68,8 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
 
                 <?php echo $form->contract_dateEnd; ?>
 
+                <?php echo $form->contract_dateDecision; ?>
+
                 <?php echo $form->contract_reference; ?>
 
                 <?php echo $form->contract_numberCustomer; ?>
@@ -75,6 +77,12 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                 <?php echo $form->contract_periodBill; ?>
 
                 <?php echo $docForm->contract_docAnalysis; ?>
+
+                <?php echo $docForm->contract_docContractSearchable; ?>
+
+                <?php echo $docForm->contract_docContractSignedClient; ?>
+
+                <?php echo $docForm->contract_docContractSignedBoth; ?>
 
                 <?php echo $docForm->contract_docTermination; ?>
 

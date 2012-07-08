@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
+class Power_Model_DbTable_Supplier extends BBA_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -57,19 +57,26 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
-        'supplierContact'   => array(
-            'columns'       => 'supplier_idSupplierContact',
-            'refTableClass' => 'Power_Model_DbTable_Supplier_Contact',
-            'refColumns'    => 'supplierCo_idSupplierContact'
+        'supplierPers'   => array(
+            'columns'       => 'supplier_idSupplierPersonnel',
+            'refTableClass' => 'Power_Model_DbTable_Supplier_Personnel',
+            'refColumns'    => 'supplierPers_idSupplierPersonnel'
         ),
-        'user'              => array(
-            'columns'       => array(
-                'supplier_userCreate',
-                'supplier_userModify'
-            ),
+        'userCreate'    => array(
+            'columns'       => 'supplier_userCreate',
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        ),
+        'userModify'    => array(
+            'columns'       => 'supplier_userModify',
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
+    );
+
+    protected $_nullAllowed = array(
+        'supplier_idSupplierPersonnel',
+        'supplier_userModify'
     );
 
     public function getSupplierById($id)
@@ -113,8 +120,8 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
                 'supplier_postcode'
             ))
             ->joinLeft(
-                'supplier_contact',
-                'supplier_idSupplierContact = supplierCo_idSupplierContact',
+                'supplier_personnel',
+                'supplier_idSupplierPersonnel = supplierPers_idSupplierPersonnel',
                 null
             );
 
@@ -131,13 +138,13 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
             }
         }
 
-        if (!$search['contact'] == '') {
-            $select->orWhere('supplierCo_name like ?', '%' . $search['contact'] . '%')
-                ->orWhere('supplierCo_email like ?', '%' . $search['contact'] . '%')
-                ->orWhere('supplierCo_address1 like ?', '%' . $search['contact'] . '%')
-                ->orWhere('supplierCo_address2 like ?', '%' . $search['contact'] . '%')
-                ->orWhere('supplierCo_address3 like ?', '%' . $search['contact'] . '%')
-                ->orWhere('supplierCo_postcode like ?', '%' . $search['contact'] . '%');
+        if (!$search['personnel'] == '') {
+            $select->orWhere('supplierPers_name like ?', '%' . $search['personnel'] . '%')
+                ->orWhere('supplierPers_email like ?', '%' . $search['personnel'] . '%')
+                ->orWhere('supplierPers_address1 like ?', '%' . $search['personnel'] . '%')
+                ->orWhere('supplierPers_address2 like ?', '%' . $search['personnel'] . '%')
+                ->orWhere('supplierPers_address3 like ?', '%' . $search['personnel'] . '%')
+                ->orWhere('supplierPers_postcode like ?', '%' . $search['personnel'] . '%');
         }
 
         return $select;
@@ -160,27 +167,5 @@ class Power_Model_DbTable_Supplier extends ZendSF_Model_DbTable_Abstract
         $result = $this->fetchRow($select);
 
         return $result->numRows;
-    }
-
-    public function insert(array $data)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['supplier_dateCreate'] = new Zend_Db_Expr('CURDATE()');
-        $data['supplier_userCreate'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "\nINSERT: " . __CLASS__ . "\n", false));
-
-        return parent::insert($data);
-    }
-
-    public function update(array $data, $where)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['supplier_dateModify'] = new Zend_Db_Expr('CURDATE()');
-        $data['supplier_userModify'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
-
-        return parent::update($data, $where);
     }
 }

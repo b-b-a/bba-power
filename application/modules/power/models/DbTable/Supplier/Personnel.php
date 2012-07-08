@@ -1,6 +1,6 @@
 <?php
 /**
- * SupplierContact.php
+ * SupplierPersonnel.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Database adapter class for the SupplierContact table.
+ * Database adapter class for the SupplierPersonnel table.
  *
  * @category   BBA
  * @package    Power
@@ -37,62 +37,68 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Supplier_Contact extends ZendSF_Model_DbTable_Abstract
+class Power_Model_DbTable_Supplier_Personnel extends BBA_Model_DbTable_Abstract
 {
     /**
      * @var string database table
      */
-    protected $_name = 'supplier_contact';
+    protected $_name = 'supplier_personnel';
 
     /**
      * @var string primary key
      */
-    protected $_primary = 'supplierCo_idSupplierContact';
+    protected $_primary = 'supplierPers_idSupplierPersonnel';
 
     /**
      * @var string row class
      */
-    protected $_rowClass = 'Power_Model_DbTable_Row_Supplier_Contact';
+    protected $_rowClass = 'Power_Model_DbTable_Row_Supplier_Personnel';
 
     /**
      * @var array Reference map for parent tables
      */
     protected $_referenceMap = array(
         'supplier'  => array(
-            'columns'       => 'supplierCo_idSupplier',
+            'columns'       => 'supplierPers_idSupplier',
             'refTableClass' => 'Power_Model_DbTable_Supplier',
             'refColumns'    => 'supplier_idSupplier'
         ),
-        'user'      => array(
-            'columns'       => array(
-                'supplierCo_userCreate',
-                'supplierCo_userModify'
-            ),
+        'userCreate'    => array(
+            'columns'       => 'supplierPers_userCreate',
+            'refTableClass' => 'Power_Model_DbTable_User',
+            'refColumns'    => 'user_idUser'
+        ),
+        'userModify'    => array(
+            'columns'       => 'supplierPers_userModify',
             'refTableClass' => 'Power_Model_DbTable_User',
             'refColumns'    => 'user_idUser'
         )
     );
 
-    public function getSupplierContactById($id)
+    protected $_nullAllowed = array(
+        'supplierPers_userModify'
+    );
+
+    public function getSupplierPersonnelById($id)
     {
         return $this->find($id)->current();
     }
 
-    protected function _getSearchContactsSelect($search)
+    protected function _getSearchPersonnelSelect($search)
     {
          $select = $this->select(false)->setIntegrityCheck(false)
-            ->from('supplier_contact')
-            ->where('supplierCo_idSupplier = ?', $search);
+            ->from('supplier_personnel')
+            ->where('supplierPers_idSupplier = ?', $search);
 
          return $select;
     }
 
-    public function searchContacts($id, $sort = '', $count = null, $offset = null)
+    public function searchPersonnel($id, $sort = '', $count = null, $offset = null)
     {
-        $select = $this->_getSearchContactsSelect($id)
+        $select = $this->_getSearchPersonnelSelect($id)
             ->join('tables',
-                'tables_name = "supplierCo_type" AND tables_key = supplierCo_type',
-                array('supplierCo_type_tables' => 'tables_value')
+                'tables_name = "supplierPers_type" AND tables_key = supplierPers_type',
+                array('supplierPers_type_tables' => 'tables_value')
             );
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
@@ -102,33 +108,11 @@ class Power_Model_DbTable_Supplier_Contact extends ZendSF_Model_DbTable_Abstract
 
     public function numRows($search)
     {
-        $select = $this->_getSearchContactsSelect($search);
+        $select = $this->_getSearchPersonnelSelect($search);
         $select->reset(Zend_Db_Select::COLUMNS);
-        $select->columns(array('numRows' => 'COUNT(supplierCo_idSupplierContact)'));
+        $select->columns(array('numRows' => 'COUNT(supplierPers_idSupplierPersonnel)'));
         $result = $this->fetchRow($select);
 
         return $result->numRows;
-    }
-
-    public function insert(array $data)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['supplierCo_dateCreate'] = new Zend_Db_Expr('CURDATE()');
-        $data['supplierCo_userCreate'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "\nINSERT: " . __CLASS__ . "\n", false));
-
-        return parent::insert($data);
-    }
-
-    public function update(array $data, $where)
-    {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data['supplierCo_dateModify'] = new Zend_Db_Expr('CURDATE()');
-        $data['supplierCo_userModify'] = $auth->getId();
-
-        $this->_log->info(Zend_Debug::dump($data, "\nUPDATE: " . __CLASS__ . "\n", false));
-
-        return parent::update($data, $where);
     }
 }

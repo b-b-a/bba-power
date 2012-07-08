@@ -68,7 +68,7 @@ define("bba/Site",
                 {field: 'clientAd_address2', width: '200px', name: 'Address 2'},
                 {field: 'clientAd_address3', width: '200px', name: 'Town/City'},
                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
-                {field: 'clientCo_name', width: '100px', name: 'Liaison'},
+                {field: 'clientPers_name', width: '100px', name: 'Liaison'},
                 {field: '', width: 'auto', name: ''}
             ],
             meter : [
@@ -82,7 +82,7 @@ define("bba/Site",
             ]
         },
 
-        setupClientSore : function()
+        setupClientStore : function()
         {
             siteFormStandby.show();
             id = registry.byId("site_idClient").get('value');
@@ -148,27 +148,14 @@ define("bba/Site",
             if (val) registry.byId('site_idAddressBill').set('value', val);
         },
 
-        changeAddress : function(val)
+        getPersonnelStore : function(val, id)
         {
             siteFormStandby.show();
-            if (registry.byId("site_idAddress").get('disabled') == true) {
-                registry.byId("site_idAddress").set('disabled', false);
-                registry.byId("site_idClientContact").set('disabled', false);
-            }
-
-            registry.byId('site_idAddress').set('value', '');
-            registry.byId('site_idAddressBill').set('value', '');
-            registry.byId('site_idClientContact').set('value', '');
-
-            this.getAddressStore(null, val);
-
-            this.getBillAddressStore(null, val);
-
-            this.contactStore = new ItemFileReadStore({
-                url:'./site/data-store/type/contact/clientId/' + val
+            this.personnelStore = new ItemFileReadStore({
+                url:'./site/data-store/type/personnel/clientId/' + id
             })
 
-            this.contactStore.fetch({
+            this.personnelStore.fetch({
                 onComplete: function() {
                     siteFormStandby.hide();
                 },
@@ -177,11 +164,31 @@ define("bba/Site",
                 }
             });
 
-            registry.byId("site_idClientContact").set('store', this.contactStore);
+            registry.byId("site_idClientPersonnel").set('store', this.personnelStore);
+            if (val) registry.byId('site_idClientPersonnel').set('value', val);
+        },
+
+        changeAddress : function(val)
+        {
+            siteFormStandby.show();
+            if (registry.byId("site_idAddress").get('disabled') == true) {
+                registry.byId("site_idAddress").set('disabled', false);
+                registry.byId("site_idClientPersonnel").set('disabled', false);
+            }
+
+            registry.byId('site_idAddress').set('value', '');
+            registry.byId('site_idAddressBill').set('value', '');
+            registry.byId('site_idClientPersonnel').set('value', '');
+
+            this.getAddressStore(null, val);
+
+            this.getBillAddressStore(null, val);
+
+            this.getPersonnelStore(null, val);
 
             registry.byId("site_idAddress").set('value', 0);
             registry.byId("site_idAddressBill").set('value', 0);
-            registry.byId("site_idClientContact").set('value', 0);
+            registry.byId("site_idClientPersonnel").set('value', 0);
         },
 
         changeBillAddress : function(obj)
@@ -202,11 +209,24 @@ define("bba/Site",
             registry.byId("site_idAddressBill").set('value', 0);
         },
 
-        changeContact : function()
+        addPersonnel : function(obj)
         {
-            registry.byId("site_idClientContact").set('disabled', false);
-            registry.byId("site_idClientContact").set('store', this.contactStore);
-            registry.byId("site_idClientContact").set('value', 0);
+            if (obj.value === -1) {
+                bba.Client.newClientPersButtonClick({
+                    clientPers_idClient : registry.byId("site_idClient").get('value')
+                });
+
+                bba.deferredFunction = function(val) {
+                    bba.Site.getPersonnelStore(val, registry.byId("site_idClient").get('value'));
+                }
+            }
+        },
+
+        changePersonnel : function()
+        {
+            registry.byId("site_idClientPersonnel").set('disabled', false);
+            registry.byId("site_idClientPersonnel").set('store', this.personnelStore);
+            registry.byId("site_idClientPersonnel").set('value', 0);
         },
 
         siteGridRowClick : function(grid)
@@ -240,7 +260,7 @@ define("bba/Site",
                     content: dojo.mixin({type :  'add'}),
                     dialog: 'siteForm',
                     deferredFunction: function() {
-                        bba.Site.setupClientSore();
+                        bba.Site.setupClientStore();
                     }
                 });
             } else {
@@ -285,7 +305,10 @@ define("bba/Site",
                         } else {
                             registry.byId('siteGrid')._refresh();
                         }
-                        confirm.show();
+
+                        if (bba.confrimBox) {
+                            confirm.show();
+                        }
 
                         if (values.type === 'add') {
                             bba.Site.showSiteTab(data.saved, data.clientAd_addressName);

@@ -42,7 +42,7 @@ include_once 'DocAbstract.php';
 
 class Power_View_Helper_DocTermination extends Power_View_Helper_DocAbstract
 {
-    protected $_docDir = '/../bba-power-docs/contract_docTermination';
+    protected $_docDir = 'contract_docTermination';
 
     public function docTermination(Power_Model_DbTable_Row_Contract $row)
     {

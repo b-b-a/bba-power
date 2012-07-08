@@ -45,10 +45,10 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
         return $this->getDbTable('supplier')->getSupplierById($id);
     }
 
-    public function getSupplierContactById($id)
+    public function getSupplierPersonnelById($id)
     {
         $id = (int) $id;
-        return $this->getDbTable('supplierContact')->getSupplierContactById($id);
+        return $this->getDbTable('supplierPersonnel')->getSupplierPersonnelById($id);
     }
 
     /**
@@ -82,21 +82,21 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
         return $store->toJson();
     }
 
-    public function getSupplierContactDataStore(array $post)
+    public function getSupplierPersonnelDataStore(array $post)
     {
         $sort = $post['sort'];
         $count = $post['count'];
         $start = $post['start'];
 
-        $id = (int) $post['supplierCo_idSupplier'];
+        $id = (int) $post['supplierPers_idSupplier'];
 
-        $dataObj = $this->getDbTable('supplierContact')->searchContacts($id, $sort, $count, $start);
+        $dataObj = $this->getDbTable('supplierPersonnel')->searchPersonnel($id, $sort, $count, $start);
 
-        $store = $this->_getDojoData($dataObj, 'supplierCo_idSupplierContact');
+        $store = $this->_getDojoData($dataObj, 'supplierPers_idSupplierPersonnel');
 
         $store->setMetadata(
             'numRows',
-            $this->getDbTable('supplierContact')->numRows($id)
+            $this->getDbTable('supplierPersonnel')->numRows($id)
         );
 
         return $store->toJson();
@@ -140,12 +140,12 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
                 $searchItems = array('supplier_idSupplier', 'supplier_name');
                 $selectMessage = ($result->count()) ? 'Please Select A Supplier' : 'No Suppliers Available';
                 break;
-            case 'supplierContacts':
-                $identifier = 'supplierCo_idSupplierContact';
-                $searchItems = array('supplierCo_idSupplierContact', 'supplierCo_name');
+            case 'supplierPersonnel':
+                $identifier = 'supplierPers_idSupplierPersonnel';
+                $searchItems = array('supplierPers_idSupplierPersonnel', 'supplierPers_name');
 
                 if (isset($params['supplierId'])) {
-                    $result = $this->getDbTable('supplierContact')->searchContacts($params['supplierId']);
+                    $result = $this->getDbTable('supplierPersonnel')->searchPersonnel($params['supplierId']);
                     $selectMessage = ($result->count()) ? 'Please Select Someone' : 'No Supplier Personnel Available';
                 } else {
                     $result = array();
@@ -189,19 +189,19 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
         return $this->getDbTable('supplier')->saveRow($data, $supplier);
     }
 
-    public function saveSupplierContact($post)
+    public function saveSupplierPersonnel($post)
     {
-        if (!$this->checkAcl('saveSupplierContact')) {
+        if (!$this->checkAcl('saveSupplierPersonnel')) {
             throw new ZendSF_Acl_Exception('Insufficient rights');
         }
 
-        $form = $this->getForm('supplierContactSave');
+        $form = $this->getForm('supplierPersonnelSave');
 
         if ($post['type'] == 'edit') {
-            $form->excludeEmailFromValidation('supplierCo_email', array(
-                'field' => 'supplierCo_email',
-                'value' => $this->getSupplierContactById($post['supplierCo_idSupplierContact'])
-                    ->supplierCo_email
+            $form->excludeEmailFromValidation('supplierPers_email', array(
+                'field' => 'supplierPers_email',
+                'value' => $this->getSupplierPersonnelById($post['supplierPers_idSupplierPersonnel'])
+                    ->supplierPers_email
             ));
         }
 
@@ -212,10 +212,10 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
         // get filtered values
         $data = $form->getValues();
 
-        $supplierCo = array_key_exists('supplierCo_idSupplierContact', $data) ?
-            $this->getSupplierContactById($data['supplierCo_idSupplierContact']) : null;
+        $supplierCo = array_key_exists('supplierPers_idSupplierPersonnel', $data) ?
+            $this->getSupplierPersonnelById($data['supplierPers_idSupplierPersonnel']) : null;
 
-        return $this->getDbTable('supplierContact')->saveRow($data, $supplierCo);
+        return $this->getDbTable('supplierPersonnel')->saveRow($data, $supplierCo);
     }
 
     /**
