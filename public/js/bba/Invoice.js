@@ -28,7 +28,7 @@
 
 define("bba/Invoice",
     ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core",
-    "dijit/form/ValidationTextBox", "bba/Meter"],
+    "dijit/form/ValidationTextBox", "bba/Meter", "bba/Contract"],
     function(dom, ready, parser, xhr, registry, bba){
 
     ready(function () {
@@ -71,7 +71,7 @@ define("bba/Invoice",
                 {field: '', width: 'auto', name: ''}
             ],
             invoiceUsage : [
-                
+
             ]
         },
 
@@ -80,16 +80,51 @@ define("bba/Invoice",
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'invoice_idInvoice');
-            tabTitle = grid.store.getValue(selectedItem, 'invoice_numberInvoice');
+            tabTitle = 'I-' + grid.store.getValue(selectedItem, 'invoice_numberInvoice');
 
              bba.openTab({
                 tabId : 'invoice' + id,
                 title : (tabTitle) ? tabTitle : 'Invoice',
-                url : './invoice/view-invoice',
+                url : './invoice/invoice',
 
                 content : {
                     type : 'details',
                     invoice_idInvoice : id
+                }
+            });
+        },
+
+        invoiceLineGridRowClick : function(grid)
+        {
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+
+            bba.Meter.showMeterTab(
+                grid.store.getValue(selectedItem, 'meter_idMeter'),
+                'M-' + grid.store.getValue(selectedItem, 'meter_numberMain')
+            );
+
+            bba.Contract.showContractTab(
+                grid.store.getValue(selectedItem, 'contract_idContract'),
+                'C-' + grid.store.getValue(selectedItem, 'contract_idContract')
+            );
+
+            bba.Invoice.showInvoiceLineTab(
+                grid.store.getValue(selectedItem, 'invoiceLine_idInvoiceLine'),
+                'IL-' + grid.store.getValue(selectedItem, 'invoiceLine_idInvoiceLine')
+            );
+        },
+
+        showInvoiceLineTab : function(id, tabTitle)
+        {
+            bba.openTab({
+                tabId : 'invoiceLine' + id,
+                title : (tabTitle) ? tabTitle : 'Invoice Line',
+                url : './invoice/invoice-line',
+
+                content : {
+                    type : 'details',
+                    invoiceLine_idInvoiceLine : id
                 }
             });
         }

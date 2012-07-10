@@ -89,7 +89,12 @@ define("bba/Meter",
             id = grid.store.getValue(selectedItem, 'meter_idMeter');
             tabTitle = grid.store.getValue(selectedItem, 'meter_numberMain');
 
-             bba.openTab({
+            this.showMeterTab(id, tabTitle);
+        },
+
+        showMeterTab : function(id, tabTitle)
+        {
+            bba.openTab({
                 tabId : 'meter' + id,
                 title :  (tabTitle) ? tabTitle : 'Meter',
                 url : './meter/edit-meter',

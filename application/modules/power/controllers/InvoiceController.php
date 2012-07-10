@@ -92,7 +92,7 @@ class Power_InvoiceController extends Zend_Controller_Action
         ));
     }
 
-    public function viewInvoiceAction()
+    public function invoiceAction()
     {
 
         $request = $this->getRequest();
@@ -109,6 +109,12 @@ class Power_InvoiceController extends Zend_Controller_Action
         } else {
            return $this->_helper->redirector('index', 'invoice');
         }
+    }
+
+    public function invoiceLineAction()
+    {
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
     }
 
     public function dataStoreAction()
