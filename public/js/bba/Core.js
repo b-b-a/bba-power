@@ -67,6 +67,25 @@ define("bba/Core",
 
         confrimBox : true,
 
+        tabs : [],
+
+        tabPrefix : {
+            client          : 'C-',
+            clientAd        : 'CA-',
+            clientPers      : 'CP-',
+            contract        : 'CO-',
+            invoice         : 'I-',
+            invoiceLine     : 'IL-',
+            invoiceUsage    : 'IU-',
+            meter           : 'M-',
+            meterContract   : 'MC-',
+            site            : 'S-',
+            supplier        : 'SU-',
+            supplierPers    : 'SUP-',
+            tender          : 'T-',
+            usage           : 'U-'
+        },
+
         deferredFunction : function() {},
 
         tabRefreshButton : function(val)
@@ -94,8 +113,6 @@ define("bba/Core",
                 grid.setQuery(values);
             });
         },
-
-        tabs : [],
 
         openTab : function(options)
         {

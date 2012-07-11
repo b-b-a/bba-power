@@ -26,8 +26,10 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Contract",
-    ["dojo/dom","dojo/ready", "dojo/parser", "dojo/_base/connect", "dojo/_base/xhr", "dojo/_base/array", "dijit/registry",
-     "dijit/Dialog", "dojo/data/ItemFileReadStore", "dojo", "bba/Core", "bba/Meter", "dijit/form/ValidationTextBox",
+    ["dojo/dom","dojo/ready", "dojo/parser", "dojo/_base/connect", "dojo/_base/xhr",
+     "dojo/_base/array", "dijit/registry",
+     "dijit/Dialog", "dojo/data/ItemFileReadStore", "dojo", "bba/Core", "bba/Meter", "bba/Invoice",
+     "dijit/form/ValidationTextBox",
      "dojo/data/ItemFileReadStore", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea",
      "dojo/data/ItemFileWriteStore", "dojox/grid/_CheckBoxSelector",
      "dojox/form/Uploader", "dojox/form/uploader/plugins/IFrame"],
@@ -105,6 +107,21 @@ define("bba/Contract",
                 {field: 'tender_priceUnitNight', width: '100px', name: 'Night Rate'},
                 {field: 'tender_priceUnitOther', width: '100px', name: 'Other Rate'},
                 {field: 'tender_desc', width: '200px', name: 'Desc.'},
+                {field: '', width: 'auto', name: ''}
+            ],
+            invoiceLines : [
+                {field: 'invoiceLine_idInvoiceLine', width: '50px', name: 'Id'},
+                {field: 'meter_numberMain', width: '120px', name: 'Meter No'},
+                {field: 'invoice_numberInvoice', width: '100px', name: 'Invoice No.'},
+                {field: 'invoiceLine_dateStart', width: '150px', name: 'Start Date'},
+                {field: 'invoiceLine_dateEnd', width: '150px', name: 'End Date'},
+                {field: 'invoiceLine_fee', width: '50px', name: 'Fee'},
+                {field: 'invoiceLine_commission', width: '100px', name: 'Commission'},
+                {field: 'invoiceLine_consumption', width: '110px', name: 'Consumption'},
+                {field: 'invoiceLine_amount', width: '100px', name: 'Amount'},
+                {field: 'invoiceLine_proportionInvoiced', width: '50px', name: 'Claim'},
+                {field: 'invoiceLine_reference', width: '100px', name: 'Invoice Line Ref'},
+                {field: 'invoiceLine_dateCreated', width: '150px', name: 'Date Created'},
                 {field: '', width: 'auto', name: ''}
             ]
         },

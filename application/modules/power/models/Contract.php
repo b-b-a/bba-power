@@ -108,8 +108,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             $search = $form->getValues();
         }
 
-        if (isset($post['idClient'])) {
-            $search['idClient'] = (int) $post['idClient'];
+        if (isset($post['contract_idClient'])) {
+            $search['contract_idClient'] = (int) $post['contract_idClient'];
         }
 
         if (isset($post['idSite'])) {

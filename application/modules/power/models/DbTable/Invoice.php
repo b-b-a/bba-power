@@ -72,7 +72,7 @@ class Power_Model_DbTable_Invoice extends ZendSF_Model_DbTable_Abstract
 
     protected function _getSearchInvoiceSelect(array $search)
     {
-        $select = $this->select(false)->setIntegrityCheck(false)
+        $select = $this->select()->setIntegrityCheck(false)
             ->from('invoice', '*')
             ->joinLeft('supplier', 'invoice_idSupplier = supplier_idSupplier');
 

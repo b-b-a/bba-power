@@ -157,8 +157,8 @@ class Power_Model_DbTable_Contract extends BBA_Model_DbTable_Abstract
                 ->orWhere('meter_type like ?', '%' . $search['meter'] . '%');
         }
 
-        if (isset($search['idClient'])) {
-            $select->where('contract_idClient = ?', $search['idClient']);
+        if (isset($search['contract_idClient'])) {
+            $select->where('contract_idClient = ?', $search['contract_idClient']);
         }
 
         if (isset($search['idSite'])) {

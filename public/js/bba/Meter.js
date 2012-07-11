@@ -27,7 +27,7 @@
  */
 define("bba/Meter",
     ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry",
-    "bba/Core", "bba/Contract", "dijit/form/RadioButton", "dijit/form/NumberTextBox",
+    "bba/Core", "bba/Contract", "bba/Invoice", "dijit/form/RadioButton", "dijit/form/NumberTextBox",
     "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea"],
     function(dom, ready, parser, xhr, registry, bba) {
 
@@ -78,6 +78,21 @@ define("bba/Meter",
                 {field: 'meterContract_eac', width: '70px', name: 'EAC'},
                 {field: 'contract_reference', width: '200px', name: 'Reference'},
                 {field: 'contract_desc', width: '300px', name: 'Description'},
+                {field: '', width: 'auto', name: ''}
+            ],
+            invoiceLines : [
+                {field: 'invoiceLine_idInvoiceLine', width: '50px', name: 'Id'},
+                {field: 'invoice_numberInvoice', width: '100px', name: 'Invoice No.'},
+                {field: 'contract_idContract', width: '100px', name: 'Contract Id'},
+                {field: 'invoiceLine_dateStart', width: '150px', name: 'Start Date'},
+                {field: 'invoiceLine_dateEnd', width: '150px', name: 'End Date'},
+                {field: 'invoiceLine_fee', width: '50px', name: 'Fee'},
+                {field: 'invoiceLine_commission', width: '100px', name: 'Commission'},
+                {field: 'invoiceLine_consumption', width: '110px', name: 'Consumption'},
+                {field: 'invoiceLine_amount', width: '100px', name: 'Amount'},
+                {field: 'invoiceLine_proportionInvoiced', width: '50px', name: 'Claim'},
+                {field: 'invoiceLine_reference', width: '100px', name: 'Invoice Line Ref'},
+                {field: 'invoiceLine_dateCreated', width: '150px', name: 'Date Created'},
                 {field: '', width: 'auto', name: ''}
             ]
         },

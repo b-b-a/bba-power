@@ -28,13 +28,13 @@
         </div>
     </div>
 
-     <div data-dojo-type="dijit.layout.BorderContainer"
+    <div data-dojo-type="dijit.layout.BorderContainer"
          data-dojo-props="design: 'headline', region: 'center'"
          class="invoiceEditTabs-BorderContainter">
 
         <div id="InvoiceTabs<?php echo $this->invoice->invoice_idInvoice; ?>"
              data-dojo-type="dijit.layout.TabContainer"
-             data-dojo-props="region: 'center', tabStrip: 'true', splitter: 'true'"
+             data-dojo-props="region: 'center', tabStrip: 'true'"
              class="innerTabs">
 
             <div data-dojo-type="dijit.layout.ContentPane"
@@ -51,10 +51,10 @@
                         store: invoiceLinesStore<?php echo $this->invoice->invoice_idInvoice; ?>,
                         structure: bba.Invoice.gridLayouts.invoiceLines,
                         query: { invoiceLine_idInvoice: <?php echo $this->invoice->invoice_idInvoice; ?> },
-                        sortInfo: "-1",
+                        sortInfo: "-4",
                         noDataMessage : bba.gridMessage'>
-                    <script type="dojo/method" data-dojo-event="onRowClick">
-                        bba.Invoice.invoiceLineGridRowClick(this);
+                    <script type="dojo/method" data-dojo-event="onCellClick" args="e">
+                        bba.Invoice.invoiceLineGridRowClick(this, e);
                     </script>
                 </table>
             </div>

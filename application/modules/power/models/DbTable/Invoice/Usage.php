@@ -69,4 +69,44 @@ class Power_Model_DbTable_Invoice_Usage extends ZendSF_Model_DbTable_Abstract
             'refColumns'    => 'usage_idUsage'
         )
     );
+
+    protected function _getSearchInvoiceUsageSelect(array $search)
+    {
+        $select = $this->select()->setIntegrityCheck(false)
+            ->from('invoice_usage', array(
+                '*',
+                'invoiceUsage_idInvoiceUsage' => new Zend_Db_Expr("
+                    CONCAT(invoiceUsage_idInvoiceLine, '-', invoiceUsage_idUsage)
+                ")
+            ))
+            ->join('pusage', 'invoiceUsage_idUsage = usage_idUsage', array(
+                '*',
+                'usage_totalUsage' => new Zend_Db_Expr(
+                    'usage_usageDay + usage_usageNight + usage_usageOther'
+                )
+            ))
+            ->join('meter', 'usage_idMeter = meter_idMeter', 'meter_numberMain')
+            ->where('invoiceUsage_idInvoiceLine = ?', $search['invoiceUsage_idInvoiceLine']);
+
+        return $select;
+    }
+
+    public function searchInvoiceUsage(array $search, $sort = '', $count = null, $offset = null)
+    {
+        $select = $this->_getSearchInvoiceUsageSelect($search);
+        $select = $this->getLimit($select, $count, $offset);
+        $select = $this->getSortOrder($select, $sort);
+
+        return $this->fetchAll($select);
+    }
+
+    public function numRows($search)
+    {
+        $select = $this->_getSearchInvoiceUsageSelect($search);
+        $select->reset(Zend_Db_Select::COLUMNS);
+        $select->columns(array('numRows' => 'COUNT(invoiceUsage_idInvoiceLine)'));
+        $result = $this->fetchRow($select);
+
+        return $result->numRows;
+    }
 }

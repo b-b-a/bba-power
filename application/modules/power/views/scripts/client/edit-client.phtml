@@ -231,7 +231,7 @@
                        data-dojo-props="
                         store: clientContractStore<?php echo $this->client->client_idClient; ?>,
                         structure: bba.Contract.gridLayouts.contract,
-                        query: { idClient: <?php echo $this->client->client_idClient; ?> },
+                        query: { contract_idClient: <?php echo $this->client->client_idClient; ?> },
                         sortInfo: '2',
                         noDataMessage : bba.gridMessage">
                         <?php if ($this->isAllowed('User')): ?>

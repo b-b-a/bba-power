@@ -57,7 +57,7 @@ define("bba/Invoice",
             ],
             invoiceLines : [
                 {field: 'invoiceLine_idInvoiceLine', width: '50px', name: 'Id'},
-                bba.Meter.gridLayouts.meter[5],
+                {field: 'meter_numberMain', width: '120px', name: 'Meter No'},
                 {field: 'contract_idContract', width: '100px', name: 'Contract Id'},
                 {field: 'invoiceLine_dateStart', width: '150px', name: 'Start Date'},
                 {field: 'invoiceLine_dateEnd', width: '150px', name: 'End Date'},
@@ -71,7 +71,13 @@ define("bba/Invoice",
                 {field: '', width: 'auto', name: ''}
             ],
             invoiceUsage : [
-
+                {field: 'invoiceUsage_idInvoiceLine', width: '50px', name: 'Id'},
+                {field: 'invoiceUsage_idUsage', width: '150px', name: 'Usage Id'},
+                {field: 'invoiceUsage_typeMatch', width: '150px', name: 'Type Match'},
+                {field: 'invoiceUsage_dateCreated', width: '150px', name: 'Date Created'},
+                {field: 'usage_dateReading', width: '150px', name: 'Reading Date'},
+                {field: 'usage_totalUsage', width: '150px', name: 'Reading Usage'},
+                {field: '', width: 'auto', name: ''}
             ]
         },
 
@@ -80,9 +86,16 @@ define("bba/Invoice",
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'invoice_idInvoice');
-            tabTitle = 'I-' + grid.store.getValue(selectedItem, 'invoice_numberInvoice');
+            tabTitle = bba.tabPrefix.invoice + grid.store.getValue(
+                selectedItem, 'invoice_numberInvoice'
+            );
 
-             bba.openTab({
+            this.showInvoiceTab(id, tabTitle);
+        },
+
+        showInvoiceTab : function(id, tabTitle)
+        {
+            bba.openTab({
                 tabId : 'invoice' + id,
                 title : (tabTitle) ? tabTitle : 'Invoice',
                 url : './invoice/invoice',
@@ -94,25 +107,63 @@ define("bba/Invoice",
             });
         },
 
-        invoiceLineGridRowClick : function(grid)
+        invoiceLineGridRowClick : function(grid, row)
         {
-            selectedIndex = grid.focus.rowIndex;
-            selectedItem = grid.getItem(selectedIndex);
+            item = row.cell.field;
+            rowIndex = row.rowIndex;
+            selectedItem = grid.getItem(rowIndex);
 
-            bba.Meter.showMeterTab(
+            switch (item) {
+                case 'meter_numberMain':
+                    bba.Meter.showMeterTab(
+                        grid.store.getValue(selectedItem, 'meter_idMeter'),
+                        bba.tabPrefix.meter + grid.store.getValue(selectedItem, 'meter_numberMain')
+                    );
+                    break;
+                case 'contract_idContract':
+                    bba.Contract.showContractTab(
+                        grid.store.getValue(selectedItem, 'contract_idContract'),
+                        bba.tabPrefix.contract + grid.store.getValue(selectedItem, 'contract_idContract')
+                    );
+                    break;
+                 case 'invoice_numberInvoice':
+                    bba.Invoice.showInvoiceTab(
+                        grid.store.getValue(selectedItem, 'invoiceLine_idInvoice'),
+                        bba.tabPrefix.invoice + grid.store.getValue(selectedItem, 'invoice_numberInvoice')
+                    );
+                    break;
+                default:
+                    bba.Invoice.showInvoiceLineTab(
+                        grid.store.getValue(selectedItem, 'invoiceLine_idInvoiceLine'),
+                        bba.tabPrefix.invoiceLine + grid.store.getValue(selectedItem, 'invoiceLine_idInvoiceLine')
+                    );
+                    break;
+            }
+
+            /*bba.Meter.showMeterTab(
                 grid.store.getValue(selectedItem, 'meter_idMeter'),
-                'M-' + grid.store.getValue(selectedItem, 'meter_numberMain')
+                bba.tabPrefix.meter + grid.store.getValue(selectedItem, 'meter_numberMain')
             );
 
             bba.Contract.showContractTab(
                 grid.store.getValue(selectedItem, 'contract_idContract'),
-                'C-' + grid.store.getValue(selectedItem, 'contract_idContract')
+                bba.tabPrefix.contract + grid.store.getValue(selectedItem, 'contract_idContract')
             );
 
             bba.Invoice.showInvoiceLineTab(
                 grid.store.getValue(selectedItem, 'invoiceLine_idInvoiceLine'),
-                'IL-' + grid.store.getValue(selectedItem, 'invoiceLine_idInvoiceLine')
-            );
+                bba.tabPrefix.invoiceLine + grid.store.getValue(selectedItem, 'invoiceLine_idInvoiceLine')
+            );*/
+        },
+
+        invoiceUsageGridRowClick : function(grid)
+        {
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            id = grid.store.getValue(selectedItem, 'usage_idMeter');
+            tabTitle = 'M-' + grid.store.getValue(selectedItem, 'meter_numberMain');
+
+            bba.Meter.showMeterTab(id, tabTitle);
         },
 
         showInvoiceLineTab : function(id, tabTitle)
