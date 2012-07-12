@@ -125,6 +125,14 @@ define("bba/Core",
 
             if (!registry.byId(options.tabId)) {
 
+                for (x in options.content) {
+                    if (x != 'type') {
+                        prefix = x.split('_');
+                    }
+                }
+
+                options.title = bba.tabPrefix[prefix[0]] + options.title;
+
                 var pane = new ContentPane({
                     id: options.tabId,
                     title: options.title.trunc(),
