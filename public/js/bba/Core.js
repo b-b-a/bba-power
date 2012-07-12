@@ -36,6 +36,11 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
+String.prototype.trunc = function()
+{
+    return this.substr(0,20);
+};
+
 define("bba/Core",
     ["dojo/dom", "dojo/dom-construct","dojo/ready", "dojo/parser", "dojo/_base/connect",
     "dojo/_base/xhr", "dojo/_base/array", "dijit/registry", "dojo/cookie", "dijit/WidgetSet",
@@ -122,7 +127,7 @@ define("bba/Core",
 
                 var pane = new ContentPane({
                     id: options.tabId,
-                    title: options.title,
+                    title: options.title.trunc(),
                     href: options.url,
                     ioMethod: xhr.post,
                     ioArgs: {content : options.content},

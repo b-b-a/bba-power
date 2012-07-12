@@ -97,7 +97,7 @@ class Power_Model_Invoice extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('invoice')->numRows($search)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     public function getInvoiceLinesDataStore(array $post)
@@ -115,7 +115,7 @@ class Power_Model_Invoice extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('invoiceLine')->numRows($post)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     public function getInvoiceUsageDataStore(array $post)
@@ -133,7 +133,7 @@ class Power_Model_Invoice extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('invoiceUsage')->numRows($post)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**

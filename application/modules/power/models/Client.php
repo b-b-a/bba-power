@@ -127,7 +127,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('client')->numRows($search)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -151,7 +151,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('clientAddress')->numRows($post)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -175,7 +175,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('clientPersonnel')->numRows($post)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**

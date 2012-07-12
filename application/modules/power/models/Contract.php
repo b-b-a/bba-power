@@ -125,7 +125,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('contract')->numRows($search)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -149,7 +149,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('meterContract')->numRows($post)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -173,7 +173,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('tender')->numRows($post)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -285,7 +285,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         $store = new Zend_Dojo_Data('meter_idMeter', $meters);
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**

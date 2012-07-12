@@ -79,7 +79,7 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('supplier')->numRows($search)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     public function getSupplierPersonnelDataStore(array $post)
@@ -99,7 +99,7 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('supplierPersonnel')->numRows($id)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     public function getSupplierContractDataStore(array $post)
@@ -122,7 +122,7 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
                 ->count()
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**

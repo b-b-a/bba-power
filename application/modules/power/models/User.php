@@ -91,7 +91,7 @@ class Power_Model_User extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('user')->numRows($search)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**

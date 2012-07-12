@@ -107,7 +107,7 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('meter')->numRows($search)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -131,7 +131,7 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('meterUsage')->numRows($post)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -162,7 +162,7 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
             $dataObj->count()
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
