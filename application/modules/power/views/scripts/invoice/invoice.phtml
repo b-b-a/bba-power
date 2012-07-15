@@ -54,7 +54,8 @@
                         sortInfo: "-4",
                         noDataMessage : bba.gridMessage'>
                     <script type="dojo/method" data-dojo-event="onCellClick" args="e">
-                        bba.Invoice.invoiceLineGridRowClick(this, e);
+                        var colField = e.cell.field
+                        bba.Invoice.invoiceLineGridRowClick(this, e, colField);
                     </script>
                 </table>
             </div>
