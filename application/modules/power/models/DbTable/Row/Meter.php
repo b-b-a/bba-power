@@ -58,7 +58,13 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
     
     public function getShortDesc()
     {
-        return substr($this->getRow()->meter_desc, 0, 200);
+        $desc = $this->getRow()->meter_desc;
+        
+        if (strlen($desc) > 200) {
+            $desc = substr($desc, 0, 200);
+        }
+        
+        return $desc;
     }
 
     /**

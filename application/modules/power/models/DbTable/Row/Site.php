@@ -69,7 +69,13 @@ class Power_Model_DbTable_Row_Site extends ZendSF_Model_DbTable_Row_Abstract
     
     public function getShortDesc()
     {
-        return substr($this->getRow()->site_desc, 0, 200);
+        $desc = $this->getRow()->site_desc;
+        
+        if (strlen($desc) > 200) {
+            $desc = substr($desc, 0, 200);
+        }
+        
+        return $desc;
     }
 
     public function getClient($row=null)

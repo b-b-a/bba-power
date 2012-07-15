@@ -53,7 +53,13 @@ class Power_Model_DbTable_Row_Client extends ZendSF_Model_DbTable_Row_Abstract
     
     public function getShortDesc()
     {
-        return substr($this->getRow()->client_desc, 0, 200);
+        $desc = $this->getRow()->client_desc;
+        
+        if (strlen($desc) > 200) {
+            $desc = substr($desc, 0, 200);
+        }
+        
+        return $desc;
     }
 
     public function getClientPersonnel()
