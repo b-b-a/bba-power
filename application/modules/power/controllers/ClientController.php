@@ -154,7 +154,7 @@ class Power_ClientController extends Zend_Controller_Action
             $form = $this->_getForm('clientSave', 'save-client');
             $docForm = $this->_getForm('docClient', 'save-contract');
 
-            $form->populate($client->toArray('dd/MM/yyyy'));
+            $form->populate($client->toArray('dd/MM/yyyy', true));
             $docForm->populate($client->toArray('dd/MM/yyyy', true));
 
             $this->view->assign(array(

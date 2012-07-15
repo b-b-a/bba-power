@@ -79,6 +79,11 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
     );
 
     protected $_dateFormat = 'dd/MM/yyyy';
+    
+    public function getShortDesc()
+    {
+        return substr($this->getRow()->contract_desc, 0, 200);
+    }
 
     public function getContract_status()
     {
@@ -169,6 +174,9 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
                 $array[$key] = $value;
             } else {
                 switch ($key) {
+                    case 'contract_desc':
+                        $array[$key] = $this->getShortDesc();
+                        break;
                     case 'contract_status':
                         $array[$key] = $this->getContract_status();
                         break;

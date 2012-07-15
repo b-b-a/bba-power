@@ -156,7 +156,7 @@ class Power_SiteController extends Zend_Controller_Action
             $site = $this->_model->getSiteById($request->getPost('site_idSite'));
 
             $form = $this->_getForm('siteEdit', 'save-site');
-            $form->populate($site->toArray());
+            $form->populate($site->toArray('dd/MM/yyyy', true));
 
             $this->view->assign(array(
                 'site'          => $site,

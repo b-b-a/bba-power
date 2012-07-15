@@ -55,6 +55,11 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
         'meter_dateCreate',
         'meter_dateModify'
     );
+    
+    public function getShortDesc()
+    {
+        return substr($this->getRow()->meter_desc, 0, 200);
+    }
 
     /**
      * Date format used in the toArray method.
@@ -159,7 +164,7 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
      * @param bool $raw
      * @return array
      */
-    public function toArray($dateFormat = null, $raw = false)
+    public function toArray($dateFormat=null, $raw=false)
     {
         $array = array();
 
@@ -174,6 +179,9 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
                 $array[$key] = $value;
             } else {
                 switch ($key) {
+                    case 'meter_desc':
+                        $array[$key] = $this->getShortDesc();
+                        break;
                     case 'meter_numberMain':
                         $array[$key] = $this->getMeter_numberMain();
                         break;
