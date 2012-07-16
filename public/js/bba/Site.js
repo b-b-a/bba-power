@@ -37,22 +37,10 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Site",
-    ["dojo/dom", "dojo/_base/connect", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dojo/data/ItemFileReadStore",
+    ["dojo/dom", "dojo/_base/connect", "dojo/parser", "dojo/_base/xhr", "dojo/data/ItemFileReadStore",
     "dijit/registry", "bba/Core", "bba/Meter", "bba/Client", "dijit/form/RadioButton", "dijit/form/NumberTextBox",
     "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea", "dojox/widget/Standby"],
-    function(dom, connect, ready, parser, xhr, ItemFileReadStore, registry, bba) {
-
-    ready(function(){
-
-        if (dom.byId('site')) {
-            dom.byId('site').focus();
-        }
-
-        if (dom.byId('siteGrid')) {
-            var form = registry.byId('Search');
-            if (form) bba.gridSearch(form, siteGrid);
-        }
-    });
+    function(dom, connect, parser, xhr, ItemFileReadStore, registry, bba) {
 
     bba.Site = {
         clientStore : null,
@@ -306,7 +294,7 @@ define("bba/Site",
                             registry.byId('siteGrid')._refresh();
                         }
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
 

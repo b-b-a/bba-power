@@ -26,22 +26,10 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Meter",
-    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry",
+    ["dojo/dom", "dojo/parser", "dojo/_base/xhr", "dijit/registry",
     "bba/Core", "bba/Contract", "bba/Invoice", "dijit/form/RadioButton", "dijit/form/NumberTextBox",
     "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea"],
-    function(dom, ready, parser, xhr, registry, bba) {
-
-    ready(function(){
-
-        if (dom.byId('meter')) {
-            dom.byId('meter').focus();
-        }
-
-        if (dom.byId('meterGrid')) {
-            var form = registry.byId('Search');
-            if (form) bba.gridSearch(form, meterGrid);
-        }
-    });
+    function(dom, parser, xhr, registry, bba) {
 
     bba.Meter = {
         gridLayouts : {
@@ -220,7 +208,7 @@ define("bba/Meter",
                             registry.byId('meterGrid' + values.meter_idSite)._refresh();
                         }
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
                     } else {
@@ -252,7 +240,7 @@ define("bba/Meter",
                     } else if (data.saved > 0) {
                         registry.byId('usageGrid' + values.usage_idMeter)._refresh();
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
                     } else {

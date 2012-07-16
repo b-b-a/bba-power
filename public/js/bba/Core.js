@@ -42,35 +42,42 @@ String.prototype.trunc = function()
 };
 
 define("bba/Core",
-    ["dojo/dom", "dojo/dom-construct","dojo/ready", "dojo/parser", "dojo/_base/connect",
-    "dojo/_base/xhr", "dojo/_base/array", "dijit/registry", "dojo/cookie", "dijit/WidgetSet",
-    "dijit/layout/ContentPane", "dijit/Dialog", "dojox/grid/DataGrid", "dijit/layout/StackContainer",
-    "dijit/layout/BorderContainer", "dijit/layout/TabContainer", "dojox/data/QueryReadStore",
-    "dijit/form/Form", "dijit/form/Button"],
-    function(dom, domConstruct, ready, parser, connect, xhr, array, registry, cookie, WidgetSet, ContentPane, Dialog, DataGrid) {
+[
+    "dojo/dom",
+    "dojo/dom-construct",
+    "dojo/ready",
+    "dojo/parser",
+    "dojo/_base/connect",
+    "dojo/_base/xhr",
+    "dojo/_base/array",
+    "dojo/_base/lang",
+    "dijit/registry",
+    "dojo/cookie",
+    "dojo/json",
+    "dijit/WidgetSet",
+    "dijit/layout/ContentPane",
+    "dijit/Dialog",
+    "dojox/grid/DataGrid",
+    "dijit/layout/StackContainer",
+    "dijit/layout/BorderContainer",
+    "dijit/layout/TabContainer",
+    "dojox/data/QueryReadStore",
+    "dijit/form/Form",
+    "dijit/form/Button"
+],
+    function(dom, domConstruct, ready, parser, connect, xhr, array, lang, registry, cookie, json, WidgetSet, ContentPane, Dialog, DataGrid) {
 
-    ready(function(){
-        loader = dom.byId("loader");
-        loader.style.display = "none";
-        if (registry.byId('error')) error.show();
-
-        if (registry.byId('tabRefreshButton')) {
-            registry.byId('tabRefreshButton').set('checked', (cookie("tabRefresh") == 'false') ? false : true);
-        }
-
-        if (registry.byId('confirmBoxButton')) {
-            registry.byId('confirmBoxButton').set('checked', (cookie("confirmBox") == 'false') ? false : true);
-        }
-
-        if (dom.byId("dojoVersion")) {
-            dom.byId("dojoVersion").innerHTML = 'dojo ' + dojo.version.toString();
-        }
+    ready(function () {
+       bba.init();
     });
 
     bba = {
         gridMessage : '<span class="dojoxGridNoData">No records found matching query</span>',
 
-        confrimBox : true,
+        config : {
+            tabRefresh : true,
+            confirmBox : true
+        },
 
         tabs : [],
 
@@ -93,19 +100,57 @@ define("bba/Core",
 
         deferredFunction : function() {},
 
-        tabRefreshButton : function(val)
+        init : function()
         {
-            cookie("tabRefresh", val, {expires: 5});
-            tabs = registry.byId("ContentTabs").getChildren();
-            array.forEach(tabs, function(tab){
-                tab.refreshOnShow = (val) ? true : false;
-            });
+            if (lang.isFunction(bba[bbaModule].init)) {
+                this[bbaModule].init();
+            }
+
+            dom.byId(bbaModule.toLowerCase()).focus();
+
+            this.gridSearch(
+                registry.byId('Search'),
+                registry.byId(bbaModule.toLowerCase() + 'Grid')
+            );
+
+            if (cookie("bba-prefs")) {
+                this.config = json.parse(cookie("bba-prefs"));
+            }
+
+            for (id in bba.config) {
+                registry.byId(id+'Button').set(
+                    'checked', this.config[id]
+                )
+            }
+
+            dom.byId("dojoVersion").innerHTML = 'dojo ' + dojo.version.toString();
+
+            this.pageLoaded();
         },
 
-        confirmBoxButton: function(val)
+        pageLoaded : function()
         {
-            cookie("confirmBox", val, {expires: 5});
-            bba.confrimBox = val;
+            loader = dom.byId("loader");
+            loader.style.display = "none";
+
+            if (registry.byId('error')) {
+                error.show();
+            }
+        },
+
+        setPref : function(pref, val)
+        {
+            id = pref.get('id').replace('Button', '');
+            this.config[id] = val;
+            pref.set('checked', val);
+            cookie('bba-prefs', json.stringify(this.config), {expires: 5});
+
+            if ('tabRefresh' === id) {
+                tabs = registry.byId("ContentTabs").getChildren();
+                array.forEach(tabs, function(tab){
+                    tab.refreshOnShow = val;
+                });
+            }
         },
 
         gridSearch : function(form, grid)
@@ -131,7 +176,7 @@ define("bba/Core",
                     }
                 }
 
-                options.title = bba.tabPrefix[prefix[0]] + options.title;
+                options.title = this.tabPrefix[prefix[0]] + options.title;
 
                 var pane = new ContentPane({
                     id: options.tabId,
@@ -140,7 +185,7 @@ define("bba/Core",
                     ioMethod: xhr.post,
                     ioArgs: {content : options.content},
                     closable: true,
-                    refreshOnShow: (cookie("tabRefresh") == 'false') ? false : true,
+                    refreshOnShow: this.config.tabRefresh,
                     onLoad : function() {
                         pos = array.indexOf(bba.tabs, options.tabId);
                         if (pos == -1) bba.tabs.push(options.tabId);

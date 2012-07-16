@@ -27,21 +27,13 @@
  */
 
 define("bba/Invoice",
-    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core",
-    "dijit/form/ValidationTextBox", "bba/Meter", "bba/Contract"],
-    function(dom, ready, parser, xhr, registry, bba){
-
-    ready(function () {
-
-        if (dom.byId('invoice')) {
-            dom.byId('invoice').focus();
-        }
-
-        if (dom.byId('invoiceGrid')) {
-            var form = registry.byId('Search');
-            if (form) bba.gridSearch(form, invoiceGrid);
-        }
-    });
+[
+    "bba/Core",
+    "bba/Meter",
+    "bba/Contract",
+    "dijit/form/ValidationTextBox"
+],
+    function(core, meter, contract){
 
     bba.Invoice = {
         gridLayouts : {
@@ -93,7 +85,7 @@ define("bba/Invoice",
 
         showInvoiceTab : function(id, tabTitle)
         {
-            bba.openTab({
+            core.openTab({
                 tabId : 'invoice' + id,
                 title : (tabTitle) ? tabTitle : 'Invoice',
                 url : './invoice/invoice',
@@ -113,25 +105,25 @@ define("bba/Invoice",
 
             switch (item) {
                 case 'meter_numberMain':
-                    bba.Meter.showMeterTab(
+                    meter.showMeterTab(
                         grid.store.getValue(selectedItem, 'meter_idMeter'),
                         grid.store.getValue(selectedItem, 'meter_numberMain')
                     );
                     break;
                 case 'contract_idContract':
-                    bba.Contract.showContractTab(
+                    contract.showContractTab(
                         grid.store.getValue(selectedItem, 'contract_idContract'),
                         grid.store.getValue(selectedItem, 'contract_idContract')
                     );
                     break;
                  case 'invoice_numberInvoice':
-                    bba.Invoice.showInvoiceTab(
+                    this.showInvoiceTab(
                         grid.store.getValue(selectedItem, 'invoiceLine_idInvoice'),
                         grid.store.getValue(selectedItem, 'invoice_numberInvoice')
                     );
                     break;
                 default:
-                    bba.Invoice.showInvoiceLineTab(
+                    this.showInvoiceLineTab(
                         grid.store.getValue(selectedItem, 'invoiceLine_idInvoiceLine'),
                         grid.store.getValue(selectedItem, 'invoiceLine_idInvoiceLine')
                     );
@@ -161,12 +153,12 @@ define("bba/Invoice",
             id = grid.store.getValue(selectedItem, 'usage_idMeter');
             tabTitle = grid.store.getValue(selectedItem, 'meter_numberMain');
 
-            bba.Meter.showMeterTab(id, tabTitle);
+            meter.showMeterTab(id, tabTitle);
         },
 
         showInvoiceLineTab : function(id, tabTitle)
         {
-            bba.openTab({
+            core.openTab({
                 tabId : 'invoiceLine' + id,
                 title : (tabTitle) ? tabTitle : 'Invoice Line',
                 url : './invoice/invoice-line',

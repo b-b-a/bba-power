@@ -2,22 +2,96 @@
      data-dojo-props="design: 'headline'"
      class="tabContainer">
 
-    <span data-dojo-type="dojox.data.QueryReadStore"
-        data-dojo-props="url: 'invoice/data-store/type/invoice-usage', requestMethod: 'post'"
-        data-dojo-id="invoiceUsageStore<?php echo $this->invoiceLine->invoiceLine_idInvoiceLine; ?>"></span>
+    <div data-dojo-type="dijit.layout.ContentPane"
+         data-dojo-props="region: 'top', splitter: 'true'">
+        <div class="tabHeading">
 
-    <table data-dojo-type="dojox.grid.DataGrid"
-        data-dojo-id="invoiceUsageGrid<?php echo $this->invoiceLine->invoiceLine_idInvoiceLine; ?>"
-        id="invoiceUsageGrid<?php echo $this->invoiceLine->invoiceLine_idInvoiceLine; ?>"
-        data-dojo-props='
-            region: "center",
-            store: invoiceUsageStore<?php echo $this->invoiceLine->invoiceLine_idInvoiceLine; ?>,
-            structure: bba.Invoice.gridLayouts.invoiceUsage,
-            query: { invoiceUsage_idInvoiceLine: <?php echo $this->invoiceLine->invoiceLine_idInvoiceLine; ?> },
-            sortInfo: "-5",
-            noDataMessage : bba.gridMessage'>
-        <script type="dojo/method" data-dojo-event="onRowClick">
-            bba.Invoice.invoiceUsageGridRowClick(this);
-        </script>
-    </table>
+            <table class="info_wrap">
+                <tr>
+                    <td colspan="2">
+                        <span class="caption">Invoice Line Details&nbsp;
+                            <span class="id_number">
+                                (<?php echo $this->invoiceLine->invoiceLine_idInvoiceLine; ?>)
+                            </span>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Start Date:</th>
+                    <td><?php echo $this->formatDate($this->invoiceLine->invoiceLine_dateStart); ?></td>
+                </tr>
+                <tr>
+                    <th>End Date:</th>
+                    <td><?php echo $this->formatDate($this->invoiceLine->invoiceLine_dateEnd); ?></td>
+                </tr>
+                <tr>
+                    <th>Fee:</th>
+                    <td><?php echo $this->invoiceLine->invoiceLine_fee; ?></td>
+                </tr>
+                <tr>
+                    <th>Commission:</th>
+                    <td><?php echo $this->invoiceLine->invoiceLine_commission; ?></td>
+                </tr>
+                <tr>
+                    <th>Total Usage:</th>
+                    <td><?php echo $this->invoiceLine->invoiceLine_usageTotal; ?></td>
+                </tr>
+                <tr>
+                    <th>Proportion Invoiced:</th>
+                    <td><?php echo $this->invoiceLine->invoiceLine_proportionInvoiced; ?></td>
+                </tr>
+                <tr>
+                    <th>Amount:</th>
+                    <td><?php echo $this->invoiceLine->invoiceLine_amount; ?></td>
+                </tr>
+                <tr>
+                    <th>Reference:</th>
+                    <td><?php echo $this->invoiceLine->invoiceLine_reference; ?></td>
+                </tr>
+                <tr>
+                    <th>Comment:</th>
+                    <td><?php echo $this->invoiceLine->invoiceLine_comment; ?></td>
+                </tr>
+                <tr>
+                    <th>Date Created:</th>
+                    <td><?php echo $this->formatDate($this->invoiceLine->invoiceLine_dateCreated); ?></td>
+                </tr>
+            </table>
+
+        </div>
+    </div>
+
+     <div data-dojo-type="dijit.layout.BorderContainer"
+          data-dojo-props="design: 'headline', region: 'center'"
+          class="invoiceLineEditTabs-BorderContainter">
+
+         <div id="InvioceLineTabs<?php echo $this->invoiceLine->invoiceLine_idInvoiceLine; ?>"
+              data-dojo-type="dijit.layout.TabContainer"
+              data-dojo-props="region: 'center', tabStrip: 'true', splitter: 'true'"
+              class="innerTabs">
+
+            <div data-dojo-type="dijit.layout.ContentPane"
+                 data-dojo-props="title: 'Invoice Usage'">
+
+                <span data-dojo-type="dojox.data.QueryReadStore"
+                      data-dojo-props="url: 'invoice/data-store/type/invoice-usage', requestMethod: 'post'"
+                      data-dojo-id="invoiceUsageStore<?php echo $this->invoiceLine->invoiceLine_idInvoiceLine; ?>"></span>
+
+                <table data-dojo-type="dojox.grid.DataGrid"
+                       data-dojo-id="invoiceUsageGrid<?php echo $this->invoiceLine->invoiceLine_idInvoiceLine; ?>"
+                       id="invoiceUsageGrid<?php echo $this->invoiceLine->invoiceLine_idInvoiceLine; ?>"
+                       data-dojo-props='
+                          region: "center",
+                          store: invoiceUsageStore<?php echo $this->invoiceLine->invoiceLine_idInvoiceLine; ?>,
+                          structure: bba.Invoice.gridLayouts.invoiceUsage,
+                          query: { invoiceUsage_idInvoiceLine: <?php echo $this->invoiceLine->invoiceLine_idInvoiceLine; ?> },
+                          sortInfo: "-5",
+                          noDataMessage : bba.gridMessage'>
+                    <script type="dojo/method" data-dojo-event="onRowClick">
+                        bba.Invoice.invoiceUsageGridRowClick(this);
+                    </script>
+                </table>
+            </div>
+         </div>
+     </div>
 </div>

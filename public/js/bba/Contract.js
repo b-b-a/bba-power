@@ -26,26 +26,29 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Contract",
-    ["dojo/dom","dojo/ready", "dojo/parser", "dojo/_base/connect", "dojo/_base/xhr",
-     "dojo/_base/array", "dijit/registry",
-     "dijit/Dialog", "dojo/data/ItemFileReadStore", "dojo", "bba/Core", "bba/Meter", "bba/Invoice",
-     "dijit/form/ValidationTextBox",
-     "dojo/data/ItemFileReadStore", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea",
-     "dojo/data/ItemFileWriteStore", "dojox/grid/_CheckBoxSelector",
-     "dojox/form/Uploader", "dojox/form/uploader/plugins/IFrame"],
-    function(dom, ready, parser, connect, xhr, array, registry, Dialog, ItemFileReadStore, dojo, bba) {
-
-    ready(function () {
-
-        if (dom.byId('contract')) {
-            dom.byId('contract').focus();
-        }
-
-        if (dom.byId('contractGrid')) {
-            var form = registry.byId('Search');
-            if (form) bba.gridSearch(form, contractGrid);
-        }
-    });
+[
+    "dojo/dom",
+    "dojo/query",
+    "dojo/parser",
+    "dojo/_base/connect",
+    "dojo/_base/xhr",
+    "dojo/_base/array",
+    "dijit/registry",
+    "dijit/Dialog",
+    "dojo/data/ItemFileReadStore",
+    "bba/Core",
+    "bba/Meter",
+    "bba/Invoice",
+    "dijit/form/ValidationTextBox",
+    "dojo/data/ItemFileReadStore",
+    "dijit/form/FilteringSelect",
+    "dijit/form/SimpleTextarea",
+    "dojo/data/ItemFileWriteStore",
+    "dojox/grid/_CheckBoxSelector",
+    "dojox/form/Uploader",
+    "dojox/form/uploader/plugins/IFrame"
+],
+    function(dom, query, parser, connect, xhr, array, registry, Dialog, ItemFileReadStore, bba) {
 
     bba.Contract = {
         gridLayouts : {
@@ -197,7 +200,9 @@ define("bba/Contract",
                         } else if (data.saved) {
                             registry.byId('meterContractGrid' + meterContract)._refresh();
                             registry.byId('addMeterContractDialog').hide();
-                            confirm.show();
+                            if (bba.config.confirmBox) {
+                                confirm.show();
+                            }
                         }
                     }
                 });
@@ -378,7 +383,7 @@ define("bba/Contract",
 
                 if (dom.byId('contractGrid')) contractGrid._refresh();
 
-                if (bba.confrimBox) {
+                if (bba.config.confirmBox) {
                     confirm.show();
                 }
 
@@ -417,7 +422,7 @@ define("bba/Contract",
                             registry.byId('tenderGrid' + values.tender_idContract)._refresh();
                         }
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
                     } else {
@@ -444,8 +449,8 @@ define("bba/Contract",
                         registry.byId(item).submit = function(){return false;}
                     }
 
-                    dojo.connect(dom.byId(item + '_file'), "onclick", function(){
-                        dojo.query('input[name=' + item + ']')[0].click();
+                    connect.connect(dom.byId(item + '_file'), "onclick", function(){
+                        query('input[name=' + item + ']')[0].click();
                     });
 
                     connect.connect(registry.byId(item), "onChange", function(fileArray){

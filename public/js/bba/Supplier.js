@@ -26,21 +26,9 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Supplier",
-    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core",
+    ["dojo/dom", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core",
     "bba/Contract", "dijit/form/FilteringSelect"],
-    function(dom, ready, parser, xhr, registry, bba){
-
-    ready(function () {
-
-        if (dom.byId('supplier')) {
-            dom.byId('supplier').focus();
-        }
-
-        if (dom.byId('supplierGrid')) {
-            var form = registry.byId('Search');
-            if (form) bba.gridSearch(form, supplierGrid);
-        }
-    });
+    function(dom, parser, xhr, registry, bba){
 
     bba.Supplier = {
         gridLayouts : {
@@ -176,7 +164,7 @@ define("bba/Supplier",
                             registry.byId('supplierGrid')._refresh();
                         }
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
                     } else {
@@ -208,10 +196,10 @@ define("bba/Supplier",
                     } else if (data.saved > 0) {
                         registry.byId('supplierPersGrid' + values.supplierPers_idSupplier)._refresh();
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
-                        
+
                     } else {
                         bba.setupDialog(supplierPersForm);
                         supplierPersForm.show();

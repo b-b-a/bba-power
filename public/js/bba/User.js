@@ -27,21 +27,9 @@
  */
 
 define("bba/User",
-    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core",
+    ["dojo/dom", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core",
     "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect"],
-    function(dom, ready, parser, xhr, registry, bba){
-
-    ready(function () {
-
-        if (dom.byId('user')) {
-            dom.byId('user').focus();
-        }
-
-        if (dom.byId('userGrid')) {
-            var form = registry.byId('Search');
-            if (form) bba.gridSearch(form, userGrid);
-        }
-    });
+    function(dom, parser, xhr, registry, bba){
 
     bba.User = {
         gridLayouts : {
@@ -110,7 +98,7 @@ define("bba/User",
                     } else if (data.saved > 0) {
                         registry.byId('userGrid')._refresh();
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
                     } else {

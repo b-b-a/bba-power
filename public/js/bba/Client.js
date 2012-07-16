@@ -26,25 +26,28 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Client",
-    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/connect", "dojo/_base/xhr",
-    "dijit/registry", "dojo/date", "dijit/Dialog", "dojo/text!./html/LoaEmptyMessage.html",
-    "dojo/text!./html/LoaDateMessage.html", "bba/Core", "bba/Site", "bba/Contract",
-    "dojox/widget/Wizard", "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect",
+[
+    "dojo/dom",
+    "dojo/query",
+    "dojo/parser",
+    "dojo/_base/connect",
+    "dojo/_base/xhr",
+    "dijit/registry",
+    "dojo/date",
+    "dijit/Dialog",
+    "dojo/text!./html/LoaEmptyMessage.html",
+    "dojo/text!./html/LoaDateMessage.html",
+    "bba/Core",
+    "bba/Site",
+    "bba/Contract",
+    "dojox/widget/Wizard",
+    "dijit/form/ValidationTextBox",
+    "dijit/form/FilteringSelect",
     "dijit/form/SimpleTextarea",
-    "dojox/form/Uploader", "dojox/form/uploader/plugins/IFrame"],
-    function(dom, ready, parser, connect, xhr, registry, date, Dialog, LoaEmpty, LoaDate, bba) {
-
-    ready(function () {
-
-        if (dom.byId('client')) {
-            dom.byId('client').focus();
-        }
-
-        if (dom.byId('clientGrid')) {
-            var form = registry.byId('Search');
-            if (form) bba.gridSearch(form, clientGrid);
-        }
-    });
+    "dojox/form/Uploader",
+    "dojox/form/uploader/plugins/IFrame"
+],
+    function(dom, query, parser, connect, xhr, registry, date, Dialog, LoaEmpty, LoaDate, bba) {
 
     bba.Client = {
         dateExpiryLoa : null,
@@ -183,7 +186,7 @@ define("bba/Client",
                     content: dojo.mixin({type : 'edit'}, contentVars),
                     dialog: 'clientForm',
                     deferredFunction: function() {
-                        bba.Client.setupDocEvents();
+                        this.setupDocEvents();
                         this.dateExpiryLoa = clientForm.getValues().client_dateExpiryLoa;
                     }.bind(this)
                 });
@@ -285,12 +288,12 @@ define("bba/Client",
                     registry.byId('clientGrid')._refresh();
                 }
 
-                if (bba.confrimBox) {
+                if (bba.config.confirmBox) {
                     confirm.show();
                 }
             } else {
                 bba.setupDialog(clientForm);
-                bba.Client.setupDocEvents();
+                this.setupDocEvents();
                 clientForm.show();
             }
         },
@@ -320,7 +323,7 @@ define("bba/Client",
                             registry.byId('clientAdGrid' + values.clientAd_idClient)._refresh();
                         }
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
 
@@ -360,7 +363,7 @@ define("bba/Client",
                             registry.byId('clientAdPersGrid' + values.clientPers_idAddress)._refresh();
                         }
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
                         bba.deferredFunction(data.saved);
@@ -374,16 +377,16 @@ define("bba/Client",
 
         setupDocEvents : function()
         {
-            dojo.connect(dom.byId('client_docLoa_file'), "onclick", function(){
-                dojo.query('input[name=client_docLoa]')[0].click();
+            connect.connect(dom.byId('client_docLoa_file'), "onclick", function(){
+                query('input[name=client_docLoa]')[0].click();
             });
 
             connect.connect(client_docLoa, "onChange", function(fileArray){
                 bba.docFileList(fileArray, 'client_docLoa_file');
             });
 
-            connect.connect(client_docLoa, "onComplete", bba.Client.processClientForm);
-            connect.connect(client_docLoa, "onError", bba.Client.processClientForm);
+            connect.connect(client_docLoa, "onComplete", this, this.processClientForm);
+            connect.connect(client_docLoa, "onError", this, this.processClientForm);
         }
     };
 

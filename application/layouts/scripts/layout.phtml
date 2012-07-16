@@ -14,7 +14,9 @@
 
         <link rel="stylesheet" href="<?php echo $this->baseUrl('css/site.css'); ?>" type="text/css" />
 
-        <?php echo $this->headScript() ?>
+        <script type="text/javascript">
+            bbaModule = '<?php echo ucfirst($this->request()->getControllerName()); ?>';
+        </script>
     </head>
     <body class="claro">
         <div id="loader">
@@ -70,7 +72,7 @@
                            id="tabRefreshButton">
                     Tab Refresh
                     <script type="dojo/method" data-dojo-event="onChange" args="val">
-                        bba.tabRefreshButton(val);
+                        bba.setPref(this, val);
                     </script>
                 </button></p>
                 <p><button data-dojo-type="dijit.form.ToggleButton"
@@ -78,7 +80,7 @@
                            id="confirmBoxButton">
                     Confirmation
                     <script type="dojo/method" data-dojo-event="onChange" args="val">
-                        bba.confirmBoxButton(val);
+                        bba.setPref(this, val);
                     </script>
                 </button></p>
             </div>

@@ -43,7 +43,7 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
      * @var Power_Model_DbTable_Row_Site
      */
     protected $_site;
-    
+
     /**
      * Array of all columns with need date format applied
      * to it when outputting row as an array.
@@ -121,9 +121,11 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
 
     public function getAllContracts($select = null)
     {
-        $select->joinCross('meter_contract')
+        $select->joinCross('client')
+            ->joinCross('meter_contract')
             ->where('meter_contract.meterContract_idContract = m.contract_idContract')
-            ->where('meter_contract.meterContract_idMeter = ?', $this->getRow()->meter_idMeter);
+            ->where('meter_contract.meterContract_idMeter = ?', $this->getRow()->meter_idMeter)
+            ->where('m.contract_idClient = client_idClient');
 
         return $this->getRow()->findManyToManyRowset(
             'Power_Model_DbTable_Contract',

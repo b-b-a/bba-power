@@ -11,6 +11,7 @@ dependencies = {
             name: "dojo.js",
             dependencies: [
                 "dojo/dom",
+                "dojo/dom-construct",
                 "dojo/ready",
                 "dojo/parser",
                 "dojo/_base/array",
@@ -22,6 +23,8 @@ dependencies = {
                 "dojo/data/ItemFileReadStore",
                 "dojo/data/ItemFileWriteStore",
                 "dojo/date",
+                "dojo/cookie",
+                "dojo/json",
 
                 "dijit/registry",
                 "dijit/Dialog",
