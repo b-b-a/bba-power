@@ -110,9 +110,9 @@ define("bba/Meter",
             });
         },
 
-        meterGridRowClick : function()
+        meterGridRowClick : function(grid)
         {
-            grid = core.grids.meterGrid;
+            grid = (grid) ? grid : core.grids.meterGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'meter_idMeter');

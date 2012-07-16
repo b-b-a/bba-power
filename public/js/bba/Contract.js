@@ -247,9 +247,9 @@ define("bba/Contract",
             addMeterContractDialog.show();
         },
 
-        contractGridRowClick : function()
+        contractGridRowClick : function(grid)
         {
-            grid = core.grids.contractGrid;
+            grid = (grid) ? grid : core.grids.contractGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'contract_idContract');

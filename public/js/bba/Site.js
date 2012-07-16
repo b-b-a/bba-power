@@ -246,9 +246,9 @@ define("bba/Site",
             registry.byId("site_idClientPersonnel").set('value', 0);
         },
 
-        siteGridRowClick : function()
+        siteGridRowClick : function(grid)
         {
-            grid = core.grids.siteGrid;
+            grid = (grid) ? grid : core.grids.siteGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'site_idSite');

@@ -84,9 +84,9 @@ define("bba/Supplier",
             });
         },
 
-        supplierGridRowClick : function()
+        supplierGridRowClick : function(grid)
         {
-            grid = core.grids.supplierGrid;
+            grid = (grid) ? grid : core.grids.supplierGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'supplier_idSupplier');

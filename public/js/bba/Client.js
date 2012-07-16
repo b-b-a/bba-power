@@ -97,9 +97,9 @@ define("bba/Client",
             });
         },
 
-        clientGridRowClick : function()
+        clientGridRowClick : function(grid)
         {
-            grid = core.grids.clientGrid;
+            grid = (grid) ? grid : core.grids.clientGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'client_idClient');
