@@ -139,6 +139,7 @@ define("bba/Site",
         getPersonnelStore : function(val, id)
         {
             siteFormStandby.show();
+            val = (val) ? val : 0;
             this.personnelStore = new ItemFileReadStore({
                 url:'./site/data-store/type/personnel/clientId/' + id
             })
@@ -153,7 +154,7 @@ define("bba/Site",
             });
 
             registry.byId("site_idClientPersonnel").set('store', this.personnelStore);
-            if (val) registry.byId('site_idClientPersonnel').set('value', val);
+            registry.byId('site_idClientPersonnel').set('value', val);
         },
 
         changeAddress : function(val)
@@ -201,11 +202,11 @@ define("bba/Site",
         {
             if (obj.value === -1) {
                 bba.Client.newClientPersButtonClick({
-                    clientPers_idClient : registry.byId("site_idClient").get('value')
+                    clientPers_idClient : registry.byId('site_idClient').get('value')
                 });
 
                 bba.deferredFunction = function(val) {
-                    bba.Site.getPersonnelStore(val, registry.byId("site_idClient").get('value'));
+                    bba.Site.getPersonnelStore(val, registry.byId('site_idClient').get('value'));
                 }
             }
         },
@@ -262,7 +263,12 @@ define("bba/Site",
                 bba.openFormDialog({
                     url: './site/edit-site',
                     content: dojo.mixin({type :  'edit'}, contentVars),
-                    dialog: 'siteForm'
+                    dialog: 'siteForm',
+                    deferredFunction : function() {
+                        val = registry.byId('site_idClientPersonnel').get('value');
+                        id = registry.byId('site_idClient').get('value');
+                        bba.Site.getPersonnelStore(val, id);
+                    }
                 });
             } else {
                 siteForm.show();

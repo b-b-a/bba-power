@@ -121,7 +121,10 @@ class Power_Form_Site_Edit extends ZendSF_Dojo_Form_Abstract
         $list = $this->getModel()->getDbTable('clientPersonnel')->getClientPersonnelByClientId($clientId);
 
         // reset options
-        $multiOptions = array(0 => ($list->count() > 0) ? 'Please Select Someone' : 'No Client Personnel Available');
+        $multiOptions = array(
+            '0'     => ($list->count() > 0) ? 'Please Select Someone' : 'No Client Personnel Available',
+            '-1'    => 'Add New Address ...'
+        );
         foreach($list as $row) {
             $multiOptions[$row->clientPers_idClientPersonnel] = $row->clientPers_name;
         }
@@ -129,9 +132,15 @@ class Power_Form_Site_Edit extends ZendSF_Dojo_Form_Abstract
         $this->addElement('FilteringSelect', 'site_idClientPersonnel', array(
             'label'         => 'Client Liaison:',
             'filters'       => array('StripTags', 'StringTrim'),
-            'multiOptions'  => $multiOptions,
-            'value'         => '0',
-            'required'      => false
+            'autoComplete'  => false,
+            'hasDownArrow'  => true,
+            'storeId'       => 'personnelStore',
+            'dijitParams'   => array('searchAttr' => 'clientPers_name'),
+            'attribs'       => array(
+                'onChange' => 'bba.Site.addPersonnel(this);'
+            ),
+            'required'      => false,
+            'value'         => '0'
         ));
 
         $this->addElement('SimpleTextarea', 'site_desc', array(
