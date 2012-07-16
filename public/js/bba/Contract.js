@@ -48,7 +48,7 @@ define("bba/Contract",
     "dojox/form/Uploader",
     "dojox/form/uploader/plugins/IFrame"
 ],
-    function(dom, query, parser, connect, xhr, array, registry, Dialog, ItemFileReadStore, bba) {
+    function(dom, query, parser, connect, xhr, array, registry, Dialog, ItemFileReadStore, core) {
 
     bba.Contract = {
         gridLayouts : {
@@ -127,6 +127,21 @@ define("bba/Contract",
                 {field: 'invoiceLine_dateCreated', width: '150px', name: 'Date Created'},
                 {field: '', width: 'auto', name: ''}
             ]
+        },
+        
+        init : function()
+        {
+            core.addDataStore('contractStore', core.storeUrls.contract);
+
+            core.addGrid({
+                id : 'contractGrid',
+                store : core.dataStores.contractStore,
+                structure : this.gridLayouts.contract,
+                sortInfo : '2',
+                onRowClick : function() {
+                     this.contractGridRowClick();
+                }.bind(this)
+            });
         },
 
         numberComparison : function (a, b) {
@@ -232,9 +247,9 @@ define("bba/Contract",
             addMeterContractDialog.show();
         },
 
-        contractGridRowClick : function(grid)
+        contractGridRowClick : function()
         {
-
+            grid = core.grids.contractGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'contract_idContract');

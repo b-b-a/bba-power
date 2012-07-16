@@ -118,17 +118,6 @@ class Power_Form_Site_Edit extends ZendSF_Dojo_Form_Abstract
             'required'      => false
         ));
 
-        $list = $this->getModel()->getDbTable('clientPersonnel')->getClientPersonnelByClientId($clientId);
-
-        // reset options
-        $multiOptions = array(
-            '0'     => ($list->count() > 0) ? 'Please Select Someone' : 'No Client Personnel Available',
-            '-1'    => 'Add New Address ...'
-        );
-        foreach($list as $row) {
-            $multiOptions[$row->clientPers_idClientPersonnel] = $row->clientPers_name;
-        }
-
         $this->addElement('FilteringSelect', 'site_idClientPersonnel', array(
             'label'         => 'Client Liaison:',
             'filters'       => array('StripTags', 'StringTrim'),

@@ -37,10 +37,23 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Site",
-    ["dojo/dom", "dojo/_base/connect", "dojo/parser", "dojo/_base/xhr", "dojo/data/ItemFileReadStore",
-    "dijit/registry", "bba/Core", "bba/Meter", "bba/Client", "dijit/form/RadioButton", "dijit/form/NumberTextBox",
-    "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea", "dojox/widget/Standby"],
-    function(dom, connect, parser, xhr, ItemFileReadStore, registry, bba) {
+[
+    "dojo/dom",
+    "dojo/_base/connect",
+    "dojo/parser",
+    "dojo/_base/xhr",
+    "dojo/data/ItemFileReadStore",
+    "dijit/registry",
+    "bba/Core",
+    "bba/Meter",
+    "bba/Client",
+    "dijit/form/RadioButton",
+    "dijit/form/NumberTextBox",
+    "dijit/form/FilteringSelect",
+    "dijit/form/SimpleTextarea",
+    "dojox/widget/Standby"
+],
+    function(dom, connect, parser, xhr, ItemFileReadStore, registry, core) {
 
     bba.Site = {
         clientStore : null,
@@ -68,6 +81,21 @@ define("bba/Site",
                 {field: 'meter_numberMain', width: '200px', name: 'Number Main'},
                 {field: '', width: 'auto', name: ''}
             ]
+        },
+        
+        init : function()
+        {
+            core.addDataStore('siteStore', core.storeUrls.site);
+
+            core.addGrid({
+                id : 'siteGrid',
+                store : core.dataStores.siteStore,
+                structure : this.gridLayouts.site,
+                sortInfo : '2',
+                onRowClick : function() {
+                     this.siteGridRowClick();
+                }.bind(this)
+            });
         },
 
         setupClientStore : function()
@@ -218,8 +246,9 @@ define("bba/Site",
             registry.byId("site_idClientPersonnel").set('value', 0);
         },
 
-        siteGridRowClick : function(grid)
+        siteGridRowClick : function()
         {
+            grid = core.grids.siteGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'site_idSite');

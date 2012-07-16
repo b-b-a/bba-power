@@ -47,7 +47,7 @@ define("bba/Client",
     "dojox/form/Uploader",
     "dojox/form/uploader/plugins/IFrame"
 ],
-    function(dom, query, parser, connect, xhr, registry, date, Dialog, LoaEmpty, LoaDate, bba) {
+    function(dom, query, parser, connect, xhr, registry, date, Dialog, LoaEmpty, LoaDate, core) {
 
     bba.Client = {
         dateExpiryLoa : null,
@@ -80,10 +80,26 @@ define("bba/Client",
                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
                 {field: '', width: 'auto', name: ''}
             ]
-         },
+        },
+         
+        init : function()
+        {
+            core.addDataStore('clientStore', core.storeUrls.client);
 
-         clientGridRowClick : function(grid)
-         {
+            core.addGrid({
+                id : 'clientGrid',
+                store : core.dataStores.clientStore,
+                structure : this.gridLayouts.client,
+                sortInfo : '2',
+                onRowClick : function() {
+                     this.clientGridRowClick();
+                }.bind(this)
+            });
+        },
+
+        clientGridRowClick : function()
+        {
+            grid = core.grids.clientGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'client_idClient');

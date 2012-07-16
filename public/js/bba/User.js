@@ -27,9 +27,16 @@
  */
 
 define("bba/User",
-    ["dojo/dom", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core",
-    "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect"],
-    function(dom, parser, xhr, registry, bba){
+[
+    "dojo/dom",
+    "dojo/parser",
+    "dojo/_base/xhr",
+    "dijit/registry",
+    "bba/Core",
+    "dijit/form/ValidationTextBox",
+    "dijit/form/FilteringSelect"
+],
+    function(dom, parser, xhr, registry, core){
 
     bba.User = {
         gridLayouts : {
@@ -42,9 +49,25 @@ define("bba/User",
                 {field: '', width: 'auto', name: ''}
             ]
         },
-
-        userGridRowClick : function(grid)
+        
+        init : function()
         {
+            core.addDataStore('userStore', core.storeUrls.user);
+
+            core.addGrid({
+                id : 'userGrid',
+                store : core.dataStores.userStore,
+                structure : this.gridLayouts.user,
+                sortInfo : '2',
+                onRowClick : function() {
+                     this.userGridRowClick();
+                }.bind(this)
+            });
+        },
+
+        userGridRowClick : function()
+        {
+            grid = core.grids.userGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'user_idUser');

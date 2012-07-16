@@ -26,9 +26,16 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Supplier",
-    ["dojo/dom", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core",
-    "bba/Contract", "dijit/form/FilteringSelect"],
-    function(dom, parser, xhr, registry, bba){
+[
+    "dojo/dom",
+    "dojo/parser",
+    "dojo/_base/xhr",
+    "dijit/registry",
+    "bba/Core",
+    "bba/Contract",
+    "dijit/form/FilteringSelect"
+],
+    function(dom, parser, xhr, registry, core){
 
     bba.Supplier = {
         gridLayouts : {
@@ -61,9 +68,25 @@ define("bba/Supplier",
                 {field: '', width: 'auto', name: ''}
             ]
         },
-
-        supplierGridRowClick : function(grid)
+        
+        init : function()
         {
+            core.addDataStore('supplierStore', core.storeUrls.supplier);
+
+            core.addGrid({
+                id : 'supplierGrid',
+                store : core.dataStores.supplierStore,
+                structure : this.gridLayouts.supplier,
+                sortInfo : '2',
+                onRowClick : function() {
+                     this.supplierGridRowClick();
+                }.bind(this)
+            });
+        },
+
+        supplierGridRowClick : function()
+        {
+            grid = core.grids.supplierGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'supplier_idSupplier');

@@ -103,8 +103,14 @@ define("bba/Core",
         deferredFunction : function() {},
 
         storeUrls : {
-           invoice : './invoice/data-store/type/invoice',
-           invoiceLines : './invoice/data-store/type/invoice-lines'
+            client : './client/data-store/type/client',
+            contract : './contract/data-store/type/contract',
+            invoice : './invoice/data-store/type/invoice',
+            invoiceLines : './invoice/data-store/type/invoice-lines',
+            meter : './meter/data-store/type/meter',
+            site : './site/data-store/type/site',
+            supplier : './supplier/data-store/type/suppliers',
+            user : './user/user-store'
         },
 
         dataStores : {},
