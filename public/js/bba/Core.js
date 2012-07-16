@@ -183,8 +183,9 @@ define("bba/Core",
             this.grids[options.id] = new DataGrid(lang.mixin({
                 noDataMessage : this.gridMessage
             }, options), dom.byId(options.id));
-            
+
             this.grids[options.id].startup();
+            
         },
 
         gridSearch : function(form, grid)
@@ -265,6 +266,7 @@ define("bba/Core",
             }
 
             tc.selectChild(options.tabId);
+            tc.layout();
         },
 
         openFormDialog : function(options)

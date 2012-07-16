@@ -7,16 +7,16 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <link rel="stylesheet" href="<?php echo $this->baseUrl('css/reset.css'); ?>" type="text/css" />
         <link rel="stylesheet" href="<?php echo $this->baseUrl('css/text.css'); ?>" type="text/css" />
+        
+        <script type="text/javascript">
+            bbaModule = '<?php echo ucfirst($this->request()->getControllerName()); ?>';
+        </script>
 
         <?php echo $this->headLink() ?>
 
         <?php echo $this->dojo(); ?>
 
         <link rel="stylesheet" href="<?php echo $this->baseUrl('css/site.css'); ?>" type="text/css" />
-
-        <script type="text/javascript">
-            bbaModule = '<?php echo ucfirst($this->request()->getControllerName()); ?>';
-        </script>
     </head>
     <body class="claro">
         <div id="loader">

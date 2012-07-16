@@ -575,6 +575,16 @@ Form overrides.
     font-weight: bold;
 }
 
+#clientGrid,
+#contractGrid,
+#invoiceGrid,
+#meterGrid,
+#siteGrid,
+#supplierGrid,
+#userGrid  {
+    height: 99.5%;
+}
+
 .dojoxGrid table {
     width: 100%;
     margin: 0px;

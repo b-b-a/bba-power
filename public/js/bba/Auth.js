@@ -38,6 +38,7 @@ require(
     "dijit/form/Button"
 ],
     function(dom,ready){
+        
         ready(function(){
 
             login._onKey = function(){};
