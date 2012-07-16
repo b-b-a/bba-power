@@ -97,9 +97,9 @@ define("bba/Invoice",
             });
         },
 
-        invoiceLineGridRowClick : function(grid, row)
+        invoiceLineGridRowClick : function(grid, row, item)
         {
-            item = row.cell.field;
+            //item = row.cell.field;
             rowIndex = row.rowIndex;
             selectedItem = grid.getItem(rowIndex);
 

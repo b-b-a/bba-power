@@ -191,7 +191,7 @@
                 <caption>&nbsp;</caption>
                 <tr>
                     <th>Description:</th>
-                    <td class="description"><?php echo $this->contract->contract_desc; ?></td>
+                    <td class="description"><?php echo $this->contract->getShortDesc(); ?></td>
                 </tr>
             </table>
         </div>
@@ -267,7 +267,8 @@
                            sortInfo: "-3",
                            noDataMessage : bba.gridMessage'>
                     <script type="dojo/method" data-dojo-event="onCellClick" args="e">
-                        bba.Invoice.invoiceLineGridRowClick(this, e);
+                        var colField = e.cell.field
+                        bba.Invoice.invoiceLineGridRowClick(this, e, colField);
                     </script>
                 </table>
             </div>

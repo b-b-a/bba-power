@@ -61,6 +61,17 @@ class Power_Model_DbTable_Row_Tender extends ZendSF_Model_DbTable_Row_Abstract
     );
 
     protected $_dateFormat = 'dd/MM/yyyy';
+    
+    public function getShortDesc()
+    {
+        $desc = $this->getRow()->tender_desc;
+        
+        if (strlen($desc) > 200) {
+            $desc = substr($desc, 0, 200);
+        }
+        
+        return $desc;
+    }
 
     public function getSupplier($col = null)
     {
@@ -98,7 +109,7 @@ class Power_Model_DbTable_Row_Tender extends ZendSF_Model_DbTable_Row_Abstract
      * @param string $dateFormat
      * @return array
      */
-    public function toArray($dateFormat = null)
+    public function toArray($dateFormat=null, $raw=false)
     {
         $array = array();
 
@@ -109,7 +120,18 @@ class Power_Model_DbTable_Row_Tender extends ZendSF_Model_DbTable_Row_Abstract
                 $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
             }
 
-            $array[$key] = $value;
+            if (true === $raw) {
+                $array[$key] = $value;
+            } else {
+                switch ($key) {
+                    case 'tender_desc':
+                        $array[$key] = $this->getShortDesc();
+                        break;
+                    default:
+                        $array[$key] = $value;
+                        break;
+                }
+            }
         }
 
         return $array;

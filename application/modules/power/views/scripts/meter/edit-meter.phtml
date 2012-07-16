@@ -52,7 +52,7 @@
 
                 <tr>
                     <th>Description:</th>
-                    <td class="description"><?php echo $this->meter->meter_desc; ?></td>
+                    <td class="description"><?php echo $this->meter->getShortDesc(); ?></td>
                 </tr>
             </table>
 
@@ -83,7 +83,7 @@
                 </tr>
                 <tr>
                     <th>Description:</th>
-                    <td class="description"><?php echo $this->escape($contract->contract_desc); ?></td>
+                    <td class="description"><?php echo $this->escape($contract->getShortDesc()); ?></td>
                 </tr>
                 <tr>
                     <th>Type:</th>
@@ -209,7 +209,8 @@
                            sortInfo: "-2",
                            noDataMessage : bba.gridMessage'>
                     <script type="dojo/method" data-dojo-event="onCellClick" args="e">
-                        bba.Invoice.invoiceLineGridRowClick(this, e);
+                        var colField = e.cell.field
+                        bba.Invoice.invoiceLineGridRowClick(this, e, colField);
                     </script>
                 </table>
             </div>
