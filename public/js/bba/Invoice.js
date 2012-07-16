@@ -30,8 +30,7 @@ define("bba/Invoice",
 [
     "bba/Core",
     "bba/Meter",
-    "bba/Contract",
-    "dijit/form/ValidationTextBox"
+    "bba/Contract"
 ],
     function(core, meter, contract){
 
@@ -73,8 +72,24 @@ define("bba/Invoice",
             ]
         },
 
-        invoiceGridRowClick : function(grid)
+        init : function()
         {
+            core.addDataStore('invoiceStore', core.storeUrls.invoice);
+
+            core.addGrid({
+                id : 'invoiceGrid',
+                store : core.dataStores.invoiceStore,
+                structure : this.gridLayouts.invoice,
+                sortInfo : '-1',
+                onRowClick : function() {
+                     this.invoiceGridRowClick();
+                }.bind(this)
+            });
+        },
+
+        invoiceGridRowClick : function()
+        {
+            grid = core.grids.invoiceGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'invoice_idInvoice');
@@ -85,11 +100,12 @@ define("bba/Invoice",
 
         showInvoiceTab : function(id, tabTitle)
         {
+            soreId = 'invoiceLinesStore'+id;
+
             core.openTab({
                 tabId : 'invoice' + id,
                 title : (tabTitle) ? tabTitle : 'Invoice',
                 url : './invoice/invoice',
-
                 content : {
                     type : 'details',
                     invoice_idInvoice : id
@@ -129,21 +145,6 @@ define("bba/Invoice",
                     );
                     break;
             }
-
-            /*bba.Meter.showMeterTab(
-                grid.store.getValue(selectedItem, 'meter_idMeter'),
-                bba.tabPrefix.meter + grid.store.getValue(selectedItem, 'meter_numberMain')
-            );
-
-            bba.Contract.showContractTab(
-                grid.store.getValue(selectedItem, 'contract_idContract'),
-                bba.tabPrefix.contract + grid.store.getValue(selectedItem, 'contract_idContract')
-            );
-
-            bba.Invoice.showInvoiceLineTab(
-                grid.store.getValue(selectedItem, 'invoiceLine_idInvoiceLine'),
-                bba.tabPrefix.invoiceLine + grid.store.getValue(selectedItem, 'invoiceLine_idInvoiceLine')
-            );*/
         },
 
         invoiceUsageGridRowClick : function(grid)

@@ -86,7 +86,9 @@ class Power_Model_DbTable_Invoice extends ZendSF_Model_DbTable_Abstract
         }
 
         if (!$search['supplier'] == '') {
-            $select->orWhere('supplier_name like ?', '%' . $search['supplier'] . '%');
+            $select->orWhere('invoice_nameSupplier like ?', '%' . $search['supplier'] . '%')
+                ->orWhere('supplier_name like ?', '%' . $search['supplier'] . '%')
+                ->orWhere('supplier_nameShort like ?', '%' . $search['supplier'] . '%');
         }
 
         return $select;

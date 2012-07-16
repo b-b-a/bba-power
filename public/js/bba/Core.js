@@ -58,14 +58,14 @@ define("bba/Core",
     "dijit/layout/ContentPane",
     "dijit/Dialog",
     "dojox/grid/DataGrid",
+    "dojox/data/QueryReadStore",
     "dijit/layout/StackContainer",
     "dijit/layout/BorderContainer",
     "dijit/layout/TabContainer",
-    "dojox/data/QueryReadStore",
     "dijit/form/Form",
     "dijit/form/Button"
 ],
-    function(dom, domConstruct, ready, parser, connect, xhr, array, lang, registry, cookie, json, WidgetSet, ContentPane, Dialog, DataGrid) {
+    function(dom, domConstruct, ready, parser, connect, xhr, array, lang, registry, cookie, json, WidgetSet, ContentPane, Dialog, DataGrid, QueryReadStore) {
 
     if (bbaModule != 'Auth') {
         ready(function () {
@@ -101,6 +101,15 @@ define("bba/Core",
         },
 
         deferredFunction : function() {},
+
+        storeUrls : {
+           invoice : './invoice/data-store/type/invoice',
+           invoiceLines : './invoice/data-store/type/invoice-lines'
+        },
+
+        dataStores : {},
+
+        grids : {},
 
         init : function()
         {
@@ -153,6 +162,23 @@ define("bba/Core",
                     tab.refreshOnShow = val;
                 });
             }
+        },
+
+        addDataStore : function(id, url)
+        {
+            this.dataStores[id] = new QueryReadStore({
+                url : url,
+                requestMethod : 'post'
+            });
+        },
+
+        addGrid : function(options)
+        {
+            this.grids[options.id] = new DataGrid(lang.mixin({
+                noDataMessage : this.gridMessage
+            }, options), dom.byId(options.id));
+            
+            this.grids[options.id].startup();
         },
 
         gridSearch : function(form, grid)
