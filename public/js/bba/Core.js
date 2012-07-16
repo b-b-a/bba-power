@@ -67,9 +67,11 @@ define("bba/Core",
 ],
     function(dom, domConstruct, ready, parser, connect, xhr, array, lang, registry, cookie, json, WidgetSet, ContentPane, Dialog, DataGrid) {
 
-    ready(function () {
-       bba.init();
-    });
+    if (bbaModule != 'Auth') {
+        ready(function () {
+            bba.init();
+        });
+    }
 
     bba = {
         gridMessage : '<span class="dojoxGridNoData">No records found matching query</span>',

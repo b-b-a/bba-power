@@ -162,6 +162,7 @@
                         structure: bba.Meter.gridLayouts.meterUsage,
                         query: { usage_idMeter: <?php echo $this->meter->meter_idMeter; ?> },
                         sortInfo: "-2",
+                        selectable: true,
                         noDataMessage : bba.gridMessage'>
                     <?php if ($this->isAllowed('MeterUsage')): ?>
                     <script type="dojo/method" data-dojo-event="onRowClick">
