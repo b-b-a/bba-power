@@ -121,13 +121,13 @@ define("bba/Invoice",
 
             switch (item) {
                 case 'meter_numberMain':
-                    meter.showMeterTab(
+                    bba.Meter.showMeterTab(
                         grid.store.getValue(selectedItem, 'meter_idMeter'),
                         grid.store.getValue(selectedItem, 'meter_numberMain')
                     );
                     break;
                 case 'contract_idContract':
-                    contract.showContractTab(
+                    bba.Contract.showContractTab(
                         grid.store.getValue(selectedItem, 'contract_idContract'),
                         grid.store.getValue(selectedItem, 'contract_idContract')
                     );
