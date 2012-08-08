@@ -207,7 +207,7 @@
                            store: meterInvoiceLinesStore<?php echo $this->meter->meter_idMeter; ?>,
                            structure: bba.Meter.gridLayouts.invoiceLines,
                            query: { invoiceLine_idMeter: <?php echo $this->meter->meter_idMeter; ?> },
-                           sortInfo: "-2",
+                           sortInfo: "-4",
                            noDataMessage : bba.gridMessage'>
                     <script type="dojo/method" data-dojo-event="onCellClick" args="e">
                         var colField = e.cell.field

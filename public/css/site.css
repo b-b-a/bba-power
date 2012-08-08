@@ -310,6 +310,22 @@ a:hover {
     width: auto;
 }
 
+table.zend_form {
+	margin-left: auto;
+	margin-right: auto;
+	border-collapse: separate;
+	border-spacing: 0px 5px;
+}
+
+.zend_form th {
+	font-weight: bold;
+	text-align: right;
+}
+
+.submitElement {
+	text-align: center;
+}
+
 .zend_form .errors {
     color: #f00;
 }

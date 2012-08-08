@@ -37,8 +37,21 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Auth_Login extends BBA_Dojo_Form_Abstract
+class Power_Form_Auth_Login extends ZendSF_Dojo_Form_Abstract
 {
+    protected $_defaultDecorators = array(
+        'Description',
+        'FormElements',
+        array(
+            'HtmlTag',
+            array(
+                'tag'   => 'table',
+                'class' => 'zend_form'
+            )
+        ),
+        'DijitForm'
+    );
+    
     public function init()
     {
         $this->setName('auth');
@@ -54,8 +67,43 @@ class Power_Form_Auth_Login extends BBA_Dojo_Form_Abstract
             'required'  => true,
             'filters'   => array('StringTrim', 'StripTags')
         ));
+        
+        $this->addElement('Button', 'loginSubmitButton', array(
+                'required'  => false,
+                'ignore'    => true,
+                'decorators'    => $this->_submitDecorators,
+                'label'     => 'Submit',
+                'value'     => 'Submit',
+                'attribs' => array('type' => 'submit')
+        ));
+        
+        $this->addDisplayGroup(
+            array(
+                'loginSubmitButton',
+            ),
+            'Buttons',
+            array(
+                'decorators' => array(
+                    'FormElements',
+                    array(
+                        array('data' => 'HtmlTag'),
+                        array(
+                            'tag' => 'td',
+                            'class' => 'submitElement',
+                            'colspan' => '2'
+                        )
+                    ),
+                    array(
+                        array('row' => 'HtmlTag'),
+                        array(
+                            'tag' => 'tr',
+                            'class' => 'form_row'
+                        )
+                    )
+                )
+            )
+        );
 
-        $this->addSubmit('Login', 'loginSubmitButton');
         $this->addHash('csrf');
     }
 }
