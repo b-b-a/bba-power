@@ -52,7 +52,9 @@ abstract class BBA_Model_DbTable_Abstract extends ZendSF_Model_DbTable_Abstract
     public function init() {
         parent::init();
         
-        $this->_rowPrefix = strstr($this->_primary, '_', true);
+        $primary = (is_string($this->_primary)) ? $this->_primary : $this->_primary[0];
+        
+        $this->_rowPrefix = strstr($primary, '_', true);
     }
 
     protected function _checkConstraints($data)

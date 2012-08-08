@@ -354,6 +354,30 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         // get filtered values, this also uploads the files.
         $data = $docForm->getValues();
+        
+        $log = Zend_Registry::get('log');
+        $log->info($id);
+        
+        // add meter to contract if set.
+        if ($post['meter_idMeter']) {
+        	$meterId = (int) $post['meter_idMeter'];
+        	$row = $this->getDbTable('meter')
+        		->getMeterById($meterId)
+        		->getCurrentContract();
+        	
+        	$meterContract = $this->saveMetersToContract(array(
+				'jsonData' => Zend_Json::encode(array(
+					'contract' => $id,
+					'meters' => array(
+						array(
+							'id' => $meterId,
+							'kva' => ($row->meterContract_kvaNominated) ? $row->meterContract_kvaNominated : 0,
+							'eac' => ($row->meterContract_eac) ? $row->meterContract_eac : 0
+						)
+					)
+				)
+        	)));
+        }
 
         return $id;
     }

@@ -56,23 +56,23 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
         'meter_dateModify'
     );
     
-    public function getShortDesc()
-    {
-        $desc = $this->getRow()->meter_desc;
-        
-        if (strlen($desc) > 200) {
-            $desc = substr($desc, 0, 200);
-        }
-        
-        return $desc;
-    }
-
     /**
      * Date format used in the toArray method.
      *
      * @var string
      */
     protected $_dateFormat = 'dd/MM/yyyy';
+    
+    public function getShortDesc()
+    {
+    	$desc = $this->getRow()->meter_desc;
+    
+    	if (strlen($desc) > 200) {
+    		$desc = substr($desc, 0, 200);
+    	}
+    
+    	return $desc;
+    }
 
     public function getMeter_numberMain()
     {

@@ -225,6 +225,16 @@
         <div class="tableHead">
             <?php if ($this->isAllowed('MeterUsage')): ?>
             <p class="tableHead-button">
+            	<button data-dojo-type="dijit.form.Button">
+                    New Contract
+                    <script type="dojo/method" data-dojo-event="onClick">
+                        bba.Contract.newContractButtonClick({
+                            contract_idClient : <?php echo $site->site_idClient; ?>,
+							meter_idMeter : <?php echo $this->meter->meter_idMeter; ?>,
+							meter_type : '<?php echo $this->meter->meter_type; ?>'
+                        });
+                    </script>
+                </button>
                 <button data-dojo-type="dijit.form.Button"
                         data-dojo-props="onClick: bba.Meter.newUsageButtonClick"
                         type="button"

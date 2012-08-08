@@ -135,6 +135,7 @@ class Power_ContractController extends Zend_Controller_Action
                 && $request->isPost()) {
 
             $form = $this->_getForm('contractSave', 'save-contract');
+            $form->populate($request->getPost());
             $docForm = $this->_getForm('docContract', 'save-contract');
 
             $this->view->assign(array(

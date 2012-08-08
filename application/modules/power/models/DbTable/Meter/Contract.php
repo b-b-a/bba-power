@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Meter_Contract extends ZendSF_Model_DbTable_Abstract
+class Power_Model_DbTable_Meter_Contract extends BBA_Model_DbTable_Abstract
 {
     /**
      * @var string database table
