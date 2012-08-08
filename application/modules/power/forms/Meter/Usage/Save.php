@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Meter_Usage_Save extends ZendSF_Dojo_Form_Abstract
+class Power_Form_Meter_Usage_Save extends BBA_Dojo_Form_Abstract
 {
     public function init()
     {
