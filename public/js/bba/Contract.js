@@ -136,11 +136,11 @@ define("bba/Contract",
             core.addGrid({
                 id : 'contractGrid',
                 store : core.dataStores.contractStore,
-                structure : this.gridLayouts.contract,
+                structure : bba.Contract.gridLayouts.contract,
                 sortInfo : '2',
                 onRowClick : function() {
-                     this.contractGridRowClick();
-                }.bind(this)
+                     bba.Contract.contractGridRowClick();
+                }
             });
         },
 
@@ -396,7 +396,7 @@ define("bba/Contract",
                     registry.byId('contract' + data.contract_idContract).refresh();
                 }
 
-                if (dom.byId('contractGrid')) contractGrid._refresh();
+                if (registry.byId('contractGrid')) registry.byId('contractGrid')._refresh();
 
                 if (bba.config.confirmBox) {
                     confirm.show();

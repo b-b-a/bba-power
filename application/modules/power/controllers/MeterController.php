@@ -74,13 +74,16 @@ class Power_MeterController extends Zend_Controller_Action
 
             switch ($request->getParam('type')) {
                 case 'meter':
-                    $data = $this->_model->getMeterDataStore($request->getPost());
+                    $data = $this->_model->getCached('meter')
+                    	->getMeterDataStore($request->getPost());
                     break;
                 case 'contract':
-                    $data = $this->_model->getMeterContractDataStore($request->getPost());
+                    $data = $this->_model->getCached('meterContract')
+                    	->getMeterContractDataStore($request->getPost());
                     break;
                 case 'usage':
-                    $data = $this->_model->getUsageDataStore($request->getPost());
+                    $data = $this->_model->getCached('usage')
+                    	->getUsageDataStore($request->getPost());
                     break;
                 default :
                     $data = '{}';

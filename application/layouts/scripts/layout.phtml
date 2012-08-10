@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="<?php echo $this->baseUrl('css/text.css'); ?>" type="text/css" />
         
         <script type="text/javascript">
-            bbaModule = '<?php echo ucfirst($this->request()->getControllerName()); ?>';
+           var bbaModule = '<?php echo ucfirst($this->request()->getControllerName()); ?>';
         </script>
 
         <?php echo $this->headLink() ?>
@@ -50,8 +50,8 @@
              data-dojo-type="dijit.layout.ContentPane"
              data-dojo-props="region: 'top'">
              <h1>BBA Power Data Base System </h1>
-             <span id="version"><?php echo $this->version(); ?><span>
-             <span id="dojoVersion"><span>
+             <span id="version"><?php echo $this->version(); ?></span>
+             <span id="dojoVersion"></span>
         </div>
 
         <div id="leftPanel" class="edgePanel"
@@ -71,7 +71,7 @@
                            data-dojo-props="iconClass:'dijitCheckBoxIcon'"
                            id="tabRefreshButton">
                     Tab Refresh
-                    <script type="dojo/method" data-dojo-event="onChange" args="val">
+                    <script type="dojo/method" data-dojo-event="onChange" data-dojo-args="val">
                         bba.setPref(this, val);
                     </script>
                 </button></p>
@@ -79,8 +79,15 @@
                            data-dojo-props="iconClass:'dijitCheckBoxIcon', checked: true"
                            id="confirmBoxButton">
                     Confirmation
-                    <script type="dojo/method" data-dojo-event="onChange" args="val">
+                    <script type="dojo/method" data-dojo-event="onChange" data-dojo-args="val">
                         bba.setPref(this, val);
+                    </script>
+                </button></p>
+                <p><button data-dojo-type="dijit.form.Button"
+                           id="clearCacheButton">
+                    Clear Cache
+                    <script type="dojo/method" data-dojo-event="onClick">
+                        bba.clearCache();
                     </script>
                 </button></p>
             </div>

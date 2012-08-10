@@ -76,11 +76,11 @@ define("bba/Supplier",
             core.addGrid({
                 id : 'supplierGrid',
                 store : core.dataStores.supplierStore,
-                structure : this.gridLayouts.supplier,
+                structure : bba.Supplier.gridLayouts.supplier,
                 sortInfo : '2',
                 onRowClick : function() {
-                     this.supplierGridRowClick();
-                }.bind(this)
+                     bba.Supplier.supplierGridRowClick();
+                }
             });
         },
 

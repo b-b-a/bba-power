@@ -90,11 +90,11 @@ define("bba/Site",
             core.addGrid({
                 id : 'siteGrid',
                 store : core.dataStores.siteStore,
-                structure : this.gridLayouts.site,
+                structure : bba.Site.gridLayouts.site,
                 sortInfo : '2',
                 onRowClick : function() {
-                     this.siteGridRowClick();
-                }.bind(this)
+                     bba.Site.siteGridRowClick();
+                }
             });
         },
 

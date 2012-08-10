@@ -368,6 +368,27 @@ define("bba/Core",
         docFileList : function(fileArray, id)
         {
             dom.byId(id).innerHTML = fileArray[0].name;
+        },
+        
+        clearCache : function()
+        {
+        	xhr.post({
+                url: './clear-cache',
+                handleAs: 'text',
+                preventCache: true,
+                load: function(data) {
+                    dom.byId('dialog').innerHTML = data;
+                    parser.parse('dialog');
+                    dialog = registry.byId('confirm');
+
+                    bba.setupDialog(dialog);
+
+                    dialog.show();
+                },
+                error: function(error) {
+                    bba.showXhrError(error);
+                }
+            });
         }
     };
 

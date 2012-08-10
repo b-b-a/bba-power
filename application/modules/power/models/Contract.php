@@ -378,6 +378,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 				)
         	)));
         }
+        
+        $this->clearCache(array('contract'));
 
         return $id;
     }
@@ -436,6 +438,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
                     ->deleteRow($row['meterContract_idMeter'], $row['meterContract_idContract']);
             }
         }
+        
+        $this->clearCache(array('meterContract'));
 
         return $result;
     }
@@ -476,6 +480,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         $tender = array_key_exists('tender_idTender', $data) ?
             $this->getTenderById($data['tender_idTender']) : null;
+        
+        $this->clearCache(array('tender'));
 
         return $this->getDbTable('tender')->saveRow($data, $tender);
     }

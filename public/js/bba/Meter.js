@@ -64,6 +64,7 @@ define("bba/Meter",
                 {field: 'usage_usageOther', width: '100px', name: 'Other'},
                 {field: 'usage_usageTotal', width: '100px', name: 'Total Usage'},
                 {field: 'usage_dateBill', width: '100px', name: 'Bill Date'},
+                {field: 'invoiceUsage_idInvoiceLine', width: '100px', name: 'Invoice Line Id'},
                 {field: '', width: 'auto', name: ''}
             ],
             contract : [
@@ -102,11 +103,11 @@ define("bba/Meter",
             core.addGrid({
                 id : 'meterGrid',
                 store : core.dataStores.meterStore,
-                structure : this.gridLayouts.meter,
+                structure : bba.Meter.gridLayouts.meter,
                 sortInfo : '2',
                 onRowClick : function() {
-                     this.meterGridRowClick();
-                }.bind(this)
+                     bba.Meter.meterGridRowClick();
+                }
             });
         },
 

@@ -64,19 +64,17 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initPluginLoaderCache()
     {
-        if ('production' == $this->getEnvironment()) {
-            $classFileIncCache =
-                APPLICATION_PATH .
-                '/../data/cache/pluginLoaderCache.php';
+        $classFileIncCache =
+            APPLICATION_PATH .
+            '/../data/cache/pluginLoaderCache.php';
 
-            if (file_exists($classFileIncCache)) {
-                include_once $classFileIncCache;
-            }
-
-            Zend_Loader_PluginLoader::setIncludeFileCache(
-                $classFileIncCache
-            );
+        if (file_exists($classFileIncCache)) {
+            include_once $classFileIncCache;
         }
+
+        Zend_Loader_PluginLoader::setIncludeFileCache(
+            $classFileIncCache
+        );
     }
 
     /**

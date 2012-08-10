@@ -89,11 +89,11 @@ define("bba/Client",
             core.addGrid({
                 id : 'clientGrid',
                 store : core.dataStores.clientStore,
-                structure : this.gridLayouts.client,
+                structure : bba.Client.gridLayouts.client,
                 sortInfo : '2',
                 onRowClick : function() {
-                     this.clientGridRowClick();
-                }.bind(this)
+                     bba.Client.clientGridRowClick();
+                }
             });
         },
 

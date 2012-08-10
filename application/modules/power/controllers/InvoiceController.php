@@ -139,13 +139,16 @@ class Power_InvoiceController extends Zend_Controller_Action
 
             switch ($request->getParam('type')) {
                 case 'invoice':
-                    $data = $this->_model->getInvoiceDataStore($request->getPost());
+                    $data = $this->_model->getCached('invoice')
+                    	->getInvoiceDataStore($request->getPost());
                     break;
                 case 'invoice-lines':
-                    $data = $this->_model->getInvoiceLinesDataStore($request->getPost());
+                    $data = $this->_model->getCached('invoiceLines')
+                    	->getInvoiceLinesDataStore($request->getPost());
                     break;
                 case 'invoice-usage':
-                    $data = $this->_model->getInvoiceUsageDataStore($request->getPost());
+                    $data = $this->_model->getCached('invoiceUsage')
+                    	->getInvoiceUsageDataStore($request->getPost());
                     break;
                 default :
                     $data = '{}';

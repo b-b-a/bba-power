@@ -75,13 +75,16 @@ class Power_ClientController extends Zend_Controller_Action
 
             switch ($request->getParam('type')) {
                 case 'client':
-                    $data = $this->_model->getClientDataStore($request->getPost());
+                    $data = $this->_model->getCached('client')
+                    	->getClientDataStore($request->getPost());
                     break;
                 case 'address':
-                    $data = $this->_model->getClientAddressDataStore($request->getPost());
+                    $data = $this->_model->getCached('clientAddress')
+                    	->getClientAddressDataStore($request->getPost());
                     break;
                 case 'personnel':
-                    $data = $this->_model->getClientPersonnelDataStore($request->getPost());
+                    $data = $this->_model->getCached('clientPersonnel')
+                    	->getClientPersonnelDataStore($request->getPost());
                     break;
                 default :
                     $data = '{}';

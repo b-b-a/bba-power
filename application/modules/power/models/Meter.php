@@ -188,6 +188,8 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
 
         $meter = array_key_exists('meter_idMeter', $data) ?
             $this->getMeterById($data['meter_idMeter']) : null;
+            
+        $this->clearCache(array('meter'));
 
         return $this->getDbTable('meter')->saveRow($data, $meter);
     }
@@ -237,6 +239,8 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
 
         $meter = array_key_exists('usage_idUsage', $data) ?
             $this->getUsageById($data['usage_idUsage']) : null;
+        
+        $this->clearCache(array('usage'));
 
         return $this->getDbTable('meterUsage')->saveRow($data, $meter);
     }

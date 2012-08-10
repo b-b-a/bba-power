@@ -91,10 +91,14 @@ class Power_Model_DbTable_Meter_Usage extends BBA_Model_DbTable_Abstract
 
     protected function _getSearchUsageSelect(array $search)
     {
-        $select = $this->select()
+        $select = $this->select(false)->setIntegrityCheck(false)
             ->from('pusage')
             ->columns(array(
+            	'*',
                 'usage_usageTotal' => '(usage_usageDay + usage_usageNight + usage_usageOther)'
+            ))
+            ->joinLeft('invoice_usage', 'usage_idUsage = invoiceUsage_idUsage', array(
+            	'invoiceUsage_idInvoiceLine'	
             ))
             ->where('usage_idMeter = ?', $search['usage_idMeter']);
 

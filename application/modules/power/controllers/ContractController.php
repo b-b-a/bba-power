@@ -74,18 +74,21 @@ class Power_ContractController extends Zend_Controller_Action
 
             switch ($request->getParam('type')) {
                 case 'contract':
-                    $data = $this->_model->getContractDataStore($request->getPost());
+                    $data = $this->_model->getCached('contract')
+                    	->getContractDataStore($request->getPost());
                     break;
                 case 'meter':
                     $data = $this->_model->getMeterContractDataStore($request->getPost());
                     break;
                 case 'availableMeters':
-                     $data = $this->_model->getAvailableMetersDataStore(
+                     $data = $this->_model->getCached('meterContract')
+                     	->getAvailableMetersDataStore(
                         $request->getParam('meterContract_idContract')
                     );
                     break;
                 case 'tender':
-                    $data = $this->_model->getTenderDataStore($request->getPost());
+                    $data = $this->_model->getCached('tender')
+                    	->getTenderDataStore($request->getPost());
                     break;
                 default :
                     $data = '{}';

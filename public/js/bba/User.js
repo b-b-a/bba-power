@@ -57,11 +57,11 @@ define("bba/User",
             core.addGrid({
                 id : 'userGrid',
                 store : core.dataStores.userStore,
-                structure : this.gridLayouts.user,
+                structure : bba.User.gridLayouts.user,
                 sortInfo : '2',
                 onRowClick : function() {
-                     this.userGridRowClick();
-                }.bind(this)
+                     bba.User.userGridRowClick();
+                }
             });
         },
 

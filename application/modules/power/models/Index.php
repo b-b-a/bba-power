@@ -1,6 +1,6 @@
 <?php
 /**
- * IndexController.php
+ * Index.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -21,47 +21,37 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage Controller
+ * @subpackage Model
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Controller Class IndexController.
+ * Index model.
  *
  * @category   BBA
  * @package    Power
- * @subpackage Controller
+ * @subpackage Model
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_IndexController extends Zend_Controller_Action
+class Power_Model_Index extends ZendSF_Model_Abstract
 {
-    /**
-     * Initialization code.
+/**
+     * Clears the cache completly.
+     * 
+     * @param string $tag
      */
-    public function init()
+    public function clearCache(array $tags)
     {
-        
-    }
-
-    /**
-     * Default action
-     */
-    public function indexAction()
-    {
-        return $this->_helper->redirector('index', 'meter');
-    }
-    
-    public function clearCacheAction()
-    {
-    	$this->_helper->layout->disableLayout();
+    	$cache = $this->getCached();
     	
-    	$model = new Power_Model_Index();
-    	
-    	$model->clearCache(array());
+    	if ($this->_cache instanceof ZendSF_Model_Cache_Abstract) {
+    		
+	    	$cache->getCache()
+	    		->clean(Zend_Cache::CLEANING_MODE_ALL);
+    	}
     }
-
 }

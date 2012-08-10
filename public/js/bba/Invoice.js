@@ -79,11 +79,11 @@ define("bba/Invoice",
             core.addGrid({
                 id : 'invoiceGrid',
                 store : core.dataStores.invoiceStore,
-                structure : this.gridLayouts.invoice,
+                structure : bba.Invoice.gridLayouts.invoice,
                 sortInfo : '-1',
                 onRowClick : function() {
-                     this.invoiceGridRowClick();
-                }.bind(this)
+                     bba.Invoice.invoiceGridRowClick();
+                }
             });
         },
 

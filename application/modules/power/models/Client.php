@@ -251,7 +251,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
             $post['client_idClient'] = $clientSave;
             $post['client_idAddress'] = $clientAdSave;
-            $post['client_idClientPersonnel'] = $clientCoSave;
+            $post['client_idClientPersonnel'] = $clientPersSave;
             $clientSave = $this->_saveClient($post);
 
             $newSite = array(
@@ -344,6 +344,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
         $client = array_key_exists('client_idClient', $data) ?
             $this->getClientById($data['client_idClient']) : null;
+        
+        $this->clearCache(array('client'));
 
         return $this->getDbTable('client')->saveRow($data, $client);
     }
@@ -405,6 +407,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     {
         $clientAd = array_key_exists('clientAd_idAddress', $data) ?
             $this->getClientAddressById($data['clientAd_idAddress']) : null;
+        
+        $this->clearCache(array('clientAddress'));
 
         return $this->getDbTable('clientAddress')->saveRow($data, $clientAd);
     }
@@ -449,6 +453,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     {
         $clientPers = array_key_exists('clientPers_idClientPersonnel', $data) ?
             $this->getClientPersonnelById($data['clientPers_idClientPersonnel']) : null;
+        
+        $this->clearCache(array('clientPersonnel'));
 
         return $this->getDbTable('clientPersonnel')->saveRow($data, $clientPers);
     }
