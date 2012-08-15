@@ -383,11 +383,13 @@ define("bba/Contract",
         processContractForm : function()
         {
             bba.closeDialog(contractForm);
+            pageStandby.show();
 
             data = arguments[0];
 
             dom.byId('dialog').innerHTML = data.html;
             parser.parse('dialog');
+            pageStandby.hide();
 
             if (data.error) {
                 error.show();
@@ -415,7 +417,7 @@ define("bba/Contract",
         processTenderForm : function()
         {
             //bba.closeDialog(tenderForm);
-
+        	pageStandby.show();
             values = arguments[0];
             values.type = (values.tender_idTender) ? 'edit' : 'add';
 
@@ -427,7 +429,8 @@ define("bba/Contract",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
-
+                    pageStandby.hide();
+                    
                     if (data.error) {
                         error.show();
                     } else if (data.saved > 0) {

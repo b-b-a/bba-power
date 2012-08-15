@@ -245,7 +245,7 @@ define("bba/Client",
         clientFormValidate : function()
         {
             formValues = clientForm.getValues();
-
+            
             if (!formValues.client_docLoa[0]) {
                 return clientForm.validate();
             }
@@ -290,10 +290,12 @@ define("bba/Client",
         processClientForm : function()
         {
             bba.closeDialog(clientForm);
+            pageStandby.show();
             data = arguments[0];
 
             dom.byId('dialog').innerHTML = data.html;
             parser.parse('dialog');
+            pageStandby.hide();
 
             if (data.error) {
                 error.show();
@@ -317,7 +319,7 @@ define("bba/Client",
         processClientAdForm : function()
         {
             //bba.closeDialog(clientAdForm);
-
+        	pageStandby.show();
             values = arguments[0];
             values.type = (values.clientAd_idAddress) ? 'edit' : 'add';
 
@@ -329,6 +331,7 @@ define("bba/Client",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
+                    pageStandby.hide();
 
                     if (data.error) {
                         error.show();
@@ -355,7 +358,7 @@ define("bba/Client",
         processClientPersForm : function()
         {
             //bba.closeDialog(clientCoForm);
-
+        	pageStandby.show();
             values = arguments[0];
             values.type = (values.clientPers_idClientPersonnel) ? 'edit' : 'add';
 
@@ -367,6 +370,7 @@ define("bba/Client",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
+                    pageStandby.hide();
 
                     if (data.error) {
                         error.show();
@@ -393,16 +397,52 @@ define("bba/Client",
 
         setupDocEvents : function()
         {
-            connect.connect(dom.byId('client_docLoa_file'), "onclick", function(){
+            docClick = connect.connect(dom.byId('client_docLoa_file'), "onclick", function(){
                 query('input[name=client_docLoa]')[0].click();
             });
 
-            connect.connect(client_docLoa, "onChange", function(fileArray){
+            docChange = connect.connect(client_docLoa, "onChange", function(fileArray){
                 bba.docFileList(fileArray, 'client_docLoa_file');
             });
+            
+            docComplete = connect.connect(client_docLoa, "onComplete", this, this.processClientForm);
+            docError = connect.connect(client_docLoa, "onError", this, this.processClientForm);
+        },
+        
+        wizardClientPane : function()
+        {
+        	clientForm.attr('title', 'Client Information');
+        	if (typeof docClick == 'undefined'){
+        		bba.Client.setupDocEvents();
+        	}
+        },
+        
+        wizardClientAdPane : function()
+        {
+        	clientForm.attr('title', 'Main (HQ) Address');
+            dijit.byId('clientAd_addressName').attr('value', dijit.byId('client_name').attr('value'));
+        },
+        
+        wizardClientPersPane : function()
+        {
+        	clientForm.attr('title', 'Main Liaison for BBA');
+            dijit.byId('clientAd_addressName').set('value', dijit.byId('client_name').get('value'));
+        },
+        
+        wizardDoneFunction : function()
+        {
+        	if (clientForm.getValues().client_docLoa[0] && clientForm.getValues().client_dateExpiryLoa === '') {
+                bba.Client.clientLoaEmptyDialog();
+                return false;
+            }
 
-            connect.connect(client_docLoa, "onComplete", this, this.processClientForm);
-            connect.connect(client_docLoa, "onError", this, this.processClientForm);
+            if (!clientForm.validate()) {
+                alert('Please recheck all form entries for mistakes.');
+                return false;
+            }
+
+            var vals = clientForm.get('value');
+            client_docLoa.submit(vals);
         }
     };
 

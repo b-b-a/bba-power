@@ -1,10 +1,3 @@
-<?php
-$form = $this->clientSaveForm;
-
-/* @var $docForm Zend_Form */
-$docForm = $this->docForm;
-?>
-
 <div data-dojo-type="dijit.Dialog"
      id="clientForm"
      data-dojo-id="clientForm"
@@ -12,59 +5,22 @@ $docForm = $this->docForm;
         title:'Edit Client',
         execute: bba.Client.processClientForm">
     <div class="dijitDialogPaneContentArea">
-
-        <div class="dialog_title">
-
-        </div>
-
         <div class="form_wrap">
             <div class="zend_form">
-                <form method="post" action="<?php echo $this->url(array(
-                    'controller'    => 'client',
-                    'action'        => 'save-client',
-                    'module'        => 'power'
+            	<form method="post" action="<?php echo $this->url(array(
+                    'controller' => 'client',
+                    'action' => 'save-client',
+                    'module' => 'power'
                 ), 'default'); ?>" enctype="multipart/form-data">
-
-                <?php echo $form->client_name; ?>
-
-                <?php echo $form->client_idAddress; ?>
-
-                <?php echo $form->client_idClientPersonnel; ?>
-
-                <?php echo $docForm->client_docLoa; ?>
-
-                <?php echo $form->client_dateExpiryLoa; ?>
-
-                <?php echo $form->client_desc; ?>
-
+                
+                	<?php echo $this->clientForm; ?>
+                	
+                </form>
                 <div class="dialog_footer_info">
                     <p class="required"> = required field</p>
                     <p class="warn">Cancel exits without saving</p>
                 </div>
                 <div class="clear"></div>
-
-                <input data-dojo-type="dijit.form.TextBox"
-                       type="hidden"
-                       name="client_idClient"
-                       id="client_idClient"
-                       required="true"
-                       value="<?php echo $form->client_idClient->getValue(); ?>" />
-
-                <input data-dojo-type="dijit.form.TextBox"
-                       type="hidden"
-                       name="type"
-                       id="type"
-                       value="edit" />
-
-                <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: function(){return bba.Client.clientFormValidate();}"
-                        type="submit"
-                        id="clientFormSubmitButton">Save</button>
-
-                <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('clientForm'));}"
-                        id="clientFormCancelButton">Cancel</button>
-                </form>
             </div>
         </div>
     </div>

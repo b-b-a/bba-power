@@ -50,8 +50,7 @@ define("bba/Site",
     "dijit/form/RadioButton",
     "dijit/form/NumberTextBox",
     "dijit/form/FilteringSelect",
-    "dijit/form/SimpleTextarea",
-    "dojox/widget/Standby"
+    "dijit/form/SimpleTextarea"
 ],
     function(dom, connect, parser, xhr, ItemFileReadStore, registry, core) {
 
@@ -307,6 +306,7 @@ define("bba/Site",
         processSiteForm : function()
         {
             //bba.closeDialog(siteForm);
+        	pageStandby.show();
 
             values = arguments[0];
             values.type = (values.site_idSite) ? 'edit' : 'add';
@@ -319,6 +319,7 @@ define("bba/Site",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
+                    pageStandby.hide();
 
                     if (data.error) {
                         error.show();

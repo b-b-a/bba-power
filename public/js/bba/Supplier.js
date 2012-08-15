@@ -165,6 +165,7 @@ define("bba/Supplier",
         processSupplierForm : function()
         {
             //bba.closeDialog(supplierForm);
+        	pageStandby.show();
 
             values = arguments[0];
             values.type = (values.supplier_idSupplier) ? 'edit' : 'add';
@@ -177,6 +178,7 @@ define("bba/Supplier",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
+                    pageStandby.hide();
 
                     if (data.error) {
                         error.show();
@@ -201,6 +203,7 @@ define("bba/Supplier",
         processSupplierPersForm : function()
         {
             //bba.closeDialog(supplierCoForm);
+        	pageStandby.show();
 
             values = arguments[0];
             values.type = (values.supplierPers_idSupplierPersonnel) ? 'edit' : 'add';
@@ -213,6 +216,7 @@ define("bba/Supplier",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
+                    pageStandby.hide();
 
                     if (data.error) {
                         error.show();

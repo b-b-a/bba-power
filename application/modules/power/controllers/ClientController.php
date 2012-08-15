@@ -134,7 +134,7 @@ class Power_ClientController extends Zend_Controller_Action
             $docForm = $this->_getForm('docClient', 'save-contract');
 
             $this->view->assign(array(
-                'clientAddForm' => $form,
+                'clientForm' 	=> $form,
                 'docForm'       => $docForm
             ));
 
@@ -154,16 +154,12 @@ class Power_ClientController extends Zend_Controller_Action
 
             $client = $this->_model->getClientById($request->getPost('client_idClient'));
 
-            $form = $this->_getForm('clientSave', 'save-client');
-            $docForm = $this->_getForm('docClient', 'save-contract');
-
+            $form = $this->_getForm('clientEdit', 'save-client');
             $form->populate($client->toArray('dd/MM/yyyy', true));
-            $docForm->populate($client->toArray('dd/MM/yyyy', true));
 
             $this->view->assign(array(
-                'client'            => $client,
-                'clientSaveForm'    => $form,
-                'docForm'           => $docForm
+                'client'        => $client,
+                'clientForm'    => $form
             ));
 
             if ($this->_request->getParam('type') == 'edit') {
@@ -205,7 +201,7 @@ class Power_ClientController extends Zend_Controller_Action
             $returnJson = array('saved' => $saved);
 
             if (false === $saved) {
-                $type = ($request->getPost('type') == 'add') ? 'Add' : 'Save';
+                $type = ($request->getPost('type') == 'add') ? 'Add' : 'Edit';
 
                 $form = $this->_getForm('client' . $type, 'save-client');
                 $docForm = $this->_getForm('docClient', 'save-contract');
@@ -213,8 +209,8 @@ class Power_ClientController extends Zend_Controller_Action
                 $docForm->populate($request->getPost());
 
                 $this->view->assign(array(
-                    'client' . $type . 'Form'   => $form,
-                    'docForm'                   => $docForm
+                    'clientForm'   => $form,
+                    'docForm'      => $docForm
                 ));
                 $html = $this->view->render('client/'. $request->getPost('type') .'-client-form.phtml');
                 $returnJson['html'] = $html;

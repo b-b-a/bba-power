@@ -27,7 +27,7 @@
  */
 
 /**
- * Core.
+ * Core.js
  *
  * @category   BBA
  * @package    JavaScript
@@ -63,7 +63,8 @@ define("bba/Core",
     "dijit/layout/BorderContainer",
     "dijit/layout/TabContainer",
     "dijit/form/Form",
-    "dijit/form/Button"
+    "dijit/form/Button",
+    "dojox/widget/Standby"
 ],
     function(dom, domConstruct, ready, parser, connect, xhr, array, lang, registry, cookie, json, WidgetSet, ContentPane, Dialog, DataGrid, QueryReadStore) {
 
@@ -137,7 +138,7 @@ define("bba/Core",
             for (id in bba.config) {
                 registry.byId(id+'Button').set(
                     'checked', this.config[id]
-                )
+                );
             }
 
             dom.byId("dojoVersion").innerHTML = 'dojo ' + dojo.version.toString();
@@ -271,6 +272,8 @@ define("bba/Core",
 
         openFormDialog : function(options)
         {
+        	pageStandby.show();
+        	
             def = xhr.post({
                 url: options.url,
                 content: options.content,
@@ -280,6 +283,7 @@ define("bba/Core",
                     dom.byId('dialog').innerHTML = data;
                     parser.parse('dialog');
                     dialog = registry.byId(options.dialog);
+                    pageStandby.hide();
 
                     if (dialog) {
                         bba.setupDialog(dialog);
@@ -318,6 +322,17 @@ define("bba/Core",
             dialog.destroyRecursive();
 
             if (funct) funct;
+        },
+        
+        /**
+         * Main process form function to try to optimise the js code better.
+         * This will reduced the code performance and make maintaince easier.
+         * 
+         * @todo performace tweeks
+         */
+        processForm : function()
+        {
+        	
         },
 
         errorDialog : function(data)

@@ -190,10 +190,10 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             throw new ZendSF_Acl_Exception('Insufficient rights');
         }
 
-        $log = Zend_Registry::get('log');
-
         // validate form.
         $form = $this->getForm('clientAdd');
+        $form->removeElement('client_docLoa');
+        
         /* @var $form Power_Form_Doc_Client */
         $docForm = $this->getForm('docClient');
 
@@ -265,7 +265,6 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $siteSave = $this->getDbTable('site')->saveRow($newSite, null);
 
         } catch (Exception $e) {
-            $log->info($e);
             $this->getDbTable('client')->getAdapter()->rollBack();
             return false;
         }
@@ -291,7 +290,9 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         }
 
         /* @var $form Power_Form_Client_Save */
-        $form = $this->getForm('clientSave');
+        $form = $this->getForm('clientEdit');
+        $form->removeElement('client_docLoa');
+        
         /* @var $form Power_Form_Doc_Client */
         $docForm = $this->getForm('docClient');
 

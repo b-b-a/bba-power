@@ -209,10 +209,37 @@ define("bba/Meter",
                 usageForm.show();
             }
         },
+        
+        /*
+        Check Digit
+        The final digit in the MPAN is the check digit, and validates the previous 12 (the core) using a modulus 11 test. The check digit is calculated thus:
+        Multiply the first digit by 3
+        Multiply the second digit by the next prime number (5)
+        Repeat this for each digit (missing 11 out on the list of prime numbers for the purposes of this algorithm.)
+        Add up all these products.
+        The check digit is the sum modulo 11 modulo 10.
+        */
+ 
+        checkMPAN : function(mpan) {
+            var primes = [3, 5, 7, 13, 17, 19, 23, 29, 31, 37, 41, 43];
+            var sum = 0;
+            var m = mpan.toString();
+ 
+            if ((m.length - 1) == primes.length) {
+                for (var i = 0; i < primes.length; i++) {
+                    sum += parseInt(m.charAt(i)) * primes[i];
+                }
+                return (((sum % 11 % 10) == m.charAt(12)) ? true : false);
+ 
+            } else {
+                return false;
+            }
+        },
 
         processMeterForm : function()
         {
             //bba.closeDialog(meterForm);
+        	pageStandby.show();
 
             values = arguments[0];
             values.type = (values.meter_idMeter) ? 'edit' : 'add';
@@ -225,6 +252,7 @@ define("bba/Meter",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
+                    pageStandby.hide();
 
                     if (data.error) {
                         error.show();
@@ -249,7 +277,7 @@ define("bba/Meter",
         processUsageForm : function()
         {
             //bba.closeDialog(usageForm);
-
+        	pageStandby.show();
             values = arguments[0];
             values.type = (values.usage_idUsage) ? 'edit' : 'add';
 
@@ -261,6 +289,7 @@ define("bba/Meter",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
+                    pageStandby.hide();
 
                     if (data.error) {
                         error.show();

@@ -11,63 +11,16 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
         title:'<?php echo $type; ?> Client Personnel Details',
         execute: bba.Client.processClientPersForm">
     <div class="dijitDialogPaneContentArea">
-
-        <div class="dialog_title">
-
-        </div>
-
         <div class="form_wrap">
             <div class="zend_form">
 
-                <?php echo $form->clientPers_type; ?>
-
-                <?php echo $form->clientPers_name; ?>
-
-                <?php if ($form->getElement('clientPers_idAddress')->helper == 'formHidden'): ?>
-                <input data-dojo-type="dijit.form.TextBox"
-                       type="hidden"
-                       name="clientPers_idAddress"
-                       id="clientPers_idAddress"
-                       required="true"
-                       value="<?php echo $form->clientPers_idAddress->getValue(); ?>" />
-                <?php else: ?>
-                <?php echo $form->clientPers_idAddress; ?>
-                <?php endif; ?>
-
-                <?php echo $form->clientPers_phone; ?>
-
-                <?php echo $form->clientPers_email; ?>
-
-                <?php echo $form->clientPers_position; ?>
+                <?php echo $form; ?>
 
                 <div class="dialog_footer_info">
                     <p class="required"> = required field</p>
                     <p class="warn">Cancel exits without saving</p>
                 </div>
                 <div class="clear"></div>
-
-                <input data-dojo-type="dijit.form.TextBox"
-                       type="hidden"
-                       name="clientPers_idClientPersonnel"
-                       id="clientPers_idClientPersonnel"
-                       required="true"
-                       value="<?php echo $form->clientPers_idClientPersonnel->getValue(); ?>" />
-
-                <input data-dojo-type="dijit.form.TextBox"
-                       type="hidden"
-                       name="clientPers_idClient"
-                       id="clientPers_idClient"
-                       required="true"
-                       value="<?php echo $form->clientPers_idClient->getValue(); ?>" />
-
-                <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: function(){return dijit.byId('clientPersForm').validate();}"
-                        type="submit"
-                        id="clientPersFormSubmitButton">Save</button>
-
-                <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('clientPersForm'));}"
-                        id="clientPersFormCancelButton">Cancel</button>
             </div>
         </div>
     </div>

@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_SearchBase extends BBA_Dojo_Form_Abstract
+class Power_Form_SearchBase extends ZendSF_Dojo_Form_Abstract
 {
     protected $_elementDecorators = array(
         'DijitElement',

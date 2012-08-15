@@ -10,54 +10,16 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
         title:'<?php echo $type; ?> Client Address',
         execute: bba.Client.processClientAdForm">
     <div class="dijitDialogPaneContentArea">
-
-        <div class="dialog_title">
-
-        </div>
-
         <div class="form_wrap">
             <div class="zend_form">
 
-                <?php echo $form->clientAd_address1; ?>
-
-                <?php echo $form->clientAd_address2; ?>
-
-                <?php echo $form->clientAd_address3; ?>
-
-                <?php echo $form->clientAd_postcode; ?>
-
-                <?php echo $form->clientAd_addressName; ?>
-
-
-
-                <input data-dojo-type="dijit.form.TextBox"
-                       type="hidden"
-                       name="clientAd_idClient"
-                       id="clientAd_idClient"
-                       required="true"
-                       value="<?php echo $form->clientAd_idClient->getValue(); ?>" />
-
-                <input data-dojo-type="dijit.form.TextBox"
-                       type="hidden"
-                       name="clientAd_idAddress"
-                       id="clientAd_idAddress"
-                       required="true"
-                       value="<?php echo $form->clientAd_idAddress->getValue(); ?>" />
+                <?php echo $form; ?>
 
                 <div class="dialog_footer_info">
                     <p class="required"> = required field</p>
                     <p class="warn">Cancel exits without saving</p>
                 </div>
                 <div class="clear"></div>
-
-                <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: function(){return dijit.byId('clientAdForm').validate();}"
-                        type="submit"
-                        id="clientAdFormSubmitButton">Save</button>
-
-                <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('clientAdForm'));}"
-                        id="clientAdFormCancelButton">Cancel</button>
             </div>
         </div>
     </div>

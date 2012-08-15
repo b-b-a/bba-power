@@ -68,7 +68,7 @@ abstract class Power_Form_Doc_Abstract extends ZendSF_Form_Abstract
                 'Errors',
                 'Description',
                 array(
-                    array('data' => 'HtmlTag'),
+                    array('filebutton' => 'HtmlTag'),
                     array(
                         'tag'   => 'p',
                         'class' => 'file-element'
@@ -82,18 +82,85 @@ abstract class Power_Form_Doc_Abstract extends ZendSF_Form_Abstract
                         'class' => 'file-element'
                     )
                 ),
+            	array(
+            		array('data' => 'HtmlTag'),
+            		array(
+            			'tag'   => 'td',
+            		)
+            	),
                 array(
                     'Label',
-                    array('tag' => 'p')
+                    array(
+                    	'tag' 	=> 'th',
+                    	'class' => 'label'
+                    )
                 ),
                 array(
                     array('row' => 'HtmlTag'),
                     array(
-                        'tag'   => 'div',
+                        'tag'   => 'tr',
                         'class' => 'file-form_row'
                     )
                 )
             )
         ));
+    }
+    
+    public function createFormElementContract($name, $label)
+    {
+    	$fileTypeString = '.' . implode(', .', array_keys(Power_Model_Doc::$mimeMap));
+    
+    	$this->addElement('file', $name, array(
+    			'label'         => 'New ' . $label . ' Doc:',
+    			'filters'       => array('StripTags', 'StringTrim'),
+    			'validators'    => array(
+    					array('Count', false, array(1)),
+    					array('Extension', false, array(
+    							implode(',', array_keys(Power_Model_Doc::$mimeMap)),
+    							'messages' => array(
+    									Zend_Validate_File_Extension::FALSE_EXTENSION => "File '%value%' is not allowed. Only " . $fileTypeString . " types can be stored."
+    							)
+    					))
+    			),
+    			'destination'   => realpath(APPLICATION_PATH . '/../bba-power-docs/' . $name),
+    			'required'      => false,
+    			'attribs'       => array(
+    					'data-dojo-type'    => 'dojox.form.Uploader',
+    					'data-dojo-id'      => $name,
+    					'data-dojo-props'   => "label: 'Choose " . $label . " File'",
+    					'force'             => "iframe"
+    			),
+    			'decorators'    => array(
+    					'File',
+    					'Errors',
+    					'Description',
+    					array(
+    							array('data' => 'HtmlTag'),
+    							array(
+    									'tag'   => 'p',
+    									'class' => 'file-element'
+    							)
+    					),
+    					array(
+    							array('filename' => 'HtmlTag'),
+    							array(
+    									'tag'   => 'p',
+    									'id'    => $name . '_file',
+    									'class' => 'file-element'
+    							)
+    					),
+    					array(
+    							'Label',
+    							array('tag' => 'p')
+    					),
+    					array(
+    							array('row' => 'HtmlTag'),
+    							array(
+    									'tag'   => 'div',
+    									'class' => 'file-form_row'
+    							)
+    					)
+    			)
+    	));
     }
 }
