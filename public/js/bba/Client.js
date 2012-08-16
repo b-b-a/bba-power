@@ -43,6 +43,7 @@ define("bba/Client",
     "dojox/widget/Wizard",
     "dijit/form/ValidationTextBox",
     "dijit/form/FilteringSelect",
+    "dijit/form/CheckBox",
     "dijit/form/SimpleTextarea",
     "dojox/form/Uploader",
     "dojox/form/uploader/plugins/IFrame"
@@ -407,18 +408,39 @@ define("bba/Client",
             
             docComplete = connect.connect(client_docLoa, "onComplete", this, this.processClientForm);
             docError = connect.connect(client_docLoa, "onError", this, this.processClientForm);
+            
+            connect.connect(registry.byId('client_registeredCompany'), "onClick", function(){
+            	if (this.get('value')) {
+            		registry.byId('client_numberCompany').set('value', 'Not a Registered Company');
+            	} else {
+            		registry.byId('client_numberCompany').set('value', '');
+            	}
+            });
+            
+            connect.connect(registry.byId('client_registeredVAT'), "onClick", function(){
+            	if (this.get('value')) {
+            		registry.byId('client_numberVAT').set('value', 'Not VAT Registered');
+            	} else {
+            		registry.byId('client_numberVAT').set('value', '');
+            	}
+            });
         },
         
         wizardClientPane : function()
         {
         	clientForm.attr('title', 'Client Information');
-        	if (typeof docClick == 'undefined'){
-        		bba.Client.setupDocEvents();
-        	}
+        	bba.Client.setupDocEvents();
         },
         
         wizardClientAdPane : function()
         {
+        	if (typeof docClick != 'undefined'){
+	        	connect.disconnect(docClick);
+	        	connect.disconnect(docChange);
+	        	connect.disconnect(docComplete);
+	        	connect.disconnect(docError);
+        	}
+        	
         	clientForm.attr('title', 'Main (HQ) Address');
             dijit.byId('clientAd_addressName').attr('value', dijit.byId('client_name').attr('value'));
         },

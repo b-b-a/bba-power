@@ -204,13 +204,16 @@ class Power_ClientController extends Zend_Controller_Action
                 $type = ($request->getPost('type') == 'add') ? 'Add' : 'Edit';
 
                 $form = $this->_getForm('client' . $type, 'save-client');
-                $docForm = $this->_getForm('docClient', 'save-contract');
                 $form->populate($request->getPost());
+                
+                $docForm = $this->_getForm('docClient', 'save-client');
                 $docForm->populate($request->getPost());
+                
+                $log = Zend_Registry::get('log');
+                $log->info($form);
 
                 $this->view->assign(array(
-                    'clientForm'   => $form,
-                    'docForm'      => $docForm
+                    'clientForm'   => $form
                 ));
                 $html = $this->view->render('client/'. $request->getPost('type') .'-client-form.phtml');
                 $returnJson['html'] = $html;

@@ -39,23 +39,18 @@
  */
 class Power_Form_Client_Add extends Power_Form_Client_Base
 {
-	protected $_defaultDecorators = array(
-		'Description',
-		'FormElements',
-		array(
-			'HtmlTag',
-			array(
-				'tag'   => 'div',
-				'class' => 'form_wrap wizard'
-			)
-		)
-	);
-	
     public function init()
     {
     	parent::init();
     	
+    	$this->setDisableLoadDefaultDecorators(true);
+    	
+    	$this->setDecorators(array(
+    		array('ViewScript', array('viewScript' => 'client/_addClientForm.phtml'))
+    	));
+    	
     	$this->addHiddenElement('type', 'add');
+    	$this->addHiddenElement('client_idRegAddress', '');
     	
         $clientAdForm = new Power_Form_Client_Address_Save(array('model' => $this->_model));
         $clientPersForm = new Power_Form_Client_Personnel_Save(array('model' => $this->_model));
@@ -77,103 +72,5 @@ class Power_Form_Client_Add extends Power_Form_Client_Base
         $this->addElement($clientPersForm->getElement('clientPers_position'));
         $this->addElement($clientPersForm->getElement('clientPers_phone'));
         $this->addElement($clientPersForm->getElement('clientPers_email'));
-        
-    	/**
-    	 * Add groups.
-    	 */
-    	
-    	$this->addDisplayGroup(
-    		array(
-    			'client_name',
-    			'client_docLoa',
-    			'client_dateExpiryLoa',
-    			'client_desc',
-    			'type'
-    		),
-    		'clientGroup',
-    		array('decorators' => array(
-    			'FormElements',
-		    	array(
-		    		array('fieldset' => 'HtmlTag'),
-		    		array(
-		    			'tag' => 'table',
-		    			'class' => 'zend_form'
-		    		)
-		    	),
-		    	array(
-		    		'HtmlTag',
-		    		array(
-		    			'tag' => 'div',
-		    			'data-dojo-type' => 'dojox.widget.WizardPane',
-		    			'data-dojo-props' => 'onShow: bba.Client.wizardClientPane',
-		    			'id'	 => 'clientPane',
-		    			'class' => 'client_edit'
-		    		)
-		    	)
-    		)
-    	));
-    	
-    	$this->addDisplayGroup(
-    		array(
-    			'clientAd_addressName',
-    			'clientAd_address1',
-    			'clientAd_address2',
-    			'clientAd_address3',
-    			'clientAd_postcode'
-    		),
-    		'clientAdGroup',
-    		array('decorators' => array(
-    			'FormElements',
-		    	array(
-		    		array('fieldset' => 'HtmlTag'),
-		    		array(
-		    			'tag' => 'table',
-		    			'class' => 'zend_form'
-		    		)
-		    	),
-		    	array(
-		    		'HtmlTag',
-		    		array(
-		    			'tag' => 'div',
-		    			'data-dojo-type' => 'dojox.widget.WizardPane',
-		    			'data-dojo-props' => 'onShow: bba.Client.wizardClientAdPane',
-		    			'id'	 => 'clientAdPane',
-		    			'class' => 'client_edit'
-		    		)
-		    	)
-    		))
-    	);
-    	
-    	$this->addDisplayGroup(
-    		array(
-    			'clientPers_type',
-    			'clientPers_name',
-    			'clientPers_position',
-    			'clientPers_phone',
-    			'clientPers_email'
-    		),
-    		'clientPersGroup',
-    		array('decorators' => array(
-    			'FormElements',
-		    	array(
-		    		array('fieldset' => 'HtmlTag'),
-		    		array(
-		    			'tag' => 'table',
-		    			'class' => 'zend_form'
-		    		)
-		    	),
-		    	array(
-		    		'HtmlTag',
-		    		array(
-		    			'tag' => 'div',
-		    			'data-dojo-type' => 'dojox.widget.WizardPane',
-		    			'data-dojo-props' => 'onShow: bba.Client.wizardClientPersPane, doneFunction: bba.Client.wizardDoneFunction',
-		    			'id'	 => 'clientPersPane',
-		    			'class' => 'client_edit'
-		    		)
-		    	)
-    		))
-    	);
-    	
     }
 }

@@ -367,6 +367,10 @@ table.zend_form {
     text-align: center;
 }
 
+table.zend_form .errors {
+    text-align: left;
+}
+
 .zend_form .simple-textarea {
     clear: both;
 }
@@ -404,7 +408,7 @@ Form overrides.
 */
 
 #clientForm .form_wrap {
-    width: 600px;
+    width: 650px;
 }
 
 .site_edit .label,

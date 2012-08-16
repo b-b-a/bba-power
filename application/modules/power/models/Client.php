@@ -192,7 +192,6 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
         // validate form.
         $form = $this->getForm('clientAdd');
-        $form->removeElement('client_docLoa');
         
         /* @var $form Power_Form_Doc_Client */
         $docForm = $this->getForm('docClient');
@@ -214,6 +213,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         }
 
         // get filtered values.
+        $form->removeElement('client_docLoa');
         $post = $form->getValues();
 
         $this->getDbTable('client')->getAdapter()->beginTransaction();
@@ -252,6 +252,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $post['client_idClient'] = $clientSave;
             $post['client_idAddress'] = $clientAdSave;
             $post['client_idClientPersonnel'] = $clientPersSave;
+            $post['client_idRegAddress'] = $clientSave;
             $clientSave = $this->_saveClient($post);
 
             $newSite = array(
@@ -291,7 +292,6 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
         /* @var $form Power_Form_Client_Save */
         $form = $this->getForm('clientEdit');
-        $form->removeElement('client_docLoa');
         
         /* @var $form Power_Form_Doc_Client */
         $docForm = $this->getForm('docClient');
@@ -314,6 +314,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             return false;
         }
 
+        $form->removeElement('client_docLoa');
         $data = $form->getValues();
 
         // add filters to the docForm.

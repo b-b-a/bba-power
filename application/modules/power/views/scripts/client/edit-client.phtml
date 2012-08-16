@@ -31,6 +31,14 @@
                     <td><?php echo $this->client->client_name; ?></td>
                 </tr>
                 <tr>
+                    <th>Company Number:</th>
+                    <td><?php echo $this->client->client_numberCompany; ?></td>
+                </tr>
+                 <tr>
+                    <th>Company VAT Number:</th>
+                    <td><?php echo $this->client->client_numberVAT; ?></td>
+                </tr>
+                <tr>
                     <th>LoA Expiry Date:</th>
                     <td><?php echo $this->formatDate($this->client->client_dateExpiryLoa); ?></td>
                 </tr>
@@ -64,7 +72,10 @@
             </table>
 
             <table class="info_wrap ident">
-                <caption>Main Address</caption>
+                <caption>
+                	<?php echo ($this->client->client_idAddress == $this->client->client_idRegAddress) ?
+                		'Main & Registered Address' : 'Main Address'?>
+                </caption>
                 <tr>
                     <td><?php
                         $mainContact = $this->client->getClientAddress();
@@ -79,6 +90,27 @@
                     ?></td>
                 </tr>
             </table>
+            
+            <?php if ($this->client->client_idAddress != $this->client->client_idRegAddress): ?>
+            <table class="info_wrap ident">
+                <caption>
+                	Main & Registered Address
+                </caption>
+                <tr>
+                    <td><?php
+                        $regContact = $this->client->getClientRegAddress();
+
+                        echo $this->formatAddress(array(
+                            $regContact->clientAd_addressName,
+                            $regContact->clientAd_address1,
+                            $regContact->clientAd_address2,
+                            $regContact->clientAd_address3,
+                            $regContact->clientAd_postcode
+                        ));
+                    ?></td>
+                </tr>
+            </table>
+            <?php endif; ?>
 
             <table class="info_wrap ident">
                 <caption>Main Liaison</caption>

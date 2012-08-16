@@ -1,0 +1,39 @@
+<div data-dojo-type="dojox.widget.WizardPane"
+	 data-dojo-props="onShow: bba.Client.wizardClientPane"
+	 id="clientPane" class="client_edit">
+	<table class="zend_form">
+		<?php echo $this->element->getElement('client_name'); ?>
+		<?php echo $this->element->getDisplayGroup('company'); ?>
+		<?php echo $this->element->getDisplayGroup('vat'); ?>
+		<?php echo $this->element->getElement('client_methodPay'); ?>
+		<?php echo $this->element->getElement('client_docLoa'); ?>
+		<?php echo $this->element->getElement('client_dateExpiryLoa'); ?>
+		<?php echo $this->element->getElement('client_desc'); ?>
+		<?php echo $this->element->getElement('type'); ?>
+		<?php echo $this->element->getElement('client_idRegAddress'); ?>
+	</table>
+</div>
+
+<div data-dojo-type="dojox.widget.WizardPane"
+	 data-dojo-props="onShow: bba.Client.wizardClientAdPane"
+	 id="clientAdPane" class="client_edit">
+	<table class="zend_form">
+		<?php echo $this->element->getElement('clientAd_addressName'); ?>
+		<?php echo $this->element->getElement('clientAd_address1'); ?>
+		<?php echo $this->element->getElement('clientAd_address2'); ?>
+		<?php echo $this->element->getElement('clientAd_address3'); ?>
+		<?php echo $this->element->getElement('clientAd_postcode'); ?>
+	</table>
+</div>
+
+<div data-dojo-type="dojox.widget.WizardPane"
+	 data-dojo-props="onShow: bba.Client.wizardClientPersPane, doneFunction: bba.Client.wizardDoneFunction"
+	 id="clientPersPane" class="client_edit">
+	<table class="zend_form">
+		<?php echo $this->element->getElement('clientPers_type'); ?>
+		<?php echo $this->element->getElement('clientPers_name'); ?>
+		<?php echo $this->element->getElement('clientPers_position'); ?>
+		<?php echo $this->element->getElement('clientPers_phone'); ?>
+		<?php echo $this->element->getElement('clientPers_email'); ?>
+	</table>
+</div>

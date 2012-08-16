@@ -41,6 +41,57 @@ class Power_Form_Client_Base extends ZendSF_Dojo_Form_Abstract
 {	
 	protected $_hiddenDecorators = array('ViewHelper');
 	
+	protected $_companyDecorators =  array(
+		'DijitElement',
+		'Errors',
+		'Description',
+		array(
+			array('data' => 'HtmlTag'),
+			array(
+				'tag' => 'td',
+				'class' => 'element',
+				'openOnly' => true
+			)
+		),
+		array(
+			'Label',
+			array(
+				'tag' => 'th',
+				'class' => 'label'
+			)
+		)
+	);
+	
+	protected $_checkboxDecorators = array(
+        'DijitElement',
+        array(
+			'Label',
+		    array(
+		    	'tag' => 'span',
+		    	'class' => 'label'
+			)
+		),
+		array(
+			'HtmlTag',
+			array(
+				'tag' => 'td',
+				'closeOnly' => true
+        					
+        	)
+        )
+	);
+	
+	protected $_companyGroupDecorators = array(
+        'FormElements',
+        array(
+        	array('row' => 'HtmlTag'),
+        	array(
+        		'tag' => 'tr',
+        		'class' => 'form_row'
+        	)
+        )
+	);
+	
     public function init()
     {
         $this->setAttrib('enctype', 'multipart/form-data');
@@ -55,8 +106,101 @@ class Power_Form_Client_Base extends ZendSF_Dojo_Form_Abstract
             ),
             'dijitParams'   => array(
                 'promptMessage' => 'Enter the clients name.'
-            )
+            ),
 
+        ));
+        
+        $this->addElement('ValidationTextBox', 'client_numberCompany', array(
+        	'label'         => 'Company Number:',
+        	'required'      => true,
+        	'filters'       => array('StripTags', 'StringTrim'),
+        	'validators'    => array(
+        		array('Alnum', true, array('allowWhiteSpace' => true)),
+        		array('StringLength', true, array('max' => 32))
+        	),
+        	'dijitParams'   => array(
+        		'promptMessage' => 'Enter the client company number.'
+        	),
+        	'decorators'	=> $this->_companyDecorators
+        ));
+        
+        $this->addElement('ZendSFDojoCheckBox', 'client_registeredCompany', array(
+        	'label'         => 'Not a Registered Company:',
+        	'required'		=> false,
+        	'decorators' 	=> $this->_checkboxDecorators,
+        	'checkedValue'   => 1,
+        	'uncheckedValue' => 0,
+        ));
+        
+        $this->addDisplayGroup(
+        	array(
+        		'client_numberCompany',
+        		'client_registeredCompany',
+        	),
+        	'company',
+        	array(
+        		'decorators' => $this->_companyGroupDecorators
+        	)
+        );
+        
+        $this->addElement('ValidationTextBox', 'client_numberVAT', array(
+        	'label'         => 'VAT Number:',
+        	'required'      => true,
+        	'filters'       => array('StripTags', 'StringTrim'),
+        	'validators'    => array(
+        		array('Alnum', true, array('allowWhiteSpace' => true)),
+        		array('StringLength', true, array('max' => 32))
+        	),
+        	'dijitParams'   => array(
+        		'promptMessage' => 'Enter the client VAT number.'
+        	),
+        	'decorators' 	=> $this->_companyDecorators
+        ));
+        
+        $this->addElement('ZendSFDojoCheckBox', 'client_registeredVAT', array(
+        	'label'         => 'Not VAT Registered:',
+        	'required'		=> false,
+        	'checkedValue'   => 1,
+        	'uncheckedValue' => 0,
+        	'decorators' 	=> $this->_checkboxDecorators,
+        ));
+        
+        $this->addDisplayGroup(
+        	array(
+        		'client_numberVAT',
+        		'client_registeredVAT',
+        	),
+        	'vat',
+        	array(
+        		'decorators' => $this->_companyGroupDecorators
+        	)	
+        );
+        
+        $multiOptions = array();
+        
+        $table = $this->getModel()->getDbTable('tables');
+        $list = $table->getSelectListByName('client_methodPay');
+        
+        foreach($list as $row) {
+        	$multiOptions[$row->tables_key] = $row->tables_value;
+        }
+        
+        $this->addElement('RadioButton', 'client_methodPay', array(
+        	'label'         => 'Payment Method:',
+        	'filters'       => array('StripTags', 'StringTrim'),
+        	'autocomplete'  => false,
+        	'multiOptions'  => $multiOptions,
+        	'required'      => true,
+        	'validators'    => array(
+        		array('GreaterThan', true, array(
+        			'min'       => '0',
+        			'message'   => 'Please select a payment method.'
+        		))
+        	),
+        	'ErrorMessages' => array('Please select a payment method.'),
+        	'dijitParams'   => array(
+        		'promptMessage' => 'Please select a payment method.'
+        	)
         ));
         
         $clientdoc = new Power_Form_Doc_Client(array('model' => $this->_model));

@@ -94,6 +94,25 @@ class Power_Form_Client_Edit extends Power_Form_Client_Base
 			),
 			'order'			=> 1
 		));
+		
+		$this->addElement('FilteringSelect', 'client_idRegAddress', array(
+				'label'         => 'Registered Address:',
+				'filters'       => array('StripTags', 'StringTrim'),
+				'atuocomplete'  => false,
+				'multiOptions'  => $multiOptions,
+				'required'      => true,
+				'validators'    => array(
+						array('GreaterThan', true, array(
+								'min'       => '0',
+								'message'   => 'Please select an address.'
+						))
+				),
+				'ErrorMessages' => array('Please select an address.'),
+				'dijitParams'   => array(
+						'promptMessage' => 'Choose a client address.'
+				),
+				'order'			=> 2
+		));
 	
 		$list = $this->getModel()->getClientPersonnelByClientId(
 			$request->getPost('client_idClient')
@@ -114,7 +133,7 @@ class Power_Form_Client_Edit extends Power_Form_Client_Base
 			'dijitParams'   => array(
 				'promptMessage' => 'Choose a client contact.'
 			),
-			'order'			=> 2
+			'order'			=> 3
 		));
 		
 		$this->addElement('Button', 'clientFormSubmitButton', array(

@@ -77,6 +77,14 @@ class Power_Model_DbTable_Row_Client extends ZendSF_Model_DbTable_Row_Abstract
             'clientAd'
         );
     }
+    
+    public function getClientRegAddress()
+    {
+    	return $this->getRow()->findParentRow(
+    			'Power_Model_DbTable_Client_Address',
+    			'clientRegAd'
+    	);
+    }
 
     public function getAllClientAddresses($select = null)
     {
@@ -85,6 +93,15 @@ class Power_Model_DbTable_Row_Client extends ZendSF_Model_DbTable_Row_Abstract
             'client',
             $select
         );
+    }
+    
+    public function getClient_methodPay()
+    {
+    	return $this->getRow()->findParentRow(
+    			'Power_Model_DbTable_Tables',
+    			'methodPay',
+    			$this->getRow()->select()->where('tables_name = ?', 'client_methodPay')
+    	)->tables_value;
     }
 
     /**
@@ -105,7 +122,13 @@ class Power_Model_DbTable_Row_Client extends ZendSF_Model_DbTable_Row_Abstract
             }
 
             if (true === $raw) {
-                $array[$key] = $value;
+            	if ($value == 'Not a Registered Company') {
+            		$array['client_registeredCompany'] = 1;
+            	} elseif ($value == 'Not VAT Registered') {
+                    $array['client_registeredVAT'] = 1;
+                }
+                
+               	$array[$key] = $value;
             } else {
                 switch ($key) {
                     case 'client_desc':
