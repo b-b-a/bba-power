@@ -132,10 +132,13 @@ class Power_MeterController extends Zend_Controller_Action
         if ($request->isXmlHttpRequest() && $request->getParam('type') == 'add'
                 && $request->isPost()) {
 
-            $form = $this->_getForm('meterSave', 'save-meter');
+            $form = $this->_getForm('meterAdd', 'save-meter');
             $form->populate($request->getPost());
 
-            $this->view->assign(array('meterSaveForm' => $form));
+            $this->view->assign(array(
+            	'type'		=> 'Edit',
+            	'meterForm' => $form
+            ));
 
             $this->render('meter-form');
         } else {
@@ -152,13 +155,17 @@ class Power_MeterController extends Zend_Controller_Action
                 && $request->isXmlHttpRequest()) {
 
             $meter = $this->_model->getMeterById($request->getPost('meter_idMeter'));
+            
+            $defaultValues = $meter->toArray(null, true);
+            $defaultValues['meter_typeName'] = $meter->meter_type;
 
-            $form = $this->_getForm('meterSave', 'save-meter');
-            $form->populate($meter->toArray(null, true));
+            $form = $this->_getForm('meterEdit', 'save-meter');
+            $form->populate($defaultValues);
 
             $this->view->assign(array(
-                'meter'         => $meter,
-                'meterSaveForm' => $form
+            	'type'		=> 'Edit',
+                'meter'     => $meter,
+                'meterForm' => $form
             ));
 
             if ($request->getPost('type') == 'edit') {
@@ -203,6 +210,8 @@ class Power_MeterController extends Zend_Controller_Action
         if (!$request->isPost() && !$request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'meter');
         }
+        
+        $action = $request->getPost('type');
 
         try {
             $saved = $this->_model->saveMeter($request->getPost());
@@ -210,10 +219,10 @@ class Power_MeterController extends Zend_Controller_Action
             $returnJson = array('saved' => $saved);
 
             if (false === $saved) {
-                $form = $this->_getForm('meterSave', 'save-meter');
+                $form = $this->_getForm('meter' . ucfirst($action), 'save-meter');
                 $form->populate($request->getPost());
 
-                $this->view->assign(array('meterSaveForm' => $form));
+                $this->view->assign(array('meterForm' => $form));
 
                 $html = $this->view->render('meter/meter-form.phtml');
                 $returnJson['html'] = $html;

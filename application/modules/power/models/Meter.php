@@ -176,8 +176,10 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
         if (!$this->checkAcl('saveMeter')) {
             throw new ZendSF_Acl_Exception('Insufficient rights');
         }
+        
+        $action = $post['type'];
 
-        $form = $this->getForm('meterSave');
+        $form = $this->getForm('meter' . ucfirst($action));
 
         if (!$form->isValid($post)) {
             return false;

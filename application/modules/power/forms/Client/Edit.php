@@ -166,24 +166,7 @@ class Power_Form_Client_Edit extends Power_Form_Client_Base
 			),
 			'Buttons',
 			array(
-				'decorators' => array(
-					'FormElements',
-					array(
-						array('data' => 'HtmlTag'),
-						array(
-							'tag' => 'td',
-							'class' => 'submitElement',
-							'colspan' => '2'
-						)
-					),
-					array(
-						array('row' => 'HtmlTag'),
-						array(
-							'tag' => 'tr',
-							'class' => 'form_row'
-						)
-					)
-				)
+				'decorators' => $this->_submitGroupDecorators
 			)
 		);
 	}

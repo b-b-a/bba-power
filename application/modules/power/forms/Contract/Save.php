@@ -95,8 +95,8 @@ class Power_Form_Contract_Save extends BBA_Dojo_Form_Abstract
                 'autoComplete'  => false,
                 'hasDownArrow'  => true,
                 'storeId'       => 'clientStore',
-                'storeType'     => 'dojo.data.ItemFileReadStore',
-                'storeParams'   => array('url' => "site/data-store/type/clients"),
+                //'storeType'     => 'dojo.data.ItemFileReadStore',
+                //'storeParams'   => array('url' => "site/data-store/type/clients"),
                 'dijitParams'   => array(
                     'searchAttr'    => 'client_name',
                     'promptMessage' => 'Select a Client'

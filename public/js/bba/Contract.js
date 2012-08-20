@@ -326,6 +326,25 @@ define("bba/Contract",
                     content: dojo.mixin({type :  'add'}, contentVars),
                     dialog: 'contractForm',
                     deferredFunction: function() {
+                    	contractFormStandby.show();
+                        id = registry.byId("contract_idClient").get('value');
+
+                        clientStore = new ItemFileReadStore({
+                            url:'./site/data-store/type/clients'
+                        });
+
+                        clientStore.fetch({
+                            onComplete: function() {
+                            	contractFormStandby.hide();
+                            },
+                            onError: function(error, request) {
+                                bba.dataStoreError(request.store.url, null);
+                            }
+                        });
+                        
+                        registry.byId("contract_idClient").set('store', clientStore);
+                        registry.byId("contract_idClient").set('value', 0);
+                        
                         bba.Contract.setupDocEvents();
                     }
                 });

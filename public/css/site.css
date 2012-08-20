@@ -272,7 +272,7 @@ a:hover {
  */
 
 .form_wrap {
-    width: 480px;
+    width: 500px;
     text-align: center;
 }
 
@@ -315,6 +315,7 @@ table.zend_form {
 .zend_form th {
 	font-weight: bold;
 	text-align: right;
+	vertical-align: middle;
 }
 
 .submitElement {
@@ -407,12 +408,13 @@ table.zend_form .errors {
 Form overrides.
 */
 
-#clientForm .form_wrap {
+#clientForm .form_wrap, 
+#meterForm .form_wrap {
     width: 650px;
 }
 
 .site_edit .label,
-.meter_edit .label {
+.meter_edit th {
     width: 100px;
 }
 
@@ -444,6 +446,7 @@ Form overrides.
 #client_docLoa-label {
     margin: 0px;
     height: 48px;
+	vertical-align: top;
 }
 
 #contract_docAnalysis_file,

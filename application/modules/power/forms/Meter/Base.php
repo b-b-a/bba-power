@@ -1,6 +1,6 @@
 <?php
 /**
- * Save.php
+ * Base.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * Form Class Save.
+ * Form Class Base.
  *
  * @category   BBA
  * @package    Power
@@ -37,32 +37,22 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Meter_Save extends BBA_Dojo_Form_Abstract
+class Power_Form_Meter_Base extends ZendSF_Dojo_Form_Abstract
 {
-    protected $_simpleTextareaDecorators = array(
-        'DijitElement',
-        'Errors',
-        'Description',
-        array(
-            array('data' => 'HtmlTag'),
-            array(
-                'tag' => 'p',
-                'class' => 'element'
-            )
-        ),
-        array(
-            'Label',
-            array('tag' => 'p')
-        ),
-        array(
-            array('row' => 'HtmlTag'),
-            array(
-                'tag' => 'div',
-                'class' => 'form_row simple-textarea'
-            )
-        )
-    );
-
+	protected $_hiddenDecorators = array('ViewHelper');
+	
+	protected $_defaultDecorators = array(
+		'Description',
+		'FormElements',
+		array(
+			'HtmlTag',
+			array(
+				'tag'   => 'table',
+				'class' => 'zend_form'
+			)
+		)
+	);
+	
     public function init()
     {
         // add path to custom validators.
@@ -92,15 +82,6 @@ class Power_Form_Meter_Save extends BBA_Dojo_Form_Abstract
             'ErrorMessages' => array('Please select a meter type.'),
         ));
 
-        $decors = $this->getElement('meter_type')->getDecorators();
-
-        $decors['Zend_Form_Decorator_Label']->setOptions(array(
-            'tag' => 'p',
-            'style' => 'line-height: ' . count($multiOptions) * 22 . 'px;'
-        ));
-
-        $this->getElement('meter_type')->setDecorators($decors);
-
         $multiOptions = array();
 
         $list = $table->getSelectListByName('meter_status');
@@ -125,20 +106,6 @@ class Power_Form_Meter_Save extends BBA_Dojo_Form_Abstract
                 ))
             ),
             'ErrorMessages' => array('Please select a status.'),
-        ));
-
-        $this->addElement('ValidationTextBox', 'meter_numberSerial', array(
-            'label'         => 'Serial No:',
-            'required'      => false,
-            'filters'       => array('StripTags', 'StringTrim'),
-            'dijitParams'   => array(
-                'promptMessage' => 'Enter the meter serial number.'
-            ),
-            'validators'    => array(
-                //array('Alnum', true),
-                array('StringLength', true, array('max' => 16))
-            ),
-            'attribs'       => array('style' => 'width: 150px;')
         ));
 
         $this->addElement('ValidationTextBox', 'meter_numberTop', array(
@@ -174,6 +141,20 @@ class Power_Form_Meter_Save extends BBA_Dojo_Form_Abstract
             ),
             'attribs'       => array('style' => 'width: 150px;')
         ));
+        
+        $this->addElement('ValidationTextBox', 'meter_numberSerial', array(
+        	'label'         => 'Serial No:',
+        	'required'      => false,
+        	'filters'       => array('StripTags', 'StringTrim'),
+        	'dijitParams'   => array(
+        		'promptMessage' => 'Enter the meter serial number.'
+        	),
+        	'validators'    => array(
+        		//array('Alnum', true),
+        		array('StringLength', true, array('max' => 16))
+        	),
+        	'attribs'       => array('style' => 'width: 150px;')
+        ));
 
         $this->addElement('ValidationTextBox', 'meter_capacity', array(
             'label'     => 'Supply Capacity:',
@@ -189,14 +170,45 @@ class Power_Form_Meter_Save extends BBA_Dojo_Form_Abstract
             'attribs'       => array('style' => 'width: 100px;')
         ));
 
-        $this->addElement('SimpleTextarea', 'meter_desc', array(
+        $this->addElement('ZendSFDojoSimpleTextarea', 'meter_desc', array(
             'label'         => 'Description:',
             'required'      => false,
-            'filters'       => array('StripTags', 'StringTrim'),
-            'decorators'    => $this->_simpleTextareaDecorators
+            'filters'       => array('StripTags', 'StringTrim')
         ));
 
         $this->addHiddenElement('meter_idMeter', '');
         $this->addHiddenElement('meter_idSite', '');
+        
+        $this->addElement('Button', 'meterFormSubmitButton', array(
+        	'required'  => false,
+        	'ignore'    => true,
+        	'decorators'    => $this->_submitDecorators,
+        	'label'     => 'Submit',
+        	'value'     => 'Submit',
+        	'dijitParams'   => array(
+        		'onClick' => "return dijit.byId('meterForm').validate()"
+        	),
+        	'attribs' => array('type' => 'submit')
+        ));
+        
+        $this->addElement('Button', 'meterFormCancelButton', array(
+        	'required'  => false,
+        	'ignore'    => true,
+        	'decorators'    => $this->_submitDecorators,
+        	'label'     => 'Cancel',
+        	'value'     => 'Cancel',
+        	'dijitParams'   => array(
+        		'onClick' => "return bba.closeDialog(dijit.byId('meterForm'))"
+        	)
+        ));
+        
+        $this->addDisplayGroup(
+        	array(
+        		'meterFormSubmitButton',
+        		'meterFormCancelButton',
+        	),
+        	'Buttons',
+        	array('decorators' => $this->_submitGroupDecorators)
+        );
     }
 }
