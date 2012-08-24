@@ -111,33 +111,33 @@ class Power_Form_Meter_Base extends ZendSF_Dojo_Form_Abstract
         $this->addElement('ValidationTextBox', 'meter_numberTop', array(
             'label'     => 'Top No:',
             'required'  => false,
-            'filters'   => array('StripTags', 'StringTrim'),
+            'filters'   => array(
+            	'StripTags',
+            	'StringTrim',
+            	array('PregReplace', array('match' => '/\s+|-+/', 'replace' => ''))
+            ),
             'dijitParams'   => array(
                 'promptMessage' => 'Enter the meter top number.'
             ),
             'validators'    => array(
-                //array('Digits', true),
-                array('StringLength', true, array('max' => 10)),
-            	array('NumberTop', false, array($this->getModel()))
+            	array('Digits', false),
+            	array('NumberTop', false)
             ),
             'attribs'       => array('style' => 'width: 150px;')
         ));
 
         $this->addElement('ValidationTextBox', 'meter_numberMain', array(
             'label'     => 'Main No:',
-            //'required'  => true,
             'filters'   => array(
                 'StripTags',
                 'StringTrim',
-                //array('PregReplace', array('match' => '/\s+/', 'replace' => ''))
+                array('PregReplace', array('match' => '/\s+|-+/', 'replace' => ''))
             ),
             'dijitParams'   => array(
-                'promptMessage' => 'Enter the meter main number.',
-                //'regExp'        => '^[0-9 ]{8,16}$'
+                'promptMessage' => 'Enter the meter main number.'
             ),
             'validators'    => array(
-                //array('Regex', true, array('pattern' => '/^[0-9 ]{8,16}$/')),
-                array('StringLength', true, array('max' => 16)),
+                array('Digits', false),
                 array('NumberMain', false, array($this->getModel()))
             ),
             'attribs'       => array('style' => 'width: 150px;')
@@ -151,7 +151,6 @@ class Power_Form_Meter_Base extends ZendSF_Dojo_Form_Abstract
         		'promptMessage' => 'Enter the meter serial number.'
         	),
         	'validators'    => array(
-        		//array('Alnum', true),
         		array('StringLength', true, array('max' => 16)),
         		array('NumberSerial', false, array($this->getModel()))
         	),

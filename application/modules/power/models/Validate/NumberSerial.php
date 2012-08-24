@@ -28,7 +28,7 @@
  */
 
 /**
- * NumberMain Validation Model.
+ * NumberSerial Validation Model.
  *
  * @category   BBA
  * @package    Power
@@ -43,12 +43,15 @@ class Power_Validate_NumberSerial extends Zend_Validate_Abstract
 	 * @var string
 	 */
     const NUMBER_SERIAL_EXISTS = 'numberSerialExists';
+    
+    const ZERO_NOT_ALLOWED = 'zeroNotAllowed';
 
     /**
      * @var array
      */
     protected $_messageTemplates = array(
-        self::NUMBER_SERIAL_EXISTS => 'This meter cannot be added as the meter Serial No "%value%" already exists.'
+        self::NUMBER_SERIAL_EXISTS => 'This meter cannot be added as the meter Serial No "%value%" already exists.',
+    	self::ZERO_NOT_ALLOWED => 'Serial No. cannot be all zeros.'
     );
 
     /**
@@ -75,6 +78,12 @@ class Power_Validate_NumberSerial extends Zend_Validate_Abstract
     	$meter = $this->_model->getMeterByNumberSerial($value, $currentMeter);
     	
     	if (null === $meter) {
+    		
+    		if (preg_match('/^0{1,}$/', $value)) {
+    			$this->_error(self::ZERO_NOT_ALLOWED);
+    			return false;
+    		}
+    		
     		return true;
     	}
     	

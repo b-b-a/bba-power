@@ -47,6 +47,10 @@ class Power_Validate_NumberMain extends Zend_Validate_Abstract
     const MPAN_INVALID = 'mpanInvalid';
     
     const METER_TYPE_ERROR = 'meterTypeError';
+    
+    const GAS_NUMBER_LENGTH = 'gasNumberError';
+    
+    const ZERO_NOT_ALLOWED = 'zeroNotAllowed';
 
     /**
      * @var array
@@ -54,7 +58,9 @@ class Power_Validate_NumberMain extends Zend_Validate_Abstract
     protected $_messageTemplates = array(
         self::NUMBER_MAIN_EXISTS => 'This meter cannot be added as the meter Main No "%value%" already exists.',
     	self::MPAN_INVALID => 'This meter number "%value%" is invalid.',
-    	self::METER_TYPE_ERROR => 'This meter cannot be added as a Main No. has been entered. (Main No. is not allowed for Water meters.)'
+    	self::METER_TYPE_ERROR => 'This meter cannot be added as a Main No. has been entered. (Main No. is not allowed for Water meters.)',
+    	self::GAS_NUMBER_LENGTH => 'Gas numbers must be between 6 and 10 digits long.',
+    	self::ZERO_NOT_ALLOWED => 'Main No. cannot be all zeros.'
     );
 
     /**
@@ -107,6 +113,20 @@ class Power_Validate_NumberMain extends Zend_Validate_Abstract
         	if ('electric' === $context['meter_type'] && !$this->checkMPAN($value)) {
         		$this->_error(self::MPAN_INVALID);
         		return false;
+        	}
+        	
+        	if ('gas' === $context['meter_type']) {
+        		$numDigits = count(str_split($value));
+        		
+        		if (!preg_match('/^\d{6,10}$/', $value)) {
+        			$this->_error(self::GAS_NUMBER_LENGTH);
+        			return false;
+        		}
+        		
+        		if (preg_match('/^0{6,10}$/', $value)) {
+        			$this->_error(self::ZERO_NOT_ALLOWED);
+        			return false;
+        		}
         	}
         	
             return true;

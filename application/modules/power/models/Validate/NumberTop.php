@@ -45,24 +45,27 @@ class Power_Validate_NumberTop extends Zend_Validate_Abstract
     const METER_WATER_ERROR = 'waterNotAllowed';
     
     const METER_GAS_ERROR = 'gasNotAllowed';
+    
+    const NUMBER_TOP_INVALID = 'numberTopInvalid';
+    
+    const LINE_LOSS_ERROR = 'lineLossInvalid';
+    
+    const ZERO_NOT_ALLOWED = 'zeroNotAllowed';
+    
+    protected $_validLineLoss = array(
+    	'00', '01', '02', '03', '04', '05', '06', '07', '08'
+    );
 
     /**
      * @var array
      */
     protected $_messageTemplates = array(
         self::METER_WATER_ERROR => 'This meter cannot be added as a Top No. has been entered. (Top No. is not allowed for Water meters.)',
-    	self::METER_GAS_ERROR => 'This meter cannot be added as a Top No. has been entered. (Top No. is not allowed for Gas meters.)'
+    	self::METER_GAS_ERROR => 'This meter cannot be added as a Top No. has been entered. (Top No. is not allowed for Gas meters.)',
+    	self::NUMBER_TOP_INVALID => 'The Top No. must have eight numbers.',
+    	self::LINE_LOSS_ERROR => 'The first two digits of the Top No. are invalid. The Top No. must be one of these ("00", "01", "02", "03", "04", "05", "06", "07", "08").',
+    	self::ZERO_NOT_ALLOWED => 'Top No. cannot be all zeros.'
     );
-
-    /**
-     * constructor method
-     * 
-     * @param Power_Model_Meter $model
-     */
-    public function __construct(Power_Model_Meter $model)
-    {
-        $this->_model = $model;
-    }
 
     /**
      * (non-PHPdoc)
@@ -81,6 +84,23 @@ class Power_Validate_NumberTop extends Zend_Validate_Abstract
     		$this->_error(self::METER_GAS_ERROR);
     		return false;
     	}
+    	
+    	if (!preg_match('/^\d{8}$/', $value)) {
+    		$this->_error(self::NUMBER_TOP_INVALID);
+    		return false;
+    	}
+    	
+    	if (preg_match('/^0{8}$/', $value)) {
+    		$this->_error(self::ZERO_NOT_ALLOWED);
+    		return false;
+    	}
+    	
+    	if (!in_array(substr($value, 0, 2), $this->_validLineLoss)) {
+    		$this->_error(self::LINE_LOSS_ERROR);
+    		return false;
+    	}
+    	
+    	return true;
     }
         
 }
