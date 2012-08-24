@@ -117,14 +117,15 @@ class Power_Form_Meter_Base extends ZendSF_Dojo_Form_Abstract
             ),
             'validators'    => array(
                 //array('Digits', true),
-                array('StringLength', true, array('max' => 10))
+                array('StringLength', true, array('max' => 10)),
+            	array('NumberTop', false, array($this->getModel()))
             ),
             'attribs'       => array('style' => 'width: 150px;')
         ));
 
         $this->addElement('ValidationTextBox', 'meter_numberMain', array(
             'label'     => 'Main No:',
-            'required'  => true,
+            //'required'  => true,
             'filters'   => array(
                 'StripTags',
                 'StringTrim',
@@ -137,7 +138,7 @@ class Power_Form_Meter_Base extends ZendSF_Dojo_Form_Abstract
             'validators'    => array(
                 //array('Regex', true, array('pattern' => '/^[0-9 ]{8,16}$/')),
                 array('StringLength', true, array('max' => 16)),
-                array('UniqueMPAN', false, array($this->getModel()))
+                array('NumberMain', false, array($this->getModel()))
             ),
             'attribs'       => array('style' => 'width: 150px;')
         ));
@@ -151,7 +152,8 @@ class Power_Form_Meter_Base extends ZendSF_Dojo_Form_Abstract
         	),
         	'validators'    => array(
         		//array('Alnum', true),
-        		array('StringLength', true, array('max' => 16))
+        		array('StringLength', true, array('max' => 16)),
+        		array('NumberSerial', false, array($this->getModel()))
         	),
         	'attribs'       => array('style' => 'width: 150px;')
         ));

@@ -219,7 +219,6 @@ define("bba/Meter",
         Add up all these products.
         The check digit is the sum modulo 11 modulo 10.
         */
- 
         checkMPAN : function(mpan) {
             var primes = [3, 5, 7, 13, 17, 19, 23, 29, 31, 37, 41, 43];
             var sum = 0;

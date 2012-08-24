@@ -58,9 +58,14 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
      * @param  Power_Model_DbTable_Row_Meter $ignoreMeter Meter to ignore from the search
      * @return null|Power_Model_DbTable_Row_Meter
      */
-    public function getMeterByMpan($mpan, $ignoreMeter=null)
+    public function getMeterByNumberMain($numberMain, $ignoreMeter=null)
     {
-        return $this->getDbTable('meter')->getMeterByMpan($mpan, $ignoreMeter);
+        return $this->getDbTable('meter')->getMeterByNumberMain($numberMain, $ignoreMeter);
+    }
+    
+    public function getMeterByNumberSerial($numberSerial, $ignoreMeter=null)
+    {
+    	return $this->getDbTable('meter')->getMeterByNumberSerial($numberSerial, $ignoreMeter);
     }
 
     /**
@@ -164,6 +169,51 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
 
         return ($store->count()) ? $store->toJson() : '{}';
     }
+    
+    /**
+     * Adds a meter
+     * 
+     * @param array $post
+     * @throws ZendSF_Acl_Exception
+     * @return boolean|Ambigous <false, number>
+     */
+    public function addMeter(array $post)
+    {
+    	if (!$this->checkAcl('addMeter')) {
+    		throw new ZendSF_Acl_Exception('Insufficient rights');
+    	}
+    	
+    	$form = $this->getForm('meterAdd');
+    	
+    	if (!$form->isValid($post)) {
+    		return false;
+    	}
+    	
+    	return $this->_save($form->getValues());
+    	
+    }
+    
+    /**
+     * Edits a meter
+     * 
+     * @param array $post
+     * @throws ZendSF_Acl_Exception
+     * @return boolean|Ambigous <false, number>
+     */
+    public function editMeter(array $post)
+    {
+    	if (!$this->checkAcl('Meter')) {
+    		throw new ZendSF_Acl_Exception('Insufficient rights');
+    	}
+    	
+    	$form = $this->getForm('meterEdit');
+    	 
+    	if (!$form->isValid($post)) {
+    		return false;
+    	}
+    	 
+    	return $this->_save($form->getValues());
+    }
 
     /**
      * Updates a meter.
@@ -171,23 +221,8 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
      * @param array $post
      * @return false|int
      */
-    public function saveMeter($post)
+    private function _save(array $data)
     {
-        if (!$this->checkAcl('saveMeter')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
-        }
-        
-        $action = $post['type'];
-
-        $form = $this->getForm('meter' . ucfirst($action));
-
-        if (!$form->isValid($post)) {
-            return false;
-        }
-
-        // get filtered values
-        $data = $form->getValues();
-
         $meter = array_key_exists('meter_idMeter', $data) ?
             $this->getMeterById($data['meter_idMeter']) : null;
             

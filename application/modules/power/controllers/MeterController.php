@@ -214,7 +214,8 @@ class Power_MeterController extends Zend_Controller_Action
         $action = $request->getPost('type');
 
         try {
-            $saved = $this->_model->saveMeter($request->getPost());
+        	
+            $saved = $this->_model->{$action . 'Meter'}($request->getPost());
 
             $returnJson = array('saved' => $saved);
 

@@ -94,20 +94,34 @@ class Power_Model_DbTable_Meter extends BBA_Model_DbTable_Abstract
         return $this->find($id)->current();
     }
 
-    public function getMeterByMpan($mpan, $ignoreMeter)
+    public function getMeterByNumberMain($numberMain, $ignoreMeter)
     {
-        $mpan = $this->_stripSpacesAndHyphens($mpan);
+        $numberMain = $this->_stripSpacesAndHyphens($numberMain);
 
         $select = $this->select();
-        $select->where('meter_numberMain = ?', $mpan);
+        $select->where('meter_numberMain = ?', $numberMain);
 
         // if the ignoreMeter is set and the mpan number is equal to the meter mpan
         // being edited then filter out this meter mpan number.
-        if (null !== $ignoreMeter && $mpan === $ignoreMeter->getRow()->meter_numberMain) {
+        if (null !== $ignoreMeter && $numberMain === $ignoreMeter->getRow()->meter_numberMain) {
             $select->where('meter_numberMain != ?', $ignoreMeter->getRow()->meter_numberMain);
         }
 
         return $this->fetchRow($select);
+    }
+    
+    public function getMeterByNumberSerial($numberSerial, $ignoreMeter)
+    {
+    	$select = $this->select();
+    	$select->where('meter_numberSerial = ?', $numberSerial);
+    
+    	// if the ignoreMeter is set and the mpan number is equal to the meter mpan
+    	// being edited then filter out this meter mpan number.
+    	if (null !== $ignoreMeter && $numberSerial === $ignoreMeter->getRow()->meter_numberSerial) {
+    		$select->where('meter_numberSerial != ?', $ignoreMeter->getRow()->meter_numberSerial);
+    	}
+    
+    	return $this->fetchRow($select);
     }
 
     protected function _getSearchMetersSelect(array $search)

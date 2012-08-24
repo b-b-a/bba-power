@@ -315,7 +315,7 @@ table.zend_form {
 .zend_form th {
 	font-weight: bold;
 	text-align: right;
-	vertical-align: middle;
+	vertical-align: top;
 }
 
 .submitElement {
@@ -370,6 +370,10 @@ table.zend_form {
 
 table.zend_form .errors {
     text-align: left;
+}
+
+table.zend_form .errors li {
+	margin-left: 5px;
 }
 
 .zend_form .simple-textarea {
