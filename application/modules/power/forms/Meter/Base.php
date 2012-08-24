@@ -187,7 +187,7 @@ class Power_Form_Meter_Base extends ZendSF_Dojo_Form_Abstract
         	'label'     => 'Submit',
         	'value'     => 'Submit',
         	'dijitParams'   => array(
-        		'onClick' => "return dijit.byId('meterForm').validate()"
+        		'onClick' => "return bba.Meter.meterFormValidate()"
         	),
         	'attribs' => array('type' => 'submit')
         ));

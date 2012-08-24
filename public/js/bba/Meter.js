@@ -30,8 +30,11 @@ define("bba/Meter",
     "dojo/dom",
     "dojo/parser",
     "dojo/_base/xhr",
+    "dojo/_base/connect",
     "dijit/registry",
+    "dijit/Dialog",
     "bba/Core",
+    "dojo/text!./html/meterNumberEmptyMessage.html",
     "bba/Contract",
     "bba/Invoice",
     "dijit/form/RadioButton",
@@ -39,7 +42,7 @@ define("bba/Meter",
     "dijit/form/FilteringSelect",
     "dijit/form/SimpleTextarea"
 ],
-    function(dom, parser, xhr, registry, core) {
+    function(dom, parser, xhr, connect, registry, Dialog, core, NumberEmptyMessage) {
 
     bba.Meter = {
         gridLayouts : {
@@ -210,34 +213,47 @@ define("bba/Meter",
             }
         },
         
-        /*
-        Check Digit
-        The final digit in the MPAN is the check digit, and validates the previous 12 (the core) using a modulus 11 test. The check digit is calculated thus:
-        Multiply the first digit by 3
-        Multiply the second digit by the next prime number (5)
-        Repeat this for each digit (missing 11 out on the list of prime numbers for the purposes of this algorithm.)
-        Add up all these products.
-        The check digit is the sum modulo 11 modulo 10.
-        */
-        checkMPAN : function(mpan) {
-            var primes = [3, 5, 7, 13, 17, 19, 23, 29, 31, 37, 41, 43];
-            var sum = 0;
-            var m = mpan.toString();
- 
-            if ((m.length - 1) == primes.length) {
-                for (var i = 0; i < primes.length; i++) {
-                    sum += parseInt(m.charAt(i)) * primes[i];
+        meterFormValidate : function()
+        {
+        	formValues = meterForm.getValues();
+        	
+        	if ((formValues.meter_type == ('electric' || 'gas') 
+        			&& formValues.meter_numberMain)
+        			|| (formValues.meter_type == 'water' 
+        				&& formValues.meter_numberSerial)) {
+        		return meterForm.validate();	
+        	}
+        	
+        	submitForm = false;
+        	
+        	meterFormEmpty = new Dialog({
+                title: "Meter Form Warning",
+                content: NumberEmptyMessage,
+                style: "width: 300px",
+                onShow : function(){
+                    connect.connect(clientYesButton, 'onClick', function(){
+                    	if (meterForm.validate()) {
+                    		bba.Meter.processMeterForm(formValues);
+                    	}
+                    	meterFormEmpty.hide();
+                        
+                    });
+                    connect.connect(clientNoButton, 'onClick', function(){
+                    	meterFormEmpty.hide();
+                    });
+                },
+                onHide : function() {
+                    bba.closeDialog(meterFormEmpty);
                 }
-                return (((sum % 11 % 10) == m.charAt(12)) ? true : false);
- 
-            } else {
-                return false;
-            }
+            });
+        	meterFormEmpty.show();
+        	
+        	return false;
         },
 
         processMeterForm : function()
         {
-            //bba.closeDialog(meterForm);
+            bba.closeDialog(meterForm);
         	pageStandby.show();
 
             values = arguments[0];
