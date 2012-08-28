@@ -109,7 +109,7 @@ class Power_Form_Meter_Base extends ZendSF_Dojo_Form_Abstract
         ));
 
         $this->addElement('ValidationTextBox', 'meter_numberTop', array(
-            'label'     => 'Top No:',
+            'label'     => 'Top No. (Elec only):',
             'required'  => false,
             'filters'   => array(
             	'StripTags',
@@ -127,7 +127,7 @@ class Power_Form_Meter_Base extends ZendSF_Dojo_Form_Abstract
         ));
 
         $this->addElement('ValidationTextBox', 'meter_numberMain', array(
-            'label'     => 'Main No:',
+            'label'     => 'Main No. (Elec & Gas):',
             'filters'   => array(
                 'StripTags',
                 'StringTrim',
@@ -144,7 +144,7 @@ class Power_Form_Meter_Base extends ZendSF_Dojo_Form_Abstract
         ));
         
         $this->addElement('ValidationTextBox', 'meter_numberSerial', array(
-        	'label'         => 'Serial No:',
+        	'label'         => 'Serial No.:',
         	'required'      => false,
         	'filters'       => array('StripTags', 'StringTrim'),
         	'dijitParams'   => array(
