@@ -34,9 +34,13 @@
                     <th>Company Number:</th>
                     <td><?php echo $this->client->client_numberCompany; ?></td>
                 </tr>
-                 <tr>
+                <tr>
                     <th>Company VAT Number:</th>
                     <td><?php echo $this->client->client_numberVAT; ?></td>
+                </tr>
+                <tr>
+                    <th>Payment Method:</th>
+                    <td><?php echo $this->client->getClient_methodPay(); ?></td>
                 </tr>
                 <tr>
                     <th>LoA Expiry Date:</th>
