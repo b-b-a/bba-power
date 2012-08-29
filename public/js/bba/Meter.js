@@ -218,8 +218,10 @@ define("bba/Meter",
         {
         	formValues = meterForm.getValues();
         	
-        	if ((formValues.meter_type == ('electric' || 'gas') 
+        	if ((formValues.meter_type == 'electric' 
         			&& formValues.meter_numberMain)
+        			|| (formValues.meter_type == 'gas' 
+        				&& formValues.meter_numberMain)
         			|| (formValues.meter_type == 'water' 
         				&& formValues.meter_numberSerial)) {
         		return meterForm.validate();	
