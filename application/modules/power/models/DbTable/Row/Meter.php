@@ -43,7 +43,7 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
      * @var Power_Model_DbTable_Row_Site
      */
     protected $_site;
-    
+
     /**
      * Array of all columns with need date format applied
      * to it when outputting row as an array.
@@ -55,13 +55,24 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
         'meter_dateCreate',
         'meter_dateModify'
     );
-
+    
     /**
      * Date format used in the toArray method.
      *
      * @var string
      */
     protected $_dateFormat = 'dd/MM/yyyy';
+    
+    public function getShortDesc()
+    {
+    	$desc = $this->getRow()->meter_desc;
+    
+    	if (strlen($desc) > 200) {
+    		$desc = substr($desc, 0, 200);
+    	}
+    
+    	return $desc;
+    }
 
     public function getMeter_numberMain()
     {
@@ -121,9 +132,11 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
 
     public function getAllContracts($select = null)
     {
-        $select->joinCross('meter_contract')
+        $select->joinCross('client')
+            ->joinCross('meter_contract')
             ->where('meter_contract.meterContract_idContract = m.contract_idContract')
-            ->where('meter_contract.meterContract_idMeter = ?', $this->getRow()->meter_idMeter);
+            ->where('meter_contract.meterContract_idMeter = ?', $this->getRow()->meter_idMeter)
+            ->where('m.contract_idClient = client_idClient');
 
         return $this->getRow()->findManyToManyRowset(
             'Power_Model_DbTable_Contract',
@@ -159,7 +172,7 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
      * @param bool $raw
      * @return array
      */
-    public function toArray($dateFormat = null, $raw = false)
+    public function toArray($dateFormat=null, $raw=false)
     {
         $array = array();
 
@@ -174,6 +187,9 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
                 $array[$key] = $value;
             } else {
                 switch ($key) {
+                    case 'meter_desc':
+                        $array[$key] = $this->getShortDesc();
+                        break;
                     case 'meter_numberMain':
                         $array[$key] = $this->getMeter_numberMain();
                         break;

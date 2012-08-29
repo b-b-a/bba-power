@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Site_Edit extends ZendSF_Dojo_Form_Abstract
+class Power_Form_Site_Edit extends BBA_Dojo_Form_Abstract
 {
     protected $_simpleTextareaDecorators = array(
         'DijitElement',
@@ -118,20 +118,18 @@ class Power_Form_Site_Edit extends ZendSF_Dojo_Form_Abstract
             'required'      => false
         ));
 
-        $list = $this->getModel()->getDbTable('clientPersonnel')->getClientPersonnelByClientId($clientId);
-
-        // reset options
-        $multiOptions = array(0 => ($list->count() > 0) ? 'Please Select Someone' : 'No Client Personnel Available');
-        foreach($list as $row) {
-            $multiOptions[$row->clientPers_idClientPersonnel] = $row->clientPers_name;
-        }
-
         $this->addElement('FilteringSelect', 'site_idClientPersonnel', array(
             'label'         => 'Client Liaison:',
             'filters'       => array('StripTags', 'StringTrim'),
-            'multiOptions'  => $multiOptions,
-            'value'         => '0',
-            'required'      => false
+            'autoComplete'  => false,
+            'hasDownArrow'  => true,
+            'storeId'       => 'personnelStore',
+            'dijitParams'   => array('searchAttr' => 'clientPers_name'),
+            'attribs'       => array(
+                'onChange' => 'bba.Site.addPersonnel(this);'
+            ),
+            'required'      => false,
+            'value'         => '0'
         ));
 
         $this->addElement('SimpleTextarea', 'site_desc', array(

@@ -75,11 +75,6 @@ html, body {
     margin: auto;
 }
 
-#addClientWidget .dialog_title p {
-    text-align: left;
-    margin-bottom: 10px;
-}
-
 #addClientWidget .dialog_footer_info {
     position: relative;
     bottom: 30px;
@@ -277,7 +272,7 @@ a:hover {
  */
 
 .form_wrap {
-    width: 480px;
+    width: 500px;
     text-align: center;
 }
 
@@ -308,6 +303,23 @@ a:hover {
     float: none;
     text-align: left;
     width: auto;
+}
+
+table.zend_form {
+	margin-left: auto;
+	margin-right: auto;
+	border-collapse: separate;
+	border-spacing: 0px 5px;
+}
+
+.zend_form th {
+	font-weight: bold;
+	text-align: right;
+	vertical-align: top;
+}
+
+.submitElement {
+	text-align: center;
 }
 
 .zend_form .errors {
@@ -356,13 +368,21 @@ a:hover {
     text-align: center;
 }
 
+table.zend_form .errors {
+    text-align: left;
+}
+
+table.zend_form .errors li {
+	margin-left: 5px;
+}
+
 .zend_form .simple-textarea {
     clear: both;
 }
 
-.zend_form .simple-textarea textarea {
-    width: 100%;
-    height: 80px;
+.zend_form textarea {
+    width: 325px;
+    height: 100px;
 }
 
 .zend_form .dialog_footer_info p {
@@ -392,17 +412,13 @@ a:hover {
 Form overrides.
 */
 
-#clientForm .form_wrap {
-    width: 600px;
-}
-
-.client_edit .label,
-.client_edit p[id$=label] {
-    width: 175px;
+#clientForm .form_wrap, 
+#meterForm .form_wrap {
+    width: 650px;
 }
 
 .site_edit .label,
-.meter_edit .label {
+.meter_edit th {
     width: 100px;
 }
 
@@ -434,6 +450,7 @@ Form overrides.
 #client_docLoa-label {
     margin: 0px;
     height: 48px;
+	vertical-align: top;
 }
 
 #contract_docAnalysis_file,
@@ -450,11 +467,15 @@ Form overrides.
 }
 
 #client_docLoa_file {
-    margin-left: 205px;
+    margin-left: 0px;
+}
+
+#client_docLoa_file {
+    /*margin-left: 205px;*/
 }
 
 .client_edit #client_docLoa_file {
-    margin-left: 180px;
+    /*margin-left: 180px;*/
 }
 
 #contract_docAnalysis_file:hover,
@@ -484,15 +505,6 @@ Form overrides.
 
 #loginWrap .zend_form .form_row {
     text-align: center;
-}
-
-#loginWrap .zend_form p
-{
-    display: inline;
-}
-
-#loginWrap .zend_form label {
-	float: none;
 }
 
 /**
@@ -573,6 +585,16 @@ Form overrides.
 
 .filelistTable caption {
     font-weight: bold;
+}
+
+#clientGrid,
+#contractGrid,
+#invoiceGrid,
+#meterGrid,
+#siteGrid,
+#supplierGrid,
+#userGrid  {
+    height: 99.5%;
 }
 
 .dojoxGrid table {

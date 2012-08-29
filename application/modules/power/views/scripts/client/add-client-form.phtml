@@ -1,120 +1,32 @@
-<?php
-$form = $this->clientAddForm;
-
-/* @var $docForm Zend_Form */
-$docForm = $this->docForm;
-?>
-
 <div data-dojo-type="dijit.Dialog"
      id="clientForm"
      data-dojo-id="clientForm"
-     data-dojo-props="
-        title:'New Client'">
+     data-dojo-props="title:'New Client'">
+     
     <div class="dijitDialogPaneContentArea">
 
-        <div class="dialog_title">
-
-        </div>
-
         <div id="addClientWidget"
+        	 class="form_wrap"
              data-dojo-type="dojox.widget.Wizard"
              data-dojo-props="doneButtonLabel: 'Save'">
 
-            <form method="post" action="<?php echo $this->url(array(
+        	<form method="post" action="<?php echo $this->url(array(
                 'controller'    => 'client',
                 'action'        => 'save-client',
                 'module'        => 'power'
             ), 'default'); ?>" enctype="multipart/form-data">
 
-            <div class="form_wrap wizard">
-                <div data-dojo-type="dojox.widget.WizardPane"
-                     class="zend_form client_edit">
-
-                    <?php echo $form->client_name; ?>
-
-                    <?php echo $docForm->client_docLoa; ?>
-
-                    <?php echo $form->client_dateExpiryLoa; ?>
-
-                    <?php echo $form->client_desc; ?>
-
-                    <script type="dojo/method" data-dojo-event="onShow">
-                        clientForm.attr('title', 'Client Information');
-                        bba.Client.setupDocEvents();
-                    </script>
-                </div>
-
-                <div id="addClientWidgetPane1"
-                    data-dojo-type="dojox.widget.WizardPane"
-                     class="zend_form client_edit">
-
-                    <?php echo $form->clientAd_address1; ?>
-
-                    <?php echo $form->clientAd_address2; ?>
-
-                    <?php echo $form->clientAd_address3; ?>
-
-                    <?php echo $form->clientAd_postcode; ?>
-
-                    <?php echo $form->clientAd_addressName; ?>
-
-                    <script type="dojo/method" data-dojo-event="onShow">
-                        clientForm.attr('title', 'Main (HQ) Address');
-
-                        dijit.byId('clientAd_addressName').attr('value', dijit.byId('client_name').attr('value'));
-                    </script>
-                </div>
-
-                <div data-dojo-type="dojox.widget.WizardPane"
-                     class="zend_form client_edit">
-
-                    <?php echo $form->clientPers_type; ?>
-
-                    <?php echo $form->clientPers_name; ?>
-
-                    <?php echo $form->clientPers_position; ?>
-
-                    <?php echo $form->clientPers_phone; ?>
-
-                    <?php echo $form->clientPers_email; ?>
-
-                    <input dojoType="dijit.form.TextBox"
-                            type="hidden"
-                            name="type"
-                            id="type"
-                            value="add" />
-
-                    <script type="dojo/method" data-dojo-event="onShow">
-                        clientForm.attr('title', 'Main Liaison for BBA');
-                        dijit.byId('clientAd_addressName').set('value', dijit.byId('client_name').get('value'));
-                    </script>
-
-                    <script type='dojo/method' data-dojo-event="doneFunction">
-                        if (clientForm.getValues().client_docLoa[0] && clientForm.getValues().client_dateExpiryLoa === '') {
-                            bba.Client.clientLoaEmptyDialog();
-                            return false;
-                        }
-
-                        if (!clientForm.validate()) {
-                            alert('Please recheck all form entries for mistakes.');
-                            return false;
-                        }
-
-                        var vals = clientForm.get('value');
-                        client_docLoa.submit(vals);
-                    </script>
-                </div>
-
-                <div class="dialog_footer_info">
-                    <p class="required"> = required field</p>
-                    <p class="warn">Cancel exits without saving</p>
-                </div>
-
-            </div>
+           		<?php echo $this->clientForm; ?>
+            
+            	<div class="dialog_footer_info">
+                	<p class="required"> = required field</p>
+                	<p class="warn">Cancel exits without saving</p>
+            	</div>
+            	
+            </form>
             <script type="dojo/method" data-dojo-event="cancelFunction">
                 bba.closeDialog(dijit.byId('clientForm'));
             </script>
-            </form>
         </div>
     </div>
 </div>

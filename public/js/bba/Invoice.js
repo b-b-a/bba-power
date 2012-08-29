@@ -27,21 +27,12 @@
  */
 
 define("bba/Invoice",
-    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core",
-    "dijit/form/ValidationTextBox", "bba/Meter"],
-    function(dom, ready, parser, xhr, registry, bba){
-
-    ready(function () {
-
-        if (dom.byId('invoice')) {
-            dom.byId('invoice').focus();
-        }
-
-        if (dom.byId('invoiceGrid')) {
-            var form = registry.byId('Search');
-            if (form) bba.gridSearch(form, invoiceGrid);
-        }
-    });
+[
+    "bba/Core",
+    "bba/Meter",
+    "bba/Contract"
+],
+    function(core, meter, contract){
 
     bba.Invoice = {
         gridLayouts : {
@@ -57,7 +48,7 @@ define("bba/Invoice",
             ],
             invoiceLines : [
                 {field: 'invoiceLine_idInvoiceLine', width: '50px', name: 'Id'},
-                bba.Meter.gridLayouts.meter[5],
+                {field: 'meter_numberMain', width: '120px', name: 'Meter No'},
                 {field: 'contract_idContract', width: '100px', name: 'Contract Id'},
                 {field: 'invoiceLine_dateStart', width: '150px', name: 'Start Date'},
                 {field: 'invoiceLine_dateEnd', width: '150px', name: 'End Date'},
@@ -71,25 +62,111 @@ define("bba/Invoice",
                 {field: '', width: 'auto', name: ''}
             ],
             invoiceUsage : [
-                
+                {field: 'invoiceUsage_idInvoiceLine', width: '50px', name: 'Id'},
+                {field: 'invoiceUsage_idUsage', width: '150px', name: 'Usage Id'},
+                {field: 'invoiceUsage_typeMatch', width: '150px', name: 'Type Match'},
+                {field: 'invoiceUsage_dateCreated', width: '150px', name: 'Date Created'},
+                {field: 'usage_dateReading', width: '150px', name: 'Reading Date'},
+                {field: 'usage_totalUsage', width: '150px', name: 'Reading Usage'},
+                {field: '', width: 'auto', name: ''}
             ]
         },
 
-        invoiceGridRowClick : function(grid)
+        init : function()
         {
+            core.addDataStore('invoiceStore', core.storeUrls.invoice);
+
+            core.addGrid({
+                id : 'invoiceGrid',
+                store : core.dataStores.invoiceStore,
+                structure : bba.Invoice.gridLayouts.invoice,
+                sortInfo : '-1',
+                onRowClick : function() {
+                     bba.Invoice.invoiceGridRowClick();
+                }
+            });
+        },
+
+        invoiceGridRowClick : function()
+        {
+            grid = core.grids.invoiceGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'invoice_idInvoice');
             tabTitle = grid.store.getValue(selectedItem, 'invoice_numberInvoice');
 
-             bba.openTab({
+            this.showInvoiceTab(id, tabTitle);
+        },
+
+        showInvoiceTab : function(id, tabTitle)
+        {
+            soreId = 'invoiceLinesStore'+id;
+
+            core.openTab({
                 tabId : 'invoice' + id,
                 title : (tabTitle) ? tabTitle : 'Invoice',
-                url : './invoice/view-invoice',
-
+                url : './invoice/invoice',
                 content : {
                     type : 'details',
                     invoice_idInvoice : id
+                }
+            });
+        },
+
+        invoiceLineGridRowClick : function(grid, row, item)
+        {
+            //item = row.cell.field;
+            rowIndex = row.rowIndex;
+            selectedItem = grid.getItem(rowIndex);
+
+            switch (item) {
+                case 'meter_numberMain':
+                    bba.Meter.showMeterTab(
+                        grid.store.getValue(selectedItem, 'meter_idMeter'),
+                        grid.store.getValue(selectedItem, 'meter_numberMain')
+                    );
+                    break;
+                case 'contract_idContract':
+                    bba.Contract.showContractTab(
+                        grid.store.getValue(selectedItem, 'contract_idContract'),
+                        grid.store.getValue(selectedItem, 'contract_idContract')
+                    );
+                    break;
+                 case 'invoice_numberInvoice':
+                    this.showInvoiceTab(
+                        grid.store.getValue(selectedItem, 'invoiceLine_idInvoice'),
+                        grid.store.getValue(selectedItem, 'invoice_numberInvoice')
+                    );
+                    break;
+                default:
+                    this.showInvoiceLineTab(
+                        grid.store.getValue(selectedItem, 'invoiceLine_idInvoiceLine'),
+                        grid.store.getValue(selectedItem, 'invoiceLine_idInvoiceLine')
+                    );
+                    break;
+            }
+        },
+
+        invoiceUsageGridRowClick : function(grid)
+        {
+            selectedIndex = grid.focus.rowIndex;
+            selectedItem = grid.getItem(selectedIndex);
+            id = grid.store.getValue(selectedItem, 'usage_idMeter');
+            tabTitle = grid.store.getValue(selectedItem, 'meter_numberMain');
+
+            meter.showMeterTab(id, tabTitle);
+        },
+
+        showInvoiceLineTab : function(id, tabTitle)
+        {
+            core.openTab({
+                tabId : 'invoiceLine' + id,
+                title : (tabTitle) ? tabTitle : 'Invoice Line',
+                url : './invoice/invoice-line',
+
+                content : {
+                    type : 'details',
+                    invoiceLine_idInvoiceLine : id
                 }
             });
         }

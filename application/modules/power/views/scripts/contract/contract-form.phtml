@@ -114,6 +114,20 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                        id="contract_idContractPrevious"
                        required="true"
                        value="<?php echo $form->contract_idContractPrevious->getValue(); ?>" />
+                       
+                <input dojoType="dijit.form.TextBox"
+                       type="hidden"
+                       name="meter_idMeter"
+                       id="meter_idMeter"
+                       required="true"
+                       value="<?php echo $form->meter_idMeter->getValue(); ?>" />
+                       
+                <input dojoType="dijit.form.TextBox"
+                       type="hidden"
+                       name="meter_type"
+                       id="meter_type"
+                       required="true"
+                       value="<?php echo $form->meter_type->getValue(); ?>" />
 
                 <button data-dojo-type="dijit.form.Button"
                         data-dojo-props="onClick: function(){return dijit.byId('contractForm').validate();}"
@@ -127,5 +141,8 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
             </div>
         </div>
     </div>
-
 </div>
+
+<div data-dojo-id="contractFormStandby"
+     data-dojo-type="dojox.widget.Standby"
+     data-dojo-props="target:'contractForm', color: '#efefef', image: 'images/loader_lg.gif'"></div>

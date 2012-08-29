@@ -191,7 +191,7 @@
                 <caption>&nbsp;</caption>
                 <tr>
                     <th>Description:</th>
-                    <td class="description"><?php echo $this->contract->contract_desc; ?></td>
+                    <td class="description"><?php echo $this->contract->getShortDesc(); ?></td>
                 </tr>
             </table>
         </div>
@@ -211,13 +211,13 @@
                  data-dojo-props="region: 'center', title: 'Meters'">
 
                 <span data-dojo-type="dojox.data.QueryReadStore"
-                      data-dojo-id="meterContractStore<?php echo $this->contract->contract_idContract; ?>"
+                      data-dojo-id="contractMeterStore<?php echo $this->contract->contract_idContract; ?>"
                       data-dojo-props="url:'contract/data-store/type/meter',requestMethod:'post'"></span>
 
                 <table data-dojo-type="dojox.grid.DataGrid"
-                       id="meterContractGrid<?php echo $this->contract->contract_idContract; ?>"
+                       id="contractMeterGrid<?php echo $this->contract->contract_idContract; ?>"
                        data-dojo-props="
-                        store: meterContractStore<?php echo $this->contract->contract_idContract; ?>,
+                        store: contractMeterStore<?php echo $this->contract->contract_idContract; ?>,
                         structure: bba.Contract.gridLayouts.meter,
                         query: { meterContract_idContract: <?php echo $this->contract->contract_idContract; ?> },
                         sortInfo: '3',
@@ -247,8 +247,32 @@
                         bba.Contract.tenderGridRowClick(this);
                     </script>
                 </table>
-
             </div>
+
+            <?php if ($this->isAllowed('Admin')): ?>
+            <div data-dojo-type="dijit.layout.ContentPane"
+                 data-dojo-props="title: 'Invoice Lines'">
+
+                <span data-dojo-type="dojox.data.QueryReadStore"
+                      data-dojo-props="url: 'invoice/data-store/type/invoice-lines', requestMethod: 'post'"
+                      data-dojo-id="contractInvoiceLinesStore<?php echo $this->contract->contract_idContract; ?>"></span>
+
+                <table data-dojo-type="dojox.grid.DataGrid"
+                       data-dojo-id="contractInvoiceLinesGrid<?php echo $this->contract->contract_idContract; ?>"
+                       id="contractInvoiceLinesGrid<?php echo $this->contract->contract_idContract; ?>"
+                       data-dojo-props='
+                           store: contractInvoiceLinesStore<?php echo $this->contract->contract_idContract; ?>,
+                           structure: bba.Contract.gridLayouts.invoiceLines,
+                           query: { invoiceLine_idContract: <?php echo $this->contract->contract_idContract; ?> },
+                           sortInfo: "-3",
+                           noDataMessage : bba.gridMessage'>
+                    <script type="dojo/method" data-dojo-event="onCellClick" args="e">
+                        var colField = e.cell.field
+                        bba.Invoice.invoiceLineGridRowClick(this, e, colField);
+                    </script>
+                </table>
+            </div>
+            <?php endif; ?>
         </div>
     </div>
 

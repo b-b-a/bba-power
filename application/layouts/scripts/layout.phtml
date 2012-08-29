@@ -7,14 +7,16 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <link rel="stylesheet" href="<?php echo $this->baseUrl('css/reset.css'); ?>" type="text/css" />
         <link rel="stylesheet" href="<?php echo $this->baseUrl('css/text.css'); ?>" type="text/css" />
+        
+        <script type="text/javascript">
+           var bbaModule = '<?php echo ucfirst($this->request()->getControllerName()); ?>';
+        </script>
 
         <?php echo $this->headLink() ?>
 
         <?php echo $this->dojo(); ?>
 
         <link rel="stylesheet" href="<?php echo $this->baseUrl('css/site.css'); ?>" type="text/css" />
-
-        <?php echo $this->headScript() ?>
     </head>
     <body class="claro">
         <div id="loader">
@@ -48,8 +50,8 @@
              data-dojo-type="dijit.layout.ContentPane"
              data-dojo-props="region: 'top'">
              <h1>BBA Power Data Base System </h1>
-             <span id="version"><?php echo $this->version(); ?><span>
-             <span id="dojoVersion"><span>
+             <span id="version"><?php echo $this->version(); ?></span>
+             <span id="dojoVersion"></span>
         </div>
 
         <div id="leftPanel" class="edgePanel"
@@ -69,16 +71,23 @@
                            data-dojo-props="iconClass:'dijitCheckBoxIcon'"
                            id="tabRefreshButton">
                     Tab Refresh
-                    <script type="dojo/method" data-dojo-event="onChange" args="val">
-                        bba.tabRefreshButton(val);
+                    <script type="dojo/method" data-dojo-event="onChange" data-dojo-args="val">
+                        bba.setPref(this, val);
                     </script>
                 </button></p>
                 <p><button data-dojo-type="dijit.form.ToggleButton"
                            data-dojo-props="iconClass:'dijitCheckBoxIcon', checked: true"
                            id="confirmBoxButton">
                     Confirmation
-                    <script type="dojo/method" data-dojo-event="onChange" args="val">
-                        bba.confirmBoxButton(val);
+                    <script type="dojo/method" data-dojo-event="onChange" data-dojo-args="val">
+                        bba.setPref(this, val);
+                    </script>
+                </button></p>
+                <p><button data-dojo-type="dijit.form.Button"
+                           id="clearCacheButton">
+                    Clear Cache
+                    <script type="dojo/method" data-dojo-event="onClick">
+                        bba.clearCache();
                     </script>
                 </button></p>
             </div>
@@ -87,5 +96,8 @@
     </div>
     <div id="dialog"></div>
     <div id="errorDialog"></div>
+    <div data-dojo-id="pageStandby"
+     	 data-dojo-type="dojox.widget.Standby"
+     	 data-dojo-props="target:'ContentTabs', color: '#efefef', image: 'images/loader_lg.gif'"></div>
     </body>
 </html>

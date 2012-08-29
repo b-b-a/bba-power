@@ -64,19 +64,17 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initPluginLoaderCache()
     {
-        if ('production' == $this->getEnvironment()) {
-            $classFileIncCache =
-                APPLICATION_PATH .
-                '/../data/cache/pluginLoaderCache.php';
+        $classFileIncCache =
+            APPLICATION_PATH .
+            '/../data/cache/pluginLoaderCache.php';
 
-            if (file_exists($classFileIncCache)) {
-                include_once $classFileIncCache;
-            }
-
-            Zend_Loader_PluginLoader::setIncludeFileCache(
-                $classFileIncCache
-            );
+        if (file_exists($classFileIncCache)) {
+            include_once $classFileIncCache;
         }
+
+        Zend_Loader_PluginLoader::setIncludeFileCache(
+            $classFileIncCache
+        );
     }
 
     /**
@@ -139,10 +137,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
         $this->_view = $this->getResource('view');
 
-        $this->_view->addHelperPath(
-                APPLICATION_PATH . '/../library/ZendSF/View/Helper',
-                'ZendSF_View_Helper'
-        );
+        $this->_view->addHelperPath('ZendSF/View/Helper', 'ZendSF_View_Helper');
     }
 
     /**
@@ -186,12 +181,18 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 ->appendStylesheet('js/release/bba/dojox/widget/Wizard/Wizard.css');
         } else {
             $this->_view->dojo()
-                ->setLocalPath('js/dojo/dojo.js');
+                ->setLocalPath('/library/dojo/dojo/dojo.js')
+                ->setDjConfigOption('packages', array(
+                    array(
+                        'location'  => "/bba-power/public/js/bba",
+                        'name'      => "bba"
+                    )
+                ));
             $this->_view->headLink()
-                ->appendStylesheet('js/dojox/grid/resources/Grid.css')
-                ->appendStylesheet('js/dojox/grid/resources/claroGrid.css')
-                //->appendStylesheet('js/dojox/form/resources/UploaderFileList.css')
-                ->appendStylesheet('js/dojox/widget/Wizard/Wizard.css');
+                ->appendStylesheet('/library/dojo/dojox/grid/resources/Grid.css')
+                ->appendStylesheet('/library/dojo/dojox/grid/resources/claroGrid.css')
+                //->appendStylesheet('/library/dojo/dojox/form/resources/UploaderFileList.css')
+                ->appendStylesheet('/library/dojo/dojox/widget/Wizard/Wizard.css');
         }
 
         $this->_view->headTitle('BBA Power')->setSeparator(' - ');

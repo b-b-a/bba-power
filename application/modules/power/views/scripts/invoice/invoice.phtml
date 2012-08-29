@@ -28,13 +28,13 @@
         </div>
     </div>
 
-     <div data-dojo-type="dijit.layout.BorderContainer"
+    <div data-dojo-type="dijit.layout.BorderContainer"
          data-dojo-props="design: 'headline', region: 'center'"
          class="invoiceEditTabs-BorderContainter">
 
         <div id="InvoiceTabs<?php echo $this->invoice->invoice_idInvoice; ?>"
              data-dojo-type="dijit.layout.TabContainer"
-             data-dojo-props="region: 'center', tabStrip: 'true', splitter: 'true'"
+             data-dojo-props="region: 'center', tabStrip: 'true'"
              class="innerTabs">
 
             <div data-dojo-type="dijit.layout.ContentPane"
@@ -51,32 +51,11 @@
                         store: invoiceLinesStore<?php echo $this->invoice->invoice_idInvoice; ?>,
                         structure: bba.Invoice.gridLayouts.invoiceLines,
                         query: { invoiceLine_idInvoice: <?php echo $this->invoice->invoice_idInvoice; ?> },
-                        sortInfo: "-1",
+                        sortInfo: "-4",
                         noDataMessage : bba.gridMessage'>
-                    <script type="dojo/method" data-dojo-event="onRowClick">
-                        bba.Meter.meterGridRowClick(this);
-                    </script>
-                </table>
-            </div>
-
-            <div data-dojo-type="dijit.layout.ContentPane"
-                 data-dojo-props="title: 'Invoice Usage'">
-
-                <span data-dojo-type="dojox.data.QueryReadStore"
-                    data-dojo-props="url: 'invoice/data-store/type/invoice-usage', requestMethod: 'post'"
-                    data-dojo-id="invoiceUsageStore<?php echo $this->invoice->invoice_idInvoice; ?>"></span>
-
-                <table data-dojo-type="dojox.grid.DataGrid"
-                    data-dojo-id="invoiceUsageGrid<?php echo $this->invoice->invoice_idInvoice; ?>"
-                    id="invoiceUsageGrid<?php echo $this->invoice->invoice_idInvoice; ?>"
-                    data-dojo-props='
-                        store: invoiceUsageStore<?php echo $this->invoice->invoice_idInvoice; ?>,
-                        structure: bba.Invoice.gridLayouts.invoiceUsage,
-                        query: { invoiceLine_idInvoice: <?php echo $this->invoice->invoice_idInvoice; ?> },
-                        sortInfo: "-1",
-                        noDataMessage : bba.gridMessage'>
-                    <script type="dojo/method" data-dojo-event="onRowClick">
-                        bba.Meter.meterGridRowClick(this);
+                    <script type="dojo/method" data-dojo-event="onCellClick" args="e">
+                        var colField = e.cell.field
+                        bba.Invoice.invoiceLineGridRowClick(this, e, colField);
                     </script>
                 </table>
             </div>

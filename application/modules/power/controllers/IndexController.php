@@ -54,5 +54,14 @@ class Power_IndexController extends Zend_Controller_Action
     {
         return $this->_helper->redirector('index', 'meter');
     }
+    
+    public function clearCacheAction()
+    {
+    	$this->_helper->layout->disableLayout();
+    	
+    	$model = new Power_Model_Index();
+    	
+    	$model->clearCache(array());
+    }
 
 }

@@ -1,82 +1,21 @@
-<?php
-$form = $this->meterSaveForm;
-$type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
-?>
-
 <div data-dojo-type="dijit.Dialog"
      id="meterForm"
      data-dojo-id="meterForm"
      data-dojo-props="
-        title:'<?php echo $type; ?> Meter',
+        title:'<?php echo $this->type; ?> Meter',
         execute: bba.Meter.processMeterForm">
     <div class="dijitDialogPaneContentArea">
-
-        <div class="dialog_title">
-            
-        </div>
 
         <div class="form_wrap meter-add">
             <div class="zend_form">
 
-                <?php  if ($type == 'New'): ?>
-                    <?php echo $form->meter_type; ?>
-                <?php else: ?>
-                    <div class="form_row">
-                        <p id="meter_type-label">
-                            <label class="required" for="meter_type">Meter Type:</label>
-                        </p>
-                        <p class="element">
-                            <?php echo $form->meter_type->options[$form->meter_type->getValue()]; ?>
-                            <input data-dojo-type="dijit.form.TextBox"
-                                   type="hidden"
-                                   name="meter_type"
-                                   id="meter_type"
-                                   required="true"
-                                   value="<?php echo $form->meter_type->getValue(); ?>" />
-                        <p/>
-                    </div>
-                <?php endif; ?>
-
-                <?php echo $form->meter_status; ?>
-
-                <?php echo $form->meter_numberTop; ?>
-
-                <?php echo $form->meter_numberMain; ?>
-
-                <?php echo $form->meter_numberSerial; ?>
-
-                <?php echo $form->meter_capacity; ?>
-
-                <?php echo $form->meter_desc; ?>
+                <?php echo $this->meterForm; ?>
                 
                 <div class="dialog_footer_info">
                     <p class="required"> = required field</p>
                     <p class="warn">Cancel exits without saving</p>
                 </div>
                 <div class="clear"></div>
-
-                <input data-dojo-type="dijit.form.TextBox"
-                       type="hidden"
-                       name="meter_idMeter"
-                       id="meter_idMeter"
-                       required="true"
-                       value="<?php echo $form->meter_idMeter->getValue(); ?>" />
-
-                <input data-dojo-type="dijit.form.TextBox"
-                       type="hidden"
-                       name="meter_idSite"
-                       id="meter_idSite"
-                       required="true"
-                       value="<?php echo $form->meter_idSite->getValue(); ?>" />
-
-                <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: function(){return dijit.byId('meterForm').validate();}"
-                        type="submit"
-                        id="meterFormSubmitButton">Save</button>
-
-                <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('meterForm'));}"
-                        id="meterFormCancelButton">Cancel</button>
             </div>
         </div>
     </div>

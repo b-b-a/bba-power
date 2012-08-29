@@ -186,8 +186,7 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
         }
 
         $link = $this->makeButton($this->_currentFile);
-        return '<span>Stored on:&nbsp;' . $this->_currentFile['date'] . ' ' . $this->_currentFile['time']
-            . '<br />' . $this->_currentFile['normalise']
+        return '<span>' . $this->_currentFile['normalise']
             . $link . '</span>' . self::EOL;
     }
 

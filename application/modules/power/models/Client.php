@@ -127,7 +127,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('client')->numRows($search)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -151,7 +151,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('clientAddress')->numRows($post)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -175,7 +175,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('clientPersonnel')->numRows($post)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -190,10 +190,9 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             throw new ZendSF_Acl_Exception('Insufficient rights');
         }
 
-        $log = Zend_Registry::get('log');
-
         // validate form.
         $form = $this->getForm('clientAdd');
+        
         /* @var $form Power_Form_Doc_Client */
         $docForm = $this->getForm('docClient');
 
@@ -214,6 +213,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         }
 
         // get filtered values.
+        $form->removeElement('client_docLoa');
         $post = $form->getValues();
 
         $this->getDbTable('client')->getAdapter()->beginTransaction();
@@ -251,7 +251,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
             $post['client_idClient'] = $clientSave;
             $post['client_idAddress'] = $clientAdSave;
-            $post['client_idClientPersonnel'] = $clientCoSave;
+            $post['client_idClientPersonnel'] = $clientPersSave;
+            $post['client_idRegAddress'] = $clientSave;
             $clientSave = $this->_saveClient($post);
 
             $newSite = array(
@@ -265,7 +266,6 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $siteSave = $this->getDbTable('site')->saveRow($newSite, null);
 
         } catch (Exception $e) {
-            $log->info($e);
             $this->getDbTable('client')->getAdapter()->rollBack();
             return false;
         }
@@ -291,7 +291,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         }
 
         /* @var $form Power_Form_Client_Save */
-        $form = $this->getForm('clientSave');
+        $form = $this->getForm('clientEdit');
+        
         /* @var $form Power_Form_Doc_Client */
         $docForm = $this->getForm('docClient');
 
@@ -313,6 +314,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             return false;
         }
 
+        $form->removeElement('client_docLoa');
         $data = $form->getValues();
 
         // add filters to the docForm.
@@ -344,6 +346,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
         $client = array_key_exists('client_idClient', $data) ?
             $this->getClientById($data['client_idClient']) : null;
+        
+        $this->clearCache(array('client'));
 
         return $this->getDbTable('client')->saveRow($data, $client);
     }
@@ -405,6 +409,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     {
         $clientAd = array_key_exists('clientAd_idAddress', $data) ?
             $this->getClientAddressById($data['clientAd_idAddress']) : null;
+        
+        $this->clearCache(array('clientAddress'));
 
         return $this->getDbTable('clientAddress')->saveRow($data, $clientAd);
     }
@@ -449,6 +455,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     {
         $clientPers = array_key_exists('clientPers_idClientPersonnel', $data) ?
             $this->getClientPersonnelById($data['clientPers_idClientPersonnel']) : null;
+        
+        $this->clearCache(array('clientPersonnel'));
 
         return $this->getDbTable('clientPersonnel')->saveRow($data, $clientPers);
     }

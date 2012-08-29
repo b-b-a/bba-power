@@ -83,15 +83,37 @@ class Power_Model_DbTable_Invoice_Line extends ZendSF_Model_DbTable_Abstract
     protected function _getSearchInvoiceLinesSelect(array $search)
     {
         $select = $this->select()->setIntegrityCheck(false)
-            ->from('invoice_line')
+            ->from('invoice_line', array(
+                '*',
+                'invoiceLine_consumption' => new Zend_Db_Expr('(
+                    SELECT SUM(usage_usageNight) + SUM(usage_usageDay) + SUM(usage_usageOther)
+                    FROM invoice_usage, pusage
+                    WHERE invoiceUsage_idInvoiceLine = invoiceLine_idInvoiceLine
+                    AND invoiceUsage_idUsage = usage_idUsage
+                 )')
+            ))
+            ->join('invoice', 'invoiceLine_idInvoice = invoice_idInvoice', array(
+                'invoice_numberInvoice'
+            ))
             ->join('meter', 'invoiceLine_idMeter = meter_idMeter', array(
                 'meter_idMeter',
                 'meter_numberMain'
             ))
             ->join('contract', 'invoiceLine_idContract = contract_idContract', array(
                 'contract_idContract'
-            ))
-            ->where('invoiceLine_idInvoice = ?', $search['invoiceLine_idInvoice']);
+            ));
+
+        if (isset($search['invoiceLine_idInvoice'])) {
+            $select->where('invoiceLine_idInvoice = ?', $search['invoiceLine_idInvoice']);
+        }
+
+        if (isset($search['invoiceLine_idMeter'])) {
+            $select->where('invoiceLine_idMeter = ?', $search['invoiceLine_idMeter']);
+        }
+
+        if (isset($search['invoiceLine_idContract'])) {
+            $select->where('invoiceLine_idContract = ?', $search['invoiceLine_idContract']);
+        }
 
         return $select;
     }

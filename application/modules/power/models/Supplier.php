@@ -79,7 +79,7 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('supplier')->numRows($search)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     public function getSupplierPersonnelDataStore(array $post)
@@ -99,7 +99,7 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('supplierPersonnel')->numRows($id)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     public function getSupplierContractDataStore(array $post)
@@ -122,7 +122,7 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
                 ->count()
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -185,6 +185,8 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
 
         $supplier = array_key_exists('supplier_idSupplier', $data) ?
             $this->getSupplierById($data['supplier_idSupplier']) : null;
+        
+        $this->clearCache(array('supplier'));
 
         return $this->getDbTable('supplier')->saveRow($data, $supplier);
     }
@@ -204,6 +206,8 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
                     ->supplierPers_email
             ));
         }
+        
+        $this->clearCache(array('supplierPersonnel'));
 
         if (!$form->isValid($post)) {
             return false;

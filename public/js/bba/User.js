@@ -27,21 +27,16 @@
  */
 
 define("bba/User",
-    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core",
-    "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect"],
-    function(dom, ready, parser, xhr, registry, bba){
-
-    ready(function () {
-
-        if (dom.byId('user')) {
-            dom.byId('user').focus();
-        }
-
-        if (dom.byId('userGrid')) {
-            var form = registry.byId('Search');
-            if (form) bba.gridSearch(form, userGrid);
-        }
-    });
+[
+    "dojo/dom",
+    "dojo/parser",
+    "dojo/_base/xhr",
+    "dijit/registry",
+    "bba/Core",
+    "dijit/form/ValidationTextBox",
+    "dijit/form/FilteringSelect"
+],
+    function(dom, parser, xhr, registry, core){
 
     bba.User = {
         gridLayouts : {
@@ -54,9 +49,25 @@ define("bba/User",
                 {field: '', width: 'auto', name: ''}
             ]
         },
-
-        userGridRowClick : function(grid)
+        
+        init : function()
         {
+            core.addDataStore('userStore', core.storeUrls.user);
+
+            core.addGrid({
+                id : 'userGrid',
+                store : core.dataStores.userStore,
+                structure : bba.User.gridLayouts.user,
+                sortInfo : '2',
+                onRowClick : function() {
+                     bba.User.userGridRowClick();
+                }
+            });
+        },
+
+        userGridRowClick : function()
+        {
+            grid = core.grids.userGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'user_idUser');
@@ -91,6 +102,7 @@ define("bba/User",
         processUserForm : function()
         {
             //bba.closeDialog(userForm);
+        	pageStandby.show();
 
             values = arguments[0];
             values.type = (values.user_idUser) ? 'edit' : 'add';
@@ -104,13 +116,14 @@ define("bba/User",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
+                    pageStandby.hide();
 
                     if (data.error) {
                         error.show();
                     } else if (data.saved > 0) {
                         registry.byId('userGrid')._refresh();
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
                     } else {

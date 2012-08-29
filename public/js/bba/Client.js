@@ -26,25 +26,29 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Client",
-    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/connect", "dojo/_base/xhr",
-    "dijit/registry", "dojo/date", "dijit/Dialog", "dojo/text!./html/LoaEmptyMessage.html",
-    "dojo/text!./html/LoaDateMessage.html", "bba/Core", "bba/Site", "bba/Contract",
-    "dojox/widget/Wizard", "dijit/form/ValidationTextBox", "dijit/form/FilteringSelect",
+[
+    "dojo/dom",
+    "dojo/query",
+    "dojo/parser",
+    "dojo/_base/connect",
+    "dojo/_base/xhr",
+    "dijit/registry",
+    "dojo/date",
+    "dijit/Dialog",
+    "dojo/text!./html/LoaEmptyMessage.html",
+    "dojo/text!./html/LoaDateMessage.html",
+    "bba/Core",
+    "bba/Site",
+    "bba/Contract",
+    "dojox/widget/Wizard",
+    "dijit/form/ValidationTextBox",
+    "dijit/form/FilteringSelect",
+    "dijit/form/CheckBox",
     "dijit/form/SimpleTextarea",
-    "dojox/form/Uploader", "dojox/form/uploader/plugins/IFrame"],
-    function(dom, ready, parser, connect, xhr, registry, date, Dialog, LoaEmpty, LoaDate, bba) {
-
-    ready(function () {
-
-        if (dom.byId('client')) {
-            dom.byId('client').focus();
-        }
-
-        if (dom.byId('clientGrid')) {
-            var form = registry.byId('Search');
-            if (form) bba.gridSearch(form, clientGrid);
-        }
-    });
+    "dojox/form/Uploader",
+    "dojox/form/uploader/plugins/IFrame"
+],
+    function(dom, query, parser, connect, xhr, registry, date, Dialog, LoaEmpty, LoaDate, core) {
 
     bba.Client = {
         dateExpiryLoa : null,
@@ -77,10 +81,26 @@ define("bba/Client",
                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
                 {field: '', width: 'auto', name: ''}
             ]
-         },
+        },
+         
+        init : function()
+        {
+            core.addDataStore('clientStore', core.storeUrls.client);
 
-         clientGridRowClick : function(grid)
-         {
+            core.addGrid({
+                id : 'clientGrid',
+                store : core.dataStores.clientStore,
+                structure : bba.Client.gridLayouts.client,
+                sortInfo : '2',
+                onRowClick : function() {
+                     bba.Client.clientGridRowClick();
+                }
+            });
+        },
+
+        clientGridRowClick : function(grid)
+        {
+            grid = (grid) ? grid : core.grids.clientGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'client_idClient');
@@ -183,7 +203,7 @@ define("bba/Client",
                     content: dojo.mixin({type : 'edit'}, contentVars),
                     dialog: 'clientForm',
                     deferredFunction: function() {
-                        bba.Client.setupDocEvents();
+                        this.setupDocEvents();
                         this.dateExpiryLoa = clientForm.getValues().client_dateExpiryLoa;
                     }.bind(this)
                 });
@@ -226,7 +246,7 @@ define("bba/Client",
         clientFormValidate : function()
         {
             formValues = clientForm.getValues();
-
+            
             if (!formValues.client_docLoa[0]) {
                 return clientForm.validate();
             }
@@ -271,10 +291,12 @@ define("bba/Client",
         processClientForm : function()
         {
             bba.closeDialog(clientForm);
+            pageStandby.show();
             data = arguments[0];
 
             dom.byId('dialog').innerHTML = data.html;
             parser.parse('dialog');
+            pageStandby.hide();
 
             if (data.error) {
                 error.show();
@@ -285,12 +307,12 @@ define("bba/Client",
                     registry.byId('clientGrid')._refresh();
                 }
 
-                if (bba.confrimBox) {
+                if (bba.config.confirmBox) {
                     confirm.show();
                 }
             } else {
                 bba.setupDialog(clientForm);
-                bba.Client.setupDocEvents();
+                this.setupDocEvents();
                 clientForm.show();
             }
         },
@@ -298,7 +320,7 @@ define("bba/Client",
         processClientAdForm : function()
         {
             //bba.closeDialog(clientAdForm);
-
+        	pageStandby.show();
             values = arguments[0];
             values.type = (values.clientAd_idAddress) ? 'edit' : 'add';
 
@@ -310,6 +332,7 @@ define("bba/Client",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
+                    pageStandby.hide();
 
                     if (data.error) {
                         error.show();
@@ -320,7 +343,7 @@ define("bba/Client",
                             registry.byId('clientAdGrid' + values.clientAd_idClient)._refresh();
                         }
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
 
@@ -336,7 +359,7 @@ define("bba/Client",
         processClientPersForm : function()
         {
             //bba.closeDialog(clientCoForm);
-
+        	pageStandby.show();
             values = arguments[0];
             values.type = (values.clientPers_idClientPersonnel) ? 'edit' : 'add';
 
@@ -348,6 +371,7 @@ define("bba/Client",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
+                    pageStandby.hide();
 
                     if (data.error) {
                         error.show();
@@ -360,7 +384,7 @@ define("bba/Client",
                             registry.byId('clientAdPersGrid' + values.clientPers_idAddress)._refresh();
                         }
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
                         bba.deferredFunction(data.saved);
@@ -374,16 +398,73 @@ define("bba/Client",
 
         setupDocEvents : function()
         {
-            dojo.connect(dom.byId('client_docLoa_file'), "onclick", function(){
-                dojo.query('input[name=client_docLoa]')[0].click();
+            docClick = connect.connect(dom.byId('client_docLoa_file'), "onclick", function(){
+                query('input[name=client_docLoa]')[0].click();
             });
 
-            connect.connect(client_docLoa, "onChange", function(fileArray){
+            docChange = connect.connect(client_docLoa, "onChange", function(fileArray){
                 bba.docFileList(fileArray, 'client_docLoa_file');
             });
+            
+            docComplete = connect.connect(client_docLoa, "onComplete", this, this.processClientForm);
+            docError = connect.connect(client_docLoa, "onError", this, this.processClientForm);
+            
+            connect.connect(registry.byId('client_registeredCompany'), "onClick", function(){
+            	if (this.get('value')) {
+            		registry.byId('client_numberCompany').set('value', 'Not a Registered Company');
+            	} else {
+            		registry.byId('client_numberCompany').set('value', '');
+            	}
+            });
+            
+            connect.connect(registry.byId('client_registeredVAT'), "onClick", function(){
+            	if (this.get('value')) {
+            		registry.byId('client_numberVAT').set('value', 'Not VAT Registered');
+            	} else {
+            		registry.byId('client_numberVAT').set('value', '');
+            	}
+            });
+        },
+        
+        wizardClientPane : function()
+        {
+        	clientForm.attr('title', 'Client Information');
+        	bba.Client.setupDocEvents();
+        },
+        
+        wizardClientAdPane : function()
+        {
+        	if (typeof docClick != 'undefined'){
+	        	connect.disconnect(docClick);
+	        	connect.disconnect(docChange);
+	        	connect.disconnect(docComplete);
+	        	connect.disconnect(docError);
+        	}
+        	
+        	clientForm.attr('title', 'Main (HQ) Address');
+            dijit.byId('clientAd_addressName').attr('value', dijit.byId('client_name').attr('value'));
+        },
+        
+        wizardClientPersPane : function()
+        {
+        	clientForm.attr('title', 'Main Liaison for BBA');
+            dijit.byId('clientAd_addressName').set('value', dijit.byId('client_name').get('value'));
+        },
+        
+        wizardDoneFunction : function()
+        {
+        	if (clientForm.getValues().client_docLoa[0] && clientForm.getValues().client_dateExpiryLoa === '') {
+                bba.Client.clientLoaEmptyDialog();
+                return false;
+            }
 
-            connect.connect(client_docLoa, "onComplete", bba.Client.processClientForm);
-            connect.connect(client_docLoa, "onError", bba.Client.processClientForm);
+            if (!clientForm.validate()) {
+                alert('Please recheck all form entries for mistakes.');
+                return false;
+            }
+
+            var vals = clientForm.get('value');
+            client_docLoa.submit(vals);
         }
     };
 

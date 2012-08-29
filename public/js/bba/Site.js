@@ -37,22 +37,22 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Site",
-    ["dojo/dom", "dojo/_base/connect", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dojo/data/ItemFileReadStore",
-    "dijit/registry", "bba/Core", "bba/Meter", "bba/Client", "dijit/form/RadioButton", "dijit/form/NumberTextBox",
-    "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea", "dojox/widget/Standby"],
-    function(dom, connect, ready, parser, xhr, ItemFileReadStore, registry, bba) {
-
-    ready(function(){
-
-        if (dom.byId('site')) {
-            dom.byId('site').focus();
-        }
-
-        if (dom.byId('siteGrid')) {
-            var form = registry.byId('Search');
-            if (form) bba.gridSearch(form, siteGrid);
-        }
-    });
+[
+    "dojo/dom",
+    "dojo/_base/connect",
+    "dojo/parser",
+    "dojo/_base/xhr",
+    "dojo/data/ItemFileReadStore",
+    "dijit/registry",
+    "bba/Core",
+    "bba/Meter",
+    "bba/Client",
+    "dijit/form/RadioButton",
+    "dijit/form/NumberTextBox",
+    "dijit/form/FilteringSelect",
+    "dijit/form/SimpleTextarea"
+],
+    function(dom, connect, parser, xhr, ItemFileReadStore, registry, core) {
 
     bba.Site = {
         clientStore : null,
@@ -80,6 +80,21 @@ define("bba/Site",
                 {field: 'meter_numberMain', width: '200px', name: 'Number Main'},
                 {field: '', width: 'auto', name: ''}
             ]
+        },
+        
+        init : function()
+        {
+            core.addDataStore('siteStore', core.storeUrls.site);
+
+            core.addGrid({
+                id : 'siteGrid',
+                store : core.dataStores.siteStore,
+                structure : bba.Site.gridLayouts.site,
+                sortInfo : '2',
+                onRowClick : function() {
+                     bba.Site.siteGridRowClick();
+                }
+            });
         },
 
         setupClientStore : function()
@@ -151,6 +166,7 @@ define("bba/Site",
         getPersonnelStore : function(val, id)
         {
             siteFormStandby.show();
+            val = (val) ? val : 0;
             this.personnelStore = new ItemFileReadStore({
                 url:'./site/data-store/type/personnel/clientId/' + id
             })
@@ -165,7 +181,7 @@ define("bba/Site",
             });
 
             registry.byId("site_idClientPersonnel").set('store', this.personnelStore);
-            if (val) registry.byId('site_idClientPersonnel').set('value', val);
+            registry.byId('site_idClientPersonnel').set('value', val);
         },
 
         changeAddress : function(val)
@@ -213,11 +229,11 @@ define("bba/Site",
         {
             if (obj.value === -1) {
                 bba.Client.newClientPersButtonClick({
-                    clientPers_idClient : registry.byId("site_idClient").get('value')
+                    clientPers_idClient : registry.byId('site_idClient').get('value')
                 });
 
                 bba.deferredFunction = function(val) {
-                    bba.Site.getPersonnelStore(val, registry.byId("site_idClient").get('value'));
+                    bba.Site.getPersonnelStore(val, registry.byId('site_idClient').get('value'));
                 }
             }
         },
@@ -231,6 +247,7 @@ define("bba/Site",
 
         siteGridRowClick : function(grid)
         {
+            grid = (grid) ? grid : core.grids.siteGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'site_idSite');
@@ -274,7 +291,12 @@ define("bba/Site",
                 bba.openFormDialog({
                     url: './site/edit-site',
                     content: dojo.mixin({type :  'edit'}, contentVars),
-                    dialog: 'siteForm'
+                    dialog: 'siteForm',
+                    deferredFunction : function() {
+                        val = registry.byId('site_idClientPersonnel').get('value');
+                        id = registry.byId('site_idClient').get('value');
+                        bba.Site.getPersonnelStore(val, id);
+                    }
                 });
             } else {
                 siteForm.show();
@@ -284,6 +306,7 @@ define("bba/Site",
         processSiteForm : function()
         {
             //bba.closeDialog(siteForm);
+        	pageStandby.show();
 
             values = arguments[0];
             values.type = (values.site_idSite) ? 'edit' : 'add';
@@ -296,6 +319,7 @@ define("bba/Site",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
+                    pageStandby.hide();
 
                     if (data.error) {
                         error.show();
@@ -306,7 +330,7 @@ define("bba/Site",
                             registry.byId('siteGrid')._refresh();
                         }
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
 

@@ -39,6 +39,20 @@
  */
 class Power_Form_Client_Personnel_Save extends ZendSF_Dojo_Form_Abstract
 {
+	protected $_defaultDecorators = array(
+		'Description',
+		'FormElements',
+		array(
+			'HtmlTag',
+			array(
+				'tag'   => 'table',
+				'class' => 'zend_form'
+			)
+		)
+	);
+	
+	protected $_hiddenDecorators = array('ViewHelper');
+	
     public function init()
     {
         $this->setName('client-personnel');
@@ -81,7 +95,7 @@ class Power_Form_Client_Personnel_Save extends ZendSF_Dojo_Form_Abstract
             )
         ));
 
-        $this->addElement('TextBox', 'clientPers_position', array(
+        $this->addElement('ValidationTextBox', 'clientPers_position', array(
             'label'         => 'Position:',
             'filters'       => array('StripTags', 'StringTrim'),
             'validators'    => array(
@@ -92,7 +106,7 @@ class Power_Form_Client_Personnel_Save extends ZendSF_Dojo_Form_Abstract
             )
         ));
 
-        $this->addElement('TextBox', 'clientPers_phone', array(
+        $this->addElement('ValidationTextBox', 'clientPers_phone', array(
             'label'         => 'Phone:',
             'filters'       => array('StripTags', 'StringTrim'),
             'dijitParams'   => array(
@@ -100,7 +114,7 @@ class Power_Form_Client_Personnel_Save extends ZendSF_Dojo_Form_Abstract
             )
         ));
 
-        $this->addElement('TextBox', 'clientPers_email', array(
+        $this->addElement('ValidationTextBox', 'clientPers_email', array(
             'label'         => 'email:',
             'filters'       => array('StripTags', 'StringTrim', 'StringToLower'),
             'validators'    => array(
@@ -114,8 +128,6 @@ class Power_Form_Client_Personnel_Save extends ZendSF_Dojo_Form_Abstract
                 'promptMessage' => 'Enter clients Email.'
             )
         ));
-
-        $this->addHiddenElement('clientPers_idAddress', '');
 
         $request = Zend_Controller_Front::getInstance()->getRequest();
 
@@ -155,5 +167,56 @@ class Power_Form_Client_Personnel_Save extends ZendSF_Dojo_Form_Abstract
 
         $this->addHiddenElement('clientPers_idClientPersonnel', '');
         $this->addHiddenElement('clientPers_idClient', '');
+        
+        $this->addElement('Button', 'clientPersFormSubmitButton', array(
+        		'required'  => false,
+        		'ignore'    => true,
+        		'decorators'    => $this->_submitDecorators,
+        		'label'     => 'Submit',
+        		'value'     => 'Submit',
+        		'dijitParams'   => array(
+        				'onClick' => "return dijit.byId('clientPersForm').validate()"
+        		),
+        		'attribs' => array('type' => 'submit')
+        ));
+        
+        $this->addElement('Button', 'clientPersFormCancelButton', array(
+        		'required'  => false,
+        		'ignore'    => true,
+        		'decorators'    => $this->_submitDecorators,
+        		'label'     => 'Cancel',
+        		'value'     => 'Cancel',
+        		'dijitParams'   => array(
+        				'onClick' => "return bba.closeDialog(dijit.byId('clientPersForm'))"
+        		)
+        ));
+        
+        $this->addDisplayGroup(
+        	array(
+        		'clientPersFormSubmitButton',
+        		'clientPersFormCancelButton',
+        	),
+        	'Buttons',
+        	array(
+        		'decorators' => array(
+        			'FormElements',
+        			array(
+        				array('data' => 'HtmlTag'),
+        				array(
+        					'tag' => 'td',
+        					'class' => 'submitElement',
+        					'colspan' => '2'
+        				)
+        			),
+        			array(
+        				array('row' => 'HtmlTag'),
+        				array(
+        					'tag' => 'tr',
+        					'class' => 'form_row'
+        				)
+        			)
+        		)
+        	)
+        );
     }
 }

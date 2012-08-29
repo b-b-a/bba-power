@@ -108,8 +108,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             $search = $form->getValues();
         }
 
-        if (isset($post['idClient'])) {
-            $search['idClient'] = (int) $post['idClient'];
+        if (isset($post['contract_idClient'])) {
+            $search['contract_idClient'] = (int) $post['contract_idClient'];
         }
 
         if (isset($post['idSite'])) {
@@ -125,7 +125,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('contract')->numRows($search)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -149,7 +149,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('meterContract')->numRows($post)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -173,7 +173,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('tender')->numRows($post)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -285,7 +285,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         $store = new Zend_Dojo_Data('meter_idMeter', $meters);
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -354,6 +354,32 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         // get filtered values, this also uploads the files.
         $data = $docForm->getValues();
+        
+        $log = Zend_Registry::get('log');
+        $log->info($id);
+        
+        // add meter to contract if set.
+        if ($post['meter_idMeter']) {
+        	$meterId = (int) $post['meter_idMeter'];
+        	$row = $this->getDbTable('meter')
+        		->getMeterById($meterId)
+        		->getCurrentContract();
+        	
+        	$meterContract = $this->saveMetersToContract(array(
+				'jsonData' => Zend_Json::encode(array(
+					'contract' => $id,
+					'meters' => array(
+						array(
+							'id' => $meterId,
+							'kva' => ($row->meterContract_kvaNominated) ? $row->meterContract_kvaNominated : 0,
+							'eac' => ($row->meterContract_eac) ? $row->meterContract_eac : 0
+						)
+					)
+				)
+        	)));
+        }
+        
+        $this->clearCache(array('contract'));
 
         return $id;
     }
@@ -412,6 +438,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
                     ->deleteRow($row['meterContract_idMeter'], $row['meterContract_idContract']);
             }
         }
+        
+        $this->clearCache(array('meterContract'));
 
         return $result;
     }
@@ -452,6 +480,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         $tender = array_key_exists('tender_idTender', $data) ?
             $this->getTenderById($data['tender_idTender']) : null;
+        
+        $this->clearCache(array('tender'));
 
         return $this->getDbTable('tender')->saveRow($data, $tender);
     }

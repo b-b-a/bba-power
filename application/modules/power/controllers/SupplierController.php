@@ -74,17 +74,21 @@ class Power_SupplierController extends Zend_Controller_Action
 
             switch ($request->getParam('type')) {
                 case 'suppliers':
-                    $data = $this->_model->getSupplierDataStore($request->getPost());
+                    $data = $this->_model->getCached('supplier')
+                    	->getSupplierDataStore($request->getPost());
                     break;
                 case 'personnel':
-                    $data = $this->_model->getSupplierPersonnelDataStore($request->getPost());
+                    $data = $this->_model->getCached('supplierPersonnel')
+                    	->getSupplierPersonnelDataStore($request->getPost());
                     break;
                 case 'contract':
-                    $data = $this->_model->getSupplierContractDataStore($request->getPost());
+                    $data = $this->_model->getCached('contract')
+                    	->getSupplierContractDataStore($request->getPost());
                     break;
                 case 'supplierList':
                 case 'supplierPersonnel':
-                    $data = $this->_model->getFileringSelectData($request->getParams());
+                    $data = $this->_model->getCached('supplierPersonnel')
+                    	->getFileringSelectData($request->getParams());
                     break;
                 default :
                     $data = '{}';

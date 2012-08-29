@@ -92,7 +92,7 @@ class Power_InvoiceController extends Zend_Controller_Action
         ));
     }
 
-    public function viewInvoiceAction()
+    public function invoiceAction()
     {
 
         $request = $this->getRequest();
@@ -111,6 +111,24 @@ class Power_InvoiceController extends Zend_Controller_Action
         }
     }
 
+    public function invoiceLineAction()
+    {
+        $request = $this->getRequest();
+        $this->_helper->layout->disableLayout();
+
+        if ($request->getParam('invoiceLine_idInvoiceLine') && $request->isPost()
+                && $request->isXmlHttpRequest()) {
+
+            $invLi = $this->_model->getInvoiceLineById($request->getPost('invoiceLine_idInvoiceLine'));
+
+            $this->view->assign(array(
+                'invoiceLine' => $invLi
+            ));
+        } else {
+           return $this->_helper->redirector('index', 'invoice');
+        }
+    }
+
     public function dataStoreAction()
     {
         $this->getHelper('viewRenderer')->setNoRender(true);
@@ -121,10 +139,16 @@ class Power_InvoiceController extends Zend_Controller_Action
 
             switch ($request->getParam('type')) {
                 case 'invoice':
-                    $data = $this->_model->getInvoiceDataStore($request->getPost());
+                    $data = $this->_model->getCached('invoice')
+                    	->getInvoiceDataStore($request->getPost());
                     break;
                 case 'invoice-lines':
-                    $data = $this->_model->getInvoiceLinesDataStore($request->getPost());
+                    $data = $this->_model->getCached('invoiceLines')
+                    	->getInvoiceLinesDataStore($request->getPost());
+                    break;
+                case 'invoice-usage':
+                    $data = $this->_model->getCached('invoiceUsage')
+                    	->getInvoiceUsageDataStore($request->getPost());
                     break;
                 default :
                     $data = '{}';

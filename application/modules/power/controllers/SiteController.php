@@ -74,16 +74,25 @@ class Power_SiteController extends Zend_Controller_Action
 
             switch ($request->getParam('type')) {
                 case 'site':
-                    $data = $this->_model->getSiteDataStore($request->getPost());
+                    $data = $this->_model->getCached('site')
+                    	->getSiteDataStore($request->getPost());
                     break;
                 case 'siteMeters':
-                    $data = $this->_model->getSiteMetersDataStore($request->getPost());
+                    $data = $this->_model->getCached('meter')
+                    	->getSiteMetersDataStore($request->getPost());
                     break;
                 case 'clients':
+                	$data = $this->_model->getCached('client')
+                		->getFileringSelectData($request->getParams());
+                	break;
                 case 'address':
                 case 'billAddress':
+                	$data = $this->_model->getCached('clientAddress')
+                		->getFileringSelectData($request->getParams());
+                	break;
                 case 'personnel':
-                    $data = $this->_model->getFileringSelectData($request->getParams());
+                    $data = $this->_model->getCached('clientPersonnel')
+                    	->getFileringSelectData($request->getParams());
                     break;
                 default :
                     $data = '{}';
@@ -156,7 +165,7 @@ class Power_SiteController extends Zend_Controller_Action
             $site = $this->_model->getSiteById($request->getPost('site_idSite'));
 
             $form = $this->_getForm('siteEdit', 'save-site');
-            $form->populate($site->toArray());
+            $form->populate($site->toArray('dd/MM/yyyy', true));
 
             $this->view->assign(array(
                 'site'          => $site,

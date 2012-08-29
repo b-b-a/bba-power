@@ -39,6 +39,20 @@
  */
 class Power_Form_Client_Address_Save extends ZendSF_Dojo_Form_Abstract
 {
+	protected $_defaultDecorators = array(
+		'Description',
+		'FormElements',
+		array(
+			'HtmlTag',
+			array(
+				'tag'   => 'table',
+				'class' => 'zend_form'
+			)
+		)
+	);
+	
+	protected $_hiddenDecorators = array('ViewHelper');
+	
     public function init()
     {
         $request = Zend_Controller_Front::getInstance()->getRequest();
@@ -71,7 +85,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Dojo_Form_Abstract
             )
         ));
 
-        $this->addElement('TextBox', 'clientAd_address2', array(
+        $this->addElement('ValidationTextBox', 'clientAd_address2', array(
             'label'     => 'Address 2:',
             'filters'   => array('StripTags', 'StringTrim'),
             'dijitParams'   => array(
@@ -79,7 +93,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Dojo_Form_Abstract
             )
         ));
 
-        $this->addElement('TextBox', 'clientAd_address3', array(
+        $this->addElement('ValidationTextBox', 'clientAd_address3', array(
             'label'     => 'Town/City:',
             'filters'   => array('StripTags', 'StringTrim'),
             'dijitParams'   => array(
@@ -100,5 +114,56 @@ class Power_Form_Client_Address_Save extends ZendSF_Dojo_Form_Abstract
                 'promptMessage' => 'Enter the clients postcode.'
             )
         ));
+        
+        $this->addElement('Button', 'clientAdFormSubmitButton', array(
+        		'required'  => false,
+        		'ignore'    => true,
+        		'decorators'    => $this->_submitDecorators,
+        		'label'     => 'Submit',
+        		'value'     => 'Submit',
+        		'dijitParams'   => array(
+        				'onClick' => "return dijit.byId('clientAdForm').validate()"
+        		),
+        		'attribs' => array('type' => 'submit')
+        ));
+        
+        $this->addElement('Button', 'clientAdFormCancelButton', array(
+        		'required'  => false,
+        		'ignore'    => true,
+        		'decorators'    => $this->_submitDecorators,
+        		'label'     => 'Cancel',
+        		'value'     => 'Cancel',
+        		'dijitParams'   => array(
+        				'onClick' => "return bba.closeDialog(dijit.byId('clientAdForm'))"
+        		)
+        ));
+        
+        $this->addDisplayGroup(
+        	array(
+        		'clientAdFormSubmitButton',
+        		'clientAdFormCancelButton',
+        	),
+        	'Buttons',
+        	array(
+        		'decorators' => array(
+        			'FormElements',
+        			array(
+        				array('data' => 'HtmlTag'),
+        				array(
+        					'tag' => 'td',
+        					'class' => 'submitElement',
+        					'colspan' => '2'
+        				)
+        			),
+        			array(
+        				array('row' => 'HtmlTag'),
+        				array(
+        					'tag' => 'tr',
+        					'class' => 'form_row'
+        				)
+        			)
+        		)
+        	)
+        );
     }
 }

@@ -30,3 +30,6 @@ public/js/util
 scripts/*
 tests/tmp/db/*
 tests/tmp/session/*
+.settings/*
+.buildpath
+.project

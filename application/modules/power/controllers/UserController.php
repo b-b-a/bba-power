@@ -73,7 +73,8 @@ class Power_UserController extends Zend_Controller_Action
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
 
-        $data = $this->_model->getUserDataStore($this->_request->getPost());
+        $data = $this->_model->getCached('user')
+        	->getUserDataStore($this->_request->getPost());
 
         $this->getResponse()
             ->setHeader('Content-Type', 'application/json')

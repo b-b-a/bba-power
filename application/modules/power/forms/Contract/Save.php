@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Contract_Save extends ZendSF_Dojo_Form_Abstract
+class Power_Form_Contract_Save extends BBA_Dojo_Form_Abstract
 {
     protected $_simpleTextareaDecorators = array(
         'DijitElement',
@@ -66,6 +66,7 @@ class Power_Form_Contract_Save extends ZendSF_Dojo_Form_Abstract
     public function init()
     {
         $this->setName('contract');
+        $this->setAttrib('enctype', 'multipart/form-data');
 
         $request = Zend_Controller_Front::getInstance()->getRequest();
         $contractId = $request->getParam('contract_idContract', 0);
@@ -94,8 +95,8 @@ class Power_Form_Contract_Save extends ZendSF_Dojo_Form_Abstract
                 'autoComplete'  => false,
                 'hasDownArrow'  => true,
                 'storeId'       => 'clientStore',
-                'storeType'     => 'dojo.data.ItemFileReadStore',
-                'storeParams'   => array('url' => "site/data-store/type/clients"),
+                //'storeType'     => 'dojo.data.ItemFileReadStore',
+                //'storeParams'   => array('url' => "site/data-store/type/clients"),
                 'dijitParams'   => array(
                     'searchAttr'    => 'client_name',
                     'promptMessage' => 'Select a Client'
@@ -138,20 +139,31 @@ class Power_Form_Contract_Save extends ZendSF_Dojo_Form_Abstract
             ));
         }
 
-        $this->addElement('TextBox', 'contract_idSupplierPersonnelSelected', array(
+        /*$this->addElement('TextBox', 'contract_idSupplierPersonnelSelected', array(
             'label'     => 'Supplier Liason Selected:',
             'required'  => false,
             'value'     => 0,
             'attribs'   => array('disabled' => true),
             'filters'   => array('StripTags', 'StringTrim')
-        ));
+        ));*/
 
         $multiOptions = array();
 
         $table = $this->getModel()->getDbTable('tables');
         $list = $table->getSelectListByName('contract_type');
+        
+        if ($request->getParam('meter_type')) {
+        	$type = strtolower($request->getParam('meter_type'));
+        } else {
+        	$type = null;
+        }
 
         foreach($list as $row) {
+        	if ($type) {
+        		$conType = explode('-', $row->tables_key);
+        		if ($conType[0] != $type) continue;
+        	}
+        	
             $multiOptions[$row->tables_key] = $row->tables_value;
         }
 
@@ -285,6 +297,8 @@ class Power_Form_Contract_Save extends ZendSF_Dojo_Form_Abstract
         */
 
         $this->addHiddenElement('contract_idContract', '');
+        $this->addHiddenElement('meter_idMeter', '');
+        $this->addHiddenElement('meter_type', '');
         $this->addHiddenElement('contract_idContractPrevious', '0');
     }
 

@@ -26,24 +26,29 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Contract",
-    ["dojo/dom","dojo/ready", "dojo/parser", "dojo/_base/connect", "dojo/_base/xhr", "dojo/_base/array", "dijit/registry",
-     "dijit/Dialog", "dojo/data/ItemFileReadStore", "dojo", "bba/Core", "bba/Meter", "dijit/form/ValidationTextBox",
-     "dojo/data/ItemFileReadStore", "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea",
-     "dojo/data/ItemFileWriteStore", "dojox/grid/_CheckBoxSelector",
-     "dojox/form/Uploader", "dojox/form/uploader/plugins/IFrame"],
-    function(dom, ready, parser, connect, xhr, array, registry, Dialog, ItemFileReadStore, dojo, bba) {
-
-    ready(function () {
-
-        if (dom.byId('contract')) {
-            dom.byId('contract').focus();
-        }
-
-        if (dom.byId('contractGrid')) {
-            var form = registry.byId('Search');
-            if (form) bba.gridSearch(form, contractGrid);
-        }
-    });
+[
+    "dojo/dom",
+    "dojo/query",
+    "dojo/parser",
+    "dojo/_base/connect",
+    "dojo/_base/xhr",
+    "dojo/_base/array",
+    "dijit/registry",
+    "dijit/Dialog",
+    "dojo/data/ItemFileReadStore",
+    "bba/Core",
+    "bba/Meter",
+    "bba/Invoice",
+    "dijit/form/ValidationTextBox",
+    "dojo/data/ItemFileReadStore",
+    "dijit/form/FilteringSelect",
+    "dijit/form/SimpleTextarea",
+    "dojo/data/ItemFileWriteStore",
+    "dojox/grid/_CheckBoxSelector",
+    "dojox/form/Uploader",
+    "dojox/form/uploader/plugins/IFrame"
+],
+    function(dom, query, parser, connect, xhr, array, registry, Dialog, ItemFileReadStore, core) {
 
     bba.Contract = {
         gridLayouts : {
@@ -106,7 +111,37 @@ define("bba/Contract",
                 {field: 'tender_priceUnitOther', width: '100px', name: 'Other Rate'},
                 {field: 'tender_desc', width: '200px', name: 'Desc.'},
                 {field: '', width: 'auto', name: ''}
+            ],
+            invoiceLines : [
+                {field: 'invoiceLine_idInvoiceLine', width: '50px', name: 'Id'},
+                {field: 'meter_numberMain', width: '120px', name: 'Meter No'},
+                {field: 'invoice_numberInvoice', width: '100px', name: 'Invoice No.'},
+                {field: 'invoiceLine_dateStart', width: '150px', name: 'Start Date'},
+                {field: 'invoiceLine_dateEnd', width: '150px', name: 'End Date'},
+                {field: 'invoiceLine_fee', width: '50px', name: 'Fee'},
+                {field: 'invoiceLine_commission', width: '100px', name: 'Commission'},
+                {field: 'invoiceLine_consumption', width: '110px', name: 'Consumption'},
+                {field: 'invoiceLine_amount', width: '100px', name: 'Amount'},
+                {field: 'invoiceLine_proportionInvoiced', width: '50px', name: 'Claim'},
+                {field: 'invoiceLine_reference', width: '100px', name: 'Invoice Line Ref'},
+                {field: 'invoiceLine_dateCreated', width: '150px', name: 'Date Created'},
+                {field: '', width: 'auto', name: ''}
             ]
+        },
+        
+        init : function()
+        {
+            core.addDataStore('contractStore', core.storeUrls.contract);
+
+            core.addGrid({
+                id : 'contractGrid',
+                store : core.dataStores.contractStore,
+                structure : bba.Contract.gridLayouts.contract,
+                sortInfo : '2',
+                onRowClick : function() {
+                     bba.Contract.contractGridRowClick();
+                }
+            });
         },
 
         numberComparison : function (a, b) {
@@ -180,7 +215,9 @@ define("bba/Contract",
                         } else if (data.saved) {
                             registry.byId('meterContractGrid' + meterContract)._refresh();
                             registry.byId('addMeterContractDialog').hide();
-                            confirm.show();
+                            if (bba.config.confirmBox) {
+                                confirm.show();
+                            }
                         }
                     }
                 });
@@ -212,7 +249,7 @@ define("bba/Contract",
 
         contractGridRowClick : function(grid)
         {
-
+            grid = (grid) ? grid : core.grids.contractGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'contract_idContract');
@@ -289,6 +326,25 @@ define("bba/Contract",
                     content: dojo.mixin({type :  'add'}, contentVars),
                     dialog: 'contractForm',
                     deferredFunction: function() {
+                    	contractFormStandby.show();
+                        id = registry.byId("contract_idClient").get('value');
+
+                        clientStore = new ItemFileReadStore({
+                            url:'./site/data-store/type/clients'
+                        });
+
+                        clientStore.fetch({
+                            onComplete: function() {
+                            	contractFormStandby.hide();
+                            },
+                            onError: function(error, request) {
+                                bba.dataStoreError(request.store.url, null);
+                            }
+                        });
+                        
+                        registry.byId("contract_idClient").set('store', clientStore);
+                        registry.byId("contract_idClient").set('value', 0);
+                        
                         bba.Contract.setupDocEvents();
                     }
                 });
@@ -346,11 +402,13 @@ define("bba/Contract",
         processContractForm : function()
         {
             bba.closeDialog(contractForm);
+            pageStandby.show();
 
             data = arguments[0];
 
             dom.byId('dialog').innerHTML = data.html;
             parser.parse('dialog');
+            pageStandby.hide();
 
             if (data.error) {
                 error.show();
@@ -359,9 +417,9 @@ define("bba/Contract",
                     registry.byId('contract' + data.contract_idContract).refresh();
                 }
 
-                if (dom.byId('contractGrid')) contractGrid._refresh();
+                if (registry.byId('contractGrid')) registry.byId('contractGrid')._refresh();
 
-                if (bba.confrimBox) {
+                if (bba.config.confirmBox) {
                     confirm.show();
                 }
 
@@ -378,7 +436,7 @@ define("bba/Contract",
         processTenderForm : function()
         {
             //bba.closeDialog(tenderForm);
-
+        	pageStandby.show();
             values = arguments[0];
             values.type = (values.tender_idTender) ? 'edit' : 'add';
 
@@ -390,7 +448,8 @@ define("bba/Contract",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
-
+                    pageStandby.hide();
+                    
                     if (data.error) {
                         error.show();
                     } else if (data.saved > 0) {
@@ -400,7 +459,7 @@ define("bba/Contract",
                             registry.byId('tenderGrid' + values.tender_idContract)._refresh();
                         }
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
                     } else {
@@ -427,8 +486,8 @@ define("bba/Contract",
                         registry.byId(item).submit = function(){return false;}
                     }
 
-                    dojo.connect(dom.byId(item + '_file'), "onclick", function(){
-                        dojo.query('input[name=' + item + ']')[0].click();
+                    connect.connect(dom.byId(item + '_file'), "onclick", function(){
+                        query('input[name=' + item + ']')[0].click();
                     });
 
                     connect.connect(registry.byId(item), "onChange", function(fileArray){

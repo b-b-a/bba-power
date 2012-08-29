@@ -83,7 +83,7 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('site')->numRows($search)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -108,7 +108,7 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
             $row->getMeters()->count()
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**
@@ -198,6 +198,8 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
 
         $site = array_key_exists('site_idSite', $data) ?
             $this->getSiteById($data['site_idSite']) : null;
+        
+        $this->clearCache(array('site'));
 
         return $this->getDbTable('site')->saveRow($data, $site);
     }

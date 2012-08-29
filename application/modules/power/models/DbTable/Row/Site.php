@@ -59,6 +59,24 @@ class Power_Model_DbTable_Row_Site extends ZendSF_Model_DbTable_Row_Abstract
      * @var Power_Model_DbTable_Row_Client_Personnel
      */
     protected $_clientPers;
+    
+    protected $_dateKeys = array(
+        'site_dateCreate',
+        'site_dateModify'
+    );
+
+    protected $_dateFormat = 'dd/MM/yyyy';
+    
+    public function getShortDesc()
+    {
+        $desc = $this->getRow()->site_desc;
+        
+        if (strlen($desc) > 200) {
+            $desc = substr($desc, 0, 200);
+        }
+        
+        return $desc;
+    }
 
     public function getClient($row=null)
     {
@@ -121,5 +139,39 @@ class Power_Model_DbTable_Row_Site extends ZendSF_Model_DbTable_Row_Abstract
             'Power_Model_DbTable_Meter',
             'site',
             $select);
+    }
+    
+    /**
+     * Returns row as an array, with optional date formating.
+     *
+     * @param string $dateFormat
+     * @return array
+     */
+    public function toArray($dateFormat=null, $raw=false)
+    {
+        $array = array();
+
+        foreach ($this->getRow() as $key => $value) {
+            
+            if (in_array($key, $this->_dateKeys)) {
+                $date = new Zend_Date($value);
+                $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
+            }
+
+            if (true === $raw) {
+                $array[$key] = $value;
+            } else {
+                switch ($key) {
+                    case 'site_desc':
+                        $array[$key] = $this->getShortDesc();
+                        break;
+                    default:
+                        $array[$key] = $value;
+                        break;
+                }
+            }
+        }
+
+        return $array;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * UniqueMPAN.php
+ * NumberSerial.php
  *
  * Copyright (c) 2012 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * UniqueMPAN Validation Model.
+ * NumberSerial Validation Model.
  *
  * @category   BBA
  * @package    Power
@@ -37,32 +37,58 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Validate_UniqueMPAN extends Zend_Validate_Abstract
+class Power_Validate_NumberSerial extends Zend_Validate_Abstract
 {
-    const MPAN_EXISTS = 'mpanExists';
+	/**
+	 * @var string
+	 */
+    const NUMBER_SERIAL_EXISTS = 'numberSerialExists';
+    
+    const ZERO_NOT_ALLOWED = 'zeroNotAllowed';
 
+    /**
+     * @var array
+     */
     protected $_messageTemplates = array(
-        self::MPAN_EXISTS => 'A meter with "%value%" MPAN already exists, please edit the existing meter.'
+        self::NUMBER_SERIAL_EXISTS => 'This meter cannot be added as the meter Serial No "%value%" already exists.',
+    	self::ZERO_NOT_ALLOWED => 'Serial No. cannot be all zeros.'
     );
 
+    /**
+     * constructor method
+     * 
+     * @param Power_Model_Meter $model
+     */
     public function __construct(Power_Model_Meter $model)
     {
         $this->_model = $model;
     }
 
+    /**
+     * (non-PHPdoc)
+     * @see Zend_Validate_Interface::isValid()
+     */
     public function isValid($value, $context = null)
     {
-        $this->_setValue($value);
-
-        $currentMeter = isset($context['meter_idMeter']) ?
+    	$this->_setValue($value);
+    	
+    	$currentMeter = isset($context['meter_idMeter']) ?
             $this->_model->getMeterById($context['meter_idMeter']) : null;
-        $meter = $this->_model->getMeterByMpan($value, $currentMeter);
-
-        if (null === $meter) {
-            return true;
-        }
-
-        $this->_error(self::MPAN_EXISTS);
-        return false;
+    	
+    	$meter = $this->_model->getMeterByNumberSerial($value, $currentMeter);
+    	
+    	if (null === $meter) {
+    		
+    		if (preg_match('/^0{1,}$/', $value)) {
+    			$this->_error(self::ZERO_NOT_ALLOWED);
+    			return false;
+    		}
+    		
+    		return true;
+    	}
+    	
+    	$this->_error(self::NUMBER_SERIAL_EXISTS);
+    	return false;
     }
+        
 }

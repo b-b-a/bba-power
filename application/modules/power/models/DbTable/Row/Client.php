@@ -50,6 +50,17 @@ class Power_Model_DbTable_Row_Client extends ZendSF_Model_DbTable_Row_Abstract
         'client_dateCreate',
         'client_dateModify'
     );
+    
+    public function getShortDesc()
+    {
+        $desc = $this->getRow()->client_desc;
+        
+        if (strlen($desc) > 200) {
+            $desc = substr($desc, 0, 200);
+        }
+        
+        return $desc;
+    }
 
     public function getClientPersonnel()
     {
@@ -66,6 +77,14 @@ class Power_Model_DbTable_Row_Client extends ZendSF_Model_DbTable_Row_Abstract
             'clientAd'
         );
     }
+    
+    public function getClientRegAddress()
+    {
+    	return $this->getRow()->findParentRow(
+    			'Power_Model_DbTable_Client_Address',
+    			'clientRegAd'
+    	);
+    }
 
     public function getAllClientAddresses($select = null)
     {
@@ -75,6 +94,15 @@ class Power_Model_DbTable_Row_Client extends ZendSF_Model_DbTable_Row_Abstract
             $select
         );
     }
+    
+    public function getClient_methodPay()
+    {
+    	return $this->getRow()->findParentRow(
+    			'Power_Model_DbTable_Tables',
+    			'methodPay',
+    			$this->getRow()->select()->where('tables_name = ?', 'client_methodPay')
+    	)->tables_value;
+    }
 
     /**
      * Returns row as an array, with optional date formating.
@@ -82,7 +110,7 @@ class Power_Model_DbTable_Row_Client extends ZendSF_Model_DbTable_Row_Abstract
      * @param string $dateFormat
      * @return array
      */
-    public function toArray($dateFormat = null)
+    public function toArray($dateFormat=null, $raw=false)
     {
         $array = array();
 
@@ -93,7 +121,24 @@ class Power_Model_DbTable_Row_Client extends ZendSF_Model_DbTable_Row_Abstract
                 $value = $date->toString($dateFormat);
             }
 
-            $array[$key] = $value;
+            if (true === $raw) {
+            	if ($value == 'Not a Registered Company') {
+            		$array['client_registeredCompany'] = 1;
+            	} elseif ($value == 'Not VAT Registered') {
+                    $array['client_registeredVAT'] = 1;
+                }
+                
+               	$array[$key] = $value;
+            } else {
+                switch ($key) {
+                    case 'client_desc':
+                        $array[$key] = $this->getShortDesc();
+                        break;
+                    default:
+                        $array[$key] = $value;
+                        break;
+                }
+            }
         }
 
         return $array;

@@ -72,7 +72,7 @@ class Power_Model_DbTable_Invoice extends ZendSF_Model_DbTable_Abstract
 
     protected function _getSearchInvoiceSelect(array $search)
     {
-        $select = $this->select(false)->setIntegrityCheck(false)
+        $select = $this->select()->setIntegrityCheck(false)
             ->from('invoice', '*')
             ->joinLeft('supplier', 'invoice_idSupplier = supplier_idSupplier');
 
@@ -86,7 +86,9 @@ class Power_Model_DbTable_Invoice extends ZendSF_Model_DbTable_Abstract
         }
 
         if (!$search['supplier'] == '') {
-            $select->orWhere('supplier_name like ?', '%' . $search['supplier'] . '%');
+            $select->orWhere('invoice_nameSupplier like ?', '%' . $search['supplier'] . '%')
+                ->orWhere('supplier_name like ?', '%' . $search['supplier'] . '%')
+                ->orWhere('supplier_nameShort like ?', '%' . $search['supplier'] . '%');
         }
 
         return $select;

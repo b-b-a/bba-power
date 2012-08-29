@@ -73,6 +73,11 @@ class Power_Model_DbTable_Client extends BBA_Model_DbTable_Abstract
             'refTableClass' => 'Power_Model_DbTable_Client_Address',
             'refColumns'    => 'clientAd_idAddress'
         ),
+    	'methodPay' => array(
+    		'columns'       => 'client_methodPay',
+    		'refTableClass' => 'Power_Model_DbTable_Tables',
+    		'refColumns'    => 'tables_key'
+    	),
         'userCreate'    => array(
             'columns'       => 'client_userCreate',
             'refTableClass' => 'Power_Model_DbTable_User',

@@ -26,21 +26,16 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Supplier",
-    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry", "bba/Core",
-    "bba/Contract", "dijit/form/FilteringSelect"],
-    function(dom, ready, parser, xhr, registry, bba){
-
-    ready(function () {
-
-        if (dom.byId('supplier')) {
-            dom.byId('supplier').focus();
-        }
-
-        if (dom.byId('supplierGrid')) {
-            var form = registry.byId('Search');
-            if (form) bba.gridSearch(form, supplierGrid);
-        }
-    });
+[
+    "dojo/dom",
+    "dojo/parser",
+    "dojo/_base/xhr",
+    "dijit/registry",
+    "bba/Core",
+    "bba/Contract",
+    "dijit/form/FilteringSelect"
+],
+    function(dom, parser, xhr, registry, core){
 
     bba.Supplier = {
         gridLayouts : {
@@ -73,9 +68,25 @@ define("bba/Supplier",
                 {field: '', width: 'auto', name: ''}
             ]
         },
+        
+        init : function()
+        {
+            core.addDataStore('supplierStore', core.storeUrls.supplier);
+
+            core.addGrid({
+                id : 'supplierGrid',
+                store : core.dataStores.supplierStore,
+                structure : bba.Supplier.gridLayouts.supplier,
+                sortInfo : '2',
+                onRowClick : function() {
+                     bba.Supplier.supplierGridRowClick();
+                }
+            });
+        },
 
         supplierGridRowClick : function(grid)
         {
+            grid = (grid) ? grid : core.grids.supplierGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'supplier_idSupplier');
@@ -154,6 +165,7 @@ define("bba/Supplier",
         processSupplierForm : function()
         {
             //bba.closeDialog(supplierForm);
+        	pageStandby.show();
 
             values = arguments[0];
             values.type = (values.supplier_idSupplier) ? 'edit' : 'add';
@@ -166,6 +178,7 @@ define("bba/Supplier",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
+                    pageStandby.hide();
 
                     if (data.error) {
                         error.show();
@@ -176,7 +189,7 @@ define("bba/Supplier",
                             registry.byId('supplierGrid')._refresh();
                         }
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
                     } else {
@@ -190,6 +203,7 @@ define("bba/Supplier",
         processSupplierPersForm : function()
         {
             //bba.closeDialog(supplierCoForm);
+        	pageStandby.show();
 
             values = arguments[0];
             values.type = (values.supplierPers_idSupplierPersonnel) ? 'edit' : 'add';
@@ -202,16 +216,17 @@ define("bba/Supplier",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
+                    pageStandby.hide();
 
                     if (data.error) {
                         error.show();
                     } else if (data.saved > 0) {
                         registry.byId('supplierPersGrid' + values.supplierPers_idSupplier)._refresh();
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
-                        
+
                     } else {
                         bba.setupDialog(supplierPersForm);
                         supplierPersForm.show();

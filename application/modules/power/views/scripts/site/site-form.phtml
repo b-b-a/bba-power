@@ -22,8 +22,8 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
 
                 <?php echo $form->site_idAddress; ?>
                 <div style="text-align:right; width:450px;">
-                    <p>Note: If there are no client addresses available
-                        <br>please create a new address for the client.</div>
+                    <p>Note: To change the details of an address please
+                    <br> edit via the Client &AMP; Client Address.</div>
       <!-- 3 lines above are temp fix until Issue #105 is implemented. -->
                 <?php echo $form->site_idAddressBill; ?>
 
@@ -58,4 +58,5 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
 </div>
 <div data-dojo-id="siteFormStandby"
      data-dojo-type="dojox.widget.Standby"
-     data-dojo-props="target:'siteForm'"></div>
+     data-dojo-props="target:'siteForm', color: '#efefef', image: 'images/loader_lg.gif'"></div>
+     

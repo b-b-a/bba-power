@@ -26,22 +26,24 @@
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 define("bba/Meter",
-    ["dojo/dom", "dojo/ready", "dojo/parser", "dojo/_base/xhr", "dijit/registry",
-    "bba/Core", "bba/Contract", "dijit/form/RadioButton", "dijit/form/NumberTextBox",
-    "dijit/form/FilteringSelect", "dijit/form/SimpleTextarea"],
-    function(dom, ready, parser, xhr, registry, bba) {
-
-    ready(function(){
-
-        if (dom.byId('meter')) {
-            dom.byId('meter').focus();
-        }
-
-        if (dom.byId('meterGrid')) {
-            var form = registry.byId('Search');
-            if (form) bba.gridSearch(form, meterGrid);
-        }
-    });
+[
+    "dojo/dom",
+    "dojo/parser",
+    "dojo/_base/xhr",
+    "dojo/_base/connect",
+    "dijit/registry",
+    "dijit/Dialog",
+    "bba/Core",
+    "dojo/text!./html/meterNumberEmptyMessage.html",
+    "dojo/text!./html/serialNumberEmptyMessage.html",
+    "bba/Contract",
+    "bba/Invoice",
+    "dijit/form/RadioButton",
+    "dijit/form/NumberTextBox",
+    "dijit/form/FilteringSelect",
+    "dijit/form/SimpleTextarea"
+],
+    function(dom, parser, xhr, connect, registry, Dialog, core, NumberEmptyMessage, SerialEmptyMessage) {
 
     bba.Meter = {
         gridLayouts : {
@@ -66,6 +68,7 @@ define("bba/Meter",
                 {field: 'usage_usageOther', width: '100px', name: 'Other'},
                 {field: 'usage_usageTotal', width: '100px', name: 'Total Usage'},
                 {field: 'usage_dateBill', width: '100px', name: 'Bill Date'},
+                {field: 'invoiceUsage_idInvoiceLine', width: '100px', name: 'Invoice Line Id'},
                 {field: '', width: 'auto', name: ''}
             ],
             contract : [
@@ -79,17 +82,53 @@ define("bba/Meter",
                 {field: 'contract_reference', width: '200px', name: 'Reference'},
                 {field: 'contract_desc', width: '300px', name: 'Description'},
                 {field: '', width: 'auto', name: ''}
+            ],
+            invoiceLines : [
+                {field: 'invoiceLine_idInvoiceLine', width: '50px', name: 'Id'},
+                {field: 'invoice_numberInvoice', width: '100px', name: 'Invoice No.'},
+                {field: 'contract_idContract', width: '100px', name: 'Contract Id'},
+                {field: 'invoiceLine_dateStart', width: '150px', name: 'Start Date'},
+                {field: 'invoiceLine_dateEnd', width: '150px', name: 'End Date'},
+                {field: 'invoiceLine_fee', width: '50px', name: 'Fee'},
+                {field: 'invoiceLine_commission', width: '100px', name: 'Commission'},
+                {field: 'invoiceLine_consumption', width: '110px', name: 'Consumption'},
+                {field: 'invoiceLine_amount', width: '100px', name: 'Amount'},
+                {field: 'invoiceLine_proportionInvoiced', width: '50px', name: 'Claim'},
+                {field: 'invoiceLine_reference', width: '100px', name: 'Invoice Line Ref'},
+                {field: 'invoiceLine_dateCreated', width: '150px', name: 'Date Created'},
+                {field: '', width: 'auto', name: ''}
             ]
+        },
+        
+        init : function()
+        {
+            core.addDataStore('meterStore', core.storeUrls.meter);
+
+            core.addGrid({
+                id : 'meterGrid',
+                store : core.dataStores.meterStore,
+                structure : bba.Meter.gridLayouts.meter,
+                sortInfo : '2',
+                onRowClick : function() {
+                     bba.Meter.meterGridRowClick();
+                }
+            });
         },
 
         meterGridRowClick : function(grid)
         {
+            grid = (grid) ? grid : core.grids.meterGrid;
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'meter_idMeter');
             tabTitle = grid.store.getValue(selectedItem, 'meter_numberMain');
 
-             bba.openTab({
+            this.showMeterTab(id, tabTitle);
+        },
+
+        showMeterTab : function(id, tabTitle)
+        {
+            bba.openTab({
                 tabId : 'meter' + id,
                 title :  (tabTitle) ? tabTitle : 'Meter',
                 url : './meter/edit-meter',
@@ -174,10 +213,51 @@ define("bba/Meter",
                 usageForm.show();
             }
         },
+        
+        meterFormValidate : function()
+        {
+        	formValues = meterForm.getValues();
+        	
+        	if ((formValues.meter_type == 'electric' 
+        			&& formValues.meter_numberMain)
+        			|| (formValues.meter_type == 'gas' 
+        				&& formValues.meter_numberMain)
+        			|| (formValues.meter_type == 'water' 
+        				&& formValues.meter_numberSerial)) {
+        		return meterForm.validate();	
+        	}
+        	
+        	submitForm = false;
+        	
+        	meterFormEmpty = new Dialog({
+                title: "Meter Form Warning",
+                content: (formValues.meter_type == 'water') ? SerialEmptyMessage : NumberEmptyMessage,
+                style: "width: 300px",
+                onShow : function(){
+                    connect.connect(clientYesButton, 'onClick', function(){
+                    	if (meterForm.validate()) {
+                    		bba.Meter.processMeterForm(formValues);
+                    	}
+                    	meterFormEmpty.hide();
+                        
+                    });
+                    connect.connect(clientNoButton, 'onClick', function(){
+                    	meterFormEmpty.hide();
+                    });
+                },
+                onHide : function() {
+                    bba.closeDialog(meterFormEmpty);
+                }
+            });
+        	meterFormEmpty.show();
+        	
+        	return false;
+        },
 
         processMeterForm : function()
         {
-            //bba.closeDialog(meterForm);
+            bba.closeDialog(meterForm);
+        	pageStandby.show();
 
             values = arguments[0];
             values.type = (values.meter_idMeter) ? 'edit' : 'add';
@@ -190,6 +270,7 @@ define("bba/Meter",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
+                    pageStandby.hide();
 
                     if (data.error) {
                         error.show();
@@ -200,7 +281,7 @@ define("bba/Meter",
                             registry.byId('meterGrid' + values.meter_idSite)._refresh();
                         }
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
                     } else {
@@ -214,7 +295,7 @@ define("bba/Meter",
         processUsageForm : function()
         {
             //bba.closeDialog(usageForm);
-
+        	pageStandby.show();
             values = arguments[0];
             values.type = (values.usage_idUsage) ? 'edit' : 'add';
 
@@ -226,13 +307,14 @@ define("bba/Meter",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
+                    pageStandby.hide();
 
                     if (data.error) {
                         error.show();
                     } else if (data.saved > 0) {
                         registry.byId('usageGrid' + values.usage_idMeter)._refresh();
 
-                        if (bba.confrimBox) {
+                        if (bba.config.confirmBox) {
                             confirm.show();
                         }
                     } else {

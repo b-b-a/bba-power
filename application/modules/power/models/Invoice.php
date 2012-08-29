@@ -55,6 +55,16 @@ class Power_Model_Invoice extends ZendSF_Model_Acl_Abstract
         return $this->getDbTable('invoice')->getInvoiceById($id);
     }
 
+    public function getInvoiceLineById($id)
+    {
+        if (!$this->checkAcl('getInvoiceById')) {
+            throw new ZendSF_Acl_Exception('Insufficient rights');
+        }
+
+        $id = (int) $id;
+        return $this->getDbTable('invoiceLine')->getInvoiceLineById($id);
+    }
+
     /**
      * Gets the invoice data store list, using search parameters.
      *
@@ -87,7 +97,7 @@ class Power_Model_Invoice extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('invoice')->numRows($search)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     public function getInvoiceLinesDataStore(array $post)
@@ -105,7 +115,25 @@ class Power_Model_Invoice extends ZendSF_Model_Acl_Abstract
             $this->getDbTable('invoiceLine')->numRows($post)
         );
 
-        return $store->toJson();
+        return ($store->count()) ? $store->toJson() : '{}';
+    }
+
+    public function getInvoiceUsageDataStore(array $post)
+    {
+        $sort = $post['sort'];
+        $count = $post['count'];
+        $start = $post['start'];
+
+        $dataObj = $this->getDbTable('invoiceUsage')->searchInvoiceUsage($post, $sort, $count, $start);
+
+        $store = $this->_getDojoData($dataObj, 'invoiceUsage_idInvoiceUsage');
+
+        $store->setMetadata(
+            'numRows',
+            $this->getDbTable('invoiceUsage')->numRows($post)
+        );
+
+        return ($store->count()) ? $store->toJson() : '{}';
     }
 
     /**

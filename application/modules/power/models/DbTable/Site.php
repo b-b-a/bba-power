@@ -97,7 +97,7 @@ class Power_Model_DbTable_Site extends BBA_Model_DbTable_Abstract
 
     protected $_nullAllowed = array(
         'site_idAddressBill',
-        'site_idClienPersonnel',
+        'site_idClientPersonnel',
         'site_userModify'
     );
 

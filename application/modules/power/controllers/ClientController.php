@@ -75,13 +75,16 @@ class Power_ClientController extends Zend_Controller_Action
 
             switch ($request->getParam('type')) {
                 case 'client':
-                    $data = $this->_model->getClientDataStore($request->getPost());
+                    $data = $this->_model->getCached('client')
+                    	->getClientDataStore($request->getPost());
                     break;
                 case 'address':
-                    $data = $this->_model->getClientAddressDataStore($request->getPost());
+                    $data = $this->_model->getCached('clientAddress')
+                    	->getClientAddressDataStore($request->getPost());
                     break;
                 case 'personnel':
-                    $data = $this->_model->getClientPersonnelDataStore($request->getPost());
+                    $data = $this->_model->getCached('clientPersonnel')
+                    	->getClientPersonnelDataStore($request->getPost());
                     break;
                 default :
                     $data = '{}';
@@ -131,7 +134,7 @@ class Power_ClientController extends Zend_Controller_Action
             $docForm = $this->_getForm('docClient', 'save-contract');
 
             $this->view->assign(array(
-                'clientAddForm' => $form,
+                'clientForm' 	=> $form,
                 'docForm'       => $docForm
             ));
 
@@ -151,16 +154,12 @@ class Power_ClientController extends Zend_Controller_Action
 
             $client = $this->_model->getClientById($request->getPost('client_idClient'));
 
-            $form = $this->_getForm('clientSave', 'save-client');
-            $docForm = $this->_getForm('docClient', 'save-contract');
-
-            $form->populate($client->toArray('dd/MM/yyyy'));
-            $docForm->populate($client->toArray('dd/MM/yyyy', true));
+            $form = $this->_getForm('clientEdit', 'save-client');
+            $form->populate($client->toArray('dd/MM/yyyy', true));
 
             $this->view->assign(array(
-                'client'            => $client,
-                'clientSaveForm'    => $form,
-                'docForm'           => $docForm
+                'client'        => $client,
+                'clientForm'    => $form
             ));
 
             if ($this->_request->getParam('type') == 'edit') {
@@ -202,16 +201,19 @@ class Power_ClientController extends Zend_Controller_Action
             $returnJson = array('saved' => $saved);
 
             if (false === $saved) {
-                $type = ($request->getPost('type') == 'add') ? 'Add' : 'Save';
+                $type = ($request->getPost('type') == 'add') ? 'Add' : 'Edit';
 
                 $form = $this->_getForm('client' . $type, 'save-client');
-                $docForm = $this->_getForm('docClient', 'save-contract');
                 $form->populate($request->getPost());
+                
+                $docForm = $this->_getForm('docClient', 'save-client');
                 $docForm->populate($request->getPost());
+                
+                $log = Zend_Registry::get('log');
+                $log->info($form);
 
                 $this->view->assign(array(
-                    'client' . $type . 'Form'   => $form,
-                    'docForm'                   => $docForm
+                    'clientForm'   => $form
                 ));
                 $html = $this->view->render('client/'. $request->getPost('type') .'-client-form.phtml');
                 $returnJson['html'] = $html;

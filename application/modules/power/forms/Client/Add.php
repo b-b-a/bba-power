@@ -37,20 +37,23 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Client_Add extends ZendSF_Dojo_Form_Abstract
+class Power_Form_Client_Add extends Power_Form_Client_Base
 {
     public function init()
     {
-        $clientForm = new Power_Form_Client_Save(array('model' => $this->_model));
+    	parent::init();
+    	
+    	$this->setDisableLoadDefaultDecorators(true);
+    	
+    	$this->setDecorators(array(
+    		array('ViewScript', array('viewScript' => 'client/_addClientForm.phtml'))
+    	));
+    	
+    	$this->addHiddenElement('type', 'add');
+    	$this->addHiddenElement('client_idRegAddress', '');
+    	
         $clientAdForm = new Power_Form_Client_Address_Save(array('model' => $this->_model));
         $clientPersForm = new Power_Form_Client_Personnel_Save(array('model' => $this->_model));
-
-        /**
-         * Add Client form elements
-         */
-        $this->addElement($clientForm->getElement('client_name'));
-        $this->addElement($clientForm->getElement('client_dateExpiryLoa'));
-        $this->addElement($clientForm->getElement('client_desc'));
 
         /**
          * Add Client Address form Elements
