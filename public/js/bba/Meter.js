@@ -35,6 +35,7 @@ define("bba/Meter",
     "dijit/Dialog",
     "bba/Core",
     "dojo/text!./html/meterNumberEmptyMessage.html",
+    "dojo/text!./html/serialNumberEmptyMessage.html",
     "bba/Contract",
     "bba/Invoice",
     "dijit/form/RadioButton",
@@ -42,7 +43,7 @@ define("bba/Meter",
     "dijit/form/FilteringSelect",
     "dijit/form/SimpleTextarea"
 ],
-    function(dom, parser, xhr, connect, registry, Dialog, core, NumberEmptyMessage) {
+    function(dom, parser, xhr, connect, registry, Dialog, core, NumberEmptyMessage, SerialEmptyMessage) {
 
     bba.Meter = {
         gridLayouts : {
@@ -228,7 +229,7 @@ define("bba/Meter",
         	
         	meterFormEmpty = new Dialog({
                 title: "Meter Form Warning",
-                content: NumberEmptyMessage,
+                content: (formValues.meter_type == 'water') ? SerialEmptyMessage : NumberEmptyMessage,
                 style: "width: 300px",
                 onShow : function(){
                     connect.connect(clientYesButton, 'onClick', function(){
