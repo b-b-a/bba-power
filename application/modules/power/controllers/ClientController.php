@@ -208,9 +208,6 @@ class Power_ClientController extends Zend_Controller_Action
                 
                 $docForm = $this->_getForm('docClient', 'save-client');
                 $docForm->populate($request->getPost());
-                
-                $log = Zend_Registry::get('log');
-                $log->info($form);
 
                 $this->view->assign(array(
                     'clientForm'   => $form
