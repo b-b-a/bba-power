@@ -175,7 +175,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         return ($store->count()) ? $store->toJson() : '{}';
     }
-
+    
     /**
      * Gets the available meters data store list, using contract id.
      *
@@ -183,6 +183,22 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
      * @return string
      */
     public function getAvailableMetersDataStore($id)
+    {	
+    	$contract = $this->getContractById($id);
+    	$dataObj = $this->getDbTable('meter')->getAvailableMeters($contract);
+    	
+    	$store = new Zend_Dojo_Data('meter_idMeter', $dataObj);
+    	
+    	return $store->toJson();
+    }
+
+    /**
+     * Gets the available meters data store list, using contract id.
+     *
+     * @param int $id
+     * @return string
+     */
+    /*public function getAvailableMetersDataStore($id)
     {
         $id = (int) $id;
         $log = Zend_Registry::get('log');
@@ -201,21 +217,21 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         // get all meters on this contract.
         $metersContract = $contract->getAllMetersOnContract();
 
-        /**
-         * Add meters to list from current contract
-         * and add them to a filter so as to exclude them later if needed.
-         */
+        //
+         // Add meters to list from current contract
+         // and add them to a filter so as to exclude them later if needed.
+         //
         foreach ($metersContract as $row) {
             $meter = $row->getMeter();
             $meters[] = array_merge($row->toArray(), $meter->toArray(), $contract->toArray());
             $notIn[] = $meter->meter_idMeter;
         }
 
-        /**
-         * If current contract can have meters added to it
-         * get all availible meters and add them to list
-         * excluding all current contract meters.
-         */
+        //
+         // If current contract can have meters added to it
+         // get all availible meters and add them to list
+         // excluding all current contract meters.
+         //
         if (!in_array($contract->contract_status, $notInStatus)) {
 
             // get client sites
@@ -240,34 +256,34 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
                     // get this meter contract.
                     $meterCo = $row->getCurrentContract();
 
-                    /**
-                     * If this meter has an contract then run some checks
-                     * else just add it to the list.
-                     */
+                    //
+                     // If this meter has an contract then run some checks
+                     // else just add it to the list.
+                     //
                     if ($meterCo) {
                         $meterCoEndDate = new Zend_Date($meterCo->contract_dateEnd);
 
-                        /**
-                         * If this contract is not earlier than the current contract start date
-                         * then skip this meter.
-                         */
+                        //
+                         // If this contract is not earlier than the current contract start date
+                         // then skip this meter.
+                         //
                         if (!$meterCoEndDate->isEarlier($curCoStartDate)) {
                             continue;
                         }
 
-                        /**
-                         * If the contract is new|tender and the contract end date
-                         * is not earlier than the current contract start date then skip this meter.
-                         */
+                        //
+                         // If the contract is new|tender and the contract end date
+                         // is not earlier than the current contract start date then skip this meter.
+                         //
                         if (in_array($meterCo->contract_status, $notInNewStatus) &&
                                 !$meterCoEndDate->isEarlier($curCoStartDate)) {
                             continue;
                         }
 
-                        /**
-                         * If contract end date is earlier then the current contract start date
-                         * then add meter to list.
-                         */
+                        //
+                         // If contract end date is earlier then the current contract start date
+                         // then add meter to list.
+                         //
                         if ($meterCoEndDate->isEarlier($curCoStartDate)) {
                             $mc = $this->getDbTable('meterContract')
                                 ->getMeterContractById($row->meter_idMeter, $meterCo->contract_idContract);
@@ -286,7 +302,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         $store = new Zend_Dojo_Data('meter_idMeter', $meters);
 
         return ($store->count()) ? $store->toJson() : '{}';
-    }
+    }*/
 
     /**
      * Save a contract.

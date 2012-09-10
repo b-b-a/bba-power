@@ -104,9 +104,9 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
     	}
     }
 
-    public function getContract_type()
+    public function getContract_type($raw=false)
     {
-        return $this->getRow()->findParentRow(
+        return ($raw) ? $this->getRow()->contract_type : $this->getRow()->findParentRow(
             'Power_Model_DbTable_Tables',
             'contractType',
             $this->getRow()->select()->where('tables_name = ?', 'contract_type')
