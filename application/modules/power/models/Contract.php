@@ -187,7 +187,21 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     	$contract = $this->getContractById($id);
     	$dataObj = $this->getDbTable('meter')->getAvailableMeters($contract);
     	
-    	$store = new Zend_Dojo_Data('meter_idMeter', $dataObj);
+    	$meters = array();
+    	
+    	// get all meters on this contract.
+    	$metersContract = $contract->getAllMetersOnContract();
+    	
+    	//
+    	// Add meters to list from current contract
+    	// and add them to a filter so as to exclude them later if needed.
+    	//
+    	foreach ($metersContract as $row) {
+    		$meter = $row->getMeter();
+    		$meters[] = array_merge($row->toArray(), $meter->toArray(), $contract->toArray());
+    	}
+    	
+    	$store = new Zend_Dojo_Data('meter_idMeter', array_merge($meters, $dataObj->toArray()));
     	
     	return $store->toJson();
     }
