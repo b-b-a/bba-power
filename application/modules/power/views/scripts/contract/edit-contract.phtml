@@ -281,7 +281,9 @@
          class="tableHeadPane">
 
         <div class="tableHead">
+        	<?php $notAllowed = array('current', 'roledon', 'lapsed', 'dead'); ?>
             <?php if ($this->isAllowed('User')): ?>
+            <?php if (!in_array($this->contract->getContract_status(true), $notAllowed)): ?>
             <p class="tableHead-button">
                 <button data-dojo-type="dijit.form.Button">
                     Add/Edit Meters
@@ -293,6 +295,7 @@
                 </button>
 
             </p>
+            <?php endif; ?>
             <p class="tableHead-button">
                 <button data-dojo-type="dijit.form.Button">
                     New Tender

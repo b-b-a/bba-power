@@ -37,6 +37,7 @@ define("bba/Contract",
     "dijit/Dialog",
     "dojo/data/ItemFileReadStore",
     "bba/Core",
+    "dojo/text!./html/contractAddEditMeterMessage.html",
     "bba/Meter",
     "bba/Invoice",
     "dijit/form/ValidationTextBox",
@@ -48,7 +49,7 @@ define("bba/Contract",
     "dojox/form/Uploader",
     "dojox/form/uploader/plugins/IFrame"
 ],
-    function(dom, query, parser, connect, xhr, array, registry, Dialog, ItemFileReadStore, core) {
+    function(dom, query, parser, connect, xhr, array, registry, Dialog, ItemFileReadStore, core, contractAddEditMeterMessage) {
 
     bba.Contract = {
         gridLayouts : {
@@ -176,6 +177,29 @@ define("bba/Contract",
               grid.selection.addToSelection(obj);
             }
         },
+        
+        validateAddMeterToContract : function(grid, meterContract)
+        {
+        	confirmAddEditMeters = new Dialog({
+                title: "Confirm Add/Edit Meters",
+                content: contractAddEditMeterMessage,
+                style: "width: 300px",
+                onShow : function(){
+                    connect.connect(proceedButton, 'onClick', function(){
+                        bba.Contract.addMeterToContract(grid, meterContract);
+                        confirmAddEditMeters.hide();
+                    });
+                    connect.connect(cancelButton, 'onClick', function(){
+                    	registry.byId('addMeterContractDialog').hide();
+                    	confirmAddEditMeters.hide();
+                    });
+                },
+                onHide : function() {
+                    bba.closeDialog(confirmAddEditMeters);
+                }
+            });
+        	confirmAddEditMeters.show();
+        },
 
         addMeterToContract : function(grid, meterContract)
         {
@@ -213,7 +237,7 @@ define("bba/Contract",
                         if (data.error) {
                             error.show();
                         } else if (data.saved) {
-                            registry.byId('meterContractGrid' + meterContract)._refresh();
+                            registry.byId('contract' + meterContract).refresh();
                             registry.byId('addMeterContractDialog').hide();
                             if (bba.config.confirmBox) {
                                 confirm.show();

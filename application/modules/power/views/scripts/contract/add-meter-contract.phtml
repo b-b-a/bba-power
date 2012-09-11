@@ -1,7 +1,7 @@
 <button dojoType="dijit.form.Button"
         id="addMeterToContractButton"
         type="button"
-        onClick="bba.Contract.addMeterToContract(contractMeterGrid, <?php echo $this->contract->contract_idContract; ?>);">
+        onClick="bba.Contract.validateAddMeterToContract(contractMeterGrid, <?php echo $this->contract->contract_idContract; ?>);">
     Update Contract
 </button>
 
@@ -62,8 +62,8 @@
     <div class="dijitDialogPaneContentArea" style="text-align: center;">
         <img src="images/Warning.png" />
         <p>
-            <b>After editing meters the tenders<br />
-            will need re-submitting.</b>
+            <b>After changing meters the <br />
+            Tendering Process will need re-starting.</b>
         </p>
     </div>
     <div class="dijitDialogPaneActionBar">
