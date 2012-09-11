@@ -192,10 +192,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     	// get all meters on this contract.
     	$metersContract = $contract->getAllMetersOnContract();
     	
-    	//
     	// Add meters to list from current contract
-    	// and add them to a filter so as to exclude them later if needed.
-    	//
     	foreach ($metersContract as $row) {
     		$meter = $row->getMeter();
     		$meters[] = array_merge($row->toArray(), $meter->toArray(), $contract->toArray());

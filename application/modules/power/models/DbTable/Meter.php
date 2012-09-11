@@ -123,7 +123,7 @@ class Power_Model_DbTable_Meter extends BBA_Model_DbTable_Abstract
     		->from('meter', array(
     				'meter_idMeter',
     				'meter_type',
-    				'meter_status',
+    				'meter_status' => $this->_getTablesValue('meter_status'),
     				'meter_numberMain'
     		))
     		->joinLeft('site', 'site_idSite = meter_idSite', null)
@@ -133,17 +133,16 @@ class Power_Model_DbTable_Meter extends BBA_Model_DbTable_Abstract
     		))
     		->joinLeft('contract', 'contract_idContract = meterContract_idContract', array(
     				'contract_idContract',
-    				'contract_type',
-    				'contract_status',
+    				'contract_type' => $this->_getTablesValue('contract_type'),
+    				'contract_status' => $this->_getTablesValue('contract_status'),
     				'contract_dateStart',
     				'contract_dateEnd'
     		))
     		->joinLeft(
     			array('contract_status_table' => 'tables'),
     			'tables_name = "contract_status" AND tables_key = contract_status', 
-    			array(
-    				'contract_status_sort' => 'tables_sort',
-    			))
+    			array('contract_status_sort' => 'tables_sort')
+    		)
     		->where('site_idClient = ?', $idClient)
     		->where('meter_type = ?', $meterType)
     		->where('meter_status NOT IN ("dis", "old")')
@@ -160,42 +159,6 @@ class Power_Model_DbTable_Meter extends BBA_Model_DbTable_Abstract
     	
     	return $this->fetchAll($select);
     }
-    
-    /*SET @idClient=760;
-    SET @meterType="electric";
-    SET @contractType="electric-perm";
-    SET @newContractStartDate = "2012-09-01";
-    SET @thisContract=2214;
-    
-    SELECT meter_idMeter, meter_type, meter_status, meter_numberMain, contract_idContract,
-    contract_type, contract_status, contract_status_table.tables_sort AS contract_status_sort,
-    contract_dateStart, contract_dateEnd, meterContract_contractLatest, meterContract_kvaNominated
-    FROM meter
-    left join site on site_idSite = meter_idSite
-    left join meter_contract on meterContract_idMeter =  meter_idMeter
-    left join contract on contract_idContract = meterContract_idContract
-    left join tables AS contract_status_table on tables_name = "contract_status" AND
-    tables_key = contract_status
-    WHERE site_idClient = @idClient
-    AND meter_type = @meterType
-    AND meter_status not in ("dis", "old")
-    AND ((meterContract_contractLatest = TRUE
-    AND contract_dateEnd < @newContractStartDate
-    AND contract_type = @contractType)
-    OR contract_idContract IS NULL )
-    AND meter_idMeter NOT IN
-    (SELECT meter_idMeter FROM meter
-    left join meter_contract on meter_idMeter = meterContract_idMeter
-    left join contract on meterContract_idContract = contract_idContract
-    WHERE contract_idClient = @idClient AND meter_type = @meterType
-    AND contract_status IN ('signed', 'selected', 'choose')
-    AND CAST(@newContractStartDate AS DATE) BETWEEN contract_dateStart AND contract_dateEnd)
-    AND meter_idMeter NOT IN
-    (SELECT meter_idMeter FROM meter
-    left join meter_contract on meter_idMeter = meterContract_idMeter
-    left join contract on meterContract_idContract = contract_idContract
-    WHERE contract_idContract = @thisContract)
-    ORDER BY contract_status_sort, contract_dateStart*/
 
     public function getMeterByNumberMain($numberMain, $ignoreMeter)
     {
@@ -280,8 +243,8 @@ class Power_Model_DbTable_Meter extends BBA_Model_DbTable_Abstract
                 'meterContract_eac',
             ))
             ->joinLeft('contract', 'meterContract_idContract = contract_idContract', array(
-                'contract_type' => '(SELECT tables_value FROM tables WHERE tables_key = contract_type AND tables_name = "contract_type")',
-                'contract_status' => '(SELECT tables_value FROM tables WHERE tables_key = contract_status AND tables_name = "contract_status")',
+                'contract_type' => $this->_getTablesValue('contract_type'),
+                'contract_status' => $this->_getTablesValue('contract_status'),
                 'contract_dateStart' => 'MAX(contract.contract_dateStart)',
                 'contract_dateEnd'
             ))->group('meter_idMeter');
