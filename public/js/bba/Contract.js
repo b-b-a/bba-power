@@ -24,7 +24,7 @@
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
- */
+ */   
 define("bba/Contract",
 [
     "dojo/dom",
@@ -51,6 +51,10 @@ define("bba/Contract",
 ],
     function(dom, query, parser, connect, xhr, array, registry, Dialog, ItemFileReadStore, core, contractAddEditMeterMessage) {
 
+	function zeroFill(num) {
+		return (num) ? num : 0;
+	}
+	
     bba.Contract = {
         gridLayouts : {
             contract : [
@@ -74,8 +78,8 @@ define("bba/Contract",
                     {field: 'meter_idMeter', width: '50px', name: 'Id'},
                     {field: 'meter_numberMain', width : '125px', name: 'Number Main'},
                     {field: 'meter_status', width : '100px', name: 'Meter Status'},
-                    {field: 'meterContract_kvaNominated', width: '75px', name: 'Peak kVA', editable: true},
-                    {field: 'meterContract_eac', width: '75px', name: 'EAC', editable: true},
+                    {field: 'meterContract_kvaNominated', width: '75px', name: 'Peak kVA', editable: true, formatter: zeroFill},
+                    {field: 'meterContract_eac', width: '75px', name: 'EAC', editable: true, formatter: zeroFill},
                     {field: 'contract_idContract', width: '100px', name: 'Contract Id'},
                     {field: 'contract_type', width: '100px', name: 'Contract Type'},
                     {field: 'contract_status', width: '100px', name: 'Status'},
@@ -205,49 +209,45 @@ define("bba/Contract",
         {
             var items = grid.selection.getSelected();
 
-            var kvaError = false;
-
             var data = {type: 'insert', contract : meterContract, meters : []};
 
             if (items.length) {
                 items.forEach(function(selectedItem){
-                    if (!selectedItem.meterContract_kvaNominated || !selectedItem.meterContract_eac) {
-                        kvaError = true;
-                        return false;
-                    }
+                	id = selectedItem.meter_idMeter[0];
+                    kva = (!selectedItem.meterContract_kvaNominated) ? 0 : selectedItem.meterContract_kvaNominated[0]
+                    eac = (!selectedItem.meterContract_eac) ? 0 : selectedItem.meterContract_eac[0];
+                    
+                    if (!kva) kva = 0;
+                    if (!eac) eac = 0;
 
                     data.meters.push({
-                        id : selectedItem.meter_idMeter[0],
-                        kva : selectedItem.meterContract_kvaNominated[0],
-                        eac : selectedItem.meterContract_eac[0]
+                        id : id,
+                        kva : kva,
+                        eac : eac
                     });
                 });
             }
 
-            if (!kvaError) {
-                xhr.post({
-                    url: './contract/save-meter-contract',
-                    content: {jsonData : dojo.toJson(data)},
-                    handleAs: 'json',
-                    preventCache: true,
-                    load: function(data) {
-                        dom.byId('dialog').innerHTML = data.html;
-                        parser.parse('dialog');
+            xhr.post({
+                url: './contract/save-meter-contract',
+                content: {jsonData : dojo.toJson(data)},
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                    dom.byId('dialog').innerHTML = data.html;
+                    parser.parse('dialog');
 
-                        if (data.error) {
-                            error.show();
-                        } else if (data.saved) {
-                            registry.byId('contract' + meterContract).refresh();
-                            registry.byId('addMeterContractDialog').hide();
-                            if (bba.config.confirmBox) {
-                                confirm.show();
-                            }
+                    if (data.error) {
+                        error.show();
+                    } else if (data.saved) {
+                        registry.byId('contract' + meterContract).refresh();
+                        registry.byId('addMeterContractDialog').hide();
+                        if (bba.config.confirmBox) {
+                            confirm.show();
                         }
                     }
-                });
-            } else {
-                alert('Please enter Peak kVA and EAC for all selected meters (enter zero if not known).');
-            }
+                }
+            });
         },
 
         addMeterButtonClick : function(contentVars)

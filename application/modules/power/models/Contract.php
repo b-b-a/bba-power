@@ -141,7 +141,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         $start = $post['start'];
 
         $dataObj = $this->getDbTable('meterContract')->searchMeterContracts($post, $sort, $count, $start);
-
+        
         $store = $this->_getDojoData($dataObj, 'meter_idMeter');
 
         $store->setMetadata(
