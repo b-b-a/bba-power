@@ -345,7 +345,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
                 }
             }
         }
-
+		
         // delete any rows that were deselected
         if ($oldMeterContracts && !in_array($contract->contract_status, $notInStatus)) {
             foreach ($oldMeterContracts as $row) {
@@ -354,11 +354,13 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             }
         }
         
-        // update contract status to tender
-        $contractUpdate = $this->getDbTable('contract')->saveRow(
-        	array('contract_status' => 'tender'),
-        	$contract
-        );
+        // update contract status to tender if contract is in tender process.
+        if (in_array($contract->contract_status, array('tender', 'choose', 'selected', 'signed'))) {
+	        $contractUpdate = $this->getDbTable('contract')->saveRow(
+	        	array('contract_status' => 'tender'),
+	        	$contract
+	        );
+    	}
         
         $this->clearCache(array('meterContract', 'contract'));
 
