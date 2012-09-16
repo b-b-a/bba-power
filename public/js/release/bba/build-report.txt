@@ -1,4 +1,4 @@
-Build started: Sun Sep 16 2012 22:08:24 GMT+0100 (BST)
+Build started: Sun Sep 16 2012 22:52:26 GMT+0100 (BST)
 Build application version: 1.7.0dev (23930)
 Messages:
 info(100) Assumed module uses legacy loader API.
@@ -567,6 +567,7 @@ info(102) Optimizing module
 	module: dojox/drawing/stencil/_Base
 	module: dojox/validate/br
 	module: dojox/editor/plugins/nls/th/Smiley
+	module: dojox/calendar/nls/tr/buttons
 	module: dojox/charting/themes/GreySkies
 	module: dojox/fx/_core
 	module: dojox/validate/ca
@@ -576,6 +577,7 @@ info(102) Optimizing module
 	module: dojox/geo/charting/Feature
 	module: dojox/embed/Quicktime
 	module: dojox/highlight/languages/pygments/html
+	module: dojox/calendar/Calendar
 	module: dojox/grid/enhanced/nls/th/Filter
 	module: dojox/charting/action2d/Tooltip
 	module: dojox/widget/nls/ar/ColorPicker
@@ -591,6 +593,7 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/pt-pt/CollapsibleToolbar
 	module: dojox/gfx/path
 	module: dojox/editor/plugins/nls/de/FindReplace
+	module: dojox/app/utils/mvcModel
 	module: dojox/editor/plugins/FindReplace
 	module: dojox/charting/plot2d/Grid
 	module: dojox/treemap/_utils
@@ -609,6 +612,7 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/sk/AutoSave
 	module: dojox/charting/themes/WatersEdge
 	module: dojox/mobile/uacss
+	module: dojox/calendar/Mouse
 	module: dojox/gfx/vml
 	module: dojox/editor/plugins/EntityPalette
 	module: dojox/atom/widget/nls/es/PeopleEditor
@@ -685,6 +689,7 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/ca/SafePaste
 	module: dojox/editor/plugins/nls/el/InsertEntity
 	module: dojox/widget/PagerItem
+	module: dojox/calendar/nls/buttons
 	module: dojox/secure/capability
 	module: dojox/editor/plugins/nls/th/Blockquote
 	module: dojox/widget/nls/az/Wizard
@@ -722,6 +727,7 @@ info(102) Optimizing module
 	module: dojox/lang/functional/scan
 	module: dojox/editor/plugins/nls/hu/Save
 	module: dojox/atom/widget/nls/pl/FeedEntryEditor
+	module: dojox/calendar/_RendererMixin
 	module: dojox/widget/rotator/Fade
 	module: dojox/widget/nls/zh/Wizard
 	module: dojox/editor/plugins/nls/nl/AutoSave
@@ -753,6 +759,7 @@ info(102) Optimizing module
 	module: dojox/form/nls/pl/Uploader
 	module: dojox/sketch/Anchor
 	module: dojox/form/nls/tr/PasswordValidator
+	module: dojox/dgauges/components/grey/HorizontalLinearGauge
 	module: dojox/widget/nls/pt-pt/ColorPicker
 	module: dojox/mdnd/dropMode/DefaultDropMode
 	module: dojox/validate/us
@@ -770,6 +777,7 @@ info(102) Optimizing module
 	module: dojox/analytics/profiles/analytics.profile
 	module: dojox/av/widget/VolumeButton
 	module: dojox/secure/fromJson
+	module: dojox/calendar/Keyboard
 	module: dojox/gauges/AnalogLineIndicator
 	module: dojox/editor/plugins/nls/el/Smiley
 	module: dojox/grid/enhanced/nls/Filter
@@ -824,6 +832,7 @@ info(102) Optimizing module
 	module: dojox/mobile/app/_base
 	module: dojox/grid/enhanced/nls/ko/Pagination
 	module: dojox/grid/enhanced/nls/sv/Filter
+	module: dojox/dgauges/TextIndicator
 	module: dojox/editor/plugins/nls/ja/TextColor
 	module: dojox/editor/plugins/nls/es/AutoSave
 	module: dojox/form/nls/pl/CheckedMultiSelect
@@ -834,6 +843,7 @@ info(102) Optimizing module
 	module: dojox/mdnd/DropIndicator
 	module: dojox/encoding/compression/splay
 	module: dojox/grid/cells/_base
+	module: dojox/calendar/SimpleColumnView
 	module: dojox/drawing/tools/Arrow
 	module: dojox/widget/gauge/AnalogArrowIndicator
 	module: dojox/charting/plot3d/Base
@@ -865,13 +875,15 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/sv/AutoSave
 	module: dojox/editor/plugins/nls/pl/CollapsibleToolbar
 	module: dojox/editor/plugins/NormalizeIndentOutdent
-	module: dojox/data/dom
 	module: dojox/widget/nls/ja/FilePicker
+	module: dojox/data/dom
 	module: dojox/editor/plugins/nls/ca/SpellCheck
 	module: dojox/editor/plugins/nls/th/TextColor
 	module: dojox/lang/aspect/timer
 	module: dojox/editor/plugins/LocalImage
+	module: dojox/calendar/ColumnView
 	module: dojox/embed/flashVars
+	module: dojox/calendar/HorizontalRenderer
 	module: dojox/charting/themes/Ireland
 	module: dojox/math
 	module: dojox/editor/plugins/nls/he/Preview
@@ -888,16 +900,19 @@ info(102) Optimizing module
 	module: dojox/atom/widget/nls/th/PeopleEditor
 	module: dojox/lang/oo/rearrange
 	module: dojox/editor/plugins/nls/kk/FindReplace
+	module: dojox/calendar/StoreMixin
 	module: dojox/editor/plugins/nls/ru/SafePaste
 	module: dojox/grid/enhanced/plugins/NestedSorting
+	module: dojox/calendar/nls/ca/buttons
 	module: dojox/mvc/StatefulArray
 	module: dojox/calc/Standard
 	module: dojox/form/DateTextBox
 	module: dojox/grid/enhanced/nls/pt/Pagination
 	module: dojox/mobile/app/_Widget
 	module: dojox/data/CdfStore
-	module: dojox/form/manager/_FormMixin
+	module: dojox/dgauges/components/grey/CircularLinearGauge
 	module: dojox/widget/nls/he/FilePicker
+	module: dojox/form/manager/_FormMixin
 	module: dojox/main
 	module: dojox/html/ellipsis
 	module: dojox/mobile/EdgeToEdgeList
@@ -916,6 +931,7 @@ info(102) Optimizing module
 	module: dojox/charting/themes/Grasslands
 	module: dojox/editor/plugins/nls/fi/Blockquote
 	module: dojox/grid/enhanced/nls/he/Filter
+	module: dojox/app/module/env
 	module: dojox/atom/widget/nls/ja/FeedEntryViewer
 	module: dojox/grid/enhanced/nls/tr/EnhancedGrid
 	module: dojox/widget/nls/cs/ColorPicker
@@ -964,6 +980,7 @@ info(102) Optimizing module
 	module: dojox/atom/widget/nls/nb/FeedEntryViewer
 	module: dojox/editor/plugins/nls/el/PasteFromWord
 	module: dojox/wire/ml/Invocation
+	module: dojox/dgauges/LinearScaler
 	module: dojox/editor/plugins/nls/de/Smiley
 	module: dojox/editor/plugins/nls/sk/PageBreak
 	module: dojox/atom/widget/nls/de/PeopleEditor
@@ -982,6 +999,7 @@ info(102) Optimizing module
 	module: dojox/xmpp/ChatService
 	module: dojox/editor/plugins/nls/sv/SafePaste
 	module: dojox/editor/plugins/nls/pl/AutoSave
+	module: dojox/app/Controller
 	module: dojox/editor/plugins/nls/fr/PasteFromWord
 	module: dojox/editor/plugins/nls/nb/Blockquote
 	module: dojox/encoding/digests/MD5
@@ -992,12 +1010,15 @@ info(102) Optimizing module
 	module: dojox/atom/widget/nls/pl/FeedEntryViewer
 	module: dojox/calc/Grapher
 	module: dojox/grid/enhanced/nls/ko/EnhancedGrid
+	module: dojox/app/controllers/Load
 	module: dojox/grid/enhanced/nls/kk/Pagination
 	module: dojox/editor/plugins/nls/fi/Breadcrumb
 	module: dojox/editor/plugins/nls/sl/TextColor
 	module: dojox/editor/plugins/nls/ru/ShowBlockNodes
 	module: dojox/editor/plugins/nls/hu/InsertEntity
+	module: dojox/calendar/nls/zh-tw/buttons
 	module: dojox/wire/TreeAdapter
+	module: dojox/dgauges/LogScaler
 	module: dojox/atom/widget/nls/pt-pt/FeedEntryEditor
 	module: dojox/layout/GridContainerLite
 	module: dojox/widget/nls/nl/FilePicker
@@ -1038,17 +1059,20 @@ info(102) Optimizing module
 	module: dojox/drawing/ui/dom/Zoom
 	module: dojox/editor/plugins/nls/zh/InsertAnchor
 	module: dojox/editor/plugins/nls/ro/Blockquote
-	module: dojox/form/nls/el/PasswordValidator
+	module: dojox/dgauges/components/default/CircularLinearGauge
 	module: dojox/form/MonthTextBox
+	module: dojox/form/nls/el/PasswordValidator
 	module: dojox/color/MeanColorModel
 	module: dojox/treemap/Keyboard
 	module: dojox/mobile/ScreenSizeAware
 	module: dojox/widget/FisheyeLite
+	module: dojox/calendar/nls/ar/buttons
 	module: dojox/dtl/filter/strings
 	module: dojox/editor/plugins/nls/Breadcrumb
 	module: dojox/editor/plugins/nls/nl/FindReplace
 	module: dojox/editor/plugins/nls/ja/ShowBlockNodes
 	module: dojox/mobile/_EditableListMixin
+	module: dojox/dgauges/components/utils
 	module: dojox/dtl/render/html
 	module: dojox/editor/plugins/nls/hu/latinEntities
 	module: dojox/grid/enhanced/plugins/Cookie
@@ -1064,6 +1088,7 @@ info(102) Optimizing module
 	module: dojox/gesture/Base
 	module: dojox/editor/plugins/nls/kk/InsertAnchor
 	module: dojox/sketch/LeadAnnotation
+	module: dojox/calendar/nls/sl/buttons
 	module: dojox/grid/enhanced/nls/ar/Filter
 	module: dojox/charting/themes/SageToLime
 	module: dojox/mvc/_atBindingMixin
@@ -1077,6 +1102,7 @@ info(102) Optimizing module
 	module: dojox/atom/widget/nls/ko/FeedEntryViewer
 	module: dojox/data/restListener
 	module: dojox/dtl/contrib/data
+	module: dojox/dgauges/components/black/VerticalLinearGauge
 	module: dojox/editor/plugins/nls/it/latinEntities
 	module: dojox/editor/plugins/nls/th/TableDialog
 	module: dojox/xmpp/RosterService
@@ -1107,6 +1133,7 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/sl/PageBreak
 	module: dojox/editor/plugins/nls/tr/Smiley
 	module: dojox/editor/plugins/nls/cs/ShowBlockNodes
+	module: dojox/dgauges/RectangularScale
 	module: dojox/date/timezone
 	module: dojox/mvc/sync
 	module: dojox/fx/split
@@ -1114,9 +1141,11 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/pt/Breadcrumb
 	module: dojox/grid/enhanced/nls/tr/Filter
 	module: dojox/editor/plugins/nls/ro/Save
+	module: dojox/dgauges/IndicatorBase
 	module: dojox/widget/rotator/PanFade
 	module: dojox/editor/plugins/nls/da/LocalImage
 	module: dojox/atom/widget/nls/da/PeopleEditor
+	module: dojox/app/View
 	module: dojox/editor/plugins/nls/ro/Breadcrumb
 	module: dojox/editor/plugins/nls/kk/Save
 	module: dojox/gauges/_Indicator
@@ -1128,6 +1157,7 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/kk/Blockquote
 	module: dojox/layout/ToggleSplitter
 	module: dojox/grid/enhanced/nls/zh/EnhancedGrid
+	module: dojox/app/model
 	module: dojox/atom/widget/nls/az/FeedViewerEntry
 	module: dojox/mobile/Container
 	module: dojox/gfx/decompose
@@ -1142,6 +1172,7 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/zh/Save
 	module: dojox/gauges/GlossyHorizontalGauge
 	module: dojox/lang/observable
+	module: dojox/calendar/Touch
 	module: dojox/grid/enhanced/nls/kk/EnhancedGrid
 	module: dojox/atom/widget/FeedEntryViewer
 	module: dojox/editor/plugins/nls/tr/AutoSave
@@ -1154,6 +1185,7 @@ info(102) Optimizing module
 	module: dojox/geo/openlayers/JsonImport
 	module: dojox/widget/nls/hu/Wizard
 	module: dojox/editor/plugins/nls/da/ShowBlockNodes
+	module: dojox/calendar/ColumnViewSecondarySheet
 	module: dojox/editor/plugins/nls/it/SafePaste
 	module: dojox/atom/widget/nls/fi/PeopleEditor
 	module: dojox/editor/plugins/nls/cs/PasteFromWord
@@ -1174,6 +1206,7 @@ info(102) Optimizing module
 	module: dojox/atom/widget/nls/tr/FeedEntryViewer
 	module: dojox/grid/enhanced/_PluginManager
 	module: dojox/secure/DOM
+	module: dojox/dgauges/CircularGauge
 	module: dojox/grid/enhanced/nls/nb/Filter
 	module: dojox/treemap/DrillDownUp
 	module: dojox/wire/ml/JsonHandler
@@ -1182,6 +1215,7 @@ info(102) Optimizing module
 	module: dojox/widget/DataPresentation
 	module: dojox/editor/plugins/nls/da/latinEntities
 	module: dojox/editor/plugins/nls/pt-pt/SafePaste
+	module: dojox/dgauges/components/classic/CircularLinearGauge
 	module: dojox/atom/widget/nls/nb/FeedViewerEntry
 	module: dojox/gfx/silverlight
 	module: dojox/editor/plugins/nls/zh-tw/TextColor
@@ -1214,6 +1248,7 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/cs/Smiley
 	module: dojox/mobile/SpinWheel
 	module: dojox/charting/SimpleTheme
+	module: dojox/calendar/nls/kk/buttons
 	module: dojox/editor/plugins/nls/th/AutoSave
 	module: dojox/mvc/StatefulSeries
 	module: dojox/editor/plugins/nls/nl/LocalImage
@@ -1226,12 +1261,15 @@ info(102) Optimizing module
 	module: dojox/rpc/Rest
 	module: dojox/widget/Dialog
 	module: dojox/editor/plugins/nls/he/InsertAnchor
+	module: dojox/app/widgets/_ScrollableMixin
 	module: dojox/validate/web
 	module: dojox/widget/RollingList
 	module: dojox/mobile/RoundRectList
 	module: dojox/atom/widget/nls/he/FeedEntryViewer
 	module: dojox/form/uploader/Base
+	module: dojox/calendar/nls/da/buttons
 	module: dojox/editor/plugins/nls/pl/PageBreak
+	module: dojox/calendar/nls/fr/buttons
 	module: dojox/grid/enhanced/plugins/filter/FilterStatusTip
 	module: dojox/mdnd/adapter/DndToDojo
 	module: dojox/geo/openlayers/Map
@@ -1276,6 +1314,7 @@ info(102) Optimizing module
 	module: dojox/widget/nls/sv/ColorPicker
 	module: dojox/editor/plugins/nls/sv/PasteFromWord
 	module: dojox/io/xhrPlugins
+	module: dojox/dgauges/CircularValueIndicator
 	module: dojox/editor/plugins/nls/zh-tw/Preview
 	module: dojox/data/AppStore
 	module: dojox/av/widget/Status
@@ -1323,11 +1362,13 @@ info(102) Optimizing module
 	module: dojox/grid/enhanced/nls/he/EnhancedGrid
 	module: dojox/atom/widget/nls/sl/PeopleEditor
 	module: dojox/editor/plugins/nls/it/Preview
+	module: dojox/calendar/nls/nl/buttons
 	module: dojox/mobile/SwapView
 	module: dojox/editor/plugins/nls/de/Save
 	module: dojox/editor/plugins/nls/it/Smiley
 	module: dojox/mobile/FixedSplitterPane
 	module: dojox/editor/plugins/TextColor
+	module: dojox/dgauges/ScaleBase
 	module: dojox/form/FileInput
 	module: dojox/editor/plugins/nls/ko/PasteFromWord
 	module: dojox/editor/plugins/nls/ru/SpellCheck
@@ -1338,6 +1379,7 @@ info(102) Optimizing module
 	module: dojox/xmpp/xmppSession
 	module: dojox/drawing/defaults
 	module: dojox/grid/enhanced/nls/it/Filter
+	module: dojox/calendar/ViewBase
 	module: dojox/editor/plugins/TablePlugins
 	module: dojox/atom/widget/nls/ko/PeopleEditor
 	module: dojox/editor/plugins/nls/hu/SafePaste
@@ -1415,6 +1457,7 @@ info(102) Optimizing module
 	module: dojox/atom/widget/nls/ru/PeopleEditor
 	module: dojox/form/nls/hr/PasswordValidator
 	module: dojox/form/nls/PasswordValidator
+	module: dojox/dgauges/components/default/SemiCircularLinearGauge
 	module: dojox/html/metrics
 	module: dojox/grid/enhanced/nls/nb/EnhancedGrid
 	module: dojox/editor/plugins/nls/es/CollapsibleToolbar
@@ -1442,12 +1485,14 @@ info(102) Optimizing module
 	module: dojox/widget/Wizard
 	module: dojox/form/nls/sl/PasswordValidator
 	module: dojox/dtl/ext-dojo/NodeList
+	module: dojox/dgauges/components/black/HorizontalLinearGauge
 	module: dojox/widget/nls/da/ColorPicker
 	module: dojox/drawing/stencil/Text
 	module: dojox/grid/enhanced/nls/zh/Pagination
 	module: dojox/widget/nls/zh/ColorPicker
 	module: dojox/io/httpParse
 	module: dojox/form/nls/th/Uploader
+	module: dojox/dgauges/ScaleIndicatorBase
 	module: dojox/encoding/crypto/RSAKey
 	module: dojox/mobile/SpinWheelSlot
 	module: dojox/atom/widget/nls/sk/FeedEntryEditor
@@ -1460,6 +1505,7 @@ info(102) Optimizing module
 	module: dojox/grid/DataSelection
 	module: dojox/editor/plugins/nls/sv/TextColor
 	module: dojox/gauges/Range
+	module: dojox/calendar/time
 	module: dojox/editor/plugins/nls/ca/LocalImage
 	module: dojox/editor/plugins/nls/he/AutoSave
 	module: dojox/widget/nls/pt-pt/FilePicker
@@ -1469,6 +1515,7 @@ info(102) Optimizing module
 	module: dojox/drawing/tools/Ellipse
 	module: dojox/editor/plugins/nls/ru/LocalImage
 	module: dojox/editor/plugins/nls/ro/TextColor
+	module: dojox/calendar/nls/th/buttons
 	module: dojox/editor/plugins/nls/es/Save
 	module: dojox/editor/plugins/nls/nl/Save
 	module: dojox/editor/plugins/nls/he/TextColor
@@ -1491,11 +1538,14 @@ info(102) Optimizing module
 	module: dojox/widget/PlaceholderMenuItem
 	module: dojox/charting/action2d/MouseZoomAndPan
 	module: dojox/atom/widget/nls/da/FeedEntryViewer
+	module: dojox/calendar/LabelRenderer
+	module: dojox/calendar/nls/it/buttons
 	module: dojox/widget/nls/fi/Wizard
 	module: dojox/editor/plugins/nls/fr/SafePaste
 	module: dojox/atom/widget/nls/zh/FeedViewerEntry
 	module: dojox/dtl/_Templated
 	module: dojox/editor/plugins/nls/fi/SpellCheck
+	module: dojox/dgauges/RectangularRangeIndicator
 	module: dojox/editor/plugins/nls/de/Preview
 	module: dojox/mvc/Group
 	module: dojox/editor/plugins/nls/pt/FindReplace
@@ -1504,7 +1554,9 @@ info(102) Optimizing module
 	module: dojox/widget/nls/cs/FilePicker
 	module: dojox/charting/themes/Desert
 	module: dojox/editor/plugins/nls/es/LocalImage
+	module: dojox/calendar/nls/es/buttons
 	module: dojox/charting/themes/Adobebricks
+	module: dojox/app/controllers/History
 	module: dojox/drawing/plugins/tools/Zoom
 	module: dojox/atom/widget/nls/kk/PeopleEditor
 	module: dojox/widget/BarGauge
@@ -1515,6 +1567,7 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/zh-tw/FindReplace
 	module: dojox/editor/plugins/nls/nb/FindReplace
 	module: dojox/editor/plugins/nls/ru/Preview
+	module: dojox/calendar/ExpandRenderer
 	module: dojox/mobile/parser
 	module: dojox/mobile/Pane
 	module: dojox/timing
@@ -1522,6 +1575,7 @@ info(102) Optimizing module
 	module: dojox/dtl/_base
 	module: dojox/form/nls/pt/Uploader
 	module: dojox/widget/nls/ro/FilePicker
+	module: dojox/dgauges/components/green/CircularLinearGauge
 	module: dojox/editor/plugins/nls/ko/SpellCheck
 	module: dojox/widget/nls/ca/Wizard
 	module: dojox/mobile/_PickerBase
@@ -1552,6 +1606,7 @@ info(102) Optimizing module
 	module: dojox/mvc/StatefulModel
 	module: dojox/editor/plugins/nls/th/latinEntities
 	module: dojox/editor/plugins/nls/da/Preview
+	module: dojox/calendar/nls/zh/buttons
 	module: dojox/editor/plugins/nls/da/InsertEntity
 	module: dojox/mobile/RoundRectStoreList
 	module: dojox/editor/plugins/nls/ja/LocalImage
@@ -1590,6 +1645,7 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/pl/latinEntities
 	module: dojox/mvc/_TextBoxExtensions
 	module: dojox/mobile/_ItemBase
+	module: dojox/dgauges/components/green/HorizontalLinearGauge
 	module: dojox/editor/plugins/nls/he/LocalImage
 	module: dojox/widget/nls/it/ColorPicker
 	module: dojox/editor/plugins/nls/hu/Preview
@@ -1612,6 +1668,7 @@ info(102) Optimizing module
 	module: dojox/mvc/Element
 	module: dojox/gfx/canvas
 	module: dojox/widget/nls/el/FilePicker
+	module: dojox/dgauges/MultiLinearScaler
 	module: dojox/collections/BinaryTree
 	module: dojox/drawing/util/positioning
 	module: dojox/form/nls/ca/Uploader
@@ -1631,6 +1688,7 @@ info(102) Optimizing module
 	module: dojox/wire/ml/Action
 	module: dojox/grid/enhanced/plugins/DnD
 	module: dojox/mobile/transition
+	module: dojox/app/utils/simpleModel
 	module: dojox/flash
 	module: dojox/grid/_Builder
 	module: dojox/atom/widget/nls/kk/FeedEntryViewer
@@ -1639,6 +1697,7 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/el/Save
 	module: dojox/widget/_CalendarYearView
 	module: dojox/editor/plugins/nls/zh/TableDialog
+	module: dojox/calendar/MatrixView
 	module: dojox/validate/isbn
 	module: dojox/editor/plugins/nls/ar/Save
 	module: dojox/gauges/AnalogArrowIndicator
@@ -1647,6 +1706,7 @@ info(102) Optimizing module
 	module: dojox/mobile/dh/PatternFileTypeMap
 	module: dojox/editor/plugins/nls/zh-tw/Save
 	module: dojox/editor/plugins/nls/he/latinEntities
+	module: dojox/calendar/nls/ko/buttons
 	module: dojox/editor/plugins/nls/pt/TableDialog
 	module: dojox/editor/plugins/_SmileyPalette
 	module: dojox/grid/enhanced/nls/sk/EnhancedGrid
@@ -1655,12 +1715,14 @@ info(102) Optimizing module
 	module: dojox/math/matrix
 	module: dojox/editor/plugins/nls/Preview
 	module: dojox/atom/widget/nls/el/FeedEntryEditor
+	module: dojox/dgauges/components/classic/HorizontalLinearGauge
 	module: dojox/gantt/GanttProjectItem
 	module: dojox/gfx/matrix
 	module: dojox/editor/plugins/nls/fi/TextColor
 	module: dojox/editor/plugins/nls/Save
 	module: dojox/grid/enhanced/nls/de/Pagination
 	module: dojox/editor/plugins/nls/it/PasteFromWord
+	module: dojox/calendar/nls/de/buttons
 	module: dojox/editor/plugins/nls/th/PasteFromWord
 	module: dojox/editor/plugins/nls/de/TextColor
 	module: dojox/form/nls/az/PasswordValidator
@@ -1669,6 +1731,7 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/zh-tw/TableDialog
 	module: dojox/editor/plugins/nls/nb/TableDialog
 	module: dojox/math/BigInteger
+	module: dojox/calendar/CalendarBase
 	module: dojox/string/Builder
 	module: dojox/storage
 	module: dojox/mobile/app/ListSelector
@@ -1680,6 +1743,7 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/es/SafePaste
 	module: dojox/mobile/dh/HtmlContentHandler
 	module: dojox/atom/widget/nls/cs/FeedEntryEditor
+	module: dojox/calendar/nls/ru/buttons
 	module: dojox/form/nls/de/PasswordValidator
 	module: dojox/image/Badge
 	module: dojox/atom/widget/nls/ca/FeedEntryViewer
@@ -1710,23 +1774,24 @@ info(102) Optimizing module
 	module: dojox/form/nls/fr/CheckedMultiSelect
 	module: dojox/mvc/Generate
 	module: dojox/calc/_Executor
+	module: dojox/app/layout/utils
 	module: dojox/mobile/_ListTouchMixin
 	module: dojox/editor/plugins/nls/ca/PageBreak
 	module: dojox/editor/plugins/nls/zh/Smiley
 	module: dojox/atom/widget/nls/da/FeedViewerEntry
 	module: dojox/editor/plugins/nls/ar/ShowBlockNodes
-	module: dojox/form/nls/kk/Uploader
 	module: dojox/widget/nls/pl/ColorPicker
+	module: dojox/form/nls/kk/Uploader
 	module: dojox/analytics/plugins/touchPress
 	module: dojox/charting/widget/Chart
 	module: dojox/lang/functional/tailrec
-	module: dojox/data/WikipediaStore
 	module: dojox/mobile/ValuePicker
+	module: dojox/data/WikipediaStore
 	module: dojox/editor/plugins/nls/ar/SafePaste
 	module: dojox/editor/plugins/Blockquote
 	module: dojox/editor/plugins/nls/th/SpellCheck
-	module: dojox/form/nls/el/CheckedMultiSelect
 	module: dojox/atom/widget/nls/ja/PeopleEditor
+	module: dojox/form/nls/el/CheckedMultiSelect
 	module: dojox/grid/enhanced/nls/zh/Filter
 	module: dojox/charting/plot2d/common
 	module: dojox/grid/enhanced/_FocusManager
@@ -1739,15 +1804,19 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/da/Save
 	module: dojox/grid/enhanced/nls/pl/Pagination
 	module: dojox/mobile/Audio
+	module: dojox/dgauges/RectangularSegmentedRangeIndicator
 	module: dojox/grid/enhanced/nls/nl/Filter
 	module: dojox/editor/plugins/nls/sv/InsertAnchor
+	module: dojox/calendar/nls/pt-pt/buttons
 	module: dojox/grid/enhanced/plugins/exporter/_ExportWriter
 	module: dojox/editor/plugins/nls/he/PasteFromWord
 	module: dojox/gfx
 	module: dojox/editor/plugins/nls/pl/FindReplace
+	module: dojox/app/main
 	module: dojox/charting/action2d/Base
-	module: dojox/form/nls/da/Uploader
+	module: dojox/calendar/nls/hu/buttons
 	module: dojox/widget/AutoRotator
+	module: dojox/form/nls/da/Uploader
 	module: dojox/editor/plugins/nls/ca/InsertAnchor
 	module: dojox/av/widget/ProgressSlider
 	module: dojox/editor/plugins/nls/pt/InsertAnchor
@@ -1755,6 +1824,7 @@ info(102) Optimizing module
 	module: dojox/data/OpmlStore
 	module: dojox/gfx/svg
 	module: dojox/editor/plugins/nls/ro/latinEntities
+	module: dojox/calendar/nls/el/buttons
 	module: dojox/editor/plugins/nls/fi/PageBreak
 	module: dojox/gauges/BarLineIndicator
 	module: dojox/editor/plugins/nls/fr/CollapsibleToolbar
@@ -1786,15 +1856,17 @@ info(102) Optimizing module
 	module: dojox/mvc/Repeat
 	module: dojox/charting/themes/Minty
 	module: dojox/sql/_crypto
+	module: dojox/calendar/nls/nb/buttons
 	module: dojox/data/FileStore
 	module: dojox/lang/aspect
 	module: dojox/editor/plugins/nls/it/Save
 	module: dojox/form/MultiComboBox
-	module: dojox/data/AtomReadStore
 	module: dojox/mobile/IconItem
+	module: dojox/data/AtomReadStore
 	module: dojox/layout/ExpandoPane
 	module: dojox/editor/plugins/nls/hr/Preview
 	module: dojox/grid/enhanced/plugins/filter/FilterBuilder
+	module: dojox/dgauges/GaugeBase
 	module: dojox/editor/plugins/nls/pt/TextColor
 	module: dojox/widget/nls/sl/FilePicker
 	module: dojox/mobile/SpinWheelDatePicker
@@ -1802,6 +1874,7 @@ info(102) Optimizing module
 	module: dojox/charting/plot2d/StackedLines
 	module: dojox/charting/plot2d/ClusteredBars
 	module: dojox/date/posix
+	module: dojox/calendar/nls/ja/buttons
 	module: dojox/drawing/annotations/BoxShadow
 	module: dojox/drawing/tools/custom/Axes
 	module: dojox/atom/widget/nls/es/FeedViewerEntry
@@ -1849,6 +1922,7 @@ info(102) Optimizing module
 	module: dojox/atom/widget/nls/th/FeedEntryViewer
 	module: dojox/mobile/dh/JsonContentHandler
 	module: dojox/widget/nls/sk/FilePicker
+	module: dojox/dgauges/RectangularGauge
 	module: dojox/editor/plugins/nls/ru/TextColor
 	module: dojox/grid/enhanced/nls/da/Pagination
 	module: dojox/atom/widget/nls/it/FeedViewerEntry
@@ -1941,13 +2015,16 @@ info(102) Optimizing module
 	module: dojox/fx/Shadow
 	module: dojox/widget/Calendar2Pane
 	module: dojox/atom/widget/nls/ca/FeedViewerEntry
+	module: dojox/calendar/_VerticalScrollBarBase
 	module: dojox/wire/TextAdapter
 	module: dojox/drawing/plugins/tools/Iconize
 	module: dojox/grid/enhanced/nls/el/EnhancedGrid
+	module: dojox/app/widgets/Container
 	module: dojox/math/curves
 	module: dojox/charting/themes/Shrooms
 	module: dojox/editor/plugins/nls/tr/latinEntities
 	module: dojox/widget/PortletDialogSettings
+	module: dojox/calendar/nls/pt/buttons
 	module: dojox/drawing/annotations/Angle
 	module: dojox/grid/enhanced/nls/fr/Pagination
 	module: dojox/mobile/ProgressBar
@@ -1985,6 +2062,7 @@ info(102) Optimizing module
 	module: dojox/form/uploader/plugins/Flash
 	module: dojox/charting/axis2d/Invisible
 	module: dojox/widget/nls/nb/ColorPicker
+	module: dojox/dgauges/components/black/SemiCircularLinearGauge
 	module: dojox/validate/_base
 	module: dojox/atom/widget/nls/sl/FeedEntryViewer
 	module: dojox/mobile/app
@@ -1994,6 +2072,7 @@ info(102) Optimizing module
 	module: dojox/charting/plot2d/Areas
 	module: dojox/editor/plugins/nls/kk/AutoSave
 	module: dojox/data/OpenSearchStore
+	module: dojox/calendar/MobileCalendar
 	module: dojox/collections/Set
 	module: dojox/gfx3d/lighting
 	module: dojox/grid/enhanced/_Plugin
@@ -2022,6 +2101,7 @@ info(102) Optimizing module
 	module: dojox/widget/nls/tr/ColorPicker
 	module: dojox/form/nls/pt-pt/CheckedMultiSelect
 	module: dojox/editor/plugins/nls/pt-pt/latinEntities
+	module: dojox/dgauges/components/default/VerticalLinearGauge
 	module: dojox/widget/nls/el/ColorPicker
 	module: dojox/gfx/canvasWithEvents
 	module: dojox/mobile/_StoreMixin
@@ -2056,7 +2136,9 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/sv/PageBreak
 	module: dojox/widget/nls/ro/Wizard
 	module: dojox/grid/enhanced/plugins/AutoScroll
+	module: dojox/app/controllers/Layout
 	module: dojox/form/nls/pt/CheckedMultiSelect
+	module: dojox/calendar/nls/pl/buttons
 	module: dojox/highlight/languages/pygments/_html
 	module: dojox/charting/themes/Wetland
 	module: dojox/storage/WhatWGStorageProvider
@@ -2067,6 +2149,7 @@ info(102) Optimizing module
 	module: dojox/data/demos/widgets/PicasaView
 	module: dojox/charting/themes/Claro
 	module: dojox/geo/openlayers/Feature
+	module: dojox/calendar/MobileHorizontalRenderer
 	module: dojox/editor/plugins/nls/sk/LocalImage
 	module: dojox/editor/plugins/nls/da/Breadcrumb
 	module: dojox/editor/plugins/nls/fr/Blockquote
@@ -2082,11 +2165,12 @@ info(102) Optimizing module
 	module: dojox/drawing/ui/dom/Pan
 	module: dojox/editor/plugins/nls/pt/latinEntities
 	module: dojox/charting/Chart2D
+	module: dojox/calendar/nls/ro/buttons
 	module: dojox/editor/plugins/nls/pt/SpellCheck
 	module: dojox/widget/nls/ar/Wizard
 	module: dojox/grid/enhanced/nls/ca/Filter
-	module: dojox/form/nls/ro/Uploader
 	module: dojox/string/sprintf
+	module: dojox/form/nls/ro/Uploader
 	module: dojox/data/CsvStore
 	module: dojox/editor/plugins/nls/pt/CollapsibleToolbar
 	module: dojox/form/nls/sv/CheckedMultiSelect
@@ -2140,8 +2224,8 @@ info(102) Optimizing module
 	module: dojox/drawing/library/greek
 	module: dojox/encoding/_base
 	module: dojox/charting/themes/ThreeD
-	module: dojox/data/ClientFilter
 	module: dojox/xmpp/bosh
+	module: dojox/data/ClientFilter
 	module: dojox/editor/plugins/nls/ko/LocalImage
 	module: dojox/image/_base
 	module: dojox/widget/nls/tr/Wizard
@@ -2161,16 +2245,18 @@ info(102) Optimizing module
 	module: dojox/mobile/View
 	module: dojox/editor/plugins/nls/fi/Preview
 	module: dojox/mvc/getPlainValue
+	module: dojox/dgauges/components/classic/VerticalLinearGauge
 	module: dojox/editor/plugins/nls/fr/Breadcrumb
 	module: dojox/form/nls/kk/CheckedMultiSelect
 	module: dojox/geo/openlayers/Geometry
 	module: dojox/editor/plugins/nls/zh/TextColor
+	module: dojox/dgauges/components/black/CircularLinearGauge
 	module: dojox/editor/plugins/nls/ja/InsertEntity
 	module: dojox/editor/plugins/nls/ko/TableDialog
 	module: dojox/encoding/base64
 	module: dojox/av/FLAudio
-	module: dojox/form/nls/ru/Uploader
 	module: dojox/atom/widget/nls/nl/PeopleEditor
+	module: dojox/form/nls/ru/Uploader
 	module: dojox/treemap/TreeMap
 	module: dojox/gfx/Mover
 	module: dojox/editor/plugins/nls/zh/SpellCheck
@@ -2191,6 +2277,7 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/tr/TableDialog
 	module: dojox/editor/plugins/nls/pt/Save
 	module: dojox/editor/plugins/nls/hu/Smiley
+	module: dojox/calendar/nls/sv/buttons
 	module: dojox/form/nls/ja/PasswordValidator
 	module: dojox/editor/plugins/nls/el/TableDialog
 	module: dojox/editor/plugins/nls/es/InsertAnchor
@@ -2231,6 +2318,7 @@ info(102) Optimizing module
 	module: dojox/lang/functional/numrec
 	module: dojox/drawing/annotations/Arrow
 	module: dojox/form/nls/de/CheckedMultiSelect
+	module: dojox/app/module/lifecycle
 	module: dojox/atom/widget/nls/fr/PeopleEditor
 	module: dojox/atom/widget/nls/sk/FeedEntryViewer
 	module: dojox/form/FilePickerTextBox
@@ -2239,6 +2327,7 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/it/PageBreak
 	module: dojox/editor/plugins/nls/ro/LocalImage
 	module: dojox/mobile/FixedSplitter
+	module: dojox/dgauges/components/default/HorizontalLinearGauge
 	module: dojox/widget/_CalendarMonthYearView
 	module: dojox/form/manager/_ValueMixin
 	module: dojox/grid/enhanced/nls/hr/EnhancedGrid
@@ -2246,9 +2335,9 @@ info(102) Optimizing module
 	module: dojox/drawing/tools/Rect
 	module: dojox/editor/plugins/nls/pl/SafePaste
 	module: dojox/gantt/GanttChart
-	module: dojox/form/nls/ru/CheckedMultiSelect
 	module: dojox/editor/plugins/nls/el/PageBreak
 	module: dojox/socket
+	module: dojox/form/nls/ru/CheckedMultiSelect
 	module: dojox/editor/plugins/nls/it/InsertAnchor
 	module: dojox/grid/_ViewManager
 	module: dojox/grid/enhanced/nls/es/Pagination
@@ -2263,8 +2352,8 @@ info(102) Optimizing module
 	module: dojox/dtl/utils/date
 	module: dojox/geo/openlayers/GreatCircle
 	module: dojox/editor/plugins/nls/pt/Preview
-	module: dojox/data/XmlStore
 	module: dojox/editor/plugins/nls/nl/CollapsibleToolbar
+	module: dojox/data/XmlStore
 	module: dojox/widget/nls/ar/FilePicker
 	module: dojox/form/DayTextBox
 	module: dojox/editor/plugins/nls/ca/Save
@@ -2341,6 +2430,7 @@ info(102) Optimizing module
 	module: dojox/wire/TableAdapter
 	module: dojox/editor/plugins/SpellCheck
 	module: dojox/fx
+	module: dojox/calendar/nls/fi/buttons
 	module: dojox/editor/plugins/nls/ko/ShowBlockNodes
 	module: dojox/charting/plot2d/StackedBars
 	module: dojox/encoding/digests/SHA1
@@ -2357,10 +2447,11 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/sk/Preview
 	module: dojox/drawing/util/oo
 	module: dojox/form/nls/Uploader
-	module: dojox/data/HtmlStore
 	module: dojox/editor/plugins/nls/ru/Blockquote
+	module: dojox/data/HtmlStore
 	module: dojox/editor/plugins/nls/ru/FindReplace
 	module: dojox/storage/_common
+	module: dojox/dgauges/components/grey/VerticalLinearGauge
 	module: dojox/editor/plugins/nls/ko/CollapsibleToolbar
 	module: dojox/form/nls/cs/Uploader
 	module: dojox/widget/nls/hr/FilePicker
@@ -2372,6 +2463,7 @@ info(102) Optimizing module
 	module: dojox/dtl/contrib/dom
 	module: dojox/atom/widget/nls/nl/FeedEntryViewer
 	module: dojox/image/Lightbox
+	module: dojox/dgauges/components/classic/SemiCircularLinearGauge
 	module: dojox/highlight/languages/pygments/_www
 	module: dojox/mobile/RoundRect
 	module: dojox/av/_Media
@@ -2400,8 +2492,10 @@ info(102) Optimizing module
 	module: dojox/widget/DynamicTooltip
 	module: dojox/editor/plugins/nls/es/Blockquote
 	module: dojox/editor/plugins/nls/zh/ShowBlockNodes
+	module: dojox/calendar/nls/cs/buttons
 	module: dojox/charting/action2d/Shake
 	module: dojox/editor/plugins/nls/pt-pt/Save
+	module: dojox/dgauges/CircularRangeIndicator
 	module: dojox/mobile/StoreCarousel
 	module: dojox/widget/nls/fi/ColorPicker
 	module: dojox/editor/plugins/nls/de/SpellCheck
@@ -2418,6 +2512,7 @@ info(102) Optimizing module
 	module: dojox/data/StoreExplorer
 	module: dojox/gauges/GlossyCircularGauge
 	module: dojox/data/JsonQueryRestStore
+	module: dojox/calendar/MobileVerticalRenderer
 	module: dojox/math/round
 	module: dojox/mobile/_compat
 	module: dojox/charting/themes/Dollar
@@ -2458,16 +2553,21 @@ info(102) Optimizing module
 	module: dojox/widget/nls/he/ColorPicker
 	module: dojox/editor/plugins/nls/el/latinEntities
 	module: dojox/encoding/crypto/RSAKey-ext
+	module: dojox/calendar/MonthColumnView
 	module: dojox/editor/plugins/nls/hr/CollapsibleToolbar
 	module: dojox/editor/plugins/SafePaste
+	module: dojox/dgauges/_circularUtils
 	module: dojox/mobile/app/SceneController
 	module: dojox/editor/plugins/nls/hr/SpellCheck
 	module: dojox/highlight/languages/python
 	module: dojox/editor/plugins/nls/tr/Preview
 	module: dojox/editor/plugins/nls/sk/InsertEntity
+	module: dojox/dgauges/components/grey/SemiCircularLinearGauge
 	module: dojox/grid/enhanced/nls/nl/Pagination
 	module: dojox/embed/Flash
+	module: dojox/calendar/VerticalRenderer
 	module: dojox/atom/widget/FeedEntryEditor
+	module: dojox/dgauges/components/green/SemiCircularLinearGauge
 	module: dojox/atom/widget/nls/fr/FeedEntryEditor
 	module: dojox/lang/functional/multirec
 	module: dojox/editor/plugins/nls/fi/Save
@@ -2487,6 +2587,7 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/pl/SpellCheck
 	module: dojox/mobile/iconUtils
 	module: dojox/editor/plugins/Smiley
+	module: dojox/dgauges/RectangularValueIndicator
 	module: dojox/wire/ml/Service
 	module: dojox/editor/plugins/nls/es/Smiley
 	module: dojox/atom/widget/nls/tr/FeedEntryEditor
@@ -2507,6 +2608,7 @@ info(102) Optimizing module
 	module: dojox/charting/plot3d/Cylinders
 	module: dojox/color/SimpleColorModel
 	module: dojox/charting/themes/PlotKit/orange
+	module: dojox/dgauges/components/DefaultPropertiesMixin
 	module: dojox/editor/plugins/nls/nb/Save
 	module: dojox/editor/plugins/nls/ru/TableDialog
 	module: dojox/editor/plugins/nls/th/InsertAnchor
@@ -2514,14 +2616,18 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/sl/PasteFromWord
 	module: dojox/editor/plugins/nls/pt-pt/Smiley
 	module: dojox/editor/plugins/nls/latinEntities
+	module: dojox/app/controllers/HistoryHash
 	module: dojox/form/_SelectStackMixin
 	module: dojox/mobile/lazyLoadUtils
 	module: dojox/drawing/ui/Toolbar
 	module: dojox/timing/Streamer
 	module: dojox/grid/enhanced/nls/zh-tw/EnhancedGrid
 	module: dojox/grid/enhanced/plugins/Menu
+	module: dojox/calendar/nls/sk/buttons
 	module: dojox/editor/plugins/nls/sv/Preview
+	module: dojox/dgauges/components/green/VerticalLinearGauge
 	module: dojox/mobile/ScrollableView
+	module: dojox/dgauges/CircularScale
 	module: dojox/image/LightboxNano
 	module: dojox/charting/themes/Chris
 	module: dojox/editor/plugins/nls/sv/Breadcrumb
@@ -2548,8 +2654,8 @@ info(102) Optimizing module
 	module: dojox/atom/widget/nls/he/FeedEntryEditor
 	module: dojox/grid/enhanced/nls/fi/Filter
 	module: dojox/editor/plugins/nls/zh-tw/CollapsibleToolbar
-	module: dojox/form/nls/da/PasswordValidator
 	module: dojox/fx/_base
+	module: dojox/form/nls/da/PasswordValidator
 	module: dojox/form/manager/_EnableMixin
 	module: dojox/mvc/_DataBindingExtension
 	module: dojox/date/buddhist
@@ -2564,7 +2670,9 @@ info(102) Optimizing module
 	module: dojox/form/DropDownSelect
 	module: dojox/widget/Roller
 	module: dojox/storage/FlashStorageProvider
+	module: dojox/app/controllers/Transition
 	module: dojox/editor/plugins/nls/he/Breadcrumb
+	module: dojox/app/widgets/scrollable
 	module: dojox/form/TimeSpinner
 	module: dojox/editor/plugins/nls/pt-pt/SpellCheck
 	module: dojox/atom/widget/nls/zh/FeedEntryEditor
@@ -2594,8 +2702,8 @@ info(102) Optimizing module
 	module: dojox/editor/plugins/nls/fi/latinEntities
 	module: dojox/atom/widget/nls/nl/FeedViewerEntry
 	module: dojox/form/nls/nb/Uploader
-	module: dojox/form/nls/ro/CheckedMultiSelect
 	module: dojox/mvc/StoreRefController
+	module: dojox/form/nls/ro/CheckedMultiSelect
 	module: dojox/atom/widget/nls/ro/FeedViewerEntry
 	module: dojox/grid/enhanced/nls/th/EnhancedGrid
 	module: dojo/nls/ja/colors
@@ -2988,9 +3096,9 @@ info(102) Optimizing module
 	module: dojo/require
 	module: dojo/cldr/nls/ar/gregorian
 info(107) Package Version:
-	package: dijit; version: 1.8.0dev
-	package: dojox; version: 1.8.0dev
-	package: dojo; version: 1.8.0dev
+	package: dijit; version: 1.8.0
+	package: dojox; version: 1.8.0
+	package: dojo; version: 1.8.0
 warn(216) dojo/has plugin resource could not be resolved during build-time.
 	plugin resource id: touch?dojox/gesture/tap; reference module id: dojox/treemap/DrillDownUp
 	plugin resource id: dojo-parser?:dojo/_base/window; reference module id: dojox/mvc/parserExtension
@@ -3243,4 +3351,4 @@ dojo/dojo:
 Process finished normally
 	errors: 0
 	warnings: 16
-	build time: 41.765 seconds
+	build time: 43.57 seconds
