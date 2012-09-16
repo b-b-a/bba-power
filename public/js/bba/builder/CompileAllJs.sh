@@ -37,7 +37,9 @@ cp -vr bba-temp/dojox/grid/resources/images/ bba/dojox/grid/resources
 
 mkdir -v --parents bba/dijit/icons/
 mkdir -v --parents bba/dijit/themes/claro/
+mkdir -v --parents bba/dijit/nls/
 
+cp -vr bba-temp/dijit/nls/loading.js bba/dijit/nls/loading.js
 cp -vr bba-temp/dijit/icons/ bba/dijit
 cp -vr bba-temp/dijit/themes/claro/ bba/dijit/themes
 cp -vr bba-temp/dijit/themes/dijit.css bba/dijit/themes/dijit.css
@@ -46,7 +48,9 @@ cp -vr bba-temp/dijit/themes/dijit_rtl.css bba/dijit/themes/dijit_rtl.css
 mkdir -v --parents bba/dojo/cldr/nls/en/
 mkdir -v --parents bba/dojo/cldr/nls/en-gb/
 mkdir -v --parents bba/dojo/resources/
+mkdir -v --parents bba/dojo/nls/
 
+cp -vr bba-temp/dojo/nls/dojo_en-gb.js bba/dojo/nls/dojo_en-gb.js
 cp -vr bba-temp/dojo/cldr/nls/en/ bba/dojo/cldr/nls
 cp -vr bba-temp/dojo/cldr/nls/en-gb/ bba/dojo/cldr/nls
 cp -vr bba-temp/dojo/resources/ bba/dojo
