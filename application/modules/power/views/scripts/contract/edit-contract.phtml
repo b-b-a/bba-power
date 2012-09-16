@@ -215,7 +215,7 @@
                       data-dojo-props="url:'contract/data-store/type/meter',requestMethod:'post'"></span>
 
                 <table data-dojo-type="dojox.grid.DataGrid"
-                       id="contractMeterGrid<?php echo $this->contract->contract_idContract; ?>"
+                       id="meterContractGrid<?php echo $this->contract->contract_idContract; ?>"
                        data-dojo-props="
                         store: contractMeterStore<?php echo $this->contract->contract_idContract; ?>,
                         structure: bba.Contract.gridLayouts.meter,
@@ -281,7 +281,9 @@
          class="tableHeadPane">
 
         <div class="tableHead">
+        	<?php $notAllowed = array('current', 'roledon', 'lapsed', 'dead'); ?>
             <?php if ($this->isAllowed('User')): ?>
+            <?php if (!in_array($this->contract->getContract_status(true), $notAllowed)): ?>
             <p class="tableHead-button">
                 <button data-dojo-type="dijit.form.Button">
                     Add/Edit Meters
@@ -293,6 +295,7 @@
                 </button>
 
             </p>
+            <?php endif; ?>
             <p class="tableHead-button">
                 <button data-dojo-type="dijit.form.Button">
                     New Tender

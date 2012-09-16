@@ -91,18 +91,22 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
         return $desc;
     }
 
-    public function getContract_status()
+    public function getContract_status($raw=false)
     {
-        return $this->getRow()->findParentRow(
-            'Power_Model_DbTable_Tables',
-            'contractStatus',
-            $this->getRow()->select()->where('tables_name = ?', 'contract_status')
-        )->tables_value;
+    	if (!$raw) {
+	        return $this->getRow()->findParentRow(
+	            'Power_Model_DbTable_Tables',
+	            'contractStatus',
+	            $this->getRow()->select()->where('tables_name = ?', 'contract_status')
+	        )->tables_value;
+    	} else {
+    		return $this->getRow()->contract_status;
+    	}
     }
 
-    public function getContract_type()
+    public function getContract_type($raw=false)
     {
-        return $this->getRow()->findParentRow(
+        return ($raw) ? $this->getRow()->contract_type : $this->getRow()->findParentRow(
             'Power_Model_DbTable_Tables',
             'contractType',
             $this->getRow()->select()->where('tables_name = ?', 'contract_type')

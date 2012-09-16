@@ -80,7 +80,20 @@ define("bba/Client",
                 {field: 'clientPers_email', width: '200px', name: 'Email'},
                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
                 {field: '', width: 'auto', name: ''}
-            ]
+            ],
+            meter : [
+                 {field: 'meter_idMeter', width: '50px', name: 'Id'},
+                 {field: 'clientAd_addressName', width: '200px', name: 'Address Name'},
+                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
+                 {field: 'meter_type', width: '110px', name: 'Meter Type'},
+                 {field: 'meter_status', width: '110px', name: 'Meter Status'},
+                 {field: 'meter_numberTop', width: '100px', name: 'Number Top'},
+                 {field: 'meter_numberMain', width: '120px', name: 'Meter No'},
+                 {field: 'contract_type', width: '100px', name: 'Contract Type'},
+                 {field: 'contract_status', width: '110px', name: 'Contract Status'},
+                 {field: 'contract_dateEnd', width: '100px', name: 'End Date'},
+                 {field: '', width: 'auto', name: ''}
+             ]
         },
          
         init : function()

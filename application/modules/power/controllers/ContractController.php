@@ -81,10 +81,11 @@ class Power_ContractController extends Zend_Controller_Action
                     $data = $this->_model->getMeterContractDataStore($request->getPost());
                     break;
                 case 'availableMeters':
-                     $data = $this->_model->getCached('meterContract')
+                     $data = $this->_model
+                     	//->getCached('meterContract')
                      	->getAvailableMetersDataStore(
-                        $request->getParam('meterContract_idContract')
-                    );
+                        	$request->getParam('meterContract_idContract')
+                    	);
                     break;
                 case 'tender':
                     $data = $this->_model->getCached('tender')

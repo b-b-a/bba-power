@@ -70,6 +70,8 @@ class Power_Form_Contract_Save extends BBA_Dojo_Form_Abstract
 
         $request = Zend_Controller_Front::getInstance()->getRequest();
         $contractId = $request->getParam('contract_idContract', 0);
+        $log = Zend_Registry::get('log');
+        $log->info($request->getParams());
 
         if ($request->getParam('contract_idContract') || $request->getParam('contract_idClient')) {
 
