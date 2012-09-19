@@ -39,6 +39,19 @@
  */
 class Power_Form_SearchBase extends ZendSF_Dojo_Form_Abstract
 {
+	protected $_defaultDecorators = array(
+		'Description',
+		'FormElements',
+		array(
+			'HtmlTag',
+			array(
+				'tag'   => 'div',
+				'class' => 'zend_form'
+			)
+		),
+		'Form'
+	);
+	
     protected $_elementDecorators = array(
         'DijitElement',
         'Errors',
