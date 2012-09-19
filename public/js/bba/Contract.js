@@ -422,6 +422,20 @@ define("bba/Contract",
             registry.byId("tender_idSupplierPersonnel").set('store', this.supplierPersonnelStore);
             registry.byId('tender_idSupplierPersonnel').set('value', 0);
         },
+        
+        validateContractForm : function()
+        {	
+        	// first check form for errors.
+        	if (!contractForm.validate()) {
+        		return false;
+        	}
+        	
+        	formValues = contractForm.getValues();
+        	
+        	// check for duplicate contract
+        	
+        	//return contractForm.validate();
+        },
 
         processContractForm : function()
         {

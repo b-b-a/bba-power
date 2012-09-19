@@ -130,7 +130,7 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                        value="<?php echo $form->meter_type->getValue(); ?>" />
 
                 <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: function(){return dijit.byId('contractForm').validate();}"
+                        data-dojo-props="onClick: function(){return bba.Contract.validateContractForm();}"
                         type="submit"
                         id="contractFormSubmitButton">Save</button>
 
