@@ -111,6 +111,16 @@ class Power_Model_DbTable_Contract extends BBA_Model_DbTable_Abstract
     {
         return $this->find($id)->current();
     }
+    
+    public function getDuplicateContracts($ref, $clientId, $dateStart)
+    {
+    	$select = $this->select()
+    		->where('contract_reference = ?', $ref)
+    		->orWhere('(contract_clientId = ?', $clientId)
+    		->where('contract_dateStrat = ?)', $dateStart);
+    	
+    	return $this->fetchAll($select);
+    }
 
     protected function _getSearchContractsSelect(array $search)
     {
@@ -146,15 +156,15 @@ class Power_Model_DbTable_Contract extends BBA_Model_DbTable_Abstract
                 $id = (int) substr($search['contract'], 1);
                 $select->where('contract_idContract = ?', $id);
             } else {
-                $select->orWhere('client_name like ? ', '%'. $search['contract'] . '%')
-                    ->orWhere('contract_reference like ? ', '%'. $search['contract'] . '%')
-                    ->orWhere('contract_desc like ? ', '%'. $search['contract'] . '%');
+                $select->orWhere('client_name LIKE ? ', '%'. $search['contract'] . '%')
+                    ->orWhere('contract_reference LIKE ? ', '%'. $search['contract'] . '%')
+                    ->orWhere('contract_desc LIKE ? ', '%'. $search['contract'] . '%');
             }
         }
 
         if (!$search['meter'] == '') {
-            $select->orWhere('meter_numberMain like ?', '%'. $search['meter'] . '%')
-                ->orWhere('meter_type like ?', '%' . $search['meter'] . '%');
+            $select->orWhere('meter_numberMain LIKE ?', '%'. $search['meter'] . '%')
+                ->orWhere('meter_type LIKE ?', '%' . $search['meter'] . '%');
         }
 
         if (isset($search['contract_idClient'])) {

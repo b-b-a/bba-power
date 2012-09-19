@@ -202,6 +202,17 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     	
     	return $store->toJson();
     }
+    
+    public function checkDuplicateContracts(array $post)
+    {
+    	$ref = (string) $post['contract_reference'];
+    	$clientId = (int) $post['contract_idClient'];
+    	$date = (string) $post['contract_dateStart'];
+    	
+    	$contracts = $this->getDbTable('contract')->getDuplicateContracts($ref, $clientId, $date);
+    	
+    	return ($contracts->count() > 0) ? $contracts : null;
+    }
 
     /**
      * Save a contract.

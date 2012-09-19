@@ -184,6 +184,36 @@ class Power_ContractController extends Zend_Controller_Action
            return $this->_helper->redirector('index', 'contract');
         }
     }
+    
+    public function checkContractDuplicatesAction()
+    {
+    	$request = $this->getRequest();
+    	
+    	if (!$request->isPost() && !$request->isXmlHttpRequest()) {
+    		return $this->_helper->redirector('index', 'contract');
+    	}
+    	
+    	$this->getHelper('viewRenderer')->setNoRender(true);
+    	$this->_helper->layout->disableLayout();
+    	
+    	$dups = $this->_model->checkDuplicateContracts($request->getPost());
+    	
+    	$returnJson = array();
+    	
+    	if ($dups) {
+    		$returnJson['dups'] = true;
+    		
+    		$this->view->assign(array(
+    			'dups'  => $dups,
+    		));
+    	} else {
+    		$returnJson['dups'] = false;
+    	}
+    	
+    	$this->getResponse()
+    		->setHeader('Content-Type', 'application/json')
+    		->setBody(json_encode($returnJson));
+    }
 
     public function saveContractAction()
     {

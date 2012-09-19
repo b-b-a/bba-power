@@ -433,8 +433,21 @@ define("bba/Contract",
         	formValues = contractForm.getValues();
         	
         	// check for duplicate contract
+        	xhr.post({
+                url: './contract/check-contract-duplicates',
+                content: formValues,
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                	if (data.dups) {
+                		
+                	} else {
+                		contract_docTermination.submit();
+                	}
+                }
+        	});
         	
-        	//return contractForm.validate();
+        	return false;
         },
 
         processContractForm : function()
