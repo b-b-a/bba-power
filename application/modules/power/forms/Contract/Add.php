@@ -1,6 +1,6 @@
 <?php
 /**
- * Doc.php
+ * Add.php
  *
  * Copyright (c) 2011 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -21,38 +21,37 @@
  *
  * @category   BBA
  * @package    Power
- * @subpackage Form_Doc
+ * @subpackage Form_Contract
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
 
 /**
- * Form Class Doc.
+ * Form Class Add.
  *
  * @category   BBA
  * @package    Power
- * @subpackage Form_Doc
+ * @subpackage Form_Contract
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Doc_Contract extends Power_Form_Doc_Abstract
+class Power_Form_Contract_Add extends Power_Form_Contract_Base 
 {
-    public function init()
-    {
-        $this->setName('contractDocs');
-
-        $request = Zend_Controller_Front::getInstance()->getRequest();
-
-        if ('add' === $request->getParam('type')) {
-            $this->createFormElement('contract_docTermination', Power_Model_Doc::$docContract['contract_docTermination']);
-        } else {
-            foreach (Power_Model_Doc::$docContract as $key => $value) {
-                $this->createFormElement($key, $value);
-            }
-        }
-
-    }
-
+	public function init()
+	{
+		parent::init();
+		
+		$idClient = $this->_request->getParam('contract_idClient');
+		
+		if ($idClient) {
+			$this->getElement('contract_idClient')->setAttrib('readonly', true);
+		}
+		
+		$this->addElement($this->_contractDoc->getElement('contract_docTermination'));
+		
+		$this->getElement('contract_docTermination')->setOrder(95);
+		
+	}
 }

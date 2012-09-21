@@ -112,12 +112,20 @@ class Power_Model_DbTable_Contract extends BBA_Model_DbTable_Abstract
         return $this->find($id)->current();
     }
     
-    public function getDuplicateContracts($ref, $clientId, $dateStart)
+    public function getDuplicateContracts($ref, $clientId, $dateStart, $ignore=null)
     {
-    	$select = $this->select()
-    		->where('contract_reference = ?', $ref)
-    		->orWhere('(contract_clientId = ?', $clientId)
-    		->where('contract_dateStrat = ?)', $dateStart);
+    	$select = $this->select();
+    	
+    	if ($ignore) {
+    		$select->where('contract_idContract != ?', $ignore);
+    	}
+    	
+    	$select->where('contract_idClient = ?', $clientId)
+    		->where('contract_dateStart = ?', $dateStart);
+    	
+    	if ($ref && $ref != '') {
+    		$select->orWhere('contract_reference = ?', $ref);
+    	}
     	
     	return $this->fetchAll($select);
     }

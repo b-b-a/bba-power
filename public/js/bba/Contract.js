@@ -350,25 +350,6 @@ define("bba/Contract",
                     content: dojo.mixin({type :  'add'}, contentVars),
                     dialog: 'contractForm',
                     deferredFunction: function() {
-                    	contractFormStandby.show();
-                        id = registry.byId("contract_idClient").get('value');
-
-                        clientStore = new ItemFileReadStore({
-                            url:'./site/data-store/type/clients'
-                        });
-
-                        clientStore.fetch({
-                            onComplete: function() {
-                            	contractFormStandby.hide();
-                            },
-                            onError: function(error, request) {
-                                bba.dataStoreError(request.store.url, null);
-                            }
-                        });
-                        
-                        registry.byId("contract_idClient").set('store', clientStore);
-                        registry.byId("contract_idClient").set('value', 0);
-                        
                         bba.Contract.setupDocEvents();
                     }
                 });
@@ -425,8 +406,11 @@ define("bba/Contract",
         
         validateContractForm : function()
         {	
+        	contractFormStandby.show();
+        	
         	// first check form for errors.
         	if (!contractForm.validate()) {
+        		contractFormStandby.hide();
         		return false;
         	}
         	
@@ -441,9 +425,39 @@ define("bba/Contract",
                 load: function(data) {
                 	if (data.dups) {
                 		
+                		console.log(data);
+                		
+                		dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+                        
+                        bba.setupDialog(contractDuplicates);
+                        
+                        connect.connect(contractDuplicates, 'onCancel', function(){
+                        	contractForm.hide();
+                        });
+                        
+                        connect.connect(dupsCloseButton, 'onClick', function(){
+                        	contractDuplicates.hide();
+                        	contractForm.hide();
+                        	
+                        });
+                        
+                        connect.connect(dupsContinueButton, 'onClick', function(){
+                        	pageStandby.show();
+                        	contractDuplicates.hide();
+                        	contract_docTermination.submit();
+                        });
+                		
+                		contractDuplicates.show();
                 	} else {
+                		pageStandby.show();
                 		contract_docTermination.submit();
                 	}
+                },
+                error: function(error) {
+                	console.log(error);
+                	
+                    //bba.showXhrError(error);
                 }
         	});
         	
@@ -453,7 +467,6 @@ define("bba/Contract",
         processContractForm : function()
         {
             bba.closeDialog(contractForm);
-            pageStandby.show();
 
             data = arguments[0];
 
@@ -546,7 +559,7 @@ define("bba/Contract",
                     });
                 }
             });
-
+            
             connect.connect(contract_docTermination, "onComplete", bba.Contract.processContractForm);
             connect.connect(contract_docTermination, "onError", bba.Contract.processContractForm);
         }
