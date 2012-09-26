@@ -125,7 +125,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initActionHelpers()
     {
         Zend_Controller_Action_HelperBroker::addHelper(new ZendSF_Controller_Helper_Acl());
-        Zend_Controller_Action_HelperBroker::addHelper(new ZendSF_Controller_Helper_Service());
     }
 
     /**
