@@ -7,8 +7,10 @@
             <caption>Possible Duplicates</caption>
             <tr>
                 <th>Id:</th>
+                <th>Client</th>
                 <th>Type</th>
                 <th>Status</th>
+                <th>Reference</th>
                 <th>Start Date</th>
                 <th>Supplier</th>
             </tr>
@@ -16,8 +18,15 @@
             <?php foreach ($this->dups as $row): ?>
             <tr>
                 <td><?php echo $row->contract_idContract; ?></td>
+                <td><?php if ($row->contract_idClient): 
+                		echo $row->getClient('client_name');
+                	else:
+                		echo 'No Client';
+                	endif;
+                     ?></td>
                 <td><?php echo $row->contract_type; ?></td>
                 <td><?php echo $row->contract_status; ?></td>
+                <td><?php echo $row->contract_reference; ?></td>
                 <td><?php echo $this->formatDate($row->contract_dateStart); ?></td>
                 <td>
                 	<?php 
@@ -38,7 +47,7 @@
             Cancel
         </button>
         <button data-dojo-type="dijit.form.Button" data-dojo-id="dupsContinueButton" type="button"">
-            Add Contract
+            Continue
         </button>
     </div>
 </div>

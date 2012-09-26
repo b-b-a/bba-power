@@ -212,6 +212,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     public function checkDuplicateContracts(array $post)
     {
     	$ref = (string) $post['contract_reference'];
+    	$type = (string) $post['contract_type'];
     	$clientId = (int) $post['contract_idClient'];
     	$ignoreContract = ($post['contract_idContract']) ? (int) $post['contract_idContract'] : null;
     	
@@ -225,7 +226,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     	}
     	
     	
-    	$contracts = $this->getDbTable('contract')->getDuplicateContracts($ref, $clientId, $date, $ignoreContract);
+    	$contracts = $this->getDbTable('contract')->getDuplicateContracts($ref, $type, $clientId, $date, $ignoreContract);
     	
     	return ($contracts->count() > 0) ? $contracts : null;
     }
