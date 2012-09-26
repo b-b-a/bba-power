@@ -295,6 +295,39 @@ class Power_ClientController extends Zend_Controller_Action
            return $this->_helper->redirector('index', 'client');
         }
     }
+    
+    public function checkAddressDuplicatesAction()
+    {
+    	$request = $this->getRequest();
+    	 
+    	if (!$request->isPost() && !$request->isXmlHttpRequest()) {
+    		return $this->_helper->redirector('index', 'client');
+    	}
+    	 
+    	$this->getHelper('viewRenderer')->setNoRender(true);
+    	$this->_helper->layout->disableLayout();
+    	 
+    	$dups = $this->_model->checkDuplicateAddresses($request->getPost());
+    	 
+    	$returnJson = array();
+    	 
+    	if ($dups) {
+    		$returnJson['dups'] = true;
+    
+    		$this->view->assign(array(
+    				'dups'  => $dups,
+    		));
+    
+    		$html = $this->view->render('contract/check-address-duplicates.phtml');
+    		$returnJson['html'] = $html;
+    	} else {
+    		$returnJson['dups'] = false;
+    	}
+    	 
+    	$this->getResponse()
+    		->setHeader('Content-Type', 'application/json')
+    		->setBody(json_encode($returnJson));
+    }
 
     public function saveClientAddressAction()
     {

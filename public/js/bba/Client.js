@@ -329,6 +329,11 @@ define("bba/Client",
                 clientForm.show();
             }
         },
+        
+        validateClientAdForm : function()
+        {
+        	
+        },
 
         processClientAdForm : function()
         {
