@@ -1,24 +1,10 @@
-<?php
-/* @var $form Zend_Form */
-$form = $this->contractSaveForm;
-
-/* @var $docForm Zend_Form */
-$docForm = $this->docForm;
-
-$type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
-?>
-
 <div data-dojo-type="dijit.Dialog"
      id="contractForm"
      data-dojo-id="contractForm"
      data-dojo-props="
-        title:'<?php echo $type; ?> Contract',
+        title:'<?php echo $this->type; ?> Contract',
         execute: bba.Contract.processContractForm">
     <div class="dijitDialogPaneContentArea">
-
-        <div class="dialog_title">
-
-        </div>
 
         <div class="form_wrap">
             <div class="zend_form">
@@ -27,117 +13,15 @@ $type = ($this->request()->getParam('type') == 'add') ? 'New' : 'Edit';
                     'action'        => 'save-contract',
                     'module'        => 'power'
                 ), 'default'); ?>" enctype="multipart/form-data">
-
-                <?php if ($form->contract_idClient->getValue()): ?>
-                    <?php echo $form->client_contract; ?>
-                    <input dojoType="dijit.form.TextBox"
-                           type="hidden"
-                           name="contract_idClient"
-                           id="contract_idClient"
-                           required="true"
-                           value="<?php echo $form->contract_idClient->getValue(); ?>" />
-                <?php else: ?>
-                    <?php echo $form->contract_idClient; ?>
-                <?php endif; ?>
-
-                <?php echo $form->contract_idTenderSelected ?>
-
-                <?php  if ($type == 'New'): ?>
-                    <?php echo $form->contract_type; ?>
-                <?php else: ?>
-                    <div class="form_row">
-                        <p id="contract_type-label">
-                            <label class="required" for="contract_type">Meter Type:</label>
-                        </p>
-                        <p class="element">
-                            <?php echo $form->contract_type->options[$form->contract_type->getValue()]; ?>
-
-                            <input data-dojo-type="dijit.form.TextBox"
-                                   type="hidden"
-                                   name="contract_type"
-                                   id="contract_type"
-                                   required="true"
-                                   value="<?php echo $form->contract_type->getValue(); ?>" />
-                        </p>
-                    </div>
-                <?php endif; ?>
-
-                <?php echo $form->contract_status; ?>
-
-                <?php echo $form->contract_dateStart; ?>
-
-                <?php echo $form->contract_dateEnd; ?>
-
-                <?php echo $form->contract_dateDecision; ?>
-
-                <?php echo $form->contract_reference; ?>
-
-                <?php echo $form->contract_numberCustomer; ?>
-
-                <?php echo $form->contract_periodBill; ?>
-
-                <?php echo $docForm->contract_docAnalysis; ?>
-
-                <?php echo $docForm->contract_docContractSearchable; ?>
-
-                <?php echo $docForm->contract_docContractSignedClient; ?>
-
-                <?php echo $docForm->contract_docContractSignedBoth; ?>
-
-                <?php echo $docForm->contract_docTermination; ?>
-
-                <?php echo $form->contract_desc; ?>
-
+				
+                	<?php echo $this->contractForm; ?>
+                	
+                </form>
                 <div class="dialog_footer_info">
                     <p class="required"> = required field</p>
                     <p class="warn">Cancel exits without saving</p>
                 </div>
                 <div class="clear"></div>
-
-                <input dojoType="dijit.form.TextBox"
-                       type="hidden"
-                       name="type"
-                       id="type"
-                       required="true"
-                       value="<?php echo $this->request()->getParam('type'); ?>" />
-
-                <input dojoType="dijit.form.TextBox"
-                       type="hidden"
-                       name="contract_idContract"
-                       id="contract_idContract"
-                       required="true"
-                       value="<?php echo $form->contract_idContract->getValue(); ?>" />
-
-                <input dojoType="dijit.form.TextBox"
-                       type="hidden"
-                       name="contract_idContractPrevious"
-                       id="contract_idContractPrevious"
-                       required="true"
-                       value="<?php echo $form->contract_idContractPrevious->getValue(); ?>" />
-                       
-                <input dojoType="dijit.form.TextBox"
-                       type="hidden"
-                       name="meter_idMeter"
-                       id="meter_idMeter"
-                       required="true"
-                       value="<?php echo $form->meter_idMeter->getValue(); ?>" />
-                       
-                <input dojoType="dijit.form.TextBox"
-                       type="hidden"
-                       name="meter_type"
-                       id="meter_type"
-                       required="true"
-                       value="<?php echo $form->meter_type->getValue(); ?>" />
-
-                <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: function(){return dijit.byId('contractForm').validate();}"
-                        type="submit"
-                        id="contractFormSubmitButton">Save</button>
-
-                <button data-dojo-type="dijit.form.Button"
-                        data-dojo-props="onClick: function(){return bba.closeDialog(dijit.byId('contractForm'));}"
-                        id="contractFormCancelButton">Cancel</button>
-                </form>
             </div>
         </div>
     </div>

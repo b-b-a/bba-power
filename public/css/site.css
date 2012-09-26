@@ -462,20 +462,7 @@ Form overrides.
     height: 19px;
     line-height: 19px;
     padding: 1px 2px;
-    margin-left: 255px;
     border: 1px solid #b5bcc7;
-}
-
-#client_docLoa_file {
-    margin-left: 0px;
-}
-
-#client_docLoa_file {
-    /*margin-left: 205px;*/
-}
-
-.client_edit #client_docLoa_file {
-    /*margin-left: 180px;*/
 }
 
 #contract_docAnalysis_file:hover,
@@ -574,15 +561,20 @@ Form overrides.
 
 .filelistTable,
 .filelistTable th,
-.filelistTable td {
+.filelistTable td,
+.duplicateslistTable,
+.duplicateslistTable th,
+.duplicateslistTable td {
      border: 1px dotted #000;
      padding: 5px;
 }
 
+.duplicateslistTable tr:nth-child(odd),
 .filelistTable tr:nth-child(odd) {
     background-color: #eee;
 }
 
+.duplicateslistTable caption,
 .filelistTable caption {
     font-weight: bold;
 }

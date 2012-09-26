@@ -202,6 +202,55 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     	
     	return $store->toJson();
     }
+    
+    /**
+     * Checks for duplicate contracts.
+     * 
+     * @param array $post
+     * @return NULL|Zend_Db_Table_Rowset_Abstract
+     */
+    public function checkDuplicateContracts(array $post)
+    {
+    	$ref = (string) $post['contract_reference'];
+    	$clientId = (int) $post['contract_idClient'];
+    	$ignoreContract = ($post['contract_idContract']) ? (int) $post['contract_idContract'] : null;
+    	
+    	if ($post['contract_dateStart'] === '') $post['contract_dateStart'] = '01-01-1970';
+    	
+    	try {
+    		$date = new Zend_Date($post['contract_dateStart'], Zend_Date::DATE_SHORT);
+    		$date = $date->toString('yyyy-MM-dd');
+    	} catch (Exception $e) {
+    		return null;
+    	}
+    	
+    	
+    	$contracts = $this->getDbTable('contract')->getDuplicateContracts($ref, $clientId, $date, $ignoreContract);
+    	
+    	return ($contracts->count() > 0) ? $contracts : null;
+    }
+    
+    public function addContract(array $post)
+    {
+    	if (!$this->checkAcl('addContract')) {
+    		throw new ZendSF_Acl_Exception('Insufficient rights');
+    	}
+    	
+    	$form = $this->getForm('contractAdd');
+    	
+    	return $this->_saveContract($post, $form);
+    }
+    
+    public function editContract(array $post)
+    {
+    	if (!$this->checkAcl('editContract')) {
+    		throw new ZendSF_Acl_Exception('Insufficient rights');
+    	}
+    	 
+    	$form = $this->getForm('contractEdit');
+    	 
+    	return $this->_saveContract($post, $form);
+    }
 
     /**
      * Save a contract.
@@ -210,13 +259,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
      * @return boolean
      * @throws ZendSF_Acl_Exception
      */
-    public function saveContract(array $post)
+    protected  function _saveContract(array $post, Power_Form_Contract_Base $form)
     {
-        if (!$this->checkAcl('saveContract')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
-        }
-
-        $form = $this->getForm('contractSave');
         $docForm = $this->getForm('docContract');
 
         // validate all forms.

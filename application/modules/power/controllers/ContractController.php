@@ -138,13 +138,11 @@ class Power_ContractController extends Zend_Controller_Action
         if ($request->isXmlHttpRequest() && $request->getParam('type') == 'add'
                 && $request->isPost()) {
 
-            $form = $this->_getForm('contractSave', 'save-contract');
+            $form = $this->_getForm('contractAdd', 'save-contract');
             $form->populate($request->getPost());
-            $docForm = $this->_getForm('docContract', 'save-contract');
 
             $this->view->assign(array(
-                'contractSaveForm'  => $form,
-                'docForm'           => $docForm
+                'contractForm'  => $form
             ));
 
             $this->render('contract-form');
@@ -169,13 +167,11 @@ class Power_ContractController extends Zend_Controller_Action
                 if (!$this->_helper->acl('User')) {
                     throw new ZendSF_Acl_Exception('Access Denied');
                 }
-                $form = $this->_getForm('contractSave', 'save-contract');
-                $docForm = $this->_getForm('docContract', 'save-contract');
+                $form = $this->_getForm('contractEdit', 'save-contract');
                 $form->populate($contract->toArray('dd/MM/yyyy', true));
-                $docForm->populate($contract->toArray('dd/MM/yyyy', true));
+                
                 $this->view->assign(array(
-                    'contractSaveForm'  => $form,
-                    'docForm'           => $docForm
+                    'contractForm'  => $form
                 ));
                 $this->render('contract-form');
             }
@@ -183,6 +179,39 @@ class Power_ContractController extends Zend_Controller_Action
         } else {
            return $this->_helper->redirector('index', 'contract');
         }
+    }
+    
+    public function checkContractDuplicatesAction()
+    {
+    	$request = $this->getRequest();
+    	
+    	if (!$request->isPost() && !$request->isXmlHttpRequest()) {
+    		return $this->_helper->redirector('index', 'contract');
+    	}
+    	
+    	$this->getHelper('viewRenderer')->setNoRender(true);
+    	$this->_helper->layout->disableLayout();
+    	
+    	$dups = $this->_model->checkDuplicateContracts($request->getPost());
+    	
+    	$returnJson = array();
+    	
+    	if ($dups) {
+    		$returnJson['dups'] = true;
+    		
+    		$this->view->assign(array(
+    			'dups'  => $dups,
+    		));
+    		
+    		$html = $this->view->render('contract/check-contract-duplicates.phtml');
+    		$returnJson['html'] = $html;
+    	} else {
+    		$returnJson['dups'] = false;
+    	}
+    	
+    	$this->getResponse()
+    		->setHeader('Content-Type', 'application/json')
+    		->setBody(json_encode($returnJson));
     }
 
     public function saveContractAction()
@@ -201,19 +230,21 @@ class Power_ContractController extends Zend_Controller_Action
         }
 
         try {
-            $saved = $this->_model->saveContract($request->getPost());
+        	$saved = ($request->getPost('type') === 'add') ?
+        		$this->_model->addContract($request->getPost()) :
+        		$this->_model->editContract($request->getPost());
 
             $returnJson = array('saved' => $saved);
 
             if (false === $saved) {
-                $form = $this->_getForm('contractSave', 'save-contract');
-                $docForm = $this->_getForm('docContract', 'save-contract');
+            	$type = ($request->getPost('type') == 'add') ? 'Add' : 'Edit';
+            	
+            	$form = $this->_getForm('contract' . $type, 'save-contract');
+            	
                 $form->populate($request->getPost());
-                $docForm->populate($request->getPost());
 
                 $this->view->assign(array(
-                    'contractSaveForm'  => $form,
-                    'docForm'           => $docForm
+                    'contractForm'  => $form
                 ));
 
                 $html = $this->view->render('contract/contract-form.phtml');
