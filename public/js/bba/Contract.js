@@ -432,14 +432,13 @@ define("bba/Contract",
                         
                         bba.setupDialog(contractDuplicates);
                         
-                        connect.connect(contractDuplicates, 'onCancel', function(){
-                        	contractForm.hide();
-                        });
-                        
                         connect.connect(dupsCloseButton, 'onClick', function(){
                         	contractDuplicates.hide();
-                        	contractForm.hide();
                         	
+                        });
+                        
+                        connect.connect(contractDuplicates, 'onHide', function(){
+                        	contractFormStandby.hide();
                         });
                         
                         connect.connect(dupsContinueButton, 'onClick', function(){
