@@ -452,11 +452,6 @@ define("bba/Contract",
                 		pageStandby.show();
                 		contract_docTermination.submit();
                 	}
-                },
-                error: function(error) {
-                	console.log(error);
-                	
-                    //bba.showXhrError(error);
                 }
         	});
         	

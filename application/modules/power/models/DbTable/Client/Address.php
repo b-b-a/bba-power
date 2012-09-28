@@ -107,6 +107,19 @@ class Power_Model_DbTable_Client_Address extends BBA_Model_DbTable_Abstract
 
         return $this->fetchAll($select);
     }
+    
+    public function getDuplicateAddresses($postcode, $ignore=null)
+    {
+    	$select = $this->select();
+    	 
+    	if ($ignore) {
+    		$select->where('clientAd_idAddress != ?', $ignore);
+    	}
+    	 
+    	$select->where('clientAd_postcode = ?', $postcode);
+    	
+    	return $this->fetchAll($select);
+    }
 
     protected function _getSearchAddressSelect(array $search)
     {

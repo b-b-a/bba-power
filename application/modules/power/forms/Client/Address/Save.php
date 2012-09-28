@@ -70,8 +70,9 @@ class Power_Form_Client_Address_Save extends ZendSF_Dojo_Form_Abstract
             'value'         => ($request->getParam('type') == 'add' && $request->getParam('clientAd_idClient')) ?
                 $this->getModel()
                     ->getDbTable('client')
-                    ->getClientById($request
-                    ->getParam('clientAd_idClient'))
+                    ->getClientById(
+                    		$request->getParam('clientAd_idClient')
+                    )
                     ->client_name : ''
         ));
 
@@ -122,7 +123,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Dojo_Form_Abstract
         		'label'     => 'Submit',
         		'value'     => 'Submit',
         		'dijitParams'   => array(
-        				'onClick' => "return dijit.byId('clientAdForm').validate()"
+        				'onClick' => "return bba.Contract.validateClientAdForm()"
         		),
         		'attribs' => array('type' => 'submit')
         ));

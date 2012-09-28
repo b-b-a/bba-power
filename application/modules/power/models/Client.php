@@ -177,6 +177,22 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
         return ($store->count()) ? $store->toJson() : '{}';
     }
+    
+    /**
+     * Checks for duplicate client addresses.
+     * 
+     * @param array $post
+     * @return NULL|Zend_Db_Table_Rowset_Abstract
+     */
+    public function checkDuplicateAddresses(array $post)
+    {
+    	$postcode = (string) $post['clientAd_postcode'];
+    	$ignoreAddress = ($post['clientAd_idAddress']) ? (int) $post['clientAd_idAdress'] : null;
+    	
+    	$addresses = $this->getDbTable('clientAddress')->getDuplicateAdresses($postcode, $ignoreAddress);
+    	 
+    	return ($addresses->count() > 0) ? $addresses : null;
+    }
 
     /**
      * Add new Client.
