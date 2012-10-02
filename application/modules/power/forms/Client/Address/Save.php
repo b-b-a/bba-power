@@ -123,7 +123,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Dojo_Form_Abstract
         		'label'     => 'Submit',
         		'value'     => 'Submit',
         		'dijitParams'   => array(
-        				'onClick' => "return bba.Contract.validateClientAdForm()"
+        			'onClick' => "return bba.Client.validateClientAdForm();"
         		),
         		'attribs' => array('type' => 'submit')
         ));
@@ -135,7 +135,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Dojo_Form_Abstract
         		'label'     => 'Cancel',
         		'value'     => 'Cancel',
         		'dijitParams'   => array(
-        				'onClick' => "return bba.closeDialog(dijit.byId('clientAdForm'))"
+        			'onClick' => "return bba.closeDialog(dijit.byId('clientAdForm'));"
         		)
         ));
         

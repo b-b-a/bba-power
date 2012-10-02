@@ -334,12 +334,61 @@ define("bba/Client",
         
         validateClientAdForm : function()
         {
+        	clientAdFormStandby.show();
         	
+        	// first check form for errors.
+        	if (!clientAdForm.validate()) {
+        		clientAdFormStandby.hide();
+        		return false;
+        	}
+        	
+        	formValues = clientAdForm.getValues();
+        	
+        	// check for duplicate contract
+        	xhr.post({
+                url: './client/check-address-duplicates',
+                content: formValues,
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                	if (data.dups) {
+                		
+                		console.log(data);
+                		
+                		dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+                        
+                        bba.setupDialog(addressDuplicates);
+                        
+                        connect.connect(dupsCloseButton, 'onClick', function(){
+                        	addressDuplicates.hide();
+                        	
+                        });
+                        
+                        connect.connect(addressDuplicates, 'onHide', function(){
+                        	clientAdFormStandby.hide();
+                        });
+                        
+                        connect.connect(dupsContinueButton, 'onClick', function(){
+                        	pageStandby.show();
+                        	addressDuplicates.hide();
+                        	bba.Client.processClientAdForm(formValues);
+                        });
+                		
+                		addressDuplicates.show();
+                	} else {
+                		pageStandby.show();
+                		bba.Client.processClientAdForm(formValues);
+                	}
+                }
+        	});
+        	
+        	return false;
         },
 
         processClientAdForm : function()
         {
-            //bba.closeDialog(clientAdForm);
+            bba.closeDialog(clientAdForm);
         	pageStandby.show();
             values = arguments[0];
             values.type = (values.clientAd_idAddress) ? 'edit' : 'add';
@@ -473,18 +522,51 @@ define("bba/Client",
         
         wizardDoneFunction : function()
         {
-        	if (clientForm.getValues().client_docLoa[0] && clientForm.getValues().client_dateExpiryLoa === '') {
-                bba.Client.clientLoaEmptyDialog();
-                return false;
-            }
-
             if (!clientForm.validate()) {
                 alert('Please recheck all form entries for mistakes.');
                 return false;
             }
-
+            
+            if (clientForm.getValues().client_docLoa[0] && clientForm.getValues().client_dateExpiryLoa === '') {
+                bba.Client.clientLoaEmptyDialog();
+                return false;
+            }
+        	
+        	// check client address here.
             var vals = clientForm.get('value');
-            client_docLoa.submit(vals);
+            
+            xhr.post({
+                url: './client/check-address-duplicates',
+                content: vals,
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                	if (data.dups) {
+                		
+                		console.log(data);
+                		
+                		dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+                        
+                        bba.setupDialog(addressDuplicates);
+                        
+                        connect.connect(dupsCloseButton, 'onClick', function(){
+                        	addressDuplicates.hide();
+                        	
+                        });
+                        
+                        connect.connect(dupsContinueButton, 'onClick', function(){
+                        	pageStandby.show();
+                        	addressDuplicates.hide();
+                        	client_docLoa.submit(vals);
+                        });
+                		
+                		addressDuplicates.show();
+                	} else {
+                		client_docLoa.submit(vals);
+                	}
+                }
+        	});
         }
     };
 

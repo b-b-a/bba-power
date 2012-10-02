@@ -318,7 +318,7 @@ class Power_ClientController extends Zend_Controller_Action
     				'dups'  => $dups,
     		));
     
-    		$html = $this->view->render('contract/check-address-duplicates.phtml');
+    		$html = $this->view->render('client/check-address-duplicates.phtml');
     		$returnJson['html'] = $html;
     	} else {
     		$returnJson['dups'] = false;

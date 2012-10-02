@@ -204,7 +204,7 @@ class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
         		'label'     => 'Submit',
         		'value'     => 'Submit',
         		'dijitParams'   => array(
-        				'onClick' => "return bba.Contract.validateContractForm()"
+        			'onClick' => "return bba.Contract.validateContractForm()"
         		),
         		'attribs' => array('type' => 'submit')
         ));
@@ -216,7 +216,7 @@ class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
         		'label'     => 'Cancel',
         		'value'     => 'Cancel',
         		'dijitParams'   => array(
-        				'onClick' => "return bba.closeDialog(dijit.byId('contractForm'))"
+        			'onClick' => "return bba.closeDialog(dijit.byId('contractForm'))"
         		)
         ));
         

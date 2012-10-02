@@ -189,7 +189,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     	$postcode = (string) $post['clientAd_postcode'];
     	$ignoreAddress = ($post['clientAd_idAddress']) ? (int) $post['clientAd_idAdress'] : null;
     	
-    	$addresses = $this->getDbTable('clientAddress')->getDuplicateAdresses($postcode, $ignoreAddress);
+    	$addresses = $this->getDbTable('clientAddress')->getDuplicateAddresses($postcode, $ignoreAddress);
     	 
     	return ($addresses->count() > 0) ? $addresses : null;
     }
