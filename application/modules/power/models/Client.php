@@ -268,7 +268,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $post['client_idClient'] = $clientSave;
             $post['client_idAddress'] = $clientAdSave;
             $post['client_idClientPersonnel'] = $clientPersSave;
-            $post['client_idRegAddress'] = $clientSave;
+            $post['client_idRegAddress'] = $clientAdSave;
             $clientSave = $this->_saveClient($post);
 
             $newSite = array(
@@ -282,6 +282,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $siteSave = $this->getDbTable('site')->saveRow($newSite, null);
 
         } catch (Exception $e) {
+        	$log = Zend_Registry::get('log');
+        	$log->err($e);
             $this->getDbTable('client')->getAdapter()->rollBack();
             return false;
         }

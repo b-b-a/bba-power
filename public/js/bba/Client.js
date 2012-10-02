@@ -303,6 +303,8 @@ define("bba/Client",
 
         processClientForm : function()
         {
+        	console.log('processClientForm');
+        	
             bba.closeDialog(clientForm);
             pageStandby.show();
             data = arguments[0];
@@ -424,8 +426,8 @@ define("bba/Client",
                 bba.docFileList(fileArray, 'client_docLoa_file');
             });
             
-            docComplete = connect.connect(client_docLoa, "onComplete", this, this.processClientForm);
-            docError = connect.connect(client_docLoa, "onError", this, this.processClientForm);
+            docComplete = connect.connect(client_docLoa, "onComplete", bba.Client.processClientForm);
+            docError = connect.connect(client_docLoa, "onError", bba.Client.processClientForm);
             
             connect.connect(registry.byId('client_registeredCompany'), "onClick", function(){
             	if (this.get('value')) {
@@ -453,10 +455,10 @@ define("bba/Client",
         wizardClientAdPane : function()
         {
         	if (typeof docClick != 'undefined'){
-	        	connect.disconnect(docClick);
-	        	connect.disconnect(docChange);
-	        	connect.disconnect(docComplete);
-	        	connect.disconnect(docError);
+	        	//connect.disconnect(docClick);
+	        	//connect.disconnect(docChange);
+	        	//connect.disconnect(docComplete);
+	        	//connect.disconnect(docError);
         	}
         	
         	clientForm.attr('title', 'Main (HQ) Address');
