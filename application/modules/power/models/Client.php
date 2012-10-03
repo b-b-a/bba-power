@@ -186,10 +186,11 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
      */
     public function checkDuplicateAddresses(array $post)
     {
-    	$postcode = (string) $post['clientAd_postcode'];
-    	$ignoreAddress = ($post['clientAd_idAddress']) ? (int) $post['clientAd_idAdress'] : null;
+    	$form = $this->getForm('clientAddressSave');
+    	$form->populate($post);
+    	$data = $form->getValues();
     	
-    	$addresses = $this->getDbTable('clientAddress')->getDuplicateAddresses($postcode, $ignoreAddress);
+    	$addresses = $this->getDbTable('clientAddress')->getDuplicateAddresses($data['clientAd_postcode'], $data['clientAd_idAddress']);
     	 
     	return ($addresses->count() > 0) ? $addresses : null;
     }
