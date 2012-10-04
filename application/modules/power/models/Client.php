@@ -190,7 +190,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     	$form->populate($post);
     	$data = $form->getValues();
     	
-    	$addresses = $this->getDbTable('clientAddress')->getDuplicateAddresses($data['clientAd_postcode'], $data['clientAd_idAddress']);
+    	$addresses = $this->getDbTable('clientAddress')
+    	    ->getDuplicateAddresses($data);
     	 
     	return ($addresses->count() > 0) ? $addresses : null;
     }

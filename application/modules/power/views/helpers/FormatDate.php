@@ -39,7 +39,7 @@
  */
 class Power_View_Helper_FormatDate extends Zend_View_Helper_Abstract
 {
-    protected $_dateFormat = 'dd/MM/yyyy';
+    protected $_dateFormat = 'd/m/Y';
 
     /**
      * Takes the date and formats it through Zend_Date
@@ -49,10 +49,10 @@ class Power_View_Helper_FormatDate extends Zend_View_Helper_Abstract
      */
     public function formatDate($date, $dateFormat = null)
     {
-        $date = new Zend_Date($date);
+        $date = new DateTime($date);
 
         $format = ($dateFormat) ? $dateFormat : $this->_dateFormat;
 
-        return $date->toString($format);
+        return $date->format($format);
     }
 }
