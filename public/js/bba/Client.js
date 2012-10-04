@@ -231,7 +231,10 @@ define("bba/Client",
                 bba.openFormDialog({
                     url: './client/edit-client-address',
                     content: dojo.mixin({type : 'edit'}, contentVars),
-                    dialog: 'clientAdForm'
+                    dialog: 'clientAdForm',
+                    deferredFunction: function() {
+                        this.clientAdPostcode = clientAdForm.getValues().clientAd_postcode;
+                    }.bind(this)
                 });
             } else {
                 clientAdForm.show();
@@ -343,6 +346,10 @@ define("bba/Client",
         	}
         	
         	formValues = clientAdForm.getValues();
+        	
+        	if (this.clientAdPostcode == formValues.clientAd_postcode) {
+        		return true;
+        	}
         	
         	// check for duplicate contract
         	xhr.post({

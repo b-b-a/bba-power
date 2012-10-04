@@ -322,7 +322,8 @@ define("bba/Contract",
                     dialog: 'contractForm',
                     deferredFunction: function() {
                         bba.Contract.setupDocEvents();
-                    }
+                        this.vals = contractForm.getValues();
+                    }.bind(this)
                 });
             } else {
                 contractForm.show();
@@ -415,6 +416,11 @@ define("bba/Contract",
         	}
         	
         	formValues = contractForm.getValues();
+        	
+        	if (this.vals.contract_dateStart == formValues.contract_dateStart &&
+        			this.vals.contract_reference == formValues.contract_reference) {
+        		return true;
+        	}
         	
         	// check for duplicate contract
         	xhr.post({
