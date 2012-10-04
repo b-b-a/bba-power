@@ -115,14 +115,8 @@ class Power_Model_DbTable_Client_Address extends BBA_Model_DbTable_Abstract
     	if ($ignore) {
     		$select->where('clientAd_idAddress != ?', $ignore);
     	}
-    	
-    	if (substr($postcode, -4, 1) != ' ') {
-    		$replace = substr($postcode, -3, 3);
-    		$postcode = str_replace($replace, ' ' . $replace, $postcode);
-    	}
     	 
-    	$select->where('clientAd_postcode = ?', $postcode)
-    		->orWhere('clientAd_postcode = ?', str_replace(' ', '', $postcode));
+    	$select->where('clientAd_postcode = ?', $postcode);
     	
     	return $this->fetchAll($select);
     }
