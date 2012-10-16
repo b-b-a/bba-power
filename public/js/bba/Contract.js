@@ -441,10 +441,6 @@ define("bba/Contract",
                         
                         connect.connect(dupsCloseButton, 'onClick', function(){
                         	contractDuplicates.hide();
-                        	
-                        });
-                        
-                        connect.connect(contractDuplicates, 'onHide', function(){
                         	contractFormStandby.hide();
                         });
                         
@@ -563,6 +559,11 @@ define("bba/Contract",
             
             connect.connect(contract_docTermination, "onComplete", bba.Contract.processContractForm);
             connect.connect(contract_docTermination, "onError", bba.Contract.processContractForm);
+            
+            connect.connect(contractForm, "onKeyPress", function(evt){
+            	if (evt.keyCode == 13) dojo.stopEvent(evt);
+                
+            });
         }
     }
 
