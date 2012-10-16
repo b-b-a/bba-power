@@ -417,8 +417,9 @@ define("bba/Contract",
         	
         	formValues = contractForm.getValues();
         	
-        	if (this.vals.contract_dateStart == formValues.contract_dateStart &&
+        	if (formValues.type == 'edit' && this.vals.contract_dateStart == formValues.contract_dateStart &&
         			this.vals.contract_reference == formValues.contract_reference) {
+        		
         		return true;
         	}
         	
