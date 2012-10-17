@@ -69,24 +69,24 @@ class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
         $this->addHiddenElement('meter_idMeter', '');
         $this->addHiddenElement('meter_type', '');
         $this->addHiddenElement('contract_idContractPrevious', '0');
-        $this->addHiddenElement('type', '0');
+        $this->addHiddenElement('type', '');
         
         $this->addElement('FilteringSelect', 'contract_idClient', array(
-        		'label'         => 'Client:',
-        		'filters'       => array('StripTags', 'StringTrim'),
-        		'autoComplete'  => false,
-        		'hasDownArrow'  => true,
-        		'multiOptions'  => $this->_getClientMultiOptions(),
-        		'required'      => true,
-        		'value'         => '0',
-        		'validators'    => array(
-        				array('GreaterThan', true, array(
-        						'min'       => '0',
-        						'message'   => 'Please select a client.'
-        				))
-        		),
-        		'ErrorMessages' => array('Please select a client.'),
-        		'order'			=> 10
+    		'label'         => 'Client:',
+    		'filters'       => array('StripTags', 'StringTrim'),
+    		'autoComplete'  => false,
+    		'hasDownArrow'  => true,
+    		'multiOptions'  => $this->_getClientMultiOptions(),
+    		'required'      => true,
+    		'value'         => '0',
+    		'validators'    => array(
+    			array('GreaterThan', true, array(
+    				'min'       => '0',
+    				'message'   => 'Please select a client.'
+    			))
+    		),
+    		'ErrorMessages' => array('Please select a client.'),
+    		'order'			=> 10
         ));
 
         $this->addElement('RadioButton', 'contract_type', array(
@@ -102,7 +102,8 @@ class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
                 ))
             ),
             'ErrorMessages' => array('Please select a contract type.'),
-        	'order'			=> 20
+        	'order'			=> 20,
+        	'value'         => '0'
         ));
 
         $this->addElement('FilteringSelect', 'contract_status', array(
@@ -121,7 +122,7 @@ class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
         	'order'			=> 30
         ));
 
-        $this->addElement('TextBox', 'contract_dateStart', array(
+        $this->addElement('ValidationTextBox', 'contract_dateStart', array(
             'label'         => 'Start Date:',
             'formatLength'  => 'short',
             'filters'       => array('StripTags', 'StringTrim'),
@@ -131,7 +132,8 @@ class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
                 ))
             ),
             'required'      => true,
-        	'order'			=> 40
+        	'order'			=> 40,
+        	'value'         => ''
         ));
 
         $this->addElement('ZendSFDojoTextBox', 'contract_dateEnd', array(
@@ -144,7 +146,8 @@ class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
                 ))
             ),
             'required'      => false,
-        	'order'			=> 50
+        	'order'			=> 50,
+        	'value'         => ''
         ));
 
         $this->addElement('ZendSFDojoTextBox', 'contract_dateDecision', array(
@@ -238,7 +241,7 @@ class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
     {
     	$list = $this->_model->getDbTable('client')->fetchAll(null, 'client_name ASC');
     	
-    	$multiOptions = array(0 => ($list->count() > 0) ? 'Please Select A Client' : 'No Clients Available');
+    	$multiOptions = array('0' => ($list->count() > 0) ? 'Please Select A Client' : 'No Clients Available');
     	foreach($list as $row) {
     		$multiOptions[$row->client_idClient] = $row->client_name;
     	}

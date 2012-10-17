@@ -407,19 +407,42 @@ define("bba/Contract",
         
         validateContractForm : function()
         {	
-        	contractFormStandby.show();
+        	formValues = contractForm.getValues();
+        	
+        	if (formValues.contract_idClient == '0') {
+        	    registry.byId('contract_idClient').set('value', ' ');
+        	}
+        	
+        	if (formValues.contract_type == null) {
+        	
+        	    var conTypes = [
+        	        'contract_type-electric-perm',
+        	        'contract_type-electric-temp',
+        	        'contract_type-gas'
+        	    ]
+        	    
+        	    array.forEach(conTypes, function(item){
+        	        registry.byId(item).attr('style', 'border: 1px solid red;');
+        	        connect.connect(registry.byId(item), 'onChange', function(){
+        	            array.forEach(conTypes, function(item){
+        	                registry.byId(item).attr('style', 'border: 0px;');
+        	            });
+        	            
+        	        });
+        	    });
+        	}
         	
         	// first check form for errors.
         	if (!contractForm.validate()) {
-        		contractFormStandby.hide();
         		return false;
         	}
         	
-        	formValues = contractForm.getValues();
+        	contractFormStandby.show();
         	
-        	if (formValues.type == 'edit' && this.vals.contract_dateStart == formValues.contract_dateStart &&
+        	// forms are not setting the 'edit' value on type so
+        	// check if form is not a 'add' type instead.
+        	if (formValues.type != 'add' && this.vals.contract_dateStart == formValues.contract_dateStart &&
         			this.vals.contract_reference == formValues.contract_reference) {
-        		
         		return true;
         	}
         	
