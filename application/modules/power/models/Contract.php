@@ -290,6 +290,16 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         $contract = array_key_exists('contract_idContract', $data) ?
             $this->getContractById($data['contract_idContract']) : null;
+            
+        // if status is tender selected change endDate to
+        // plus one year minus one day of tender contract period.
+        if ($contract && $data['contract_status'] == 'selected' && $contract->contract_status != 'selected' && $data['contract_idTenderSelected'] > 0) {
+            $tender = $this->getDbTable('tender')->getTenderById($data['contract_idTenderSelected']);
+            $date = new Zend_Date($data['contract_dateStart']);
+            $date->add($tender->tender_periodContract, ZEND_DATE::MONTH);
+            $date->sub('1', ZEND_DATE::DAY);
+            $data['contract_dateEnd'] = $date->toString('yyyy-MM-dd');
+        }
 
         $id = $this->getDbTable('contract')->saveRow($data, $contract);
 
@@ -400,7 +410,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         }
         
         // update contract status to tender if contract is in tender process.
-        if (in_array($contract->contract_status, array('tender', 'choose', 'selected', 'signed'))) {
+        if (in_array($contract->getContract_status(true), array('tender', 'choose', 'selected', 'signed'))) {
 	        $contractUpdate = $this->getDbTable('contract')->saveRow(
 	        	array('contract_status' => 'tender'),
 	        	$contract

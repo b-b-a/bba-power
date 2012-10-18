@@ -145,7 +145,7 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
 
     public function getAllTenders()
     {
-         if (!$this->_tenders instanceof Power_Model_DbTable_Row_Tender) {
+         if (!$this->_tenders) {
             $this->_tenders = $this->getRow()
                 ->findDependentRowset('Power_Model_DbTable_Tender', 'contract');
         }
@@ -155,7 +155,7 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
 
     public function getAllMetersOnContract()
     {
-        if (!$this->_meterContract instanceof Power_Model_DbTable_Row_Meter_Contract) {
+        if (!$this->_meterContract) {
             $this->_meterContract = $this->getRow()
                 ->findDependentRowset('Power_Model_DbTable_Meter_Contract', 'contract');
         }

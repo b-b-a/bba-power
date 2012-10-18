@@ -57,6 +57,16 @@ class Power_Form_Contract_Edit extends Power_Form_Contract_Base
 				'order'			=> 15
 		));
 		
+		// add validator to tenderselect if status equals selected.
+		if ($this->_request->getParam('contract_status') == 'selected') {
+		    $this->getElement('contract_idTenderSelected')
+		        ->setRequired(true)
+		        ->addValidator('GreaterThan', true, array(
+                    'min'       => '0',
+                    'message'   => 'Please select a tender.'
+                ));
+		}
+		
 		$this->addElement($this->_contractDoc->getElement('contract_docAnalysis'));
 		$this->addElement($this->_contractDoc->getElement('contract_docContractSearchable'));
 		$this->addElement($this->_contractDoc->getElement('contract_docContractSignedClient'));
@@ -69,6 +79,23 @@ class Power_Form_Contract_Edit extends Power_Form_Contract_Base
 		$this->getElement('contract_docContractSignedBoth')->setOrder(94);
 		$this->getElement('contract_docTermination')->setOrder(95);
 	}
+	
+	protected function _getContractStatus()
+    {
+        $multiOptions = parent::_getContractStatus();
+        
+        $row = $this->getModel()->getContractById($this->_request->getParam('contract_idContract'));
+        $meters = $row->getAllMetersOnContract();
+        $tenders = $row->getAllTenders();
+        
+        if ($meters->count() < 1 && $tenders->count() < 1) {
+            $multiOptions = array(
+                'new' => $multiOptions['new']
+            );
+        }
+    	
+    	return $multiOptions;
+    }
 	
 	protected function _getTenderOptions()
 	{
