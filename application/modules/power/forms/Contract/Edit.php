@@ -88,7 +88,10 @@ class Power_Form_Contract_Edit extends Power_Form_Contract_Base
         $meters = $row->getAllMetersOnContract();
         $tenders = $row->getAllTenders();
         
-        if ($meters->count() < 1 && $tenders->count() < 1) {
+        $log = Zend_Registry::get('log');
+        $log->info($tenders->count());
+        
+        if ($meters->count() == 0 || $tenders->count() == 0) {
             $multiOptions = array(
                 'new' => $multiOptions['new']
             );
