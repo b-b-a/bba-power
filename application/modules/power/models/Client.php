@@ -497,7 +497,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
-        $this->_acl->allow('client', array(
+        $this->_acl->allow('client', $this, array(
             'saveClient', 'saveClientAddress', 'saveClientPersonnel'
         ))
             ->allow('user', $this)
