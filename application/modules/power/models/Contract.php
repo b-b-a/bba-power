@@ -212,6 +212,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     public function checkDuplicateContracts(array $post)
     {
     	$ref = (string) $post['contract_reference'];
+    	$type = (string) $post['contract_type'];
     	$clientId = (int) $post['contract_idClient'];
     	$ignoreContract = ($post['contract_idContract']) ? (int) $post['contract_idContract'] : null;
     	
@@ -225,7 +226,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     	}
     	
     	
-    	$contracts = $this->getDbTable('contract')->getDuplicateContracts($ref, $clientId, $date, $ignoreContract);
+    	$contracts = $this->getDbTable('contract')->getDuplicateContracts($ref, $type, $clientId, $date, $ignoreContract);
     	
     	return ($contracts->count() > 0) ? $contracts : null;
     }
@@ -289,6 +290,19 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         $contract = array_key_exists('contract_idContract', $data) ?
             $this->getContractById($data['contract_idContract']) : null;
+            
+        // if status is tender selected change endDate to
+        // plus one year minus one day of tender contract period.
+        if ($contract &&  $data['contract_idTenderSelected'] > 0) {
+            $tender = $this->getDbTable('tender')->getTenderById($data['contract_idTenderSelected']);
+            $date = new Zend_Date($data['contract_dateStart']);
+            $date->add($tender->tender_periodContract, ZEND_DATE::MONTH);
+            $date->sub('1', ZEND_DATE::DAY);
+            $data['contract_dateEnd'] = $date->toString('yyyy-MM-dd');
+            if (in_array($data['contract_status'], array('tender', 'choose', 'new'))) {
+            	$data['contract_status'] = 'selected';
+            }
+        }
 
         $id = $this->getDbTable('contract')->saveRow($data, $contract);
 
@@ -313,9 +327,6 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         // get filtered values, this also uploads the files.
         $data = $docForm->getValues();
-        
-        $log = Zend_Registry::get('log');
-        $log->info($id);
         
         // add meter to contract if set.
         if ($post['meter_idMeter']) {
@@ -399,7 +410,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         }
         
         // update contract status to tender if contract is in tender process.
-        if (in_array($contract->contract_status, array('tender', 'choose', 'selected', 'signed'))) {
+        if (in_array($contract->getContract_status(true), array('tender', 'choose', 'selected', 'signed'))) {
 	        $contractUpdate = $this->getDbTable('contract')->saveRow(
 	        	array('contract_status' => 'tender'),
 	        	$contract
@@ -468,7 +479,11 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
-        $this->_acl->allow('user', $this)
+        $this->_acl
+        	->allow('client', $this, array(
+        	'saveMetersToContract', 'editContract'
+        	))
+        	->allow('user', $this)
             ->allow('admin', $this);
 
         return $this;

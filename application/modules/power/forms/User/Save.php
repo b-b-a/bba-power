@@ -61,9 +61,13 @@ class Power_Form_User_Save extends BBA_Dojo_Form_Abstract
             'required'  => true
         ));
 
-        $multiOptions = array_merge(array(
+        $multiOptions = array(
             0 => 'Select Role'
-        ), Power_Model_DbTable_Row_User::getRoles());
+        );
+        
+        foreach (Power_Model_Acl_Power::$bbaRoles as $key => $value) {
+            $multiOptions[$key] = $value['label'];
+        }
 
         $this->addElement('FilteringSelect', 'user_role', array(
             'label'         => 'Role:',
@@ -75,10 +79,26 @@ class Power_Form_User_Save extends BBA_Dojo_Form_Abstract
             'multiOptions'  => $multiOptions,
             'required'      => true
         ));
-
-        $this->addElement('TextBox', 'user_accessClient', array(
-            'label'     => 'Access Client:',
-            'filters'   => array('StripTags', 'StringTrim')
+        
+        $multiOptions = array(
+            0 => 'All'
+        );
+        
+        $list = $this->getModel()->getDbTable('client')
+            ->fetchAll(null, 'client_name ASC');
+        
+        foreach ($list as $row) {
+            $multiOptions[$row->client_idClient] = $row->client_name;
+        }
+        
+        $this->addElement('FilteringSelect', 'user_accessClient', array(
+            'label'         => 'Access Client:',
+            'validators'    => array(
+                array('Digits', true)
+            ),
+            'atuocomplete'  => false,
+            'multiOptions'  => $multiOptions,
+            'required'      => false
         ));
 
         $this->addHiddenElement('user_idUser', '');

@@ -59,12 +59,8 @@ class Power_UserController extends Zend_Controller_Action
      */
     public function preDispatch()
     {
-        if ($this->_helper->acl('Guest')) {
-            return $this->_forward('login', 'auth');
-        }
-
-        if (!$this->_helper->acl('Admin')) {
-            throw new ZendSF_Acl_Exception('Access denied');
+        if (!$this->_helper->acl('User', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
         }
     }
 
@@ -73,7 +69,8 @@ class Power_UserController extends Zend_Controller_Action
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
 
-        $data = $this->_model->getCached('user')
+        $data = $this->_model
+            //->getCached('user')
         	->getUserDataStore($this->_request->getPost());
 
         $this->getResponse()
@@ -83,6 +80,10 @@ class Power_UserController extends Zend_Controller_Action
 
     public function indexAction()
     {
+        if (!$this->_helper->acl('User', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $urlHelper = $this->_helper->getHelper('url');
         $form = $this->_model->getForm('userSearch')
             ->populate($this->_request->getPost());
@@ -104,6 +105,10 @@ class Power_UserController extends Zend_Controller_Action
 
     public function addUserAction()
     {
+        if (!$this->_helper->acl('User', 'add')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         if ($this->_request->isXmlHttpRequest()
                 && $this->_request->getParam('type') == 'add'
                 && $this->_request->isPost()) {
@@ -122,6 +127,10 @@ class Power_UserController extends Zend_Controller_Action
 
     public function editUserAction()
     {
+        if (!$this->_helper->acl('User', 'edit')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         if ($this->_request->getParam('user_idUser')
                 && $this->_request->isPost()
                 && $this->_request->isXmlHttpRequest()) {

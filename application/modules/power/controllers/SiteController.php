@@ -59,8 +59,8 @@ class Power_SiteController extends Zend_Controller_Action
      */
     public function preDispatch()
     {
-        if ($this->_helper->acl('Guest')) {
-            return $this->_forward('login', 'auth');
+        if (!$this->_helper->acl('Site', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
         }
     }
 
@@ -74,24 +74,29 @@ class Power_SiteController extends Zend_Controller_Action
 
             switch ($request->getParam('type')) {
                 case 'site':
-                    $data = $this->_model->getCached('site')
+                    $data = $this->_model
+                        //->getCached('site')
                     	->getSiteDataStore($request->getPost());
                     break;
                 case 'siteMeters':
-                    $data = $this->_model->getCached('meter')
+                    $data = $this->_model
+                        //->getCached('meter')
                     	->getSiteMetersDataStore($request->getPost());
                     break;
                 case 'clients':
-                	$data = $this->_model->getCached('client')
+                	$data = $this->_model
+                	    //->getCached('client')
                 		->getFileringSelectData($request->getParams());
                 	break;
                 case 'address':
                 case 'billAddress':
-                	$data = $this->_model->getCached('clientAddress')
+                	$data = $this->_model
+                	    //->getCached('clientAddress')
                 		->getFileringSelectData($request->getParams());
                 	break;
                 case 'personnel':
-                    $data = $this->_model->getCached('clientPersonnel')
+                    $data = $this->_model
+                        //->getCached('clientPersonnel')
                     	->getFileringSelectData($request->getParams());
                     break;
                 default :
@@ -110,6 +115,10 @@ class Power_SiteController extends Zend_Controller_Action
      */
     public function indexAction()
     {
+        if (!$this->_helper->acl('Site', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $urlHelper = $this->_helper->getHelper('url');
         $form = $this->_model->getForm('siteSearch');
         $form->populate($this->getRequest()->getPost());
@@ -131,12 +140,12 @@ class Power_SiteController extends Zend_Controller_Action
 
     public function addSiteAction()
     {
+        if (!$this->_helper->acl('Site', 'add')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
-
-        if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
 
         if ($request->isXmlHttpRequest() && $request->getParam('type') == 'add'
                 && $request->isPost()) {
@@ -156,6 +165,10 @@ class Power_SiteController extends Zend_Controller_Action
 
     public function editSiteAction()
     {
+        if (!$this->_helper->acl('Site', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
 
@@ -174,8 +187,8 @@ class Power_SiteController extends Zend_Controller_Action
             ));
 
             if ($request->getPost('type') == 'edit') {
-                if (!$this->_helper->acl('User')) {
-                    throw new ZendSF_Acl_Exception('Access Denied');
+                if (!$this->_helper->acl('Site', 'edit')) {
+                    throw new Zend_Acl_Exception('Access Denied');
                 }
                 $this->render('site-form');
             }
@@ -190,10 +203,6 @@ class Power_SiteController extends Zend_Controller_Action
 
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
-
-        if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
 
         if (!$request->isPost() && !$request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'site');

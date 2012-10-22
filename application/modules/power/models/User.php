@@ -132,7 +132,7 @@ class Power_Model_User extends ZendSF_Model_Acl_Abstract
         $user = array_key_exists('user_idUser', $data) ?
             $this->getDbTable('user')->getUserById($data['user_idUser']) : null;
         
-        $this->clearCache(array('user'));
+        $this->clearCache(array());
 
         return $this->getDbTable('user')->saveRow($data, $user);
     }

@@ -47,24 +47,27 @@ class Power_ErrorController extends Zend_Controller_Action
             case 'Zend_Controller_Dispatcher_Exception':
                 // send 404
                 $this->getResponse()
-                     ->setRawHeader('HTTP/1.1 404 Not Found');
+                     ->setRawHeader('HTTP/1.1 200 Not Found');
                 $this->view->message = $errors->exception;
                 break;
             case 'ZendSF_Exception_404':
                 // send 404
                 $this->getResponse()
-                     ->setRawHeader('HTTP/1.1 404 Not Found');
+                     ->setRawHeader('HTTP/1.1 200 Not Found');
                 $this->view->message = $errors->exception;
                 break;
-            case 'ZendSF_Acl_Exception':
+            case 'Zend_Acl_Exception':
                 $this->getResponse()
-                     ->setRawHeader('HTTP/1.1 406 Not Acceptable');
+                     ->setRawHeader('HTTP/1.1 200 Not Acceptable');
                 $this->view->message = $errors->exception;
+                if ('development' !== APPLICATION_ENV) {
+                    $this->render('acl-error');
+                }
                 break;
             default:
                 // application error
                 $this->getResponse()
-                     ->setRawHeader('HTTP/1.1 406 Not Acceptable');
+                     ->setRawHeader('HTTP/1.1 200 Not Acceptable');
                 $this->view->message = $errors->exception;
                 break;
         }

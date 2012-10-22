@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Client extends BBA_Model_DbTable_Abstract
+class Power_Model_DbTable_Client extends Power_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -135,6 +135,8 @@ class Power_Model_DbTable_Client extends BBA_Model_DbTable_Abstract
                 ->orWhere('clientAd_address3 like ?', '%' . $search['address'] . '%')
                 ->orWhere('clientAd_postcode like ?', '%' . $search['address'] . '%');
         }
+        
+        $select = $this->_getAccessClient($select, 'client');
 
         return $select;
     }

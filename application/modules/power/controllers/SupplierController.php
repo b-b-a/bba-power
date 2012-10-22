@@ -59,8 +59,8 @@ class Power_SupplierController extends Zend_Controller_Action
      */
     public function preDispatch()
     {
-        if ($this->_helper->acl('Guest')) {
-            return $this->_forward('login', 'auth');
+        if (!$this->_helper->acl('Supplier', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
         }
     }
 
@@ -74,20 +74,24 @@ class Power_SupplierController extends Zend_Controller_Action
 
             switch ($request->getParam('type')) {
                 case 'suppliers':
-                    $data = $this->_model->getCached('supplier')
+                    $data = $this->_model
+                        //->getCached('supplier')
                     	->getSupplierDataStore($request->getPost());
                     break;
                 case 'personnel':
-                    $data = $this->_model->getCached('supplierPersonnel')
+                    $data = $this->_model
+                        //->getCached('supplierPersonnel')
                     	->getSupplierPersonnelDataStore($request->getPost());
                     break;
                 case 'contract':
-                    $data = $this->_model->getCached('contract')
+                    $data = $this->_model
+                        //->getCached('contract')
                     	->getSupplierContractDataStore($request->getPost());
                     break;
                 case 'supplierList':
                 case 'supplierPersonnel':
-                    $data = $this->_model->getCached('supplierPersonnel')
+                    $data = $this->_model
+                        //->getCached('supplierPersonnel')
                     	->getFileringSelectData($request->getParams());
                     break;
                 default :
@@ -106,6 +110,10 @@ class Power_SupplierController extends Zend_Controller_Action
      */
     public function indexAction()
     {
+        if (!$this->_helper->acl('Supplier', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $urlHelper = $this->_helper->getHelper('url');
         $form = $this->_model->getForm('supplierSearch')
             ->populate($this->getRequest()->getPost());
@@ -127,12 +135,12 @@ class Power_SupplierController extends Zend_Controller_Action
 
     public function addSupplierAction()
     {
+        if (!$this->_helper->acl('Supplier', 'add')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
-
-        if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
 
         if ($request->isXmlHttpRequest() && $request->getPost('type') == 'add'
                 && $request->isPost()) {
@@ -149,6 +157,10 @@ class Power_SupplierController extends Zend_Controller_Action
 
     public function editSupplierAction()
     {
+        if (!$this->_helper->acl('Supplier', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
 
@@ -160,8 +172,8 @@ class Power_SupplierController extends Zend_Controller_Action
             $this->view->assign(array('supplier' => $supplier));
 
             if ($this->_request->getParam('type') == 'edit') {
-                if (!$this->_helper->acl('User')) {
-                    throw new ZendSF_Acl_Exception('Access Denied');
+                if (!$this->_helper->acl('Supplier', 'edit')) {
+                    throw new Zend_Acl_Exception('Access Denied');
                 }
                 $form = $this->_getForm('supplierSave', 'save-supplier');
                 $form->populate($supplier->toArray());
@@ -179,10 +191,6 @@ class Power_SupplierController extends Zend_Controller_Action
 
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
-
-        if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
 
         if (!$request->isPost() && !$request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'supplier');
@@ -230,12 +238,12 @@ class Power_SupplierController extends Zend_Controller_Action
 
     public function addSupplierPersonnelAction()
     {
+        if (!$this->_helper->acl('SupplierPers', 'add')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
-
-        if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
 
         if ($request->isXmlHttpRequest() && $request->getParam('type') == 'add'
                 && $request->isPost()) {
@@ -252,12 +260,12 @@ class Power_SupplierController extends Zend_Controller_Action
 
     public function editSupplierPersonnelAction()
     {
+        if (!$this->_helper->acl('SupplierPers', 'edit')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
-
-        if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
 
         if ($request->getPost('supplierPers_idSupplierPersonnel') && $request->isXmlHttpRequest()
                 && $request->isPost()) {
@@ -284,10 +292,6 @@ class Power_SupplierController extends Zend_Controller_Action
 
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
-
-        if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
 
         if (!$request->isPost() && !$request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'supplier');

@@ -59,12 +59,8 @@ class Power_InvoiceController extends Zend_Controller_Action
      */
     public function preDispatch()
     {
-        if ($this->_helper->acl('Guest')) {
-            return $this->_forward('login', 'auth');
-        }
-
-        if (!$this->_helper->acl('Admin')) {
-            throw new ZendSF_Acl_Exception('Access denied');
+        if (!$this->_helper->acl('Invoice', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
         }
     }
 
@@ -73,6 +69,10 @@ class Power_InvoiceController extends Zend_Controller_Action
      */
     public function indexAction()
     {
+        if (!$this->_helper->acl('Invoice', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $urlHelper = $this->_helper->getHelper('url');
         $form = $this->_model->getForm('invoiceSearch')
             ->populate($this->_request->getPost());
@@ -97,6 +97,10 @@ class Power_InvoiceController extends Zend_Controller_Action
 
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
+        
+        if (!$this->_helper->acl('Invoice', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
 
         if ($request->getParam('invoice_idInvoice') && $request->isPost()
                 && $request->isXmlHttpRequest()) {
@@ -115,6 +119,10 @@ class Power_InvoiceController extends Zend_Controller_Action
     {
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
+        
+        if (!$this->_helper->acl('InvoiceLine', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
 
         if ($request->getParam('invoiceLine_idInvoiceLine') && $request->isPost()
                 && $request->isXmlHttpRequest()) {
@@ -139,15 +147,18 @@ class Power_InvoiceController extends Zend_Controller_Action
 
             switch ($request->getParam('type')) {
                 case 'invoice':
-                    $data = $this->_model->getCached('invoice')
+                    $data = $this->_model
+                        //->getCached('invoice')
                     	->getInvoiceDataStore($request->getPost());
                     break;
                 case 'invoice-lines':
-                    $data = $this->_model->getCached('invoiceLines')
+                    $data = $this->_model
+                        //->getCached('invoiceLines')
                     	->getInvoiceLinesDataStore($request->getPost());
                     break;
                 case 'invoice-usage':
-                    $data = $this->_model->getCached('invoiceUsage')
+                    $data = $this->_model
+                        //->getCached('invoiceUsage')
                     	->getInvoiceUsageDataStore($request->getPost());
                     break;
                 default :

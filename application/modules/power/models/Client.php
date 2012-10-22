@@ -186,10 +186,12 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
      */
     public function checkDuplicateAddresses(array $post)
     {
-    	$postcode = (string) $post['clientAd_postcode'];
-    	$ignoreAddress = ($post['clientAd_idAddress']) ? (int) $post['clientAd_idAdress'] : null;
+    	$form = $this->getForm('clientAddressSave');
+    	$form->populate($post);
+    	$data = $form->getValues();
     	
-    	$addresses = $this->getDbTable('clientAddress')->getDuplicateAdresses($postcode, $ignoreAddress);
+    	$addresses = $this->getDbTable('clientAddress')
+    	    ->getDuplicateAddresses($data);
     	 
     	return ($addresses->count() > 0) ? $addresses : null;
     }
@@ -268,7 +270,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $post['client_idClient'] = $clientSave;
             $post['client_idAddress'] = $clientAdSave;
             $post['client_idClientPersonnel'] = $clientPersSave;
-            $post['client_idRegAddress'] = $clientSave;
+            $post['client_idRegAddress'] = $clientAdSave;
             $clientSave = $this->_saveClient($post);
 
             $newSite = array(
@@ -282,6 +284,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $siteSave = $this->getDbTable('site')->saveRow($newSite, null);
 
         } catch (Exception $e) {
+        	$log = Zend_Registry::get('log');
+        	$log->err($e);
             $this->getDbTable('client')->getAdapter()->rollBack();
             return false;
         }
@@ -493,7 +497,10 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
-        $this->_acl->allow('user', $this)
+        $this->_acl->allow('client', array(
+            'saveClient', 'saveClientAddress', 'saveClientPersonnel'
+        ))
+            ->allow('user', $this)
             ->allow('admin', $this);
 
         return $this;

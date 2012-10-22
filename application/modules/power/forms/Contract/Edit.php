@@ -37,13 +37,14 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Contract_Edit extends \Power_Form_Contract_Base 
+class Power_Form_Contract_Edit extends Power_Form_Contract_Base 
 {
 	public function init()
 	{
 		parent::init();
 		
 		$this->getElement('contract_idClient')->setAttrib('readonly', true);
+		$this->getElement('type')->setAttrib('value', 'edit');
 		
 		$this->addElement('FilteringSelect', 'contract_idTenderSelected', array(
 				'label'         => 'Tender Selected:',
@@ -55,6 +56,16 @@ class Power_Form_Contract_Edit extends \Power_Form_Contract_Base
 				'ErrorMessages' => array('Please select a tender.'),
 				'order'			=> 15
 		));
+		
+		// add validator to tenderselect if status equals selected.
+		if ($this->_request->getParam('contract_status') == 'selected') {
+		    $this->getElement('contract_idTenderSelected')
+		        ->setRequired(true)
+		        ->addValidator('GreaterThan', true, array(
+                    'min'       => '0',
+                    'message'   => 'Please select a tender.'
+                ));
+		}
 		
 		$this->addElement($this->_contractDoc->getElement('contract_docAnalysis'));
 		$this->addElement($this->_contractDoc->getElement('contract_docContractSearchable'));
@@ -68,6 +79,26 @@ class Power_Form_Contract_Edit extends \Power_Form_Contract_Base
 		$this->getElement('contract_docContractSignedBoth')->setOrder(94);
 		$this->getElement('contract_docTermination')->setOrder(95);
 	}
+	
+	protected function _getContractStatus()
+    {
+        $multiOptions = parent::_getContractStatus();
+        
+        $row = $this->getModel()->getContractById($this->_request->getParam('contract_idContract'));
+        $meters = $row->getAllMetersOnContract();
+        $tenders = $row->getAllTenders();
+        
+        $log = Zend_Registry::get('log');
+        $log->info($tenders->count());
+        
+        if ($meters->count() == 0 || $tenders->count() == 0) {
+            $multiOptions = array(
+                'new' => $multiOptions['new']
+            );
+        }
+    	
+    	return $multiOptions;
+    }
 	
 	protected function _getTenderOptions()
 	{

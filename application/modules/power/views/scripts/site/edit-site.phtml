@@ -16,7 +16,7 @@
                                 (<?php echo $this->site->site_idSite; ?>)
                             </span>
                         </span>
-                        <?php if ($this->isAllowed('User')): ?>
+                        <?php if ($this->isAllowed('Site', 'edit')): ?>
                         <button data-dojo-type="dijit.form.Button">
                             Edit Details
                             <script type="dojo/method" data-dojo-event="onClick">
@@ -151,7 +151,8 @@
              data-dojo-type="dijit.layout.TabContainer"
              data-dojo-props="region: 'center', tabStrip: 'true'"
              class="innerTabs">
-
+			
+			<?php if ($this->isAllowed('Meter', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Meters'">
 
@@ -175,9 +176,11 @@
                     </script>
                 </table>
             </div>
+            <?php endif; ?>
             <!-- end site meter list -->
 
             <!-- start site contract list -->
+            <?php if ($this->isAllowed('Contract', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Contracts'">
 
@@ -194,13 +197,12 @@
                         query: { idSite: <?php echo $this->site->site_idSite; ?> },
                         sortInfo: '2',
                         noDataMessage : bba.gridMessage">
-                        <?php if ($this->isAllowed('User')): ?>
                         <script type="dojo/method" data-dojo-event="onRowClick">
                             bba.Contract.contractGridRowClick(this);
                         </script>
-                        <?php endif; ?>
                 </table>
             </div>
+            <?php endif; ?>
             <!-- end site contract list -->
         </div>
     </div>
@@ -209,7 +211,7 @@
          data-dojo-props="region: 'top'"
          class="tableHeadPane">
         <div class="tableHead">
-            <?php if ($this->isAllowed('User')): ?>
+            <?php if ($this->isAllowed('Meter', 'add')): ?>
             <p class="tableHead-button">
                 <button data-dojo-type="dijit.form.Button">
                     New Meter

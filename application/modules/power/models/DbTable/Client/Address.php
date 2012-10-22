@@ -108,15 +108,19 @@ class Power_Model_DbTable_Client_Address extends BBA_Model_DbTable_Abstract
         return $this->fetchAll($select);
     }
     
-    public function getDuplicateAddresses($postcode, $ignore=null)
+    public function getDuplicateAddresses($data)
     {
     	$select = $this->select();
     	 
-    	if ($ignore) {
-    		$select->where('clientAd_idAddress != ?', $ignore);
+    	if ($data['clientAd_idAddress']) {
+    		$select->where('clientAd_idAddress != ?', $data['clientAd_idAddress']);
+    	}
+    	
+    	if ($data['clientAd_idClient']) {
+    	    $select->where('clientAd_idClient = ?', $data['clientAd_idClient']);
     	}
     	 
-    	$select->where('clientAd_postcode = ?', $postcode);
+    	$select->where('clientAd_postcode = ?', $data['clientAd_postcode']);
     	
     	return $this->fetchAll($select);
     }

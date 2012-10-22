@@ -55,6 +55,12 @@ class Power_Form_Client_Address_Save extends ZendSF_Dojo_Form_Abstract
 	
     public function init()
     {
+    	$this->addElementPrefixPath(
+    		'Power_Filter',
+    		APPLICATION_PATH . '/modules/power/models/Filter/',
+    		'filter'
+    	);
+    	
         $request = Zend_Controller_Front::getInstance()->getRequest();
         $this->setName('client-address');
 
@@ -105,7 +111,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Dojo_Form_Abstract
         $this->addElement('ValidationTextBox', 'clientAd_postcode', array(
             'label'         => 'Postcode:',
             'required'      => true,
-            'filters'       => array('StripTags', 'StringTrim', 'StringToUpper'),
+            'filters'       => array('StripTags', 'StringTrim', 'Postcode'),
             'validators'    => array(
                 array('PostCode', true, array(
                     'locale' => 'en_GB'
@@ -123,7 +129,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Dojo_Form_Abstract
         		'label'     => 'Submit',
         		'value'     => 'Submit',
         		'dijitParams'   => array(
-        				'onClick' => "return bba.Contract.validateClientAdForm()"
+        			'onClick' => "return bba.Client.validateClientAdForm();"
         		),
         		'attribs' => array('type' => 'submit')
         ));
@@ -135,7 +141,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Dojo_Form_Abstract
         		'label'     => 'Cancel',
         		'value'     => 'Cancel',
         		'dijitParams'   => array(
-        				'onClick' => "return bba.closeDialog(dijit.byId('clientAdForm'))"
+        			'onClick' => "return bba.closeDialog(dijit.byId('clientAdForm'));"
         		)
         ));
         

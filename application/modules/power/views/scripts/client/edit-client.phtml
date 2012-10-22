@@ -14,7 +14,7 @@
                                 (<?php echo $this->client->client_idClient; ?>)
                             </span>
                         </span>
-                        <?php if ($this->isAllowed('User')): ?>
+                        <?php if ($this->isAllowed('Client', 'edit')): ?>
                         <button data-dojo-type="dijit.form.Button">
                             Edit Details
                             <script type="dojo/method" data-dojo-event="onClick">
@@ -147,7 +147,7 @@
              data-dojo-type="dijit.layout.TabContainer"
              data-dojo-props="region: 'center', tabStrip: 'true'"
              class="innerTabs">
-
+            <?php if ($this->isAllowed('ClientAd', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Client Addresses'">
 
@@ -171,9 +171,11 @@
                     </script>
                 </table>
             </div>
+            <?php endif; ?>
             <!-- end client address list -->
 
             <!-- start client contacts list -->
+            <?php if ($this->isAllowed('ClientPers', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Client Personnel'">
 
@@ -190,7 +192,7 @@
                         query: { clientPers_idClient: <?php echo $this->client->client_idClient; ?> },
                         sortInfo: '2',
                         noDataMessage : bba.gridMessage">
-                        <?php if ($this->isAllowed('User')): ?>
+                        <?php if ($this->isAllowed('ClientPers', 'edit')): ?>
                         <script type="dojo/method" data-dojo-event="onRowClick">
                             bba.Client.clientPersGridRowClick(this, {
                                 clientPers_idClient : <?php echo $this->client->client_idClient ?>
@@ -199,9 +201,11 @@
                         <?php endif; ?>
                 </table>
             </div>
+            <?php endif; ?>
             <!-- end client contact list -->
 
             <!-- start client sites list -->
+            <?php if ($this->isAllowed('Site', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Sites'">
 
@@ -218,16 +222,16 @@
                         query: { idClient: <?php echo $this->client->client_idClient; ?> },
                         sortInfo: '2',
                         noDataMessage : bba.gridMessage">
-                        <?php if ($this->isAllowed('User')): ?>
                         <script type="dojo/method" data-dojo-event="onRowClick">
                             bba.Site.siteGridRowClick(this);
                         </script>
-                        <?php endif; ?>
                 </table>
             </div>
+            <?php endif; ?>
             <!-- end client sites list -->
 
             <!-- start client meters list -->
+            <?php if ($this->isAllowed('Meter', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Meters'">
 
@@ -244,16 +248,16 @@
                         query: { idClient: <?php echo $this->client->client_idClient; ?> },
                         sortInfo: '2',
                         noDataMessage : bba.gridMessage">
-                        <?php if ($this->isAllowed('User')): ?>
                         <script type="dojo/method" data-dojo-event="onRowClick">
                             bba.Meter.meterGridRowClick(this);
                         </script>
-                        <?php endif; ?>
                 </table>
             </div>
+            <?php endif; ?>
             <!-- end client meters list -->
 
             <!-- start client contract list -->
+            <?php if ($this->isAllowed('Contract', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Contracts'">
 
@@ -270,13 +274,12 @@
                         query: { contract_idClient: <?php echo $this->client->client_idClient; ?> },
                         sortInfo: '2',
                         noDataMessage : bba.gridMessage">
-                        <?php if ($this->isAllowed('User')): ?>
                         <script type="dojo/method" data-dojo-event="onRowClick">
                             bba.Contract.contractGridRowClick(this);
                         </script>
-                        <?php endif; ?>
                 </table>
             </div>
+            <?php endif; ?>
             <!-- end client contract list -->
         </div>
     </div>
@@ -285,9 +288,9 @@
          data-dojo-props="region: 'top'"
          class="tableHeadPane">
         <div class="tableHead">
-            <?php if ($this->isAllowed('User')): ?>
             <div class="tableHead">
                 <p class="tableHead-button">
+                	<?php if ($this->isAllowed('Contract', 'add')): ?>
                     <button data-dojo-type="dijit.form.Button">
                         New Contract
                         <script type="dojo/method" data-dojo-event="onClick">
@@ -296,6 +299,8 @@
                             });
                         </script>
                     </button>
+                    <?php endif; ?>
+                    <?php if ($this->isAllowed('ClientAd', 'add')): ?>
                     <button data-dojo-type="dijit.form.Button">
                         New Address
                         <script type="dojo/method" data-dojo-event="onClick">
@@ -304,6 +309,8 @@
                             });
                         </script>
                     </button>
+                    <?php endif; ?>
+                    <?php if ($this->isAllowed('ClientPers', 'add')): ?>
                     <button data-dojo-type="dijit.form.Button" data-dojo-props="type:'button'">
                         New Client Personnel
                         <script type="dojo/method" data-dojo-event="onClick">
@@ -312,9 +319,9 @@
                             });
                         </script>
                     </button>
+                    <?php endif; ?>
                 </p>
             </div>
-            <?php endif; ?>
         </div>
     </div>
 </div>

@@ -5,50 +5,50 @@
             <label>Clients</label>
             <action>index</action>
             <controller>client</controller>
-            <resource>Read</resource>
+            <resource>MenuClient</resource>
         </clients>
         <sites>
             <label>Sites</label>
             <action>index</action>
             <controller>site</controller>
-            <resource>Read</resource>
+            <resource>MenuSite</resource>
         </sites>
         <meters>
             <label>Meters</label>
             <action>index</action>
             <controller>meter</controller>
-            <resource>Read</resource>
+            <resource>MenuMeter</resource>
         </meters>
         <contract>
             <label>Contracts</label>
             <action>index</action>
             <controller>contract</controller>
-            <resource>Read</resource>
+            <resource>MenuContract</resource>
         </contract>
         <supplier>
             <label>Suppliers</label>
             <action>index</action>
             <controller>supplier</controller>
-            <resource>Read</resource>
+            <resource>MenuSupplier</resource>
         </supplier>
         <invoice>
             <label>Invoicing</label>
             <action>index</action>
             <controller>invoice</controller>
-            <resource>Admin</resource>
+            <resource>MenuInvoice</resource>
         </invoice>
         <users>
             <label>Users</label>
             <action>index</action>
             <controller>user</controller>
-            <resource>Admin</resource>
+            <resource>MenuUser</resource>
         </users>
         <logout>
             <label>Logout</label>
             <class>lastLink</class>
             <action>logout</action>
             <controller>auth</controller>
-            <resource>Read</resource>
+            <resource>Auth</resource>
         </logout>
     </nav>
 </config>

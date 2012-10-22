@@ -112,7 +112,7 @@ class Power_Model_DbTable_Contract extends BBA_Model_DbTable_Abstract
         return $this->find($id)->current();
     }
     
-    public function getDuplicateContracts($ref, $clientId, $dateStart, $ignore=null)
+    public function getDuplicateContracts($ref, $type, $clientId, $dateStart, $ignore=null)
     {
     	$select = $this->select();
     	
@@ -120,7 +120,8 @@ class Power_Model_DbTable_Contract extends BBA_Model_DbTable_Abstract
     		$select->where('contract_idContract != ?', $ignore);
     	}
     	
-    	$select->where('contract_idClient = ?', $clientId)
+    	$select->where('contract_type = ?', $type)
+                ->where('contract_idClient = ?', $clientId)
     		->where('contract_dateStart = ?', $dateStart);
     	
     	if ($ref && $ref != '') {
@@ -182,6 +183,8 @@ class Power_Model_DbTable_Contract extends BBA_Model_DbTable_Abstract
         if (isset($search['idSite'])) {
             $select->where('meter_idSite = ?', $search['idSite']);
         }
+        
+        $select = $this->_getAccessClient($select, 'contract');
 
         return $select;
     }

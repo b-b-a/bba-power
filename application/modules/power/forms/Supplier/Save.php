@@ -41,6 +41,12 @@ class Power_Form_Supplier_Save extends BBA_Dojo_Form_Abstract
 {
     public function init()
     {
+    	$this->addElementPrefixPath(
+    		'Power_Filter',
+    		APPLICATION_PATH . '/modules/power/models/Filter/',
+    		'filter'
+    	);
+    	
         $this->setName('supplier');
 
         $this->addElement('ValidationTextBox', 'supplier_name', array(
@@ -76,7 +82,7 @@ class Power_Form_Supplier_Save extends BBA_Dojo_Form_Abstract
         $this->addElement('ValidationTextBox', 'supplier_postcode', array(
             'label'         => 'Postcode:',
             'required'      => true,
-            'filters'       => array('StripTags', 'StringTrim', 'StringToUpper'),
+            'filters'       => array('StripTags', 'StringTrim', 'Postcode'),
             'validators'    => array(
                 array('PostCode', true, array(
                     'locale' => 'en_GB'

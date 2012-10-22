@@ -59,7 +59,7 @@ class Power_MeterController extends Zend_Controller_Action
      */
     public function preDispatch()
     {
-        if ($this->_helper->acl('Guest')) {
+        if (!$this->_helper->acl('Meter', 'view')) {
             return $this->_forward('login', 'auth');
         }
     }
@@ -74,15 +74,18 @@ class Power_MeterController extends Zend_Controller_Action
 
             switch ($request->getParam('type')) {
                 case 'meter':
-                    $data = $this->_model->getCached('meter')
+                    $data = $this->_model
+                        //->getCached('meter')
                     	->getMeterDataStore($request->getPost());
                     break;
                 case 'contract':
-                    $data = $this->_model->getCached('meterContract')
+                    $data = $this->_model
+                        //->getCached('meterContract')
                     	->getMeterContractDataStore($request->getPost());
                     break;
                 case 'usage':
-                    $data = $this->_model->getCached('usage')
+                    $data = $this->_model
+                        //->getCached('usage')
                     	->getUsageDataStore($request->getPost());
                     break;
                 default :
@@ -101,6 +104,10 @@ class Power_MeterController extends Zend_Controller_Action
      */
     public function indexAction()
     {
+        if (!$this->_helper->acl('Meter', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $urlHelper = $this->_helper->getHelper('url');
         $form = $this->_model->getForm('meterSearch');
         $form->populate($this->getRequest()->getPost());
@@ -122,12 +129,12 @@ class Power_MeterController extends Zend_Controller_Action
 
     public function addMeterAction()
     {
+        if (!$this->_helper->acl('Meter', 'add')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
-
-        if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
 
         if ($request->isXmlHttpRequest() && $request->getParam('type') == 'add'
                 && $request->isPost()) {
@@ -148,6 +155,10 @@ class Power_MeterController extends Zend_Controller_Action
 
     public function editMeterAction()
     {
+        if (!$this->_helper->acl('Meter', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
 
@@ -169,8 +180,8 @@ class Power_MeterController extends Zend_Controller_Action
             ));
 
             if ($request->getPost('type') == 'edit') {
-                if (!$this->_helper->acl('User')) {
-                    throw new ZendSF_Acl_Exception('Access Denied');
+                if (!$this->_helper->acl('Meter', 'edit')) {
+                    throw new Zend_Acl_Exception('Access Denied');
                 }
                 $this->render('meter-form');
             }
@@ -181,6 +192,10 @@ class Power_MeterController extends Zend_Controller_Action
 
     public function printMeterAction()
     {
+        if (!$this->_helper->acl('Meter', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $request = $this->getRequest();
         $this->_helper->layout->setLayout('print');
 
@@ -202,10 +217,6 @@ class Power_MeterController extends Zend_Controller_Action
 
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
-
-        if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
 
         if (!$request->isPost() && !$request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'meter');
@@ -256,13 +267,13 @@ class Power_MeterController extends Zend_Controller_Action
 
     public function addUsageAction()
     {
+        if (!$this->_helper->acl('MeterUsage', 'add')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
         $this->getHelper('viewRenderer')->setNoRender(true);
-
-        if (!$this->_helper->acl('MeterUsage')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
 
         if ($request->getParam('usage_idMeter') && $request->isXmlHttpRequest()
                 && $request->isPost()) {
@@ -279,13 +290,13 @@ class Power_MeterController extends Zend_Controller_Action
 
     public function editUsageAction()
     {
+        if (!$this->_helper->acl('MeterUsage', 'edit')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
         $this->getHelper('viewRenderer')->setNoRender(true);
-
-        if (!$this->_helper->acl('MeterUsage')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
 
         if ($request->getParam('usage_idUsage') && $request->isPost()
                 && $request->isXmlHttpRequest()) {
@@ -310,15 +321,12 @@ class Power_MeterController extends Zend_Controller_Action
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
 
-        if (!$this->_helper->acl('MeterUsage')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
-
         if (!$request->isPost() && !$request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'meter');
         }
 
         try {
+            
             $saved = $this->_model->saveUsage($request->getPost());
 
             $returnJson = array('saved' => $saved);

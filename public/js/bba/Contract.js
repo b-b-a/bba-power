@@ -322,7 +322,8 @@ define("bba/Contract",
                     dialog: 'contractForm',
                     deferredFunction: function() {
                         bba.Contract.setupDocEvents();
-                    }
+                        this.vals = contractForm.getValues();
+                    }.bind(this)
                 });
             } else {
                 contractForm.show();
@@ -406,15 +407,47 @@ define("bba/Contract",
         
         validateContractForm : function()
         {	
-        	contractFormStandby.show();
+        	formValues = contractForm.getValues();
+        	
+        	if (formValues.contract_idClient == '0') {
+        	    registry.byId('contract_idClient').set('value', ' ');
+        	}
+        	
+        	if (formValues.contract_type == null) {
+        	
+        	    var conTypes = [
+        	        'contract_type-electric-perm',
+        	        'contract_type-electric-temp',
+        	        'contract_type-gas',
+        	        'contract_type-water'
+        	    ]
+        	    
+        	    array.forEach(conTypes, function(item){
+        	        registry.byId(item).attr('style', 'border: 1px solid red;');
+        	        connect.connect(registry.byId(item), 'onChange', function(){
+        	            array.forEach(conTypes, function(item){
+        	                registry.byId(item).attr('style', 'border: 0px;');
+        	            });
+        	            
+        	        });
+        	    });
+        	}
         	
         	// first check form for errors.
         	if (!contractForm.validate()) {
-        		contractFormStandby.hide();
         		return false;
         	}
         	
-        	formValues = contractForm.getValues();
+        	//contractFormStandby.show();
+        	
+        	// forms are not setting the 'edit' value on type so
+        	// check if form is not a 'add' type instead.
+        	if (formValues.type != 'add' && this.vals.contract_dateStart == formValues.contract_dateStart &&
+        			this.vals.contract_reference == formValues.contract_reference) {
+        		return true;
+        	}
+        	
+        	//contractFormStandby.hide();
         	
         	// check for duplicate contract
         	xhr.post({
@@ -432,25 +465,22 @@ define("bba/Contract",
                         
                         bba.setupDialog(contractDuplicates);
                         
-                        connect.connect(contractDuplicates, 'onCancel', function(){
-                        	contractForm.hide();
-                        });
-                        
                         connect.connect(dupsCloseButton, 'onClick', function(){
                         	contractDuplicates.hide();
-                        	contractForm.hide();
-                        	
+                        	//contractFormStandby.hide();
                         });
                         
                         connect.connect(dupsContinueButton, 'onClick', function(){
                         	pageStandby.show();
                         	contractDuplicates.hide();
+                        	//contractFormStandby.hide();
                         	contract_docTermination.submit();
                         });
                 		
                 		contractDuplicates.show();
                 	} else {
                 		pageStandby.show();
+                		//contractFormStandby.hide();
                 		contract_docTermination.submit();
                 	}
                 }
@@ -557,6 +587,11 @@ define("bba/Contract",
             
             connect.connect(contract_docTermination, "onComplete", bba.Contract.processContractForm);
             connect.connect(contract_docTermination, "onError", bba.Contract.processContractForm);
+            
+            connect.connect(contractForm, "onKeyPress", function(evt){
+            	if (evt.keyCode == 13) dojo.stopEvent(evt);
+                
+            });
         }
     }
 

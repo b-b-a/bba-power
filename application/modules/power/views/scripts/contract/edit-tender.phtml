@@ -14,7 +14,7 @@
                                 (<?php echo $this->tender->tender_idTender; ?>)
                             </span>
                         </span>
-                        <?php if ($this->isAllowed('User')): ?>
+                        <?php if ($this->isAllowed('Tender', 'edit')): ?>
                         <button data-dojo-type="dijit.form.Button">
                             Edit Details
                             <script type="dojo/method" data-dojo-event="onClick">
@@ -30,10 +30,12 @@
                     <th>Supplier:</th>
                     <td><?php echo $this->tender->getSupplier('supplier_name'); ?></td>
                 </tr>
+                <?php if ($this->isAllowed('SupplierPers', 'view')): ?>
                 <tr>
                     <th>Supplier Liaison:</th>
                     <td><?php echo $this->tender->getSupplierPersonnel('supplierPers_name'); ?></td>
                 </tr>
+                <?php endif; ?>
                 <tr>
                     <th>Tender Period:</th>
                     <td><?php echo $this->tender->tender_periodContract; ?></td>
@@ -66,10 +68,16 @@
                     <th>Settlement Charge:</th>
                     <td><?php echo $this->tender->tender_chargeSettlement; ?></td>
                 </tr>
+                 <?php if ($this->isAllowed('BBAView')): ?>
                 <tr>
-                    <th>Commission:</th>
-                    <td><?php echo $this->tender->tender_commission; ?></td>
+                    <th>Commission Rate:</th>
+                    <td><?php echo $this->tender->tender_commission." (Pence / Unit)";?></td>
                 </tr>
+                <tr>
+                    <th>Commission Fee:</th>
+                    <td><?php echo $this->tender->tender_fee." (£ / Year)";?></td>
+                </tr>
+                <?php endif; ?>
             </table>
 
             <table class="info_wrap ident">

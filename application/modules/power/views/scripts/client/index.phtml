@@ -16,7 +16,7 @@
 
             <div class="tableHead">
                 <h2 class="tableHead-heading">Clients:</h2>
-                <?php if ($this->isAllowed('User')): ?>
+                <?php if ($this->isAllowed('Client', 'add')): ?>
                 <p class="tableHead-button">
                     <button data-dojo-type="dijit.form.Button">
                         New Client

@@ -144,6 +144,8 @@ class Power_Model_DbTable_Site extends BBA_Model_DbTable_Abstract
         if (isset($search['idClient'])) {
             $select->where('site_idClient = ?', $search['idClient']);
         }
+        
+        $select = $this->_getAccessClient($select, 'site');
 
         return $select;
     }

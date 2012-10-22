@@ -37,33 +37,165 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Acl_Power extends ZendSF_Acl_Abstract
+class Power_Model_Acl_Power extends Zend_Acl
 {
+	/**
+	 * An array of user roles.
+	 *
+	 * @var array
+	 */
+	public static $bbaRoles = array(
+	    // client roles and privileges
+	    'clientRead'    => array(
+		    'label'         => 'Client Read',
+		    'parent'        => null,
+		    'privileges'    => array(
+		        'view'      => array(
+		            'Client', 'ClientAd', 'ClientPers', 
+		            'Contract', 'Doc', 'Index', 'Meter',
+		            'MeterUsage', 'Site', 'Supplier', 
+		            'SupplierContract', 'Tender'
+		        ),
+		        'add'       => 'none',
+		        'edit'      => 'none',
+		        'resources' => array(
+        	        'Auth', 'MenuClient', 'MenuContract', 
+        	        'MenuMeter', 'MenuSite', 'MenuSupplier'
+                )
+		    )
+		),
+		'client'		=> array(
+		    'label'         => 'Client',
+		    'parent'        => 'clientRead',
+		    'privileges'    => array(
+		        'view'      => 'inherit',
+		        'add'       => array(
+		            'ClientAd', 'ClientPers', 'Meter', 
+		           	'MeterUsage', 'Site'
+		        ),
+		        'edit'      => array(
+		            'Client', 'ClientAd', 'ClientPers',
+		            'Meter', 'MeterUsage', 'Site'
+		        ),
+		        'resources' => 'inherit'
+		    )
+		),
+		// BBA roles and privileges
+		'decline'       => array(
+		    'label'         => 'Decline',
+		    'parent'        => null,
+		    'privileges'    => 'none'
+		),
+		'agent'         => array(
+		    'label'         => 'Agent',
+		    'parent'        => null,
+		    'privileges'    => 'none'
+		),
+		'read'          => array(
+		    'label'         => 'Read',
+		    'parent'        => null,
+		    'privileges'    => array(
+		        'view'      => array(
+		            'Client', 'ClientAd', 'ClientPers','Contract', 'Doc',
+		            'Index', 'Meter', 'MeterUsage', 'Site', 'Supplier',
+		            'SupplierContract', 'SupplierPers', 'Tender'
+		        ),
+		        'add'       => 'none',
+		        'edit'      => 'none',
+		        'resources' => array(
+        	        'Auth', 'BBAView', 'MenuClient', 'MenuContract',
+        	        'MenuMeter', 'MenuSite', 'MenuSupplier'
+                )
+		    )
+		),
+		'meterUsage'    => array(
+		    'label'         => 'meterUsage',
+		    'parent'        => 'read',
+		    'privileges'    => array(
+		        'view'      => 'inherit',
+		        'add'       => array('MeterUsage'),
+		        'edit'      => array('MeterUsage'),
+		        'resources' => 'inherit'
+		    )
+		),
+		'user'          => array(
+		    'label'         => 'User',
+		    'parent'        => 'meterUsage',
+		    'privileges'    => array(
+		        'view'      => 'inherit',
+		        'add'       => array(
+        	        'Client', 'ClientAd', 'ClientPers', 'Contract',
+        	        'Meter', 'Site', 'Supplier', 'SupplierPers'
+                ),
+		        'edit'      => array(
+        	        'Client', 'ClientAd', 'ClientPers', 'Contract',
+        	        'Meter', 'Site', 'Supplier', 'SupplierPers'
+                ),
+		        'resources' => 'inherit'
+		    )
+		),
+		'admin'         => array(
+		    'label'         => 'Admin',
+		    'parent'        => 'user',
+		    'privileges'    => 'all'
+		),
+	);
+	
+	/**
+	 * An array of resources.
+	 *
+	 * @var array
+	 */
+	protected $_bbaResources = array(
+	    // resources for menu.
+	    'MenuClient', 'MenuContract', 'MenuInvoice', 'MenuMeter', 
+	    'MenuSite', 'MenuSupplier', 'MenuUser',
+        // resources based on controllers and DataBase tables.
+        'Auth', 'Client', 'ClientAd', 'ClientPers',
+        'Contract', 'Doc', 'Index', 'Invoice',
+        'InvoiceLine', 'InvoiceUsage', 'Meter', 'MeterContract',
+        'MeterUsage', 'Site', 'Supplier', 'SupplierContract',
+        'SupplierPers', 'Tender', 'User',
+        // special view for BBA staff only
+        'BBAView'
+	);
+	
     /**
      * Set up role and resouces for power module.
      */
-    public function init()
-    {
-        $this->removeRole('admin');
-        $this->removeRole('registered');
-
-        $this->addRole(new Zend_Acl_Role('decline'), 'guest');
-        $this->addRole(new Zend_Acl_Role('agent'), 'decline');
-        $this->addRole(new Zend_Acl_Role('read'));
-        $this->addRole(new Zend_Acl_Role('meterUsage'), 'read');
-        $this->addRole(new Zend_Acl_Role('user'), 'meterUsage');
-        $this->addRole(new Zend_Acl_Role('admin'), 'user');
-
-        $this->addResource(new Zend_Acl_Resource('Decline'));
-        $this->addResource(new Zend_Acl_Resource('Agent'));
-        $this->addResource(new Zend_Acl_Resource('Read'));
-        $this->addResource(new Zend_Acl_Resource('MeterUsage'));
-
-        $this->allow('decline', 'Decline');
-        $this->allow('agent', 'Agent');
-        $this->allow('read', 'Read');
-        $this->allow('meterUsage', 'MeterUsage');
-        $this->allow('user', 'User');
-        $this->allow('admin', 'Admin');
+    public function __construct()
+    {   
+        // block all by default.
+        $this->deny();
+        
+        // add resources.
+        foreach ($this->_bbaResources as $value) {
+            $this->addResource(new Zend_Acl_Resource($value));
+        }
+        
+        // add roles and privileges
+        $this->addRole(new Zend_Acl_Role('guest'));
+        
+        foreach (self::$bbaRoles as $role => $values) {
+            $this->addRole(new Zend_Acl_Role($role), $values['parent']);
+            
+            if (is_string($values['privileges'])) {
+    	        if ($values['privileges'] === 'all') {
+    	        	$this->allow($role);
+    	        }
+    	    }
+    	    
+    	    if (is_array($values['privileges'])) {
+    	        foreach ($values['privileges'] as $key => $value) {
+        	        if (is_array($value)) {  
+        	            if ($key === 'resources') {
+        	                $this->allow($role, $value);
+        	            } else {
+        	                $this->allow($role, $value, $key);
+        	            }
+        	        }
+        	    }
+    	    }
+        }
     }
 }

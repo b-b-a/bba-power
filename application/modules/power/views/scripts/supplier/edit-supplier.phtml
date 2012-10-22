@@ -14,7 +14,7 @@
                                 (<?php echo $this->supplier->supplier_idSupplier; ?>)
                             </span>
                         </span>
-                        <?php if ($this->isAllowed('User')): ?>
+                        <?php if ($this->isAllowed('Supplier', 'edit')): ?>
                         <button data-dojo-type="dijit.form.Button">
                             Edit Details
                             <script type="dojo/method" data-dojo-event="onClick">
@@ -34,14 +34,21 @@
                     <th>Address:</th>
                     <td><?php echo $this->supplier->getFullAddress(); ?></td>
                 </tr>
+                <?php if ($this->isAllowed('BBAView')): ?>
+                <tr>
+                    <th>Normal Commission Rate:</th>
+                    <td><?php echo $this->supplier->supplier_commission." (Pence / Unit)";?></td>
+                </tr>
+                <?php endif; ?>
             </table>
-
+            <?php if ($this->isAllowed('SupplierPers', 'view')): ?>
             <table class="info_wrap ident">
                 <caption>Main Liaison</caption>
                 <tr>
                     <td><?php echo $this->supplier->getFullPersonnelAddress(); ?></td>
                 </tr>
             </table>
+            <?php endif; ?>
             <div class="clear"></div>
         </div>
     </div>
@@ -54,7 +61,8 @@
              data-dojo-type="dijit.layout.TabContainer"
              data-dojo-props="region: 'center', tabStrip: 'true'"
              class="innerTabs">
-
+			
+			<?php if ($this->isAllowed('SupplierContract', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Contracts'">
 
@@ -71,12 +79,16 @@
                         query: { tender_idSupplier: <?php echo $this->supplier->supplier_idSupplier; ?> },
                         sortInfo: '2',
                         noDataMessage : bba.gridMessage">
+                    <?php if ($this->isAllowed('Contract', 'view')): ?>
                     <script type="dojo/method" data-dojo-event="onRowClick">
                         bba.Contract.contractGridRowClick(this);
                     </script>
+                    <?php endif; ?>
                 </table>
             </div>
+            <?php endif; ?>
 
+            <?php if ($this->isAllowed('SupplierPers', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Supplier Pesonnel'">
 
@@ -93,11 +105,14 @@
                         query: { supplierPers_idSupplier: <?php echo $this->supplier->supplier_idSupplier; ?> },
                         sortInfo: '2',
                         noDataMessage : bba.gridMessage">
+                    <?php if ($this->isAllowed('SupplierPers', 'edit')): ?>
                     <script type="dojo/method" data-dojo-event="onRowClick">
                         bba.Supplier.supplierPersGridRowClick(this);
                     </script>
+                    <?php endif; ?>
                 </table>
             </div>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -105,7 +120,7 @@
          data-dojo-props="region: 'top'"
          class="tableHeadPane">
         <div class="tableHead">
-            <?php if ($this->isAllowed('User')): ?>
+            <?php if ($this->isAllowed('SupplierPers', 'add')): ?>
             <p class="tableHead-button">
                 <button data-dojo-type="dijit.form.Button">
                     New Supplier Personnel

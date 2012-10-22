@@ -14,7 +14,7 @@
                                 (<?php echo $this->contract->contract_idContract; ?>)
                             </span>
                         </span>
-                        <?php if ($this->isAllowed('User')): ?>
+                        <?php if ($this->isAllowed('Contract', 'edit')): ?>
                         <button data-dojo-type="dijit.form.Button">
                             Edit Details
                             <script type="dojo/method" data-dojo-event="onClick">
@@ -139,6 +139,7 @@
                         <?php endif; ?>
                     </td>
                 </tr>
+                <?php if ($this->isAllowed('Tender', 'view')): ?>
                 <tr>
                     <th>Tender Decision Date:</th>
                     <td><?php echo $this->formatDate($this->contract->contract_dateDecision); ?></td>
@@ -160,6 +161,7 @@
                 <tr>
                     <td colspan="2">No Tender Has Been Selected</td>
                 </tr>
+                <?php endif; ?>
                 <?php endif; ?>
             </table>
 
@@ -206,7 +208,8 @@
              data-dojo-type="dijit.layout.TabContainer"
              data-dojo-props="region: 'center', tabStrip: 'true', tabPosition: 'top'"
              class="innerTabs">
-
+			
+			<?php if ($this->isAllowed('Meter', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Meters'">
 
@@ -227,7 +230,9 @@
                     </script>
                 </table>
             </div>
+            <?php endif; ?>
 
+            <?php if ($this->isAllowed('Tender', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Tenders'">
 
@@ -248,8 +253,9 @@
                     </script>
                 </table>
             </div>
+            <?php endif; ?>
 
-            <?php if ($this->isAllowed('Admin')): ?>
+            <?php if ($this->isAllowed('Invoice', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="title: 'Invoice Lines'">
 
@@ -282,7 +288,7 @@
 
         <div class="tableHead">
         	<?php $notAllowed = array('current', 'roledon', 'lapsed', 'dead'); ?>
-            <?php if ($this->isAllowed('User')): ?>
+            <?php if ($this->isAllowed('MeterContract', 'add')): ?>
             <?php if (!in_array($this->contract->getContract_status(true), $notAllowed)): ?>
             <p class="tableHead-button">
                 <button data-dojo-type="dijit.form.Button">
@@ -296,6 +302,8 @@
 
             </p>
             <?php endif; ?>
+            <?php endif; ?>
+            <?php if ($this->isAllowed('Tender', 'add')): ?>
             <p class="tableHead-button">
                 <button data-dojo-type="dijit.form.Button">
                     New Tender
