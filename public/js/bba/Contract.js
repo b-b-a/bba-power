@@ -418,7 +418,8 @@ define("bba/Contract",
         	    var conTypes = [
         	        'contract_type-electric-perm',
         	        'contract_type-electric-temp',
-        	        'contract_type-gas'
+        	        'contract_type-gas',
+        	        'contract_type-water'
         	    ]
         	    
         	    array.forEach(conTypes, function(item){
@@ -437,7 +438,7 @@ define("bba/Contract",
         		return false;
         	}
         	
-        	contractFormStandby.show();
+        	//contractFormStandby.show();
         	
         	// forms are not setting the 'edit' value on type so
         	// check if form is not a 'add' type instead.
@@ -445,6 +446,8 @@ define("bba/Contract",
         			this.vals.contract_reference == formValues.contract_reference) {
         		return true;
         	}
+        	
+        	//contractFormStandby.hide();
         	
         	// check for duplicate contract
         	xhr.post({
@@ -464,18 +467,20 @@ define("bba/Contract",
                         
                         connect.connect(dupsCloseButton, 'onClick', function(){
                         	contractDuplicates.hide();
-                        	contractFormStandby.hide();
+                        	//contractFormStandby.hide();
                         });
                         
                         connect.connect(dupsContinueButton, 'onClick', function(){
                         	pageStandby.show();
                         	contractDuplicates.hide();
+                        	//contractFormStandby.hide();
                         	contract_docTermination.submit();
                         });
                 		
                 		contractDuplicates.show();
                 	} else {
                 		pageStandby.show();
+                		//contractFormStandby.hide();
                 		contract_docTermination.submit();
                 	}
                 }
