@@ -20,7 +20,7 @@
  * along with BBA Power.  If not, see <http://www.gnu.org/licenses/>.
  *
  * @category   BBA
- * @package    BBA
+ * @package    Power
  * @subpackage Model_DbTable
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License

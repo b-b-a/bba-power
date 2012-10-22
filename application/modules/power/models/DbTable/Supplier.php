@@ -132,21 +132,21 @@ class Power_Model_DbTable_Supplier extends BBA_Model_DbTable_Abstract
                 $id = (int) substr($search['supplier'], 1);
                 $select->where('supplier_idSupplier = ?', $id);
             } else {
-                $select->orWhere('supplier_name like ?', '%' . $search['supplier'] . '%')
+                $select->orWhere('(supplier_name like ?', '%' . $search['supplier'] . '%')
                     ->orWhere('supplier_address1 like ?', '%' . $search['supplier'] . '%')
                     ->orWhere('supplier_address2 like ?', '%' . $search['supplier'] . '%')
                     ->orWhere('supplier_address3 like ?', '%' . $search['supplier'] . '%')
-                    ->orWhere('supplier_postcode like ?', '%' . $search['supplier'] . '%');
+                    ->orWhere('supplier_postcode like ?)', '%' . $search['supplier'] . '%');
             }
         }
 
         if (!$search['personnel'] == '') {
-            $select->orWhere('supplierPers_name like ?', '%' . $search['personnel'] . '%')
+            $select->orWhere('(supplierPers_name like ?', '%' . $search['personnel'] . '%')
                 ->orWhere('supplierPers_email like ?', '%' . $search['personnel'] . '%')
                 ->orWhere('supplierPers_address1 like ?', '%' . $search['personnel'] . '%')
                 ->orWhere('supplierPers_address2 like ?', '%' . $search['personnel'] . '%')
                 ->orWhere('supplierPers_address3 like ?', '%' . $search['personnel'] . '%')
-                ->orWhere('supplierPers_postcode like ?', '%' . $search['personnel'] . '%');
+                ->orWhere('supplierPers_postcode like ?)', '%' . $search['personnel'] . '%');
         }
 
         return $select;
