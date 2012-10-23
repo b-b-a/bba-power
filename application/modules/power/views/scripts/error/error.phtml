@@ -40,9 +40,16 @@ $error = $this->message;
             <script type="dojo/method" data-dojo-event="onClick">
                 return bba.closeDialog(error);
             </script>
-            <script type="dojo/method" data-dojo-event="onHide">
+        </button>
+        <button data-dojo-type="dijit.form.Button">
+            Home Page
+            <script type="dojo/method" data-dojo-event="onClick">
+                window.location = "<?php echo $this->baseUrl(); ?>/";
                 return bba.closeDialog(error);
             </script>
         </button>
     </div>
+    <script type="dojo/method" data-dojo-event="onHide">
+    	return bba.closeDialog(error);
+    </script>
 </div>

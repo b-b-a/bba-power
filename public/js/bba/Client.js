@@ -80,7 +80,20 @@ define("bba/Client",
                 {field: 'clientPers_email', width: '200px', name: 'Email'},
                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
                 {field: '', width: 'auto', name: ''}
-            ]
+            ],
+            meter : [
+                 {field: 'meter_idMeter', width: '50px', name: 'Id'},
+                 {field: 'clientAd_addressName', width: '200px', name: 'Address Name'},
+                 {field: 'clientAd_postcode', width: '100px', name: 'Postcode'},
+                 {field: 'meter_type', width: '110px', name: 'Meter Type'},
+                 {field: 'meter_status', width: '110px', name: 'Meter Status'},
+                 {field: 'meter_numberTop', width: '100px', name: 'Number Top'},
+                 {field: 'meter_numberMain', width: '120px', name: 'Meter No'},
+                 {field: 'contract_type', width: '100px', name: 'Contract Type'},
+                 {field: 'contract_status', width: '110px', name: 'Contract Status'},
+                 {field: 'contract_dateEnd', width: '100px', name: 'End Date'},
+                 {field: '', width: 'auto', name: ''}
+             ]
         },
          
         init : function()
@@ -218,7 +231,10 @@ define("bba/Client",
                 bba.openFormDialog({
                     url: './client/edit-client-address',
                     content: dojo.mixin({type : 'edit'}, contentVars),
-                    dialog: 'clientAdForm'
+                    dialog: 'clientAdForm',
+                    deferredFunction: function() {
+                        this.clientAdPostcode = clientAdForm.getValues().clientAd_postcode;
+                    }.bind(this)
                 });
             } else {
                 clientAdForm.show();
@@ -290,6 +306,8 @@ define("bba/Client",
 
         processClientForm : function()
         {
+        	console.log('processClientForm');
+        	
             bba.closeDialog(clientForm);
             pageStandby.show();
             data = arguments[0];
@@ -316,10 +334,68 @@ define("bba/Client",
                 clientForm.show();
             }
         },
+        
+        validateClientAdForm : function()
+        {
+        	clientAdFormStandby.show();
+        	
+        	// first check form for errors.
+        	if (!clientAdForm.validate()) {
+        		clientAdFormStandby.hide();
+        		return false;
+        	}
+        	
+        	formValues = clientAdForm.getValues();
+        	
+        	if (this.clientAdPostcode == formValues.clientAd_postcode) {
+        		return true;
+        	}
+        	
+        	// check for duplicate contract
+        	xhr.post({
+                url: './client/check-address-duplicates',
+                content: formValues,
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                	if (data.dups) {
+                		
+                		console.log(data);
+                		
+                		dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+                        
+                        bba.setupDialog(addressDuplicates);
+                        
+                        connect.connect(dupsCloseButton, 'onClick', function(){
+                        	addressDuplicates.hide();
+                        	
+                        });
+                        
+                        connect.connect(addressDuplicates, 'onHide', function(){
+                        	clientAdFormStandby.hide();
+                        });
+                        
+                        connect.connect(dupsContinueButton, 'onClick', function(){
+                        	pageStandby.show();
+                        	addressDuplicates.hide();
+                        	bba.Client.processClientAdForm(formValues);
+                        });
+                		
+                		addressDuplicates.show();
+                	} else {
+                		pageStandby.show();
+                		bba.Client.processClientAdForm(formValues);
+                	}
+                }
+        	});
+        	
+        	return false;
+        },
 
         processClientAdForm : function()
         {
-            //bba.closeDialog(clientAdForm);
+            bba.closeDialog(clientAdForm);
         	pageStandby.show();
             values = arguments[0];
             values.type = (values.clientAd_idAddress) ? 'edit' : 'add';
@@ -406,8 +482,8 @@ define("bba/Client",
                 bba.docFileList(fileArray, 'client_docLoa_file');
             });
             
-            docComplete = connect.connect(client_docLoa, "onComplete", this, this.processClientForm);
-            docError = connect.connect(client_docLoa, "onError", this, this.processClientForm);
+            docComplete = connect.connect(client_docLoa, "onComplete", bba.Client.processClientForm);
+            docError = connect.connect(client_docLoa, "onError", bba.Client.processClientForm);
             
             connect.connect(registry.byId('client_registeredCompany'), "onClick", function(){
             	if (this.get('value')) {
@@ -435,10 +511,10 @@ define("bba/Client",
         wizardClientAdPane : function()
         {
         	if (typeof docClick != 'undefined'){
-	        	connect.disconnect(docClick);
-	        	connect.disconnect(docChange);
-	        	connect.disconnect(docComplete);
-	        	connect.disconnect(docError);
+	        	//connect.disconnect(docClick);
+	        	//connect.disconnect(docChange);
+	        	//connect.disconnect(docComplete);
+	        	//connect.disconnect(docError);
         	}
         	
         	clientForm.attr('title', 'Main (HQ) Address');
@@ -453,18 +529,51 @@ define("bba/Client",
         
         wizardDoneFunction : function()
         {
-        	if (clientForm.getValues().client_docLoa[0] && clientForm.getValues().client_dateExpiryLoa === '') {
-                bba.Client.clientLoaEmptyDialog();
-                return false;
-            }
-
             if (!clientForm.validate()) {
                 alert('Please recheck all form entries for mistakes.');
                 return false;
             }
-
+            
+            if (clientForm.getValues().client_docLoa[0] && clientForm.getValues().client_dateExpiryLoa === '') {
+                bba.Client.clientLoaEmptyDialog();
+                return false;
+            }
+        	
+        	// check client address here.
             var vals = clientForm.get('value');
-            client_docLoa.submit(vals);
+            
+            xhr.post({
+                url: './client/check-address-duplicates',
+                content: vals,
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                	if (data.dups) {
+                		
+                		console.log(data);
+                		
+                		dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+                        
+                        bba.setupDialog(addressDuplicates);
+                        
+                        connect.connect(dupsCloseButton, 'onClick', function(){
+                        	addressDuplicates.hide();
+                        	
+                        });
+                        
+                        connect.connect(dupsContinueButton, 'onClick', function(){
+                        	pageStandby.show();
+                        	addressDuplicates.hide();
+                        	client_docLoa.submit(vals);
+                        });
+                		
+                		addressDuplicates.show();
+                	} else {
+                		client_docLoa.submit(vals);
+                	}
+                }
+        	});
         }
     };
 

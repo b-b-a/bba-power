@@ -40,6 +40,20 @@
 class Power_Model_DbTable_Row_Meter_Contract extends ZendSF_Model_DbTable_Row_Abstract
 {
     protected $_meter;
+    
+    public function getMeterContract_kvaNominated()
+    {
+    	$kva = $this->getRow()->meterContract_kvaNominated;
+    	
+    	return ($kva) ? $kva : 0;
+    }
+    
+    public function getMeterContract_eac()
+    {
+    	 $eac = $this->getRow()->meterContract_eac;
+    	 
+    	 return ($eac) ? $eac : 0;
+    }
 
     public function getMeter($row = null)
     {
@@ -124,6 +138,12 @@ class Power_Model_DbTable_Row_Meter_Contract extends ZendSF_Model_DbTable_Row_Ab
                     break;
                 case 'meter_status':
                     $array[$key] = $this->getMeter_status();
+                    break;
+                case 'meterContract_kvaNominated':
+                	$array[$key] = $this->getMeterContract_kvaNominated();
+                    break;
+                case 'meterContract_eac':
+                    $array[$key] = $this->getMeterContract_eac();
                     break;
                 default:
                     $array[$key] = $value;

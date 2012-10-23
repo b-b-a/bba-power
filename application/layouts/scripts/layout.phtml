@@ -35,10 +35,7 @@
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: '<?php echo $this->escape($this->title); ?>'"
                  id="<?php echo $this->request()->getControllerName(); ?>-list">
-                <div id="messages"><?php
-                   echo $this->FlashMessenger();
-                 ?></div>
-
+          		
                 <?php echo $this->Layout()->content; ?>
             </div>
          <?php if ($this->authInfo('role')): ?>

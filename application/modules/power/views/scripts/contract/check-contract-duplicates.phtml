@@ -1,0 +1,53 @@
+<div dojoType="dijit.Dialog"
+     id="contractDuplicates"
+     data-dojo-id="contractDuplicates"
+     title="Contract Duplicates Found">
+    <div class="dijitDialogPaneContentArea" style="text-align: center;">
+        <table class="duplicateslistTable">
+            <caption>Possible Duplicates</caption>
+            <tr>
+                <th>Id:</th>
+                <th>Client</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Reference</th>
+                <th>Start Date</th>
+                <th>Supplier</th>
+            </tr>
+
+            <?php foreach ($this->dups as $row): ?>
+            <tr>
+                <td><?php echo $row->contract_idContract; ?></td>
+                <td><?php if ($row->contract_idClient): 
+                		echo $row->getClient('client_name');
+                	else:
+                		echo 'No Client';
+                	endif;
+                     ?></td>
+                <td><?php echo $row->contract_type; ?></td>
+                <td><?php echo $row->contract_status; ?></td>
+                <td><?php echo $row->contract_reference; ?></td>
+                <td><?php echo $this->formatDate($row->contract_dateStart); ?></td>
+                <td>
+                	<?php 
+                	if ($row->contract_idTenderSelected): 
+                		echo $row->getTenderSelected()->getSupplier('supplier_name');
+                	else:
+                		echo 'No Supplier Selected';
+                	endif;
+                	?>
+                </td>
+            </tr>
+            <?php endforeach; ?>
+
+        </table>
+    </div>
+    <div class="dijitDialogPaneActionBar">
+        <button data-dojo-type="dijit.form.Button" data-dojo-id="dupsCloseButton" type="button"">
+            Cancel
+        </button>
+        <button data-dojo-type="dijit.form.Button" data-dojo-id="dupsContinueButton" type="button"">
+            Continue
+        </button>
+    </div>
+</div>

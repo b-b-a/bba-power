@@ -177,6 +177,24 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
 
         return ($store->count()) ? $store->toJson() : '{}';
     }
+    
+    /**
+     * Checks for duplicate client addresses.
+     * 
+     * @param array $post
+     * @return NULL|Zend_Db_Table_Rowset_Abstract
+     */
+    public function checkDuplicateAddresses(array $post)
+    {
+    	$form = $this->getForm('clientAddressSave');
+    	$form->populate($post);
+    	$data = $form->getValues();
+    	
+    	$addresses = $this->getDbTable('clientAddress')
+    	    ->getDuplicateAddresses($data);
+    	 
+    	return ($addresses->count() > 0) ? $addresses : null;
+    }
 
     /**
      * Add new Client.
@@ -252,7 +270,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $post['client_idClient'] = $clientSave;
             $post['client_idAddress'] = $clientAdSave;
             $post['client_idClientPersonnel'] = $clientPersSave;
-            $post['client_idRegAddress'] = $clientSave;
+            $post['client_idRegAddress'] = $clientAdSave;
             $clientSave = $this->_saveClient($post);
 
             $newSite = array(
@@ -266,6 +284,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             $siteSave = $this->getDbTable('site')->saveRow($newSite, null);
 
         } catch (Exception $e) {
+        	$log = Zend_Registry::get('log');
+        	$log->err($e);
             $this->getDbTable('client')->getAdapter()->rollBack();
             return false;
         }

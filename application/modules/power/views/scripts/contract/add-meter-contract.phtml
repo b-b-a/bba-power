@@ -1,7 +1,11 @@
+<?php $tender = array('tender', 'choose', 'selected', 'signed'); ?>
+<?php $validateMethod = (in_array($this->contract->getContract_status(true), $tender)) ?
+	'bba.Contract.validateAddMeterToContract(contractMeterGrid, '. $this->contract->contract_idContract . ');'
+	: 'bba.Contract.addMeterToContract(contractMeterGrid, ' . $this->contract->contract_idContract . ');';?>
 <button dojoType="dijit.form.Button"
         id="addMeterToContractButton"
         type="button"
-        onClick="bba.Contract.addMeterToContract(contractMeterGrid, <?php echo $this->contract->contract_idContract; ?>);">
+        onClick="<?php echo $validateMethod; ?>">
     Update Contract
 </button>
 
@@ -25,11 +29,11 @@
 
 <div dojoType="dijit.Tooltip" connectId="contractMeterHelp">
     <p>
-        Select meters to add by clicking on the row or the row selector on the left of the row.<br />
-        To deselect a meter click on the row again or the row selector on the left of the row.<br />
-        Edit "Expected Yearly Consumption" by double clicking on the cell.<br />
-        When a row is selected it will be light blue in colour.<br />
-        When you are ready to add meters click the "Add to Contract" button.
+        Select meters to add by clicking on the box on the left of the row.<br />
+        To deselect a meter click on the box again on the left of the row.<br />
+        Edit "Peak kVA" by double clicking on the cell.<br />
+        Edit "EAC" by double clicking on the cell.<br />
+        When a row is selected it will be light blue in colour.
     </p>
 </div>
 <div>&nbsp;</div>
@@ -47,12 +51,11 @@
         clientSort: 'true',
         selectionMode: 'multiple',
         editable: 'true',
-        sortInfo: '-6',
         noDataMessage : bba.gridMessage,
         style: 'width:1100px;height:300px;'">
     <script type="dojo/connect" event="_onFetchComplete" args="items, req">
         bba.Contract.preselectMeters(this, '<?php echo $this->contract->contract_idContract; ?>', items);
-        <?php if ($this->contract->contract_status == 'tender'): ?>
+		<?php if (in_array($this->contract->getContract_status(true), $tender)): ?>
             dijit.byId('tenderWarningDialog').show();
         <?php endif; ?>
     </script>
@@ -62,8 +65,8 @@
     <div class="dijitDialogPaneContentArea" style="text-align: center;">
         <img src="images/Warning.png" />
         <p>
-            <b>After editing meters the tenders<br />
-            will need re-submitting.</b>
+            <b>After changing meters the <br />
+            Tendering Process will need re-starting.</b>
         </p>
     </div>
     <div class="dijitDialogPaneActionBar">

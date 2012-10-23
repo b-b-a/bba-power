@@ -24,7 +24,7 @@
  * @copyright  Copyright (c) 2011 Shaun Freeman. (http://www.shaunfreeman.co.uk)
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
- */
+ */   
 define("bba/Contract",
 [
     "dojo/dom",
@@ -37,6 +37,7 @@ define("bba/Contract",
     "dijit/Dialog",
     "dojo/data/ItemFileReadStore",
     "bba/Core",
+    "dojo/text!./html/contractAddEditMeterMessage.html",
     "bba/Meter",
     "bba/Invoice",
     "dijit/form/ValidationTextBox",
@@ -48,8 +49,12 @@ define("bba/Contract",
     "dojox/form/Uploader",
     "dojox/form/uploader/plugins/IFrame"
 ],
-    function(dom, query, parser, connect, xhr, array, registry, Dialog, ItemFileReadStore, core) {
+    function(dom, query, parser, connect, xhr, array, registry, Dialog, ItemFileReadStore, core, contractAddEditMeterMessage) {
 
+	function zeroFill(num) {
+		return (num) ? num : 0;
+	}
+	
     bba.Contract = {
         gridLayouts : {
             contract : [
@@ -71,10 +76,10 @@ define("bba/Contract",
                 },
                 [
                     {field: 'meter_idMeter', width: '50px', name: 'Id'},
-                    {field: 'meter_numberMain', width : '150px', name: 'Number Main'},
+                    {field: 'meter_numberMain', width : '125px', name: 'Number Main'},
                     {field: 'meter_status', width : '100px', name: 'Meter Status'},
-                    {field: 'meterContract_kvaNominated', width: '100px', name: 'Peak kVA', editable: true},
-                    {field: 'meterContract_eac', width: '100px', name: 'EAC', editable: true},
+                    {field: 'meterContract_kvaNominated', width: '75px', name: 'Peak kVA', editable: true, formatter: zeroFill},
+                    {field: 'meterContract_eac', width: '75px', name: 'EAC', editable: true, formatter: zeroFill},
                     {field: 'contract_idContract', width: '100px', name: 'Contract Id'},
                     {field: 'contract_type', width: '100px', name: 'Contract Type'},
                     {field: 'contract_status', width: '100px', name: 'Status'},
@@ -176,54 +181,73 @@ define("bba/Contract",
               grid.selection.addToSelection(obj);
             }
         },
+        
+        validateAddMeterToContract : function(grid, meterContract)
+        {
+        	confirmAddEditMeters = new Dialog({
+                title: "Confirm Add/Edit Meters",
+                content: contractAddEditMeterMessage,
+                style: "width: 300px",
+                onShow : function(){
+                    connect.connect(proceedButton, 'onClick', function(){
+                        bba.Contract.addMeterToContract(grid, meterContract);
+                        confirmAddEditMeters.hide();
+                    });
+                    connect.connect(cancelButton, 'onClick', function(){
+                    	registry.byId('addMeterContractDialog').hide();
+                    	confirmAddEditMeters.hide();
+                    });
+                },
+                onHide : function() {
+                    bba.closeDialog(confirmAddEditMeters);
+                }
+            });
+        	confirmAddEditMeters.show();
+        },
 
         addMeterToContract : function(grid, meterContract)
         {
             var items = grid.selection.getSelected();
 
-            var kvaError = false;
-
             var data = {type: 'insert', contract : meterContract, meters : []};
 
             if (items.length) {
                 items.forEach(function(selectedItem){
-                    if (!selectedItem.meterContract_kvaNominated || !selectedItem.meterContract_eac) {
-                        kvaError = true;
-                        return false;
-                    }
+                	id = selectedItem.meter_idMeter[0];
+                    kva = (!selectedItem.meterContract_kvaNominated) ? 0 : selectedItem.meterContract_kvaNominated[0]
+                    eac = (!selectedItem.meterContract_eac) ? 0 : selectedItem.meterContract_eac[0];
+                    
+                    if (!kva) kva = 0;
+                    if (!eac) eac = 0;
 
                     data.meters.push({
-                        id : selectedItem.meter_idMeter[0],
-                        kva : selectedItem.meterContract_kvaNominated[0],
-                        eac : selectedItem.meterContract_eac[0]
+                        id : id,
+                        kva : kva,
+                        eac : eac
                     });
                 });
             }
 
-            if (!kvaError) {
-                xhr.post({
-                    url: './contract/save-meter-contract',
-                    content: {jsonData : dojo.toJson(data)},
-                    handleAs: 'json',
-                    preventCache: true,
-                    load: function(data) {
-                        dom.byId('dialog').innerHTML = data.html;
-                        parser.parse('dialog');
+            xhr.post({
+                url: './contract/save-meter-contract',
+                content: {jsonData : dojo.toJson(data)},
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                    dom.byId('dialog').innerHTML = data.html;
+                    parser.parse('dialog');
 
-                        if (data.error) {
-                            error.show();
-                        } else if (data.saved) {
-                            registry.byId('meterContractGrid' + meterContract)._refresh();
-                            registry.byId('addMeterContractDialog').hide();
-                            if (bba.config.confirmBox) {
-                                confirm.show();
-                            }
+                    if (data.error) {
+                        error.show();
+                    } else if (data.saved) {
+                        registry.byId('contract' + meterContract).refresh();
+                        registry.byId('addMeterContractDialog').hide();
+                        if (bba.config.confirmBox) {
+                            confirm.show();
                         }
                     }
-                });
-            } else {
-                alert('Please enter Peak kVA and EAC for all selected meters (enter zero if not known).');
-            }
+                }
+            });
         },
 
         addMeterButtonClick : function(contentVars)
@@ -298,7 +322,8 @@ define("bba/Contract",
                     dialog: 'contractForm',
                     deferredFunction: function() {
                         bba.Contract.setupDocEvents();
-                    }
+                        this.vals = contractForm.getValues();
+                    }.bind(this)
                 });
             } else {
                 contractForm.show();
@@ -326,25 +351,6 @@ define("bba/Contract",
                     content: dojo.mixin({type :  'add'}, contentVars),
                     dialog: 'contractForm',
                     deferredFunction: function() {
-                    	contractFormStandby.show();
-                        id = registry.byId("contract_idClient").get('value');
-
-                        clientStore = new ItemFileReadStore({
-                            url:'./site/data-store/type/clients'
-                        });
-
-                        clientStore.fetch({
-                            onComplete: function() {
-                            	contractFormStandby.hide();
-                            },
-                            onError: function(error, request) {
-                                bba.dataStoreError(request.store.url, null);
-                            }
-                        });
-                        
-                        registry.byId("contract_idClient").set('store', clientStore);
-                        registry.byId("contract_idClient").set('value', 0);
-                        
                         bba.Contract.setupDocEvents();
                     }
                 });
@@ -398,11 +404,94 @@ define("bba/Contract",
             registry.byId("tender_idSupplierPersonnel").set('store', this.supplierPersonnelStore);
             registry.byId('tender_idSupplierPersonnel').set('value', 0);
         },
+        
+        validateContractForm : function()
+        {	
+        	formValues = contractForm.getValues();
+        	
+        	if (formValues.contract_idClient == '0') {
+        	    registry.byId('contract_idClient').set('value', ' ');
+        	}
+        	
+        	if (formValues.contract_type == null) {
+        	
+        	    var conTypes = [
+        	        'contract_type-electric-perm',
+        	        'contract_type-electric-temp',
+        	        'contract_type-gas',
+        	        'contract_type-water'
+        	    ]
+        	    
+        	    array.forEach(conTypes, function(item){
+        	        registry.byId(item).attr('style', 'border: 1px solid red;');
+        	        connect.connect(registry.byId(item), 'onChange', function(){
+        	            array.forEach(conTypes, function(item){
+        	                registry.byId(item).attr('style', 'border: 0px;');
+        	            });
+        	            
+        	        });
+        	    });
+        	}
+        	
+        	// first check form for errors.
+        	if (!contractForm.validate()) {
+        		return false;
+        	}
+        	
+        	//contractFormStandby.show();
+        	
+        	// forms are not setting the 'edit' value on type so
+        	// check if form is not a 'add' type instead.
+        	if (formValues.type != 'add' && this.vals.contract_dateStart == formValues.contract_dateStart &&
+        			this.vals.contract_reference == formValues.contract_reference) {
+        		return true;
+        	}
+        	
+        	//contractFormStandby.hide();
+        	
+        	// check for duplicate contract
+        	xhr.post({
+                url: './contract/check-contract-duplicates',
+                content: formValues,
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                	if (data.dups) {
+                		
+                		console.log(data);
+                		
+                		dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+                        
+                        bba.setupDialog(contractDuplicates);
+                        
+                        connect.connect(dupsCloseButton, 'onClick', function(){
+                        	contractDuplicates.hide();
+                        	//contractFormStandby.hide();
+                        });
+                        
+                        connect.connect(dupsContinueButton, 'onClick', function(){
+                        	pageStandby.show();
+                        	contractDuplicates.hide();
+                        	//contractFormStandby.hide();
+                        	contract_docTermination.submit();
+                        });
+                		
+                		contractDuplicates.show();
+                	} else {
+                		pageStandby.show();
+                		//contractFormStandby.hide();
+                		contract_docTermination.submit();
+                	}
+                }
+        	});
+        	
+        	return false;
+        },
 
         processContractForm : function()
         {
             bba.closeDialog(contractForm);
-            pageStandby.show();
 
             data = arguments[0];
 
@@ -495,9 +584,14 @@ define("bba/Contract",
                     });
                 }
             });
-
+            
             connect.connect(contract_docTermination, "onComplete", bba.Contract.processContractForm);
             connect.connect(contract_docTermination, "onError", bba.Contract.processContractForm);
+            
+            connect.connect(contractForm, "onKeyPress", function(evt){
+            	if (evt.keyCode == 13) dojo.stopEvent(evt);
+                
+            });
         }
     }
 

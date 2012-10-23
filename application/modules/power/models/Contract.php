@@ -141,7 +141,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         $start = $post['start'];
 
         $dataObj = $this->getDbTable('meterContract')->searchMeterContracts($post, $sort, $count, $start);
-
+        
         $store = $this->_getDojoData($dataObj, 'meter_idMeter');
 
         $store->setMetadata(
@@ -175,7 +175,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         return ($store->count()) ? $store->toJson() : '{}';
     }
-
+    
     /**
      * Gets the available meters data store list, using contract id.
      *
@@ -183,109 +183,74 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
      * @return string
      */
     public function getAvailableMetersDataStore($id)
+    {	
+    	$contract = $this->getContractById($id);
+    	$dataObj = $this->getDbTable('meter')->getAvailableMeters($contract);
+    	
+    	$meters = array();
+    	
+    	// get all meters on this contract.
+    	$metersContract = $contract->getAllMetersOnContract();
+    	
+    	// Add meters to list from current contract
+    	foreach ($metersContract as $row) {
+    		$meter = $row->getMeter();
+    		$meters[] = array_merge($row->toArray(), $meter->toArray(), $contract->toArray());
+    	}
+    	
+    	$store = new Zend_Dojo_Data('meter_idMeter', array_merge($meters, $dataObj->toArray()));
+    	
+    	return $store->toJson();
+    }
+    
+    /**
+     * Checks for duplicate contracts.
+     * 
+     * @param array $post
+     * @return NULL|Zend_Db_Table_Rowset_Abstract
+     */
+    public function checkDuplicateContracts(array $post)
     {
-        $id = (int) $id;
-        $log = Zend_Registry::get('log');
-
-        // get contract
-        $contract = $this->getContractById($id);
-        $notInStatus = array('current', 'signed', 'selected', 'choosing');
-        $notInNewStatus = array('new', 'tender');
-        $notIn = array();
-        $meters = array();
-
-        $curCoStartDate = new Zend_Date($contract->contract_dateStart);
-
-        $type = preg_replace('/-.+/', '', $contract->contract_type);
-
-        // get all meters on this contract.
-        $metersContract = $contract->getAllMetersOnContract();
-
-        /**
-         * Add meters to list from current contract
-         * and add them to a filter so as to exclude them later if needed.
-         */
-        foreach ($metersContract as $row) {
-            $meter = $row->getMeter();
-            $meters[] = array_merge($row->toArray(), $meter->toArray(), $contract->toArray());
-            $notIn[] = $meter->meter_idMeter;
-        }
-
-        /**
-         * If current contract can have meters added to it
-         * get all availible meters and add them to list
-         * excluding all current contract meters.
-         */
-        if (!in_array($contract->contract_status, $notInStatus)) {
-
-            // get client sites
-            $sites = $this->getDbTable('site')
-                ->fetchAll('site_idClient = ' . $contract->contract_idClient);
-
-            // get meters on sites.
-            foreach ($sites as $site) {
-
-                $rowSet = $site->getMetersByType($type);
-
-                // run through each meter attaching contracts if any.
-                foreach ($rowSet as $row) {
-
-                    // skip current contract meters.
-                    if (in_array($row->meter_idMeter, $notIn)) {
-                        continue;
-                    }
-
-                    $meter = $row->toArray();
-
-                    // get this meter contract.
-                    $meterCo = $row->getCurrentContract();
-
-                    /**
-                     * If this meter has an contract then run some checks
-                     * else just add it to the list.
-                     */
-                    if ($meterCo) {
-                        $meterCoEndDate = new Zend_Date($meterCo->contract_dateEnd);
-
-                        /**
-                         * If this contract is not earlier than the current contract start date
-                         * then skip this meter.
-                         */
-                        if (!$meterCoEndDate->isEarlier($curCoStartDate)) {
-                            continue;
-                        }
-
-                        /**
-                         * If the contract is new|tender and the contract end date
-                         * is not earlier than the current contract start date then skip this meter.
-                         */
-                        if (in_array($meterCo->contract_status, $notInNewStatus) &&
-                                !$meterCoEndDate->isEarlier($curCoStartDate)) {
-                            continue;
-                        }
-
-                        /**
-                         * If contract end date is earlier then the current contract start date
-                         * then add meter to list.
-                         */
-                        if ($meterCoEndDate->isEarlier($curCoStartDate)) {
-                            $mc = $this->getDbTable('meterContract')
-                                ->getMeterContractById($row->meter_idMeter, $meterCo->contract_idContract);
-                            $meterCo = $meterCo->toArray();
-                            $meter = array_merge($meter, $meterCo, $mc->toArray());
-                            $meters[] = $meter;
-                        }
-
-                    } else {
-                        $meters[] = $meter;
-                    }
-                }
-            }
-        }
-
-        $store = new Zend_Dojo_Data('meter_idMeter', $meters);
-
-        return ($store->count()) ? $store->toJson() : '{}';
+    	$ref = (string) $post['contract_reference'];
+    	$type = (string) $post['contract_type'];
+    	$clientId = (int) $post['contract_idClient'];
+    	$ignoreContract = ($post['contract_idContract']) ? (int) $post['contract_idContract'] : null;
+    	
+    	if ($post['contract_dateStart'] === '') $post['contract_dateStart'] = '01-01-1970';
+    	
+    	try {
+    		$date = new Zend_Date($post['contract_dateStart'], Zend_Date::DATE_SHORT);
+    		$date = $date->toString('yyyy-MM-dd');
+    	} catch (Exception $e) {
+    		return null;
+    	}
+    	
+    	
+    	$contracts = $this->getDbTable('contract')->getDuplicateContracts($ref, $type, $clientId, $date, $ignoreContract);
+    	
+    	return ($contracts->count() > 0) ? $contracts : null;
+    }
+    
+    public function addContract(array $post)
+    {
+    	if (!$this->checkAcl('addContract')) {
+    		throw new ZendSF_Acl_Exception('Insufficient rights');
+    	}
+    	
+    	$form = $this->getForm('contractAdd');
+    	
+    	return $this->_saveContract($post, $form);
+    }
+    
+    public function editContract(array $post)
+    {
+    	if (!$this->checkAcl('editContract')) {
+    		throw new ZendSF_Acl_Exception('Insufficient rights');
+    	}
+    	 
+    	$form = $this->getForm('contractEdit');
+    	 
+    	return $this->_saveContract($post, $form);
     }
 
     /**
@@ -295,13 +260,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
      * @return boolean
      * @throws ZendSF_Acl_Exception
      */
-    public function saveContract(array $post)
+    protected  function _saveContract(array $post, Power_Form_Contract_Base $form)
     {
-        if (!$this->checkAcl('saveContract')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
-        }
-
-        $form = $this->getForm('contractSave');
         $docForm = $this->getForm('docContract');
 
         // validate all forms.
@@ -330,6 +290,19 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         $contract = array_key_exists('contract_idContract', $data) ?
             $this->getContractById($data['contract_idContract']) : null;
+            
+        // if status is tender selected change endDate to
+        // plus one year minus one day of tender contract period.
+        if ($contract &&  $data['contract_idTenderSelected'] > 0) {
+            $tender = $this->getDbTable('tender')->getTenderById($data['contract_idTenderSelected']);
+            $date = new Zend_Date($data['contract_dateStart']);
+            $date->add($tender->tender_periodContract, ZEND_DATE::MONTH);
+            $date->sub('1', ZEND_DATE::DAY);
+            $data['contract_dateEnd'] = $date->toString('yyyy-MM-dd');
+            if (in_array($data['contract_status'], array('tender', 'choose', 'new'))) {
+            	$data['contract_status'] = 'selected';
+            }
+        }
 
         $id = $this->getDbTable('contract')->saveRow($data, $contract);
 
@@ -430,7 +403,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
                 }
             }
         }
-
+		
         // delete any rows that were deselected
         if ($oldMeterContracts && !in_array($contract->contract_status, $notInStatus)) {
             foreach ($oldMeterContracts as $row) {
@@ -439,7 +412,15 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             }
         }
         
-        $this->clearCache(array('meterContract'));
+        // update contract status to tender if contract is in tender process.
+        if (in_array($contract->getContract_status(true), array('tender', 'choose', 'selected', 'signed'))) {
+	        $contractUpdate = $this->getDbTable('contract')->saveRow(
+	        	array('contract_status' => 'tender'),
+	        	$contract
+	        );
+    	}
+        
+        $this->clearCache(array('meterContract', 'contract'));
 
         return $result;
     }

@@ -120,28 +120,31 @@ define("bba/Core",
 
         init : function()
         {
-            if (lang.isFunction(bba[bbaModule].init)) {
-                this[bbaModule].init();
-            }
+        	if( bbaModule != 'Error' ){
+	            if (lang.isFunction(bba[bbaModule].init)) {
+	                this[bbaModule].init();
+	            }
+	
+	            dom.byId(bbaModule.toLowerCase()).focus();
+        	
 
-            dom.byId(bbaModule.toLowerCase()).focus();
-
-            this.gridSearch(
-                registry.byId('Search'),
-                registry.byId(bbaModule.toLowerCase() + 'Grid')
-            );
-
-            if (cookie("bba-prefs")) {
-                this.config = json.parse(cookie("bba-prefs"));
-            }
-
-            for (id in bba.config) {
-                registry.byId(id+'Button').set(
-                    'checked', this.config[id]
-                );
-            }
-
-            dom.byId("dojoVersion").innerHTML = 'dojo ' + dojo.version.toString();
+	            this.gridSearch(
+	                registry.byId('Search'),
+	                registry.byId(bbaModule.toLowerCase() + 'Grid')
+	            );
+	            
+	            if (cookie("bba-prefs")) {
+                    this.config = json.parse(cookie("bba-prefs"));
+                }
+    
+                for (id in bba.config) {
+                    registry.byId(id+'Button').set(
+                        'checked', this.config[id]
+                    );
+                }
+    
+                dom.byId("dojoVersion").innerHTML = 'dojo ' + dojo.version.toString();
+        	}
 
             this.pageLoaded();
         },
@@ -227,6 +230,7 @@ define("bba/Core",
                         if (pos == -1) bba.tabs.push(options.tabId);
 
                         if (registry.byId('login')) return login.show();
+                        if (registry.byId('error')) return error.show();
 
                         pattern = /Fatal error/;
                         if (pattern.test(dom.byId(options.tabId).innerHTML)) {
@@ -250,17 +254,19 @@ define("bba/Core",
 
                         return true;
                     },
-                    onDownloadError : function(error) {
+                    /*onDownloadError : function(error, ioargs) {
+                    	
                         xhr.post({
                             url: options.url,
                             content: options.content,
                             handleAs: 'text',
                             preventCache: true,
-                            error: function(error) {
-                                bba.showXhrError(error);
+                            error: function(error, ioargs) {
+                            	console.log(error.responseText)
+                                //bba.showXhrError(error);
                             }
                         });
-                    }
+                    }*/
                 });
 
                 tc.addChild(pane);
@@ -284,6 +290,8 @@ define("bba/Core",
                     parser.parse('dialog');
                     dialog = registry.byId(options.dialog);
                     pageStandby.hide();
+                    
+                    if (registry.byId('error')) return error.show();
 
                     if (dialog) {
                         bba.setupDialog(dialog);
@@ -295,9 +303,9 @@ define("bba/Core",
 
                     dialog.show();
                 },
-                error: function(error) {
+                /*error: function(error) {
                     bba.showXhrError(error);
-                }
+                }*/
             });
 
             def.then(options.deferredFunction);
@@ -367,18 +375,19 @@ define("bba/Core",
 
                     dialog.show();
                 },
-                error: function(error) {
+                /*error: function(error) {
                     bba.showXhrError(error);
-                }
+                }*/
             });
         },
 
-        showXhrError : function(data)
+        /*showXhrError : function(data)
         {
+        	console.log(data);
             dom.byId('errorDialog').innerHTML = data.responseText;
             parser.parse('errorDialog');
             error.show();
-        },
+        },*/
 
         docFileList : function(fileArray, id)
         {
@@ -400,9 +409,9 @@ define("bba/Core",
 
                     dialog.show();
                 },
-                error: function(error) {
+                /*error: function(error) {
                     bba.showXhrError(error);
-                }
+                }*/
             });
         }
     };

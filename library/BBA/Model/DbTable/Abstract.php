@@ -67,6 +67,16 @@ abstract class BBA_Model_DbTable_Abstract extends ZendSF_Model_DbTable_Abstract
 
         return $data;
     }
+    
+    protected function _getTablesValue($name)
+    {
+    	return new Zend_Db_Expr('(
+    		SELECT tables_value
+    		FROM tables
+    		WHERE tables_key = ' . $name . '
+    		AND tables_name = "' . $name . '"
+    	)');
+    }
 
     public function insert(array $data)
     {

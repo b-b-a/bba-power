@@ -67,8 +67,12 @@
                     <td><?php echo $this->tender->tender_chargeSettlement; ?></td>
                 </tr>
                 <tr>
-                    <th>Commission:</th>
-                    <td><?php echo $this->tender->tender_commission; ?></td>
+                    <th>Commission Rate:</th>
+                    <td><?php echo $this->tender->tender_commission." (Pence / Unit)";?></td>
+                </tr>
+                <tr>
+                    <th>Commission Fee:</th>
+                    <td><?php echo $this->tender->tender_fee." (£ / Year)";?></td>
                 </tr>
             </table>
 
