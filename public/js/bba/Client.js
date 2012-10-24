@@ -309,8 +309,6 @@ define("bba/Client",
             bba.closeDialog(clientForm);
             pageStandby.show();
             data = arguments[0];
-            
-            console.log(data);
 
             dom.byId('dialog').innerHTML = data.html;
             parser.parse('dialog');
