@@ -1,0 +1,23 @@
+<?php
+$this->dojo()->requireModule('bba/Core', true);
+/* @var $error Exception */
+$error = $this->message;
+?>
+<div data-dojo-type="dijit.Dialog" data-dojo-props="title:'BBA Power ACL'" data-dojo-id="error" id="error" class="acl-error">
+    <div class="dijitDialogPaneContentArea">
+        <h4>Oh dear, you have been very naughty so your access to
+            this area has been denied</h4>
+        <p>Click<a href="<?php echo $this->baseUrl(); ?>">here</a>
+         to go to the home page</p>
+        <button data-dojo-type="dijit.form.Button">
+            Close
+            <script type="dojo/method" data-dojo-event="onClick">
+                //window.location = "<?php echo $this->baseUrl(); ?>/";
+                return bba.closeDialog(error);
+            </script>
+        </button>
+    </div>
+    <script type="dojo/method" data-dojo-event="onHide">
+    	return bba.closeDialog(error);
+    </script>
+</div>

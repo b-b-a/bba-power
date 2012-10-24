@@ -328,9 +328,6 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         // get filtered values, this also uploads the files.
         $data = $docForm->getValues();
         
-        $log = Zend_Registry::get('log');
-        $log->info($id);
-        
         // add meter to contract if set.
         if ($post['meter_idMeter']) {
         	$meterId = (int) $post['meter_idMeter'];
@@ -482,7 +479,11 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
-        $this->_acl->allow('user', $this)
+        $this->_acl
+        	->allow('client', $this, array(
+        	'saveMetersToContract', 'editContract'
+        	))
+        	->allow('user', $this)
             ->allow('admin', $this);
 
         return $this;

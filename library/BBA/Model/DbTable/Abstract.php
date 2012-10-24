@@ -56,6 +56,18 @@ abstract class BBA_Model_DbTable_Abstract extends ZendSF_Model_DbTable_Abstract
         
         $this->_rowPrefix = strstr($primary, '_', true);
     }
+    
+    protected function _getAccessClient($select, $table)
+    {
+        $auth = Zend_Auth::getInstance();
+        $access = $auth->getIdentity()->getUser_accessClient(true);
+        
+        if ($access != '') {
+            return $select->where($table . '_idClient IN (' . $access . ')');
+        }
+        
+        return $select;
+    }
 
     protected function _checkConstraints($data)
     {

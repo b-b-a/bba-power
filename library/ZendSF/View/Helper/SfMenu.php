@@ -295,7 +295,7 @@ class ZendSF_View_Helper_SfMenu extends Zend_View_Helper_Navigation_Menu
 
     public function getAcl()
     {
-        if (!$this->_acl instanceof ZendSF_Acl_Abstarct) {
+        if (!$this->_acl instanceof Zend_Acl) {
             // get the acl model of the current module.
             $front = Zend_Controller_Front::getInstance();
             $curModule = ucfirst($front->getRequest()->getModuleName());

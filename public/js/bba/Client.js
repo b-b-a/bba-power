@@ -305,9 +305,7 @@ define("bba/Client",
         },
 
         processClientForm : function()
-        {
-        	console.log('processClientForm');
-        	
+        {	
             bba.closeDialog(clientForm);
             pageStandby.show();
             data = arguments[0];
@@ -330,7 +328,7 @@ define("bba/Client",
                 }
             } else {
                 bba.setupDialog(clientForm);
-                this.setupDocEvents();
+                bba.Client.setupDocEvents();
                 clientForm.show();
             }
         },

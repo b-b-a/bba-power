@@ -59,9 +59,8 @@ class Power_ClientController extends Zend_Controller_Action
      */
     public function preDispatch()
     {
-
-        if ($this->_helper->acl('Guest')) {
-            return $this->_forward('login', 'auth');
+        if (!$this->_helper->acl('Client', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
         }
     }
 
@@ -75,15 +74,18 @@ class Power_ClientController extends Zend_Controller_Action
 
             switch ($request->getParam('type')) {
                 case 'client':
-                    $data = $this->_model->getCached('client')
+                    $data = $this->_model
+                        //->getCached('client')
                     	->getClientDataStore($request->getPost());
                     break;
                 case 'address':
-                    $data = $this->_model->getCached('clientAddress')
+                    $data = $this->_model
+                        //->getCached('clientAddress')
                     	->getClientAddressDataStore($request->getPost());
                     break;
                 case 'personnel':
-                    $data = $this->_model->getCached('clientPersonnel')
+                    $data = $this->_model
+                        //->getCached('clientPersonnel')
                     	->getClientPersonnelDataStore($request->getPost());
                     break;
                 default :
@@ -99,6 +101,10 @@ class Power_ClientController extends Zend_Controller_Action
 
     public function indexAction()
     {
+        if (!$this->_helper->acl('Client', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $urlHelper = $this->_helper->getHelper('url');
         $form = $this->_model->getForm('clientSearch')
             ->populate($this->getRequest()->getPost());
@@ -123,8 +129,8 @@ class Power_ClientController extends Zend_Controller_Action
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
 
-        if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
+        if (!$this->_helper->acl('Client', 'add')) {
+            throw new Zend_Acl_Exception('Access Denied');
         }
 
         if ($request->isXmlHttpRequest() && $request->getPost('type') == 'add'
@@ -146,6 +152,10 @@ class Power_ClientController extends Zend_Controller_Action
 
     public function editClientAction()
     {
+        if (!$this->_helper->acl('Client', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
 
@@ -163,8 +173,8 @@ class Power_ClientController extends Zend_Controller_Action
             ));
 
             if ($this->_request->getParam('type') == 'edit') {
-                if (!$this->_helper->acl('User')) {
-                    throw new ZendSF_Acl_Exception('Access Denied');
+                if (!$this->_helper->acl('Client', 'edit')) {
+                    throw new Zend_Acl_Exception('Access Denied');
                 }
                 $this->render('edit-client-form');
             }
@@ -179,10 +189,6 @@ class Power_ClientController extends Zend_Controller_Action
 
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
-
-        if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
 
         if (!$request->isPost()) {
             return $this->_helper->redirector('index', 'client');
@@ -247,12 +253,12 @@ class Power_ClientController extends Zend_Controller_Action
 
     public function addClientAddressAction()
     {
+        if (!$this->_helper->acl('ClientAd', 'add')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
-
-        if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
 
         if ($request->getPost('clientAd_idClient') && $request->isXmlHttpRequest()
                 && $request->getPost('type') == 'add' && $request->isPost()) {
@@ -268,6 +274,10 @@ class Power_ClientController extends Zend_Controller_Action
 
     public function editClientAddressAction()
     {
+        if (!$this->_helper->acl('ClientAd', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
 
@@ -285,8 +295,8 @@ class Power_ClientController extends Zend_Controller_Action
             ));
 
             if ($this->_request->getParam('type') == 'edit') {
-                if (!$this->_helper->acl('User')) {
-                    throw new ZendSF_Acl_Exception('Access Denied');
+                if (!$this->_helper->acl('ClientAd', 'edit')) {
+                    throw new Zend_Acl_Exception('Access Denied');
                 }
                 $this->render('address-form');
             }
@@ -298,6 +308,10 @@ class Power_ClientController extends Zend_Controller_Action
     
     public function checkAddressDuplicatesAction()
     {
+        if (!$this->_helper->acl('ClientAd', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
     	$request = $this->getRequest();
     	 
     	if (!$request->isPost() && !$request->isXmlHttpRequest()) {
@@ -332,17 +346,13 @@ class Power_ClientController extends Zend_Controller_Action
     public function saveClientAddressAction()
     {
         $request = $this->getRequest();
-
-        $this->getHelper('viewRenderer')->setNoRender(true);
-        $this->_helper->layout->disableLayout();
-
-        if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
-
+        
         if (!$request->isPost()&& !$request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'client');
         }
+
+        $this->getHelper('viewRenderer')->setNoRender(true);
+        $this->_helper->layout->disableLayout();
 
         try {
             $saved = $this->_model->saveClientAddress($request->getPost());
@@ -384,13 +394,13 @@ class Power_ClientController extends Zend_Controller_Action
 
     public function addClientPersonnelAction()
     {
+        if (!$this->_helper->acl('ClientPers', 'add')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
         $this->getHelper('viewRenderer')->setNoRender(true);
-
-        if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
 
         if ($request->getPost('clientPers_idClient') && $request->isXmlHttpRequest()
                 && $request->getPost('type') == 'add' && $request->isPost()) {
@@ -406,13 +416,13 @@ class Power_ClientController extends Zend_Controller_Action
 
     public function editClientPersonnelAction()
     {
+        if (!$this->_helper->acl('ClientPers', 'edit')) {
+            throw new Zend_Acl_Exception('Access Denied');
+        }
+        
         $request = $this->getRequest();
         $this->_helper->layout->disableLayout();
         $this->getHelper('viewRenderer')->setNoRender(true);
-
-        if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
 
         if ($request->getPost('clientPers_idClientPersonnel') && $request->isXmlHttpRequest()
                 && $request->isPost()) {
@@ -437,10 +447,6 @@ class Power_ClientController extends Zend_Controller_Action
 
         $this->getHelper('viewRenderer')->setNoRender(true);
         $this->_helper->layout->disableLayout();
-
-        if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
-        }
 
         if (!$request->isPost()&& !$request->isXmlHttpRequest()) {
             return $this->_helper->redirector('index', 'client');

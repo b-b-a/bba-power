@@ -40,18 +40,14 @@
 class Power_IndexController extends Zend_Controller_Action
 {
     /**
-     * Initialization code.
-     */
-    public function init()
-    {
-        
-    }
-
-    /**
      * Default action
      */
     public function indexAction()
     {
+        if (!$this->_helper->acl('Index', 'view')) {
+            return $this->_forward('login', 'auth');
+        }
+        
         return $this->_helper->redirector('index', 'meter');
     }
     

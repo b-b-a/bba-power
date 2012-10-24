@@ -688,6 +688,8 @@ Messages
     width: 100px;
 }
 
+.acl-error { width: 400px; }
+
 /*
 Pagination
 */

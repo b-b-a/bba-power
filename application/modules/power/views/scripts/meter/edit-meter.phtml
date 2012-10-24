@@ -13,7 +13,7 @@
                                 (<?php echo $this->meter->meter_idMeter; ?>)
                             </span>
                         </span>
-                        <?php if ($this->isAllowed('User')): ?>
+                        <?php if ($this->isAllowed('Meter', 'edit')): ?>
                         <button data-dojo-type="dijit.form.Button">
                             Edit Details
                             <script type="dojo/method" data-dojo-event="onClick">
@@ -110,6 +110,7 @@
                         <?php endif; ?>
                     </td>
                 </tr>
+                 <?php if ($this->isAllowed('BBAView')): ?>
                 <tr>
                     <th>Commission:</th>
                     <td><?php if ($contract->getTenderSelected()): ?>
@@ -119,6 +120,7 @@
                         <?php endif; ?>
                     </td>
                 </tr>
+                <?php endif; ?>
                 <tr>
                     <th>Peak kVA:</th>
                     <td><?php echo $this->escape($contract->meterContract_kvaNominated); ?></td>
@@ -146,7 +148,7 @@
              data-dojo-type="dijit.layout.TabContainer"
              data-dojo-props="region: 'center', tabStrip: 'true', splitter: 'true'"
              class="innerTabs">
-
+			<?php if ($this->isAllowed('MeterUsage', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="title: 'Consumption'">
 
@@ -164,14 +166,16 @@
                         sortInfo: "-2",
                         selectable: true,
                         noDataMessage : bba.gridMessage'>
-                    <?php if ($this->isAllowed('MeterUsage')): ?>
+                    <?php if ($this->isAllowed('MeterUsage', 'edit')): ?>
                     <script type="dojo/method" data-dojo-event="onRowClick">
                         bba.Meter.usageGridRowClick(this);
                     </script>
                     <?php endif; ?>
                 </table>
             </div>
-
+            <?php endif; ?>
+			
+			<?php if ($this->isAllowed('Contract', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="title: 'Contracts'">
 
@@ -192,7 +196,9 @@
                     </script>
                 </table>
             </div>
-            <?php if ($this->isAllowed('Admin')): ?>
+            <?php endif; ?>
+            
+            <?php if ($this->isAllowed('Invoice', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="title: 'Invoice Lines'">
 
@@ -223,8 +229,8 @@
          data-dojo-props="region: 'top'"
          class="tableHeadPane">
         <div class="tableHead">
-            <?php if ($this->isAllowed('MeterUsage')): ?>
             <p class="tableHead-button">
+                <?php if ($this->isAllowed('Contract', 'add')): ?>
             	<button data-dojo-type="dijit.form.Button">
                     New Contract
                     <script type="dojo/method" data-dojo-event="onClick">
@@ -235,6 +241,8 @@
                         });
                     </script>
                 </button>
+                <?php endif; ?>
+                <?php if ($this->isAllowed('MeterUsage', 'add')): ?>
                 <button data-dojo-type="dijit.form.Button"
                         data-dojo-props="onClick: bba.Meter.newUsageButtonClick"
                         type="button"
@@ -247,7 +255,7 @@
                         });
                     </script>
                 </button>
-
+                <?php endif; ?>
                 <form action="meter/print-meter" method="post" target="_blank">
 
                     <input type="hidden" name="meter_idMeter" value="<?php echo $this->meter->meter_idMeter; ?>" />
@@ -257,7 +265,6 @@
                 </form>
 
             </p>
-            <?php endif; ?>
         </div>
     </div>
 </div>

@@ -202,7 +202,7 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
      */
     public function editMeter(array $post)
     {
-    	if (!$this->checkAcl('Meter')) {
+    	if (!$this->checkAcl('editMeter')) {
     		throw new ZendSF_Acl_Exception('Insufficient rights');
     	}
     	
@@ -298,6 +298,7 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
 
         // implement rules here.
         $this->_acl->allow('meterUsage', $this, array('saveUsage'))
+        	->allow('client', $this, array('editMeter', 'saveUsage'))
             ->allow('user', $this)
             ->allow('admin', $this);
 

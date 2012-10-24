@@ -36,7 +36,8 @@
              data-dojo-type="dijit.layout.TabContainer"
              data-dojo-props="region: 'center', tabStrip: 'true'"
              class="innerTabs">
-
+			
+			<?php if ($this->isAllowed('InvoiceLine', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="title: 'Invoice Lines'">
 
@@ -59,6 +60,7 @@
                     </script>
                 </table>
             </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

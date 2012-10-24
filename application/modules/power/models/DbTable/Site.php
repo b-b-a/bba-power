@@ -126,24 +126,26 @@ class Power_Model_DbTable_Site extends BBA_Model_DbTable_Abstract
         if (!$search['site'] == '') {
             if (substr($search['site'], 0, 1) == '=') {
                 $id = (int) substr($search['site'], 1);
-                $select->where('site_idSite = ?', $id);
+                $select->where('(site_idSite = ?)', $id);
             } else {
-                $select->orWhere('clientAd_addressName like ?', '%' . $search['site'] . '%')
+                $select->orWhere('(clientAd_addressName like ?', '%' . $search['site'] . '%')
                     ->orWhere('clientAd_address1 like ?', '%' . $search['site'] . '%')
                     ->orWhere('clientAd_address2 like ?', '%' . $search['site'] . '%')
                     ->orWhere('clientAd_address3 like ?', '%' . $search['site'] . '%')
-                    ->orWhere('clientAd_postcode like ?', '%' . $search['site'] . '%');
+                    ->orWhere('clientAd_postcode like ?)', '%' . $search['site'] . '%');
             }
         }
 
-        if (!$search['client'] == '') {
-            $select->orWhere('client_name like ?', '%' . $search['client'] . '%')
-                ->orWhere('client_desc like ?', '%' . $search['client'] . '%');
+        else if (!$search['client'] == '') {
+            $select->orWhere('(client_name like ?', '%' . $search['client'] . '%')
+                ->orWhere('client_desc like ?)', '%' . $search['client'] . '%');
         }
 
         if (isset($search['idClient'])) {
             $select->where('site_idClient = ?', $search['idClient']);
         }
+        
+        $select = $this->_getAccessClient($select, 'site');
 
         return $select;
     }

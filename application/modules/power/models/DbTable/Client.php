@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Client extends BBA_Model_DbTable_Abstract
+class Power_Model_DbTable_Client extends Power_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -121,20 +121,22 @@ class Power_Model_DbTable_Client extends BBA_Model_DbTable_Abstract
         if (!$search['client'] == '') {
             if (substr($search['client'], 0, 1) == '=') {
                 $id = (int) substr($search['client'], 1);
-                $select->where('client_idClient = ?', $id);
+                $select->where('(client_idClient = ?)', $id);
             } else {
-                $select->orWhere('client_name like ?', '%' . $search['client'] . '%')
-                    ->orWhere('client_desc like ?', '%' . $search['client'] . '%');
+                $select->orWhere('(client_name like ?', '%' . $search['client'] . '%')
+                    ->orWhere('client_desc like ?)', '%' . $search['client'] . '%');
             }
         }
 
-        if (!$search['address'] == '') {
-            $select->orWhere('clientAd_addressName like ?', '%' . $search['address'] . '%')
+        else if (!$search['address'] == '') {
+            $select->orWhere('(clientAd_addressName like ?', '%' . $search['address'] . '%')
                 ->orWhere('clientAd_address1 like ?', '%' . $search['address'] . '%')
                 ->orWhere('clientAd_address2 like ?', '%' . $search['address'] . '%')
                 ->orWhere('clientAd_address3 like ?', '%' . $search['address'] . '%')
-                ->orWhere('clientAd_postcode like ?', '%' . $search['address'] . '%');
+                ->orWhere('clientAd_postcode like ?)', '%' . $search['address'] . '%');
         }
+        
+        $select = $this->_getAccessClient($select, 'client');
 
         return $select;
     }

@@ -58,6 +58,17 @@ class Power_Model_DbTable_User extends ZendSF_Model_DbTable_Abstract
     {
         return $this->find($id)->current();
     }
+    
+     /**
+     * @var array Reference map for parent tables
+     */
+    protected $_referenceMap = array(
+        'clientAccess'      => array(
+            'columns'       => 'user_accessClient',
+            'refTableClass' => 'Power_Model_DbTable_Client',
+            'refColumns'    => 'client_idClient'
+		)
+	);
 
     /**
      * Gets a single user from the database using their username.
@@ -110,5 +121,23 @@ class Power_Model_DbTable_User extends ZendSF_Model_DbTable_Abstract
         $result = $this->fetchRow($select);
 
         return $result->numRows;
+    }
+    
+    public function insert(array $data)
+    {
+        if ($data['user_accessClient'] == 0) {
+            $data['user_accessClient'] = null;
+        }
+
+        return parent::insert($data);
+    }
+
+    public function update(array $data, $where)
+    {
+        if ($data['user_accessClient'] == 0) {
+            $data['user_accessClient'] = null;
+        }
+
+        return parent::update($data, $where);
     }
 }

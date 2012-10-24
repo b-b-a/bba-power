@@ -219,7 +219,9 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
         parent::setAcl($acl);
 
         // implement rules here.
-        $this->_acl->allow('user', $this)
+        $this->_acl
+        	->allow('client', $this)
+        	->allow('user', $this)
             ->allow('admin', $this);
 
         return $this;

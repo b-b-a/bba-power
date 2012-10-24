@@ -17,7 +17,7 @@
 
             <div class="tableHead">
                 <h2 class="tableHead-heading">Sites:</h2>
-                <?php if ($this->isAllowed('User')): ?>
+                <?php if ($this->isAllowed('Site', 'add')): ?>
                 <p class="tableHead-button">
                     <button data-dojo-type="dijit.form.Button">
                         New Site

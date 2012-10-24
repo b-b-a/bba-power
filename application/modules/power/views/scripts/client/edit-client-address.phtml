@@ -13,7 +13,7 @@
                                 (<?php echo $this->clientAd->clientAd_idAddress; ?>)
                             </span>
                         </span>
-                        <?php if ($this->isAllowed('User')): ?>
+                        <?php if ($this->isAllowed('ClientAd', 'edit')): ?>
                         <button data-dojo-type="dijit.form.Button">
                             Edit Details
                             <script type="dojo/method" data-dojo-event="onClick">
@@ -58,7 +58,7 @@
              data-dojo-type="dijit.layout.TabContainer"
              data-dojo-props="region: 'center', tabStrip: 'true'"
              class="innerTabs">
-
+			<?php if ($this->isAllowed('ClientPers', 'view')): ?>
             <div data-dojo-type="dijit.layout.ContentPane"
                  data-dojo-props="region: 'center', title: 'Client Personnel'">
 
@@ -78,7 +78,7 @@
                         },
                         sortInfo: '2',
                         noDataMessage : bba.gridMessage">
-                    <?php if ($this->isAllowed('User')): ?>
+                    <?php if ($this->isAllowed('ClientPers', 'edit')): ?>
                     <script type="dojo/method" data-dojo-event="onRowClick">
                         bba.Client.clientPersGridRowClick(this, {
                             clientPers_idClient : <?php echo $this->clientAd->clientAd_idClient ?>,
@@ -88,6 +88,7 @@
                     <?php endif; ?>
                 </table>
             </div>
+            <?php endif; ?>
         </div>
     </div>
 
@@ -95,7 +96,7 @@
          data-dojo-props="region: 'top'"
          class="tableHeadPane">
         <div class="tableHead">
-            <?php if ($this->isAllowed('User')): ?>
+            <?php if ($this->isAllowed('ClientPers', 'add')): ?>
             <div class="tableHead">
                 <p class="tableHead-button">
                      <button data-dojo-type="dijit.form.Button">

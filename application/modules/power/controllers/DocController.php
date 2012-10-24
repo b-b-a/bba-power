@@ -59,8 +59,8 @@ class Power_DocController extends Zend_Controller_Action
      */
     public function preDispatch()
     {
-        if ($this->_helper->acl('Guest')) {
-            return $this->_forward('login', 'auth');
+        if (!$this->_helper->acl('Doc', 'view')) {
+            throw new Zend_Acl_Exception('Access Denied');
         }
     }
 

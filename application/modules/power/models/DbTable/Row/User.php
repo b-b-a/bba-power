@@ -39,20 +39,6 @@
  */
 class Power_Model_DbTable_Row_User extends ZendSF_Model_DbTable_Row_Abstract
 {
-    /**
-     * An array of user roles.
-     *
-     * @var array 
-     */
-    protected static $_roles = array(
-        'decline'       => 'Decline',
-        'agent'         => 'Agent',
-        'read'          => 'Read',
-        'meterUsage'    => 'Meter Usage',
-        'user'          => 'User',
-        'admin'         => 'Admin'
-    );
-
     public function getId()
     {
         return $this->getRow()->user_idUser;
@@ -70,12 +56,23 @@ class Power_Model_DbTable_Row_User extends ZendSF_Model_DbTable_Row_Abstract
 
     public function getUser_role()
     {
-        return self::$_roles[$this->getRow()->user_role];
+        return Power_Model_Acl_Power::$bbaRoles[$this->getRow()->user_role]['label'];
     }
 
     public static function getRoles()
     {
-        return self::$_roles;
+        return Power_Model_Acl_Power::$bbaRoles;
+    }
+    
+    public function getUser_accessClient($raw=false)
+    {
+        $client = ($raw) ? $this->getRow()->user_accessClient : 
+            $this->getRow()->findParentRow(
+                'Power_Model_DbTable_Client',
+                'clientAccess'
+            )->client_name;
+        
+        return $client;
     }
 
     /**
@@ -94,6 +91,9 @@ class Power_Model_DbTable_Row_User extends ZendSF_Model_DbTable_Row_Abstract
                 switch ($key) {
                     case 'user_role':
                         $array[$key] = $this->getUser_role();
+                        break;
+                    case 'user_accessClient':
+                        $array[$key] = $this->getUser_accessClient();
                         break;
                     default:
                         $array[$key] = $value;

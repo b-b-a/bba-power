@@ -60,10 +60,6 @@ class Power_AuthController extends Zend_Controller_Action
 
     public function loginAction()
     {
-        if (!$this->_helper->acl('Guest')) {
-            return $this->_forward('index', 'index');
-        }
-
         $request = $this->getRequest();
 
         if ($request->isXmlHttpRequest()) {
@@ -75,10 +71,6 @@ class Power_AuthController extends Zend_Controller_Action
 
     public function logoutAction()
     {
-        if (!$this->_helper->acl('Read')) {
-            return $this->_forward('login');
-        }
-
         $this->_authService->clear();
         return $this->_helper->redirector('index', 'index');
     }
@@ -86,10 +78,6 @@ class Power_AuthController extends Zend_Controller_Action
     public function authenticateAction()
     {
         $request = $this->getRequest();
-
-        if (!$this->_helper->acl('Guest')) {
-            return $this->_forward('login');
-        }
 
         if (!$request->isPost()) {
             return $this->_forward('login');
@@ -110,8 +98,8 @@ class Power_AuthController extends Zend_Controller_Action
         }
 
         // no access for agent or decline roles.
-        if ($this->_helper->acl('Agent') || $this->_helper->acl('Decline')) {
-            $e = new ZendSF_Acl_Exception('Access denied for '. Zend_Auth::getInstance()->getIdentity()->user_name);
+        if (!$this->_helper->acl('Auth')) {
+            $e = new Zend_Acl_Exception('Access denied for '. Zend_Auth::getInstance()->getIdentity()->user_name);
             $log = Zend_Registry::get('log');
             $log->info($e);
             $this->_authService->clear();

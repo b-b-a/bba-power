@@ -108,6 +108,8 @@ class Power_Model_DbTable_Tender extends BBA_Model_DbTable_Abstract
         $select = $this->getLimit($select, $count, $offset);
 
         $select = $this->getSortOrder($select, $sort);
+        
+        $select = $this->_getAccessClient($select, 'client');
 
         return $this->fetchAll($select);
     }
