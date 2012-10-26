@@ -239,6 +239,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     	
     	$form = $this->getForm('contractAdd');
     	
+    	$form->removeElement('contract_docTermination');
+    	
     	return $this->_saveContract($post, $form);
     }
     
@@ -249,6 +251,12 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     	}
     	 
     	$form = $this->getForm('contractEdit');
+    	
+    	$form->removeElement('contract_docAnalysis');
+    	$form->removeElement('contract_docContractSearchable');
+    	$form->removeElement('contract_docContractSignedClient');
+    	$form->removeElement('contract_docContractSignedBoth');
+    	$form->removeElement('contract_docTermination');
     	 
     	return $this->_saveContract($post, $form);
     }
@@ -293,7 +301,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             
         // if status is tender selected change endDate to
         // plus one year minus one day of tender contract period.
-        if ($contract &&  $data['contract_idTenderSelected'] > 0) {
+        /*if ($contract &&  $data['contract_idTenderSelected'] > 0) {
             $tender = $this->getDbTable('tender')->getTenderById($data['contract_idTenderSelected']);
             $date = new Zend_Date($data['contract_dateStart']);
             $date->add($tender->tender_periodContract, ZEND_DATE::MONTH);
@@ -302,7 +310,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             if (in_array($data['contract_status'], array('tender', 'choose', 'new'))) {
             	$data['contract_status'] = 'selected';
             }
-        }
+        }*/
 
         $id = $this->getDbTable('contract')->saveRow($data, $contract);
 
