@@ -337,11 +337,11 @@ define("bba/Client",
         
         validateClientAdForm : function()
         {
-        	clientAdFormStandby.show();
+        	//clientAdFormStandby.show();
         	
         	// first check form for errors.
         	if (!clientAdForm.validate()) {
-        		clientAdFormStandby.hide();
+        		//clientAdFormStandby.hide();
         		return false;
         	}
         	
@@ -373,7 +373,7 @@ define("bba/Client",
                         });
                         
                         connect.connect(addressDuplicates, 'onHide', function(){
-                        	clientAdFormStandby.hide();
+                        	//clientAdFormStandby.hide();
                         });
                         
                         connect.connect(dupsContinueButton, 'onClick', function(){
