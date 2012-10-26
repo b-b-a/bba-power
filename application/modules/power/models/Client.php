@@ -360,8 +360,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     {
         // format date for database.
         $dateValue =  ($data['client_dateExpiryLoa'] === '') ? '01-01-1970' : $data['client_dateExpiryLoa'];
-        $date = new Zend_Date($dateValue);
-        $date->set($date, Zend_Date::DATE_SHORT);
+        $date = new Zend_Date($dateValue, Zend_Date::DATE_SHORT);
+        //$date->set($date, Zend_Date::DATE_SHORT);
         $data['client_dateExpiryLoa'] = $date->toString('yyyy-MM-dd');
 
         $client = array_key_exists('client_idClient', $data) ?
