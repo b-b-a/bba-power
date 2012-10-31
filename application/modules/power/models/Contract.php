@@ -274,6 +274,17 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         // validate all forms.
         if (!$form->isValid($post) || !$docForm->isValid($post)) {
+        	$form->addElement($docForm->getElement('contract_docAnalysis'));
+    		$form->addElement($docForm->getElement('contract_docContractSearchable'));
+    		$form->addElement($docForm->getElement('contract_docContractSignedClient'));
+    		$form->addElement($docForm->getElement('contract_docContractSignedBoth'));
+    		$form->addElement($docForm->getElement('contract_docTermination'));
+    		
+    		$form->getElement('contract_docAnalysis')->setOrder(91);
+    		$form->getElement('contract_docContractSearchable')->setOrder(92);
+    		$form->getElement('contract_docContractSignedClient')->setOrder(93);
+    		$form->getElement('contract_docContractSignedBoth')->setOrder(94);
+    		$form->getElement('contract_docTermination')->setOrder(95);
             return false;
         }
 
