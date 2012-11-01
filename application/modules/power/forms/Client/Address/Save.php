@@ -66,6 +66,7 @@ class Power_Form_Client_Address_Save extends ZendSF_Dojo_Form_Abstract
 
         $this->addHiddenElement('clientAd_idAddress', '');
         $this->addHiddenElement('clientAd_idClient', '');
+        $this->addHiddenElement('site_idSite', '');
 
         $this->addElement('TextBox', 'clientAd_addressName', array(
             'label'         => 'Address Name:',

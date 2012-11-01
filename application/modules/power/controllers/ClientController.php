@@ -277,7 +277,9 @@ class Power_ClientController extends Zend_Controller_Action
             $clientAd = $this->_model->getClientAddressById($request->getPost('clientAd_idAddress'));
 
             $form = $this->_getForm('clientAddressSave', 'save-client-address');
-            $form->populate($clientAd->toArray());
+            $values = $clientAd->toArray();
+            $values['site_idSite'] = $request->getPost('site_idSite');
+            $form->populate($values);
 
             $this->view->assign(array(
                 'clientAd'              => $clientAd,

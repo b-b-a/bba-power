@@ -306,8 +306,6 @@ define("bba/Client",
 
         processClientForm : function()
         {
-        	console.log('processClientForm');
-        	
             bba.closeDialog(clientForm);
             pageStandby.show();
             data = arguments[0];
@@ -399,6 +397,8 @@ define("bba/Client",
         	pageStandby.show();
             values = arguments[0];
             values.type = (values.clientAd_idAddress) ? 'edit' : 'add';
+            
+            console.log(values);
 
             xhr.post({
                 url: './client/save-client-address',
@@ -414,7 +414,11 @@ define("bba/Client",
                         error.show();
                     } else if (data.saved > 0) {
                         if (values.clientAd_idAddress) {
-                            registry.byId('clientAd' + values.clientAd_idAddress).refresh();
+                        	if (values.site_idSite) {
+                        		registry.byId('site' + values.site_idSite).refresh();
+                        	} else {
+                        		registry.byId('clientAd' + values.clientAd_idAddress).refresh();
+                        	}
                         } else if (registry.byId('clientAdGrid' + values.clientAd_idClient)) {
                             registry.byId('clientAdGrid' + values.clientAd_idClient)._refresh();
                         }
