@@ -40,6 +40,10 @@
                     <td><?php echo $this->contract->contract_status; ?></td>
                 </tr>
                 <tr>
+                    <th>Customer Number:</th>
+                    <td><?php echo $this->contract->contract_numberCustomer; ?></td>
+                </tr>
+                <tr>
                     <th>Analysis Doc:</th>
                     <td>
                         <?php echo $this->DocAnalysis($this->contract)->getCurrentFile(); ?>
@@ -154,10 +158,6 @@
                 <tr>
                     <th>Reference:</th>
                     <td><?php echo $this->contract->contract_reference; ?></td>
-                </tr>
-                <tr>
-                    <th>Customer Number:</th>
-                    <td><?php echo $this->contract->contract_numberCustomer; ?></td>
                 </tr>
                 <tr>
                     <th>Billing Period:</th>
