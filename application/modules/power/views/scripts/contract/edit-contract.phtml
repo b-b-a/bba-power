@@ -139,28 +139,6 @@
                         <?php endif; ?>
                     </td>
                 </tr>
-                <tr>
-                    <th>Tender Decision Date:</th>
-                    <td><?php echo $this->formatDate($this->contract->contract_dateDecision); ?></td>
-                </tr>
-                <?php if ($this->contract->contract_idTenderSelected): ?>
-                <tr>
-                    <th>Tender Selected:</th>
-                    <td><?php echo $this->contract->contract_idTenderSelected; ?></td>
-                </tr>
-                <tr>
-                    <th>Supplier Name:</th>
-                    <td><?php echo $this->contract->getTenderSelected()->getSupplier('supplier_name'); ?></td>
-                </tr>
-                <tr>
-                    <th>Contract Period:</th>
-                    <td><?php echo $this->contract->getTenderSelected('tender_periodContract'); ?> Months</td>
-                </tr>
-                <?php else: ?>
-                <tr>
-                    <td colspan="2">No Tender Has Been Selected</td>
-                </tr>
-                <?php endif; ?>
             </table>
 
             <table class="info_wrap ident">
@@ -185,6 +163,36 @@
                     <th>Billing Period:</th>
                     <td><?php echo $this->contract->contract_periodBill; ?> (months)</td>
                 </tr>
+                <tr>
+                    <th>Tender Decision Date:</th>
+                    <td><?php echo $this->formatDate($this->contract->contract_dateDecision); ?></td>
+                </tr>
+                <?php if ($this->contract->contract_idTenderSelected): ?>
+                <tr>
+                    <th>Tender Selected:</th>
+                    <td><?php echo $this->contract->contract_idTenderSelected; ?></td>
+                </tr>
+                <tr>
+                    <th>Supplier Name:</th>
+                    <td><?php echo $this->contract->getTenderSelected()->getSupplier('supplier_name'); ?></td>
+                </tr>
+                <tr>
+                    <th>Contract Period:</th>
+                    <td><?php echo $this->contract->getTenderSelected('tender_periodContract'); ?> Months</td>
+                </tr>
+                <tr>
+                    <th>Commission Rate:</th>
+                    <td><?php echo $this->contract->getTenderSelected('tender_commission'); ?> (Pence / Unit)</td>
+                </tr>
+                <tr>
+                    <th>Commission Fee:</th>
+                    <td><?php echo $this->contract->getTenderSelected('tender_fee'); ?> (&pound; / Year)</td>
+                </tr>
+                <?php else: ?>
+                <tr>
+                    <td colspan="2">No Tender Has Been Selected</td>
+                </tr>
+                <?php endif; ?>
             </table>
 
             <table class="info_wrap ident">
