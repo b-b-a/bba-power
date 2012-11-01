@@ -1,3 +1,4 @@
+<?php $site = $this->meter->getSite(); ?>
 <div data-dojo-type="dijit.layout.BorderContainer"
      data-dojo-props="design: 'headline'"
      class="tabContainer">
@@ -24,6 +25,10 @@
                         </button>
                         <?php endif; ?>
                     </td>
+                </tr>
+                <tr>
+                    <th>Client:</th>
+                    <td><?php echo $site->getClient('client_name'); ?></td>
                 </tr>
                 <tr>
                     <th>Type:</th>
@@ -56,14 +61,12 @@
                 </tr>
             </table>
 
-            <?php $site = $this->meter->getSite(); ?>
             <table class="info_wrap ident">
                 <caption>Site <span class="id_number">(<?php echo $site->site_idSite; ?>)</span></caption>
                 <tr>
                     <td><?php
                         echo $this->formatAddress(array(
-                            '(' . $site->getSiteAddress('clientAd_addressName') . ')',
-                            $site->getClient('client_name'),
+                            $site->getSiteAddress('clientAd_addressName'),
                             $site->getSiteAddress('clientAd_address1'),
                             $site->getSiteAddress('clientAd_address2'),
                             $site->getSiteAddress('clientAd_address3'),
@@ -75,16 +78,8 @@
 
             <?php $contract = $this->meter->getCurrentContract(); ?>
             <table class="info_wrap ident contract_info">
-                <caption>Contract Info: <span class="id_number">(<?php echo $this->escape($contract->contract_idContract); ?>)</span></caption>
+                <caption>Current Contract: <span class="id_number">(<?php echo $this->escape($contract->contract_idContract); ?>)</span></caption>
                 <?php if ($contract->contract_idContract): ?>
-                <tr>
-                    <th>Reference:</th>
-                    <td><?php echo $this->escape($contract->contract_reference); ?></td>
-                </tr>
-                <tr>
-                    <th>Description:</th>
-                    <td class="description"><?php echo $this->escape($contract->getShortDesc()); ?></td>
-                </tr>
                 <tr>
                     <th>Type:</th>
                     <td><?php echo $this->escape($contract->contract_type); ?></td>
@@ -102,23 +97,31 @@
                     <td><?php echo $this->formatDate($contract->contract_dateEnd); ?></td>
                 </tr>
                 <tr>
-                    <th>Supplier:</th>
-                    <td><?php if ($contract->getTenderSelected()): ?>
-                            <?php echo $this->escape($contract->getTenderSelected()->getSupplier('supplier_name')); ?>
-                        <?php else: ?>
-                            No Supplier Has Been Selected
-                        <?php endif; ?>
-                    </td>
+                    <th>Reference:</th>
+                    <td><?php echo $this->escape($contract->contract_reference); ?></td>
                 </tr>
                 <tr>
-                    <th>Commission:</th>
-                    <td><?php if ($contract->getTenderSelected()): ?>
-                            <?php echo $this->escape($contract->getTenderSelected('tender_commission')); ?> (pence / unit)
-                        <?php else: ?>
-                            No Tender Has Been Selected
-                        <?php endif; ?>
-                    </td>
+                    <th>Description:</th>
+                    <td class="description"><?php echo $this->escape($contract->getShortDesc()); ?></td>
                 </tr>
+                <?php if ($contract->contract_idTenderSelected): ?>
+                <tr>
+                    <th>Supplier:</th>
+                    <td><?php echo $this->escape($contract->getTenderSelected()->getSupplier('supplier_name')); ?></td>
+                </tr>
+                <tr>
+                    <th>Commission Rate:</th>
+                    <td><?php echo $this->escape($contract->getTenderSelected('tender_commission')); ?> (pence / unit)</td>
+                </tr>
+                <tr>
+                    <th>Commission Fee:</th>
+                    <td><?php echo $this->escape($contract->getTenderSelected('tender_fee')); ?> (&pound; / Year)</td>
+                </tr>
+                <?php else: ?>
+                <tr>
+                    <td colspan="2">- No Tender Has Been Selected -</td>
+                </tr>
+                <?php endif; ?>
                 <tr>
                     <th>Peak kVA:</th>
                     <td><?php echo $this->escape($contract->meterContract_kvaNominated); ?></td>
