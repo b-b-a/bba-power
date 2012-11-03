@@ -101,7 +101,8 @@ class Power_Model_DbTable_Supplier extends BBA_Model_DbTable_Abstract
                 'client_name'
             ))
             ->group('contract_idContract')
-            ->where('supplier_idSupplier = ?', $id);
+            ->where('supplier_idSupplier = ?', $id)
+            ->where('tender_idTender = contract_idTenderSelected');
 
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
