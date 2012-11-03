@@ -307,7 +307,7 @@ define("bba/Client",
         processClientForm : function()
         {
             bba.closeDialog(clientForm);
-            pageStandby.show();
+            bba.pageStandby.show();
             data = arguments[0];
 
             dom.byId('dialog').innerHTML = data.html;
@@ -375,14 +375,14 @@ define("bba/Client",
                         });
                         
                         connect.connect(dupsContinueButton, 'onClick', function(){
-                        	pageStandby.show();
+                        	bba.pageStandby.show();
                         	addressDuplicates.hide();
                         	bba.Client.processClientAdForm(formValues);
                         });
                 		
                 		addressDuplicates.show();
                 	} else {
-                		pageStandby.show();
+                		bba.pageStandby.show();
                 		bba.Client.processClientAdForm(formValues);
                 	}
                 }
@@ -394,7 +394,7 @@ define("bba/Client",
         processClientAdForm : function()
         {
             bba.closeDialog(clientAdForm);
-        	pageStandby.show();
+        	bba.pageStandby.show();
             values = arguments[0];
             values.type = (values.clientAd_idAddress) ? 'edit' : 'add';
             
@@ -408,7 +408,7 @@ define("bba/Client",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
-                    pageStandby.hide();
+                    bba.pageStandby.hide();
 
                     if (data.error) {
                         error.show();
@@ -439,7 +439,7 @@ define("bba/Client",
         processClientPersForm : function()
         {
             //bba.closeDialog(clientCoForm);
-        	pageStandby.show();
+        	bba.pageStandby.show();
             values = arguments[0];
             values.type = (values.clientPers_idClientPersonnel) ? 'edit' : 'add';
 
@@ -451,8 +451,7 @@ define("bba/Client",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
-                    pageStandby.hide();
-
+                    bba.pageStandby.hide();
                     if (data.error) {
                         error.show();
                     } else if (data.saved > 0) {
@@ -478,9 +477,9 @@ define("bba/Client",
 
         setupDocEvents : function()
         {
-            docClick = connect.connect(dom.byId('client_docLoa_file'), "onclick", function(){
+            /*docClick = connect.connect(dom.byId('client_docLoa_file'), "onclick", function(){
                 query('input[name=client_docLoa]')[0].click();
-            });
+            });*/
 
             docChange = connect.connect(client_docLoa, "onChange", function(fileArray){
                 bba.docFileList(fileArray, 'client_docLoa_file');
@@ -567,7 +566,7 @@ define("bba/Client",
                         });
                         
                         connect.connect(dupsContinueButton, 'onClick', function(){
-                        	pageStandby.show();
+                        	bba.pageStandby.show();
                         	addressDuplicates.hide();
                         	client_docLoa.submit(vals);
                         });

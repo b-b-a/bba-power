@@ -151,12 +151,25 @@ define("bba/Core",
 
         pageLoaded : function()
         {
-            loader = dom.byId("loader");
-            loader.style.display = "none";
-
+        	bba.pageStandby.hide();
+        	
             if (registry.byId('error')) {
                 error.show();
             }
+        },
+        
+        pageStandby : {
+        	show : function()
+        	{
+        		loader = dom.byId("loader");
+                loader.style.display = "block";
+        	},
+        	
+        	hide : function()
+        	{
+        		loader = dom.byId("loader");
+                loader.style.display = "none";
+        	}
         },
 
         setPref : function(pref, val)
@@ -253,20 +266,7 @@ define("bba/Core",
                         }
 
                         return true;
-                    },
-                    /*onDownloadError : function(error, ioargs) {
-                    	
-                        xhr.post({
-                            url: options.url,
-                            content: options.content,
-                            handleAs: 'text',
-                            preventCache: true,
-                            error: function(error, ioargs) {
-                            	console.log(error.responseText)
-                                //bba.showXhrError(error);
-                            }
-                        });
-                    }*/
+                    }
                 });
 
                 tc.addChild(pane);
@@ -278,7 +278,7 @@ define("bba/Core",
 
         openFormDialog : function(options)
         {
-        	pageStandby.show();
+        	bba.pageStandby.show();
         	
             def = xhr.post({
                 url: options.url,
@@ -289,7 +289,7 @@ define("bba/Core",
                     dom.byId('dialog').innerHTML = data;
                     parser.parse('dialog');
                     dialog = registry.byId(options.dialog);
-                    pageStandby.hide();
+                    bba.pageStandby.hide();
                     
                     if (registry.byId('error')) return error.show();
 
@@ -302,10 +302,7 @@ define("bba/Core",
                     }
 
                     dialog.show();
-                },
-                /*error: function(error) {
-                    bba.showXhrError(error);
-                }*/
+                }
             });
 
             def.then(options.deferredFunction);
@@ -374,20 +371,9 @@ define("bba/Core",
                     }
 
                     dialog.show();
-                },
-                /*error: function(error) {
-                    bba.showXhrError(error);
-                }*/
+                }
             });
         },
-
-        /*showXhrError : function(data)
-        {
-        	console.log(data);
-            dom.byId('errorDialog').innerHTML = data.responseText;
-            parser.parse('errorDialog');
-            error.show();
-        },*/
 
         docFileList : function(fileArray, id)
         {
@@ -408,10 +394,7 @@ define("bba/Core",
                     bba.setupDialog(dialog);
 
                     dialog.show();
-                },
-                /*error: function(error) {
-                    bba.showXhrError(error);
-                }*/
+                }
             });
         }
     };

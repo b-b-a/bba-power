@@ -407,6 +407,7 @@ define("bba/Contract",
         
         validateContractForm : function()
         {	
+        	contractFormStandby.show();
         	formValues = contractForm.getValues();
         	
         	if (formValues.contract_idClient == '0') {
@@ -435,6 +436,7 @@ define("bba/Contract",
         	
         	// first check form for errors.
         	if (!contractForm.validate()) {
+        		contractFormStandby.hide();
         		return false;
         	}
         	
@@ -467,20 +469,18 @@ define("bba/Contract",
                         
                         connect.connect(dupsCloseButton, 'onClick', function(){
                         	contractDuplicates.hide();
-                        	//contractFormStandby.hide();
+                        	contractFormStandby.hide();
                         });
                         
                         connect.connect(dupsContinueButton, 'onClick', function(){
-                        	pageStandby.show();
+                        	bba.pageStandby.show();
                         	contractDuplicates.hide();
-                        	//contractFormStandby.hide();
                         	contract_docTermination.submit();
                         });
                 		
                 		contractDuplicates.show();
                 	} else {
-                		pageStandby.show();
-                		//contractFormStandby.hide();
+                		bba.pageStandby.show();
                 		contract_docTermination.submit();
                 	}
                 }
@@ -491,13 +491,15 @@ define("bba/Contract",
 
         processContractForm : function()
         {
-            bba.closeDialog(contractForm);
-
+        	contractFormStandby.hide();
+        	bba.pageStandby.hide();
+        	bba.closeDialog(contractForm);
+        	console.log(arguments[0]);
+        	
             data = arguments[0];
 
             dom.byId('dialog').innerHTML = data.html;
             parser.parse('dialog');
-            pageStandby.hide();
 
             if (data.error) {
                 error.show();
@@ -525,7 +527,7 @@ define("bba/Contract",
         processTenderForm : function()
         {
             //bba.closeDialog(tenderForm);
-        	pageStandby.show();
+        	bba.pageStandby.hide();
             values = arguments[0];
             values.type = (values.tender_idTender) ? 'edit' : 'add';
 
@@ -537,7 +539,7 @@ define("bba/Contract",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
-                    pageStandby.hide();
+                    bba.pageStandby.hide();
                     
                     if (data.error) {
                         error.show();
@@ -571,13 +573,15 @@ define("bba/Contract",
 
             array.forEach(docs, function(item, idx){
                 if (registry.byId(item)) {
-                    if (idx < 4) {
-                        registry.byId(item).submit = function(){return false;}
-                    }
-
-                    connect.connect(dom.byId(item + '_file'), "onclick", function(){
+                	//connect.connect(item, "onSubmit", function(){return false;});
+                	if (idx < 4) {
+                		registry.byId(item).submit = function(){return false;};
+                	}
+                	
+                	// IE9 Does not allow this method of uploading.
+                    /*connect.connect(dom.byId(item + '_file'), "onclick", function(){
                         query('input[name=' + item + ']')[0].click();
-                    });
+                    });*/
 
                     connect.connect(registry.byId(item), "onChange", function(fileArray){
                         bba.docFileList(fileArray, item + '_file');
@@ -590,10 +594,9 @@ define("bba/Contract",
             
             connect.connect(contractForm, "onKeyPress", function(evt){
             	if (evt.keyCode == 13) dojo.stopEvent(evt);
-                
             });
         }
-    }
+    };
 
     return bba.Contract;
 });
