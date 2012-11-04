@@ -216,9 +216,9 @@ define("bba/Client",
                     content: dojo.mixin({type : 'edit'}, contentVars),
                     dialog: 'clientForm',
                     deferredFunction: function() {
-                        this.setupDocEvents();
-                        this.dateExpiryLoa = clientForm.getValues().client_dateExpiryLoa;
-                    }.bind(this)
+                    	bba.Client.setupDocEvents();
+                    	bba.Client.dateExpiryLoa = clientForm.getValues().client_dateExpiryLoa;
+                    }
                 });
             } else {
                 clientForm.show();
@@ -275,7 +275,7 @@ define("bba/Client",
                 return false;
             }
 
-            oldDate = (this.dateExpiryLoa) ? new Date(this.dateExpiryLoa) : new Date('01/01/1970');
+            oldDate = (bba.Client.dateExpiryLoa) ? new Date(bba.Client.dateExpiryLoa) : new Date('01/01/1970');
             newDate = new Date(formValues.client_dateExpiryLoa.replace(/\./g, '/'));
 
             // if newDate is newer than oldDate validate form.
@@ -297,6 +297,7 @@ define("bba/Client",
                     connect.connect(clientNoButton, 'onClick', function(){
                     	clientFormStandby.hide();
                         clientFormLoaDate.hide();
+                        bba.pageStandby.hide();
                     });
                 },
                 onHide : function() {
@@ -536,13 +537,17 @@ define("bba/Client",
         
         wizardDoneFunction : function()
         {
-            if (!clientForm.validate()) {
+        	clientFormStandby.show();
+        	
+        	if (!clientForm.validate()) {
                 alert('Please recheck all form entries for mistakes.');
+                clientFormStandby.hide();
                 return false;
             }
             
             if (clientForm.getValues().client_docLoa[0] && clientForm.getValues().client_dateExpiryLoa === '') {
                 bba.Client.clientLoaEmptyDialog();
+                clientFormStandby.hide();
                 return false;
             }
         	
@@ -566,11 +571,11 @@ define("bba/Client",
                         
                         connect.connect(dupsCloseButton, 'onClick', function(){
                         	addressDuplicates.hide();
-                        	
+                        	clientFormStandby.hide();
                         });
                         
                         connect.connect(dupsContinueButton, 'onClick', function(){
-                        	bba.pageStandby.show();
+                        	//bba.pageStandby.show();
                         	addressDuplicates.hide();
                         	client_docLoa.submit(vals);
                         });
