@@ -340,11 +340,11 @@ define("bba/Client",
         
         validateClientAdForm : function()
         {
-        	//clientAdFormStandby.show();
+        	clientAdFormStandby.show();
         	
         	// first check form for errors.
         	if (!clientAdForm.validate()) {
-        		//clientAdFormStandby.hide();
+        		clientAdFormStandby.hide();
         		return false;
         	}
         	
@@ -371,12 +371,9 @@ define("bba/Client",
                         bba.setupDialog(addressDuplicates);
                         
                         connect.connect(dupsCloseButton, 'onClick', function(){
+                        	clientAdFormStandby.hide();
                         	addressDuplicates.hide();
                         	
-                        });
-                        
-                        connect.connect(addressDuplicates, 'onHide', function(){
-                        	//clientAdFormStandby.hide();
                         });
                         
                         connect.connect(dupsContinueButton, 'onClick', function(){
@@ -398,6 +395,7 @@ define("bba/Client",
 
         processClientAdForm : function()
         {
+        	clientAdFormStandby.hide();
             bba.closeDialog(clientAdForm);
         	bba.pageStandby.show();
             values = arguments[0];

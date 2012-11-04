@@ -527,7 +527,7 @@ define("bba/Contract",
         processTenderForm : function()
         {
             //bba.closeDialog(tenderForm);
-        	bba.pageStandby.hide();
+        	bba.pageStandby.show();
             values = arguments[0];
             values.type = (values.tender_idTender) ? 'edit' : 'add';
 

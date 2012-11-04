@@ -217,6 +217,7 @@ define("bba/Meter",
         
         meterFormValidate : function()
         {
+        	meterFormStandby.show();
         	formValues = meterForm.getValues();
         	
         	if ((formValues.meter_type == 'electric' 
@@ -243,6 +244,7 @@ define("bba/Meter",
                         
                     });
                     connect.connect(clientNoButton, 'onClick', function(){
+                    	meterFormStandby.hide();
                     	meterFormEmpty.hide();
                     });
                 },
@@ -257,8 +259,9 @@ define("bba/Meter",
 
         processMeterForm : function()
         {
-            bba.closeDialog(meterForm);
-        	pageStandby.show();
+        	meterFormStandby.hide();
+        	bba.closeDialog(meterForm);
+        	bba.pageStandby.show();
 
             values = arguments[0];
             values.type = (values.meter_idMeter) ? 'edit' : 'add';
@@ -271,7 +274,7 @@ define("bba/Meter",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
-                    pageStandby.hide();
+                    bba.pageStandby.hide();
 
                     if (data.error) {
                         error.show();
@@ -296,7 +299,7 @@ define("bba/Meter",
         processUsageForm : function()
         {
             //bba.closeDialog(usageForm);
-        	pageStandby.show();
+        	bba.pageStandby.show();
             values = arguments[0];
             values.type = (values.usage_idUsage) ? 'edit' : 'add';
 
@@ -308,7 +311,7 @@ define("bba/Meter",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
-                    pageStandby.hide();
+                    bba.pageStandby.hide();
 
                     if (data.error) {
                         error.show();

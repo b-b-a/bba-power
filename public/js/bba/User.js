@@ -102,7 +102,7 @@ define("bba/User",
         processUserForm : function()
         {
             //bba.closeDialog(userForm);
-        	pageStandby.show();
+        	bba.pageStandby.show();
 
             values = arguments[0];
             values.type = (values.user_idUser) ? 'edit' : 'add';
@@ -116,7 +116,7 @@ define("bba/User",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
-                    pageStandby.hide();
+                    bba.pageStandby.hide();
 
                     if (data.error) {
                         error.show();
