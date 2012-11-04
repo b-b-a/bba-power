@@ -421,7 +421,7 @@ define("bba/Contract",
         	        'contract_type-electric-temp',
         	        'contract_type-gas',
         	        'contract_type-water'
-        	    ]
+        	    ];
         	    
         	    array.forEach(conTypes, function(item){
         	        registry.byId(item).attr('style', 'border: 1px solid red;');

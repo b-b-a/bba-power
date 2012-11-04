@@ -261,14 +261,17 @@ define("bba/Client",
 
         clientFormValidate : function()
         {
+        	clientFormStandby.show();
             formValues = clientForm.getValues();
             
             if (!formValues.client_docLoa[0]) {
+            	//clientFormStandby.hide();
                 return clientForm.validate();
             }
 
             if (formValues.client_dateExpiryLoa === '') {
                 bba.Client.clientLoaEmptyDialog();
+                clientFormStandby.hide();
                 return false;
             }
 
@@ -292,6 +295,7 @@ define("bba/Client",
                         clientFormLoaDate.hide();
                     });
                     connect.connect(clientNoButton, 'onClick', function(){
+                    	clientFormStandby.hide();
                         clientFormLoaDate.hide();
                     });
                 },
@@ -306,13 +310,13 @@ define("bba/Client",
 
         processClientForm : function()
         {
-            bba.closeDialog(clientForm);
-            bba.pageStandby.show();
+        	clientFormStandby.hide();
+        	bba.closeDialog(clientForm);
+            bba.pageStandby.hide();
             data = arguments[0];
 
             dom.byId('dialog').innerHTML = data.html;
             parser.parse('dialog');
-            pageStandby.hide();
 
             if (data.error) {
                 error.show();
@@ -328,7 +332,7 @@ define("bba/Client",
                 }
             } else {
                 bba.setupDialog(clientForm);
-                this.setupDocEvents();
+                bba.Client.setupDocEvents();
                 clientForm.show();
             }
         },
