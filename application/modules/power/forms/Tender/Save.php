@@ -37,31 +37,21 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Tender_Save extends BBA_Dojo_Form_Abstract
+class Power_Form_Tender_Save extends ZendSF_Dojo_Form_Abstract
 {
-    protected $_simpleTextareaDecorators = array(
-        'DijitElement',
-        'Errors',
-        'Description',
-        array(
-            array('data' => 'HtmlTag'),
-            array(
-                'tag' => 'p',
-                'class' => 'element'
-            )
-        ),
-        array(
-            'Label',
-            array('tag' => 'p')
-        ),
-        array(
-            array('row' => 'HtmlTag'),
-            array(
-                'tag' => 'div',
-                'class' => 'form_row simple-textarea'
-            )
-        )
-    );
+    protected $_defaultDecorators = array(
+		'Description',
+		'FormElements',
+		array(
+			'HtmlTag',
+			array(
+				'tag'   => 'table',
+				'class' => 'zend_form'
+			)
+		)
+	);
+	
+	protected $_hiddenDecorators = array('ViewHelper');
 
     public function init()
     {
@@ -74,6 +64,9 @@ class Power_Form_Tender_Save extends BBA_Dojo_Form_Abstract
         } else {
             $supplier = null;
         }
+        
+        $this->addHiddenElement('tender_idTender', '');
+        $this->addHiddenElement('tender_idContract', '');
 
         $this->addElement('FilteringSelect', 'tender_idSupplier', array(
             'label' => 'Supplier:',
@@ -271,16 +264,62 @@ class Power_Form_Tender_Save extends BBA_Dojo_Form_Abstract
             'Description' => '(£ / Year)'
         ));
 
-        $this->addElement('SimpleTextarea', 'tender_desc', array(
+        $this->addElement('ZendSFDojoSimpleTextarea', 'tender_desc', array(
             'label' => 'Description:',
             'required' => false,
-            'filters' => array('StripTags', 'StringTrim'),
-            'decorators' => $this->_simpleTextareaDecorators
+            'filters' => array('StripTags', 'StringTrim')
         ));
-
-        $this->addHiddenElement('tender_idTender', '');
-        $this->addHiddenElement('tender_idContract', '');
-
+        
+        $this->addElement('Button', 'tenderFormSubmitButton', array(
+        	'required'  => false,
+        	'ignore'    => true,
+        	'decorators'    => $this->_submitDecorators,
+        	'label'     => 'Submit',
+        	'value'     => 'Submit',
+        	'dijitParams'   => array(
+        		'onClick' => "return dijit.byId('tenderForm').validate();;"
+        	),
+        	'attribs' => array('type' => 'submit')
+        ));
+        
+        $this->addElement('Button', 'tenderFormCancelButton', array(
+        	'required'  => false,
+        	'ignore'    => true,
+        	'decorators'    => $this->_submitDecorators,
+        	'label'     => 'Cancel',
+        	'value'     => 'Cancel',
+        	'dijitParams'   => array(
+        		'onClick' => "return bba.closeDialog(dijit.byId('tenderForm'));"
+        	)
+        ));
+        
+        $this->addDisplayGroup(
+        	array(
+        		'tenderFormSubmitButton',
+        		'tenderFormCancelButton',
+        	),
+        	'Buttons',
+        	array(
+        		'decorators' => array(
+        			'FormElements',
+        			array(
+        				array('data' => 'HtmlTag'),
+        				array(
+        					'tag' => 'td',
+        					'class' => 'submitElement',
+        					'colspan' => '2'
+        				)
+        			),
+        			array(
+        				array('row' => 'HtmlTag'),
+        				array(
+        					'tag' => 'tr',
+        					'class' => 'form_row'
+        				)
+        			)
+        		)
+        	)
+        );
     }
 
 }
