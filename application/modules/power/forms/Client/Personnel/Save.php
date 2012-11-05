@@ -175,7 +175,7 @@ class Power_Form_Client_Personnel_Save extends ZendSF_Dojo_Form_Abstract
         		'label'     => 'Submit',
         		'value'     => 'Submit',
         		'dijitParams'   => array(
-        				'onClick' => "return dijit.byId('clientPersForm').validate()"
+        				'onClick' => "return bba.Client.validateClientPersForm();"
         		),
         		'attribs' => array('type' => 'submit')
         ));

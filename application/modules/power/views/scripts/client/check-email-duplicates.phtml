@@ -1,0 +1,32 @@
+<div data-dojo-type="dijit.Dialog"
+     id="emailDuplicates"
+     data-dojo-id="emailDuplicates"
+     title="Client Email Duplicates Found">
+    <div class="dijitDialogPaneContentArea" style="text-align: center;">
+        <table class="duplicateslistTable">
+            <caption>Duplicates Found</caption>
+            <tr>
+                <th>Id:</th>
+                <th>Personnel Name</th>
+                <th>Email</th>
+            </tr>
+
+            <?php foreach ($this->dups as $row): ?>
+            <tr>
+                <td><?php echo $this->escape($row->clientPers_idClientPersonnel); ?></td>
+                <td><?php echo $this->escape($row->clientPers_name); ?></td>
+                <td><?php echo $this->escape($row->clientPers_email); ?></td>
+            </tr>
+            <?php endforeach; ?>
+
+        </table>
+    </div>
+    <div class="dijitDialogPaneActionBar">
+        <button data-dojo-type="dijit.form.Button" data-dojo-id="dupsCloseButton" type="button">
+            Cancel
+        </button>
+        <button data-dojo-type="dijit.form.Button" data-dojo-id="dupsContinueButton" type="button">
+            Continue
+        </button>
+    </div>
+</div>

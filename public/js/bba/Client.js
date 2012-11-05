@@ -459,10 +459,58 @@ define("bba/Client",
                 }
             });
         },
+        
+        validateClientPersForm : function()
+        {
+        	clientPersFormStandby.show();
+            formValues = clientPersForm.getValues();
+            
+            if (!clientPersForm.validate()) {
+            	clientPersFormStandby.hide();
+                return false;
+            }
+            
+            xhr.post({
+                url: './client/check-email-duplicates',
+                content: formValues,
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                	if (data.dups) {
+                		
+                		console.log(data);
+                		
+                		dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+                        
+                        bba.setupDialog(emailDuplicates);
+                        
+                        connect.connect(dupsCloseButton, 'onClick', function(){
+                        	clientPersFormStandby.hide();
+                        	emailDuplicates.hide();
+                        	
+                        });
+                        
+                        connect.connect(dupsContinueButton, 'onClick', function(){
+                        	bba.pageStandby.show();
+                        	emailDuplicates.hide();
+                        	bba.Client.processClientPersForm(formValues);
+                        });
+                		
+                		emailDuplicates.show();
+                	} else {
+                		bba.pageStandby.show();
+                		bba.Client.processClientPersForm(formValues);
+                	}
+                }
+            });
+
+            return false;
+        },
 
         processClientPersForm : function()
         {
-            //bba.closeDialog(clientCoForm);
+            bba.closeDialog(clientPersForm);
         	bba.pageStandby.show();
             values = arguments[0];
             values.type = (values.clientPers_idClientPersonnel) ? 'edit' : 'add';
@@ -596,15 +644,54 @@ define("bba/Client",
                         connect.connect(dupsContinueButton, 'onClick', function(){
                         	//bba.pageStandby.show();
                         	addressDuplicates.hide();
-                        	client_docLoa.submit(vals);
+                        	bba.Client.checkEmail(vals);
                         });
                 		
                 		addressDuplicates.show();
                 	} else {
-                		client_docLoa.submit(vals);
+                		bba.Client.checkEmail(vals);
+                		//client_docLoa.submit(vals);
                 	}
                 }
         	});
+        },
+        
+        checkEmail : function(vals)
+        {
+        	xhr.post({
+                url: './client/check-email-duplicates',
+                content: vals,
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                	if (data.dups) {
+                		
+                		console.log(data);
+                		
+                		dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+                        
+                        bba.setupDialog(emailDuplicates);
+                        
+                        connect.connect(dupsCloseButton, 'onClick', function(){
+                        	clientPersFormStandby.hide();
+                        	emailDuplicates.hide();
+                        	
+                        });
+                        
+                        connect.connect(dupsContinueButton, 'onClick', function(){
+                        	//bba.pageStandby.show();
+                        	emailDuplicates.hide();
+                        	client_docLoa.submit(vals);
+                        });
+                		
+                		emailDuplicates.show();
+                	} else {
+                		//bba.pageStandby.show();
+                		client_docLoa.submit(vals);
+                	}
+                }
+            });
         }
     };
 

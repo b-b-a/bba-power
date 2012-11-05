@@ -44,8 +44,7 @@ class Power_Form_Contract_Edit extends Power_Form_Contract_Base
 		parent::init();
 		
 		$this->getElement('contract_idClient')->setAttrib('readonly', true);
-		$this->getElement('type')->setAttrib('value', 'edit');
-		
+
 		$this->addElement('FilteringSelect', 'contract_idTenderSelected', array(
 				'label'         => 'Tender Selected:',
 				'filters'       => array('StripTags', 'StringTrim'),

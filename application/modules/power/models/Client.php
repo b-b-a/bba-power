@@ -195,6 +195,24 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     	 
     	return ($addresses->count() > 0) ? $addresses : null;
     }
+    
+    /**
+     * Checks for duplicate client email addesses.
+     *
+     * @param array $post
+     * @return NULL|Zend_Db_Table_Rowset_Abstract
+     */
+    public function checkDuplicateEmails(array $post)
+    {
+    	$form = $this->getForm('clientPersonnelSave');
+    	$form->populate($post);
+    	$data = $form->getValues();
+    	 
+    	$emails = $this->getDbTable('clientPersonnel')
+    	->getDuplicateEmails($data);
+    
+    	return ($emails->count() > 0) ? $emails : null;
+    }
 
     /**
      * Add new Client.
