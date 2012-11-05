@@ -244,6 +244,50 @@ class Power_ClientController extends Zend_Controller_Action
             ->setHeader('Content-Type', 'text/html')
             ->setBody('<textarea>' . json_encode($returnJson) . '</textarea>');
     }
+    
+    public function checkLoaDateAction()
+    {
+    	$request = $this->getRequest();
+    	
+    	$this->getHelper('viewRenderer')->setNoRender(true);
+    	$this->_helper->layout->disableLayout();
+    	
+    	if (!$this->_helper->acl('User')) {
+    		throw new ZendSF_Acl_Exception('Access Denied');
+    	}
+    	
+    	if (!$request->isPost()) {
+    		return $this->_helper->redirector('index', 'client');
+    	}
+    	
+    	try {
+    		//new Zend_Date($dateValue, Zend_Date::DATE_SHORT);
+    		$newDate = new Zend_Date($request->getParam('newDate', '1970-01-01'), Zend_Date::DATE_SHORT);
+    		$oldDate = new Zend_Date($request->getParam('oldDate', '1970-01-01'), Zend_Date::DATE_SHORT);
+    		
+    		//if newDate is newer than oldDate validate form.
+    		if ($newDate->isLater($oldDate)) {
+    			$returnJson = array('test' => 'pass');
+    		} else {
+    			$returnJson = array('test' => 'fail');
+    		}
+    	} catch (Exception $e) {
+            $log = Zend_Registry::get('log');
+            $log->err($e);
+            $this->view->assign(array(
+                'message' => $e
+            ));
+            $html = $this->view->render('error/error.phtml');
+            $returnJson = array(
+                'html'  => $html,
+                'error' => true
+            );
+        }
+        
+        $this->getResponse()
+        	->setHeader('Content-Type', 'text/html')
+        	->setBody(json_encode($returnJson));
+    }
 
     public function addClientAddressAction()
     {

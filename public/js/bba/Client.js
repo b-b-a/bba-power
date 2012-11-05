@@ -258,32 +258,10 @@ define("bba/Client",
             });
             clientFormLoaEmpty.show();
         },
-
-        clientFormValidate : function()
+        
+        clientLoaDateDialog : function()
         {
-        	clientFormStandby.show();
-            formValues = clientForm.getValues();
-            
-            if (!formValues.client_docLoa[0]) {
-            	//clientFormStandby.hide();
-                return clientForm.validate();
-            }
-
-            if (formValues.client_dateExpiryLoa === '') {
-                bba.Client.clientLoaEmptyDialog();
-                clientFormStandby.hide();
-                return false;
-            }
-
-            oldDate = (bba.Client.dateExpiryLoa) ? new Date(bba.Client.dateExpiryLoa) : new Date('01/01/1970');
-            newDate = new Date(formValues.client_dateExpiryLoa.replace(/\./g, '/'));
-
-            // if newDate is newer than oldDate validate form.
-            if (date.compare(newDate, oldDate)) {
-                return clientForm.validate();
-            }
-
-            clientFormLoaDate = new Dialog({
+        	clientFormLoaDate = new Dialog({
                 title: "Client Form Warning",
                 content: LoaDate,
                 style: "width: 300px",
@@ -305,6 +283,57 @@ define("bba/Client",
                 }
             });
             clientFormLoaDate.show();
+        },
+
+        clientFormValidate : function()
+        {
+        	clientFormStandby.show();
+            formValues = clientForm.getValues();
+            
+            if (!formValues.client_docLoa[0]) {
+            	//clientFormStandby.hide();
+                return clientForm.validate();
+            }
+
+            if (formValues.client_dateExpiryLoa === '') {
+                bba.Client.clientLoaEmptyDialog();
+                clientFormStandby.hide();
+                return false;
+            }
+            
+            xhr.post({
+                url: './client/check-loa-date',
+                content: {
+                	oldDate : bba.Client.dateExpiryLoa,
+                	newDate : formValues.client_dateExpiryLoa
+                },
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                    if (data.error) {
+                    	dom.byId('dialog').innerHTML = data;
+                        parser.parse('dialog');
+                        error.show();
+                    } else {
+                    	if (data.test == 'pass') {
+                    		if (clientForm.validate()) {
+                    			bba.pageStandby.show();
+                                client_docLoa.submit();
+                            }
+                    	} else {
+                    		bba.Client.clientLoaDateDialog();
+                    	}
+                    }
+                }
+            });
+
+            //oldDate = (bba.Client.dateExpiryLoa) ? new Date(bba.Client.dateExpiryLoa) : new Date('01/01/1970');
+            //newDate = new Date(formValues.client_dateExpiryLoa.replace(/\./g, '/'));
+
+            // if newDate is newer than oldDate validate form.
+            //if (date.compare(newDate, oldDate)) {
+                //return clientForm.validate();
+            //}
 
             return false;
         },
