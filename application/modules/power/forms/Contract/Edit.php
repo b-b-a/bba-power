@@ -86,12 +86,12 @@ class Power_Form_Contract_Edit extends Power_Form_Contract_Base
         
         $row = $this->getModel()->getContractById($this->_request->getParam('contract_idContract'));
         $meters = $row->getAllMetersOnContract();
-        $tenders = $row->getAllTenders();
+        $tender = $row->contract_idTenderSelected;
         
         $log = Zend_Registry::get('log');
-        $log->info($tenders->count());
+        $log->info($tender);
         
-        if ($meters->count() == 0 || $tenders->count() == 0) {
+        if ($meters->count() == 0 || $tender == 0) {
             $multiOptions = array(
                 'new' => $multiOptions['new']
             );

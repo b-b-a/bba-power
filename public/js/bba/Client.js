@@ -327,14 +327,6 @@ define("bba/Client",
                 }
             });
 
-            //oldDate = (bba.Client.dateExpiryLoa) ? new Date(bba.Client.dateExpiryLoa) : new Date('01/01/1970');
-            //newDate = new Date(formValues.client_dateExpiryLoa.replace(/\./g, '/'));
-
-            // if newDate is newer than oldDate validate form.
-            //if (date.compare(newDate, oldDate)) {
-                //return clientForm.validate();
-            //}
-
             return false;
         },
 

@@ -319,7 +319,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         // plus one year minus one day of tender contract period
         // but only if tender selected has changed.
         
-        if ($contract &&  $data['contract_idTenderSelected'] > 0 && 
+        if ($contract && $contract->getAllMetersOnContract()->count() > 0 &&
+        		$data['contract_idTenderSelected'] > 0 && 
         		$contract->contract_idTenderSelected != $data['contract_idTenderSelected']) {
             $tender = $this->getTenderById($data['contract_idTenderSelected']);
             
