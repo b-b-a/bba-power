@@ -236,7 +236,7 @@ class Power_ContractController extends Zend_Controller_Action
 
             $returnJson = array('saved' => $saved);
 
-            if (false === $saved) {
+            if (false === $saved['id']) {
             	$type = ($request->getPost('type') == 'add') ? 'Add' : 'Edit';
             	
             	$form = $this->_getForm('contract' . $type, 'save-contract');
@@ -251,11 +251,12 @@ class Power_ContractController extends Zend_Controller_Action
                 $returnJson['html'] = $html;
             } else {
                 $this->view->assign(array(
-                    'id'    => $saved,
-                    'type'  => 'contract'
+                    'id'    => $saved['id'],
+                    'type'  => 'contract',
+                	'warning' => $saved['warning']
                 ));
 
-                $html = $this->view->render('confirm.phtml');
+                $html = $this->view->render('contract/confirm.phtml');
                 $returnJson['html'] = $html;
 
                 if ($request->getParam('type') === 'add') {

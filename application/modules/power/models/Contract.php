@@ -290,7 +290,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     		$form->addElement($docForm->getElement('contract_docTermination'));
     		$form->getElement('contract_docTermination')->setOrder(95);
     		
-            return false;
+            return array('id' => false);
         }
 
         // get filtered values from main form,
@@ -332,12 +332,27 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             	$data['contract_status'] = 'selected';
             }
         }
+        
+        // are we going to show a warning id end date and status are change?
+        $log = Zend_Registry::get('log');
+        
+        $log->info($contract->contract_dateEnd);
+        $log->info($data['contract_dateEnd']);
+        $log->info($contract->getContract_status(true));
+        $log->info($data['contract_status']);
+        
+        if ($contract && ($contract->contract_dateEnd != $data['contract_dateEnd'] || 
+        		$contract->getContract_status(true) != $data['contract_status'])) {
+        	$warning = true;
+        } else {
+        	$warning = false;
+        }
 
         $id = $this->getDbTable('contract')->saveRow($data, $contract);
 
         // now upload the docs if any.
         if (false === $id) {
-            return $id;
+            return array('id' => $id);
         }
 
         // add filters to the docForm.
@@ -357,7 +372,6 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         // get filtered values, this also uploads the files.
         $data = $docForm->getValues();
         
-        $log = Zend_Registry::get('log');
         $log->info($id);
         
         // add meter to contract if set.
@@ -383,7 +397,10 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         
         $this->clearCache(array('contract'));
 
-        return $id;
+        return array(
+        	'id' => $id,
+        	'warning' => $warning
+        );
     }
 
     /**

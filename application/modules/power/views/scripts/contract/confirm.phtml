@@ -1,0 +1,35 @@
+<div data-dojo-type="dijit.Dialog" data-dojo-id="confirm" data-dojo-props="title:'Comfirm Add/Update Record'">
+    <div class="dijitDialogPaneContentArea">
+        <div>
+            <p>
+                Record id <?php echo $this->id; ?> has been successfully 
+                added/updated into the <?php echo $this->type; ?> table.
+            </p>
+        </div>
+        <button data-dojo-type="dijit.form.Button">
+            Close
+            <script type="dojo/method" data-dojo-event="onClick">
+                return bba.closeDialog(confirm);
+            </script>
+        </button>
+    </div>
+</div>
+<?php if ($this->warning): ?>
+<div data-dojo-type="dijit.Dialog" data-dojo-id="contractWarning" data-dojo-props="title:'Contract Warning'">
+    <div class="dijitDialogPaneContentArea" style="text-align: center; width:300px;">
+        <div>
+        	<img src="images/Warning.png" />
+            <p>
+                <b>Warning:</b> The Contract End Date and possibly the Contract Status have been automatically update 
+                as the Selected Tender has been changed.
+            </p>
+        </div>
+        <button data-dojo-type="dijit.form.Button">
+            Close
+            <script type="dojo/method" data-dojo-event="onClick">
+                return bba.closeDialog(contractWarning);
+            </script>
+        </button>
+    </div>
+</div>
+<?php endif; ?>

@@ -503,7 +503,7 @@ define("bba/Contract",
 
             if (data.error) {
                 error.show();
-            } else if (data.saved > 0) {
+            } else if (data.saved.id > 0) {
                 if (data.contract_idContract) {
                     registry.byId('contract' + data.contract_idContract).refresh();
                 }
@@ -517,6 +517,11 @@ define("bba/Contract",
                 if (data.client_name) {
                     bba.Contract.showContractTab(data.saved, data.client_name);
                 }
+                
+                if (data.saved.warning) {
+                	contractWarning.show();
+                }
+                
             } else {
                 bba.setupDialog(contractForm);
                 bba.Contract.setupDocEvents();
