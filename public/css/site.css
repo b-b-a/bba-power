@@ -426,7 +426,7 @@ Form overrides.
     width: 700px;
 }
 
-#contractForm p[id$=label] {
+#contractForm .zend_form .label {
     width: 250px;
 }
 
