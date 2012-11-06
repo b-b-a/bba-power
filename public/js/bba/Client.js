@@ -317,7 +317,7 @@ define("bba/Client",
                     } else {
                     	if (data.test == 'pass') {
                     		if (clientForm.validate()) {
-                    			bba.pageStandby.show();
+                    			//bba.pageStandby.show();
                                 client_docLoa.submit();
                             }
                     	} else {
@@ -334,7 +334,7 @@ define("bba/Client",
         {
         	clientFormStandby.hide();
         	bba.closeDialog(clientForm);
-            bba.pageStandby.hide();
+            //bba.pageStandby.hide();
             data = arguments[0];
 
             dom.byId('dialog').innerHTML = data.html;

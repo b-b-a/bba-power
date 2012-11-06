@@ -211,7 +211,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     	$emails = $this->getDbTable('clientPersonnel')
     	->getDuplicateEmails($data);
     
-    	return ($emails->count() > 0) ? $emails : null;
+    	return ($emails->count() > 0 && $data['clientPers_email'] != '') ? $emails : null;
     }
 
     /**

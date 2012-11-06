@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <base href="<?php echo $this->baseUrl(); ?>/" />
+        <base href="<? echo $this->serverUrl(); ?><?php echo $this->baseUrl(); ?>/" />
         <?php echo $this->headTitle(); ?>
         <?php echo $this->headMeta(); ?>
         <link rel="stylesheet" href="<?php echo $this->baseUrl('css/reset.css'); ?>" type="text/css" />
@@ -11,7 +11,49 @@
         <script type="text/javascript">
            var bbaModule = '<?php echo ucfirst($this->request()->getControllerName()); ?>';
         </script>
-
+        
+        <?php
+        
+        $this->dojo()
+        ->setDjConfig(array(
+        		'parseOnLoad'   => true,
+        		'async'         => true
+        ))
+        ->addStyleSheetModule('dijit.themes.claro')
+        ->setRenderModules(false);
+        
+        if ('development' !== APPLICATION_ENV) {
+        	$this->dojo()
+        	->setLocalPath($this->baseUrl('js/release/bba/dojo/dojo.js'))
+        	->setDjConfigOption('packages', array(
+        			array(
+        					'location'  => "../../../bba",
+        					'name'      => "bba"
+        			)
+        	));
+        	$this->headLink()
+        	->appendStylesheet($this->baseUrl('js/release/bba/dojox/grid/resources/Grid.css'))
+        	->appendStylesheet($this->baseUrl('js/release/bba/dojox/grid/resources/claroGrid.css'))
+        	//->appendStylesheet($this->baseUrl('js/release/bba/dojox/form/resources/UploaderFileList.css'))
+        	->appendStylesheet($this->baseUrl('js/release/bba/dojox/widget/Wizard/Wizard.css'));
+        } else {
+        	$this->dojo()
+        	->setLocalPath('/library/dojo/dojo/dojo.js')
+        	->setDjConfigOption('packages', array(
+        			array(
+        					'location'  => "/bba-power/public/js/bba",
+        					'name'      => "bba"
+        			)
+        	));
+        	$this->headLink()
+        	->appendStylesheet('/library/dojo/dojox/grid/resources/Grid.css')
+        	->appendStylesheet('/library/dojo/dojox/grid/resources/claroGrid.css')
+        	//->appendStylesheet('/library/dojo/dojox/form/resources/UploaderFileList.css')
+        	->appendStylesheet('/library/dojo/dojox/widget/Wizard/Wizard.css');
+        }
+        
+        ?>
+        
         <?php echo $this->headLink() ?>
 
         <?php echo $this->dojo(); ?>
