@@ -515,7 +515,7 @@ define("bba/Contract",
                 }
 
                 if (data.client_name) {
-                    bba.Contract.showContractTab(data.saved, data.client_name);
+                    bba.Contract.showContractTab(data.saved.id, data.client_name);
                 }
                 
                 if (data.saved.warning) {

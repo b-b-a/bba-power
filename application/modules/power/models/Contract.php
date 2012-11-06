@@ -318,6 +318,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         // if status is tender selected change endDate to
         // plus one year minus one day of tender contract period
         // but only if tender selected has changed.
+        $warning = false;
         
         if ($contract && $contract->getAllMetersOnContract()->count() > 0 &&
         		$data['contract_idTenderSelected'] > 0 && 
@@ -331,21 +332,11 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             if (in_array($data['contract_status'], array('tender', 'choose', 'new'))) {
             	$data['contract_status'] = 'selected';
             }
-        }
-        
-        // are we going to show a warning id end date and status are change?
-        $log = Zend_Registry::get('log');
-        
-        $log->info($contract->contract_dateEnd);
-        $log->info($data['contract_dateEnd']);
-        $log->info($contract->getContract_status(true));
-        $log->info($data['contract_status']);
-        
-        if ($contract && ($contract->contract_dateEnd != $data['contract_dateEnd'] || 
-        		$contract->getContract_status(true) != $data['contract_status'])) {
-        	$warning = true;
-        } else {
-        	$warning = false;
+            
+            if ($contract && ($contract->contract_dateEnd != $data['contract_dateEnd'] ||
+            		$contract->getContract_status(true) != $data['contract_status'])) {
+            	$warning = true;
+            }
         }
 
         $id = $this->getDbTable('contract')->saveRow($data, $contract);
@@ -371,8 +362,6 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         // get filtered values, this also uploads the files.
         $data = $docForm->getValues();
-        
-        $log->info($id);
         
         // add meter to contract if set.
         if ($post['meter_idMeter']) {

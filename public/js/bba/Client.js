@@ -510,6 +510,7 @@ define("bba/Client",
 
         processClientPersForm : function()
         {
+        	clientPersFormStandby.hide();
             bba.closeDialog(clientPersForm);
         	bba.pageStandby.show();
             values = arguments[0];

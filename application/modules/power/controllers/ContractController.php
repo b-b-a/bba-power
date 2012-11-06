@@ -265,7 +265,7 @@ class Power_ContractController extends Zend_Controller_Action
                 $returnJson['html'] = $html;
 
                 if ($request->getParam('type') === 'add') {
-                    $client = $this->_model->getContractById($saved)
+                    $client = $this->_model->getContractById($saved['id'])
                         ->getClient('client_name');
                     $returnJson['client_name'] = $client;
                 }
