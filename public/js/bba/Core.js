@@ -302,6 +302,12 @@ define("bba/Core",
                     }
 
                     dialog.show();
+                },
+                error: function(data) {
+                	bba.pageStandby.hide();
+                	dom.byId('dialog').innerHTML = data.xhr.responseText;
+                	parser.parse('dialog');
+                	error.show();
                 }
             });
 
