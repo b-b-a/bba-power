@@ -196,6 +196,9 @@ define("bba/Supplier",
                         bba.setupDialog(supplierForm);
                         supplierForm.show();
                     }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
         },
@@ -231,6 +234,9 @@ define("bba/Supplier",
                         bba.setupDialog(supplierPersForm);
                         supplierPersForm.show();
                     }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
         }

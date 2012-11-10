@@ -27,6 +27,7 @@
  */
 define("bba/Client",
 [
+	"dojo/json",
     "dojo/dom",
     "dojo/query",
     "dojo/parser",
@@ -48,7 +49,7 @@ define("bba/Client",
     "dojox/form/Uploader",
     "dojox/form/uploader/plugins/IFrame"
 ],
-    function(dom, query, parser, connect, xhr, registry, date, Dialog, LoaEmpty, LoaDate, core) {
+    function(json, dom, query, parser, connect, xhr, registry, date, Dialog, LoaEmpty, LoaDate, core) {
 
     bba.Client = {
         dateExpiryLoa : null,
@@ -324,6 +325,9 @@ define("bba/Client",
                     		bba.Client.clientLoaDateDialog();
                     	}
                     }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
 
@@ -336,26 +340,31 @@ define("bba/Client",
         	bba.closeDialog(clientForm);
             //bba.pageStandby.hide();
             data = arguments[0];
-
-            dom.byId('dialog').innerHTML = data.html;
-            parser.parse('dialog');
-
-            if (data.error) {
-                error.show();
-            } else if (data.saved > 0) {
-                if (data.client_idClient) {
-                    registry.byId('client' + data.client_idClient).refresh();
-                } else {
-                    registry.byId('clientGrid')._refresh();
-                }
-
-                if (bba.config.confirmBox) {
-                    confirm.show();
-                }
-            } else {
-                bba.setupDialog(clientForm);
-                bba.Client.setupDocEvents();
-                clientForm.show();
+            console.log(data);
+            
+            try {
+	            dom.byId('dialog').innerHTML = data.html;
+	            parser.parse('dialog');
+	
+	            if (data.error) {
+	                error.show();
+	            } else if (data.saved > 0) {
+	                if (data.client_idClient) {
+	                    registry.byId('client' + data.client_idClient).refresh();
+	                } else {
+	                    registry.byId('clientGrid')._refresh();
+	                }
+	
+	                if (bba.config.confirmBox) {
+	                    confirm.show();
+	                }
+	            } else {
+	                bba.setupDialog(clientForm);
+	                bba.Client.setupDocEvents();
+	                clientForm.show();
+	            }
+            } catch (e){
+            	console.log(data)
             }
         },
         
@@ -408,6 +417,9 @@ define("bba/Client",
                 		bba.pageStandby.show();
                 		bba.Client.processClientAdForm(formValues);
                 	}
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
         	});
         	
@@ -456,6 +468,9 @@ define("bba/Client",
                         bba.setupDialog(clientAdForm);
                         clientAdForm.show();
                     }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
         },
@@ -502,6 +517,9 @@ define("bba/Client",
                 		bba.pageStandby.show();
                 		bba.Client.processClientPersForm(formValues);
                 	}
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
 
@@ -544,6 +562,9 @@ define("bba/Client",
                         bba.setupDialog(clientPersForm);
                         clientPersForm.show();
                     }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
         },
@@ -653,6 +674,9 @@ define("bba/Client",
                 		bba.Client.checkEmail(vals);
                 		//client_docLoa.submit(vals);
                 	}
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
         	});
         },
@@ -691,6 +715,9 @@ define("bba/Client",
                 		//bba.pageStandby.show();
                 		client_docLoa.submit(vals);
                 	}
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
         }

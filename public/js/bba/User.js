@@ -130,6 +130,9 @@ define("bba/User",
                         bba.setupDialog(userForm);
                         userForm.show();
                     }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
         }

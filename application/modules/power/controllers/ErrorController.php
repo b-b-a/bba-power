@@ -42,6 +42,9 @@ class Power_ErrorController extends Zend_Controller_Action
     public function errorAction()
     {
         $errors = $this->_getParam('error_handler');
+        
+        $log = Zend_Registry::get('log');
+        $action = $errors->request->getParam('action');
 
         switch (get_class($errors->exception)) {
             case 'Zend_Controller_Dispatcher_Exception':
@@ -67,6 +70,23 @@ class Power_ErrorController extends Zend_Controller_Action
                      ->setRawHeader('HTTP/1.1 406 Not Acceptable');
                 $this->view->message = $errors->exception;
                 break;
+        }
+        
+        if ($action == 'save-client' || $action == 'save-contract') {
+        	$log->info($action);
+        	$this->getHelper('layout')->disableLayout();
+        	$this->getHelper('viewRenderer')->setNoRender(true);
+        	
+        	$html = $this->view->render('error/error.phtml');
+        	$returnJson = array(
+        		'error' => true,
+        		'saved' => false,
+        		'html'  => $html
+        	);
+        	
+        	$this->getResponse()
+        		->setHeader('Content-Type', 'text/html')
+        		->setBody('<textarea>' . json_encode($returnJson) . '</textarea>');
         }
 
         if ($this->getRequest()->isXmlHttpRequest()) {

@@ -246,6 +246,9 @@ define("bba/Contract",
                             confirm.show();
                         }
                     }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
         },
@@ -483,6 +486,9 @@ define("bba/Contract",
                 		bba.pageStandby.show();
                 		contract_docTermination.submit();
                 	}
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
         	});
         	
@@ -562,6 +568,9 @@ define("bba/Contract",
                         bba.setupDialog(tenderForm);
                         tenderForm.show();
                     }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
         },

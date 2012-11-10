@@ -342,6 +342,9 @@ define("bba/Site",
                         siteForm.show();
                         bba.Site.changeAddress(values.site_idClient);
                     }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
         }

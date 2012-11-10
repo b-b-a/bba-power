@@ -172,6 +172,9 @@ define("bba/Meter",
                 load: function(data) {
                     //dom.byId('dialog').innerHTML = data.html;
                     newWin.document.write(data);
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
         },
@@ -292,6 +295,9 @@ define("bba/Meter",
                         bba.setupDialog(meterForm);
                         meterForm.show();
                     }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
         },
@@ -325,6 +331,9 @@ define("bba/Meter",
                         bba.setupDialog(usageForm);
                         usageForm.show();
                     }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
         }

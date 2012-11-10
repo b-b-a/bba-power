@@ -59,6 +59,8 @@ define("bba/Core",
     "dijit/Dialog",
     "dojox/grid/DataGrid",
     "dojox/data/QueryReadStore",
+    "dojox/form/Uploader",
+    "dojox/form/uploader/plugins/IFrame",
     "dijit/layout/StackContainer",
     "dijit/layout/BorderContainer",
     "dijit/layout/TabContainer",
@@ -66,7 +68,7 @@ define("bba/Core",
     "dijit/form/Button",
     "dojox/widget/Standby"
 ],
-    function(dom, domConstruct, ready, parser, connect, xhr, array, lang, registry, cookie, json, WidgetSet, ContentPane, Dialog, DataGrid, QueryReadStore) {
+    function(dom, domConstruct, ready, parser, connect, xhr, array, lang, registry, cookie, json, WidgetSet, ContentPane, Dialog, DataGrid, QueryReadStore, IFrame) {
 
     if (bbaModule != 'Auth') {
         ready(function () {
@@ -304,10 +306,7 @@ define("bba/Core",
                     dialog.show();
                 },
                 error: function(data) {
-                	bba.pageStandby.hide();
-                	dom.byId('dialog').innerHTML = data.xhr.responseText;
-                	parser.parse('dialog');
-                	error.show();
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
 
@@ -344,6 +343,14 @@ define("bba/Core",
         processForm : function()
         {
         	
+        },
+        
+        showXhrError : function(data)
+        {
+        	bba.pageStandby.hide();
+            dom.byId('errorDialog').innerHTML = data;
+            parser.parse('errorDialog');
+            error.show();
         },
 
         errorDialog : function(data)
@@ -413,6 +420,13 @@ define("bba/Core",
             req = arguments[1];
             bba.dataStoreError(req.store.url, req.query);
         }
+    });
+    
+    IFrame.extend({
+    	uploadIFrame: function(data){
+    		console.log(data);
+    		return false;
+    	}
     });
 
     return bba;

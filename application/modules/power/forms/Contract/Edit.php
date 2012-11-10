@@ -72,6 +72,9 @@ class Power_Form_Contract_Edit extends Power_Form_Contract_Base
 		
 		if (!$this->_meterCount || !$this->_tenders->count()) {
 			$this->getElement('contract_idTenderSelected')->setAttrib('disabled', 'disabled');
+			$this->getElement('contract_status')
+				->setRequired(false)
+				->setAttrib('readonly', 'readonly');
 		}
 		
 		// add validator to tenderselect if status equals selected.
