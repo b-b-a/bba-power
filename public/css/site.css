@@ -293,8 +293,7 @@ a:hover {
     margin-bottom: 1px;
 }
 
-.zend_form .element
-{
+.zend_form .element {
     margin: 0px;
     display: inline;
 }
@@ -450,7 +449,7 @@ Form overrides.
 #client_docLoa-label {
     margin: 0px;
     height: 48px;
-	vertical-align: top;
+    vertical-align: top;
 }
 
 #contract_docAnalysis_file,
@@ -463,6 +462,7 @@ Form overrides.
     line-height: 19px;
     padding: 1px 2px;
     border: 1px solid #b5bcc7;
+    width: 430px;
 }
 
 #contract_docAnalysis_file:hover,
