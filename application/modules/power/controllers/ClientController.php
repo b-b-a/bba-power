@@ -250,6 +250,55 @@ class Power_ClientController extends Zend_Controller_Action
             ->setHeader('Content-Type', 'text/html')
             ->setBody('<textarea>' . json_encode($returnJson) . '</textarea>');
     }
+    
+    public function checkLoaDateAction()
+    {
+    	$request = $this->getRequest();
+    	
+    	$this->getHelper('viewRenderer')->setNoRender(true);
+    	$this->_helper->layout->disableLayout();
+    	
+    	if (!$this->_helper->acl('User')) {
+    		throw new ZendSF_Acl_Exception('Access Denied');
+    	}
+    	
+    	if (!$request->isPost()) {
+    		return $this->_helper->redirector('index', 'client');
+    	}
+    	
+    	try {
+    		//new Zend_Date($dateValue, Zend_Date::DATE_SHORT);
+    		$newDate = new Zend_Date($request->getParam('newDate', '1970-01-01'), Zend_Date::DATE_SHORT);
+    		$oldDate = new Zend_Date($request->getParam('oldDate', '1970-01-01'), Zend_Date::DATE_SHORT);
+    		
+    		$log = Zend_Registry::get('log');
+    		$log->info('newDate:'.$newDate);
+    		$log->info('oldDate:'.$oldDate);
+    		
+    		//if newDate is not grater than oldDate validate form.
+    		// || !$newDate->equals($oldDate)
+    		if ($oldDate->isEarlier($newDate)) {
+    			$returnJson = array('test' => 'pass');
+    		} else {
+    			$returnJson = array('test' => 'fail');
+    		}
+    	} catch (Exception $e) {
+            $log = Zend_Registry::get('log');
+            $log->err($e);
+            $this->view->assign(array(
+                'message' => $e
+            ));
+            $html = $this->view->render('error/error.phtml');
+            $returnJson = array(
+                'html'  => $html,
+                'error' => true
+            );
+        }
+        
+        $this->getResponse()
+        	->setHeader('Content-Type', 'text/html')
+        	->setBody(json_encode($returnJson));
+    }
 
     public function addClientAddressAction()
     {
@@ -287,7 +336,9 @@ class Power_ClientController extends Zend_Controller_Action
             $clientAd = $this->_model->getClientAddressById($request->getPost('clientAd_idAddress'));
 
             $form = $this->_getForm('clientAddressSave', 'save-client-address');
-            $form->populate($clientAd->toArray());
+            $values = $clientAd->toArray();
+            $values['site_idSite'] = $request->getPost('site_idSite');
+            $form->populate($values);
 
             $this->view->assign(array(
                 'clientAd'              => $clientAd,
@@ -439,6 +490,39 @@ class Power_ClientController extends Zend_Controller_Action
         } else {
            return $this->_helper->redirector('index', 'client');
         }
+    }
+    
+    public function checkEmailDuplicatesAction()
+    {
+    	$request = $this->getRequest();
+    
+    	if (!$request->isPost() && !$request->isXmlHttpRequest()) {
+    		return $this->_helper->redirector('index', 'client');
+    	}
+    
+    	$this->getHelper('viewRenderer')->setNoRender(true);
+    	$this->_helper->layout->disableLayout();
+    
+    	$dups = $this->_model->checkDuplicateEmails($request->getPost());
+    
+    	$returnJson = array();
+    
+    	if ($dups) {
+    		$returnJson['dups'] = true;
+    
+    		$this->view->assign(array(
+    				'dups'  => $dups,
+    		));
+    
+    		$html = $this->view->render('client/check-email-duplicates.phtml');
+    		$returnJson['html'] = $html;
+    	} else {
+    		$returnJson['dups'] = false;
+    	}
+    
+    	$this->getResponse()
+    		->setHeader('Content-Type', 'application/json')
+    		->setBody(json_encode($returnJson));
     }
 
     public function saveClientPersonnelAction()

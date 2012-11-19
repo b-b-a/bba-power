@@ -39,13 +39,26 @@
  */
 class Power_Form_Contract_Edit extends Power_Form_Contract_Base 
 {
+	protected $_meterCount;
+	protected $_tenders;
+	protected $_tender;
+	
 	public function init()
 	{
+		$this->_request = Zend_Controller_Front::getInstance()->getRequest();
+		
+		$row = $this->getModel()->getDbTable('contract')->getContractById(
+			$this->_request->getParam('contract_idContract'
+		));
+		
+		$this->_tender = $row->contract_idTenderSelected;
+		$this->_meterCount = $row->getAllMetersOnContract()->count();
+		$this->_tenders = $row->getAllTenders();
+		
 		parent::init();
 		
 		$this->getElement('contract_idClient')->setAttrib('readonly', true);
-		$this->getElement('type')->setAttrib('value', 'edit');
-		
+
 		$this->addElement('FilteringSelect', 'contract_idTenderSelected', array(
 				'label'         => 'Tender Selected:',
 				'filters'       => array('StripTags', 'StringTrim'),
@@ -54,8 +67,23 @@ class Power_Form_Contract_Edit extends Power_Form_Contract_Base
 				'required'      => false,
 				'value'         => 0,
 				'ErrorMessages' => array('Please select a tender.'),
-				'order'			=> 15
+				'order'			=> 25
 		));
+		
+		if (!$this->_meterCount || !$this->_tenders->count()) {
+			$this->getElement('contract_idTenderSelected')->setAttrib('disabled', 'disabled');
+			
+			$this->removeElement('contract_status');
+			$this->addHiddenElement('contract_status', 'new');
+			$this->addElement('FilteringSelect', 'contract_statusDisabled', array(
+			    'label'         => 'Status:',
+                'multiOptions'  => $this->_getContractStatus(),
+                'order'         => 30,
+                'attribs'       => array(
+                    'disabled' => 'disabled'
+                )
+			));
+		}
 		
 		// add validator to tenderselect if status equals selected.
 		if ($this->_request->getParam('contract_status') == 'selected') {
@@ -84,14 +112,11 @@ class Power_Form_Contract_Edit extends Power_Form_Contract_Base
     {
         $multiOptions = parent::_getContractStatus();
         
-        $row = $this->getModel()->getContractById($this->_request->getParam('contract_idContract'));
-        $meters = $row->getAllMetersOnContract();
-        $tenders = $row->getAllTenders();
-        
         $log = Zend_Registry::get('log');
-        $log->info($tenders->count());
+        $log->info($this->_meterCount);
+        $log->info($this->_tenderCount);
         
-        if ($meters->count() == 0 || $tenders->count() == 0) {
+        if (!$this->_meterCount || !$this->_tenders->count()) {
             $multiOptions = array(
                 'new' => $multiOptions['new']
             );
@@ -102,13 +127,9 @@ class Power_Form_Contract_Edit extends Power_Form_Contract_Base
 	
 	protected function _getTenderOptions()
 	{
-		$row = $this->getModel()->getDbTable('contract')->getContractById($this->_request->getParam('contract_idContract'));
+		$multiOptions = array(0 => ($this->_tenders->count() > 0) ? 'Select A Tender' : 'No Tenders Available');
 		
-		$list = $row->getAllTenders();
-		
-		$multiOptions = array(0 => ($list->count() > 0) ? 'Select A Tender' : 'No Tenders Available');
-		
-		foreach($list as $row) {
+		foreach($this->_tenders as $row) {
 			$supplier = $row->getSupplier();
 			$multiOptions[$row->tender_idTender] = $supplier->supplier_name . ', '
 					. $row->tender_periodContract . ', '

@@ -94,6 +94,23 @@ class Power_Model_DbTable_Client_Personnel extends BBA_Model_DbTable_Abstract
         $select = $this->select()->where('clientPers_idClient = ?', $id);
         return $this->fetchAll($select);
     }
+    
+    public function getDuplicateEmails($data)
+    {
+    	$select = $this->select();
+    
+    	if ($data['clientPers_idClientPersonnel']) {
+    		$select->where('clientPers_idClientPersonnel != ?', $data['clientPers_idClientPersonnel']);
+    	}
+    	 
+    	if ($data['clientPers_idClient']) {
+    		$select->where('clientPers_idClient = ?', $data['clientPers_idClient']);
+    	}
+    
+    	$select->where('clientPers_email = ?', $data['clientPers_email']);
+    	 
+    	return $this->fetchAll($select);
+    }
 
     protected function _getSearchPersonnelSelect(array $search)
     {

@@ -27,6 +27,7 @@
  */
 define("bba/Client",
 [
+	"dojo/json",
     "dojo/dom",
     "dojo/query",
     "dojo/parser",
@@ -48,7 +49,7 @@ define("bba/Client",
     "dojox/form/Uploader",
     "dojox/form/uploader/plugins/IFrame"
 ],
-    function(dom, query, parser, connect, xhr, registry, date, Dialog, LoaEmpty, LoaDate, core) {
+    function(json, dom, query, parser, connect, xhr, registry, date, Dialog, LoaEmpty, LoaDate, core) {
 
     bba.Client = {
         dateExpiryLoa : null,
@@ -216,9 +217,9 @@ define("bba/Client",
                     content: dojo.mixin({type : 'edit'}, contentVars),
                     dialog: 'clientForm',
                     deferredFunction: function() {
-                        this.setupDocEvents();
-                        this.dateExpiryLoa = clientForm.getValues().client_dateExpiryLoa;
-                    }.bind(this)
+                    	bba.Client.setupDocEvents();
+                    	bba.Client.dateExpiryLoa = clientForm.getValues().client_dateExpiryLoa;
+                    }
                 });
             } else {
                 clientForm.show();
@@ -258,29 +259,10 @@ define("bba/Client",
             });
             clientFormLoaEmpty.show();
         },
-
-        clientFormValidate : function()
+        
+        clientLoaDateDialog : function()
         {
-            formValues = clientForm.getValues();
-            
-            if (!formValues.client_docLoa[0]) {
-                return clientForm.validate();
-            }
-
-            if (formValues.client_dateExpiryLoa === '') {
-                bba.Client.clientLoaEmptyDialog();
-                return false;
-            }
-
-            oldDate = (this.dateExpiryLoa) ? new Date(this.dateExpiryLoa) : new Date('01/01/1970');
-            newDate = new Date(formValues.client_dateExpiryLoa.replace(/\./g, '/'));
-
-            // if newDate is newer than oldDate validate form.
-            if (date.compare(newDate, oldDate)) {
-                return clientForm.validate();
-            }
-
-            clientFormLoaDate = new Dialog({
+        	clientFormLoaDate = new Dialog({
                 title: "Client Form Warning",
                 content: LoaDate,
                 style: "width: 300px",
@@ -292,7 +274,9 @@ define("bba/Client",
                         clientFormLoaDate.hide();
                     });
                     connect.connect(clientNoButton, 'onClick', function(){
+                    	clientFormStandby.hide();
                         clientFormLoaDate.hide();
+                        bba.pageStandby.hide();
                     });
                 },
                 onHide : function() {
@@ -300,36 +284,87 @@ define("bba/Client",
                 }
             });
             clientFormLoaDate.show();
+        },
+
+        clientFormValidate : function()
+        {
+        	clientFormStandby.show();
+            formValues = clientForm.getValues();
+            
+            if (!formValues.client_docLoa[0]) {
+            	//clientFormStandby.hide();
+                return clientForm.validate();
+            }
+
+            if (formValues.client_dateExpiryLoa === '') {
+                bba.Client.clientLoaEmptyDialog();
+                clientFormStandby.hide();
+                return false;
+            }
+            
+            xhr.post({
+                url: './client/check-loa-date',
+                content: {
+                	oldDate : bba.Client.dateExpiryLoa,
+                	newDate : formValues.client_dateExpiryLoa
+                },
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                    if (data.error) {
+                    	dom.byId('dialog').innerHTML = data;
+                        parser.parse('dialog');
+                        error.show();
+                    } else {
+                    	if (data.test == 'pass') {
+                    		if (clientForm.validate()) {
+                    			//bba.pageStandby.show();
+                                client_docLoa.submit();
+                            }
+                    	} else {
+                    		bba.Client.clientLoaDateDialog();
+                    	}
+                    }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
+                }
+            });
 
             return false;
         },
 
         processClientForm : function()
-        {	
-            bba.closeDialog(clientForm);
-            pageStandby.show();
+        {
+        	clientFormStandby.hide();
+        	bba.closeDialog(clientForm);
+            //bba.pageStandby.hide();
             data = arguments[0];
-
-            dom.byId('dialog').innerHTML = data.html;
-            parser.parse('dialog');
-            pageStandby.hide();
-
-            if (data.error) {
-                error.show();
-            } else if (data.saved > 0) {
-                if (data.client_idClient) {
-                    registry.byId('client' + data.client_idClient).refresh();
-                } else {
-                    registry.byId('clientGrid')._refresh();
-                }
-
-                if (bba.config.confirmBox) {
-                    confirm.show();
-                }
-            } else {
-                bba.setupDialog(clientForm);
-                bba.Client.setupDocEvents();
-                clientForm.show();
+            console.log(data);
+            
+            try {
+	            dom.byId('dialog').innerHTML = data.html;
+	            parser.parse('dialog');
+	
+	            if (data.error) {
+	                error.show();
+	            } else if (data.saved > 0) {
+	                if (data.client_idClient) {
+	                    registry.byId('client' + data.client_idClient).refresh();
+	                } else {
+	                    registry.byId('clientGrid')._refresh();
+	                }
+	
+	                if (bba.config.confirmBox) {
+	                    confirm.show();
+	                }
+	            } else {
+	                bba.setupDialog(clientForm);
+	                bba.Client.setupDocEvents();
+	                clientForm.show();
+	            }
+            } catch (e){
+            	console.log(data)
             }
         },
         
@@ -366,25 +401,25 @@ define("bba/Client",
                         bba.setupDialog(addressDuplicates);
                         
                         connect.connect(dupsCloseButton, 'onClick', function(){
+                        	clientAdFormStandby.hide();
                         	addressDuplicates.hide();
                         	
                         });
                         
-                        connect.connect(addressDuplicates, 'onHide', function(){
-                        	clientAdFormStandby.hide();
-                        });
-                        
                         connect.connect(dupsContinueButton, 'onClick', function(){
-                        	pageStandby.show();
+                        	bba.pageStandby.show();
                         	addressDuplicates.hide();
                         	bba.Client.processClientAdForm(formValues);
                         });
                 		
                 		addressDuplicates.show();
                 	} else {
-                		pageStandby.show();
+                		bba.pageStandby.show();
                 		bba.Client.processClientAdForm(formValues);
                 	}
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
         	});
         	
@@ -393,10 +428,13 @@ define("bba/Client",
 
         processClientAdForm : function()
         {
+        	clientAdFormStandby.hide();
             bba.closeDialog(clientAdForm);
-        	pageStandby.show();
+        	bba.pageStandby.show();
             values = arguments[0];
             values.type = (values.clientAd_idAddress) ? 'edit' : 'add';
+            
+            console.log(values);
 
             xhr.post({
                 url: './client/save-client-address',
@@ -406,13 +444,17 @@ define("bba/Client",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
-                    pageStandby.hide();
+                    bba.pageStandby.hide();
 
                     if (data.error) {
                         error.show();
                     } else if (data.saved > 0) {
                         if (values.clientAd_idAddress) {
-                            registry.byId('clientAd' + values.clientAd_idAddress).refresh();
+                        	if (values.site_idSite) {
+                        		registry.byId('site' + values.site_idSite).refresh();
+                        	} else {
+                        		registry.byId('clientAd' + values.clientAd_idAddress).refresh();
+                        	}
                         } else if (registry.byId('clientAdGrid' + values.clientAd_idClient)) {
                             registry.byId('clientAdGrid' + values.clientAd_idClient)._refresh();
                         }
@@ -426,14 +468,69 @@ define("bba/Client",
                         bba.setupDialog(clientAdForm);
                         clientAdForm.show();
                     }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
+        },
+        
+        validateClientPersForm : function()
+        {
+        	clientPersFormStandby.show();
+            formValues = clientPersForm.getValues();
+            
+            if (!clientPersForm.validate()) {
+            	clientPersFormStandby.hide();
+                return false;
+            }
+            
+            xhr.post({
+                url: './client/check-email-duplicates',
+                content: formValues,
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                	if (data.dups) {
+                		
+                		console.log(data);
+                		
+                		dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+                        
+                        bba.setupDialog(emailDuplicates);
+                        
+                        connect.connect(dupsCloseButton, 'onClick', function(){
+                        	clientPersFormStandby.hide();
+                        	emailDuplicates.hide();
+                        	
+                        });
+                        
+                        connect.connect(dupsContinueButton, 'onClick', function(){
+                        	bba.pageStandby.show();
+                        	emailDuplicates.hide();
+                        	bba.Client.processClientPersForm(formValues);
+                        });
+                		
+                		emailDuplicates.show();
+                	} else {
+                		bba.pageStandby.show();
+                		bba.Client.processClientPersForm(formValues);
+                	}
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
+                }
+            });
+
+            return false;
         },
 
         processClientPersForm : function()
         {
-            //bba.closeDialog(clientCoForm);
-        	pageStandby.show();
+        	clientPersFormStandby.hide();
+            bba.closeDialog(clientPersForm);
+        	bba.pageStandby.show();
             values = arguments[0];
             values.type = (values.clientPers_idClientPersonnel) ? 'edit' : 'add';
 
@@ -445,8 +542,7 @@ define("bba/Client",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
-                    pageStandby.hide();
-
+                    bba.pageStandby.hide();
                     if (data.error) {
                         error.show();
                     } else if (data.saved > 0) {
@@ -466,15 +562,18 @@ define("bba/Client",
                         bba.setupDialog(clientPersForm);
                         clientPersForm.show();
                     }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
         },
 
         setupDocEvents : function()
         {
-            docClick = connect.connect(dom.byId('client_docLoa_file'), "onclick", function(){
+            /*docClick = connect.connect(dom.byId('client_docLoa_file'), "onclick", function(){
                 query('input[name=client_docLoa]')[0].click();
-            });
+            });*/
 
             docChange = connect.connect(client_docLoa, "onChange", function(fileArray){
                 bba.docFileList(fileArray, 'client_docLoa_file');
@@ -527,13 +626,17 @@ define("bba/Client",
         
         wizardDoneFunction : function()
         {
-            if (!clientForm.validate()) {
+        	clientFormStandby.show();
+        	
+        	if (!clientForm.validate()) {
                 alert('Please recheck all form entries for mistakes.');
+                clientFormStandby.hide();
                 return false;
             }
             
             if (clientForm.getValues().client_docLoa[0] && clientForm.getValues().client_dateExpiryLoa === '') {
                 bba.Client.clientLoaEmptyDialog();
+                clientFormStandby.hide();
                 return false;
             }
         	
@@ -557,21 +660,66 @@ define("bba/Client",
                         
                         connect.connect(dupsCloseButton, 'onClick', function(){
                         	addressDuplicates.hide();
-                        	
+                        	clientFormStandby.hide();
                         });
                         
                         connect.connect(dupsContinueButton, 'onClick', function(){
-                        	pageStandby.show();
+                        	//bba.pageStandby.show();
                         	addressDuplicates.hide();
-                        	client_docLoa.submit(vals);
+                        	bba.Client.checkEmail(vals);
                         });
                 		
                 		addressDuplicates.show();
                 	} else {
-                		client_docLoa.submit(vals);
+                		bba.Client.checkEmail(vals);
+                		//client_docLoa.submit(vals);
                 	}
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
         	});
+        },
+        
+        checkEmail : function(vals)
+        {
+        	xhr.post({
+                url: './client/check-email-duplicates',
+                content: vals,
+                handleAs: 'json',
+                preventCache: true,
+                load: function(data) {
+                	if (data.dups) {
+                		
+                		console.log(data);
+                		
+                		dom.byId('dialog').innerHTML = data.html;
+                        parser.parse('dialog');
+                        
+                        bba.setupDialog(emailDuplicates);
+                        
+                        connect.connect(dupsCloseButton, 'onClick', function(){
+                        	clientPersFormStandby.hide();
+                        	emailDuplicates.hide();
+                        	
+                        });
+                        
+                        connect.connect(dupsContinueButton, 'onClick', function(){
+                        	//bba.pageStandby.show();
+                        	emailDuplicates.hide();
+                        	client_docLoa.submit(vals);
+                        });
+                		
+                		emailDuplicates.show();
+                	} else {
+                		//bba.pageStandby.show();
+                		client_docLoa.submit(vals);
+                	}
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
+                }
+            });
         }
     };
 

@@ -306,7 +306,7 @@ define("bba/Site",
         processSiteForm : function()
         {
             //bba.closeDialog(siteForm);
-        	pageStandby.show();
+        	bba.pageStandby.show();
 
             values = arguments[0];
             values.type = (values.site_idSite) ? 'edit' : 'add';
@@ -319,7 +319,7 @@ define("bba/Site",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
-                    pageStandby.hide();
+                    bba.pageStandby.hide();
 
                     if (data.error) {
                         error.show();
@@ -342,6 +342,9 @@ define("bba/Site",
                         siteForm.show();
                         bba.Site.changeAddress(values.site_idClient);
                     }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
         }

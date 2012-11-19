@@ -239,6 +239,8 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     	
     	$form = $this->getForm('contractAdd');
     	
+    	$form->removeElement('contract_docTermination');
+    	
     	return $this->_saveContract($post, $form);
     }
     
@@ -249,6 +251,12 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     	}
     	 
     	$form = $this->getForm('contractEdit');
+    	
+    	$form->removeElement('contract_docAnalysis');
+    	$form->removeElement('contract_docContractSearchable');
+    	$form->removeElement('contract_docContractSignedClient');
+    	$form->removeElement('contract_docContractSignedBoth');
+    	$form->removeElement('contract_docTermination');
     	 
     	return $this->_saveContract($post, $form);
     }
@@ -266,7 +274,23 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         // validate all forms.
         if (!$form->isValid($post) || !$docForm->isValid($post)) {
-            return false;
+        	
+        	if ($post['type'] == 'edit') {
+        		$form->addElement($docForm->getElement('contract_docAnalysis'));
+    			$form->addElement($docForm->getElement('contract_docContractSearchable'));
+    			$form->addElement($docForm->getElement('contract_docContractSignedClient'));
+    			$form->addElement($docForm->getElement('contract_docContractSignedBoth'));
+    			
+    			$form->getElement('contract_docAnalysis')->setOrder(91);
+    			$form->getElement('contract_docContractSearchable')->setOrder(92);
+    			$form->getElement('contract_docContractSignedClient')->setOrder(93);
+    			$form->getElement('contract_docContractSignedBoth')->setOrder(94);
+        	}
+        	
+    		$form->addElement($docForm->getElement('contract_docTermination'));
+    		$form->getElement('contract_docTermination')->setOrder(95);
+    		
+            return array('id' => false);
         }
 
         // get filtered values from main form,
@@ -292,15 +316,26 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
             $this->getContractById($data['contract_idContract']) : null;
             
         // if status is tender selected change endDate to
-        // plus one year minus one day of tender contract period.
-        if ($contract &&  $data['contract_idTenderSelected'] > 0) {
-            $tender = $this->getDbTable('tender')->getTenderById($data['contract_idTenderSelected']);
+        // plus one year minus one day of tender contract period
+        // but only if tender selected has changed.
+        $warning = false;
+        
+        if ($contract && $contract->getAllMetersOnContract()->count() > 0 &&
+        		$data['contract_idTenderSelected'] > 0 && 
+        		$contract->contract_idTenderSelected != $data['contract_idTenderSelected']) {
+            $tender = $this->getTenderById($data['contract_idTenderSelected']);
+            
             $date = new Zend_Date($data['contract_dateStart']);
-            $date->add($tender->tender_periodContract, ZEND_DATE::MONTH);
+            $date->add(round($tender->tender_periodContract, 0), ZEND_DATE::MONTH);
             $date->sub('1', ZEND_DATE::DAY);
             $data['contract_dateEnd'] = $date->toString('yyyy-MM-dd');
             if (in_array($data['contract_status'], array('tender', 'choose', 'new'))) {
             	$data['contract_status'] = 'selected';
+            }
+            
+            if ($contract && ($contract->contract_dateEnd != $data['contract_dateEnd'] ||
+            		$contract->getContract_status(true) != $data['contract_status'])) {
+            	$warning = true;
             }
         }
 
@@ -308,7 +343,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         // now upload the docs if any.
         if (false === $id) {
-            return $id;
+            return array('id' => $id);
         }
 
         // add filters to the docForm.
@@ -351,7 +386,10 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         
         $this->clearCache(array('contract'));
 
-        return $id;
+        return array(
+        	'id' => $id,
+        	'warning' => $warning
+        );
     }
 
     /**

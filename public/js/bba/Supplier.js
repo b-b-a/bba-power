@@ -165,7 +165,7 @@ define("bba/Supplier",
         processSupplierForm : function()
         {
             //bba.closeDialog(supplierForm);
-        	pageStandby.show();
+        	bba.pageStandby.show();
 
             values = arguments[0];
             values.type = (values.supplier_idSupplier) ? 'edit' : 'add';
@@ -178,7 +178,7 @@ define("bba/Supplier",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
-                    pageStandby.hide();
+                    bba.pageStandby.hide();
 
                     if (data.error) {
                         error.show();
@@ -196,6 +196,9 @@ define("bba/Supplier",
                         bba.setupDialog(supplierForm);
                         supplierForm.show();
                     }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
         },
@@ -203,7 +206,7 @@ define("bba/Supplier",
         processSupplierPersForm : function()
         {
             //bba.closeDialog(supplierCoForm);
-        	pageStandby.show();
+        	bba.pageStandby.show();
 
             values = arguments[0];
             values.type = (values.supplierPers_idSupplierPersonnel) ? 'edit' : 'add';
@@ -216,7 +219,7 @@ define("bba/Supplier",
                 load: function(data) {
                     dom.byId('dialog').innerHTML = data.html;
                     parser.parse('dialog');
-                    pageStandby.hide();
+                    bba.pageStandby.hide();
 
                     if (data.error) {
                         error.show();
@@ -231,6 +234,9 @@ define("bba/Supplier",
                         bba.setupDialog(supplierPersForm);
                         supplierPersForm.show();
                     }
+                },
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
                 }
             });
         }

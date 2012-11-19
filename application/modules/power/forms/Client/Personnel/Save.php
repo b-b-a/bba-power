@@ -119,10 +119,10 @@ class Power_Form_Client_Personnel_Save extends ZendSF_Dojo_Form_Abstract
             'filters'       => array('StripTags', 'StringTrim', 'StringToLower'),
             'validators'    => array(
                 array('EmailAddress', true),
-                array('Db_NoRecordExists', false, array(
+                /*array('Db_NoRecordExists', false, array(
                     'table' => 'client_personnel',
                     'field' => 'clientPers_email'
-                ))
+                ))*/
             ),
             'dijitParams'   => array(
                 'promptMessage' => 'Enter clients Email.'
@@ -175,7 +175,7 @@ class Power_Form_Client_Personnel_Save extends ZendSF_Dojo_Form_Abstract
         		'label'     => 'Submit',
         		'value'     => 'Submit',
         		'dijitParams'   => array(
-        				'onClick' => "return dijit.byId('clientPersForm').validate()"
+        				'onClick' => "return bba.Client.validateClientPersForm();"
         		),
         		'attribs' => array('type' => 'submit')
         ));

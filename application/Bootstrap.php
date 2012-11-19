@@ -156,44 +156,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         Zend_Dojo::enableView($this->_view);
         Zend_Dojo_View_Helper_Dojo::setUseDeclarative();
 
-        $this->_view->dojo()
-            ->setDjConfig(array(
-                'parseOnLoad'   => true,
-                'async'         => true
-            ))
-            ->addStyleSheetModule('dijit.themes.claro')
-            ->setRenderModules(false);
-
-        if ('development' !== $this->getEnvironment()) {
-            $this->_view->dojo()
-                ->setLocalPath('js/release/bba/dojo/dojo.js')
-                ->setDjConfigOption('packages', array(
-                    array(
-                        'location'  => "../../../bba",
-                        'name'      => "bba"
-                    )
-                ));
-            $this->_view->headLink()
-                ->appendStylesheet('js/release/bba/dojox/grid/resources/Grid.css')
-                ->appendStylesheet('js/release/bba/dojox/grid/resources/claroGrid.css')
-                //->appendStylesheet('js/release/bba/dojox/form/resources/UploaderFileList.css')
-                ->appendStylesheet('js/release/bba/dojox/widget/Wizard/Wizard.css');
-        } else {
-            $this->_view->dojo()
-                ->setLocalPath('/library/dojo/dojo/dojo.js')
-                ->setDjConfigOption('packages', array(
-                    array(
-                        'location'  => "/bba-power/public/js/bba",
-                        'name'      => "bba"
-                    )
-                ));
-            $this->_view->headLink()
-                ->appendStylesheet('/library/dojo/dojox/grid/resources/Grid.css')
-                ->appendStylesheet('/library/dojo/dojox/grid/resources/claroGrid.css')
-                //->appendStylesheet('/library/dojo/dojox/form/resources/UploaderFileList.css')
-                ->appendStylesheet('/library/dojo/dojox/widget/Wizard/Wizard.css');
-        }
-
         $this->_view->headTitle('BBA Power')->setSeparator(' - ');
     }
 

@@ -59,6 +59,8 @@ define("bba/Core",
     "dijit/Dialog",
     "dojox/grid/DataGrid",
     "dojox/data/QueryReadStore",
+    "dojox/form/Uploader",
+    "dojox/form/uploader/plugins/IFrame",
     "dijit/layout/StackContainer",
     "dijit/layout/BorderContainer",
     "dijit/layout/TabContainer",
@@ -66,7 +68,7 @@ define("bba/Core",
     "dijit/form/Button",
     "dojox/widget/Standby"
 ],
-    function(dom, domConstruct, ready, parser, connect, xhr, array, lang, registry, cookie, json, WidgetSet, ContentPane, Dialog, DataGrid, QueryReadStore) {
+    function(dom, domConstruct, ready, parser, connect, xhr, array, lang, registry, cookie, json, WidgetSet, ContentPane, Dialog, DataGrid, QueryReadStore, IFrame) {
 
     if (bbaModule != 'Auth') {
         ready(function () {
@@ -151,12 +153,25 @@ define("bba/Core",
 
         pageLoaded : function()
         {
-            loader = dom.byId("loader");
-            loader.style.display = "none";
-
+        	bba.pageStandby.hide();
+        	
             if (registry.byId('error')) {
                 error.show();
             }
+        },
+        
+        pageStandby : {
+        	show : function()
+        	{
+        		loader = dom.byId("loader");
+                loader.style.display = "block";
+        	},
+        	
+        	hide : function()
+        	{
+        		loader = dom.byId("loader");
+                loader.style.display = "none";
+        	}
         },
 
         setPref : function(pref, val)
@@ -253,20 +268,7 @@ define("bba/Core",
                         }
 
                         return true;
-                    },
-                    /*onDownloadError : function(error, ioargs) {
-                    	
-                        xhr.post({
-                            url: options.url,
-                            content: options.content,
-                            handleAs: 'text',
-                            preventCache: true,
-                            error: function(error, ioargs) {
-                            	console.log(error.responseText)
-                                //bba.showXhrError(error);
-                            }
-                        });
-                    }*/
+                    }
                 });
 
                 tc.addChild(pane);
@@ -278,7 +280,7 @@ define("bba/Core",
 
         openFormDialog : function(options)
         {
-        	pageStandby.show();
+        	bba.pageStandby.show();
         	
             def = xhr.post({
                 url: options.url,
@@ -289,7 +291,7 @@ define("bba/Core",
                     dom.byId('dialog').innerHTML = data;
                     parser.parse('dialog');
                     dialog = registry.byId(options.dialog);
-                    pageStandby.hide();
+                    bba.pageStandby.hide();
                     
                     if (registry.byId('error')) return error.show();
 
@@ -303,9 +305,9 @@ define("bba/Core",
 
                     dialog.show();
                 },
-                /*error: function(error) {
-                    bba.showXhrError(error);
-                }*/
+                error: function(data) {
+                	bba.showXhrError(data.xhr.responseText);
+                }
             });
 
             def.then(options.deferredFunction);
@@ -342,6 +344,14 @@ define("bba/Core",
         {
         	
         },
+        
+        showXhrError : function(data)
+        {
+        	bba.pageStandby.hide();
+            dom.byId('errorDialog').innerHTML = data;
+            parser.parse('errorDialog');
+            error.show();
+        },
 
         errorDialog : function(data)
         {
@@ -374,20 +384,9 @@ define("bba/Core",
                     }
 
                     dialog.show();
-                },
-                /*error: function(error) {
-                    bba.showXhrError(error);
-                }*/
+                }
             });
         },
-
-        /*showXhrError : function(data)
-        {
-        	console.log(data);
-            dom.byId('errorDialog').innerHTML = data.responseText;
-            parser.parse('errorDialog');
-            error.show();
-        },*/
 
         docFileList : function(fileArray, id)
         {
@@ -408,10 +407,7 @@ define("bba/Core",
                     bba.setupDialog(dialog);
 
                     dialog.show();
-                },
-                /*error: function(error) {
-                    bba.showXhrError(error);
-                }*/
+                }
             });
         }
     };
@@ -424,6 +420,13 @@ define("bba/Core",
             req = arguments[1];
             bba.dataStoreError(req.store.url, req.query);
         }
+    });
+    
+    IFrame.extend({
+    	uploadIFrame: function(data){
+    		console.log(data);
+    		return false;
+    	}
     });
 
     return bba;

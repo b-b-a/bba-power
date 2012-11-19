@@ -177,8 +177,13 @@ class Power_ContractController extends Zend_Controller_Action
                 if (!$this->_helper->acl('Contract', 'edit')) {
                     throw new Zend_Acl_Exception('Access Denied');
                 }
+                
+                $data = $contract->toArray('dd/MM/yyyy', true);
+                $data['type'] = $request->getParam('type');
+                
                 $form = $this->_getForm('contractEdit', 'save-contract');
-                $form->populate($contract->toArray('dd/MM/yyyy', true));
+                $form->populate($data);
+                
                 
                 $this->view->assign(array(
                     'contractForm'  => $form
@@ -192,7 +197,7 @@ class Power_ContractController extends Zend_Controller_Action
     }
     
     public function checkContractDuplicatesAction()
-    {   
+    {
     	$request = $this->getRequest();
     	
     	if (!$request->isPost() && !$request->isXmlHttpRequest()) {
@@ -242,7 +247,7 @@ class Power_ContractController extends Zend_Controller_Action
 
             $returnJson = array('saved' => $saved);
 
-            if (false === $saved) {
+            if (false === $saved['id']) {
             	$type = ($request->getPost('type') == 'add') ? 'Add' : 'Edit';
             	
             	$form = $this->_getForm('contract' . $type, 'save-contract');
@@ -257,15 +262,16 @@ class Power_ContractController extends Zend_Controller_Action
                 $returnJson['html'] = $html;
             } else {
                 $this->view->assign(array(
-                    'id'    => $saved,
-                    'type'  => 'contract'
+                    'id'    => $saved['id'],
+                    'type'  => 'contract',
+                	'warning' => $saved['warning']
                 ));
 
-                $html = $this->view->render('confirm.phtml');
+                $html = $this->view->render('contract/confirm.phtml');
                 $returnJson['html'] = $html;
 
                 if ($request->getParam('type') === 'add') {
-                    $client = $this->_model->getContractById($saved)
+                    $client = $this->_model->getContractById($saved['id'])
                         ->getClient('client_name');
                     $returnJson['client_name'] = $client;
                 }

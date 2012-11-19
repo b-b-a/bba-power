@@ -1,4 +1,4 @@
-Build started: Wed Sep 19 2012 19:36:21 GMT+0100 (BST)
+Build started: Thu Nov 01 2012 23:04:43 GMT-0000 (GMT)
 Build application version: 1.7.0dev (23930)
 Messages:
 info(100) Assumed module uses legacy loader API.
@@ -1240,6 +1240,7 @@ info(102) Optimizing module
 	module: dojox/dtl/tag/misc
 	module: dojox/image
 	module: dojox/lang/async/topic
+	module: dojox/form/nls/he/Uploader
 	module: dojox/widget/YearlyCalendar
 	module: dojox/data/FlickrStore
 	module: dojox/editor/plugins/nls/kk/Breadcrumb
@@ -1546,6 +1547,7 @@ info(102) Optimizing module
 	module: dojox/dtl/_Templated
 	module: dojox/editor/plugins/nls/fi/SpellCheck
 	module: dojox/dgauges/RectangularRangeIndicator
+	module: dojox/form/nls/he/CheckedMultiSelect
 	module: dojox/editor/plugins/nls/de/Preview
 	module: dojox/mvc/Group
 	module: dojox/editor/plugins/nls/pt/FindReplace
@@ -2693,6 +2695,7 @@ info(102) Optimizing module
 	module: dojox/highlight/languages/_www
 	module: dojox/editor/plugins/nls/de/InsertAnchor
 	module: dojox/editor/plugins/nls/da/SpellCheck
+	module: dojox/editor/plugins/nls/he/SafePaste
 	module: dojox/image/ThumbnailPicker
 	module: dojox/editor/plugins/nls/fr/Save
 	module: dojox/widget/nls/zh-tw/FilePicker
@@ -3096,9 +3099,9 @@ info(102) Optimizing module
 	module: dojo/require
 	module: dojo/cldr/nls/ar/gregorian
 info(107) Package Version:
-	package: dijit; version: 1.8.0
-	package: dojox; version: 1.8.0
-	package: dojo; version: 1.8.0
+	package: dijit; version: 1.8.1
+	package: dojox; version: 1.8.1
+	package: dojo; version: 1.8.1
 warn(216) dojo/has plugin resource could not be resolved during build-time.
 	plugin resource id: touch?dojox/gesture/tap; reference module id: dojox/treemap/DrillDownUp
 	plugin resource id: dojo-parser?:dojo/_base/window; reference module id: dojox/mvc/parserExtension
@@ -3351,4 +3354,4 @@ dojo/dojo:
 Process finished normally
 	errors: 0
 	warnings: 16
-	build time: 81.27 seconds
+	build time: 41.633 seconds
