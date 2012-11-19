@@ -104,27 +104,21 @@
                     <th>Description:</th>
                     <td class="description"><?php echo $this->escape($contract->getShortDesc()); ?></td>
                 </tr>
-                <?php if ($contract->contract_idTenderSelected): ?>
+                 <?php if ($contract->contract_idTenderSelected): ?>
                 <tr>
                     <th>Supplier:</th>
-                    <td><?php if ($contract->getTenderSelected()): ?>
                     <td><?php echo $this->escape($contract->getTenderSelected()->getSupplier('supplier_name')); ?></td>
                 </tr>
+                <?php if ($this->isAllowed('BBAView')): ?>
                 <tr>
                     <th>Commission Rate:</th>
-                            <?php echo $this->escape($contract->getTenderSelected()->getSupplier('supplier_name')); ?>
-                        <?php else: ?>
-                            No Supplier Has Been Selected
-                        <?php endif; ?>
-                    </td>
+                    <td><?php echo $this->escape($contract->getTenderSelected('tender_commission')); ?> (pence / unit)</td>
+                </tr>
+                <tr>
                     <th>Commission Fee:</th>
                     <td><?php echo $this->escape($contract->getTenderSelected('tender_fee')); ?> (&pound; / Year)</td>
                 </tr>
-                 <?php if ($this->isAllowed('BBAView')): ?>
-                <tr>
-                    <th>Commission:</th>
-                    <td><?php if ($contract->getTenderSelected()): ?>
-                            <?php echo $this->escape($contract->getTenderSelected('tender_commission')); ?> (pence / unit)
+                <?php endif; ?>
                 <?php else: ?>
                 <tr>
                     <td colspan="2">- No Tender Has Been Selected -</td>
