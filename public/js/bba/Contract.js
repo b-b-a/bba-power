@@ -418,23 +418,23 @@ define("bba/Contract",
         	}
         	
         	if (formValues.contract_type == null) {
-        	
-        	    var conTypes = [
-        	        'contract_type-electric-perm',
-        	        'contract_type-electric-temp',
-        	        'contract_type-gas',
-        	        'contract_type-water'
-        	    ];
+        	    var conType = registry.toArray();        	    
         	    
-        	    array.forEach(conTypes, function(item){
-        	        registry.byId(item).attr('style', 'border: 1px solid red;');
-        	        connect.connect(registry.byId(item), 'onChange', function(){
-        	            array.forEach(conTypes, function(item){
-        	                registry.byId(item).attr('style', 'border: 0px;');
-        	            });
-        	            
-        	        });
+        	    array.forEach(conType, function(item){
+        	    	if (item.id.slice(0, 13) == 'contract_type') {
+        	    		registry.byId(item).attr('style', 'border: 1px solid red;');
+            	        connect.connect(registry.byId(item), 'onChange', function(){
+            	            array.forEach(conType, function(item){
+            	            	if (item.id.slice(0, 13) == 'contract_type') {
+            	            		registry.byId(item).attr('style', 'border: 0px;');
+            	            	}
+            	            });
+            	            
+            	        });
+        	    	}
         	    });
+        	    contractFormStandby.hide();
+        	    return false;
         	}
         	
         	// first check form for errors.
