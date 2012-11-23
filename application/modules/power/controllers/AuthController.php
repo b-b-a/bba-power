@@ -117,6 +117,9 @@ class Power_AuthController extends Zend_Controller_Action
             $this->_authService->clear();
             throw $e;
         }
+        
+        $model = new Power_Model_Index();
+        $model->clearCache(array());
 
         return $this->_helper->redirector('index', 'meter');
     }
