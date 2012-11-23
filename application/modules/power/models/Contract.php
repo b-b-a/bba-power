@@ -384,7 +384,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         	)));
         }
         
-        $this->clearCache(array('contract'));
+        $this->clearCache(array('contract', 'meterContract'));
 
         return array(
         	'id' => $id,
