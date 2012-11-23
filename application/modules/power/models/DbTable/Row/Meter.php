@@ -123,9 +123,10 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
     {
         // find the most recent contract.
         $select = $this->getRow()->select()
-            ->where('contract_dateStart <= ?', new Zend_Db_Expr('NOW()'))
-            ->order('contract_dateStart DESC')
-            ->limit(1);
+        	->where('meter_contract.meterContract_contractLatest IS TRUE');
+            //->where('contract_dateStart <= ?', new Zend_Db_Expr('NOW()'))
+            //->order('contract_dateStart DESC')
+            //->limit(1);
 
         return $this->getAllContracts($select)->current();
     }
