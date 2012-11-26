@@ -412,6 +412,10 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         $contract = $this->getContractById($post['contract']);
 
         $c = 0;
+        
+        $log = Zend_Registry::get('log');
+        $log->info(count($post['meters']));
+        
         foreach($post['meters'] as $value) {
             $data[$c]['meterContract_idMeter'] = $value['id'];
             $data[$c]['meterContract_kvaNominated'] = $value['kva'];

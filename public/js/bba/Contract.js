@@ -153,7 +153,7 @@ define("bba/Contract",
             a = Number(a);
             b = Number(b);
             if (a < b){
-                return -1
+                return -1;
             } else if (a > b) {
                 return 1;
             } else {
@@ -163,13 +163,13 @@ define("bba/Contract",
 
         preselectMeters : function(grid, id, items)
         {
-            contractMeterStore.comparatorMap = {};
-            contractMeterStore.comparatorMap["meter_idMeter"] = bba.Contract.numberComparison;
-            contractMeterStore.comparatorMap["contract_idContract"] = bba.Contract.numberComparison;
+            //contractMeterStore.comparatorMap = {};
+            //contractMeterStore.comparatorMap["meter_idMeter"] = bba.Contract.numberComparison;
+            //contractMeterStore.comparatorMap["contract_idContract"] = bba.Contract.numberComparison;
 
             array.forEach(items, function(item){
                 if (item.contract_idContract == id) {
-                    grid.selection.addToSelection(item)
+                    grid.selection.addToSelection(item);
                 }
             });
         },
@@ -208,11 +208,13 @@ define("bba/Contract",
         addMeterToContract : function(grid, meterContract)
         {
             var items = grid.selection.getSelected();
+            //console.log(items.length);
 
             var data = {type: 'insert', contract : meterContract, meters : []};
 
             if (items.length) {
                 items.forEach(function(selectedItem){
+                	//console.log(selectedItem);
                 	id = selectedItem.meter_idMeter[0];
                     kva = (!selectedItem.meterContract_kvaNominated) ? 0 : selectedItem.meterContract_kvaNominated[0]
                     eac = (!selectedItem.meterContract_eac) ? 0 : selectedItem.meterContract_eac[0];
@@ -227,6 +229,8 @@ define("bba/Contract",
                     });
                 });
             }
+            
+            console.log(data);
 
             xhr.post({
                 url: './contract/save-meter-contract',
