@@ -52,6 +52,7 @@
         selectionMode: 'multiple',
         editable: 'true',
         noDataMessage : bba.gridMessage,
+        rowsPerPage : 500,
         style: 'width:1100px;height:300px;'">
     <script type="dojo/connect" event="_onFetchComplete" args="items, req">
         bba.Contract.preselectMeters(this, '<?php echo $this->contract->contract_idContract; ?>', items);

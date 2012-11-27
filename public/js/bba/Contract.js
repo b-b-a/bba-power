@@ -163,9 +163,9 @@ define("bba/Contract",
 
         preselectMeters : function(grid, id, items)
         {
-            //contractMeterStore.comparatorMap = {};
-            //contractMeterStore.comparatorMap["meter_idMeter"] = bba.Contract.numberComparison;
-            //contractMeterStore.comparatorMap["contract_idContract"] = bba.Contract.numberComparison;
+            contractMeterStore.comparatorMap = {};
+            contractMeterStore.comparatorMap["meter_idMeter"] = bba.Contract.numberComparison;
+            contractMeterStore.comparatorMap["contract_idContract"] = bba.Contract.numberComparison;
 
             array.forEach(items, function(item){
                 if (item.contract_idContract == id) {
@@ -271,6 +271,9 @@ define("bba/Contract",
                     href: './contract/add-meter-contract',
                     onHide: function() {
                         bba.closeDialog(this);
+                    },
+                    deferredFunction: function() {
+                       
                     }
                 });
             }
