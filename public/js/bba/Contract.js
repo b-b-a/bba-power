@@ -77,7 +77,7 @@ define("bba/Contract",
                 [
                     {field: 'meter_idMeter', width: '50px', name: 'Id'},
                     {field: 'meter_numberMain', width : '125px', name: 'Number Main'},
-                    {field: 'meter_status', width : '95px', name: 'Meter Status'},
+                    {field: 'meter_status', width : '115px', name: 'Meter Status'},
                     {field: 'meterContract_kvaNominated', width: '75px', name: 'Peak kVA', editable: true, formatter: zeroFill},
                     {field: 'meterContract_eac', width: '75px', name: 'EAC', editable: true, formatter: zeroFill},
                     {field: 'contract_idContract', width: '100px', name: 'Contract Id'},
@@ -271,9 +271,6 @@ define("bba/Contract",
                     href: './contract/add-meter-contract',
                     onHide: function() {
                         bba.closeDialog(this);
-                    },
-                    deferredFunction: function() {
-                       
                     }
                 });
             }
