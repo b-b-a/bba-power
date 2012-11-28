@@ -49,6 +49,8 @@ class Power_Form_Contract_Add extends Power_Form_Contract_Base
 			$this->getElement('contract_idClient')->setAttrib('readonly', true);
 		}
 		
+		$this->_getDisabledContractStatusElement();
+		
 		$this->addElement($this->_contractDoc->getElement('contract_docTermination'));
 		
 		$this->getElement('contract_docTermination')->setOrder(95);

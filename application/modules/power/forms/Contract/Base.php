@@ -292,4 +292,20 @@ class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
     	
     	return $multiOptions;
     }
+    
+    protected function _getDisabledContractStatusElement()
+    {
+    	$tempStatus = $this->_request->getParam('contract_status', 'new');
+    	$this->removeElement('contract_status');
+    	$this->addHiddenElement('contract_status', $tempStatus);
+    	
+    	$this->addElement('FilteringSelect', 'contract_statusDisabled', array(
+    			'label'         => 'Status:',
+    			'multiOptions'  => $this->_getContractStatus(),
+    			'order'         => 30,
+    			'attribs'       => array(
+    				'disabled' => 'disabled'
+    			)
+    	));
+    }
 }

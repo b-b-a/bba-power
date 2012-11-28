@@ -71,18 +71,8 @@ class Power_Form_Contract_Edit extends Power_Form_Contract_Base
 		));
 		
 		if (!$this->_meterCount || !$this->_tenders->count()) {
+			$this->_getDisabledContractStatusElement();
 			$this->getElement('contract_idTenderSelected')->setAttrib('disabled', 'disabled');
-			
-			$this->removeElement('contract_status');
-			$this->addHiddenElement('contract_status', 'new');
-			$this->addElement('FilteringSelect', 'contract_statusDisabled', array(
-			    'label'         => 'Status:',
-                'multiOptions'  => $this->_getContractStatus(),
-                'order'         => 30,
-                'attribs'       => array(
-                    'disabled' => 'disabled'
-                )
-			));
 		}
 		
 		// add validator to tenderselect if status equals selected.
