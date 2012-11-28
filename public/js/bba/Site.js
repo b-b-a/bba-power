@@ -73,11 +73,11 @@ define("bba/Site",
             ],
             meter : [
                 {field: 'meter_idMeter', width: '50px', name: 'Id'},
-                {field: 'meter_type', width: '150px', name: 'Type'},
-                {field: 'meter_status', width: '150px', name: 'Status'},
-                {field: 'meter_numberSerial', width: '200px', name: 'Number Serial'},
-                {field: 'meter_numberTop', width: '100px', name: 'Number Top'},
-                {field: 'meter_numberMain', width: '200px', name: 'Number Main'},
+                {field: 'meter_type', width: '95px', name: 'Meter Type'},
+                {field: 'meter_status', width: '115px', name: 'Meter Status'},
+                {field: 'meter_numberTop', width: '90px', name: 'Number Top'},
+                {field: 'meter_numberMain', width: '120px', name: 'Number Main'},
+                {field: 'meter_numberSerial', width: '120px', name: 'Number Serial'},
                 {field: '', width: 'auto', name: ''}
             ]
         },
