@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
+class Power_Model_Contract extends Power_Model_Acl_Abstract
 {
     /**
      * Get contract by their id
@@ -185,20 +185,9 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     public function getAvailableMetersDataStore($id)
     {	
     	$contract = $this->getContractById($id);
-    	$dataObj = $this->getDbTable('meter')->getAvailableMeters($contract);
+    	$dataObj = $this->getDbTable('meterContract')->getAvailableMeters($contract);
     	
-    	$meters = array();
-    	
-    	// get all meters on this contract.
-    	$metersContract = $contract->getAllMetersOnContract();
-    	
-    	// Add meters to list from current contract
-    	foreach ($metersContract as $row) {
-    		$meter = $row->getMeter();
-    		$meters[] = array_merge($row->toArray(), $meter->toArray(), $contract->toArray());
-    	}
-    	
-    	$store = new Zend_Dojo_Data('meter_idMeter', array_merge($meters, $dataObj->toArray()));
+    	$store = new Zend_Dojo_Data('meter_idMeter', $dataObj->toArray());
     	
     	return $store->toJson();
     }
@@ -234,7 +223,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     public function addContract(array $post)
     {
     	if (!$this->checkAcl('addContract')) {
-    		throw new ZendSF_Acl_Exception('Insufficient rights');
+    		throw new Power_Model_Acl_Exception('Insufficient rights');
     	}
     	
     	$form = $this->getForm('contractAdd');
@@ -247,7 +236,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     public function editContract(array $post)
     {
     	if (!$this->checkAcl('editContract')) {
-    		throw new ZendSF_Acl_Exception('Insufficient rights');
+    		throw new Power_Model_Acl_Exception('Insufficient rights');
     	}
     	 
     	$form = $this->getForm('contractEdit');
@@ -266,7 +255,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
      *
      * @param array $post
      * @return boolean
-     * @throws ZendSF_Acl_Exception
+     * @throws Power_Model_Acl_Exception
      */
     protected  function _saveContract(array $post, Power_Form_Contract_Base $form)
     {
@@ -397,12 +386,12 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
      *
      * @param array $post
      * @return mixed false|int
-     * @throws ZendSF_Acl_Exception
+     * @throws Power_Model_Acl_Exception
      */
     public function saveMetersToContract(array $post)
     {
         if (!$this->checkAcl('saveMetersToContract')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
+            throw new Power_Model_Acl_Exception('Insufficient rights');
         }
 
         $post = Zend_Json::decode($post['jsonData']);
@@ -426,7 +415,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         // list current meter on this contract.
         // we will use this list to delete meters no longer on this contract.
-        $oldMeterContracts = $this->getMeterContractByContractId($post['contract'])->toArray();
+        $oldMeterContracts = $this->getMeterContractByContractId($post['contract'])->toArray(true);
         $result = true;
 
         // update or insert rows
@@ -452,7 +441,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         }
         
         // update contract status to tender if contract is in tender process.
-        if (in_array($contract->getContract_status(true), array('tender', 'choose', 'selected', 'signed'))) {
+        if (in_array($contract->contract_status, array('tender', 'choose', 'selected', 'signed'))) {
 	        $contractUpdate = $this->getDbTable('contract')->saveRow(
 	        	array('contract_status' => 'tender'),
 	        	$contract
@@ -469,12 +458,12 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
      *
      * @param array $post
      * @return boolean
-     * @throws ZendSF_Acl_Exception
+     * @throws Power_Model_Acl_Exception
      */
     public function saveTender(array $post)
     {
         if (!$this->checkAcl('saveTender')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
+            throw new Power_Model_Acl_Exception('Insufficient rights');
         }
 
         $form = $this->getForm('tenderSave');

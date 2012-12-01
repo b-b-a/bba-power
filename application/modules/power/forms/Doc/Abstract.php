@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-abstract class Power_Form_Doc_Abstract extends ZendSF_Form_Abstract
+abstract class Power_Form_Doc_Abstract extends Zend_Form
 {
     public function createFormElement($name, $label)
     {

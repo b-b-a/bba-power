@@ -55,7 +55,7 @@ class Power_AuthController extends Zend_Controller_Action
     public function init()
     {
         $this->_model = new Power_Model_User();
-        $this->_authService = new ZendSF_Service_Authentication();
+        $this->_authService = new Power_Service_Authentication();
     }
 
     public function loginAction()
@@ -111,7 +111,7 @@ class Power_AuthController extends Zend_Controller_Action
 
         // no access for agent or decline roles.
         if ($this->_helper->acl('Agent') || $this->_helper->acl('Decline')) {
-            $e = new ZendSF_Acl_Exception('Access denied for '. Zend_Auth::getInstance()->getIdentity()->user_name);
+            $e = new Power_Model_Acl_Exception('Access denied for '. Zend_Auth::getInstance()->getIdentity()->user_name);
             $log = Zend_Registry::get('log');
             $log->info($e);
             $this->_authService->clear();

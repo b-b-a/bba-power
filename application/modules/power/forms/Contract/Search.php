@@ -42,14 +42,14 @@ class Power_Form_Contract_Search extends Power_Form_SearchBase
 
     public function init()
     {
-        $this->addElement('ZendSFDojoTextBox', 'contract', array(
+        $this->addElement('BBAPowerTextBox', 'contract', array(
             'label'     => 'Contract:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim'),
             'required'  => false
         ));
 
-        $this->addElement('ZendSFDojoTextBox', 'meter', array(
+        $this->addElement('BBAPowerTextBox', 'meter', array(
             'label'     => 'Meter:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim'),

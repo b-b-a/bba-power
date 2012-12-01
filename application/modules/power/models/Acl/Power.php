@@ -37,16 +37,16 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Acl_Power extends ZendSF_Acl_Abstract
+class Power_Model_Acl_Power extends Zend_Acl
 {
     /**
      * Set up role and resouces for power module.
      */
-    public function init()
+    public function __construct()
     {
-        $this->removeRole('admin');
-        $this->removeRole('registered');
+        $this->deny();
 
+        $this->addRole(new Zend_Acl_Role('guest'));
         $this->addRole(new Zend_Acl_Role('decline'), 'guest');
         $this->addRole(new Zend_Acl_Role('agent'), 'decline');
         $this->addRole(new Zend_Acl_Role('read'));
@@ -54,11 +54,15 @@ class Power_Model_Acl_Power extends ZendSF_Acl_Abstract
         $this->addRole(new Zend_Acl_Role('user'), 'meterUsage');
         $this->addRole(new Zend_Acl_Role('admin'), 'user');
 
+        $this->addResource(new Zend_Acl_Resource('Guest'));
         $this->addResource(new Zend_Acl_Resource('Decline'));
         $this->addResource(new Zend_Acl_Resource('Agent'));
         $this->addResource(new Zend_Acl_Resource('Read'));
         $this->addResource(new Zend_Acl_Resource('MeterUsage'));
+        $this->addResource(new Zend_Acl_Resource('User'));
+        $this->addResource(new Zend_Acl_Resource('Admin'));
 
+        $this->allow('guest', 'Guest');
         $this->allow('decline', 'Decline');
         $this->allow('agent', 'Agent');
         $this->allow('read', 'Read');

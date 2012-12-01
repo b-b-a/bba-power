@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
+class Power_Model_DbTable_Row_Contract extends Power_Model_DbTable_Row_Abstract
 {
     /**
      * @var Power_Model_DbTable_Row_Contract
@@ -77,8 +77,6 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
         'contract_dateCreate',
         'contract_dateModify'
     );
-
-    protected $_dateFormat = 'dd/MM/yyyy';
     
     public function getShortDesc()
     {
@@ -91,22 +89,19 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
         return $desc;
     }
 
-    public function getContract_status($raw=false)
+    public function getContractStatus()
     {
-    	if (!$raw) {
-	        return $this->getRow()->findParentRow(
-	            'Power_Model_DbTable_Tables',
-	            'contractStatus',
-	            $this->getRow()->select()->where('tables_name = ?', 'contract_status')
-	        )->tables_value;
-    	} else {
-    		return $this->getRow()->contract_status;
-    	}
+        return $this->getRow()->findParentRow(
+            'Power_Model_DbTable_Tables',
+            'contractStatus',
+            $this->getRow()->select()->where('tables_name = ?', 'contract_status')
+        )->tables_value;
+    	
     }
 
-    public function getContract_type($raw=false)
+    public function getContractType()
     {
-        return ($raw) ? $this->getRow()->contract_type : $this->getRow()->findParentRow(
+        return $this->getRow()->findParentRow(
             'Power_Model_DbTable_Tables',
             'contractType',
             $this->getRow()->select()->where('tables_name = ?', 'contract_type')
@@ -169,7 +164,7 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
      * @param string $dateFormat
      * @return array
      */
-    public function toArray($dateFormat=null, $raw=false)
+   /* public function toArray($dateFormat=null, $raw=false)
     {
         $array = array();
 
@@ -187,12 +182,6 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
                     case 'contract_desc':
                         $array[$key] = $this->getShortDesc();
                         break;
-                    case 'contract_status':
-                        $array[$key] = $this->getContract_status();
-                        break;
-                    case 'contract_type':
-                        $array[$key] = $this->getContract_type();
-                        break;
                     default:
                         $array[$key] = $value;
                         break;
@@ -201,5 +190,5 @@ class Power_Model_DbTable_Row_Contract extends ZendSF_Model_DbTable_Row_Abstract
         }
 
         return $array;
-    }
+    }*/
 }

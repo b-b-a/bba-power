@@ -41,14 +41,14 @@ class Power_Form_User_Search extends Power_Form_SearchBase
 {
     public function init()
     {
-        $this->addElement('ZendSFDojoTextBox', 'user', array(
+        $this->addElement('BBAPowerTextBox', 'user', array(
             'label'     => 'User:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim'),
             'required'  => false
         ));
 
-        $this->addElement('ZendSFDojoTextBox', 'role', array(
+        $this->addElement('BBAPowerTextBox', 'role', array(
             'label'     => 'Role:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim'),

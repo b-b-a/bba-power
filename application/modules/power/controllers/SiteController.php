@@ -135,7 +135,7 @@ class Power_SiteController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
 
         if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
+            throw new Power_Model_Acl_Exception('Access Denied');
         }
 
         if ($request->isXmlHttpRequest() && $request->getParam('type') == 'add'
@@ -165,7 +165,7 @@ class Power_SiteController extends Zend_Controller_Action
             $site = $this->_model->getSiteById($request->getPost('site_idSite'));
 
             $form = $this->_getForm('siteEdit', 'save-site');
-            $form->populate($site->toArray('dd/MM/yyyy', true));
+            $form->populate($site->toArray(true));
 
             $this->view->assign(array(
                 'site'          => $site,
@@ -175,7 +175,7 @@ class Power_SiteController extends Zend_Controller_Action
 
             if ($request->getPost('type') == 'edit') {
                 if (!$this->_helper->acl('User')) {
-                    throw new ZendSF_Acl_Exception('Access Denied');
+                    throw new Power_Model_Acl_Exception('Access Denied');
                 }
                 $this->render('site-form');
             }
@@ -192,7 +192,7 @@ class Power_SiteController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
 
         if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
+            throw new Power_Model_Acl_Exception('Access Denied');
         }
 
         if (!$request->isPost() && !$request->isXmlHttpRequest()) {

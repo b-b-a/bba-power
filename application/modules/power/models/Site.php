@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Site extends ZendSF_Model_Acl_Abstract
+class Power_Model_Site extends Power_Model_Acl_Abstract
 {
     /**
      * Get site by their id
@@ -184,7 +184,7 @@ class Power_Model_Site extends ZendSF_Model_Acl_Abstract
     public function saveSite($post, $form)
     {
         if (!$this->checkAcl('saveSite')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
+            throw new Power_Model_Acl_Exception('Insufficient rights');
         }
 
         $form = $this->getForm($form);

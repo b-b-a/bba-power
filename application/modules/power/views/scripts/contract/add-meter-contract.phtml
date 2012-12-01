@@ -1,5 +1,5 @@
 <?php $tender = array('tender', 'choose', 'selected', 'signed'); ?>
-<?php $validateMethod = (in_array($this->contract->getContract_status(true), $tender)) ?
+<?php $validateMethod = (in_array($this->contract->contract_status, $tender)) ?
 	'bba.Contract.validateAddMeterToContract(contractMeterGrid, '. $this->contract->contract_idContract . ');'
 	: 'bba.Contract.addMeterToContract(contractMeterGrid, ' . $this->contract->contract_idContract . ');';?>
 <button dojoType="dijit.form.Button"
@@ -56,7 +56,7 @@
         style: 'width:1100px;height:300px;'">
     <script type="dojo/connect" event="_onFetchComplete" args="items, req">
         bba.Contract.preselectMeters(this, '<?php echo $this->contract->contract_idContract; ?>', items);
-		<?php if (in_array($this->contract->getContract_status(true), $tender)): ?>
+		<?php if (in_array($this->contract->contract_status, $tender)): ?>
             dijit.byId('tenderWarningDialog').show();
         <?php endif; ?>
     </script>

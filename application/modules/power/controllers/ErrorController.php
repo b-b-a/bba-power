@@ -53,13 +53,13 @@ class Power_ErrorController extends Zend_Controller_Action
                      ->setRawHeader('HTTP/1.1 404 Not Found');
                 $this->view->message = $errors->exception;
                 break;
-            case 'ZendSF_Exception_404':
+            case 'BBA_Exception_404':
                 // send 404
                 $this->getResponse()
                      ->setRawHeader('HTTP/1.1 404 Not Found');
                 $this->view->message = $errors->exception;
                 break;
-            case 'ZendSF_Acl_Exception':
+            case 'BBA_Power_Acl_Exception':
                 $this->getResponse()
                      ->setRawHeader('HTTP/1.1 406 Not Acceptable');
                 $this->view->message = $errors->exception;

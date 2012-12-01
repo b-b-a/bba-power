@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
+class Power_Model_Meter extends Power_Model_Acl_Abstract
 {
     /**
      * Get meter by their id
@@ -174,13 +174,13 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
      * Adds a meter
      * 
      * @param array $post
-     * @throws ZendSF_Acl_Exception
+     * @throws Power_Model_Acl_Exception
      * @return boolean|Ambigous <false, number>
      */
     public function addMeter(array $post)
     {
     	if (!$this->checkAcl('addMeter')) {
-    		throw new ZendSF_Acl_Exception('Insufficient rights');
+    		throw new Power_Model_Acl_Exception('Insufficient rights');
     	}
     	
     	$form = $this->getForm('meterAdd');
@@ -197,13 +197,13 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
      * Edits a meter
      * 
      * @param array $post
-     * @throws ZendSF_Acl_Exception
+     * @throws Power_Model_Acl_Exception
      * @return boolean|Ambigous <false, number>
      */
     public function editMeter(array $post)
     {
     	if (!$this->checkAcl('Meter')) {
-    		throw new ZendSF_Acl_Exception('Insufficient rights');
+    		throw new Power_Model_Acl_Exception('Insufficient rights');
     	}
     	
     	$form = $this->getForm('meterEdit');
@@ -240,7 +240,7 @@ class Power_Model_Meter extends ZendSF_Model_Acl_Abstract
     public function saveUsage($post)
     {
         if (!$this->checkAcl('saveUsage')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
+            throw new Power_Model_Acl_Exception('Insufficient rights');
         }
 
         $form = $this->getForm('meterUsageSave');

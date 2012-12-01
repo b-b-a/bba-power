@@ -97,7 +97,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initLogging()
     {
-        $log = new ZendSF_Log($this);
+        $log = new BBA_Log($this);
         $this->_logger = Zend_Registry::get('log');
         return $log;
     }
@@ -120,26 +120,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
 
     /**
-     * Add Global Action Helpers
-     */
-    protected function _initActionHelpers()
-    {
-        Zend_Controller_Action_HelperBroker::addHelper(new ZendSF_Controller_Helper_Acl());
-    }
-
-    /**
-     * Sets up the helper paths for the application.
-     */
-    protected function _initGlobalViewHelperPath()
-    {
-        $this->bootstrap('view');
-
-        $this->_view = $this->getResource('view');
-
-        $this->_view->addHelperPath('ZendSF/View/Helper', 'ZendSF_View_Helper');
-    }
-
-    /**
      * Sets up and adds options config file to the registry.
      */
     protected function _initConfig()
@@ -153,19 +133,12 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initViewSettings()
     {
+    	$this->bootstrap('view');
+    	$this->_view = $this->getResource('view');
+    	
         Zend_Dojo::enableView($this->_view);
         Zend_Dojo_View_Helper_Dojo::setUseDeclarative();
 
         $this->_view->headTitle('BBA Power')->setSeparator(' - ');
     }
-
-    /**
-     * Sets up the main menu and adds it to the view navigation container.
-     */
-    protected function _initMenu()
-    {
-        $menu = new Zend_Config_Xml(APPLICATION_PATH . '/configs/navigation.xml', 'nav');
-        $this->_view->navigation(new Zend_Navigation($menu));
-    }
-
 }

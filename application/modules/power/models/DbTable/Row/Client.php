@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Row_Client extends ZendSF_Model_DbTable_Row_Abstract
+class Power_Model_DbTable_Row_Client extends Power_Model_DbTable_Row_Abstract
 {
     /**
      * Array of all columns with need date format applied

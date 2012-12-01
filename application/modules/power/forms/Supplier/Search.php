@@ -41,14 +41,14 @@ class Power_Form_Supplier_Search extends Power_Form_SearchBase
 {
     public function init()
     {
-        $this->addElement('ZendSFDojoTextBox', 'supplier', array(
+        $this->addElement('BBAPowerTextBox', 'supplier', array(
             'label'     => 'Supplier:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim'),
             'required'  => false
         ));
 
-        $this->addElement('ZendSFDojoTextBox', 'personnel', array(
+        $this->addElement('BBAPowerTextBox', 'personnel', array(
             'label'     => 'Liason:',
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim'),

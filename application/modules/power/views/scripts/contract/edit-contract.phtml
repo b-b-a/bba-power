@@ -28,11 +28,11 @@
                 </tr>
                 <tr>
                     <th>Type:</th>
-                    <td><?php echo $this->contract->contract_type; ?></td>
+                    <td><?php echo $this->contract->getContractType(); ?></td>
                 </tr>
                 <tr>
                     <th>Status:</th>
-                    <td><?php echo $this->contract->contract_status; ?></td>
+                    <td><?php echo $this->contract->getContractStatus(); ?></td>
                 </tr>
                 <tr>
                     <th>Start Date:</th>
@@ -290,7 +290,7 @@
         <div class="tableHead">
         	<?php $notAllowed = array('current', 'roledon', 'lapsed', 'dead'); ?>
             <?php if ($this->isAllowed('User')): ?>
-            <?php if (!in_array($this->contract->getContract_status(true), $notAllowed)): ?>
+            <?php if (!in_array($this->contract->contract_status, $notAllowed)): ?>
             <p class="tableHead-button">
                 <button data-dojo-type="dijit.form.Button">
                     Add/Edit Meters

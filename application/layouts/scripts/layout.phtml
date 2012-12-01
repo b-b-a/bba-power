@@ -115,7 +115,7 @@
             </div>
 
             <div id="nav">
-                <?php echo $this->navigation()->sfMenu(); ?>
+                <?php echo $this->BBAMenu(); ?>
             </div>
 
             <div id="leftPanelBottom">
@@ -135,6 +135,7 @@
                         bba.setPref(this, val);
                     </script>
                 </button></p>
+                <?php if ($this->authInfo('role') === 'admin'): ?>
                 <p><button data-dojo-type="dijit.form.Button"
                            id="clearCacheButton">
                     Clear Cache
@@ -142,6 +143,7 @@
                         bba.clearCache();
                     </script>
                 </button></p>
+                <?php endif; ?>
             </div>
         </div>
         <?php endif; ?>

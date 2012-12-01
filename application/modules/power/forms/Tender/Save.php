@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Tender_Save extends ZendSF_Dojo_Form_Abstract
+class Power_Form_Tender_Save extends Power_Form_Dojo_Abstract
 {
     protected $_defaultDecorators = array(
 		'Description',
@@ -264,7 +264,7 @@ class Power_Form_Tender_Save extends ZendSF_Dojo_Form_Abstract
             'Description' => '(£ / Year)'
         ));
 
-        $this->addElement('ZendSFDojoSimpleTextarea', 'tender_desc', array(
+        $this->addElement('BBAPowerSimpleTextarea', 'tender_desc', array(
             'label' => 'Description:',
             'required' => false,
             'filters' => array('StripTags', 'StringTrim')

@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Meter_Base extends ZendSF_Dojo_Form_Abstract
+class Power_Form_Meter_Base extends Power_Form_Dojo_Abstract
 {
 	protected $_hiddenDecorators = array('ViewHelper');
 	
@@ -171,7 +171,7 @@ class Power_Form_Meter_Base extends ZendSF_Dojo_Form_Abstract
             'attribs'       => array('style' => 'width: 100px;')
         ));
 
-        $this->addElement('ZendSFDojoSimpleTextarea', 'meter_desc', array(
+        $this->addElement('BBAPowerSimpleTextarea', 'meter_desc', array(
             'label'         => 'Description:',
             'required'      => false,
             'filters'       => array('StripTags', 'StringTrim')

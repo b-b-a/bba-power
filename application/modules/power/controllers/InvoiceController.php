@@ -64,7 +64,7 @@ class Power_InvoiceController extends Zend_Controller_Action
         }
 
         if (!$this->_helper->acl('Admin')) {
-            throw new ZendSF_Acl_Exception('Access denied');
+            throw new Power_Model_Acl_Exception('Access denied');
         }
     }
 

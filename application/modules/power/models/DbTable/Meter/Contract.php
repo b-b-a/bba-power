@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Meter_Contract extends BBA_Model_DbTable_Abstract
+class Power_Model_DbTable_Meter_Contract extends Power_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -104,11 +104,87 @@ class Power_Model_DbTable_Meter_Contract extends BBA_Model_DbTable_Abstract
         $select = $this->select()->where('meterContract_idContract = ?', $id);
         return $this->fetchAll($select);
     }
+    
+    public function getAvailableMeters(Power_Model_DbTable_Row_Contract $thisContract)
+    {
+    	$idClient = $thisContract->contract_idClient;
+    	$contractType = $thisContract->contract_type;
+    	$newContractStartDate = $thisContract->contract_dateStart;
+    	$thisContract = $thisContract->contract_idContract;
+    	 
+    	$meterType = explode('-', $contractType);
+    	$meterType = $meterType[0];
+    	 
+    	$subQuery1 = $this->select(false)->setIntegrityCheck(false)
+    		->from('meter', array('meter_idMeter'))
+    		->joinLeft('meter_contract', 'meter_idMeter = meterContract_idMeter', null)
+    		->joinLeft('contract', 'meterContract_idContract = contract_idContract', null)
+    		->where('contract_idClient = ?', $idClient)
+    		->where('meter_type = ?', $meterType)
+    		->where('contract_status IN ("signed", "selected", "choose")')
+    		->where('CAST("' . $newContractStartDate . '" AS DATE) BETWEEN contract_dateStart AND contract_dateEnd');
+    
+    	$subQuery2 = $this->select(false)->setIntegrityCheck(false)
+    		->from('meter', array('meter_idMeter'))
+    		->joinLeft('meter_contract', 'meter_idMeter = meterContract_idMeter', null)
+    		->joinLeft('contract', 'meterContract_idContract = contract_idContract', null)
+    		->where('contract_idContract = ?', $thisContract);
+    	 
+    	$query1 = $this->select(false)->setIntegrityCheck(false)
+    		->from('meter', array(
+    			'meter_idMeter',
+    			'meter_type' => $this->_getTablesValue('meter_type'),
+    			'meter_status' => $this->_getTablesValue('meter_status'),
+    			'meter_numberMain'
+    		))
+    		->joinLeft('site', 'site_idSite = meter_idSite', null)
+    		->joinLeft('meter_contract', 'meterContract_idMeter = meter_idMeter', array(
+    			'meterContract_contractLatest',
+    			'meterContract_kvaNominated'
+    		))
+    		->joinLeft('contract', 'contract_idContract = meterContract_idContract', array(
+    			'contract_idContract',
+    			'contract_type' => $this->_getTablesValue('contract_type'),
+    			'contract_status' => $this->_getTablesValue('contract_status'),
+    			'contract_dateStart',
+    			'contract_dateEnd'
+    		))
+    		->joinLeft(
+    			array('contract_status_table' => 'tables'),
+    			'tables_name = "contract_status" AND tables_key = contract_status',
+    			array('contract_status_sort' => 'tables_sort')
+    		)
+    		->where('site_idClient = ?', $idClient)
+    		->where('meter_type = ?', $meterType)
+    		->where('meter_status NOT IN ("dis", "old")')
+    		->where('((meterContract_contractLatest = TRUE')
+    		->where('contract_dateEnd < ?', $newContractStartDate)
+    		->where('contract_type = ?)', $contractType)
+    		->orWhere('contract_idContract IS NULL)')
+    		->where('meter_idMeter NOT IN (?)', new Zend_Db_Expr($subQuery1))
+    		->where('meter_idMeter NOT IN (?)', new Zend_Db_Expr($subQuery2));
+    	 
+    	$query2 = clone $query1;
+    	$query2->reset(Zend_Db_Select::WHERE);
+    	$query2->where('contract_idContract = ?', $thisContract);
+    
+    	$select = $this->select()
+    		->union(array($query1, $query2))
+    		->order(array('contract_status_sort', 'contract_dateStart'));
+    	 
+    	return $this->fetchAll($select);
+    }
 
     protected function _getSearchMeterContractsSelect(array $search)
     {
         $select = $this->select(false)->setIntegrityCheck(false)
-            ->from('meter')
+            ->from('meter', array(
+            	'meter_idMeter',
+            	'meter_type' => $this->_getTablesValue('meter_type'),
+            	'meter_status' => $this->_getTablesValue('meter_status'),
+            	'meter_numberTop',
+            	'meter_numberMain'
+            ))
             ->join('meter_contract', 'meter_idMeter = meterContract_idMeter')
             ->where('meterContract_idContract = ?', $search['meterContract_idContract']);
 
@@ -152,7 +228,7 @@ class Power_Model_DbTable_Meter_Contract extends BBA_Model_DbTable_Abstract
     public function deleteRow($idMeter, $idContract)
     {
         if (!is_numeric($idMeter) && !is_numeric($idContract)) {
-            throw new ZendSF_Model_Exception('Could not delete row in ' . __CLASS__);
+            throw new Power_Model_Exception('Could not delete row in ' . __CLASS__);
         }
 
         $row = $this->find($idMeter, $idContract)->current();

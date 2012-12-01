@@ -132,7 +132,7 @@ class Power_ContractController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
 
         if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
+            throw new Power_Model_Acl_Exception('Access Denied');
         }
 
         if ($request->isXmlHttpRequest() && $request->getParam('type') == 'add'
@@ -165,10 +165,10 @@ class Power_ContractController extends Zend_Controller_Action
 
             if ($request->getPost('type') == 'edit') {
                 if (!$this->_helper->acl('User')) {
-                    throw new ZendSF_Acl_Exception('Access Denied');
+                    throw new Power_Model_Acl_Exception('Access Denied');
                 }
                 
-                $data = $contract->toArray('dd/MM/yyyy', true);
+                $data = $contract->toArray(true);
                 $data['type'] = $request->getParam('type');
                 
                 $form = $this->_getForm('contractEdit', 'save-contract');
@@ -227,7 +227,7 @@ class Power_ContractController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
 
         if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
+            throw new Power_Model_Acl_Exception('Access Denied');
         }
 
         if (!$request->isPost() && !$request->isXmlHttpRequest()) {
@@ -299,7 +299,7 @@ class Power_ContractController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
 
         if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
+            throw new Power_Model_Acl_Exception('Access Denied');
         }
 
         if ($request->getParam('contract_idContract') && $request->isPost()
@@ -318,7 +318,7 @@ class Power_ContractController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
 
         if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
+            throw new Power_Model_Acl_Exception('Access Denied');
         }
 
         if (!$request->isPost() && !$request->isXmlHttpRequest()) {
@@ -361,7 +361,7 @@ class Power_ContractController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
 
         if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
+            throw new Power_Model_Acl_Exception('Access Denied');
         }
 
         if ($request->isXmlHttpRequest() && $request->getParam('type') == 'add'
@@ -392,10 +392,10 @@ class Power_ContractController extends Zend_Controller_Action
 
             if ($request->getParam('type') == 'edit') {
                 if (!$this->_helper->acl('User')) {
-                    throw new ZendSF_Acl_Exception('Access Denied');
+                    throw new Power_Model_Acl_Exception('Access Denied');
                 }
                 $form = $this->_getForm('tenderSave', 'save-tender');
-                $form->populate($tender->toArray('dd/MM/yyyy'));
+                $form->populate($tender->toArray(true));
                 $this->view->assign(array('tenderSaveForm' => $form));
                 $this->render('tender-form');
             }
@@ -412,7 +412,7 @@ class Power_ContractController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
 
         if (!$this->_helper->acl('User')) {
-            throw new ZendSF_Acl_Exception('Access Denied');
+            throw new Power_Model_Acl_Exception('Access Denied');
         }
 
         if (!$request->isPost() && !$request->isXmlHttpRequest()) {

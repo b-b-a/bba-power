@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Row_User extends ZendSF_Model_DbTable_Row_Abstract
+class Power_Model_DbTable_Row_User extends Power_Model_DbTable_Row_Abstract
 {
     /**
      * An array of user roles.
@@ -68,40 +68,17 @@ class Power_Model_DbTable_Row_User extends ZendSF_Model_DbTable_Row_Abstract
         return $this->getRow()->user_name;
     }
 
-    public function getUser_role()
+    public function getUser_role($raw=false)
     {
-        return self::$_roles[$this->getRow()->user_role];
+    	if (!$raw) {
+        	return self::$_roles[$this->getRow()->user_role];
+    	} else {
+    		return $this->getRow()->user_role;
+    	}
     }
 
     public static function getRoles()
     {
         return self::$_roles;
-    }
-
-    /**
-     * Returns row as an array.
-     *
-     * @return array
-     */
-    public function toArray($raw = false)
-    {
-        $array = array();
-
-        foreach ($this->getRow() as $key => $value) {
-            if (true === $raw) {
-                $array[$key] = $value;
-            } else {
-                switch ($key) {
-                    case 'user_role':
-                        $array[$key] = $this->getUser_role();
-                        break;
-                    default:
-                        $array[$key] = $value;
-                        break;
-                }
-            }
-        }
-
-        return $array;
     }
 }
