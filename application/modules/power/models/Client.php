@@ -385,7 +385,7 @@ class Power_Model_Client extends Power_Model_Acl_Abstract
         $client = array_key_exists('client_idClient', $data) ?
             $this->getClientById($data['client_idClient']) : null;
         
-        $this->clearCache(array('client'));
+        $this->clearCache(array('client', 'site'));
 
         return $this->getDbTable('client')->saveRow($data, $client);
     }
