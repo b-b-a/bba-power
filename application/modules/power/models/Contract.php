@@ -308,7 +308,7 @@ class Power_Model_Contract extends Power_Model_Acl_Abstract
         // plus one year minus one day of tender contract period
         // but only if tender selected has changed.
         $warning = false;
-        
+         
         if ($contract && $contract->getAllMetersOnContract()->count() > 0 &&
         		$data['contract_idTenderSelected'] > 0 && 
         		$contract->contract_idTenderSelected != $data['contract_idTenderSelected']) {
@@ -323,7 +323,7 @@ class Power_Model_Contract extends Power_Model_Acl_Abstract
             }
             
             if ($contract && ($contract->contract_dateEnd != $data['contract_dateEnd'] ||
-            		$contract->getContract_status(true) != $data['contract_status'])) {
+            		$contract->getContract_status() != $data['contract_status'])) {
             	$warning = true;
             }
         }
@@ -402,8 +402,8 @@ class Power_Model_Contract extends Power_Model_Acl_Abstract
 
         $c = 0;
         
-        $log = Zend_Registry::get('log');
-        $log->info(count($post['meters']));
+        //$log = Zend_Registry::get('log');
+        //$log->info("saveMetersToContract:Meter count: ".count($post['meters']));
         
         foreach($post['meters'] as $value) {
             $data[$c]['meterContract_idMeter'] = $value['id'];

@@ -102,9 +102,9 @@ class Power_Form_Contract_Edit extends Power_Form_Contract_Base
     {
         $multiOptions = parent::_getContractStatus();
         
-        $log = Zend_Registry::get('log');
-        $log->info($this->_meterCount);
-        $log->info($this->_tenderCount);
+        //$log = Zend_Registry::get('log');
+        //$log->info("_getContractStatus:_meterCount: ".$this->_meterCount);
+        //$log->info("_getContractStatus:_tenderCount: ".$this->_tenderCount);
         
         if (!$this->_meterCount || !$this->_tenders->count()) {
             $multiOptions = array(

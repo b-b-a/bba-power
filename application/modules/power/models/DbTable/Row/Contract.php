@@ -95,8 +95,14 @@ class Power_Model_DbTable_Row_Contract extends Power_Model_DbTable_Row_Abstract
             'Power_Model_DbTable_Tables',
             'contractStatus',
             $this->getRow()->select()->where('tables_name = ?', 'contract_status')
-        )->tables_value;
-    	
+        )->tables_value;	
+    }
+    
+    public function getContract_status()
+    // get the raw contract_status from the contract DB
+            //(getContractStatus above gets the User Visible translation from Tables)
+    {
+ 	return $this->getRow()->contract_status;
     }
 
     public function getContractType()

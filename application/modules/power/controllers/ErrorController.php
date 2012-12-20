@@ -73,7 +73,7 @@ class Power_ErrorController extends Zend_Controller_Action
         }
         
         if ($action == 'save-client' || $action == 'save-contract') {
-        	$log->info($action);
+        	$log->info("errorAction:action: ".$action);
         	$this->getHelper('layout')->disableLayout();
         	$this->getHelper('viewRenderer')->setNoRender(true);
         	

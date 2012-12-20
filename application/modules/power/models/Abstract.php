@@ -249,9 +249,8 @@ abstract class Power_Model_Abstract
     	$cache = $this->getCached();
     	
     	if ($this->_cache instanceof Power_Model_Cache) {
-    		$log = Zend_Registry::get('log');
-    		$log->info($tags);
-    		
+    		//$log = Zend_Registry::get('log');
+    		//$log->info("clearCache:tags: ".$tags);
 	    	$cache->getCache()
 	    		->clean(Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, $tags);
     	}

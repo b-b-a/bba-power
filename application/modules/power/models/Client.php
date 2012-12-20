@@ -407,8 +407,8 @@ class Power_Model_Client extends Power_Model_Acl_Abstract
             ->where('clientAd_postcode = ?', $post['clientAd_postcode']);
         $addresses = $client->getAllClientAddresses($select);
 
-        $log = Zend_Registry::get('log');
-        $log->info($addresses);
+        //$log = Zend_Registry::get('log');
+        //$log->info("checkClientAddress:addresses: ".$addresses);
     }
 
     /**

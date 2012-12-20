@@ -265,9 +265,9 @@ class Power_ClientController extends Zend_Controller_Action
     		$newDate = new Zend_Date($request->getParam('newDate', '1970-01-01'), Zend_Date::DATE_SHORT);
     		$oldDate = new Zend_Date($request->getParam('oldDate', '1970-01-01'), Zend_Date::DATE_SHORT);
     		
-    		$log = Zend_Registry::get('log');
-    		$log->info('newDate:'.$newDate);
-    		$log->info('oldDate:'.$oldDate);
+    		//$log = Zend_Registry::get('log');
+    		//$log->info('checkLoaDateAction:newDate:'.$newDate);
+    		//$log->info('checkLoaDateAction:oldDate:'.$oldDate);
     		
     		//if newDate is not grater than oldDate validate form.
     		// || !$newDate->equals($oldDate)
