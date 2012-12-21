@@ -323,7 +323,7 @@ class Power_Model_Contract extends Power_Model_Acl_Abstract
             }
             
             if ($contract && ($contract->contract_dateEnd != $data['contract_dateEnd'] ||
-            		$contract->getContract_status() != $data['contract_status'])) {
+            		$contract->contract_status != $data['contract_status'])) {
             	$warning = true;
             }
         }
