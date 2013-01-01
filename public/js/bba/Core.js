@@ -87,10 +87,10 @@ define("bba/Core",
         tabs : [],
 
         tabPrefix : {
-            client          : 'C-',
+            client          : 'CL-',
             clientAd        : 'CA-',
             clientPers      : 'CP-',
-            contract        : 'CO-',
+            contract        : 'C-',
             invoice         : 'I-',
             invoiceLine     : 'IL-',
             invoiceUsage    : 'IU-',

@@ -281,7 +281,7 @@ class Power_Model_Contract extends Power_Model_Acl_Abstract
     		
             return array('id' => false);
         }
-
+        
         // get filtered values from main form,
         // we will want to save the docForm till later.
         $data = $form->getValues();
@@ -304,27 +304,31 @@ class Power_Model_Contract extends Power_Model_Acl_Abstract
         $contract = array_key_exists('contract_idContract', $data) ?
             $this->getContractById($data['contract_idContract']) : null;
             
-        // if status is tender selected change endDate to
-        // plus one year minus one day of tender contract period
-        // but only if tender selected has changed.
+        //warning to user that system has changed the Contract Satus or end date
         $warning = false;
-         
-        if ($contract && $contract->getAllMetersOnContract()->count() > 0 &&
-        		$data['contract_idTenderSelected'] > 0 && 
+                //$log = Zend_Registry::get('log');
+                //$log->info("saveContract:Cont_End: ".$contract->contract_dateEnd);
+                //$log->info("saveContract:End(input): ".$data['contract_dateEnd']);
+
+        //If tender selected being set to a value
+        if ($contract && $data['contract_idTenderSelected'] > 0 && 
         		$contract->contract_idTenderSelected != $data['contract_idTenderSelected']) {
+            //get new tender details
             $tender = $this->getTenderById($data['contract_idTenderSelected']);
-            
-            $date = new Zend_Date($data['contract_dateStart']);
-            $date->add(round($tender->tender_periodContract, 0), ZEND_DATE::MONTH);
-            $date->sub('1', ZEND_DATE::DAY);
-            $data['contract_dateEnd'] = $date->toString('yyyy-MM-dd');
+            //set contract status to selected if new, choose or tender
             if (in_array($data['contract_status'], array('tender', 'choose', 'new'))) {
             	$data['contract_status'] = 'selected';
+                //set warning to user that system changed status
+                $warning = true;
             }
-            
-            if ($contract && ($contract->contract_dateEnd != $data['contract_dateEnd'] ||
-            		$contract->contract_status != $data['contract_status'])) {
-            	$warning = true;
+            //also, if date _not_ set by user set end date using start date and tender period
+            if ($contract->contract_dateEnd == $data['contract_dateEnd']) {
+                $date = new Zend_Date($data['contract_dateStart']);
+                $date->add(round($tender->tender_periodContract, 0), ZEND_DATE::MONTH);
+                $date->sub('1', ZEND_DATE::DAY);
+                $data['contract_dateEnd'] = $date->toString('yyyy-MM-dd');
+                //set warning to user that system set the end date
+                $warning = true;
             }
         }
 
