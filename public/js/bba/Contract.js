@@ -142,7 +142,7 @@ define("bba/Contract",
                 id : 'contractGrid',
                 store : core.dataStores.contractStore,
                 structure : bba.Contract.gridLayouts.contract,
-                sortInfo : '2',
+                sortInfo : '-5',
                 onRowClick : function() {
                      bba.Contract.contractGridRowClick();
                 }
