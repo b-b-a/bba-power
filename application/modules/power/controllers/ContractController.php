@@ -172,8 +172,7 @@ class Power_ContractController extends Zend_Controller_Action
                 $data['type'] = $request->getParam('type');
                 
                 $form = $this->_getForm('contractEdit', 'save-contract');
-                $form->populate($data);
-                
+                $form->populate($data);         
                 
                 $this->view->assign(array(
                     'contractForm'  => $form

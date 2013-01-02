@@ -75,7 +75,7 @@ class Power_Form_Contract_Edit extends Power_Form_Contract_Base
 			$this->getElement('contract_idTenderSelected')->setAttrib('disabled', 'disabled');
 		}
 		
-		// add validator to tenderselect if status equals selected.
+		// add validator to tender select if status equals selected.
 		if ($this->_request->getParam('contract_status') == 'selected') {
 		    $this->getElement('contract_idTenderSelected')
 		        ->setRequired(true)
@@ -83,6 +83,16 @@ class Power_Form_Contract_Edit extends Power_Form_Contract_Base
                     'min'       => '0',
                     'message'   => 'Please select a tender.'
                 ));
+		}
+		
+		// if the user is not admin then disable some form controls.
+		// put them back when saving values in Power_Model_Contract::_saveContract()
+		if (!$this->getModel()->checkAcl('currrentContractFormEdit') 
+				&& $row->contract_status == 'current') {
+			$this->getElement('contract_status')->setRequired(false)->setAttrib('disabled', 'disabled');
+			$this->getElement('contract_dateStart')->setRequired(false)->setAttrib('disabled', 'disabled');
+			$this->getElement('contract_dateEnd')->setAttrib('disabled', 'disabled');
+			$this->getElement('contract_reference')->setAttrib('disabled', 'disabled');
 		}
 		
 		$this->addElement($this->_contractDoc->getElement('contract_docAnalysis'));

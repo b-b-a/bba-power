@@ -306,9 +306,9 @@ class Power_Model_Contract extends Power_Model_Acl_Abstract
             
         //warning to user that system has changed the Contract Satus or end date
         $warning = false;
-                //$log = Zend_Registry::get('log');
-                //$log->info("saveContract:Cont_End: ".$contract->contract_dateEnd);
-                //$log->info("saveContract:End(input): ".$data['contract_dateEnd']);
+        //$log = Zend_Registry::get('log');
+        //$log->info("saveContract:Cont_End: ".$contract->contract_dateEnd);
+        //$log->info("saveContract:End(input): ".$data['contract_dateEnd']);
 
         //If tender selected being set to a value
         if ($contract && $data['contract_idTenderSelected'] > 0 && 
@@ -330,6 +330,15 @@ class Power_Model_Contract extends Power_Model_Acl_Abstract
                 //set warning to user that system set the end date
                 $warning = true;
             }
+        }
+        
+        // put back disabled values from edit form.
+        if (!$this->checkAcl('currrentContractFormEdit') 
+        		&& $post['type'] == 'edit' && $contract->contract_status == 'current') {
+			$data['contract_status'] = $contract->contract_status;
+        	$data['contract_dateStart'] = $contract->contract_dateStart;
+        	$data['contract_dateEnd'] = $contract->contract_dateEnd;
+        	$data['contract_reference'] = $contract->contract_reference;
         }
 
         $id = $this->getDbTable('contract')->saveRow($data, $contract);
@@ -515,7 +524,8 @@ class Power_Model_Contract extends Power_Model_Acl_Abstract
 
         // implement rules here.
         $this->_acl->allow('user', $this)
-            ->allow('admin', $this);
+            ->allow('admin', $this)
+        	->deny('user', $this, array('currrentContractFormEdit'));
 
         return $this;
     }
