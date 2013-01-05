@@ -284,7 +284,8 @@ define("bba/Contract",
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'contract_idContract');
-            tabTitle = grid.store.getValue(selectedItem, 'client_name');
+            tabTitle = grid.store.getValue(selectedItem, 'contract_idContract')
+            	+ '-' + grid.store.getValue(selectedItem, 'client_name');
 
             this.showContractTab(id, tabTitle);
         },
@@ -526,7 +527,7 @@ define("bba/Contract",
                 }
 
                 if (data.client_name) {
-                    bba.Contract.showContractTab(data.saved.id, data.client_name);
+                    bba.Contract.showContractTab(data.saved.id,  data.contract_idContract + '-' . data.client_name);
                 }
                 
                 if (data.saved.warning) {
