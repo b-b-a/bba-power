@@ -59,6 +59,13 @@ class Power_Form_Contract_Base extends Power_Form_Dojo_Abstract
 	
     public function init()
     {
+    	// add path to custom validators.
+    	$this->addElementPrefixPath(
+    		'Power_Validate',
+    		APPLICATION_PATH . '/modules/power/models/Validate/',
+    		'validate'
+    	);
+    	
         $this->setName('contract');
         $this->setAttrib('enctype', 'multipart/form-data');
         
@@ -115,10 +122,9 @@ class Power_Form_Contract_Base extends Power_Form_Dojo_Abstract
             'validators'    => array(
                 array('GreaterThan', true, array(
                     'min'       => '0',
-                    'message'   => 'Please select a status.'
+                    'messages'   => 'Please select a status.'
                 ))
             ),
-            'ErrorMessages' => array('Please select a status.'),
         	'order'			=> 30
         ));
 

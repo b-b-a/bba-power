@@ -309,14 +309,6 @@ class Power_Model_Contract extends Power_Model_Acl_Abstract
         //$log = Zend_Registry::get('log');
         //$log->info("saveContract:Cont_End: ".$contract->contract_dateEnd);
         //$log->info("saveContract:End(input): ".$data['contract_dateEnd']);
-
-// ############  Nasty to protect DB   - needs error message #################
-        //Status cannot be signed if no tender selected
-        if ($contract && $data['contract_idTenderSelected'] == 0 &&
-                ($data['contract_status'] == 'current' OR $data['contract_status'] == 'signed')){
-            $data['contract_status'] = $contract->contract_status;
-        }
-// ############  Nasty to protect DB   #################   
         
         //If tender selected being set to a value
         if ($contract && $data['contract_idTenderSelected'] > 0 && 

@@ -85,6 +85,9 @@ class Power_Form_Contract_Edit extends Power_Form_Contract_Base
                 ));
 		}
 		
+		// add validator to contract staus.
+		$this->getElement('contract_status')->addValidator('ContractStatus', true);
+		
 		// if the user is not admin then disable some form controls.
 		// put them back when saving values in Power_Model_Contract::_saveContract()
 		if (!$this->getModel()->checkAcl('currrentContractFormEdit') 
