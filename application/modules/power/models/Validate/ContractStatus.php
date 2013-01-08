@@ -1,6 +1,6 @@
 <?php
 /**
- * NumberMain.php
+ * ContractStatus.php
  *
  * Copyright (c) 2012 Shaun Freeman <shaun@shaunfreeman.co.uk>.
  *
@@ -28,7 +28,7 @@
  */
 
 /**
- * NumberMain Validation Model.
+ * ContractStatus Validation Model.
  *
  * @category   BBA
  * @package    Power
