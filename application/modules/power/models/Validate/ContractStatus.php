@@ -48,7 +48,9 @@ class Power_Validate_ContractStatus extends Zend_Validate_Abstract
      * @var array
      */
     protected $_messageTemplates = array(
-        self::NO_TENDER_EXISTS => 'The contract status cannot be set to signed or current if there is no tender selected.',
+//        self::NO_TENDER_EXISTS => 'The contract status cannot be set to signed or current if there is no tender selected.',
+//        self::NO_TENDER_EXISTS => 'Please select a tender before setting the status to this.',
+        self::NO_TENDER_EXISTS => 'This status is not valid until a tender is selected.',
     );
 
     /**
@@ -59,9 +61,10 @@ class Power_Validate_ContractStatus extends Zend_Validate_Abstract
     {
     	$this->_setValue($value);
     	
-    	if (!$context['contract_idTenderSelected'] && ($value === 'signed' || $value === 'current')) {
-    		$this->_error(self::NO_TENDER_EXISTS);
-    		return false;
+    	if (!$context['contract_idTenderSelected'] && 
+                ($value === 'signed' || $value === 'current' || $value === 'roledon' || $value === 'renewed' || $value === 'lapsed')) {
+            $this->_error(self::NO_TENDER_EXISTS);
+            return false;
     	}
     	
     	return true;
