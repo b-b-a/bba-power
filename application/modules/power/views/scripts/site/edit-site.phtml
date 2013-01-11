@@ -204,7 +204,7 @@
                         store: siteContractStore<?php echo $this->site->site_idSite; ?>,
                         structure: bba.Contract.gridLayouts.contract,
                         query: { idSite: <?php echo $this->site->site_idSite; ?> },
-                        sortInfo: '2',
+                        sortInfo: '-5',
                         noDataMessage : bba.gridMessage">
                         <?php if ($this->isAllowed('User')): ?>
                         <script type="dojo/method" data-dojo-event="onRowClick">
