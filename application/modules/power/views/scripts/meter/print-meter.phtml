@@ -3,11 +3,11 @@
     <caption>Meter Details <span class="id_number">(<?php echo $this->meter->meter_idMeter; ?>)</span></caption>
     <tr>
         <th>Type:</th>
-        <td><?php echo $this->meter->meter_type; ?></td>
+        <td><?php echo $this->meter->getMeterType(); ?></td>
     </tr>
     <tr>
         <th>Status:</th>
-        <td><?php echo $this->meter->meter_status; ?></td>
+        <td><?php echo $this->meter->getMeterStatus(); ?></td>
     </tr>
     <tr>
         <th>Number Top:</th>
@@ -79,11 +79,11 @@
     </tr>
     <tr>
         <th>Type:</th>
-        <td><?php echo $this->escape($contract->contract_type); ?></td>
+        <td><?php echo $this->escape($contract->getContractType()); ?></td>
     </tr>
     <tr>
         <th>Status:</th>
-        <td><?php echo $this->escape($contract->contract_status); ?></td>
+        <td><?php echo $this->escape($contract->getContractStatus()); ?></td>
     </tr>
     <tr>
         <th>Start Date:</th>
