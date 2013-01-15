@@ -147,18 +147,7 @@ class Power_Model_Meter extends Power_Model_Acl_Abstract
      */
     public function getMeterContractDataStore(array $post)
     {
-        $sort = $post['sort'];
-        $count = $post['count'];
-        $start = $post['start'];
-
-        $select = $this->getDbTable('meter')->select();
-
-        $select = $this->getDbTable('meter')->getLimit($select, $count, $start);
-        $select = $this->getDbTable('meter')->getSortOrder($select, $sort);
-
-        $dataObj = $this->getDbTable('meter')
-            ->getMeterById($post['meter_idMeter'])
-            ->getAllContracts($select);
+        $dataObj = $this->getDbTable('meterContract')->getAllContractsByMeterId($post);
 
         $store = $this->_getDojoData($dataObj, 'contract_idContract');
 

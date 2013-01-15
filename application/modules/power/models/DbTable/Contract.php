@@ -121,7 +121,7 @@ class Power_Model_DbTable_Contract extends Power_Model_DbTable_Abstract
     	}
     	
     	$select->where('contract_type = ?', $type)
-                ->where('contract_idClient = ?', $clientId)
+            ->where('contract_idClient = ?', $clientId)
     		->where('contract_dateStart = ?', $dateStart);
     	
     	if ($ref && $ref != '') {

@@ -217,6 +217,33 @@ class Power_Model_DbTable_Meter_Contract extends Power_Model_DbTable_Abstract
 
         return $result->numRows;
     }
+    
+    public function getAllContractsByMeterId($post)
+    {
+    	$sort = (string) $post['sort'];
+    	$count = (int) $post['count'];
+    	$offset = (int) $post['start'];
+    	$meterId = (int) $post['meter_idMeter'];
+    	
+    	$select = $this->select(false)->setIntegrityCheck(false)
+    		->from('meter_contract')
+    		->joinCross('contract', array(
+    			'contract_idContract',
+    			'contract_reference',
+    			'contract_type' => $this->_getTablesValue('contract_type'),
+    			'contract_status' => $this->_getTablesValue('contract_status'),
+    			'contract_dateStart',
+    			'contract_dateEnd',
+    			'contract_desc' => 'SUBSTR(contract_desc, 1, 40)'
+    		))
+    		->where('contract_idContract = meterContract_idContract')
+    		->where('meterContract_idMeter = ?', $meterId);
+    	
+    	$select = $this->getLimit($select, $count, $offset);
+    	$select = $this->getSortOrder($select, $sort);
+    	
+    	return $this->fetchAll($select);
+    }
 
     /**
      * Delete a row in the database.
