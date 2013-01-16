@@ -123,6 +123,30 @@ class Power_Model_DbTable_Meter extends Power_Model_DbTable_Abstract
     
     	return $this->fetchRow($select);
     }
+    
+    public function getAllMetersBySiteId(array $post)
+    {
+        $sort = (string) $post['sort'];
+    	$count = (int) $post['count'];
+    	$offset = (int) $post['start'];
+    	$siteId = (int) $post['meter_idSite'];
+    	
+    	$select = $this->select(false)
+    		->from($this, array(
+    			'meter_idMeter',
+    			'meter_type' => $this->_getTablesValue('meter_type'),
+    			'meter_status' => $this->_getTablesValue('meter_status'),
+    			'meter_numberTop',
+                'meter_numberMain',
+                'meter_numberSerial'
+    		))
+    		->where('meter_idSite = ?', $siteId);
+    	
+    	$select = $this->getLimit($select, $count, $offset);
+    	$select = $this->getSortOrder($select, $sort);
+    	
+    	return $this->fetchAll($select);
+    }
 
     protected function _getSearchMetersSelect(array $search)
     {

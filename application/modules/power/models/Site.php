@@ -94,18 +94,13 @@ class Power_Model_Site extends Power_Model_Acl_Abstract
      */
     public function getSiteMetersDataStore($post)
     {
-        $sort = $post['sort'];
-        $count = $post['count'];
-        $start = $post['start'];
+        $dataObj = $this->getDbTable('meter')->getAllMetersBySiteId($post);
 
-        $row = $this->getSiteById($post['meter_idSite']);
-        $meters = $row->getMeters($sort, $count, $start);
-
-        $store = $this->_getDojoData($meters, 'meter_idMeter');
+        $store = $this->_getDojoData($dataObj, 'meter_idMeter');
 
         $store->setMetadata(
             'numRows',
-            $row->getMeters()->count()
+            $dataObj->count()
         );
 
         return ($store->count()) ? $store->toJson() : '{}';
