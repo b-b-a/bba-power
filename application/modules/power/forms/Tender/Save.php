@@ -112,6 +112,12 @@ class Power_Form_Tender_Save extends Power_Form_Dojo_Abstract
             'required' => false,
             'value' => '0',
         ));
+        
+        $this->addElement('BBAPowerTextBox', 'tender_reference', array(
+        	'label'     => 'Render Ref:',
+        	'required'  => false,
+        	'filters'   => array('StripTags', 'StringTrim')
+        ));
 
         $this->addElement('NumberTextBox', 'tender_periodContract', array(
             'label' => 'Contract Period:',
