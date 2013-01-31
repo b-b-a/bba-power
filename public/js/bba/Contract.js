@@ -40,6 +40,7 @@ define("bba/Contract",
     "dojo/text!./html/contractAddEditMeterMessage.html",
     "bba/Meter",
     "bba/Invoice",
+    "bba/Supplier",
     "dijit/form/ValidationTextBox",
     "dojo/data/ItemFileReadStore",
     "dijit/form/FilteringSelect",
@@ -302,15 +303,32 @@ define("bba/Contract",
                 }
             });
         },
-
-        tenderGridRowClick : function(grid, contentVars)
+        
+        tenderGridRowCellClick : function(grid, row, item)
         {
-            selectedIndex = grid.focus.rowIndex;
-            selectedItem = grid.getItem(selectedIndex);
-            id = grid.store.getValue(selectedItem, 'tender_idTender');
-            tabTitle = grid.store.getValue(selectedItem, 'supplier_name');
-
-            bba.openTab({
+        	rowIndex = row.rowIndex;
+            selectedItem = grid.getItem(rowIndex);
+            
+            switch (item) {
+            	case 'supplier_nameShort':
+            	case 'supplierPers_name':
+            		bba.Supplier.showSupplierTab(
+            			grid.store.getValue(selectedItem, 'supplier_idSupplier'),
+                        grid.store.getValue(selectedItem, 'supplier_name')
+            		);
+            		break;
+            	default:
+            		this.showTenderTab(
+                        grid.store.getValue(selectedItem, 'tender_idTender'),
+                        grid.store.getValue(selectedItem, 'supplier_name')
+                    );
+            		break;
+            }
+        },
+        
+        showTenderTab : function(id, tabTitle, contentVars)
+        {
+        	bba.openTab({
                 tabId : 'tender' + id,
                 title : (tabTitle) ? tabTitle : 'Tender',
                 url : './contract/edit-tender',

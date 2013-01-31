@@ -330,6 +330,13 @@ class Power_Model_Contract extends Power_Model_Acl_Abstract
                 //set warning to user that system set the end date
                 $warning = true;
             }
+            
+            // if contract_reference is blank copy the tender refernce to it.
+            if ($contract->contract_reference == '') {
+            	$tenderRef = $contract->getTenderSelected('tender_reference');
+            	$data['contract_reference'] = $tenderRef;
+            	$warning = true;
+            }
         }
         
         // put back disabled values from edit form.

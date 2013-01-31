@@ -250,8 +250,9 @@
                         query: { tender_idContract: <?php echo $this->contract->contract_idContract; ?> },
                         sortInfo: '-6',
                         noDataMessage : bba.gridMessage">
-                    <script type="dojo/method" data-dojo-event="onRowClick">
-                        bba.Contract.tenderGridRowClick(this);
+                    <script type="dojo/method" data-dojo-event="onCellClick" args="e">
+                        var colField = e.cell.field
+                        bba.Contract.tenderGridRowCellClick(this, e, colField);
                     </script>
                 </table>
             </div>
