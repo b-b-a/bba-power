@@ -315,6 +315,7 @@ class Power_Model_Contract extends Power_Model_Acl_Abstract
         		$contract->contract_idTenderSelected != $data['contract_idTenderSelected']) {
             //get new tender details
             $tender = $this->getTenderById($data['contract_idTenderSelected']);
+            $tenderOld = $this->getTenderById($contract->contract_idTenderSelected);
             //set contract status to selected if new, choose or tender
             if (in_array($data['contract_status'], array('tender', 'choose', 'new'))) {
             	$data['contract_status'] = 'selected';
@@ -332,9 +333,14 @@ class Power_Model_Contract extends Power_Model_Acl_Abstract
             }
             
             // if contract_reference is blank copy the tender refernce to it.
-            if ($contract->contract_reference == '') {
-            	$tenderRef = $contract->getTenderSelected('tender_reference');
-            	$data['contract_reference'] = $tenderRef;
+      //      if ($contract->contract_reference == '') {
+      //      	$tenderRef = $contract->getTenderSelected('tender_reference');
+      //      	$data['contract_reference'] = $tenderRef;
+      //     This did not work - ref was not filled in.  And copy when blank only valid first time. Eddie.
+            // if new contract ref. is blank or if new contract ref. = old tender ref. - copy new tender ref. in
+              if ($data['contract_reference'] == '' 
+                      OR $data['contract_reference'] == $tenderOld->tender_reference) {
+                $data['contract_reference'] = $tender->tender_reference;
             	$warning = true;
             }
         }
