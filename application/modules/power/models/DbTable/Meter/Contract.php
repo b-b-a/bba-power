@@ -236,7 +236,9 @@ class Power_Model_DbTable_Meter_Contract extends Power_Model_DbTable_Abstract
     			'contract_dateEnd',
     			'contract_desc' => 'SUBSTR(contract_desc, 1, 40)'
     		))
+    		->joinCross('client', array('client_name'))
     		->where('contract_idContract = meterContract_idContract')
+    		->where('contract_idClient = client_idClient')
     		->where('meterContract_idMeter = ?', $meterId);
     	
     	$select = $this->getLimit($select, $count, $offset);
