@@ -242,12 +242,21 @@ class Power_Form_Tender_Save extends Power_Form_Dojo_Abstract
 
         $this->addElement('NumberTextBox', 'tender_commission', array(
             'label' => 'Commission Rate:',
+            'places' => 1,
             'constraints' => array(
-                'min' => 0
+                'min' => 0,
+                'max' => 1,
             ),
             'required' => true,
             'value' => 0,
             'filters' => array('StripTags', 'StringTrim'),
+            'validators' => array(
+                array('Between', true, array(
+                    'min' => '0',
+                    'max' => '1',
+                    'message' => 'Value must be between 0 and 1',
+                ))
+            ),
             'dijitParams' => array(
                 'promptMessage' => 'Enter commission rate (Pence / Unit)',
                 'style' => 'width:50px'
@@ -257,12 +266,21 @@ class Power_Form_Tender_Save extends Power_Form_Dojo_Abstract
 
         $this->addElement('NumberTextBox', 'tender_fee', array(
             'label' => 'Commission Fee:',
+            'places' => 0,
             'constraints' => array(
-                'min' => 0
+                'min' => 0,
+                'max' => 1000,
             ),
             'required' => true,
             'value' => 0,
             'filters' => array('StripTags', 'StringTrim'),
+            'validators' => array(
+                array('Between', true, array(
+                    'min' => '10',
+                    'max' => '1000',
+                    'message' => 'Value must be between 10 and 1000',
+                ))
+            ),
             'dijitParams' => array(
                 'promptMessage' => 'Enter commission fee (£ / Year)',
                 'style' => 'width:50px'
