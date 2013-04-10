@@ -312,7 +312,7 @@ define("bba/Client",
                 preventCache: true,
                 load: function(data) {
                     if (data.error) {
-                    	dom.byId('dialog').innerHTML = data;
+                    	dom.byId('dialog').innerHTML = data.html;
                         parser.parse('dialog');
                         error.show();
                     } else {
