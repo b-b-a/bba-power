@@ -114,7 +114,7 @@ class Power_Form_Tender_Save extends Power_Form_Dojo_Abstract
         ));
         
         $this->addElement('BBAPowerTextBox', 'tender_reference', array(
-        	'label'     => 'Render Ref:',
+        	'label'     => 'Tender Ref:',
         	'required'  => false,
         	'filters'   => array('StripTags', 'StringTrim')
         ));
