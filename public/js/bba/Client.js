@@ -314,6 +314,7 @@ define("bba/Client",
                     if (data.error) {
                     	dom.byId('dialog').innerHTML = data.html;
                         parser.parse('dialog');
+                        clientFormStandby.hide();
                         error.show();
                     } else {
                     	if (data.test == 'pass') {

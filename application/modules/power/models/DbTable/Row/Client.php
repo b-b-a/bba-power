@@ -110,7 +110,7 @@ class Power_Model_DbTable_Row_Client extends Power_Model_DbTable_Row_Abstract
      * @param string $dateFormat
      * @return array
      */
-    public function toArray($dateFormat=null, $raw=false)
+    public function toArray($raw=false)
     {
         $array = array();
 
@@ -118,7 +118,7 @@ class Power_Model_DbTable_Row_Client extends Power_Model_DbTable_Row_Abstract
 
             if (in_array($key, $this->_dateKeys)) {
                 $date = new Zend_Date($value);
-                $value = $date->toString($dateFormat);
+                $value = $date->toString($this->_dateFormat);
             }
 
             if (true === $raw) {
