@@ -292,8 +292,14 @@ define("bba/Client",
             formValues = clientForm.getValues();
             
             if (!formValues.client_docLoa[0]) {
-            	//clientFormStandby.hide();
-                return clientForm.validate();
+            	formValidated = clientForm.validate();
+            	
+            	if (formValidated) {
+            		return formValidated;
+            	} else {
+            		clientFormStandby.hide();
+            		return formValidated;
+            	}
             }
 
             if (formValues.client_dateExpiryLoa === '') {
