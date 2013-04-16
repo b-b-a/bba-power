@@ -90,7 +90,9 @@ class Power_ErrorController extends Zend_Controller_Action
         }
 
         if ($this->getRequest()->isXmlHttpRequest()) {
-           $this->getHelper('layout')->disableLayout();
+        	$this->getResponse()
+        		->setRawHeader('HTTP/1.1 202 Accepted');
+           	$this->getHelper('layout')->disableLayout();
         }
     }
 }
