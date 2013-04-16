@@ -96,13 +96,13 @@ abstract class Power_View_Helper_DocAbstract extends Zend_View_Helper_HtmlElemen
 
             $filename = $file->getFilename();
 
-            if ($file->isDot() || !ZendSF_Utility_String::startsWith(sprintf("%06d", $this->_id), $filename)) {
+            if ($file->isDot() || !BBA_Utility_String::startsWith(sprintf("%06d", $this->_id), $filename)) {
                 continue;
             }
 
             $filePieces = $this->getFilePieces($filename);
 
-            $fileArray[] = ZendSF_Utility_Array::mergeMultiArray($filePieces);
+            $fileArray[] = BBA_Utility_Array::mergeMultiArray($filePieces);
 
             $sort[] = $filePieces['datetime']['timestamp'];
         }

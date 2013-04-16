@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Row_User extends ZendSF_Model_DbTable_Row_Abstract
+class Power_Model_DbTable_Row_User extends Power_Model_DbTable_Row_Abstract
 {
     public function getId()
     {
@@ -54,7 +54,7 @@ class Power_Model_DbTable_Row_User extends ZendSF_Model_DbTable_Row_Abstract
         return $this->getRow()->user_name;
     }
 
-    public function getUser_role()
+    public function getUser_role($raw=false)
     {
         return Power_Model_Acl_Power::$bbaRoles[$this->getRow()->user_role]['label'];
     }

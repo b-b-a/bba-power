@@ -74,18 +74,8 @@ class Power_View_Helper_IsAllowed extends Zend_View_Helper_Abstract
      */
     public function isAllowed($resource = null, $privilege = null)
     {
-        if (!$this->_module) {
-            $this->_module = ucfirst(Zend_Controller_Front::getInstance()->getRequest()->getModuleName());
-        }
-
-        $acl = join('_', array(
-            $this->_module,
-            'Model_Acl',
-            $this->_module
-        ));
-
-        if (class_exists($acl)) {
-            $this->_acl = new $acl();
+        if (class_exists('Power_Model_Acl_Power')) {
+            $this->_acl = new Power_Model_Acl_Power();
         }
 
         if (null === $this->_acl) {
@@ -96,7 +86,7 @@ class Power_View_Helper_IsAllowed extends Zend_View_Helper_Abstract
         $access = $auth->getIdentity()->getUser_accessClient(true);
         
         if ($resource == 'BBAView' && $access != '') {
-            return false;
+        	return false;
         }
 
         return $this->_acl->isAllowed($this->getIdentity(), $resource, $privilege);

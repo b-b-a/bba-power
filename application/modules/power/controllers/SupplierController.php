@@ -60,7 +60,7 @@ class Power_SupplierController extends Zend_Controller_Action
     public function preDispatch()
     {
         if (!$this->_helper->acl('Supplier', 'view')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
     }
 
@@ -74,24 +74,20 @@ class Power_SupplierController extends Zend_Controller_Action
 
             switch ($request->getParam('type')) {
                 case 'suppliers':
-                    $data = $this->_model
-                        //->getCached('supplier')
+                    $data = $this->_model->getCached('supplier')
                     	->getSupplierDataStore($request->getPost());
                     break;
                 case 'personnel':
-                    $data = $this->_model
-                        //->getCached('supplierPersonnel')
+                    $data = $this->_model->getCached('supplierPersonnel')
                     	->getSupplierPersonnelDataStore($request->getPost());
                     break;
                 case 'contract':
-                    $data = $this->_model
-                        //->getCached('contract')
+                    $data = $this->_model->getCached('contract')
                     	->getSupplierContractDataStore($request->getPost());
                     break;
                 case 'supplierList':
                 case 'supplierPersonnel':
-                    $data = $this->_model
-                        //->getCached('supplierPersonnel')
+                    $data = $this->_model->getCached('supplierPersonnel')
                     	->getFileringSelectData($request->getParams());
                     break;
                 default :
@@ -111,7 +107,7 @@ class Power_SupplierController extends Zend_Controller_Action
     public function indexAction()
     {
         if (!$this->_helper->acl('Supplier', 'view')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $urlHelper = $this->_helper->getHelper('url');
@@ -136,7 +132,7 @@ class Power_SupplierController extends Zend_Controller_Action
     public function addSupplierAction()
     {
         if (!$this->_helper->acl('Supplier', 'add')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $request = $this->getRequest();
@@ -158,7 +154,7 @@ class Power_SupplierController extends Zend_Controller_Action
     public function editSupplierAction()
     {
         if (!$this->_helper->acl('Supplier', 'view')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $request = $this->getRequest();
@@ -173,10 +169,10 @@ class Power_SupplierController extends Zend_Controller_Action
 
             if ($this->_request->getParam('type') == 'edit') {
                 if (!$this->_helper->acl('Supplier', 'edit')) {
-                    throw new Zend_Acl_Exception('Access Denied');
+                    throw new BBA_Power_Acl_Exception('Access Denied');
                 }
                 $form = $this->_getForm('supplierSave', 'save-supplier');
-                $form->populate($supplier->toArray());
+                $form->populate($supplier->toArray(true));
                 $this->view->assign(array('supplierSaveForm' => $form));
                 $this->render('supplier-form');
             }
@@ -239,7 +235,7 @@ class Power_SupplierController extends Zend_Controller_Action
     public function addSupplierPersonnelAction()
     {
         if (!$this->_helper->acl('SupplierPers', 'add')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $request = $this->getRequest();
@@ -261,7 +257,7 @@ class Power_SupplierController extends Zend_Controller_Action
     public function editSupplierPersonnelAction()
     {
         if (!$this->_helper->acl('SupplierPers', 'edit')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $request = $this->getRequest();
@@ -273,7 +269,7 @@ class Power_SupplierController extends Zend_Controller_Action
             $supplierPers = $this->_model->getSupplierPersonnelById($request->getPost('supplierPers_idSupplierPersonnel'));
 
             $form = $this->_getForm('supplierPersonnelSave', 'save-supplier-personnel');
-            $form->populate($supplierPers->toArray());
+            $form->populate($supplierPers->toArray(true));
 
             $this->view->assign(array(
                 'supplierPersonnelSaveForm' => $form

@@ -53,13 +53,13 @@ class Power_ErrorController extends Zend_Controller_Action
                      ->setRawHeader('HTTP/1.1 200 Not Found');
                 $this->view->message = $errors->exception;
                 break;
-            case 'ZendSF_Exception_404':
+            case 'BBA_Exception_404':
                 // send 404
                 $this->getResponse()
                      ->setRawHeader('HTTP/1.1 200 Not Found');
                 $this->view->message = $errors->exception;
                 break;
-            case 'Zend_Acl_Exception':
+            case 'BBA_Power_Acl_Exception':
                 $this->getResponse()
                      ->setRawHeader('HTTP/1.1 200 Not Acceptable');
                 $this->view->message = $errors->exception;
@@ -76,7 +76,7 @@ class Power_ErrorController extends Zend_Controller_Action
         }
         
         if ($action == 'save-client' || $action == 'save-contract') {
-        	$log->info($action);
+        	$log->info("errorAction:action: ".$action);
         	$this->getHelper('layout')->disableLayout();
         	$this->getHelper('viewRenderer')->setNoRender(true);
         	
@@ -93,7 +93,7 @@ class Power_ErrorController extends Zend_Controller_Action
         }
 
         if ($this->getRequest()->isXmlHttpRequest()) {
-           $this->getHelper('layout')->disableLayout();
+           	$this->getHelper('layout')->disableLayout();
         }
     }
 }

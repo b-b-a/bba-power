@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
+class Power_Form_Contract_Base extends Power_Form_Dojo_Abstract
 {	
 	protected $_hiddenDecorators = array('ViewHelper');
 	
@@ -59,6 +59,13 @@ class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
 	
     public function init()
     {
+    	// add path to custom validators.
+    	$this->addElementPrefixPath(
+    		'Power_Validate',
+    		APPLICATION_PATH . '/modules/power/models/Validate/',
+    		'validate'
+    	);
+    	
         $this->setName('contract');
         $this->setAttrib('enctype', 'multipart/form-data');
         
@@ -115,10 +122,9 @@ class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
             'validators'    => array(
                 array('GreaterThan', true, array(
                     'min'       => '0',
-                    'message'   => 'Please select a status.'
+                    'messages'   => 'Please select a status.'
                 ))
             ),
-            'ErrorMessages' => array('Please select a status.'),
         	'order'			=> 30
         ));
 
@@ -136,7 +142,7 @@ class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
         	'value'         => ''
         ));
 
-        $this->addElement('ZendSFDojoTextBox', 'contract_dateEnd', array(
+        $this->addElement('BBAPowerTextBox', 'contract_dateEnd', array(
             'label'         => 'End Date:',
             'formatLength'  => 'short',
             'filters'       => array('StripTags', 'StringTrim'),
@@ -150,7 +156,7 @@ class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
         	'value'         => ''
         ));
 
-        $this->addElement('ZendSFDojoTextBox', 'contract_dateDecision', array(
+        $this->addElement('BBAPowerTextBox', 'contract_dateDecision', array(
             'label'         => 'Tender Decision Date:',
             'formatLength'  => 'short',
             'filters'       => array('StripTags', 'StringTrim'),
@@ -163,14 +169,14 @@ class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
         	'order'			=> 60
         ));
 
-        $this->addElement('ZendSFDojoTextBox', 'contract_reference', array(
+        $this->addElement('BBAPowerTextBox', 'contract_reference', array(
             'label'     => 'Contract Ref:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim'),
         	'order'			=> 70
         ));
 
-        $this->addElement('ZendSFDojoTextBox', 'contract_numberCustomer', array(
+        $this->addElement('BBAPowerTextBox', 'contract_numberCustomer', array(
             'label'     => 'Customer No:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim'),
@@ -193,7 +199,7 @@ class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
         	'order'			=> 90
         ));
 
-        $this->addElement('ZendSFDojoSimpleTextarea', 'contract_desc', array(
+        $this->addElement('BBAPowerSimpleTextarea', 'contract_desc', array(
             'label'     => 'Description:',
             'required'  => false,
             'filters'   => array('StripTags', 'StringTrim'),
@@ -291,5 +297,21 @@ class Power_Form_Contract_Base extends ZendSF_Dojo_Form_Abstract
     	}
     	
     	return $multiOptions;
+    }
+    
+    protected function _getDisabledContractStatusElement()
+    {
+    	$tempStatus = $this->_request->getParam('contract_status', 'new');
+    	$this->removeElement('contract_status');
+    	$this->addHiddenElement('contract_status', $tempStatus);
+    	
+    	$this->addElement('FilteringSelect', 'contract_statusDisabled', array(
+    			'label'         => 'Status:',
+    			'multiOptions'  => $this->_getContractStatus(),
+    			'order'         => 30,
+    			'attribs'       => array(
+    				'disabled' => 'disabled'
+    			)
+    	));
     }
 }

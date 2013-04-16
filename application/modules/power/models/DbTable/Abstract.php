@@ -58,7 +58,6 @@ abstract class Power_Model_DbTable_Abstract extends Zend_Db_Table_Abstract
     {
     	$this->_log = Zend_Registry::get('dblog');
     	$primary = (is_string($this->_primary)) ? $this->_primary : $this->_primary[0];
-    	
     	$this->_rowPrefix = strstr($primary, '_', true);
     }
     
@@ -90,24 +89,6 @@ abstract class Power_Model_DbTable_Abstract extends Zend_Db_Table_Abstract
     
     	return $row->save();
     }
-    
-    /**
-     * Delete a row in the database. Maybe should only be defined in parent class
-     * as can be different if we have a compound primary key. or use mixed interger or
-     * array.
-     *
-     * @param int $id Primary key of the row to be deleted
-     * @return int The number of rows deleted
-     */
-    /*public function deleteRow($id)
-     {
-    if (!is_numeric($id)) {
-    throw new ZendSF_Model_Exception('Could not delete row in ' . __CLASS__);
-    }
-    
-    $row = $this->find($id)->current();
-    return $row->delete();
-    }*/
     
     /**
      * Adds limit and offset to query.
@@ -151,14 +132,14 @@ abstract class Power_Model_DbTable_Abstract extends Zend_Db_Table_Abstract
     
     protected function _getAccessClient($select, $table)
     {
-        $auth = Zend_Auth::getInstance();
-        $access = $auth->getIdentity()->getUser_accessClient(true);
-        
-        if ($access != '') {
-            return $select->where($table . '_idClient IN (' . $access . ')');
-        }
-        
-        return $select;
+    	$auth = Zend_Auth::getInstance();
+    	$access = $auth->getIdentity()->getUser_accessClient(true);
+    
+    	if ($access != '') {
+    		return $select->where($table . '_idClient IN (' . $access . ')');
+    	}
+    
+    	return $select;
     }
 
     protected function _checkConstraints($data)
@@ -181,12 +162,27 @@ abstract class Power_Model_DbTable_Abstract extends Zend_Db_Table_Abstract
     		AND tables_name = "' . $name . '"
     	)');
     }
+    
+    public function paginate($resultSet, $page, $limit)
+    {
+    	$adapter = new Zend_Paginator_Adapter_Iterator($resultSet);
+    		
+    	$paginator = new Zend_Paginator($adapter);
+    	$paginator->setItemCountPerPage($limit)
+    		->setCurrentPageNumber($page);
+    		
+    	return $paginator;
+    }
 
     public function insert(array $data)
     {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data[$this->_rowPrefix . '_dateCreate'] = new Zend_Db_Expr('CURDATE()');
-        $data[$this->_rowPrefix . '_userCreate'] = $auth->getId();
+    	$columns = $this->info('cols');
+    	
+    	if (in_array($this->_rowPrefix . '_dateCreate', $columns) && in_array($this->_rowPrefix . '_userCreate', $columns)) {
+        	$auth = Zend_Auth::getInstance()->getIdentity();
+        	$data[$this->_rowPrefix . '_dateCreate'] = new Zend_Db_Expr('CURDATE()');
+        	$data[$this->_rowPrefix . '_userCreate'] = $auth->getId();
+    	}
 
         $data = $this->_checkConstraints($data);
 
@@ -197,9 +193,13 @@ abstract class Power_Model_DbTable_Abstract extends Zend_Db_Table_Abstract
 
     public function update(array $data, $where)
     {
-        $auth = Zend_Auth::getInstance()->getIdentity();
-        $data[$this->_rowPrefix . '_dateModify'] = new Zend_Db_Expr('CURDATE()');
-        $data[$this->_rowPrefix . '_userModify'] = $auth->getId();
+    	$columns = $this->info('cols');
+    	 
+    	if (in_array($this->_rowPrefix . '_dateModify', $columns) && in_array($this->_rowPrefix . '_userModify', $columns)) {
+        	$auth = Zend_Auth::getInstance()->getIdentity();
+        	$data[$this->_rowPrefix . '_dateModify'] = new Zend_Db_Expr('CURDATE()');
+        	$data[$this->_rowPrefix . '_userModify'] = $auth->getId();
+    	}
 
         $data = $this->_checkConstraints($data);
 

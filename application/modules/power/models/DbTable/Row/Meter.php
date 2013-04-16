@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
+class Power_Model_DbTable_Row_Meter extends Power_Model_DbTable_Row_Abstract
 {
     /**
      * @var Power_Model_DbTable_Row_Site
@@ -56,13 +56,6 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
         'meter_dateModify'
     );
     
-    /**
-     * Date format used in the toArray method.
-     *
-     * @var string
-     */
-    protected $_dateFormat = 'dd/MM/yyyy';
-    
     public function getShortDesc()
     {
     	$desc = $this->getRow()->meter_desc;
@@ -74,39 +67,43 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
     	return $desc;
     }
 
-    public function getMeter_numberMain()
+    public function getMeter_numberMain($raw=false)
     {
-        if (!ZendSF_Utility_String::startsWith('electric', $this->getRow()->meter_type)) {
-            return $this->getRow()->meter_numberMain;
-        }
-
-        $regex = '/^([0-9]{2})([0-9]{4})([0-9]{4})([0-9]{3})$/';
-        preg_match($regex, $this->getRow()->meter_numberMain, $matches);
-
-        if (count($matches) == 5) {
-            unset($matches[0]);
-            return implode(' ', $matches);
-        } else {
-            return $this->getRow()->meter_numberMain;
-        }
+    	if (!$raw) {
+	    	if (!BBA_Utility_String::startsWith('electric', $this->getRow()->meter_type)) {
+	            return $this->getRow()->meter_numberMain;
+	        }
+	        
+	        $regex = '/^([0-9]{2})([0-9]{4})([0-9]{4})([0-9]{3})$/';
+	        preg_match($regex, $this->getRow()->meter_numberMain, $matches);
+	
+	        if (count($matches) == 5) {
+	            unset($matches[0]);
+	            return implode(' ', $matches);
+	        }
+    	}
+    	
+    	return $this->getRow()->meter_numberMain;
 
     }
 
-    public function getMeter_numberTop()
+    public function getMeter_numberTop($raw=false)
     {
-        if (!ZendSF_Utility_String::startsWith('electric', $this->getRow()->meter_type)) {
-            return $this->getRow()->meter_numberTop;
+    	if (!$raw) {
+	        if (!BBA_Utility_String::startsWith('electric', $this->getRow()->meter_type)) {
+	            return $this->getRow()->meter_numberTop;
+	        }
+	
+	        $regex = '/^([0-9]{2})([0-9]{3})([0-9]{3})$/';
+	        preg_match($regex, $this->getRow()->meter_numberTop, $matches);
+	
+	        if (count($matches) == 4) {
+	            unset($matches[0]);
+	            return implode(' ', $matches);
+	        }
         }
-
-        $regex = '/^([0-9]{2})([0-9]{3})([0-9]{3})$/';
-        preg_match($regex, $this->getRow()->meter_numberTop, $matches);
-
-        if (count($matches) == 4) {
-            unset($matches[0]);
-            return implode(' ', $matches);
-        } else {
-            return $this->getRow()->meter_numberTop;
-        }
+        
+        return $this->getRow()->meter_numberTop;
     }
 
     public function getSite($row=null)
@@ -123,9 +120,7 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
     {
         // find the most recent contract.
         $select = $this->getRow()->select()
-            ->where('contract_dateStart <= ?', new Zend_Db_Expr('NOW()'))
-            ->order('contract_dateStart DESC')
-            ->limit(1);
+        	->where('meter_contract.meterContract_contractLatest IS TRUE');
 
         return $this->getAllContracts($select)->current();
     }
@@ -147,7 +142,7 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
         );
     }
 
-    public function getMeter_type()
+    public function getMeterType()
     {
         return $this->getRow()->findParentRow(
             'Power_Model_DbTable_Tables',
@@ -156,59 +151,12 @@ class Power_Model_DbTable_Row_Meter extends ZendSF_Model_DbTable_Row_Abstract
         )->tables_value;
     }
 
-    public function getMeter_status()
+    public function getMeterStatus()
     {
         return $this->getRow()->findParentRow(
             'Power_Model_DbTable_Tables',
             'meterStatus',
             $this->getRow()->select()->where('tables_name = ?', 'meter_status')
         )->tables_value;
-    }
-
-    /**
-     * Returns row as an array, with optional date formating.
-     *
-     * @param string $dateFormat
-     * @param bool $raw
-     * @return array
-     */
-    public function toArray($dateFormat=null, $raw=false)
-    {
-        $array = array();
-
-        foreach ($this->getRow() as $key => $value) {
-
-            if (in_array($key, $this->_dateKeys)) {
-                $date = new Zend_Date($value);
-                $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
-            }
-
-            if (true === $raw) {
-                $array[$key] = $value;
-            } else {
-                switch ($key) {
-                    case 'meter_desc':
-                        $array[$key] = $this->getShortDesc();
-                        break;
-                    case 'meter_numberMain':
-                        $array[$key] = $this->getMeter_numberMain();
-                        break;
-                    case 'meter_numberTop':
-                        $array[$key] = $this->getMeter_numberTop();
-                        break;
-                    case 'meter_type':
-                        $array[$key] = $this->getMeter_type();
-                        break;
-                    case 'meter_status':
-                        $array[$key] = $this->getMeter_status();
-                        break;
-                    default:
-                        $array[$key] = $value;
-                        break;
-                }
-            }
-        }
-
-        return $array;
     }
 }

@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Client extends ZendSF_Model_Acl_Abstract
+class Power_Model_Client extends Power_Model_Acl_Abstract
 {
     /**
      * Get Client by their id
@@ -223,7 +223,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     public function saveNewClient($post)
     {
         if (!$this->checkAcl('saveNewClient')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
+            throw new Power_Model_Acl_Exception('Insufficient rights');
         }
 
         // validate form.
@@ -325,7 +325,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     public function saveClient($post)
     {
         if (!$this->checkAcl('saveClient')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
+            throw new Power_Model_Acl_Exception('Insufficient rights');
         }
 
         /* @var $form Power_Form_Client_Save */
@@ -385,7 +385,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
         $client = array_key_exists('client_idClient', $data) ?
             $this->getClientById($data['client_idClient']) : null;
         
-        $this->clearCache(array('client'));
+        $this->clearCache(array('client', 'site'));
 
         return $this->getDbTable('client')->saveRow($data, $client);
     }
@@ -407,8 +407,8 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
             ->where('clientAd_postcode = ?', $post['clientAd_postcode']);
         $addresses = $client->getAllClientAddresses($select);
 
-        $log = Zend_Registry::get('log');
-        $log->info($addresses);
+        //$log = Zend_Registry::get('log');
+        //$log->info("checkClientAddress:addresses: ".$addresses);
     }
 
     /**
@@ -420,7 +420,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     public function saveClientAddress($post, $doCheck = true)
     {
         if (!$this->checkAcl('saveClientAddress')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
+            throw new Power_Model_Acl_Exception('Insufficient rights');
         }
 
         $form = $this->getForm('clientAddressSave');
@@ -462,7 +462,7 @@ class Power_Model_Client extends ZendSF_Model_Acl_Abstract
     public function saveClientPersonnel($post)
     {
         if (!$this->checkAcl('saveClientPersonnel')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
+            throw new Power_Model_Acl_Exception('Insufficient rights');
         }
 
         $form = $this->getForm('clientPersonnelSave');

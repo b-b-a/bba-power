@@ -41,14 +41,14 @@ class Power_Form_Invoice_Search extends Power_Form_SearchBase
 {
     public function init()
     {
-        $this->addElement('ZendSFDojoTextBox', 'invoice', array(
+        $this->addElement('BBAPowerTextBox', 'invoice', array(
             'label'     => 'Invoice:',
             'required'      => false,
             'attribs'   => array('class' => 'search'),
             'filters'   => array('StripTags', 'StringTrim')
         ));
 
-        $this->addElement('ZendSFDojoTextBox', 'supplier', array(
+        $this->addElement('BBAPowerTextBox', 'supplier', array(
             'label'     => 'Supplier:',
             'required'      => false,
             'attribs'   => array('class' => 'search'),

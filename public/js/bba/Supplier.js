@@ -92,7 +92,12 @@ define("bba/Supplier",
             id = grid.store.getValue(selectedItem, 'supplier_idSupplier');
             tabTitle = grid.store.getValue(selectedItem, 'supplier_name');
 
-             bba.openTab({
+            this.showSupplierTab(id, tabTitle);
+        },
+        
+        showSupplierTab : function(id, tabTitle)
+        {
+        	bba.openTab({
                 tabId : 'supplier' + id,
                 title : (tabTitle) ? tabTitle : 'Supplier',
                 url : './supplier/edit-supplier',

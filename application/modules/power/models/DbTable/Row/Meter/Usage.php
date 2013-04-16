@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Row_Meter_Usage extends ZendSF_Model_DbTable_Row_Abstract
+class Power_Model_DbTable_Row_Meter_Usage extends Power_Model_DbTable_Row_Abstract
 {
     /**
      * Array of all columns with need date format applied
@@ -84,7 +84,7 @@ class Power_Model_DbTable_Row_Meter_Usage extends ZendSF_Model_DbTable_Row_Abstr
      * @param string $dateFormat
      * @return array
      */
-    public function toArray($dateFormat = null, $raw = false)
+    public function toArray($dateFormat = null)
     {
         $array = array();
 
@@ -95,18 +95,7 @@ class Power_Model_DbTable_Row_Meter_Usage extends ZendSF_Model_DbTable_Row_Abstr
                 $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
             }
 
-            if (true === $raw) {
-                $array[$key] = $value;
-            } else {
-                switch ($key) {
-                    case 'usage_type':
-                        $array[$key] = $this->getUsage_type();
-                        break;
-                    default:
-                        $array[$key] = $value;
-                        break;
-                }
-            }
+            $array[$key] = $value;
         }
 
         $array['usage_usageTotal'] = $this->getUsageTotal();

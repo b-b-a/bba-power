@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Invoice extends ZendSF_Model_Acl_Abstract
+class Power_Model_Invoice extends Power_Model_Acl_Abstract
 {
     /**
      * Get Invoice by their id
@@ -48,7 +48,7 @@ class Power_Model_Invoice extends ZendSF_Model_Acl_Abstract
     public function getInvoiceById($id)
     {
         if (!$this->checkAcl('getInvoiceById')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
+            throw new Power_Model_Acl_Exception('Insufficient rights');
         }
 
         $id = (int) $id;
@@ -58,7 +58,7 @@ class Power_Model_Invoice extends ZendSF_Model_Acl_Abstract
     public function getInvoiceLineById($id)
     {
         if (!$this->checkAcl('getInvoiceById')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
+            throw new Power_Model_Acl_Exception('Insufficient rights');
         }
 
         $id = (int) $id;
@@ -74,7 +74,7 @@ class Power_Model_Invoice extends ZendSF_Model_Acl_Abstract
     public function getInvoiceDataStore(array $post)
     {
         if (!$this->checkAcl('getInvoiceById')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
+            throw new Power_Model_Acl_Exception('Insufficient rights');
         }
 
         $sort = $post['sort'];

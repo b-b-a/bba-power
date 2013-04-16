@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Client_Address_Save extends ZendSF_Dojo_Form_Abstract
+class Power_Form_Client_Address_Save extends Power_Form_Dojo_Abstract
 {
 	protected $_defaultDecorators = array(
 		'Description',

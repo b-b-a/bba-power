@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Client_Base extends ZendSF_Dojo_Form_Abstract
+class Power_Form_Client_Base extends Power_Form_Dojo_Abstract
 {	
 	protected $_hiddenDecorators = array('ViewHelper');
 	
@@ -124,7 +124,7 @@ class Power_Form_Client_Base extends ZendSF_Dojo_Form_Abstract
         	'decorators'	=> $this->_companyDecorators
         ));
         
-        $this->addElement('ZendSFDojoCheckBox', 'client_registeredCompany', array(
+        $this->addElement('BBAPowerCheckBox', 'client_registeredCompany', array(
         	'label'         => 'Not a Registered Company:',
         	'required'		=> false,
         	'decorators' 	=> $this->_checkboxDecorators,
@@ -157,7 +157,7 @@ class Power_Form_Client_Base extends ZendSF_Dojo_Form_Abstract
         	'decorators' 	=> $this->_companyDecorators
         ));
         
-        $this->addElement('ZendSFDojoCheckBox', 'client_registeredVAT', array(
+        $this->addElement('BBAPowerCheckBox', 'client_registeredVAT', array(
         	'label'         => 'Not VAT Registered:',
         	'required'		=> false,
         	'checkedValue'   => 1,
@@ -222,7 +222,7 @@ class Power_Form_Client_Base extends ZendSF_Dojo_Form_Abstract
             'attribs'       => array('style' => 'width: 80px;')
         ));
 
-        $this->addElement('ZendSFDojoSimpleTextarea', 'client_desc', array(
+        $this->addElement('BBAPowerSimpleTextarea', 'client_desc', array(
             'label'         => 'Description:',
             'required'      => false,
             'filters'       => array('StripTags', 'StringTrim')

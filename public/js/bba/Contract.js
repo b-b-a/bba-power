@@ -40,6 +40,7 @@ define("bba/Contract",
     "dojo/text!./html/contractAddEditMeterMessage.html",
     "bba/Meter",
     "bba/Invoice",
+    "bba/Supplier",
     "dijit/form/ValidationTextBox",
     "dojo/data/ItemFileReadStore",
     "dijit/form/FilteringSelect",
@@ -77,7 +78,7 @@ define("bba/Contract",
                 [
                     {field: 'meter_idMeter', width: '50px', name: 'Id'},
                     {field: 'meter_numberMain', width : '125px', name: 'Number Main'},
-                    {field: 'meter_status', width : '100px', name: 'Meter Status'},
+                    {field: 'meter_status', width : '115px', name: 'Meter Status'},
                     {field: 'meterContract_kvaNominated', width: '75px', name: 'Peak kVA', editable: true, formatter: zeroFill},
                     {field: 'meterContract_eac', width: '75px', name: 'EAC', editable: true, formatter: zeroFill},
                     {field: 'contract_idContract', width: '100px', name: 'Contract Id'},
@@ -90,8 +91,8 @@ define("bba/Contract",
             ],
             meter : [
                 {field: 'meter_idMeter', width: '50px', name: 'Id'},
-                {field: 'meter_type', width: '85px', name: 'Meter Type'},
-                {field: 'meter_status', width: '110px', name: 'Meter Status'},
+                {field: 'meter_type', width: '95px', name: 'Meter Type'},
+                {field: 'meter_status', width: '115px', name: 'Meter Status'},
                 {field: 'meter_numberTop', width: '100px', name: 'Number Top'},
                 {field: 'meter_numberMain', width: '120px', name: 'Number Main'},
                 {field: 'meterContract_kvaNominated', width: '70px', name: 'Peak kVA'},
@@ -107,7 +108,7 @@ define("bba/Contract",
                 {field: 'tender_idTender', width: '50px', name: 'Id'},
                 {field: 'supplier_nameShort', width : '80px', name: 'Supplier'},
                 {field: 'supplierPers_name', width : '150px', name: 'Supplier Liaison'},
-                {field: 'supplierPers_phone', width: '100px', name: 'Phone'},
+                {field: 'tender_reference', width: '160px', name: 'Reference'},
                 {field: 'tender_periodContract', width: '100px', name: 'Contract Period'},
                 {field: 'tender_dateExpiresQuote', width: '100px', name: 'Quote Expires'},
                 {field: 'tender_chargeStanding', width: '100px', name: 'Standing Charge'},
@@ -142,7 +143,7 @@ define("bba/Contract",
                 id : 'contractGrid',
                 store : core.dataStores.contractStore,
                 structure : bba.Contract.gridLayouts.contract,
-                sortInfo : '2',
+                sortInfo : '-5',
                 onRowClick : function() {
                      bba.Contract.contractGridRowClick();
                 }
@@ -153,7 +154,7 @@ define("bba/Contract",
             a = Number(a);
             b = Number(b);
             if (a < b){
-                return -1
+                return -1;
             } else if (a > b) {
                 return 1;
             } else {
@@ -169,7 +170,7 @@ define("bba/Contract",
 
             array.forEach(items, function(item){
                 if (item.contract_idContract == id) {
-                    grid.selection.addToSelection(item)
+                    grid.selection.addToSelection(item);
                 }
             });
         },
@@ -208,11 +209,13 @@ define("bba/Contract",
         addMeterToContract : function(grid, meterContract)
         {
             var items = grid.selection.getSelected();
+            //console.log(items.length);
 
             var data = {type: 'insert', contract : meterContract, meters : []};
 
             if (items.length) {
                 items.forEach(function(selectedItem){
+                	//console.log(selectedItem);
                 	id = selectedItem.meter_idMeter[0];
                     kva = (!selectedItem.meterContract_kvaNominated) ? 0 : selectedItem.meterContract_kvaNominated[0]
                     eac = (!selectedItem.meterContract_eac) ? 0 : selectedItem.meterContract_eac[0];
@@ -227,6 +230,8 @@ define("bba/Contract",
                     });
                 });
             }
+            
+            console.log(data);
 
             xhr.post({
                 url: './contract/save-meter-contract',
@@ -280,7 +285,8 @@ define("bba/Contract",
             selectedIndex = grid.focus.rowIndex;
             selectedItem = grid.getItem(selectedIndex);
             id = grid.store.getValue(selectedItem, 'contract_idContract');
-            tabTitle = grid.store.getValue(selectedItem, 'client_name');
+            tabTitle = grid.store.getValue(selectedItem, 'contract_idContract')
+            	+ '-' + grid.store.getValue(selectedItem, 'client_name');
 
             this.showContractTab(id, tabTitle);
         },
@@ -297,15 +303,32 @@ define("bba/Contract",
                 }
             });
         },
-
-        tenderGridRowClick : function(grid, contentVars)
+        
+        tenderGridRowCellClick : function(grid, row, item)
         {
-            selectedIndex = grid.focus.rowIndex;
-            selectedItem = grid.getItem(selectedIndex);
-            id = grid.store.getValue(selectedItem, 'tender_idTender');
-            tabTitle = grid.store.getValue(selectedItem, 'supplier_name');
-
-            bba.openTab({
+        	rowIndex = row.rowIndex;
+            selectedItem = grid.getItem(rowIndex);
+            
+            switch (item) {
+            	case 'supplier_nameShort':
+            	case 'supplierPers_name':
+            		bba.Supplier.showSupplierTab(
+            			grid.store.getValue(selectedItem, 'supplier_idSupplier'),
+                        grid.store.getValue(selectedItem, 'supplier_name')
+            		);
+            		break;
+            	default:
+            		this.showTenderTab(
+                        grid.store.getValue(selectedItem, 'tender_idTender'),
+                        grid.store.getValue(selectedItem, 'supplier_name')
+                    );
+            		break;
+            }
+        },
+        
+        showTenderTab : function(id, tabTitle, contentVars)
+        {
+        	bba.openTab({
                 tabId : 'tender' + id,
                 title : (tabTitle) ? tabTitle : 'Tender',
                 url : './contract/edit-tender',
@@ -418,24 +441,25 @@ define("bba/Contract",
         	}
         	
         	if (formValues.contract_type == null) {
-        	    var conType = registry.toArray();        	    
+        	
+        		var conType = registry.toArray();
         	    
-        	    array.forEach(conType, function(item){
-        	    	if (item.id.slice(0, 13) == 'contract_type') {
-        	    		registry.byId(item).attr('style', 'border: 1px solid red;');
-            	        connect.connect(registry.byId(item), 'onChange', function(){
-            	            array.forEach(conType, function(item){
-            	            	if (item.id.slice(0, 13) == 'contract_type') {
-            	            		registry.byId(item).attr('style', 'border: 0px;');
-            	            	}
-            	            });
-            	            
-            	        });
-        	    	}
-        	    });
-        	    contractFormStandby.hide();
-        	    return false;
-        	}
+        		 array.forEach(conType, function(item){
+         	    	if (item.id.slice(0, 13) == 'contract_type') {
+         	    		registry.byId(item).attr('style', 'border: 1px solid red;');
+             	        connect.connect(registry.byId(item), 'onChange', function(){
+             	            array.forEach(conType, function(item){
+             	            	if (item.id.slice(0, 13) == 'contract_type') {
+             	            		registry.byId(item).attr('style', 'border: 0px;');
+             	            	}
+             	            });
+             	            
+             	        });
+         	    	}
+         	    });
+         	    contractFormStandby.hide();
+         	    return false;
+         	}
         	
         	// first check form for errors.
         	if (!contractForm.validate()) {
@@ -521,7 +545,7 @@ define("bba/Contract",
                 }
 
                 if (data.client_name) {
-                    bba.Contract.showContractTab(data.saved.id, data.client_name);
+                    bba.Contract.showContractTab(data.saved.id,  data.contract_idContract + '-' . data.client_name);
                 }
                 
                 if (data.saved.warning) {

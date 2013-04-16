@@ -60,7 +60,7 @@ class Power_DocController extends Zend_Controller_Action
     public function preDispatch()
     {
         if (!$this->_helper->acl('Doc', 'view')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
     }
 

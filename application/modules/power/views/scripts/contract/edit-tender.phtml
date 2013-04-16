@@ -37,6 +37,10 @@
                 </tr>
                 <?php endif; ?>
                 <tr>
+                    <th>Reference:</th>
+                    <td><?php echo $this->tender->tender_reference; ?></td>
+                </tr>
+                <tr>
                     <th>Tender Period:</th>
                     <td><?php echo $this->tender->tender_periodContract; ?></td>
                 </tr>
@@ -75,7 +79,7 @@
                 </tr>
                 <tr>
                     <th>Commission Fee:</th>
-                    <td><?php echo $this->tender->tender_fee." (£ / Year)";?></td>
+                    <td><?php echo $this->tender->tender_fee;?> (&pound; / Year)</td>
                 </tr>
                 <?php endif; ?>
             </table>

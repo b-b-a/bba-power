@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
+class Power_Model_Contract extends Power_Model_Acl_Abstract
 {
     /**
      * Get contract by their id
@@ -185,20 +185,9 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     public function getAvailableMetersDataStore($id)
     {	
     	$contract = $this->getContractById($id);
-    	$dataObj = $this->getDbTable('meter')->getAvailableMeters($contract);
+    	$dataObj = $this->getDbTable('meterContract')->getAvailableMeters($contract);
     	
-    	$meters = array();
-    	
-    	// get all meters on this contract.
-    	$metersContract = $contract->getAllMetersOnContract();
-    	
-    	// Add meters to list from current contract
-    	foreach ($metersContract as $row) {
-    		$meter = $row->getMeter();
-    		$meters[] = array_merge($row->toArray(), $meter->toArray(), $contract->toArray());
-    	}
-    	
-    	$store = new Zend_Dojo_Data('meter_idMeter', array_merge($meters, $dataObj->toArray()));
+    	$store = new Zend_Dojo_Data('meter_idMeter', $dataObj->toArray());
     	
     	return $store->toJson();
     }
@@ -234,7 +223,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     public function addContract(array $post)
     {
     	if (!$this->checkAcl('addContract')) {
-    		throw new ZendSF_Acl_Exception('Insufficient rights');
+    		throw new Power_Model_Acl_Exception('Insufficient rights');
     	}
     	
     	$form = $this->getForm('contractAdd');
@@ -247,7 +236,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     public function editContract(array $post)
     {
     	if (!$this->checkAcl('editContract')) {
-    		throw new ZendSF_Acl_Exception('Insufficient rights');
+    		throw new Power_Model_Acl_Exception('Insufficient rights');
     	}
     	 
     	$form = $this->getForm('contractEdit');
@@ -266,7 +255,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
      *
      * @param array $post
      * @return boolean
-     * @throws ZendSF_Acl_Exception
+     * @throws Power_Model_Acl_Exception
      */
     protected  function _saveContract(array $post, Power_Form_Contract_Base $form)
     {
@@ -292,7 +281,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
     		
             return array('id' => false);
         }
-
+        
         // get filtered values from main form,
         // we will want to save the docForm till later.
         $data = $form->getValues();
@@ -315,28 +304,54 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         $contract = array_key_exists('contract_idContract', $data) ?
             $this->getContractById($data['contract_idContract']) : null;
             
-        // if status is tender selected change endDate to
-        // plus one year minus one day of tender contract period
-        // but only if tender selected has changed.
+        //warning to user that system has changed the Contract Satus or end date
         $warning = false;
+        //$log = Zend_Registry::get('log');
+        //$log->info("saveContract:Cont_End: ".$contract->contract_dateEnd);
+        //$log->info("saveContract:End(input): ".$data['contract_dateEnd']);
         
-        if ($contract && $contract->getAllMetersOnContract()->count() > 0 &&
-        		$data['contract_idTenderSelected'] > 0 && 
+        //If tender selected being set to a value
+        if ($contract && $data['contract_idTenderSelected'] > 0 && 
         		$contract->contract_idTenderSelected != $data['contract_idTenderSelected']) {
+            //get new tender details
             $tender = $this->getTenderById($data['contract_idTenderSelected']);
-            
-            $date = new Zend_Date($data['contract_dateStart']);
-            $date->add(round($tender->tender_periodContract, 0), ZEND_DATE::MONTH);
-            $date->sub('1', ZEND_DATE::DAY);
-            $data['contract_dateEnd'] = $date->toString('yyyy-MM-dd');
+            $tenderOld = $this->getTenderById($contract->contract_idTenderSelected);
+            //set contract status to selected if new, choose or tender
             if (in_array($data['contract_status'], array('tender', 'choose', 'new'))) {
             	$data['contract_status'] = 'selected';
+                //set warning to user that system changed status
+                $warning = true;
+            }
+            //also, if date _not_ set by user set end date using start date and tender period
+            if ($contract->contract_dateEnd == $data['contract_dateEnd']) {
+                $date = new Zend_Date($data['contract_dateStart']);
+                $date->add(round($tender->tender_periodContract, 0), ZEND_DATE::MONTH);
+                $date->sub('1', ZEND_DATE::DAY);
+                $data['contract_dateEnd'] = $date->toString('yyyy-MM-dd');
+                //set warning to user that system set the end date
+                $warning = true;
             }
             
-            if ($contract && ($contract->contract_dateEnd != $data['contract_dateEnd'] ||
-            		$contract->getContract_status(true) != $data['contract_status'])) {
+            // if contract_reference is blank copy the tender refernce to it.
+      //      if ($contract->contract_reference == '') {
+      //      	$tenderRef = $contract->getTenderSelected('tender_reference');
+      //      	$data['contract_reference'] = $tenderRef;
+      //     This did not work - ref was not filled in.  And copy when blank only valid first time. Eddie.
+            // if new contract ref. is blank or if new contract ref. = old tender ref. - copy new tender ref. in
+              if ($data['contract_reference'] == '' 
+                      OR $data['contract_reference'] == $tenderOld->tender_reference) {
+                $data['contract_reference'] = $tender->tender_reference;
             	$warning = true;
             }
+        }
+        
+        // put back disabled values from edit form.
+        if (!$this->checkAcl('currrentContractFormEdit') 
+        		&& $post['type'] == 'edit' && $contract->contract_status == 'current') {
+			$data['contract_status'] = $contract->contract_status;
+        	$data['contract_dateStart'] = $contract->contract_dateStart;
+        	$data['contract_dateEnd'] = $contract->contract_dateEnd;
+        	$data['contract_reference'] = $contract->contract_reference;
         }
 
         $id = $this->getDbTable('contract')->saveRow($data, $contract);
@@ -384,7 +399,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         	)));
         }
         
-        $this->clearCache(array('contract'));
+        $this->clearCache(array('contract', 'meterContract'));
 
         return array(
         	'id' => $id,
@@ -397,12 +412,12 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
      *
      * @param array $post
      * @return mixed false|int
-     * @throws ZendSF_Acl_Exception
+     * @throws Power_Model_Acl_Exception
      */
     public function saveMetersToContract(array $post)
     {
         if (!$this->checkAcl('saveMetersToContract')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
+            throw new Power_Model_Acl_Exception('Insufficient rights');
         }
 
         $post = Zend_Json::decode($post['jsonData']);
@@ -412,6 +427,10 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         $contract = $this->getContractById($post['contract']);
 
         $c = 0;
+        
+        //$log = Zend_Registry::get('log');
+        //$log->info("saveMetersToContract:Meter count: ".count($post['meters']));
+        
         foreach($post['meters'] as $value) {
             $data[$c]['meterContract_idMeter'] = $value['id'];
             $data[$c]['meterContract_kvaNominated'] = $value['kva'];
@@ -422,7 +441,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
 
         // list current meter on this contract.
         // we will use this list to delete meters no longer on this contract.
-        $oldMeterContracts = $this->getMeterContractByContractId($post['contract'])->toArray();
+        $oldMeterContracts = $this->getMeterContractByContractId($post['contract'])->toArray(true);
         $result = true;
 
         // update or insert rows
@@ -448,7 +467,7 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
         }
         
         // update contract status to tender if contract is in tender process.
-        if (in_array($contract->getContract_status(true), array('tender', 'choose', 'selected', 'signed'))) {
+        if (in_array($contract->contract_status, array('tender', 'choose', 'selected', 'signed'))) {
 	        $contractUpdate = $this->getDbTable('contract')->saveRow(
 	        	array('contract_status' => 'tender'),
 	        	$contract
@@ -465,12 +484,12 @@ class Power_Model_Contract extends ZendSF_Model_Acl_Abstract
      *
      * @param array $post
      * @return boolean
-     * @throws ZendSF_Acl_Exception
+     * @throws Power_Model_Acl_Exception
      */
     public function saveTender(array $post)
     {
         if (!$this->checkAcl('saveTender')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
+            throw new Power_Model_Acl_Exception('Insufficient rights');
         }
 
         $form = $this->getForm('tenderSave');

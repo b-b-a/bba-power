@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Form_Tender_Save extends ZendSF_Dojo_Form_Abstract
+class Power_Form_Tender_Save extends Power_Form_Dojo_Abstract
 {
     protected $_defaultDecorators = array(
 		'Description',
@@ -111,6 +111,12 @@ class Power_Form_Tender_Save extends ZendSF_Dojo_Form_Abstract
             ),
             'required' => false,
             'value' => '0',
+        ));
+        
+        $this->addElement('BBAPowerTextBox', 'tender_reference', array(
+        	'label'     => 'Tender Ref:',
+        	'required'  => false,
+        	'filters'   => array('StripTags', 'StringTrim')
         ));
 
         $this->addElement('NumberTextBox', 'tender_periodContract', array(
@@ -236,12 +242,21 @@ class Power_Form_Tender_Save extends ZendSF_Dojo_Form_Abstract
 
         $this->addElement('NumberTextBox', 'tender_commission', array(
             'label' => 'Commission Rate:',
+            'places' => 1,
             'constraints' => array(
-                'min' => 0
+                'min' => 0,
+                'max' => 1,
             ),
             'required' => true,
             'value' => 0,
             'filters' => array('StripTags', 'StringTrim'),
+            'validators' => array(
+                array('Between', true, array(
+                    'min' => '0',
+                    'max' => '1',
+                    'message' => 'Value must be between 0 and 1',
+                ))
+            ),
             'dijitParams' => array(
                 'promptMessage' => 'Enter commission rate (Pence / Unit)',
                 'style' => 'width:50px'
@@ -251,12 +266,21 @@ class Power_Form_Tender_Save extends ZendSF_Dojo_Form_Abstract
 
         $this->addElement('NumberTextBox', 'tender_fee', array(
             'label' => 'Commission Fee:',
+            'places' => 0,
             'constraints' => array(
-                'min' => 0
+                'min' => 0,
+                'max' => 1000,
             ),
             'required' => true,
             'value' => 0,
             'filters' => array('StripTags', 'StringTrim'),
+            'validators' => array(
+                array('Between', true, array(
+                    'min' => '10',
+                    'max' => '1000',
+                    'message' => 'Value must be between 10 and 1000',
+                ))
+            ),
             'dijitParams' => array(
                 'promptMessage' => 'Enter commission fee (£ / Year)',
                 'style' => 'width:50px'
@@ -264,7 +288,7 @@ class Power_Form_Tender_Save extends ZendSF_Dojo_Form_Abstract
             'Description' => '(£ / Year)'
         ));
 
-        $this->addElement('ZendSFDojoSimpleTextarea', 'tender_desc', array(
+        $this->addElement('BBAPowerSimpleTextarea', 'tender_desc', array(
             'label' => 'Description:',
             'required' => false,
             'filters' => array('StripTags', 'StringTrim')

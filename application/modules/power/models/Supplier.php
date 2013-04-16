@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
+class Power_Model_Supplier extends Power_Model_Acl_Abstract
 {
     public function getSupplierById($id)
     {
@@ -171,7 +171,7 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
     public function saveSupplier($post)
     {
         if (!$this->checkAcl('saveSupplier')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
+            throw new Power_Model_Acl_Exception('Insufficient rights');
         }
 
         $form = $this->getForm('supplierSave');
@@ -194,7 +194,7 @@ class Power_Model_Supplier extends ZendSF_Model_Acl_Abstract
     public function saveSupplierPersonnel($post)
     {
         if (!$this->checkAcl('saveSupplierPersonnel')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
+            throw new Power_Model_Acl_Exception('Insufficient rights');
         }
 
         $form = $this->getForm('supplierPersonnelSave');

@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Row_Meter_Contract extends ZendSF_Model_DbTable_Row_Abstract
+class Power_Model_DbTable_Row_Meter_Contract extends Power_Model_DbTable_Row_Abstract
 {
     protected $_meter;
     
@@ -66,7 +66,7 @@ class Power_Model_DbTable_Row_Meter_Contract extends ZendSF_Model_DbTable_Row_Ab
 
     public function getMeter_numberMain()
     {
-        if (!ZendSF_Utility_String::startsWith('electric', $this->getRow()->meter_type)) {
+        if (!BBA_Utility_String::startsWith('electric', $this->getRow()->meter_type)) {
             return $this->getRow()->meter_numberMain;
         }
 
@@ -84,7 +84,7 @@ class Power_Model_DbTable_Row_Meter_Contract extends ZendSF_Model_DbTable_Row_Ab
 
     public function getMeter_numberTop()
     {
-        if (!ZendSF_Utility_String::startsWith('electric', $this->getRow()->meter_type)) {
+        if (!BBA_Utility_String::startsWith('electric', $this->getRow()->meter_type)) {
             return $this->getRow()->meter_numberTop;
         }
 
@@ -132,12 +132,6 @@ class Power_Model_DbTable_Row_Meter_Contract extends ZendSF_Model_DbTable_Row_Ab
                     break;
                 case 'meter_numberTop':
                     $array[$key] = $this->getMeter_numberTop();
-                    break;
-                case 'meter_type':
-                    $array[$key] = $this->getMeter_type();
-                    break;
-                case 'meter_status':
-                    $array[$key] = $this->getMeter_status();
                     break;
                 case 'meterContract_kvaNominated':
                 	$array[$key] = $this->getMeterContract_kvaNominated();

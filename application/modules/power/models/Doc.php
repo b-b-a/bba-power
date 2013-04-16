@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Doc extends ZendSF_Model_Abstract
+class Power_Model_Doc extends Power_Model_Abstract
 {
     public static $mimeMap = array(
         'doc'   => 'application/msword',

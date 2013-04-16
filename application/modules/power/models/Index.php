@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_Index extends ZendSF_Model_Abstract
+class Power_Model_Index extends Power_Model_Abstract
 {
 /**
      * Clears the cache completly.
@@ -48,7 +48,7 @@ class Power_Model_Index extends ZendSF_Model_Abstract
     {
     	$cache = $this->getCached();
     	
-    	if ($this->_cache instanceof ZendSF_Model_Cache_Abstract) {
+    	if ($this->_cache instanceof Power_Model_Cache) {
     		
 	    	$cache->getCache()
 	    		->clean(Zend_Cache::CLEANING_MODE_ALL);

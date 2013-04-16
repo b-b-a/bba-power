@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Meter_Usage extends BBA_Model_DbTable_Abstract
+class Power_Model_DbTable_Meter_Usage extends Power_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -92,9 +92,15 @@ class Power_Model_DbTable_Meter_Usage extends BBA_Model_DbTable_Abstract
     protected function _getSearchUsageSelect(array $search)
     {
         $select = $this->select(false)->setIntegrityCheck(false)
-            ->from('pusage')
-            ->columns(array(
-            	'*',
+            ->from('pusage', array(
+            	'usage_idUsage',
+            	'usage_idMeter',
+            	'usage_dateBill',
+            	'usage_dateReading',
+            	'usage_type' => $this->_getTablesValue('usage_type'),
+            	'usage_usageDay',
+            	'usage_usageNight',
+            	'usage_usageOther',
                 'usage_usageTotal' => '(usage_usageDay + usage_usageNight + usage_usageOther)'
             ))
             ->joinLeft('invoice_usage', 'usage_idUsage = invoiceUsage_idUsage', array(

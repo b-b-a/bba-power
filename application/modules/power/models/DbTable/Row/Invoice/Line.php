@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Row_Invoice_Line extends ZendSF_Model_DbTable_Row_Abstract
+class Power_Model_DbTable_Row_Invoice_Line extends Power_Model_DbTable_Row_Abstract
 {
     /**
      * Array of all columns with need date format applied
@@ -50,44 +50,4 @@ class Power_Model_DbTable_Row_Invoice_Line extends ZendSF_Model_DbTable_Row_Abst
         'invoiceLine_dateEnd',
         'invoiceLine_dateCreated'
     );
-
-    /**
-     * @var string
-     */
-    protected $_dateFormat = 'dd/MM/yyyy';
-
-    /**
-     * Returns row as an array, with optional date formating.
-     *
-     * @param string $dateFormat
-     * @return array
-     */
-    public function toArray($dateFormat = null, $raw = false)
-    {
-        $array = array();
-
-        foreach ($this->getRow() as $key => $value) {
-
-            if (in_array($key, $this->_dateKeys)) {
-                if ('0000-00-00' === $value || !$value) {
-                    $value = '';
-                } else {
-                    $date = new Zend_Date($value);
-                    $value = $date->toString((null === $dateFormat) ? $this->_dateFormat : $dateFormat);
-                }
-            }
-
-            if (true === $raw) {
-                $array[$key] = $value;
-            } else {
-                switch($key) {
-                    default:
-                        $array[$key] = $value;
-                        break;
-                }
-            }
-        }
-
-        return $array;
-    }
 }

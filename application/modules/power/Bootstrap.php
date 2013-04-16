@@ -63,20 +63,12 @@ class Power_Bootstrap extends Zend_Application_Module_Bootstrap
         ));
     }
 
-
     /**
-     * Sets up the global helper paths for the module.
+     * Add Global Action Helpers
      */
-    protected function _initModuleViewHelperPath()
+    protected function _initActionHelpers()
     {
-        /*
-        $this->_view = $this->app->getResource('view');
-
-        $this->_view->addHelperPath(
-            APPLICATION_PATH . '/modules/power/views/helpers',
-            'Power_View_Helper'
-        );
-         */
+    	Zend_Controller_Action_HelperBroker::addHelper(new BBA_Controller_Helper_Acl());
     }
 
     /**

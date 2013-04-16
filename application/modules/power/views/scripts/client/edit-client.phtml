@@ -272,7 +272,7 @@
                         store: clientContractStore<?php echo $this->client->client_idClient; ?>,
                         structure: bba.Contract.gridLayouts.contract,
                         query: { contract_idClient: <?php echo $this->client->client_idClient; ?> },
-                        sortInfo: '2',
+                        sortInfo: '-5',
                         noDataMessage : bba.gridMessage">
                         <script type="dojo/method" data-dojo-event="onRowClick">
                             bba.Contract.contractGridRowClick(this);

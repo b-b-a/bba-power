@@ -32,5 +32,5 @@ require_once 'Zend/Exception.php';
  * @copyright  Copyright (c) 2005-2012 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-class Zend_Acl_Exception extends Zend_Exception
+class BBA_Power_Acl_Exception extends Zend_Exception
 {}

@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_DbTable_Contract extends BBA_Model_DbTable_Abstract
+class Power_Model_DbTable_Contract extends Power_Model_DbTable_Abstract
 {
     /**
      * @var string database table
@@ -121,7 +121,7 @@ class Power_Model_DbTable_Contract extends BBA_Model_DbTable_Abstract
     	}
     	
     	$select->where('contract_type = ?', $type)
-                ->where('contract_idClient = ?', $clientId)
+            ->where('contract_idClient = ?', $clientId)
     		->where('contract_dateStart = ?', $dateStart);
     	
     	if ($ref && $ref != '') {
@@ -137,8 +137,8 @@ class Power_Model_DbTable_Contract extends BBA_Model_DbTable_Abstract
             ->from('contract', array(
                 'contract_idContract' => 'contract_idContract',
                 'contract_reference',
-                'contract_type',
-                'contract_status',
+                'contract_type' => $this->_getTablesValue('contract_type'),
+                'contract_status' => $this->_getTablesValue('contract_status'),
                 'contract_dateStart',
                 'contract_dateEnd',
                 'contract_desc' => 'SUBSTR(contract_desc, 1, 40)'
@@ -158,7 +158,15 @@ class Power_Model_DbTable_Contract extends BBA_Model_DbTable_Abstract
                 'meter',
                 'meter_idMeter = meterContract_idMeter',
                 null
-            );
+            ) ->joinLeft(
+                'tender',
+                'tender_idTender = contract_idTenderSelected',
+                null
+            )->joinLeft(
+                'supplier',
+                'supplier_idSupplier = tender_idSupplier',
+                array('supplier_nameShort')
+           )->group('contract_idContract');
 
         if (!$search['contract'] == '') {
             if (substr($search['contract'], 0, 1) == '=') {
@@ -191,16 +199,7 @@ class Power_Model_DbTable_Contract extends BBA_Model_DbTable_Abstract
 
     public function searchContracts(array $search, $sort = '', $count = null, $offset = null)
     {
-        $select = $this->_getSearchContractsSelect($search)
-            ->joinLeft(
-                'tender',
-                'tender_idTender = contract_idTenderSelected',
-                null
-            )->joinLeft(
-                'supplier',
-                'supplier_idSupplier = tender_idSupplier',
-                array('supplier_nameShort')
-           )->group('contract_idContract');
+        $select = $this->_getSearchContractsSelect($search);
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 
@@ -210,10 +209,10 @@ class Power_Model_DbTable_Contract extends BBA_Model_DbTable_Abstract
     public function numRows($search)
     {
         $select = $this->_getSearchContractsSelect($search);
-        $select->reset(Zend_Db_Select::COLUMNS);
-        $select->columns(array('numRows' => 'COUNT(contract_idContract)'));
-        $result = $this->fetchRow($select);
+        //$select->reset(Zend_Db_Select::COLUMNS);
+        //$select->columns(array('numRows' => 'COUNT(contract_idContract)'));
+        $result = $this->fetchAll($select);
 
-        return $result->numRows;
+        return $result->count();
     }
 }

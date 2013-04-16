@@ -60,7 +60,7 @@ class Power_ClientController extends Zend_Controller_Action
     public function preDispatch()
     {
         if (!$this->_helper->acl('Client', 'view')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
     }
 
@@ -74,18 +74,15 @@ class Power_ClientController extends Zend_Controller_Action
 
             switch ($request->getParam('type')) {
                 case 'client':
-                    $data = $this->_model
-                        //->getCached('client')
+                    $data = $this->_model->getCached('client')
                     	->getClientDataStore($request->getPost());
                     break;
                 case 'address':
-                    $data = $this->_model
-                        //->getCached('clientAddress')
+                    $data = $this->_model->getCached('clientAddress')
                     	->getClientAddressDataStore($request->getPost());
                     break;
                 case 'personnel':
-                    $data = $this->_model
-                        //->getCached('clientPersonnel')
+                    $data = $this->_model->getCached('clientPersonnel')
                     	->getClientPersonnelDataStore($request->getPost());
                     break;
                 default :
@@ -102,7 +99,7 @@ class Power_ClientController extends Zend_Controller_Action
     public function indexAction()
     {
         if (!$this->_helper->acl('Client', 'view')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $urlHelper = $this->_helper->getHelper('url');
@@ -130,7 +127,7 @@ class Power_ClientController extends Zend_Controller_Action
         $this->_helper->layout->disableLayout();
 
         if (!$this->_helper->acl('Client', 'add')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
 
         if ($request->isXmlHttpRequest() && $request->getPost('type') == 'add'
@@ -153,7 +150,7 @@ class Power_ClientController extends Zend_Controller_Action
     public function editClientAction()
     {
         if (!$this->_helper->acl('Client', 'view')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $request = $this->getRequest();
@@ -165,7 +162,7 @@ class Power_ClientController extends Zend_Controller_Action
             $client = $this->_model->getClientById($request->getPost('client_idClient'));
 
             $form = $this->_getForm('clientEdit', 'save-client');
-            $form->populate($client->toArray('dd/MM/yyyy', true));
+            $form->populate($client->toArray(true));
 
             $this->view->assign(array(
                 'client'        => $client,
@@ -174,7 +171,7 @@ class Power_ClientController extends Zend_Controller_Action
 
             if ($this->_request->getParam('type') == 'edit') {
                 if (!$this->_helper->acl('Client', 'edit')) {
-                    throw new Zend_Acl_Exception('Access Denied');
+                    throw new BBA_Power_Acl_Exception('Access Denied');
                 }
                 $this->render('edit-client-form');
             }
@@ -259,7 +256,7 @@ class Power_ClientController extends Zend_Controller_Action
     	$this->_helper->layout->disableLayout();
     	
     	if (!$this->_helper->acl('User')) {
-    		throw new ZendSF_Acl_Exception('Access Denied');
+    		throw new Power_Model_Acl_Exception('Access Denied');
     	}
     	
     	if (!$request->isPost()) {
@@ -271,9 +268,9 @@ class Power_ClientController extends Zend_Controller_Action
     		$newDate = new Zend_Date($request->getParam('newDate', '1970-01-01'), Zend_Date::DATE_SHORT);
     		$oldDate = new Zend_Date($request->getParam('oldDate', '1970-01-01'), Zend_Date::DATE_SHORT);
     		
-    		$log = Zend_Registry::get('log');
-    		$log->info('newDate:'.$newDate);
-    		$log->info('oldDate:'.$oldDate);
+    		//$log = Zend_Registry::get('log');
+    		//$log->info('checkLoaDateAction:newDate:'.$newDate);
+    		//$log->info('checkLoaDateAction:oldDate:'.$oldDate);
     		
     		//if newDate is not grater than oldDate validate form.
     		// || !$newDate->equals($oldDate)
@@ -303,7 +300,7 @@ class Power_ClientController extends Zend_Controller_Action
     public function addClientAddressAction()
     {
         if (!$this->_helper->acl('ClientAd', 'add')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $request = $this->getRequest();
@@ -324,7 +321,7 @@ class Power_ClientController extends Zend_Controller_Action
     public function editClientAddressAction()
     {
         if (!$this->_helper->acl('ClientAd', 'view')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $request = $this->getRequest();
@@ -336,7 +333,7 @@ class Power_ClientController extends Zend_Controller_Action
             $clientAd = $this->_model->getClientAddressById($request->getPost('clientAd_idAddress'));
 
             $form = $this->_getForm('clientAddressSave', 'save-client-address');
-            $values = $clientAd->toArray();
+            $values = $clientAd->toArray(true);
             $values['site_idSite'] = $request->getPost('site_idSite');
             $form->populate($values);
 
@@ -347,7 +344,7 @@ class Power_ClientController extends Zend_Controller_Action
 
             if ($this->_request->getParam('type') == 'edit') {
                 if (!$this->_helper->acl('ClientAd', 'edit')) {
-                    throw new Zend_Acl_Exception('Access Denied');
+                    throw new BBA_Power_Acl_Exception('Access Denied');
                 }
                 $this->render('address-form');
             }
@@ -360,7 +357,7 @@ class Power_ClientController extends Zend_Controller_Action
     public function checkAddressDuplicatesAction()
     {
         if (!$this->_helper->acl('ClientAd', 'view')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
     	$request = $this->getRequest();
@@ -446,7 +443,7 @@ class Power_ClientController extends Zend_Controller_Action
     public function addClientPersonnelAction()
     {
         if (!$this->_helper->acl('ClientPers', 'add')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $request = $this->getRequest();
@@ -468,7 +465,7 @@ class Power_ClientController extends Zend_Controller_Action
     public function editClientPersonnelAction()
     {
         if (!$this->_helper->acl('ClientPers', 'edit')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $request = $this->getRequest();
@@ -481,7 +478,7 @@ class Power_ClientController extends Zend_Controller_Action
             $clientPers = $this->_model->getClientPersonnelById($request->getParam('clientPers_idClientPersonnel'));
 
             $form = $this->_getForm('clientPersonnelSave', 'save-client-personnel');
-            $form->populate($clientPers->toArray());
+            $form->populate($clientPers->toArray(true));
 
             $this->view->assign(array('clientPersonnelSaveForm' => $form));
 

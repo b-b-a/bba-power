@@ -74,18 +74,15 @@ class Power_MeterController extends Zend_Controller_Action
 
             switch ($request->getParam('type')) {
                 case 'meter':
-                    $data = $this->_model
-                        //->getCached('meter')
+                    $data = $this->_model->getCached('meter')
                     	->getMeterDataStore($request->getPost());
                     break;
                 case 'contract':
-                    $data = $this->_model
-                        //->getCached('meterContract')
+                    $data = $this->_model->getCached('meterContract')
                     	->getMeterContractDataStore($request->getPost());
                     break;
                 case 'usage':
-                    $data = $this->_model
-                        //->getCached('usage')
+                    $data = $this->_model->getCached('usage')
                     	->getUsageDataStore($request->getPost());
                     break;
                 default :
@@ -105,7 +102,7 @@ class Power_MeterController extends Zend_Controller_Action
     public function indexAction()
     {
         if (!$this->_helper->acl('Meter', 'view')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $urlHelper = $this->_helper->getHelper('url');
@@ -130,7 +127,7 @@ class Power_MeterController extends Zend_Controller_Action
     public function addMeterAction()
     {
         if (!$this->_helper->acl('Meter', 'add')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $request = $this->getRequest();
@@ -156,7 +153,7 @@ class Power_MeterController extends Zend_Controller_Action
     public function editMeterAction()
     {
         if (!$this->_helper->acl('Meter', 'view')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $request = $this->getRequest();
@@ -167,7 +164,7 @@ class Power_MeterController extends Zend_Controller_Action
 
             $meter = $this->_model->getMeterById($request->getPost('meter_idMeter'));
             
-            $defaultValues = $meter->toArray(null, true);
+            $defaultValues = $meter->toArray(true);
             $defaultValues['meter_typeName'] = $meter->meter_type;
 
             $form = $this->_getForm('meterEdit', 'save-meter');
@@ -181,7 +178,7 @@ class Power_MeterController extends Zend_Controller_Action
 
             if ($request->getPost('type') == 'edit') {
                 if (!$this->_helper->acl('Meter', 'edit')) {
-                    throw new Zend_Acl_Exception('Access Denied');
+                    throw new BBA_Power_Acl_Exception('Access Denied');
                 }
                 $this->render('meter-form');
             }
@@ -193,7 +190,7 @@ class Power_MeterController extends Zend_Controller_Action
     public function printMeterAction()
     {
         if (!$this->_helper->acl('Meter', 'view')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $request = $this->getRequest();
@@ -268,7 +265,7 @@ class Power_MeterController extends Zend_Controller_Action
     public function addUsageAction()
     {
         if (!$this->_helper->acl('MeterUsage', 'add')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $request = $this->getRequest();
@@ -291,7 +288,7 @@ class Power_MeterController extends Zend_Controller_Action
     public function editUsageAction()
     {
         if (!$this->_helper->acl('MeterUsage', 'edit')) {
-            throw new Zend_Acl_Exception('Access Denied');
+            throw new BBA_Power_Acl_Exception('Access Denied');
         }
         
         $request = $this->getRequest();
@@ -304,7 +301,7 @@ class Power_MeterController extends Zend_Controller_Action
             $usage = $this->_model->getUsageById($request->getParam('usage_idUsage'));
 
             $form = $this->_getForm('meterUsageSave', 'save-usage');
-            $form->populate($usage->toArray('dd/MM/yyyy', true));
+            $form->populate($usage->toArray(true));
 
             $this->view->assign(array('meterUsageSaveForm' => $form));
 

@@ -25,6 +25,9 @@
                                 });
                             </script>
                         </button>
+                        <span class="id_number">
+                            &nbsp;(<?php echo $this->site->site_idAddress; ?>)
+                        </span>
                         <button data-dojo-type="dijit.form.Button">
                             Edit Site Address
                             <script type="dojo/method" data-dojo-event="onClick">
@@ -204,7 +207,7 @@
                         store: siteContractStore<?php echo $this->site->site_idSite; ?>,
                         structure: bba.Contract.gridLayouts.contract,
                         query: { idSite: <?php echo $this->site->site_idSite; ?> },
-                        sortInfo: '2',
+                        sortInfo: '-5',
                         noDataMessage : bba.gridMessage">
                         <script type="dojo/method" data-dojo-event="onRowClick">
                             bba.Contract.contractGridRowClick(this);

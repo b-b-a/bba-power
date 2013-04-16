@@ -37,7 +37,7 @@
  * @license    http://www.gnu.org/licenses GNU General Public License
  * @author     Shaun Freeman <shaun@shaunfreeman.co.uk>
  */
-class Power_Model_User extends ZendSF_Model_Acl_Abstract
+class Power_Model_User extends Power_Model_Acl_Abstract
 {
     /**
      * Get User by their id
@@ -103,7 +103,7 @@ class Power_Model_User extends ZendSF_Model_Acl_Abstract
     public function saveUser($post)
     {
         if (!$this->checkAcl('saveUser')) {
-            throw new ZendSF_Acl_Exception('Insufficient rights');
+            throw new Power_Model_Acl_Exception('Insufficient rights');
         }
 
         $form = $this->getForm('userSave');
@@ -123,7 +123,7 @@ class Power_Model_User extends ZendSF_Model_Acl_Abstract
         if (array_key_exists('user_password', $data) && '' != $data['user_password']) {
             $auth = Zend_Registry::get('config')->user->auth;
             $treatment = $auth->credentialTreatment;
-            $pwd = ZendSF_Utility_Password::$treatment($data['user_password'] . $auth->salt);
+            $pwd = BBA_Utility_Password::$treatment($data['user_password'] . $auth->salt);
             $data['user_password'] = $pwd;
         } else {
             unset($data['user_password']);
