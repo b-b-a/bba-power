@@ -346,11 +346,16 @@
          class="tableHeadPane">
 
         <div class="tableHead">
-        	<?php $notAllowed = array('current', 'roledon', 'lapsed', 'dead'); ?>
-            <?php if ($this->isAllowed('MeterContract', 'add')): ?>
-            <?php if (!in_array($this->contract->getContractStatus(), $notAllowed)): ?>
+            <?php if ($this->isAllowed('MeterContract')): ?>
+            <?php 
+            if ($this->contract->contract_status == 'current' && $this->authInfo('role') != 'admin') { 
+            	$buttonState = 'true';
+            } else {
+				$buttonState = 'false';
+			}
+			?>
             <p class="tableHead-button">
-                <button data-dojo-type="dijit.form.Button">
+                <button data-dojo-type="dijit.form.Button" data-dojo-props="'disabled':<?php echo $buttonState; ?>">
                     Add/Edit Meters
                     <script type="dojo/method" data-dojo-event="onClick">
                         bba.Contract.addMeterButtonClick({
@@ -361,7 +366,7 @@
 
             </p>
             <?php endif; ?>
-            <?php endif; ?>
+
             <?php if ($this->isAllowed('Tender', 'add')): ?>
             <p class="tableHead-button">
                 <button data-dojo-type="dijit.form.Button">

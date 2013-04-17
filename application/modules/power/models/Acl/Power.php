@@ -113,9 +113,9 @@ class Power_Model_Acl_Power extends Zend_Acl
 		    'parent'        => 'read',
 		    'privileges'    => array(
 		        'view'      => 'inherit',
-		        'add'       => array('MeterUsage'),
-		        'edit'      => array('MeterUsage'),
-		        'resources' => 'inherit'
+		        'add'       => 'inherit',
+		        'edit'      => 'inherit',
+		        'resources' => array('MeterUsage')
 		    )
 		),
 		'user'          => array(
@@ -123,15 +123,12 @@ class Power_Model_Acl_Power extends Zend_Acl
 		    'parent'        => 'meterUsage',
 		    'privileges'    => array(
 		        'view'      => 'inherit',
-		        'add'       => array(
-        	        'Client', 'ClientAd', 'ClientPers', 'Contract',
-        	        'Meter', 'Site', 'Supplier', 'SupplierPers'
-                ),
-		        'edit'      => array(
-        	        'Client', 'ClientAd', 'ClientPers', 'Contract',
-        	        'Meter', 'Site', 'Supplier', 'SupplierPers'
-                ),
-		        'resources' => 'inherit'
+		        'add'       => 'inherit',
+		        'edit'      => 'inherit',
+		        'resources' => array(
+		        	'Client', 'ClientAd', 'ClientPers', 'Contract',
+        	        'Meter', 'MeterContract', 'Site', 'Supplier', 'SupplierPers', 'Tender'
+		        )
 		    )
 		),
 		'admin'         => array(
