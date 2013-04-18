@@ -39,18 +39,18 @@
         	->appendStylesheet($this->baseUrl('js/release/bba/dojox/widget/Wizard/Wizard.css'));
         } else {
         	$this->dojo()
-        	->setLocalPath('/library/dojo/dojo/dojo.js')
+        	->setLocalPath($this->baseUrl('js/dojo/dojo.js'))
         	->setDjConfigOption('packages', array(
         			array(
-        					'location'  => "/bba-power/public/js/bba",
+        					'location'  => $this->baseUrl('js/bba'),
         					'name'      => "bba"
         			)
         	));
         	$this->headLink()
-        	->appendStylesheet('/library/dojo/dojox/grid/resources/Grid.css')
-        	->appendStylesheet('/library/dojo/dojox/grid/resources/claroGrid.css')
-        	//->appendStylesheet('/library/dojo/dojox/form/resources/UploaderFileList.css')
-        	->appendStylesheet('/library/dojo/dojox/widget/Wizard/Wizard.css');
+        	->appendStylesheet($this->baseUrl('js/dojox/grid/resources/Grid.css'))
+        	->appendStylesheet($this->baseUrl('js/dojox/grid/resources/claroGrid.css'))
+        	//->appendStylesheet($this->baseUrl('js/dojox/form/resources/UploaderFileList.css'))
+        	->appendStylesheet($this->baseUrl('js/dojox/widget/Wizard/Wizard.css'));
         }
         
         ?>
@@ -104,7 +104,10 @@
              data-dojo-props="region: 'top'">
              <h1>BBA Power Data Base System </h1>
              <span id="version"><?php echo $this->version(); ?></span>
-             <span id="dojoVersion"></span>
+             <span id="libraries">
+             	<span id="dojoVersion"></span>,&nbsp;
+             	<span id="zfVersion">zend framework <?php echo Zend_Version::VERSION; ?></span>
+        	</span>
         </div>
 
         <div id="leftPanel" class="edgePanel"
