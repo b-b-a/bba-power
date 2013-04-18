@@ -153,7 +153,7 @@ class Zend_Acl
 
         if (!$role instanceof Zend_Acl_Role_Interface) {
             require_once 'Zend/Acl/Exception.php';
-            throw new BBA_Power_Acl_Exception('addRole() expects $role to be of type Zend_Acl_Role_Interface');
+            throw new Zend_Acl_Exception('addRole() expects $role to be of type Zend_Acl_Role_Interface');
         }
 
 
@@ -277,7 +277,7 @@ class Zend_Acl
      *
      * @param  Zend_Acl_Resource_Interface|string $resource
      * @param  Zend_Acl_Resource_Interface|string $parent
-     * @throws BBA_Power_Acl_Exception
+     * @throws Zend_Acl_Exception
      * @return Zend_Acl Provides a fluent interface
      */
     public function addResource($resource, $parent = null)
@@ -288,14 +288,14 @@ class Zend_Acl
 
         if (!$resource instanceof Zend_Acl_Resource_Interface) {
             require_once 'Zend/Acl/Exception.php';
-            throw new BBA_Power_Acl_Exception('addResource() expects $resource to be of type Zend_Acl_Resource_Interface');
+            throw new Zend_Acl_Exception('addResource() expects $resource to be of type Zend_Acl_Resource_Interface');
         }
 
         $resourceId = $resource->getResourceId();
 
         if ($this->has($resourceId)) {
             require_once 'Zend/Acl/Exception.php';
-            throw new BBA_Power_Acl_Exception("Resource id '$resourceId' already exists in the ACL");
+            throw new Zend_Acl_Exception("Resource id '$resourceId' already exists in the ACL");
         }
 
         $resourceParent = null;
@@ -308,9 +308,9 @@ class Zend_Acl
                     $resourceParentId = $parent;
                 }
                 $resourceParent = $this->get($resourceParentId);
-            } catch (BBA_Power_Acl_Exception $e) {
+            } catch (Zend_Acl_Exception $e) {
                 require_once 'Zend/Acl/Exception.php';
-                throw new BBA_Power_Acl_Exception("Parent Resource id '$resourceParentId' does not exist", 0, $e);
+                throw new Zend_Acl_Exception("Parent Resource id '$resourceParentId' does not exist", 0, $e);
             }
             $this->_resources[$resourceParentId]['children'][$resourceId] = $resource;
         }
@@ -335,7 +335,7 @@ class Zend_Acl
      *
      * @param  Zend_Acl_Resource_Interface        $resource
      * @param  Zend_Acl_Resource_Interface|string $parent
-     * @throws BBA_Power_Acl_Exception
+     * @throws Zend_Acl_Exception
      * @return Zend_Acl Provides a fluent interface
      */
     public function add(Zend_Acl_Resource_Interface $resource, $parent = null)
@@ -349,7 +349,7 @@ class Zend_Acl
      * The $resource parameter can either be a Resource or a Resource identifier.
      *
      * @param  Zend_Acl_Resource_Interface|string $resource
-     * @throws BBA_Power_Acl_Exception
+     * @throws Zend_Acl_Exception
      * @return Zend_Acl_Resource_Interface
      */
     public function get($resource)
@@ -362,7 +362,7 @@ class Zend_Acl
 
         if (!$this->has($resource)) {
             require_once 'Zend/Acl/Exception.php';
-            throw new BBA_Power_Acl_Exception("Resource '$resourceId' not found");
+            throw new Zend_Acl_Exception("Resource '$resourceId' not found");
         }
 
         return $this->_resources[$resourceId]['instance'];
@@ -407,9 +407,9 @@ class Zend_Acl
         try {
             $resourceId     = $this->get($resource)->getResourceId();
             $inheritId = $this->get($inherit)->getResourceId();
-        } catch (BBA_Power_Acl_Exception $e) {
+        } catch (Zend_Acl_Exception $e) {
             require_once 'Zend/Acl/Exception.php';
-            throw new BBA_Power_Acl_Exception($e->getMessage(), $e->getCode(), $e);
+            throw new Zend_Acl_Exception($e->getMessage(), $e->getCode(), $e);
         }
 
         if (null !== $this->_resources[$resourceId]['parent']) {
@@ -439,16 +439,16 @@ class Zend_Acl
      * The $resource parameter can either be a Resource or a Resource identifier.
      *
      * @param  Zend_Acl_Resource_Interface|string $resource
-     * @throws BBA_Power_Acl_Exception
+     * @throws Zend_Acl_Exception
      * @return Zend_Acl Provides a fluent interface
      */
     public function remove($resource)
     {
         try {
             $resourceId = $this->get($resource)->getResourceId();
-        } catch (BBA_Power_Acl_Exception $e) {
+        } catch (Zend_Acl_Exception $e) {
             require_once 'Zend/Acl/Exception.php';
-            throw new BBA_Power_Acl_Exception($e->getMessage(), $e->getCode(), $e);
+            throw new Zend_Acl_Exception($e->getMessage(), $e->getCode(), $e);
         }
 
         $resourcesRemoved = array($resourceId);
@@ -598,7 +598,7 @@ class Zend_Acl
      * @param  Zend_Acl_Resource_Interface|string|array $resources
      * @param  string|array                             $privileges
      * @param  Zend_Acl_Assert_Interface                $assert
-     * @throws BBA_Power_Acl_Exception
+     * @throws Zend_Acl_Exception
      * @uses   Zend_Acl_Role_Registry::get()
      * @uses   Zend_Acl::get()
      * @return Zend_Acl Provides a fluent interface
@@ -610,7 +610,7 @@ class Zend_Acl
         $type = strtoupper($type);
         if (self::TYPE_ALLOW !== $type && self::TYPE_DENY !== $type) {
             require_once 'Zend/Acl/Exception.php';
-            throw new BBA_Power_Acl_Exception("Unsupported rule type; must be either '" . self::TYPE_ALLOW . "' or '"
+            throw new Zend_Acl_Exception("Unsupported rule type; must be either '" . self::TYPE_ALLOW . "' or '"
                                        . self::TYPE_DENY . "'");
         }
 
@@ -789,7 +789,7 @@ class Zend_Acl
 
             default:
                 require_once 'Zend/Acl/Exception.php';
-                throw new BBA_Power_Acl_Exception("Unsupported operation; must be either '" . self::OP_ADD . "' or '"
+                throw new Zend_Acl_Exception("Unsupported operation; must be either '" . self::OP_ADD . "' or '"
                                            . self::OP_REMOVE . "'");
         }
 
@@ -957,7 +957,7 @@ class Zend_Acl
      * @param  Zend_Acl_Resource_Interface $resource
      * @param  array                  $dfs
      * @return boolean|null
-     * @throws BBA_Power_Acl_Exception
+     * @throws Zend_Acl_Exception
      */
     protected function _roleDFSVisitAllPrivileges(Zend_Acl_Role_Interface $role, Zend_Acl_Resource_Interface $resource = null,
                                                  &$dfs = null)
@@ -967,7 +967,7 @@ class Zend_Acl
              * @see Zend_Acl_Exception
              */
             require_once 'Zend/Acl/Exception.php';
-            throw new BBA_Power_Acl_Exception('$dfs parameter may not be null');
+            throw new Zend_Acl_Exception('$dfs parameter may not be null');
         }
 
         if (null !== ($rules = $this->_getRules($resource, $role))) {
@@ -1000,7 +1000,7 @@ class Zend_Acl
      * @param  Zend_Acl_Resource_Interface $resource
      * @param  string                      $privilege
      * @return boolean|null
-     * @throws BBA_Power_Acl_Exception
+     * @throws Zend_Acl_Exception
      */
     protected function _roleDFSOnePrivilege(Zend_Acl_Role_Interface $role, Zend_Acl_Resource_Interface $resource = null,
                                             $privilege = null)
@@ -1010,7 +1010,7 @@ class Zend_Acl
              * @see Zend_Acl_Exception
              */
             require_once 'Zend/Acl/Exception.php';
-            throw new BBA_Power_Acl_Exception('$privilege parameter may not be null');
+            throw new Zend_Acl_Exception('$privilege parameter may not be null');
         }
 
         $dfs = array(
@@ -1046,7 +1046,7 @@ class Zend_Acl
      * @param  string                      $privilege
      * @param  array                       $dfs
      * @return boolean|null
-     * @throws BBA_Power_Acl_Exception
+     * @throws Zend_Acl_Exception
      */
     protected function _roleDFSVisitOnePrivilege(Zend_Acl_Role_Interface $role, Zend_Acl_Resource_Interface $resource = null,
                                                 $privilege = null, &$dfs = null)
@@ -1056,7 +1056,7 @@ class Zend_Acl
              * @see Zend_Acl_Exception
              */
             require_once 'Zend/Acl/Exception.php';
-            throw new BBA_Power_Acl_Exception('$privilege parameter may not be null');
+            throw new Zend_Acl_Exception('$privilege parameter may not be null');
         }
 
         if (null === $dfs) {
@@ -1064,7 +1064,7 @@ class Zend_Acl
              * @see Zend_Acl_Exception
              */
             require_once 'Zend/Acl/Exception.php';
-            throw new BBA_Power_Acl_Exception('$dfs parameter may not be null');
+            throw new Zend_Acl_Exception('$dfs parameter may not be null');
         }
 
         if (null !== ($ruleTypeOnePrivilege = $this->_getRuleType($resource, $role, $privilege))) {
