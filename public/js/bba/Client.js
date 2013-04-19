@@ -325,7 +325,7 @@ define("bba/Client",
                     } else {
                     	if (data.test == 'pass') {
                     		if (clientForm.validate()) {
-                    			bba.pageStandby.show();
+                    			//bba.pageStandby.show();
                                 client_docLoa.submit();
                             }
                     		clientFormStandby.hide();
