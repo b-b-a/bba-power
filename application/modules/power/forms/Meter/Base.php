@@ -107,6 +107,23 @@ class Power_Form_Meter_Base extends Power_Form_Dojo_Abstract
             ),
             'ErrorMessages' => array('Please select a status.'),
         ));
+		
+/* COTPending
+	True or False - default False
+	Please check below for being correct.
+*/
+        $this->addElement('FilteringSelect', 'meter_COTPending', array(
+            'label'         => 'COT Pending:',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autocomplete'  => false,
+            'multiOptions'  => array('False', 'True'),
+            'required'      => false,
+            'dijitParams'   => array(
+                'promptMessage' => 'Shows if a "Change of Tenancy" is expected.'
+            ),
+            'ErrorMessages' => array('Shows if a "Change of Tenancy" is expected.'),
+			'attribs'       => array('style' => 'width: 70px;')
+        ));
 
         $this->addElement('ValidationTextBox', 'meter_numberTop', array(
             'label'     => 'Top No. (Elec only):',
