@@ -33,3 +33,4 @@ tests/tmp/session/*
 .settings/*
 .buildpath
 .project
+.DS_Store
