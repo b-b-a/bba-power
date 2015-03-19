@@ -107,6 +107,23 @@ class Power_Form_Meter_Base extends Power_Form_Dojo_Abstract
             ),
             'ErrorMessages' => array('Please select a status.'),
         ));
+		
+        $this->addElement('FilteringSelect', 'meter_COTPending', array(
+            'label'         => 'COT Pending:',
+            'filters'       => array('StripTags', 'StringTrim'),
+            'autocomplete'  => false,
+            'multiOptions'  => array(
+        		'0' => 'False',
+            	'1' => 'True',
+        	),
+            'required'      => false,
+            'dijitParams'   => array(
+                'promptMessage' => 'Shows if a "Change of Tenancy" is expected.'
+            ),
+            'ErrorMessages' => array('Shows if a "Change of Tenancy" is expected.'),
+			'attribs'       => array('style' => 'width: 70px;'),
+        	'value' 		=> '0',
+        ));
 
         $this->addElement('ValidationTextBox', 'meter_numberTop', array(
             'label'     => 'Top No. (Elec only):',

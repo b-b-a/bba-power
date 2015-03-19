@@ -55,6 +55,13 @@ class Power_Form_Tender_Save extends Power_Form_Dojo_Abstract
 
     public function init()
     {
+        // add path to custom validators.
+        $this->addElementPrefixPath(
+            'Power_Validate',
+            APPLICATION_PATH . '/modules/power/models/Validate/',
+            'validate'
+        );
+        
         $request = Zend_Controller_Front::getInstance()->getRequest();
 
         if ($request->getPost('tender_idTender')) {
@@ -254,7 +261,7 @@ class Power_Form_Tender_Save extends Power_Form_Dojo_Abstract
                 array('Between', true, array(
                     'min' => '0',
                     'max' => '1',
-                    'message' => 'Value must be between 0 and 1',
+                    'messages' => 'Value must be between 0 and 1',
                 ))
             ),
             'dijitParams' => array(
@@ -275,10 +282,10 @@ class Power_Form_Tender_Save extends Power_Form_Dojo_Abstract
             'value' => 0,
             'filters' => array('StripTags', 'StringTrim'),
             'validators' => array(
-                array('Between', true, array(
+                array('ZeroAndBetween', true, array(
                     'min' => '10',
                     'max' => '1000',
-                    'message' => 'Value must be between 10 and 1000',
+                    'messages' => 'Value must be 0 or between 10 and 1000',
                 ))
             ),
             'dijitParams' => array(

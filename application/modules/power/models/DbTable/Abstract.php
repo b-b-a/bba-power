@@ -134,7 +134,7 @@ abstract class Power_Model_DbTable_Abstract extends Zend_Db_Table_Abstract
     {
     	$auth = Zend_Auth::getInstance();
     	$access = $auth->getIdentity()->getUser_accessClient(true);
-    
+
     	if ($access != '') {
     		return $select->where($table . '_idClient IN (' . $access . ')');
     	}

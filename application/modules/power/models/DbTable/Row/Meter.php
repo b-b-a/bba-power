@@ -105,6 +105,15 @@ class Power_Model_DbTable_Row_Meter extends Power_Model_DbTable_Row_Abstract
         
         return $this->getRow()->meter_numberTop;
     }
+    
+    public function getMeter_COTPending($raw=false)
+    {
+    	if (!$raw) {
+    		return ($this->getRow()->meter_COTPending) ? 'True' : 'False';
+    	}
+    	
+    	return $this->getRow()->meter_COTPending;
+    }
 
     public function getSite($row=null)
     {

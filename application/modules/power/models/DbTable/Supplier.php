@@ -107,6 +107,8 @@ class Power_Model_DbTable_Supplier extends Power_Model_DbTable_Abstract
         $select = $this->getLimit($select, $count, $offset);
         $select = $this->getSortOrder($select, $sort);
 
+        $select = $this->_getAccessClient($select, 'client');
+
         return $this->fetchAll($select);
     }
 

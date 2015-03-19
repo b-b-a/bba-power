@@ -167,20 +167,20 @@ class Power_Model_DbTable_Meter extends Power_Model_DbTable_Abstract
         if (!$search['meter'] == '') {
             if (substr($search['meter'], 0, 1) == '=') {
                 $id = (int) substr($search['meter'], 1);
-                $select->where('(meter_idMeter = ?)', $id);
+                $select->where('meter_idMeter = ?', $id);
             } else {
-                $select->orWhere('(meter_numberMain like ?', '%'. $this->_stripSpacesAndHyphens($search['meter']) . '%')
-                    ->orWhere('meter_numberSerial like ?)', '%'. $this->_stripSpacesAndHyphens($search['meter']) . '%');
+                $select->orWhere('meter_numberMain like ?', '%'. $this->_stripSpacesAndHyphens($search['meter']) . '%')
+                    ->orWhere('meter_numberSerial like ?', '%'. $this->_stripSpacesAndHyphens($search['meter']) . '%');
             }
         }
 
-        else if (!$search['site'] == '') {
+        if (!$search['site'] == '') {
             $select
-                ->orWhere('(clientAd_addressName like ? ', '%' . $search['site'] . '%')
+                ->orWhere('clientAd_addressName like ? ', '%' . $search['site'] . '%')
                 ->orWhere('clientAd_address1 like ?', '%' . $search['site'] . '%')
                 ->orWhere('clientAd_address2 like ?', '%' . $search['site'] . '%')
                 ->orWhere('clientAd_address3 like ?', '%' . $search['site'] . '%')
-                ->orWhere('clientAd_postcode like ?)', '%' . $search['site'] . '%');
+                ->orWhere('clientAd_postcode like ?', '%' . $search['site'] . '%');
         }
 
         if (isset($search['idClient'])) {
