@@ -99,11 +99,12 @@ class Power_AuthController extends Zend_Controller_Action
 
         // no access for agent or decline roles.
         if (!$this->_helper->acl('Auth')) {
-            $e = new BBA_Power_Acl_Exception('Access denied for '. Zend_Auth::getInstance()->getIdentity()->user_name);
             $log = Zend_Registry::get('log');
-            $log->info($e);
+            $log->info('Access denied for '. Zend_Auth::getInstance()->getIdentity()->user_name);
             $this->_authService->clear();
-            throw $e;
+            $form->setDescription('This Account has been suspended.');
+            $this->view->assign('authLoginForm', $form);
+            return $this->render('login'); // re-render the login form
         }
         
         $model = new Power_Model_Index();
