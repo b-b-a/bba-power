@@ -64,6 +64,7 @@
                     <th>Contract Period:</th>
                     <td><?php echo $this->contract->getTenderSelected('tender_periodContract'); ?> Months</td>
                 </tr>
+                <?php if ($this->isAllowed('BBAView')): ?>
                 <tr>
                     <th>Commission Rate:</th>
                     <td><?php echo $this->contract->getTenderSelected('tender_commission'); ?> (Pence / Unit)</td>
@@ -72,6 +73,7 @@
                     <th>Commission Fee:</th>
                     <td><?php echo $this->contract->getTenderSelected('tender_fee'); ?> (&pound; / Year)</td>
                 </tr>
+                <?php endif; ?>
                 <?php else: ?>
                 <tr>
                     <td colspan="2">- No Tender Has Been Selected -</td>
