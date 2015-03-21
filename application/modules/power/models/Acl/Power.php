@@ -45,10 +45,15 @@ class Power_Model_Acl_Power extends Zend_Acl
 	 * @var array
 	 */
 	public static $bbaRoles = array(
+        'decline'       => array(
+            'label'         => 'Decline',
+            'parent'        => null,
+            'privileges'    => 'none'
+        ),
 	    // client roles and privileges
 	    'clientRead'    => array(
 		    'label'         => 'Client Read',
-		    'parent'        => null,
+		    'parent'        => 'decline',
 		    'privileges'    => array(
 		        'view'      => array(
 		            'Client', 'ClientAd', 'ClientPers', 
@@ -61,8 +66,8 @@ class Power_Model_Acl_Power extends Zend_Acl
 		        'resources' => array(
         	        'Auth', 'MenuClient', 'MenuContract', 
         	        'MenuMeter', 'MenuSite', 'MenuSupplier'
-                )
-		    )
+                ),
+		    ),
 		),
 		'client'		=> array(
 		    'label'         => 'Client',
@@ -75,22 +80,16 @@ class Power_Model_Acl_Power extends Zend_Acl
 		        ),
 		        'edit'      => array(
 		            'Client', 'ClientAd', 'ClientPers',
-		            'Meter', 'MeterUsage', 'Site'
+		            'Meter', 'MeterUsage', 'Site',
 		        ),
-		        'resources' => 'inherit'
-		    )
+		        'resources' => 'inherit',
+		    ),
 		),
-		// BBA roles and privileges
-		'decline'       => array(
-		    'label'         => 'Decline',
-		    'parent'        => null,
-		    'privileges'    => 'none'
-		),
-		'agent'         => array(
-		    'label'         => 'Agent',
-		    'parent'        => null,
-		    'privileges'    => 'none'
-		),
+        'agent'         => array(
+            'label'         => 'Agent',
+            'parent'        => null,
+            'privileges'    => 'none'
+        ),
 		'read'          => array(
 		    'label'         => 'Read',
 		    'parent'        => null,

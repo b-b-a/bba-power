@@ -98,7 +98,7 @@ class Power_Form_User_Save extends BBA_Dojo_Form_Abstract
             ),
             'atuocomplete'  => false,
             'multiOptions'  => $multiOptions,
-            'required'      => false
+            'required'      => false,
         ));
 
         $this->addHiddenElement('user_idUser', '');

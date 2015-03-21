@@ -82,12 +82,12 @@ class Power_View_Helper_IsAllowed extends Zend_View_Helper_Abstract
             return null;
         }
         
-        $auth = Zend_Auth::getInstance();
-        $access = $auth->getIdentity()->getUser_accessClient(true);
+        //$auth = Zend_Auth::getInstance();
+        //$access = $auth->getIdentity()->getUser_accessClient(true);
         
-        if ($resource == 'BBAView' && $access != '') {
-        	return false;
-        }
+        //if ($resource == 'BBAView' && $access != '') {
+        //	return false;
+        //}
 
         return $this->_acl->isAllowed($this->getIdentity(), $resource, $privilege);
     }

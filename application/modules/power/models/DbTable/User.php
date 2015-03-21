@@ -126,7 +126,7 @@ class Power_Model_DbTable_User extends Power_Model_DbTable_Abstract
     public function insert(array $data)
     {
         if ($data['user_accessClient'] == 0) {
-            $data['user_accessClient'] = null;
+            $data['user_accessClient'] = '';
         }
 
         return parent::insert($data);
@@ -135,7 +135,7 @@ class Power_Model_DbTable_User extends Power_Model_DbTable_Abstract
     public function update(array $data, $where)
     {
         if ($data['user_accessClient'] == 0) {
-            $data['user_accessClient'] = null;
+            $data['user_accessClient'] = '';
         }
 
         return parent::update($data, $where);
